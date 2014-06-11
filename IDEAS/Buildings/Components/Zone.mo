@@ -1,28 +1,21 @@
 within IDEAS.Buildings.Components;
 model Zone "thermal building zone"
-
   extends IDEAS.Buildings.Components.Interfaces.StateZone;
-
-  replaceable package Medium = IDEAS.Media.Air
+  replaceable package Air = IDEAS.Media.Air
     constrainedby Modelica.Media.Interfaces.PartialMedium
-    "Medium in the component"
+    "Medium properties of the zonal air and all air flowports"
       annotation (choicesAllMatching = true);
-
   parameter Modelica.SIunits.Volume V "Total zone air volume";
   parameter Real n50(min=0.01)=0.4
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
   parameter Modelica.SIunits.Temperature TOpStart=297.15;
-
   parameter Boolean linear=true;
-
   final parameter Modelica.SIunits.Power QNom=1012*1.204*V/3600*n50/20*(273.15
        + 21 - sim.Tdes) "Design heat losses at reference outdoor temperature";
   final parameter Modelica.SIunits.MassFlowRate m_flow_nominal = 0.1*1.224*V/3600;
-
   Modelica.SIunits.Temperature TAir=senTem.T;
   Modelica.SIunits.Temperature TStar=radDistr.TRad;
-
 protected
   IDEAS.Buildings.Components.BaseClasses.ZoneLwGainDistribution radDistr(final
       nSurf=nSurf) "distribution of radiative internal gains" annotation (
@@ -31,7 +24,7 @@ protected
         rotation=-90,
         origin={-54,-44})));
   BaseClasses.AirLeakage airLeakage(
-    redeclare package Medium = IDEAS.Media.Air,
+    redeclare replaceable package Medium = Air,
     m_flow_nominal=V/3600*n50/20,
     V=V,
     n50=0.1)
@@ -52,17 +45,17 @@ public
   Fluid.MixingVolumes.MixingVolume         vol(
     V=V,
     m_flow_nominal=m_flow_nominal,
-    redeclare package Medium = IDEAS.Media.Air,
+    redeclare replaceable package Medium = Air,
     nPorts=4)                                  annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-10,30})));
-  Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare package Medium =
-        IDEAS.Media.Air)
+  Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare replaceable package Medium
+      =                                                                           Air)
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
-  Fluid.Interfaces.FlowPort_a flowPort_In(redeclare package Medium =
-        IDEAS.Media.Air)
+  Fluid.Interfaces.FlowPort_a flowPort_In(redeclare replaceable package Medium
+      =                                                                          Air)
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCap(C=1012*1.204*V
         *(corrCV-1), T(start=293.15)) "air capacity"
@@ -92,7 +85,6 @@ equation
       points={{-100,-60},{-74,-60},{-74,-26},{-54,-26},{-54,-20}},
       color={191,0,0},
       smooth=Smooth.None));
-
   connect(sum.y, TSensor) annotation (Line(
       points={{12.6,-60},{59.3,-60},{59.3,0},{106,0}},
       color={0,0,127},
@@ -101,7 +93,6 @@ equation
       points={{-44,-44},{-22,-44},{-22,-60.6},{-1.2,-60.6}},
       color={0,0,127},
       smooth=Smooth.None));
-
   connect(propsBus.area, radDistr.area) annotation (Line(
       points={{-100,40},{-82,40},{-82,-40},{-64,-40}},
       color={127,0,0},
@@ -141,7 +132,6 @@ equation
       points={{0,30},{10,30},{10,-30},{100,-30}},
       color={191,0,0},
       smooth=Smooth.None));
-
 for i in 1:nSurf loop
   connect(surfCon[i], vol.heatPort) annotation (Line(
       points={{-100,-30},{10,-30},{10,30},{0,30}},
