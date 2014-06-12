@@ -9,6 +9,8 @@ model Zone "thermal building zone"
   parameter Real n50(min=0.01)=0.4
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
+  parameter Modelica.SIunits.Area surCapInt
+    "Heat exchange surface of internal dry thermal mass";
   parameter Modelica.SIunits.Temperature TOpStart=297.15;
   parameter Boolean linear=true;
   final parameter Modelica.SIunits.Power QNom=1012*1.204*V/3600*n50/20*(273.15
@@ -28,7 +30,7 @@ protected
     m_flow_nominal=V/3600*n50/20,
     V=V,
     n50=0.1)
-    annotation (Placement(transformation(extent={{40,30},{60,50}})));
+    annotation (Placement(transformation(extent={{34,62},{54,82}})));
   IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
       nSurf=nSurf, final linear=linear)
     "internal longwave radiative heat exchange" annotation (Placement(
@@ -42,15 +44,15 @@ protected
     y(start=TOpStart))
     annotation (Placement(transformation(extent={{0,-66},{12,-54}})));
 public
-  Fluid.MixingVolumes.MixingVolume         vol(
+  Fluid.MixingVolumes.MixingVolumeMoistAir vol(
     V=V,
     m_flow_nominal=m_flow_nominal,
     redeclare replaceable package Medium = Air,
     nPorts=4)                                  annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={-10,30})));
+        rotation=90,
+        origin={-34,78})));
   Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare replaceable package Medium
       =                                                                           Air)
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
@@ -58,12 +60,23 @@ public
       =                                                                          Air)
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCap(C=1012*1.204*V
-        *(corrCV-1), T(start=293.15)) "air capacity"
+        *(corrCV-1), T(start=TOpStart))
+    "Internal thermal capacity (=thermal mass)"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-10,2})));
+        origin={-10,12})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem
-    annotation (Placement(transformation(extent={{0,-28},{-16,-12}})));
+    annotation (Placement(transformation(extent={{0,-52},{-16,-36}})));
+  Modelica.Blocks.Sources.Constant mWatFloVol(k=0)
+    annotation (Placement(transformation(extent={{-70,48},{-58,60}})));
+  Modelica.Blocks.Sources.Constant TWatFloVol(k=293)
+    annotation (Placement(transformation(extent={{-70,26},{-58,38}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor resInt(G=3.076*surCapInt)
+    "Resistance between internal mass and air" annotation (Placement(
+        transformation(
+        extent={{-8,-8},{8,8}},
+        rotation=90,
+        origin={10,-10})));
 equation
   connect(surfRad, radDistr.radSurfTot) annotation (Line(
       points={{-100,-60},{-74,-60},{-74,-26},{-54,-26},{-54,-34}},
@@ -129,42 +142,54 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(vol.heatPort, gainCon) annotation (Line(
-      points={{0,30},{10,30},{10,-30},{100,-30}},
+      points={{-34,68},{-34,-30},{100,-30}},
       color={191,0,0},
       smooth=Smooth.None));
 for i in 1:nSurf loop
   connect(surfCon[i], vol.heatPort) annotation (Line(
-      points={{-100,-30},{10,-30},{10,30},{0,30}},
+      points={{-100,-30},{-34,-30},{-34,68}},
       color={191,0,0},
       smooth=Smooth.None));
 end for;
   connect(flowPort_In, vol.ports[1]) annotation (Line(
-      points={{20,100},{20,40},{-7,40}},
+      points={{20,100},{20,75},{-24,75}},
       color={0,128,255},
       smooth=Smooth.None));
-  connect(heatCap.port, gainCon) annotation (Line(
-      points={{0,2},{10,2},{10,-30},{100,-30}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(flowPort_Out, vol.ports[2]) annotation (Line(
-      points={{-20,100},{-20,40},{-9,40}},
+      points={{-20,100},{-20,77},{-24,77}},
       color={0,128,255},
       smooth=Smooth.None));
   connect(senTem.port, gainCon) annotation (Line(
-      points={{0,-20},{10,-20},{10,-30},{100,-30}},
+      points={{0,-44},{10,-44},{10,-30},{100,-30}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(senTem.T, sum.u[2]) annotation (Line(
-      points={{-16,-20},{-18,-20},{-18,-59.4},{-1.2,-59.4}},
+      points={{-16,-44},{-18,-44},{-18,-59.4},{-1.2,-59.4}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(airLeakage.port_a, vol.ports[3]) annotation (Line(
-      points={{40,40},{-11,40}},
+      points={{34,72},{6,72},{6,79},{-24,79}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(airLeakage.port_b, vol.ports[4]) annotation (Line(
-      points={{60,40},{70,40},{70,14},{-32,14},{-32,40},{-13,40}},
+      points={{54,72},{56,72},{56,81},{-24,81}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(mWatFloVol.y, vol.mWat_flow) annotation (Line(
+      points={{-57.4,54},{-42,54},{-42,66}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(TWatFloVol.y, vol.TWat) annotation (Line(
+      points={{-57.4,32},{-38,32},{-38,66},{-38.8,66}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatCap.port, resInt.port_b) annotation (Line(
+      points={{4.44089e-16,12},{10,12},{10,-2}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(resInt.port_a, gainCon) annotation (Line(
+      points={{10,-18},{10,-30},{100,-30}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -182,6 +207,6 @@ end for;
 <p><h4><font color=\"#008000\">Validation </font></h4></p>
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}), graphics));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}),     graphics));
 end Zone;
