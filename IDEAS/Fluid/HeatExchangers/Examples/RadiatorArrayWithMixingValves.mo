@@ -1,5 +1,5 @@
 within IDEAS.Fluid.HeatExchangers.Examples;
-model RadiatorWithMixingValve "Radiator circuit with a simplified boiler and thermal mixing valve"
+model RadiatorArrayWithMixingValves "Array of radiators with a simplified boiler and thermal mixing valve"
   extends Modelica.Icons.Example;
   Fluid.Movers.Pump volumeFlow1(
     m=4,
@@ -13,10 +13,11 @@ model RadiatorWithMixingValve "Radiator circuit with a simplified boiler and the
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-26,4},{-6,-16}})));
-  Fluid.HeatExchangers.Radiators.Radiator radiator(
-    T_start=293.15,
-    QNom=5000,
-    redeclare package Medium = Medium) "Hydraulic radiator model"
+  Fluid.HeatExchangers.Radiators.Radiator[2] radiator(
+    QNom={5000,10000},
+    redeclare each package Medium = Medium,
+    each T_start=293.15,
+    dp_nominal=1e4) "Hydraulic radiator model"
     annotation (Placement(transformation(extent={{52,-10},{72,10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
@@ -36,9 +37,9 @@ model RadiatorWithMixingValve "Radiator circuit with a simplified boiler and the
     annotation (Placement(transformation(extent={{-2,6},{10,18}})));
   Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{-4,-4},{4,4}},
         rotation=90,
-        origin={50,-38})));
+        origin={46,-34})));
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
   parameter SI.MassFlowRate m_flow_nominal=0.07 "Nominal mass flow rate";
   inner SimInfoManager sim annotation (Placement(transformation(extent={{-94,78},{-74,98}})));
@@ -47,7 +48,11 @@ equation
       points={{13,62},{28,62}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(prescribedTemperature.port, radiator.heatPortRad) annotation (Line(
+  connect(prescribedTemperature.port, radiator[1].heatPortRad) annotation (Line(
+      points={{50,62},{71,62},{71,10}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(prescribedTemperature.port, radiator[2].heatPortRad) annotation (Line(
       points={{50,62},{71,62},{71,10}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -56,7 +61,11 @@ equation
       color={191,0,0},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(prescribedTemperature.port, radiator.heatPortCon) annotation (Line(
+  connect(prescribedTemperature.port, radiator[1].heatPortCon) annotation (Line(
+      points={{50,62},{64,62},{64,10},{67,10}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(prescribedTemperature.port, radiator[2].heatPortCon) annotation (Line(
       points={{50,62},{64,62},{64,10},{67,10}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -64,11 +73,19 @@ equation
       points={{10.6,12},{20,12},{20,4}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(thermostaticValve.port_b, radiator.port_a) annotation (Line(
+  connect(thermostaticValve.port_b, radiator[1].port_a) annotation (Line(
       points={{30,-6},{42,-6},{42,0},{52,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(volumeFlow1.port_a, radiator.port_b) annotation (Line(
+  connect(thermostaticValve.port_b, radiator[2].port_a) annotation (Line(
+      points={{30,-6},{42,-6},{42,0},{52,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(volumeFlow1.port_a, radiator[1].port_b) annotation (Line(
+      points={{76,-76},{82,-76},{82,0},{72,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(volumeFlow1.port_a, radiator[2].port_b) annotation (Line(
       points={{76,-76},{82,-76},{82,0},{72,0}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -84,8 +101,8 @@ equation
       points={{-6,-6},{10,-6}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(bou.ports[1], radiator.port_a) annotation (Line(
-      points={{50,-28},{46,-28},{46,-6},{42,-6},{42,0},{52,0}},
+  connect(bou.ports[1], radiator[1].port_a) annotation (Line(
+      points={{46,-30},{46,0},{52,0}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
@@ -94,9 +111,10 @@ equation
     experiment(StopTime=3600),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
-<p>In this example, a radiator is connector to a prescribed temperature (acting as room).  The boiler is represented by a pipe_HeatPort component connected to a fixed temperature of 60&deg;C.  Therefore, the heat flux will be a free variable and it will depend on the flowrate and temperature of the water entering the boiler. </p>
-<p>The thermostatic valve controls the inlet temperature of the radiator to 45&deg;C.  </p>
-<p><br/><b>Note</b>: make sure that when using a radiator, both the radiative and convective heatPort are connected, otherwise the model will not run under all operating conditions. </p>
+<p>In this example, two radiators are connected to a prescribed temperature (acting as room). The boiler is represented by a pipe_HeatPort component connected to a fixed temperature of 60&deg;C. Therefore, the heat flux will be a free variable and it will depend on the flowrate and temperature of the water entering the boiler. </p>
+<p>The thermostatic valve controls the inlet temperature of the radiators to 45&deg;C. </p>
+<p><br>Note: As the radiators are connected in parallel, it is necessary to specify their nominal pressure drop.  Otherwise, a singular model is obtained if only a single pump for both radiators is used: the mass flow rates in each radiator can take any value as long as their sum equals the pump mass flow rate.  </p>
+<p><br><b>Note</b>: make sure that when using a radiator, both the radiative and convective heatPort are connected, otherwise the model will not run under all operating conditions. </p>
 </html>", revisions="<html>
 <ul>
 <li>March 2014 by Filip Jorissen:<br/> 
@@ -104,4 +122,4 @@ Annex60 compatibility
 </li>
 </ul>
 </html>"));
-end RadiatorWithMixingValve;
+end RadiatorArrayWithMixingValves;
