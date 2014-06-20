@@ -5,7 +5,7 @@ model DummyBuilding "Dummy building for testing heating systems"
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature[nZones] TAmb
     annotation (Placement(transformation(extent={{-116,44},{-96,64}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor[nZones] heatCapacitor(
-      C={i*1e6 for i in 1:nZones}, each T(start=292))
+      C={i*1e6 for i in 1:nZones}, T(start=TStart))
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
   Modelica.Thermal.HeatTransfer.Components.Convection[nZones] convection
     annotation (Placement(transformation(extent={{-62,44},{-82,64}})));
@@ -20,6 +20,8 @@ model DummyBuilding "Dummy building for testing heating systems"
   Modelica.Blocks.Sources.RealExpression[nZones] TAmb_val(each y=sim.Te)
     annotation (Placement(transformation(extent={{-146,44},{-126,64}})));
   parameter Real UA_building=500 "Constant output value";
+  parameter SI.Temperature[nZones] TStart=ones(nZones)*293
+    "Temperature of element";
 equation
   connect(heatCapacitor.port, convection.solid) annotation (Line(
       points={{-50,70},{-50,54},{-62,54}},
