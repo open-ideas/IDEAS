@@ -6,10 +6,13 @@ model FanCoilUnit "Test of the FCU"
   Radiators.FanCoilUnit fanCoilUnit(
     redeclare package Medium = Medium,
     dp_nominal=1200,
+    QNom=11000,
+    mMedium=13,
+    mDry=30,
+    mFloAirFCU=10*{0,0.195*1.2,0.265*1.2,0.39*1.2},
     TInNom=323.15,
     TOutNom=313.15,
-    TZoneNom=293.15,
-    QNom=1100)
+    TZoneNom=293.15)
     annotation (Placement(transformation(extent={{-4,4},{16,24}})));
   Sources.FixedBoundary bou(nPorts=1,
     redeclare package Medium = Medium,

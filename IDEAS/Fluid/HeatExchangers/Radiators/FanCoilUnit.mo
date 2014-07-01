@@ -65,7 +65,7 @@ model FanCoilUnit
     "Effective set point for air flow rate";
 
 protected
-  final parameter Modelica.SIunits.TemperatureDifference dTNatConNom = 3*1*(TInNom-TZoneNom)/(m_flow_nominal*4180)
+  final parameter Modelica.SIunits.TemperatureDifference dTNatConNom = 3.076*QNom/1000*(TInNom-TZoneNom)/(m_flow_nominal*4180)
     "Temperature drop of the water after natural convection";
    constant Medium.ThermodynamicState state_default=Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default);
 
@@ -91,16 +91,17 @@ public
   Buildings.Fluid.HeatExchangers.DryEffectivenessNTU hexFCU(
     redeclare package Medium1 = Air,
     redeclare package Medium2 = Medium,
-    m1_flow_nominal=0.39*1.2,
+    m1_flow_nominal=mFloAirFCU[4],
     m2_flow_nominal=m_flow_nominal,
     dp1_nominal=0,
     dp2_nominal=0,
-    Q_flow_nominal=QNom-1*3.076*(TInNom-TZoneNom),
+    Q_flow_nominal=QNom-QNom/1000*3.076*(TInNom-TZoneNom),
     configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     T_a1_nominal=TZoneNom,
     T_a2_nominal=TInNom - dTNatConNom)
     "Air/water heat exchanger.  Nominal conditions are for FCU position 3 (maximum power)"
     annotation (Placement(transformation(extent={{10,-4},{-10,16}})));
+                                                           // compensation for natural convection
 
   Sources.MassFlowSource_T airFCUIn(
     use_m_flow_in=true,
@@ -111,10 +112,11 @@ public
         rotation=180,
         origin={76,46})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection naturalConvection(
-    final A=1,
+    final A=QNom/1000,
     fixed=true,
     inc=1.5707963267949) "Natural convection from coil to room"
     annotation (Placement(transformation(extent={{-28,74},{-8,94}})));
+                       // educated guess value, should scale with sizing.
   IDEAS.Fluid.Sensors.EnthalpyFlowRate senEntFlo(redeclare package Medium = Air,
       m_flow_nominal=0.39*1.2) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
