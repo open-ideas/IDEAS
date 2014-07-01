@@ -13,6 +13,14 @@ model FanCoilUnit
 
   replaceable package Air = IDEAS.Media.Air;
 
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortCon
+    "Convective heat transfer from radiators" annotation (Placement(
+        transformation(extent={{40,90},{60,110}}),iconTransformation(extent={{40,90},
+            {60,110}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortRad
+    "Radiative heat transfer from radiators" annotation (Placement(
+        transformation(extent={{80,90},{100,110}}),iconTransformation(extent={{80,90},
+            {100,110}})));
   IDEAS.Fluid.FixedResistances.FixedResistanceDpM res(
     redeclare package Medium = Medium,
     final use_dh=false,
@@ -38,34 +46,36 @@ model FanCoilUnit
     "Nominal thermal power at the specified conditions";
   parameter Modelica.SIunits.Mass mMedium = 1.3
     "Mass of medium (water) in the FCU";
-  parameter Modelica.SIunits.Mass mDry = 5
+  parameter Modelica.SIunits.Mass mDry = 3
     "Mass of dry material (steel/aluminium) in the FCU";
   parameter Modelica.SIunits.SpecificHeatCapacity cpDry=480
     "Specific heat capacity of the dry material, default is for steel";
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortCon
-    "Convective heat transfer from radiators" annotation (Placement(
-        transformation(extent={{40,90},{60,110}}),iconTransformation(extent={{40,90},
-            {60,110}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortRad
-    "Radiative heat transfer from radiators" annotation (Placement(
-        transformation(extent={{80,90},{100,110}}),iconTransformation(extent={{80,90},
-            {100,110}})));
-  parameter Real[4] posVal={0, 0.5, 0.75, 1}
+
+  final parameter Real[4] posFCU={0, 1, 2, 3} "Possible FCU control positions";
+  parameter Real[4] posVal={0, 0.45, 0.7, 1}
     "Valve positions for FCU control 0, 1, 2 and 3";
+  parameter Real[4] mFloAirFCU={0, 0.195*1.2, 0.265*1.2, 0.39*1.2}
+    "Air flow over FCU heat exchanger for positions 0, 1, 2, 3";
   parameter Modelica.SIunits.TemperatureDifference[3] dTCon = {-1, 0, 1}
     "Control setpoints for the FCU, relative difference for TSet-TAir.  Corresponds to FCU control positions 0, 1, 2, 3";
+
+  Real posValSet(start=0) = Modelica.Math.Vectors.interpolate(posFCU, posVal, posFCU_real.y)
+    "Effective set point for valve position";
+  Real mFloAirSet(start=0) = Modelica.Math.Vectors.interpolate(posFCU, mFloAirFCU, posFCU_real.y)
+    "Effective set point for air flow rate";
+
 protected
-  constant Medium.ThermodynamicState state_default=Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default);
+  final parameter Modelica.SIunits.TemperatureDifference dTNatConNom = 3*1*(TInNom-TZoneNom)/(m_flow_nominal*4180)
+    "Temperature drop of the water after natural convection";
+   constant Medium.ThermodynamicState state_default=Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default);
+
 public
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val(
     redeclare package Medium = Medium,
-    m_flow_nominal=0.027,
+    m_flow_nominal=m_flow_nominal,
     CvData=Buildings.Fluid.Types.CvTypes.OpPoint,
-    dpValve_nominal=400)
+    dpValve_nominal=800)
     annotation (Placement(transformation(extent={{32,10},{52,-10}})));
-  Modelica.Blocks.Sources.RealExpression posValFromPosFCU(y=posVal[integer(
-        posFCU_real.y) + 1])
-    annotation (Placement(transformation(extent={{-2,-44},{30,-24}})));
   Modelica.Blocks.Interfaces.RealInput TSet "Set temperature in the room, in K"
     annotation (Placement(transformation(extent={{-126,-60},{-86,-20}})));
   Controls.ControlHeating.Control_FanCoilUnit posFCU_real(uBou=dTCon,
@@ -82,13 +92,13 @@ public
     redeclare package Medium1 = Air,
     redeclare package Medium2 = Medium,
     m1_flow_nominal=0.39*1.2,
-    m2_flow_nominal=0.027,
+    m2_flow_nominal=m_flow_nominal,
     dp1_nominal=0,
     dp2_nominal=0,
-    Q_flow_nominal=QNom,
+    Q_flow_nominal=QNom-1*3.076*(TInNom-TZoneNom),
     configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
-    T_a1_nominal=294.15,
-    T_a2_nominal=323.15)
+    T_a1_nominal=TZoneNom,
+    T_a2_nominal=TInNom - dTNatConNom)
     "Air/water heat exchanger.  Nominal conditions are for FCU position 3 (maximum power)"
     annotation (Placement(transformation(extent={{10,-4},{-10,16}})));
 
@@ -101,8 +111,8 @@ public
         rotation=180,
         origin={76,46})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection naturalConvection(
-    A=0.5,
-    fixed=false,
+    final A=1,
+    fixed=true,
     inc=1.5707963267949) "Natural convection from coil to room"
     annotation (Placement(transformation(extent={{-28,74},{-8,94}})));
   IDEAS.Fluid.Sensors.EnthalpyFlowRate senEntFlo(redeclare package Medium = Air,
@@ -120,8 +130,18 @@ public
         extent={{-7,-7},{7,7}},
         rotation=270,
         origin={-21,55})));
-  Modelica.Blocks.Sources.Constant const(k=0.39*1.2)
-    annotation (Placement(transformation(extent={{72,12},{84,24}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
+    annotation (Placement(transformation(
+        extent={{-7,-7},{7,7}},
+        rotation=90,
+        origin={63,77})));
+  Modelica.Blocks.Math.Add forcedConvection(k1=1, k2=-1)
+    annotation (Placement(transformation(extent={{18,66},{28,76}})));
+  Modelica.Blocks.Sources.RealExpression posVal_expr(y=posValSet)
+    annotation (Placement(transformation(extent={{10,-44},{30,-24}})));
+
+  Modelica.Blocks.Sources.RealExpression mFloAir_expr(y=mFloAirSet)
+    annotation (Placement(transformation(extent={{54,10},{74,30}})));
 equation
   connect(res.port_b, port_b) annotation (Line(
       points={{80,0},{100,0}},
@@ -132,8 +152,8 @@ equation
       points={{52,0},{60,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(posValFromPosFCU.y, val.y) annotation (Line(
-      points={{31.6,-34},{42,-34},{42,-12}},
+  connect(posVal_expr.y, val.y) annotation (Line(
+      points={{31,-34},{42,-34},{42,-12}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TSet, add.u2) annotation (Line(
@@ -188,8 +208,24 @@ equation
       points={{-72.7,-14},{6,-14},{6,-18},{96,-18},{96,42},{88,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(const.y, airFCUIn.m_flow_in) annotation (Line(
-      points={{84.6,18},{88,18},{88,20},{92,20},{92,38},{86,38}},
+  connect(heatPortCon, prescribedHeatFlow.port) annotation (Line(
+      points={{50,100},{50,84},{63,84}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(senEntFlo1.H_flow, forcedConvection.u1) annotation (Line(
+      points={{-9,28},{-4,28},{-4,30},{0,30},{0,74},{17,74}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(senEntFlo.H_flow, forcedConvection.u2) annotation (Line(
+      points={{40,57},{40,62},{10,62},{10,68},{17,68}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(forcedConvection.y, prescribedHeatFlow.Q_flow) annotation (Line(
+      points={{28.5,71},{48,71},{48,60},{63,60},{63,70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(mFloAir_expr.y, airFCUIn.m_flow_in) annotation (Line(
+      points={{75,20},{92,20},{92,38},{86,38}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Documentation(info="<html>

@@ -30,7 +30,7 @@ model FanCoilUnit "Test of the FCU"
     amplitude=3,
     startTime=0,
     offset=273.15 + 20,
-    freqHz=0.0005)
+    freqHz=0.0002)
     annotation (Placement(transformation(extent={{-74,-42},{-54,-22}})));
   Modelica.Blocks.Sources.Constant release(k=1)
     annotation (Placement(transformation(extent={{-74,-80},{-54,-60}})));
