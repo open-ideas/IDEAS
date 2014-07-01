@@ -42,8 +42,6 @@ model FanCoilUnit
     "Mass of dry material (steel/aluminium) in the FCU";
   parameter Modelica.SIunits.SpecificHeatCapacity cpDry=480
     "Specific heat capacity of the dry material, default is for steel";
-  Modelica.SIunits.HeatFlowRate QTotal(start=0)
-    "Total heat emission of the radiator";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortCon
     "Convective heat transfer from radiators" annotation (Placement(
         transformation(extent={{40,90},{60,110}}),iconTransformation(extent={{40,90},
@@ -111,7 +109,7 @@ public
       m_flow_nominal=0.39*1.2) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={50,46})));
+        origin={40,46})));
   IDEAS.Fluid.Sensors.EnthalpyFlowRate senEntFlo1(redeclare package Medium =
         Air, m_flow_nominal=0.39*1.2) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -171,11 +169,11 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(airFCUIn.ports[1], senEntFlo.port_a) annotation (Line(
-      points={{66,46},{60,46}},
+      points={{66,46},{50,46}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(hexFCU.port_a1, senEntFlo.port_b) annotation (Line(
-      points={{10,12},{26,12},{26,46},{40,46}},
+      points={{10,12},{26,12},{26,46},{30,46}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(hexFCU.port_b1, senEntFlo1.port_a) annotation (Line(

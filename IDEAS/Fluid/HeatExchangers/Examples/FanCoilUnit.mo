@@ -8,7 +8,8 @@ model FanCoilUnit "Test of the FCU"
     dp_nominal=1200,
     TInNom=323.15,
     TOutNom=313.15,
-    TZoneNom=293.15)
+    TZoneNom=293.15,
+    QNom=1100)
     annotation (Placement(transformation(extent={{-4,4},{16,24}})));
   Sources.FixedBoundary bou(nPorts=1,
     redeclare package Medium = Medium,
@@ -30,7 +31,9 @@ model FanCoilUnit "Test of the FCU"
     startTime=0,
     offset=273.15 + 20,
     freqHz=0.0005)
-    annotation (Placement(transformation(extent={{-66,-44},{-46,-24}})));
+    annotation (Placement(transformation(extent={{-74,-42},{-54,-22}})));
+  Modelica.Blocks.Sources.Constant release(k=1)
+    annotation (Placement(transformation(extent={{-74,-80},{-54,-60}})));
 equation
   connect(bou.ports[1], fanCoilUnit.port_a) annotation (Line(
       points={{-52,14},{-4,14}},
@@ -49,7 +52,11 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(TSet.y, fanCoilUnit.TSet) annotation (Line(
-      points={{-45,-34},{-36,-34},{-36,-32},{-26,-32},{-26,10},{-4.6,10}},
+      points={{-53,-32},{-26,-32},{-26,10},{-4.6,10}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(release.y, fanCoilUnit.release) annotation (Line(
+      points={{-53,-70},{-18,-70},{-18,6},{-4.6,6}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
