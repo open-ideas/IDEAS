@@ -2,14 +2,17 @@ within IDEAS.Fluid.HeatExchangers.Radiators;
 model FanCoilUnit
   "Fan coil unit with air- and water mass flow control in 3 steps"
   import Buildings;
+  import IDEAS;
   extends IDEAS.Fluid.HeatExchangers.Interfaces.EmissionTwoPort;
   extends IDEAS.Fluid.Interfaces.Partials.PartialTwoPort(
      final m=mMedium+mDry*cpDry/Medium.specificHeatCapacityCp(state_default),
      final m_flow_nominal=QNom/Medium.specificHeatCapacityCp(state_default)/(TInNom -TOutNom),
     vol(nPorts=2));
-
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
+
+  replaceable package Air = IDEAS.Media.Air;
+
   IDEAS.Fluid.FixedResistances.FixedResistanceDpM res(
     redeclare package Medium = Medium,
     final use_dh=false,
@@ -23,7 +26,6 @@ model FanCoilUnit
     final dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   //Advanced settings: based on IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger
-
   parameter Boolean homotopyInitialization = true "= true, use homotopy method"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Modelica.SIunits.Temperature TInNom=75 + 273.15
@@ -34,22 +36,14 @@ model FanCoilUnit
     "Nominal room temperature";
   parameter Modelica.SIunits.Power QNom=1000
     "Nominal thermal power at the specified conditions";
-  parameter Real fraRad=0.35 "Fraction of radiation at Nominal power";
-  parameter Real n=1.3 "Radiator coefficient according to EN 442-2";
-  parameter Real powerFactor=1 "Size increase compared to design at 75/65/20";
-  // For reference: 45/35/20 is 3.37; 50/40/20 is 2.5:
-  // Source: http://www.radson.com/be/producten/paneelradiatoren/radson-compact.htm, accessed on 15/06/2011
-  parameter Modelica.SIunits.Mass mMedium(start=1) = 0.0038*QNom*powerFactor
-    "Mass of medium (water) in the radiator";
-  parameter Modelica.SIunits.Mass mDry(start=1) = 0.018*QNom*powerFactor
-    "Mass of dry material (steel/aluminium) in the radiator";
-  // cpDry for steel: based on carbon steel, Polytechnisch zakboekje, E1/8
+  parameter Modelica.SIunits.Mass mMedium = 1.3
+    "Mass of medium (water) in the FCU";
+  parameter Modelica.SIunits.Mass mDry = 5
+    "Mass of dry material (steel/aluminium) in the FCU";
   parameter Modelica.SIunits.SpecificHeatCapacity cpDry=480
     "Specific heat capacity of the dry material, default is for steel";
-  final parameter Real UA=QNom/(TOutNom - TZoneNom)^n;
   Modelica.SIunits.HeatFlowRate QTotal(start=0)
     "Total heat emission of the radiator";
-  Modelica.SIunits.TemperatureDifference dTRadRoo;
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortCon
     "Convective heat transfer from radiators" annotation (Placement(
         transformation(extent={{40,90},{60,110}}),iconTransformation(extent={{40,90},
@@ -58,12 +52,6 @@ model FanCoilUnit
     "Radiative heat transfer from radiators" annotation (Placement(
         transformation(extent={{80,90},{100,110}}),iconTransformation(extent={{80,90},
             {100,110}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
-    annotation (Placement(transformation(extent={{-18,36},{-38,56}})));
-  Modelica.Blocks.Sources.RealExpression power_rad(y=QTotal)
-    "Radiator power (amount of heat delivered)"
-    annotation (Placement(transformation(extent={{14,36},{-6,56}})));
-
   parameter Real[4] posVal={0, 0.5, 0.75, 1}
     "Valve positions for FCU control 0, 1, 2 and 3";
   parameter Modelica.SIunits.TemperatureDifference[3] dTCon = {-1, 0, 1}
@@ -82,37 +70,66 @@ public
     annotation (Placement(transformation(extent={{-2,-44},{30,-24}})));
   Modelica.Blocks.Interfaces.RealInput TSet "Set temperature in the room, in K"
     annotation (Placement(transformation(extent={{-126,-60},{-86,-20}})));
-  Controls.ControlHeating.Control_FanCoilUnit posFCU_real(uBou=dTCon)
+  Controls.ControlHeating.Control_FanCoilUnit posFCU_real(uBou=dTCon,
+      enableRelease=true)
     "Control position of the FCU, controlled automatically based on TSet and TAct"
     annotation (Placement(transformation(extent={{-30,-44},{-10,-24}})));
   Modelica.Blocks.Math.Add add(k1=-1)
     annotation (Placement(transformation(extent={{-64,-44},{-44,-24}})));
   Modelica.Blocks.Sources.RealExpression TAir(y=heatPortCon.T)
     annotation (Placement(transformation(extent={{-100,-22},{-74,-6}})));
+  Modelica.Blocks.Interfaces.RealInput release "if < 0.5, the FCU is OFF"
+    annotation (Placement(transformation(extent={{-126,-100},{-86,-60}})));
+  Buildings.Fluid.HeatExchangers.DryEffectivenessNTU hexFCU(
+    redeclare package Medium1 = Air,
+    redeclare package Medium2 = Medium,
+    m1_flow_nominal=0.39*1.2,
+    m2_flow_nominal=0.027,
+    dp1_nominal=0,
+    dp2_nominal=0,
+    Q_flow_nominal=QNom,
+    configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
+    T_a1_nominal=294.15,
+    T_a2_nominal=323.15)
+    "Air/water heat exchanger.  Nominal conditions are for FCU position 3 (maximum power)"
+    annotation (Placement(transformation(extent={{10,-4},{-10,16}})));
+
+  Sources.MassFlowSource_T airFCUIn(
+    use_m_flow_in=true,
+    use_T_in=true,
+    redeclare package Medium = Air,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={76,46})));
+  IDEAS.Buildings.Components.BaseClasses.InteriorConvection naturalConvection(
+    A=0.5,
+    fixed=false,
+    inc=1.5707963267949) "Natural convection from coil to room"
+    annotation (Placement(transformation(extent={{-28,74},{-8,94}})));
+  IDEAS.Fluid.Sensors.EnthalpyFlowRate senEntFlo(redeclare package Medium = Air,
+      m_flow_nominal=0.39*1.2) annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={50,46})));
+  IDEAS.Fluid.Sensors.EnthalpyFlowRate senEntFlo1(redeclare package Medium =
+        Air, m_flow_nominal=0.39*1.2) annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=-90,
+        origin={-20,28})));
+  IDEAS.Fluid.Sources.Boundary_pT airBou(nPorts=1, redeclare package Medium =
+        Air) annotation (Placement(transformation(
+        extent={{-7,-7},{7,7}},
+        rotation=270,
+        origin={-21,55})));
+  Modelica.Blocks.Sources.Constant const(k=0.39*1.2)
+    annotation (Placement(transformation(extent={{72,12},{84,24}})));
 equation
   connect(res.port_b, port_b) annotation (Line(
       points={{80,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None));
-
-  dTRadRoo = max(0, vol.heatPort.T - heatPortCon.T);
-  // radiator equation
-  QTotal = -UA*(dTRadRoo)^n;
-  // negative for heat emission!
-  heatPortCon.Q_flow = QTotal*(1 - fraRad);
-  heatPortRad.Q_flow = QTotal*fraRad;
-  connect(prescribedHeatFlow.port, vol.heatPort) annotation (Line(
-      points={{-38,46},{-38,10},{-44,10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(power_rad.y, prescribedHeatFlow.Q_flow) annotation (Line(
-      points={{-7,46},{-18,46}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(vol.ports[2], val.port_a) annotation (Line(
-      points={{-54,0},{32,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
+  heatPortRad.Q_flow = 0;
   connect(val.port_b, res.port_a) annotation (Line(
       points={{52,0},{60,0}},
       color={0,127,255},
@@ -131,6 +148,50 @@ equation
       smooth=Smooth.None));
   connect(TAir.y, add.u1) annotation (Line(
       points={{-72.7,-14},{-70,-14},{-70,-28},{-66,-28}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(posFCU_real.release, release) annotation (Line(
+      points={{-20,-46},{-20,-46},{-20,-80},{-106,-80},{-106,-80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(vol.ports[2], hexFCU.port_a2) annotation (Line(
+      points={{-54,0},{-10,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hexFCU.port_b2, val.port_a) annotation (Line(
+      points={{10,0},{32,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(naturalConvection.port_b, heatPortCon) annotation (Line(
+      points={{-8,84},{50,84},{50,100}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(naturalConvection.port_a, vol.heatPort) annotation (Line(
+      points={{-28,84},{-38,84},{-38,10},{-44,10}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(airFCUIn.ports[1], senEntFlo.port_a) annotation (Line(
+      points={{66,46},{60,46}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hexFCU.port_a1, senEntFlo.port_b) annotation (Line(
+      points={{10,12},{26,12},{26,46},{40,46}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hexFCU.port_b1, senEntFlo1.port_a) annotation (Line(
+      points={{-10,12},{-20,12},{-20,18}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(senEntFlo1.port_b, airBou.ports[1]) annotation (Line(
+      points={{-20,38},{-20,48},{-21,48}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(TAir.y, airFCUIn.T_in) annotation (Line(
+      points={{-72.7,-14},{6,-14},{6,-18},{96,-18},{96,42},{88,42}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(const.y, airFCUIn.m_flow_in) annotation (Line(
+      points={{84.6,18},{88,18},{88,20},{92,20},{92,38},{86,38}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Documentation(info="<html>

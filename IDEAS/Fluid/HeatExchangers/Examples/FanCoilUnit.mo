@@ -5,7 +5,6 @@ model FanCoilUnit "Test of the FCU"
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
   Radiators.FanCoilUnit fanCoilUnit(
     redeclare package Medium = Medium,
-    fraRad=0,
     dp_nominal=1200,
     TInNom=323.15,
     TOutNom=313.15,
