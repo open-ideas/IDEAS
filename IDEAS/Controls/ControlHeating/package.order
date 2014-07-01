@@ -6,4 +6,5 @@ Ctrl_Heating_TES
 Ctrl_Heating_TES_SetBack
 Ctrl_Heating_TES_SetBack_MinOffTime
 Ctrl_SolarThermal_Simple
+Control_FanCoilUnit
 Interfaces

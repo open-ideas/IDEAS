@@ -7,3 +7,5 @@ Radiator_EnergyBalance
 EmbeddedPipe
 BaseClasses
 Radiator_NominalPower
+RadiatorArrayWithMixingValves
+FanCoilUnit
