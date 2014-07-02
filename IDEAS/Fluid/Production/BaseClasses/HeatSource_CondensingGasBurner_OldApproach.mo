@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-model HeatSource_CondensingGasBurner
+model HeatSource_CondensingGasBurner_OldApproach
   "Burner for use in Boiler, based on interpolation data.  Takes into account losses of the boiler to the environment"
   replaceable package Medium =
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
@@ -15,7 +15,6 @@ model HeatSource_CondensingGasBurner
     "UA of heat losses of HP to environment";
   parameter Modelica.SIunits.Power QNom
     "The power at nominal conditions (50/30)";
-
 public
   parameter Real etaNom = 0.922
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
@@ -34,7 +33,8 @@ public
     "Temperature of environment for heat losses";
   input Modelica.SIunits.SpecificEnthalpy hIn "Specific enthalpy at the inlet";
 protected
-  Real kgps2lph = 3600 / medium.rho * 1000 "Conversion from kg/s to l/h";
+  constant Real kgps2lph=3600/Medium.density(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))*1000
+    "Conversion from kg/s to l/h";
   Modelica.Blocks.Tables.CombiTable2D eta100(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative, table=[0,
         100,400,700,1000,1300; 20.0,0.9015,0.9441,0.9599,0.9691,0.9753; 30.0,0.8824,
         0.9184,0.9324,0.941,0.9471; 40.0,0.8736,0.8909,0.902,0.9092,0.9143; 50.0,
@@ -53,25 +53,22 @@ protected
   Modelica.Blocks.Tables.CombiTable2D eta20(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=[0,100,400,700,1000,1300;20.0,0.9969,0.9987,0.999,0.999,0.999;30.0,0.9671,0.9859,0.99,0.9921,0.9934;40.0,0.9293,0.9498,0.9549,0.9575,0.9592;50.0,0.8831,0.9003,0.9056,0.9083,0.9101;60.0,0.8562,0.857,0.8575,0.8576,0.8577;70.0,0.8398,0.8479,0.8481,0.8482,0.8483;80.0,0.8374,0.8384,0.8386,0.8387,0.8388])
     annotation (Placement(transformation(extent={{-58,-86},{-38,-66}})));
-
   Modelica.SIunits.HeatFlowRate QLossesToCompensate "Environment losses";
-
 public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "heatPort connection to water in condensor"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Controls.Control_fixme.Hyst_NoEvent_Var onOff(
     use_input=false,
-    uLow = modulationMin,
-    uHigh = modulationStart,
+    uLow_val = modulationMin,
+    uHigh_val = modulationStart,
     y(start = 0),
     enableRelease=true) "on-off, based on modulationInit"
     annotation (Placement(transformation(extent={{28,40},{48,60}})));
-
 equation
   onOff.u = modulationInit;
   onOff.release = if noEvent(m_flowHx > 0) then 1.0 else 0.0;
-  QAsked = max(0, m_flowHx * medium.cp * (TBoilerSet - THxIn));
+  QAsked = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flowHx*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default,TBoilerSet, Medium.X_default)) -hIn), 10);
   eta100.u1 = THxIn - 273.15;
   eta100.u2 = m_flowHx * kgps2lph;
   eta80.u1 = THxIn - 273.15;
@@ -82,7 +79,6 @@ equation
   eta40.u2 = m_flowHx * kgps2lph;
   eta20.u1 = THxIn - 273.15;
   eta20.u2 = m_flowHx * kgps2lph;
-
   // all these are in kW
   etaVector[1] = 0;
   etaVector[2] = eta20.y;
@@ -92,17 +88,13 @@ equation
   etaVector[6] = eta100.y;
   QVector = etaVector / etaNom .* modVector/100 * QNom; // in W
   QMax = QVector[6];
-
   modulationInit = Modelica.Math.Vectors.interpolate(QVector, modVector, QAsked);
   modulation = onOff.y * min(modulationInit, 100);
-
   // compensation of heat losses (only when the hp is operating)
   QLossesToCompensate = if noEvent(modulation > 0) then UALoss * (heatPort.T-TEnvironment) else 0;
-
   eta = Modelica.Math.Vectors.interpolate(modVector, etaVector, modulation);
   heatPort.Q_flow = - Modelica.Math.Vectors.interpolate(modVector, QVector, modulation) - QLossesToCompensate;
   PFuel = if noEvent(modulation >0) then -heatPort.Q_flow / eta else 0;
-
   annotation (Diagram(graphics),
               Diagram(graphics),
     Documentation(info="<html>
@@ -134,4 +126,4 @@ equation
 <li>2011 August, Roel De Coninck: first version</li>
 </ul></p>
 </html>"));
-end HeatSource_CondensingGasBurner;
+end HeatSource_CondensingGasBurner_OldApproach;

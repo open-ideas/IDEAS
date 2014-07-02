@@ -1,6 +1,7 @@
 HeaterType
 HeatSource_Ideal
 HeatSource_CondensingGasBurner
+HeatSource_CondensingGasBurner_OldApproach
 HeatSource_HP_AW
 PartialHeatPump
 HeatPumpData
