@@ -2,12 +2,9 @@ within IDEAS.Fluid.Production.Examples;
 model Boiler
   "General example and tester for a modulating air-to-water heat pump"
   import IDEAS;
-
   extends Modelica.Icons.Example;
-
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (__Dymola_choicesAllMatching=true);
-
   IDEAS.Fluid.Movers.Pump pump(
     m=1,
     redeclare package Medium = Medium,
@@ -22,7 +19,7 @@ model Boiler
     m_flow_nominal=m_flow_nominal,
     UA=100)
     annotation (Placement(transformation(extent={{32,-24},{12,-4}})));
-  IDEAS.Fluid.Production.Boiler heater(
+  IDEAS.Fluid.Production.Boiler_OldApproach heater(
     tauHeatLoss=3600,
     cDry=10000,
     mWater=4,
@@ -75,7 +72,6 @@ equation
   //   der(QUsefulNoLossesInt) = thermalConductor1.port_b.Q_flow;
   //   SPFLosses = if noEvent(PElLossesInt > 0) then QUsefulLossesInt/PElLossesInt else 0;
   //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
-
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
       points={{-67.7,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
       color={191,0,0},
