@@ -1,7 +1,6 @@
 within IDEAS;
 model SimInfoManager
   "Simulation information manager for handling time and climate data required in each for simulation."
-
   parameter String filNam = "Uccle_TMY3_60.txt" "Name of weather data file";
   parameter Modelica.SIunits.Angle lat(displayUnit="deg") = 0.88749992463912
     "latitude of the locatioin";
@@ -38,6 +37,9 @@ model SimInfoManager
     annotation (Dialog(group="Photovoltaics"));
   final parameter Modelica.SIunits.Temperature Tdes = -8 + 273.15
     "design outdoor temperature";
+
+  parameter Boolean use_lin=false
+    "True if the model will be linearized using the Dymola function";
 protected
   final parameter Modelica.SIunits.Temperature TdesGround = 10 + 273.15
     "design ground temperature";
