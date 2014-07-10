@@ -41,7 +41,7 @@ model OuterWall "Opaque building envelope construction"
     final azi=azi,
     final A=AWall)
     "determination of incident solar radiation on wall based on inclination and azimuth"
-    annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
+    annotation (Placement(transformation(extent={{-90,-40},{-70,-20}})));
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
     final inc=inc,
@@ -67,15 +67,13 @@ model OuterWall "Opaque building envelope construction"
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
 
+  Interfaces.RadSolBus radSolBus if sim.use_lin;
+  Modelica.Blocks.Sources.RealExpression inc_val(y=radSol.inc) if sim.use_lin;
+  Modelica.Blocks.Sources.RealExpression azi_val(y=radSol.azi) if sim.use_lin;
+  Modelica.Blocks.Sources.RealExpression lat_val(y=radSol.lat) if sim.use_lin;
+  Modelica.Blocks.Sources.RealExpression A_val(y=radSol.A) if sim.use_lin;
 equation
-  connect(radSol.solDir, solAbs.solDir) annotation (Line(
-      points={{-50,-24},{-40,-24}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(radSol.solDif, solAbs.solDif) annotation (Line(
-      points={{-50,-28},{-40,-28}},
-      color={0,0,127},
-      smooth=Smooth.None));
+
   connect(extCon.port_a, layMul.port_a) annotation (Line(
       points={{-20,-50},{-16,-50},{-16,-30},{-10,-30}},
       color={191,0,0},
@@ -134,6 +132,25 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
+
+  if not sim.use_lin then
+     connect(radSol.solDir,solAbs.solDir) annotation (Line(
+      points={{-70,-24},{-40,-24}},
+      color={0,0,127},
+      smooth=Smooth.None));
+     connect(radSol.solDif,solAbs.solDif) annotation (Line(
+      points={{-70,-28},{-40,-28}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  else
+    connect(radSolBus.solDir,solAbs.solDir);
+    connect(radSolBus.solDif,solAbs.solDif);
+    connect(azi_val.y, radSolBus.azi);
+    connect(lat_val.y, radSolBus.lat);
+    connect(A_val.y, radSolBus.A);
+    connect(inc_val.y, radSolBus.inc);
+  end if;
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
