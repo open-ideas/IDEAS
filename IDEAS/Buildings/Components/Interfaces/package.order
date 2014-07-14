@@ -5,4 +5,6 @@ StateShading
 PropsBus
 ZoneBus
 RadSolBus
-heatToSigWindBus
+winSigBus
+RadSolBusSub
+winSigBusSub

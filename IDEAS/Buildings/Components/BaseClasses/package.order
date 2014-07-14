@@ -16,3 +16,4 @@ ExteriorSolarAbsorption
 ExteriorHeatRadidation
 SwWindowResponse
 HeatPort2SignalSwWindowResponse
+SwWindowResponseBlock
