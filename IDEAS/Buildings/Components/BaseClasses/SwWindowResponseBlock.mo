@@ -47,14 +47,14 @@ outer SimInfoManager       sim
     annotation (Placement(transformation(extent={{94,-10},{134,30}})));
   Modelica.Blocks.Interfaces.RealInput winTSolAbs[nLay]
     annotation (Placement(transformation(extent={{128,-50},{88,-10}}),
-        iconTransformation(extent={{-100,-160},{-140,-120}})));
+        iconTransformation(extent={{96,-56},{136,-16}})));
   Modelica.Blocks.Interfaces.RealInput winTSolDir
     annotation (Placement(transformation(extent={{128,-90},{88,-50}}),
-        iconTransformation(extent={{-100,-200},{-140,-160}})));
+        iconTransformation(extent={{96,-96},{136,-56}})));
   Modelica.Blocks.Interfaces.RealInput winTSolDif
     annotation (Placement(transformation(extent={{128,-130},{88,-90}}),
-        iconTransformation(extent={{-100,-240},{-140,-200}})));
-  WindowParameters winPar
+        iconTransformation(extent={{96,-136},{136,-96}})));
+  parameter WindowParameters winPar
     annotation (Placement(transformation(extent={{-90,72},{-70,92}})));
 equation
   connect(radSol.solDir, shaType.solDir) annotation (Line(
