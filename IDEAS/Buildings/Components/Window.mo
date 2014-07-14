@@ -87,14 +87,9 @@ protected
         fraType.U_value*A*frac) if fraType.present
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
-   IDEAS.Buildings.Components.BaseClasses.HeatPort2SignalSwWindowResponse heatPort2SigSwWinResp(final nLay=glazing.nLay) if sim.use_lin;
-  IDEAS.Buildings.Components.Interfaces.winSigBus winSigBus(final nLay=glazing.nLay)
-    if                                    sim.use_lin;
-   Modelica.Blocks.Sources.RealExpression inc_val(y=radSol.inc) if sim.use_lin;
-   Modelica.Blocks.Sources.RealExpression azi_val(y=radSol.azi) if sim.use_lin;
-   Modelica.Blocks.Sources.RealExpression lat_val(y=radSol.lat) if sim.use_lin;
-   Modelica.Blocks.Sources.RealExpression A_val(y=radSol.A) if sim.use_lin;
-   Modelica.Blocks.Sources.RealExpression frac_val(y=frac) if sim.use_lin;
+  IDEAS.Buildings.Components.BaseClasses.HeatPort2SignalSwWindowResponse heatPort2SigSwWinResp(final nLay=glazing.nLay) if sim.use_lin;
+
+  IDEAS.Buildings.Components.BaseClasses.WindowParameters winPar(inc=inc,azi=azi,lat=sim.lat,A=A,frac=frac) if sim.use_lin;
 equation
   connect(eCon.port_a, layMul.port_a) annotation (Line(
       points={{-20,-30},{-10,-30}},
@@ -216,12 +211,6 @@ equation
      connect(heatPort2SigSwWinResp.iSolAbs[:], layMul.port_gain[:]);
      connect(heatPort2SigSwWinResp.iSolDir, propsBus_a.iSolDir);
      connect(heatPort2SigSwWinResp.iSolDif, propsBus_a.iSolDif);
-     connect(azi_val.y, winSigBus.azi);
-     connect(lat_val.y, winSigBus.lat);
-     connect(A_val.y, winSigBus.A);
-     connect(inc_val.y, winSigBus.inc);
-     connect(frac_val.y, winSigBus.frac);
-     connect(winSigBus,heatPort2SigSwWinResp.winSigBus);
    end if;
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),

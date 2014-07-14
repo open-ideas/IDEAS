@@ -21,8 +21,27 @@ model HeatPort2SignalSwWindowResponse
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Utilities.IO.heatPortPrescribedHeatFlow iSolDifSig
     annotation (Placement(transformation(extent={{50,-70},{70,-50}})));
-  Interfaces.winSigBus winSigBus(nLay=nLay)
-    annotation (Placement(transformation(extent={{-20,-120},{20,-80}})));
+  Modelica.Blocks.Interfaces.RealInput[nLay] QISolAbsSig
+    annotation (Placement(transformation(extent={{-128,50},{-88,90}})));
+  Modelica.Blocks.Interfaces.RealInput QISolDirSig
+    annotation (Placement(transformation(extent={{-128,-10},{-88,30}})));
+  Modelica.Blocks.Interfaces.RealOutput[nLay] TISolAbsSig annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-110,50})));
+  Modelica.Blocks.Interfaces.RealOutput TISolDirSig annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-110,-12})));
+  Modelica.Blocks.Interfaces.RealInput QISolDifSig
+    annotation (Placement(transformation(extent={{-126,-70},{-86,-30}})));
+  Modelica.Blocks.Interfaces.RealOutput TISolDifSig annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-108,-72})));
 equation
   connect(iSolAbsSig.port1, iSolAbs) annotation (Line(
       points={{72,60},{100,60}},
@@ -36,48 +55,30 @@ equation
       points={{70,-60},{100,-60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(iSolDirSig.Q_flow, winSigBus.QISolDirSig) annotation (Line(
-      points={{49.2,7},{0,7},{0,-100}},
+  connect(iSolAbsSig.Q_flow, QISolAbsSig) annotation (Line(
+      points={{51.2,67},{-24.4,67},{-24.4,70},{-108,70}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(iSolDirSig.T, winSigBus.TISolDirSig) annotation (Line(
-      points={{48.8,-7},{0,-7},{0,-100}},
+      smooth=Smooth.None));
+  connect(iSolDirSig.Q_flow, QISolDirSig) annotation (Line(
+      points={{49.2,7},{-25.4,7},{-25.4,10},{-108,10}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(iSolDifSig.Q_flow, winSigBus.QISolDifSig) annotation (Line(
-      points={{49.2,-53},{0,-53},{0,-100}},
+      smooth=Smooth.None));
+  connect(iSolAbsSig.T, TISolAbsSig) annotation (Line(
+      points={{50.8,53},{-26.6,53},{-26.6,50},{-110,50}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(iSolDifSig.T, winSigBus.TISolDifSig) annotation (Line(
-      points={{48.8,-67},{0,-67},{0,-100}},
+      smooth=Smooth.None));
+  connect(iSolDirSig.T, TISolDirSig) annotation (Line(
+      points={{48.8,-7},{-25.6,-7},{-25.6,-12},{-110,-12}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(iSolAbsSig[:].Q_flow, winSigBus.QISolAbsSig[:]) annotation (Line(
-      points={{51.2,67},{0,67},{0,-100}},
+      smooth=Smooth.None));
+  connect(iSolDifSig.Q_flow, QISolDifSig) annotation (Line(
+      points={{49.2,-53},{-25.4,-53},{-25.4,-50},{-106,-50}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(iSolAbsSig[:].T, winSigBus.TISolAbsSig[:]) annotation (Line(
-      points={{50.8,53},{0,53},{0,-100}},
+      smooth=Smooth.None));
+  connect(iSolDifSig.T, TISolDifSig) annotation (Line(
+      points={{48.8,-67},{-24,-67},{-24,-72},{-108,-72}},
       color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end HeatPort2SignalSwWindowResponse;

@@ -67,11 +67,9 @@ model OuterWall "Opaque building envelope construction"
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
 
-  Interfaces.RadSolBus radSolBus if sim.use_lin;
-  Modelica.Blocks.Sources.RealExpression inc_val(y=radSol.inc) if sim.use_lin;
-  Modelica.Blocks.Sources.RealExpression azi_val(y=radSol.azi) if sim.use_lin;
-  Modelica.Blocks.Sources.RealExpression lat_val(y=radSol.lat) if sim.use_lin;
-  Modelica.Blocks.Sources.RealExpression A_val(y=radSol.A) if sim.use_lin;
+  IDEAS.Buildings.Components.BaseClasses.OuterWallParameters outWallPar(inc=inc,azi=azi,lat=sim.lat,A=AWall) if sim.use_lin;
+  Modelica.Blocks.Interfaces.RealInput solDir if sim.use_lin;
+  Modelica.Blocks.Interfaces.RealInput solDif if sim.use_lin;
 equation
 
   connect(extCon.port_a, layMul.port_a) annotation (Line(
@@ -143,12 +141,8 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   else
-    connect(radSolBus.solDir,solAbs.solDir);
-    connect(radSolBus.solDif,solAbs.solDif);
-    connect(azi_val.y, radSolBus.azi);
-    connect(lat_val.y, radSolBus.lat);
-    connect(A_val.y, radSolBus.A);
-    connect(inc_val.y, radSolBus.inc);
+    connect(solDir,solAbs.solDir);
+    connect(solDif,solAbs.solDif);
   end if;
 
   annotation (
