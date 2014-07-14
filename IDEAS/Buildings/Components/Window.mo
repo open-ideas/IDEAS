@@ -15,14 +15,12 @@ model Window "Multipane window"
   final parameter Modelica.SIunits.Power QNom=glazing.U_value*A*(273.15 + 21 -
       sim.Tdes) "Design heat losses at reference outdoor temperature";
 
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazing
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
-    annotation (__Dymola_choicesAllMatching=true, Dialog(group=
-          "Construction details"));
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazing constrainedby
+    IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type" annotation (
+      __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
   replaceable parameter IDEAS.Buildings.Data.Interfaces.Frame fraType
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame "Window frame type"
-    annotation (__Dymola_choicesAllMatching=true, Dialog(group=
-          "Construction details"));
+    annotation (__Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
   replaceable Interfaces.StateShading shaType constrainedby
     Interfaces.StateShading(final azi=azi) "Shading type" annotation (
       __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
@@ -51,8 +49,8 @@ protected
     final mats=glazing.mats)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
-  IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1
-         - frac))
+  IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1 -
+        frac))
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvectionWindow iCon(final A=
@@ -87,9 +85,14 @@ protected
         fraType.U_value*A*frac) if fraType.present
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
-  IDEAS.Buildings.Components.BaseClasses.HeatPort2SignalSwWindowResponse heatPort2SigSwWinResp(final nLay=glazing.nLay) if sim.use_lin;
-
-  IDEAS.Buildings.Components.BaseClasses.WindowParameters winPar(inc=inc,azi=azi,lat=sim.lat,A=A,frac=frac) if sim.use_lin;
+  IDEAS.Buildings.Components.BaseClasses.SwWindowResponseSignal solWinSig(
+      final nLay=glazing.nLay) if                                                                                sim.use_lin;
+  IDEAS.Buildings.Components.BaseClasses.WindowParameters winPar(
+    inc=inc,
+    azi=azi,
+    lat=sim.lat,
+    A=A,
+    frac=frac) if                                                                                              sim.use_lin;
 equation
   connect(eCon.port_a, layMul.port_a) annotation (Line(
       points={{-20,-30},{-10,-30}},
@@ -182,36 +185,36 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
 
-   if not sim.use_lin then
+  if not sim.use_lin then
     connect(solWin.iSolAbs, layMul.port_gain) annotation (Line(
-      points={{0,-50},{0,-40}},
-      color={191,0,0},
-      smooth=Smooth.None));
+        points={{0,-50},{0,-40}},
+        color={191,0,0},
+        smooth=Smooth.None));
     connect(solWin.iSolDir, propsBus_a.iSolDir) annotation (Line(
-      points={{-2,-70},{-2,-80},{50,-80},{50,40}},
-      color={191,0,0},
-      smooth=Smooth.None));
+        points={{-2,-70},{-2,-80},{50,-80},{50,40}},
+        color={191,0,0},
+        smooth=Smooth.None));
     connect(solWin.iSolDif, propsBus_a.iSolDif) annotation (Line(
-      points={{2,-70},{0,-70},{0,-80},{50,-80},{50,40}},
-      color={191,0,0},
-      smooth=Smooth.None));
+        points={{2,-70},{0,-70},{0,-80},{50,-80},{50,40}},
+        color={191,0,0},
+        smooth=Smooth.None));
     connect(shaType.iSolDir, solWin.solDir) annotation (Line(
-      points={{-26,-54},{-10,-54}},
-      color={0,0,127},
-      smooth=Smooth.None));
+        points={{-26,-54},{-10,-54}},
+        color={0,0,127},
+        smooth=Smooth.None));
     connect(shaType.iSolDif, solWin.solDif) annotation (Line(
-      points={{-26,-58},{-10,-58}},
-      color={0,0,127},
-      smooth=Smooth.None));
+        points={{-26,-58},{-10,-58}},
+        color={0,0,127},
+        smooth=Smooth.None));
     connect(shaType.iAngInc, solWin.angInc) annotation (Line(
-      points={{-26,-66},{-10,-66}},
-      color={0,0,127},
-      smooth=Smooth.None));
-   else
-     connect(heatPort2SigSwWinResp.iSolAbs[:], layMul.port_gain[:]);
-     connect(heatPort2SigSwWinResp.iSolDir, propsBus_a.iSolDir);
-     connect(heatPort2SigSwWinResp.iSolDif, propsBus_a.iSolDif);
-   end if;
+        points={{-26,-66},{-10,-66}},
+        color={0,0,127},
+        smooth=Smooth.None));
+  else
+    connect(solWinSig.iSolAbs[:], layMul.port_gain[:]);
+    connect(solWinSig.iSolDir, propsBus_a.iSolDir);
+    connect(solWinSig.iSolDif, propsBus_a.iSolDif);
+  end if;
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
@@ -243,7 +246,7 @@ equation
           color={0,0,0},
           thickness=0.5,
           smooth=Smooth.None)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">General description</font></h4></p>

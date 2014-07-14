@@ -15,8 +15,8 @@ ExteriorConvection
 ExteriorSolarAbsorption
 ExteriorHeatRadidation
 SwWindowResponse
-HeatPort2SignalSwWindowResponse
-Signal2HeatPortSwWindowResponse
-SwWindowResponseBlock
+SwWindowResponseSignal
+SwWindowResponseHeatPort
+SwWindowResponseIO
 WindowParameters
 OuterWallParameters

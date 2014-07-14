@@ -35,7 +35,7 @@ model OuterWall "Opaque building envelope construction"
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
-  //protected
+protected
   IDEAS.Climate.Meteo.Solar.RadSol radSol(
     final inc=inc,
     final azi=azi,
@@ -67,6 +67,7 @@ model OuterWall "Opaque building envelope construction"
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
 
+public
   IDEAS.Buildings.Components.BaseClasses.OuterWallParameters outWallPar(inc=inc,azi=azi,lat=sim.lat,A=AWall) if sim.use_lin;
   Modelica.Blocks.Interfaces.RealInput solDir if sim.use_lin;
   Modelica.Blocks.Interfaces.RealInput solDif if sim.use_lin;

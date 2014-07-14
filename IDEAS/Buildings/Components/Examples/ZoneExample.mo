@@ -20,7 +20,7 @@ model ZoneExample
         Medium)
     annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
 
-  inner SimInfoManager sim(use_lin=true)
+  inner SimInfoManager sim(use_lin=false)
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   CommonWall commonWall1(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
@@ -56,9 +56,9 @@ model ZoneExample
     AWall=10)
     annotation (Placement(transformation(extent={{-54,-58},{-44,-38}})));
   Modelica.Blocks.Sources.RealExpression[window.glazing.nLay] realExpression(
-      each y=1)
+      each y=1) if sim.use_lin;
     annotation (Placement(transformation(extent={{-116,-10},{-96,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=1)
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=1) if sim.use_lin;
     annotation (Placement(transformation(extent={{-118,-30},{-92,-10}})));
 equation
   connect(commonWall.propsBus_a, zone.propsBus[1]) annotation (Line(
@@ -97,9 +97,9 @@ equation
 
   if sim.use_lin then
     // window
-    connect(window.heatPort2SigSwWinResp.QISolAbsSig,realExpression.y);
-    connect(window.heatPort2SigSwWinResp.QISolDifSig,realExpression2.y);
-    connect(window.heatPort2SigSwWinResp.QISolDirSig,realExpression2.y);
+    connect(window.solWinSig.iSolAbsQ,realExpression.y);
+    connect(window.solWinSig.iSolDirQ,realExpression2.y);
+    connect(window.solWinSig.iSolDifQ,realExpression2.y);
     // outerwall
     connect(outerWall.solDir,realExpression2.y);
     connect(outerWall.solDif,realExpression2.y);

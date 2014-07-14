@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.BaseClasses;
-model Signal2HeatPortSwWindowResponse
+model SwWindowResponseHeatPort
 //   replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazing
 //     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
 //     annotation (__Dymola_choicesAllMatching=true, Dialog(group=
@@ -15,19 +15,23 @@ model Signal2HeatPortSwWindowResponse
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs
     "solar absorptance in the panes"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));
-  IDEAS.Utilities.IO.heatPortPrescribedTemperature[nLay] iSolAbsSig
+  IDEAS.Utilities.IO.heatPortPrescribedTemperature[nLay] converter1
     annotation (Placement(transformation(extent={{52,50},{72,70}})));
-  IDEAS.Utilities.IO.heatPortPrescribedTemperature iSolDirSig
+  IDEAS.Utilities.IO.heatPortPrescribedTemperature converter2
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
-  IDEAS.Utilities.IO.heatPortPrescribedTemperature iSolDifSig
+  IDEAS.Utilities.IO.heatPortPrescribedTemperature converter3
     annotation (Placement(transformation(extent={{50,-70},{70,-50}})));
-  Modelica.Blocks.Interfaces.RealOutput[nLay] QISolAbsSig
+  Modelica.Blocks.Interfaces.RealOutput[nLay] iSolAbsQ
     annotation (Placement(transformation(extent={{-100,60},{-140,100}}),
         iconTransformation(extent={{-100,60},{-140,100}})));
-  Modelica.Blocks.Interfaces.RealOutput QISolDirSig
+  Modelica.Blocks.Interfaces.RealOutput iSolDirQ
     annotation (Placement(transformation(extent={{-100,-10},{-140,30}}),
         iconTransformation(extent={{-100,-10},{-140,30}})));
-  Modelica.Blocks.Interfaces.RealInput[nLay] TISolAbsSig annotation (Placement(
+  Modelica.Blocks.Interfaces.RealOutput iSolDifQ
+    annotation (Placement(transformation(extent={{-100,-72},{-140,-32}}),
+        iconTransformation(extent={{-100,-72},{-140,-32}})));
+
+  Modelica.Blocks.Interfaces.RealInput[nLay] iSolAbsT annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
@@ -35,7 +39,7 @@ model Signal2HeatPortSwWindowResponse
         extent={{20,-20},{-20,20}},
         rotation=180,
         origin={-120,46})));
-  Modelica.Blocks.Interfaces.RealInput TISolDirSig annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput iSolDirT annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
@@ -43,10 +47,8 @@ model Signal2HeatPortSwWindowResponse
         extent={{20,-20},{-20,20}},
         rotation=180,
         origin={-120,-20})));
-  Modelica.Blocks.Interfaces.RealOutput QISolDifSig
-    annotation (Placement(transformation(extent={{-100,-72},{-140,-32}}),
-        iconTransformation(extent={{-100,-72},{-140,-32}})));
-  Modelica.Blocks.Interfaces.RealInput TISolDifSig annotation (Placement(
+
+  Modelica.Blocks.Interfaces.RealInput iSolDifT annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
@@ -55,47 +57,43 @@ model Signal2HeatPortSwWindowResponse
         rotation=180,
         origin={-119,-81})));
 equation
-  connect(iSolAbsSig.port1, iSolAbs) annotation (Line(
+  connect(converter1.port1, iSolAbs) annotation (Line(
       points={{72,60},{100,60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(iSolDirSig.port1, iSolDir) annotation (Line(
+  connect(converter2.port1, iSolDir) annotation (Line(
       points={{70,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(iSolDifSig.port1, iSolDif) annotation (Line(
+  connect(converter3.port1, iSolDif) annotation (Line(
       points={{70,-60},{100,-60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(TISolAbsSig, iSolAbsSig.T) annotation (Line(
+  connect(iSolAbsT,converter1. T) annotation (Line(
       points={{-122,50},{-36,50},{-36,67},{51.2,67}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(QISolAbsSig, iSolAbsSig.Q_flow) annotation (Line(
+  connect(iSolAbsQ,converter1. Q_flow) annotation (Line(
       points={{-120,80},{-34,80},{-34,53},{50.8,53}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(QISolDirSig, iSolDirSig.Q_flow) annotation (Line(
-      points={{-120,10},{-36,10},{-36,-7},{48.8,-7}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TISolDirSig, iSolDirSig.T) annotation (Line(
+  connect(iSolDirT,converter2. T) annotation (Line(
       points={{-122,-12},{-36,-12},{-36,7},{49.2,7}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(QISolDifSig, iSolDifSig.Q_flow) annotation (Line(
+  connect(iSolDirQ,converter2. Q_flow) annotation (Line(
+      points={{-120,10},{-36,10},{-36,-7},{48.8,-7}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(iSolDifQ,converter3. Q_flow) annotation (Line(
       points={{-120,-52},{-34,-52},{-34,-67},{48.8,-67}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(TISolDifSig, iSolDifSig.T) annotation (Line(
+  connect(iSolDifT,converter3. T) annotation (Line(
       points={{-120,-72},{-38,-72},{-38,-53},{49.2,-53}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(QISolDirSig, QISolDirSig) annotation (Line(
-      points={{-120,10},{-113,10},{-113,10},{-120,10}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
-end Signal2HeatPortSwWindowResponse;
+end SwWindowResponseHeatPort;
