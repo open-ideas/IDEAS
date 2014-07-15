@@ -28,8 +28,8 @@ partial model IOZone
     annotation (Placement(transformation(extent={{-140,-260},{-100,-220}})));
 
   Modelica.Blocks.Interfaces.RealInput TEmb[nEmb]
-    annotation (Placement(transformation(extent={{-146,64},{-100,110}}),
-        iconTransformation(extent={{-140,70},{-100,110}})));
+    annotation (Placement(transformation(extent={{-146,62},{-100,108}}),
+        iconTransformation(extent={{-140,68},{-100,108}})));
   Modelica.Blocks.Interfaces.RealInput QConv[nZones]
     annotation (Placement(transformation(extent={{-144,26},{-100,70}}),
         iconTransformation(extent={{-140,30},{-100,70}})));
@@ -73,7 +73,7 @@ partial model IOZone
     annotation (Placement(transformation(extent={{80,-360},{100,-340}})));
 equation
   connect(TEmb, heatEmb.T) annotation (Line(
-      points={{-123,87},{-86,87},{-86,97},{-60.8,97}},
+      points={{-123,85},{-86,85},{-86,97},{-60.8,97}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(QConv, heatCon.Q_flow) annotation (Line(
@@ -101,8 +101,8 @@ equation
   connect(Tsky,sim.Tsky_in);
   connect(Va,sim.Va_in);
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -400},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,-400},
-            {100,100}},       preserveAspectRatio=false), graphics={
+            -400},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,
+            -400},{100,100}}, preserveAspectRatio=false), graphics={
         Rectangle(
           extent={{-100,102},{100,-400}},
           lineColor={135,135,135},
@@ -153,5 +153,23 @@ from windows"),
           extent={{-88,-88},{-36,-112}},
           lineColor={0,0,0},
           textString="Te, Tsky,
-Va")}));
+Va"),
+        Polygon(
+          points={{-144,112},{-144,62},{-96,88},{-144,112}},
+          lineColor={255,85,85},
+          smooth=Smooth.None,
+          fillColor={255,85,85},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-144,74},{-144,24},{-96,50},{-144,74}},
+          lineColor={255,85,85},
+          smooth=Smooth.None,
+          fillColor={255,85,85},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-144,34},{-144,-16},{-96,10},{-144,34}},
+          lineColor={255,85,85},
+          smooth=Smooth.None,
+          fillColor={255,85,85},
+          fillPattern=FillPattern.Solid)}));
 end IOZone;
