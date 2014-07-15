@@ -60,13 +60,20 @@ public
     "difuse irradiation on horizontal surface";
   Modelica.SIunits.Irradiance solGloHor = solDirHor + solDifHor
     "global irradiation on horizontal";
-  Modelica.SIunits.Temperature Te = weaDat.cheTemDryBul.TOut
+  Modelica.SIunits.Temperature Te = Te_conditional
     "ambient outdoor temperature for determination of sky radiation exchange";
-  Modelica.SIunits.Temperature Tsky "effective overall sky temperature";
+  Modelica.Blocks.Interfaces.RealInput Te_in(unit="K") = Te_conditional if use_lin
+    "ambient outdoor temperature for determination of sky radiation exchange";
+  Modelica.SIunits.Temperature Tsky =  Tsky_conditional
+    "effective overall sky temperature";
+  Modelica.Blocks.Interfaces.RealInput Tsky_in(unit="K") = Tsky_conditional if use_lin
+    "effective overall sky temperature";
   Modelica.SIunits.Temperature TeAv = Te
     "running average of ambient outdoor temperature of the last 5 days, not yet implemented";
   Modelica.SIunits.Temperature Tground=TdesGround "ground temperature";
-  Modelica.SIunits.Velocity Va "air velocity";
+  Modelica.SIunits.Velocity Va = Va_conditional "air velocity";
+  Modelica.Blocks.Interfaces.RealInput Va_in(unit="m/s") = Va_conditional if use_lin
+    "air velocity";
   Real Fc "cloud factor";
   Modelica.SIunits.Irradiance irr = weaDat.cheGloHorRad.HOut "Irradiance";
   Boolean summer = timMan.summer;
@@ -87,7 +94,11 @@ protected
     DST=false,
     ifSolCor=true)
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
-
+  Modelica.SIunits.Temperature Te_conditional
+    "ambient outdoor temperature for determination of sky radiation exchange";
+  Modelica.SIunits.Temperature Tsky_conditional
+    "effective overall sky temperature";
+  Modelica.SIunits.Velocity Va_conditional "air velocity";
 public
   Modelica.Blocks.Tables.CombiTable1Ds tabQCon(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -142,14 +153,21 @@ public
   BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=filNamClim, lat=lat, lon=lon, timZon=timZonSta)
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
 equation
+  if not use_lin then
+    Te_conditional = weaDat.cheTemDryBul.TOut;
+  end if;
   if BesTest then
-    Tsky = Te - (23.8 - 0.2025*(Te - 273.15)*(1 - 0.87*Fc));
+    if not use_lin then
+      Tsky_conditional = Te - (23.8 - 0.2025*(Te - 273.15)*(1 - 0.87*Fc));
+      Va_conditional = 2.5;
+    end if;
     Fc = 0.2;
-    Va = 2.5;
   else
-    Tsky = weaDat.TBlaSky.TBlaSky;
+    if not use_lin then
+      Tsky_conditional = weaDat.TBlaSky.TBlaSky;
+      Va_conditional = weaDat.cheWinSpe.winSpeOut;
+    end if;
     Fc = weaDat.cheOpaSkyCov.nOut*0.87;
-    Va = weaDat.cheWinSpe.winSpeOut;
   end if;
 
   connect(timMan.timCal, tabQCon.u) annotation (Line(
