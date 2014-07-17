@@ -153,8 +153,7 @@ from windows"),
           extent={{-88,-88},{-36,-112}},
           lineColor={0,0,0},
           textString="Te, Tsky,
-Va"),
-        Polygon(
+Va"),   Polygon(
           points={{-144,112},{-144,62},{-96,88},{-144,112}},
           lineColor={255,85,85},
           smooth=Smooth.None,
