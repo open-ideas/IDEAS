@@ -37,11 +37,11 @@ partial model IOZone
     annotation (Placement(transformation(extent={{-142,-12},{-100,30}}),
         iconTransformation(extent={{-140,-10},{-100,30}})));
 
-  Modelica.Blocks.Interfaces.RealOutput TRad[nEmb]
+  Modelica.Blocks.Interfaces.RealOutput TRad[nZones]
     annotation (Placement(transformation(extent={{100,-10},{140,30}})));
   Modelica.Blocks.Interfaces.RealOutput TConv[nZones]
     annotation (Placement(transformation(extent={{100,30},{140,70}})));
-  Modelica.Blocks.Interfaces.RealOutput QEmb[nZones]
+  Modelica.Blocks.Interfaces.RealOutput QEmb[nEmb]
     annotation (Placement(transformation(extent={{100,72},{138,110}})));
   Modelica.Blocks.Interfaces.RealOutput genOut[nOut] "general outputs"
     annotation (Placement(transformation(extent={{100,-110},{140,-70}})));
