@@ -27,10 +27,10 @@ protected
         origin={-54,-44})));
   BaseClasses.AirLeakage airLeakage(
     redeclare replaceable package Medium = Air,
-    m_flow_nominal=V/3600*n50/20,
     V=V,
-    n50=0.1)
-    annotation (Placement(transformation(extent={{34,62},{54,82}})));
+    n50=n50,
+    m_flow_nominal=V*1.2/3600*n50/20)
+    annotation (Placement(transformation(extent={{34,60},{54,80}})));
   IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
       nSurf=nSurf, final linear=linear)
     "internal longwave radiative heat exchange" annotation (Placement(
@@ -169,11 +169,11 @@ end for;
       color={0,0,127},
       smooth=Smooth.None));
   connect(airLeakage.port_a, vol.ports[3]) annotation (Line(
-      points={{34,72},{6,72},{6,79},{-24,79}},
+      points={{34,70},{6,70},{6,79},{-24,79}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(airLeakage.port_b, vol.ports[4]) annotation (Line(
-      points={{54,72},{56,72},{56,81},{-24,81}},
+      points={{54,70},{56,70},{56,81},{-24,81}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(mWatFloVol.y, vol.mWat_flow) annotation (Line(

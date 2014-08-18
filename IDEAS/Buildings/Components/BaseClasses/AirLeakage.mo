@@ -1,16 +1,11 @@
 within IDEAS.Buildings.Components.BaseClasses;
 model AirLeakage "air leakage due to limied air tightness"
-
 extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
-
   parameter Modelica.SIunits.Volume V "zone air volume";
   parameter Real n50(min=0.01)=0.4 "n50-value of airtightness";
-
   parameter SI.Time tau=30 "Tin time constant at nominal flow rate";
-
   outer IDEAS.SimInfoManager sim "Simulation information manager"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-
   Fluid.Sensors.TemperatureTwoPort senTem(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -32,10 +27,9 @@ extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
     annotation (Placement(transformation(extent={{40,60},{60,80}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
     annotation (Placement(transformation(extent={{0,60},{20,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=V/3600*n50/20)
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=V*1.2/3600*n50/20)
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 equation
-
   connect(port_a, senTem.port_a) annotation (Line(
       points={{-100,0},{-90,0}},
       color={0,127,255},
