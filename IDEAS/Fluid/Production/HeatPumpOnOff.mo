@@ -4,7 +4,6 @@ model HeatPumpOnOff "A heat pump that can only be switch on or off"
       IDEAS.Fluid.Production.BaseClasses.OnOffHeatPumpData heatPumpData constrainedby
       IDEAS.Fluid.Production.BaseClasses.OnOffHeatPumpData);
   extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
-
   // check https://github.com/open-ideas/IDEAS/issues/17 for a discussion on why CombiTable2D is used
   Modelica.Blocks.Tables.CombiTable2D powerTable(              table=
         heatPumpData.powerData, smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)

@@ -3,15 +3,12 @@ model Pipe_Insulated "Pipe with insulation, characterised by UA"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
-
   parameter Modelica.SIunits.Mass m(start=1) "Mass of medium";
   // I remove this parameter completely because it can lead to wrong models!!!
   // See note in evernote of RDC
   //parameter Real tapT(final min=0, final max=1)=1
   //  "Defines temperature of heatPort between inlet and outlet temperature";
-
   parameter SI.ThermalConductance UA "Thermal conductance of the insulation";
-
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort heatedPipe(
     m=m,
     redeclare package Medium = Medium,
@@ -42,8 +39,7 @@ model Pipe_Insulated "Pipe with insulation, characterised by UA"
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium) "Fluid outlet"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-
-  parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
+  parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate" annotation(Evaluate=false);
 equation
   connect(heatedPipe.heatPort, thermalConductor.port_b) annotation (Line(
       points={{0,-10},{0,-18},{2.22045e-016,-18}},

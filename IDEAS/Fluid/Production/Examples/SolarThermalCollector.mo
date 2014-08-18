@@ -1,11 +1,8 @@
 within IDEAS.Fluid.Production.Examples;
 model SolarThermalCollector
   "Simple circuit with a solar thermal collector and storage tank"
-
   extends Modelica.Icons.Example;
-
   parameter Thermal.Data.Interfaces.Medium medium=Thermal.Data.Media.Water();
-
   IDEAS.Fluid.Production.SolarCollector_Glazed collectorG(
     medium=medium,
     h_g=2,
@@ -31,7 +28,6 @@ model SolarThermalCollector
   Thermal.Components.BaseClasses.AbsolutePressure absolutePressure(medium=
         medium, p=300000)
     annotation (Placement(transformation(extent={{-22,4},{-34,16}})));
-
   Thermal.Control.Ctrl_SolarThermal_Simple solarThermalControl_DT(TSafetyMax=
         363.15) annotation (Placement(transformation(extent={{54,44},{34,64}})));
   inner IDEAS.SimInfoManager sim(redeclare IDEAS.Climate.Meteo.Locations.Uccle
@@ -80,7 +76,6 @@ equation
           -58.7692}},
       color={191,0,0},
       smooth=Smooth.None));
-
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}}), graphics),

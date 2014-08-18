@@ -1,12 +1,9 @@
 within IDEAS.Fluid.Production.Examples;
 model HeatPump_AirWater
   "General example and tester for a modulating air-to-water heat pump"
-
   extends Modelica.Icons.Example;
-
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (__Dymola_choicesAllMatching=true);
-
   Fluid.Movers.Pump pump(
     m=1,
     useInput=false,
@@ -60,7 +57,6 @@ equation
   //   der(QUsefulNoLossesInt) = thermalConductor1.port_b.Q_flow;
   //   SPFLosses = if noEvent(PElLossesInt > 0) then QUsefulLossesInt/PElLossesInt else 0;
   //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
-
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
       points={{-67.7,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
       color={191,0,0},

@@ -5,7 +5,6 @@ model IdealHeater "Ideal heater, no losses to environment, unlimited power"
     final QNom=1,
     final cDry=0.1,
     final mWater=0);
-
     parameter Real eta = 1 "Boiler efficiency for calculating fuel consumption";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature

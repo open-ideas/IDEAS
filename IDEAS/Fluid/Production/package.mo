@@ -1,7 +1,6 @@
 within IDEAS.Fluid;
 package Production "Models for heat/cold production devices"
 extends Modelica.Icons.VariantsPackage;
-
 /*
   model HP_BW "BW HP with losses to environment"
 
@@ -55,5 +54,4 @@ extends Modelica.Icons.VariantsPackage;
     annotation (Diagram(graphics), Icon(graphics));
   end HP_BW;
 */
-
 end Production;

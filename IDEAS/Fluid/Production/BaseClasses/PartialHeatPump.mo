@@ -1,6 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
 partial model PartialHeatPump "Heat pump partial"
-
   Modelica.Fluid.Interfaces.FluidPort_a brineIn(redeclare package Medium =
         MediumBrine)
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
@@ -22,7 +21,6 @@ partial model PartialHeatPump "Heat pump partial"
   replaceable parameter HeatPumpData heatPumpData
   constrainedby HeatPumpData
     annotation (choicesAllMatching=true, Placement(transformation(extent={{-98,-98},{-78,-78}})));
-
     //From LumpedVolumeDeclarations
       // Assumptions
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
@@ -37,7 +35,6 @@ partial model PartialHeatPump "Heat pump partial"
   final parameter Modelica.Fluid.Types.Dynamics traceDynamics=energyDynamics
     "Formulation of trace substance balance"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-
   // Initialization
   parameter MediumBrine.AbsolutePressure p_start = MediumBrine.p_default
     "Start value of primary circuit pressure"
@@ -56,7 +53,6 @@ partial model PartialHeatPump "Heat pump partial"
        quantity=MediumBrine.extraPropertiesNames) = fill(1E-2, MediumBrine.nC)
     "Nominal value of trace substances. (Set to typical order of magnitude.)"
    annotation (Dialog(tab="Initialization", enable=MediumBrine.nC > 0));
-
   parameter MediumFluid.AbsolutePressure p_start2 = MediumFluid.p_default
     "Start value of secondary circuit pressure"
     annotation(Dialog(tab = "Initialization"));
@@ -74,7 +70,6 @@ partial model PartialHeatPump "Heat pump partial"
        quantity=MediumFluid.extraPropertiesNames) = fill(1E-2, MediumFluid.nC)
     "Nominal value of trace substances. (Set to typical order of magnitude.)"
    annotation (Dialog(tab="Initialization", enable=MediumFluid.nC > 0));
-
   //From TwoPortFlowResistanceParameters:
   parameter Boolean from_dp = false
     "= true, use m_flow = f(dp) else dp = f(m_flow)"
@@ -87,7 +82,6 @@ partial model PartialHeatPump "Heat pump partial"
   parameter Real deltaM = 0.1
     "Fraction of nominal flow rate where flow transitions to laminar"
     annotation(Dialog(enable = computeFlowResistance, tab="Flow resistance"));
-
   Modelica.Blocks.Sources.RealExpression realExpression(y=-P_evap)
     annotation (Placement(transformation(extent={{18,0},{0,20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
@@ -102,7 +96,6 @@ partial model PartialHeatPump "Heat pump partial"
         origin={26,-70})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatLoss
     annotation (Placement(transformation(extent={{16,-110},{36,-90}})));
-
   Modelica.Blocks.Sources.RealExpression realExpression1(y=P_cond)
     annotation (Placement(transformation(extent={{-20,-20},{0,0}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T_in_evap(
@@ -117,7 +110,6 @@ partial model PartialHeatPump "Heat pump partial"
     allowFlowReversal=allowFlowReversal,
     m_flow_nominal=heatPumpData.m_flow_nominal_fluid)
     annotation (Placement(transformation(extent={{88,-50},{68,-30}})));
-
   Modelica.SIunits.Power P_el "Electrical power consumption";
   Modelica.SIunits.Power P_evap "Thermal power of the evaporator (positive)";
   Modelica.SIunits.Power P_cond "Thermal power of the condensor (positive)";
@@ -131,10 +123,8 @@ partial model PartialHeatPump "Heat pump partial"
 public
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
-
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)";
-
   FixedResistances.Pipe_HeatPort evaporator(
     redeclare package Medium = MediumBrine,
     energyDynamics=energyDynamics,
@@ -173,7 +163,6 @@ public
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={60,-10})));
-
 equation
   connect(heatLoss, thermalConductor.port_a) annotation (Line(
       points={{26,-100},{26,-80}},

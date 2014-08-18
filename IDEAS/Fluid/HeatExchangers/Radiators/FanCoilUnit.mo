@@ -10,9 +10,7 @@ model FanCoilUnit
     vol(nPorts=2));
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
-
   replaceable package Air = IDEAS.Media.Air;
-
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortCon
     "Convective heat transfer from radiators" annotation (Placement(
         transformation(extent={{40,90},{60,110}}),iconTransformation(extent={{40,90},
@@ -50,25 +48,22 @@ model FanCoilUnit
     "Mass of dry material (steel/aluminium) in the FCU";
   parameter Modelica.SIunits.SpecificHeatCapacity cpDry=480
     "Specific heat capacity of the dry material, default is for steel";
-
   final parameter Real[4] posFCU={0, 1, 2, 3} "Possible FCU control positions";
   parameter Real[4] posVal={0, 0.45, 0.7, 1}
     "Valve positions for FCU control 0, 1, 2 and 3";
   parameter Real[4] mFloAirFCU={0, 0.195*1.2, 0.265*1.2, 0.39*1.2}
     "Air flow over FCU heat exchanger for positions 0, 1, 2, 3";
-  parameter Modelica.SIunits.TemperatureDifference[3] dTCon = {-1, 0, 1}
-    "Control setpoints for the FCU, relative difference for TSet-TAir.  Corresponds to FCU control positions 0, 1, 2, 3";
-
+  parameter Modelica.SIunits.TemperatureDifference[3] dTCon = {-2, 0, 1}
+    "Control setpoints for the FCU, relative difference for TSet-TAir.  Corresponds to FCU control positions 0, 1, 2, 3"
+                                                                                                        annotation(evaluate=false);
   Real posValSet(start=0) = Modelica.Math.Vectors.interpolate(posFCU, posVal, posFCU_real.y)
     "Effective set point for valve position";
   Real mFloAirSet(start=0) = Modelica.Math.Vectors.interpolate(posFCU, mFloAirFCU, posFCU_real.y)
     "Effective set point for air flow rate";
-
 protected
   final parameter Modelica.SIunits.TemperatureDifference dTNatConNom = 3.076*QNom/1000*(TInNom-TZoneNom)/(m_flow_nominal*4180)
     "Temperature drop of the water after natural convection";
    constant Medium.ThermodynamicState state_default=Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default);
-
 public
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val(
     redeclare package Medium = Medium,
@@ -102,7 +97,6 @@ public
     "Air/water heat exchanger.  Nominal conditions are for FCU position 3 (maximum power)"
     annotation (Placement(transformation(extent={{10,-4},{-10,16}})));
                                                            // compensation for natural convection
-
   Sources.MassFlowSource_T airFCUIn(
     use_m_flow_in=true,
     use_T_in=true,
@@ -141,7 +135,6 @@ public
     annotation (Placement(transformation(extent={{18,66},{28,76}})));
   Modelica.Blocks.Sources.RealExpression posVal_expr(y=posValSet)
     annotation (Placement(transformation(extent={{10,-44},{30,-24}})));
-
   Modelica.Blocks.Sources.RealExpression mFloAir_expr(y=mFloAirSet)
     annotation (Placement(transformation(extent={{54,10},{74,30}})));
 equation
@@ -171,7 +164,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(posFCU_real.release, release) annotation (Line(
-      points={{-20,-46},{-20,-46},{-20,-80},{-106,-80},{-106,-80}},
+      points={{-20,-46},{-20,-80},{-106,-80}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(vol.ports[2], hexFCU.port_a2) annotation (Line(

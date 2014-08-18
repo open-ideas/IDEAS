@@ -4,23 +4,19 @@ block Control_FanCoilUnit
   extends Modelica.Blocks.Interfaces.SISO(y(start=0));
   parameter Boolean enableRelease=false
     "if true, an additional RealInput will be available for releasing the controller";
-
-  parameter Real[3] uBou={-1,0,1} "boundary values on u";
+  parameter Real[3] uBou={-2,0,1} "boundary values on u" annotation(evaluate=false);
   parameter Real hyst=0.5 "Hysteresis, applies to each boundary";
-
   Modelica.Blocks.Interfaces.RealInput release(start=0) = rel if enableRelease
     "if < 0.5, the controller is OFF"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
         origin={0,-120})));
-
   Real rel
     "release, either 1 ,either from RealInput release if enableRelease is true";
 equation
   if not enableRelease then
     rel = 1;
   end if;
-
   if noEvent(rel < 0.5) then
     y = 0;
   else // release is on

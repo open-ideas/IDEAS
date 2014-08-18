@@ -3,9 +3,7 @@ model Boiler
   "Modulating boiler with losses to environment, based on performance tables"
   extends IDEAS.Fluid.Production.Interfaces.PartialDynamicHeaterWithLosses(
       final heaterType=BaseClasses.HeaterType.Boiler);
-
   Real eta "Instanteanous efficiency";
-
   IDEAS.Fluid.Production.BaseClasses.HeatSource_CondensingGasBurner heatSource(
     QNom=QNom,
     TBoilerSet=TSet,

@@ -1,11 +1,8 @@
 within IDEAS.Fluid.Production.Examples;
 model Boiler_validation "Validation model for the boiler"
-
   extends Modelica.Icons.Example;
-
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (__Dymola_choicesAllMatching=true);
-
   Fluid.Movers.Pump pump(
     m=1,
     m_flow_nominal=1300/3600,
@@ -54,7 +51,6 @@ model Boiler_validation "Validation model for the boiler"
     redeclare package Medium = Medium,
     p=200000)
     annotation (Placement(transformation(extent={{-12,-32},{-32,-12}})));
-
   Modelica.Blocks.Math.Gain gain(k=1/1300)
     annotation (Placement(transformation(extent={{-14,72},{6,92}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 60)
@@ -67,14 +63,12 @@ model Boiler_validation "Validation model for the boiler"
     annotation (Placement(transformation(extent={{-24,-56},{-44,-36}})));
 equation
   //heater.TSet = 273.15 + 82;
-
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
   //   der(QUsefulLossesInt) =thermalConductor.port_b.Q_flow;
   //   der(QUsefulNoLossesInt) = thermalConductor1.port_b.Q_flow;
   //   SPFLosses = if noEvent(PElLossesInt > 0) then QUsefulLossesInt/PElLossesInt else 0;
   //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
-
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
       points={{-63,-16},{-62,-16},{-62,-41},{-70,-41}},
       color={191,0,0},
@@ -91,7 +85,6 @@ equation
       points={{10,8},{48,8},{48,-46},{8,-46}},
       color={0,0,255},
       smooth=Smooth.None));
-
   connect(bou.ports[1], heater.port_a) annotation (Line(
       points={{-32,-22},{-42,-22},{-42,-10.5455},{-50,-10.5455}},
       color={0,127,255},

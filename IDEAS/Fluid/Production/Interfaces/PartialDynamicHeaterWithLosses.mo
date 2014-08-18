@@ -2,26 +2,21 @@ within IDEAS.Fluid.Production.Interfaces;
 model PartialDynamicHeaterWithLosses
   "Partial heater model incl dynamics and environmental losses"
   import IDEAS;
-
   import IDEAS.Fluid.Production.BaseClasses.HeaterType;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15);
-
   parameter HeaterType heaterType
     "Type of the heater, is used mainly for post processing";
   parameter Modelica.SIunits.Power QNom "Nominal power";
-
   Modelica.SIunits.Power PFuel "Fuel consumption in watt";
   parameter Modelica.SIunits.Time tauHeatLoss=7200
     "Time constant of environmental heat losses";
   parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
   parameter Modelica.SIunits.HeatCapacity cDry=4800
     "Capacity of dry material lumped to condensor";
-
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
-
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor mDry(C=cDry, T(start=
           T_start)) "Lumped dry mass subject to heat exchange/accumulation"
     annotation (Placement(transformation(
@@ -49,7 +44,6 @@ model PartialDynamicHeaterWithLosses
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-74,-100})));
-
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
   parameter SI.Pressure dp_nominal=0 "Pressure";
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort pipe_HeatPort(
@@ -89,7 +83,6 @@ model PartialDynamicHeaterWithLosses
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
 equation
-
   connect(mDry.port, thermalLosses.port_a) annotation (Line(
       points={{-30,-30},{-30,-60}},
       color={191,0,0},

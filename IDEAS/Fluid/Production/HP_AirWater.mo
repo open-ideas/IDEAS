@@ -1,9 +1,7 @@
 within IDEAS.Fluid.Production;
 model HP_AirWater "Modulating air-to-water HP with losses to environment"
-
   extends IDEAS.Fluid.Production.Interfaces.PartialDynamicHeaterWithLosses(
       final heaterType=BaseClasses.HeaterType.HP_AW);
-
   parameter Modelica.SIunits.Power QDesign=0
     "Overrules QNom if different from 0. Design heat load, typically at -8 or -10 degC in Belgium.  ";
   parameter Real fraLosDesNom=0.68
@@ -11,9 +9,7 @@ model HP_AirWater "Modulating air-to-water HP with losses to environment"
   parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
   final parameter SI.Power QNomFinal=if QDesign == 0 then QNom else QDesign/
       fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
-
   Real COP "Instanteanous COP";
-
   IDEAS.Fluid.Production.BaseClasses.HeatSource_HP_AW heatSource(
     QNom=QNomFinal,
     TEvaporator=sim.Te,
@@ -29,7 +25,6 @@ model HP_AirWater "Modulating air-to-water HP with losses to environment"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   outer IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
-
   parameter Real modulation_min=20 "Minimal modulation percentage";
   parameter Real modulation_start=35
     "Min estimated modulation level required for start of HP";
@@ -37,7 +32,6 @@ equation
   PFuel = 0;
   PEl = heatSource.PEl;
   COP = if noEvent(PEl > 0) then pipe_HeatPort.heatPort.Q_flow/PEl else 0;
-
   connect(heatSource.heatPort, pipe_HeatPort.heatPort) annotation (Line(
       points={{-60,30},{28,30},{28,-6}},
       color={191,0,0},

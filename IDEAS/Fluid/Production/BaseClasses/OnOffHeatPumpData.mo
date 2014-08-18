@@ -5,7 +5,6 @@ record OnOffHeatPumpData "Data for an on/off heat pump"
   //or that the working point is outside of the working range of the device
   Modelica.SIunits.Power[:,:] powerData "Power map for the heat pump";
   Real[:,:] copData "Cop map for the heat pump";
-
   annotation (Documentation(revisions="<html>
 <ul>
 <li>March 2014 by Filip Jorissen:<br/> 
