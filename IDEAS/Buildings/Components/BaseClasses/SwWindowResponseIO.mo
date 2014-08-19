@@ -12,8 +12,8 @@ model SwWindowResponseIO
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
 
-  replaceable Interfaces.StateShading shaType constrainedby Interfaces.StateShading(
-                            final azi=winPar.azi) "Shading type" annotation (
+  replaceable Interfaces.StateShading shaType constrainedby
+    Interfaces.StateShading(final azi=winPar.azi) "Shading type" annotation (
       __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
 
   Modelica.Blocks.Interfaces.RealInput Ctrl if shaType.controled
@@ -34,23 +34,17 @@ model SwWindowResponseIO
     final nLay=nLay)
     annotation (Placement(transformation(extent={{-26,-10},{-6,10}})));
 
-outer SimInfoManager       sim "Simulation information manager for climate data"
+outer SimInfoManager       sim
+    "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
   IDEAS.Buildings.Components.BaseClasses.SwWindowResponseHeatPort solWinSig(nLay=nLay)
     annotation (Placement(transformation(extent={{50,-10},{30,10}})));
   Modelica.Blocks.Interfaces.RealOutput winISolAbsQ[nLay]
-    annotation (Placement(transformation(extent={{94,70},{134,110}})));
+    annotation (Placement(transformation(extent={{96,40},{136,80}})));
   Modelica.Blocks.Interfaces.RealOutput winISolDirQ
-    annotation (Placement(transformation(extent={{94,30},{134,70}})));
+    annotation (Placement(transformation(extent={{96,-20},{136,20}})));
   Modelica.Blocks.Interfaces.RealOutput winISolDifQ
-    annotation (Placement(transformation(extent={{94,-10},{134,30}})));
-  Modelica.Blocks.Interfaces.RealInput winISolAbsT[nLay] annotation (Placement(transformation(
-          extent={{128,-50},{88,-10}}), iconTransformation(extent={{130,-56},{90,-16}})));
-  Modelica.Blocks.Interfaces.RealInput winISolDirT annotation (Placement(transformation(extent={
-            {128,-90},{88,-50}}), iconTransformation(extent={{130,-96},{90,-56}})));
-  Modelica.Blocks.Interfaces.RealInput wiISolDifT
-    annotation (Placement(transformation(extent={{128,-130},{88,-90}}),
-        iconTransformation(extent={{130,-136},{90,-96}})));
+    annotation (Placement(transformation(extent={{94,-80},{134,-40}})));
   parameter WindowParameters winPar
     annotation (Placement(transformation(extent={{-90,72},{-70,92}})));
 equation
@@ -103,31 +97,19 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(solWinSig.iSolAbsQ, winISolAbsQ) annotation (Line(
-      points={{52,8},{64,8},{64,90},{114,90}},
+      points={{52,8},{64,8},{64,60},{116,60}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solWinSig.iSolDirQ, winISolDirQ) annotation (Line(
-      points={{52,1},{78,1},{78,50},{114,50}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(winISolAbsT, solWinSig.iSolAbsT) annotation (Line(
-      points={{108,-30},{68,-30},{68,4.6},{52,4.6}},
+      points={{52,1},{78,1},{78,0},{116,0}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solWinSig.iSolDifQ, winISolDifQ) annotation (Line(
-      points={{52,-5.2},{70,-5.2},{70,-6},{88,-6},{88,10},{114,10}},
+      points={{52,-5.2},{70,-5.2},{70,-6},{88,-6},{88,-60},{114,-60}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(wiISolDifT, solWinSig.iSolDifT) annotation (Line(
-      points={{108,-110},{82,-110},{82,-108},{62,-108},{62,-8.1},{51.9,-8.1}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(winISolDirT, solWinSig.iSolDirT) annotation (Line(
-      points={{108,-70},{64,-70},{64,-2},{52,-2}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-                               graphics), Icon(coordinateSystem(
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(extent={{-100,100},{100,-100}},lineColor={0,0,0},
           fillColor={255,255,255},
