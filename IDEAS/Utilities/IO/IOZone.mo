@@ -8,12 +8,19 @@ partial model IOZone
   parameter Integer nZones=1;
   parameter Integer nOut=1 "size of the general vector output of the structure";
 
-  Modelica.Blocks.Interfaces.RealInput winISolAbsQ[nWin,nLay]
+  Modelica.Blocks.Interfaces.RealInput winISolAbsQL1[nWin]
     annotation (Placement(transformation(extent={{-140,-320},{-100,-280}})));
+  Modelica.Blocks.Interfaces.RealInput winISolAbsQL2[nWin]
+    annotation (Placement(transformation(extent={{-140,-348},{-100,-308}}),
+        iconTransformation(extent={{-140,-348},{-100,-308}})));
+  Modelica.Blocks.Interfaces.RealInput winISolAbsQL3[nWin]
+    annotation (Placement(transformation(extent={{-140,-380},{-100,-340}})));
   Modelica.Blocks.Interfaces.RealInput winISolDirQ[nWin]
-    annotation (Placement(transformation(extent={{-140,-360},{-100,-320}})));
+    annotation (Placement(transformation(extent={{-142,-434},{-102,-394}}),
+        iconTransformation(extent={{-142,-434},{-102,-394}})));
   Modelica.Blocks.Interfaces.RealInput winISolDifQ[nWin]
-    annotation (Placement(transformation(extent={{-140,-400},{-100,-360}})));
+    annotation (Placement(transformation(extent={{-142,-474},{-102,-434}}),
+        iconTransformation(extent={{-142,-474},{-102,-434}})));
 
   Modelica.Blocks.Interfaces.RealInput outWallSolDir[nOutWall]
     annotation (Placement(transformation(extent={{-140,-220},{-100,-180}})));
@@ -97,7 +104,7 @@ equation
             -400},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,
             -400},{100,100}}, preserveAspectRatio=false), graphics={
         Rectangle(
-          extent={{-100,102},{100,-400}},
+          extent={{-100,102},{100,-474}},
           lineColor={135,135,135},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
