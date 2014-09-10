@@ -57,9 +57,7 @@ model ZoneExample
     annotation (Placement(transformation(extent={{-54,-58},{-44,-38}})));
   Modelica.Blocks.Sources.RealExpression[window.glazing.nLay] realExpression(
       each y=1) if sim.use_lin;
-    annotation (Placement(transformation(extent={{-116,-10},{-96,10}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=1) if sim.use_lin;
-    annotation (Placement(transformation(extent={{-118,-30},{-92,-10}})));
 equation
   connect(commonWall.propsBus_a, zone.propsBus[1]) annotation (Line(
       points={{-44,12},{-42,12},{-42,-4.4},{20,-4.4}},
@@ -105,7 +103,9 @@ equation
     connect(outerWall.solDif,realExpression2.y);
   end if;
 
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+    annotation (Placement(transformation(extent={{-116,-10},{-96,10}})),
+                Placement(transformation(extent={{-118,-30},{-92,-10}})),
+              Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
 end ZoneExample;

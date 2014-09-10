@@ -14,13 +14,6 @@ partial model IOZone
     annotation (Placement(transformation(extent={{-140,-360},{-100,-320}})));
   Modelica.Blocks.Interfaces.RealInput winISolDifQ[nWin]
     annotation (Placement(transformation(extent={{-140,-400},{-100,-360}})));
-  Modelica.Blocks.Interfaces.RealOutput winISolAbsT[nWin,nLay] annotation (Placement(
-        transformation(extent={{100,-170},{140,-130}}), iconTransformation(extent={{100,-170},{
-            140,-130}})));
-  Modelica.Blocks.Interfaces.RealOutput winISolDirT[nWin] annotation (Placement(transformation(
-          extent={{100,-210},{140,-170}}), iconTransformation(extent={{100,-210},{140,-170}})));
-  Modelica.Blocks.Interfaces.RealOutput winISolDifT[nWin] annotation (Placement(transformation(
-          extent={{100,-250},{140,-210}}), iconTransformation(extent={{100,-250},{140,-210}})));
 
   Modelica.Blocks.Interfaces.RealInput outWallSolDir[nOutWall]
     annotation (Placement(transformation(extent={{-140,-220},{-100,-180}})));
@@ -37,11 +30,11 @@ partial model IOZone
     annotation (Placement(transformation(extent={{-142,-12},{-100,30}}),
         iconTransformation(extent={{-140,-10},{-100,30}})));
 
-  Modelica.Blocks.Interfaces.RealOutput TRad[nEmb]
+  Modelica.Blocks.Interfaces.RealOutput TRad[nZones]
     annotation (Placement(transformation(extent={{100,-10},{140,30}})));
   Modelica.Blocks.Interfaces.RealOutput TConv[nZones]
     annotation (Placement(transformation(extent={{100,30},{140,70}})));
-  Modelica.Blocks.Interfaces.RealOutput QEmb[nZones]
+  Modelica.Blocks.Interfaces.RealOutput QEmb[nEmb]
     annotation (Placement(transformation(extent={{100,72},{138,110}})));
   Modelica.Blocks.Interfaces.RealOutput genOut[nOut] "general outputs"
     annotation (Placement(transformation(extent={{100,-110},{140,-70}})));
