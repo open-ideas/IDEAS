@@ -42,6 +42,7 @@ protected
     final A=AWall)
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-90,-40},{-70,-20}})));
+public
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
     final inc=inc,
@@ -50,6 +51,7 @@ protected
     final locGain=constructionType.locGain)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
+protected
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(final A=
         AWall)
     "convective surface heat transimission on the exterior side of the wall"

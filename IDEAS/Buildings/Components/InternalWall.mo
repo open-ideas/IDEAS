@@ -37,6 +37,7 @@ protected
         AWall, final inc=inc + Modelica.Constants.pi)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
+public
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
     final inc=inc,

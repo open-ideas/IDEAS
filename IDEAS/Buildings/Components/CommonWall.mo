@@ -30,7 +30,6 @@ model CommonWall "Common opaque wall with neighbors"
 
   parameter Modelica.SIunits.Temperature TBou = 292.15 "Boundary temperature";
 
-protected
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
     final inc=inc,
@@ -39,6 +38,7 @@ protected
     final locGain=constructionType.locGain)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
+protected
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_b(final A=
         AWall, final inc=inc)
     "convective surface heat transimission on the interior side of the wall"
