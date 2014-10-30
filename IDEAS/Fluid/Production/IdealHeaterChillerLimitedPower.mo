@@ -1,37 +1,47 @@
 within IDEAS.Fluid.Production;
-model IdealHeater "Ideal heater, no losses to environment, unlimited power"
+model IdealHeaterChillerLimitedPower
+  "Ideal heater and chiller with limited power"
   extends IDEAS.Fluid.Production.Interfaces.PartialDynamicHeaterWithLosses(
     final heaterType=IDEAS.Fluid.Production.BaseClasses.HeaterType.Boiler,
     final QNom=1,
     final cDry=0.1,
     final mWater=0);
+  parameter Modelica.SIunits.Power QHea_nominal(min=0) "Nominal heating power";
+  parameter Modelica.SIunits.Power QCoo_nominal(min=0) "Nominal cooling power";
 
-    parameter Real eta = 1 "Boiler efficiency for calculating fuel consumption";
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
-    prescribedTemperature
-    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
-  Utilities.Math.SmoothMax max(deltaX=1) "Maximum temperature"
-    annotation (Placement(transformation(extent={{-72,40},{-52,60}})));
+  parameter Modelica.SIunits.Efficiency effBoi = 1
+    "Boiler efficiency for calculating fuel consumption";
+  parameter Modelica.SIunits.Efficiency effChi = 1
+    "Chiller efficiency for calculating electrical consumption";
+
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
+    annotation (Placement(transformation(extent={{-12,30},{8,50}})));
+  Utilities.Math.SmoothLimit smoothLim(
+    upper=QHea_nominal,
+    lower=-QCoo_nominal,
+    deltaX=max(QHea_nominal, QCoo_nominal)/100) "Maximum temperature"
+    annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
+  Modelica.Blocks.Sources.RealExpression QAsked_val(y=QAsked)
+    annotation (Placement(transformation(extent={{-92,30},{-56,50}})));
+protected
+  Real QAsked = IDEAS.Utilities.Math.Functions.spliceFunction(pos=port_a.m_flow*(Medium.specificEnthalpy_pTX(port_a.p,TSet,inStream(port_a.Xi_outflow)) - inStream(port_a.h_outflow)),
+                                                              neg=port_b.m_flow*(Medium.specificEnthalpy_pTX(port_b.p,TSet,inStream(port_b.Xi_outflow)) - inStream(port_b.h_outflow)),
+                                                              x=port_a.m_flow,
+                                                              deltax=m_flow_nominal/50);
 equation
-  // Electricity consumption for electronics and fan only.  Pump is covered by pumpHeater;
-  // This data is taken from Viessmann VitoDens 300W, smallest model.  So only valid for
-  // very small household condensing gas boilers.
-  PEl = 0;
-  PFuel = prescribedTemperature.port.Q_flow/eta;
-  connect(max.y, prescribedTemperature.T) annotation (Line(
-      points={{-51,50},{-42,50}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(prescribedTemperature.port, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-20,50},{28,50},{28,-6}},
+  PEl = if QAsked < 0 then QAsked/effChi else 0;
+  PFuel = if QAsked > 0 then QAsked/effBoi else 0;
+
+  connect(prescribedHeatFlow.port, pipe_HeatPort.heatPort) annotation (Line(
+      points={{8,40},{28,40},{28,-6}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(TSet, max.u1) annotation (Line(
-      points={{-106,0},{-80,0},{-80,56},{-74,56}},
+  connect(smoothLim.y, prescribedHeatFlow.Q_flow) annotation (Line(
+      points={{-19,40},{-12,40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(Tin.T, max.u2) annotation (Line(
-      points={{64,-29},{64,-20},{-20,-20},{-20,20},{-74,20},{-74,44}},
+  connect(QAsked_val.y, smoothLim.u) annotation (Line(
+      points={{-54.2,40},{-42,40}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
@@ -56,7 +66,13 @@ equation
         Line(
           points={{100,-40},{68,-40},{68,-80},{-2,-80},{-2,-46}},
           color={0,0,127},
-          smooth=Smooth.None)}),
+          smooth=Smooth.None),
+        Text(
+          extent={{-100,120},{100,80}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="%name")}),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">Description </font></h4></p>
 <p>Ideal&nbsp;heater,&nbsp;will&nbsp;always&nbsp;make&nbsp;sure&nbsp;to&nbsp;reach&nbsp;the&nbsp;setpoint (no power limitation). This heater has thermal losses to the environment but an energy conversion efficiency of one. The IdealHeatSource will compute the required power and the environmental heat losses, and deliver exactly this heat flux to the heatedFluid so it will reach the set point. </p>
@@ -85,4 +101,4 @@ equation
 <li>2012 September, Roel De Coninck, first version</li>
 </ul></p>
 </html>"));
-end IdealHeater;
+end IdealHeaterChillerLimitedPower;
