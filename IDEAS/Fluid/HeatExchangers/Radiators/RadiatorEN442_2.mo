@@ -8,8 +8,8 @@ model RadiatorEN442_2 "Dynamic radiator for space heating"
      final X_start = Medium.X_default,
      final C_start = fill(0, Medium.nC),
      final C_nominal = fill(1E-2, Medium.nC),
-     final mFactor = 1 + 500*mDry/(VWat*cp_nominal*Medium.density(
-        Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))));
+     final mFactor = if VWat > Modelica.Constants.eps then 1 + 500*mDry/(VWat*cp_nominal*Medium.density(
+        Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))) else 1);
 
   parameter Integer nEle(min=1) = 5
     "Number of elements used in the discretization";
