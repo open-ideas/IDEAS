@@ -63,7 +63,7 @@ model PartialDynamicHeaterWithLosses
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
     homotopyInitialization=homotopyInitialization,
-    vol(mFactor=1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater))
+    vol(mFactor=if mWater > Modelica.Constants.eps then 1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater else 1))
          annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
