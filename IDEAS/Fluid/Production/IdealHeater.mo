@@ -10,7 +10,7 @@ model IdealHeater "Ideal heater, no losses to environment, unlimited power"
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
-  IDEAS.Utilities.Math.Max max(nin=2) "Maximum temperature"
+  Utilities.Math.SmoothMax max(deltaX=1) "Maximum temperature"
     annotation (Placement(transformation(extent={{-72,40},{-52,60}})));
 equation
   // Electricity consumption for electronics and fan only.  Pump is covered by pumpHeater;
@@ -22,21 +22,21 @@ equation
       points={{-51,50},{-42,50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(TSet, max.u[2]) annotation (Line(
-      points={{-106,0},{-90,0},{-90,51},{-74,51}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(prescribedTemperature.port, pipe_HeatPort.heatPort) annotation (Line(
       points={{-20,50},{28,50},{28,-6}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(Tin.T, max.u[1]) annotation (Line(
-      points={{64,-29},{30,-29},{30,-28},{-16,-28},{-16,28},{-74,28},{-74,49}},
+  connect(TSet, max.u1) annotation (Line(
+      points={{-106,0},{-80,0},{-80,56},{-74,56}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(Tin.T, max.u2) annotation (Line(
+      points={{64,-29},{64,-20},{-20,-20},{-20,20},{-74,20},{-74,44}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            120}}),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,120}}),
             graphics),
     Icon(graphics={
         Ellipse(
