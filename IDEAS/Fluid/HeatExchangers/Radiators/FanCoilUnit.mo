@@ -73,7 +73,8 @@ public
     annotation (Placement(transformation(extent={{32,10},{52,-10}})));
   Modelica.Blocks.Interfaces.RealInput TSet "Set temperature in the room, in K"
     annotation (Placement(transformation(extent={{-126,-60},{-86,-20}})));
-  Controls.ControlHeating.Control_FanCoilUnit posFCU_real(uBou=dTCon,
+  IDEAS.Controls.ControlHeating.Ctrl_FanCoilUnit
+                                              posFCU_real(uBou=dTCon,
       enableRelease=true)
     "Control position of the FCU, controlled automatically based on TSet and TAct"
     annotation (Placement(transformation(extent={{-30,-44},{-10,-24}})));
