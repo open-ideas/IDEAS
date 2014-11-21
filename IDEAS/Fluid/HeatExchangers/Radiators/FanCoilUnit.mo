@@ -6,7 +6,7 @@ model FanCoilUnit
   extends IDEAS.Fluid.HeatExchangers.Interfaces.EmissionTwoPort;
   extends IDEAS.Fluid.Interfaces.Partials.PartialTwoPort(
      final m=mMedium+mDry*cpDry/Medium.specificHeatCapacityCp(state_default),
-     final m_flow_nominal=QNom/Medium.specificHeatCapacityCp(state_default)/(TInNom -TOutNom),
+     final m_flow_nominal=QNom/Medium.cp_const/(TInNom -TOutNom),
     vol(nPorts=2));
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
@@ -48,10 +48,10 @@ model FanCoilUnit
     "Mass of dry material (steel/aluminium) in the FCU";
   parameter Modelica.SIunits.SpecificHeatCapacity cpDry=480
     "Specific heat capacity of the dry material, default is for steel";
-  final parameter Real[4] posFCU={0, 1, 2, 3} "Possible FCU control positions";
+  constant Real[4] posFCU={0, 1, 2, 3} "Possible FCU control positions";
   parameter Real[4] posVal={0, 0.45, 0.7, 1}
     "Valve positions for FCU control 0, 1, 2 and 3";
-  parameter Real[4] mFloAirFCU={0, 0.195*1.2, 0.265*1.2, 0.39*1.2}
+  constant Real[4] mFloAirFCU={0, 0.195*1.2, 0.265*1.2, 0.39*1.2}
     "Air flow over FCU heat exchanger for positions 0, 1, 2, 3";
   parameter Modelica.SIunits.TemperatureDifference[3] dTCon = {-2, 0, 1}
     "Control setpoints for the FCU, relative difference for TSet-TAir.  Corresponds to FCU control positions 0, 1, 2, 3"
