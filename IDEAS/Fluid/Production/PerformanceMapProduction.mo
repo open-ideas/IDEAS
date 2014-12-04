@@ -13,7 +13,7 @@ model PerformanceMapProduction "Production model based on performance maps"
 
   replaceable BaseClasses.PartialPerformanceMap data
     "Data file containing the performance map"
-    annotation (Placement(transformation(extent={{-92,54},{-72,74}})), choicesAllMatching=true);
+    annotation (Placement(transformation(extent={{-80,60},{-60,80}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);
   PFuel = heatSource.PFuel;

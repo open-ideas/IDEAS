@@ -17,7 +17,7 @@ model PolynomialProduction
 
   replaceable BaseClasses.PartialPolynomialData data
     "Data file containing the polynomial coefficients"
-    annotation (Placement(transformation(extent={{-90,72},{-70,92}})), choicesAllMatching=true);
+    annotation (Placement(transformation(extent={{-80,60},{-60,80}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);
   PFuel = heatSource.PFuel;
