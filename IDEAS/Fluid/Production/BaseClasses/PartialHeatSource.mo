@@ -5,15 +5,15 @@ partial model PartialHeatSource
   replaceable package Medium =
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
 
-  parameter Boolean modulating = true;
+  parameter Boolean modulating = true "true if the heatsource can modulate";
 
   //Data parameters
-  parameter Real QNomRef;
+  parameter Modelica.SIunits.Power QNomRef
+    "Nominal power of the production unit for which the data is given";
   parameter Real etaRef
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
-  parameter Real modulationMin(max=29) if modulating
-    "Minimal modulation percentage";
-  parameter Real modulationStart(min=min(30, modulationMin + 5)) if modulating
+  parameter Real modulationMin if modulating "Minimal modulation percentage";
+  parameter Real modulationStart(min=modulationMin + 5) if modulating
     "Min estimated modulation level required for start of the heat source";
   parameter Modelica.SIunits.Temperature TMax "Maximum set point temperature";
   parameter Modelica.SIunits.Temperature TMin "Minimum set point temperature";
