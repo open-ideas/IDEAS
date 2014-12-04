@@ -7,7 +7,7 @@ partial model PartialHeatSource
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
 
   parameter Boolean modulating = true "true if the heatsource can modulate";
-  parameter Boolean avoidEvents = false
+  parameter Boolean avoidEvents = true
     "Set to true to switch heat pumps on using a continuous transition"
     annotation(Dialog(tab="Advanced", group="Events"));
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
@@ -157,7 +157,6 @@ equation
         fillPattern = FillPattern.Solid,
         points={{-60.062,-105.533},{-20.062,-65.533},{19.938,-105.533},{19.938,-45.533},
               {-20.062,-5.533},{-60.062,-45.533},{-60.062,-105.533}},
-          rotation=270)}),       Diagram(coordinateSystem(extent={{-100,-100},{
-            100,100}},
-                   preserveAspectRatio=false), graphics));
+          rotation=270)}),       Diagram(coordinateSystem(extent={{-100,-100},{100,
+            100}}, preserveAspectRatio=false), graphics));
 end PartialHeatSource;
