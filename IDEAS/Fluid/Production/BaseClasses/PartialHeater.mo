@@ -54,12 +54,12 @@ partial model PartialHeater
     "Temperature setpoint, acts as on/off signal too" annotation (Placement(
         transformation(extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={60,124}),                             iconTransformation(
+        origin={60,114}),                             iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-10,120})));
+        origin={40,104})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
-      annotation (Placement(transformation(extent={{-252,10},{-232,30}}),
+      annotation (Placement(transformation(extent={{100,82},{120,102}}),
         iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -95,7 +95,7 @@ partial model PartialHeater
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={-12,80})));
+        origin={-12,72})));
 
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor mDry(C=cDry, T(start=
           T_start)) "Lumped dry mass subject to heat exchange/accumulation"
@@ -180,19 +180,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(TSet, heatSource.TSet) annotation (Line(
-      points={{60,124},{60,86},{-1.2,86}},
+      points={{60,114},{60,78},{-1.2,78}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.THxIn, Tin.T) annotation (Line(
-      points={{-1.2,82},{70,82},{70,51}},
+      points={{-1.2,74},{70,74},{70,51}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(MassFlow.m_flow, heatSource.m_flow) annotation (Line(
-      points={{40,51},{40,78},{-1.2,78}},
+      points={{40,51},{40,70},{-1.2,70}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Enthalpy.h_out, heatSource.hIn) annotation (Line(
-      points={{10,51},{10,74},{-1.2,74}},
+      points={{10,51},{10,66},{-1.2,66}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TOut.port_b, port_b) annotation (Line(
@@ -208,7 +208,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(heatSource.heatPort, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-22,80},{-40,80},{-40,-2},{-20,-2}},
+      points={{-22,72},{-40,72},{-40,-2},{-20,-2}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(thermalLosses.port_a, pipe_HeatPort.heatPort) annotation (Line(
@@ -217,15 +217,15 @@ equation
       smooth=Smooth.None));
 
   if use_onOffSignal then
-    connect(on, heatSource.on) annotation (Line(
-      points={{-20,108},{-34,108},{-34,62},{-10,62},{-10,69.2}},
+  end if;
+  connect(heatSource.on, on) annotation (Line(
+      points={{-10,61.2},{-10,50},{-34,50},{-34,88},{-20,88},{-20,108}},
       color={255,0,255},
       smooth=Smooth.None));
-  end if;
       annotation (
-    Diagram(coordinateSystem(extent={{-100,-100},{100,120}},
+    Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
-    Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=false),
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false),
                     graphics={
         Rectangle(extent={{-100,60},{60,-60}},lineColor={0,0,255},
           fillColor={255,255,255},

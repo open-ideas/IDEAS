@@ -13,14 +13,14 @@ model PerformanceMapProduction "Production model based on performance maps"
 
   replaceable BaseClasses.PartialPerformanceMap data
     "Data file containing the performance map"
-    annotation (Placement(transformation(extent={{-22,96},{-2,116}})), choicesAllMatching=true);
+    annotation (Placement(transformation(extent={{-92,54},{-72,74}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);
   PFuel = heatSource.PFuel;
 
  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,120}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,120}}), graphics={
+            -100},{100,100}}), graphics), Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Line(
           points={{-90,30},{-90,-30}},
           color={0,0,255},

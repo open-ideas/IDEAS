@@ -10,7 +10,6 @@ partial model PartialHeatSource
   parameter Boolean avoidEvents = false
     "Set to true to switch heat pumps on using a continuous transition"
     annotation(Dialog(tab="Advanced", group="Events"));
-  parameter Boolean modulating = true;
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
   parameter SI.Frequency riseTime=120
