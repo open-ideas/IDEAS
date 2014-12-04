@@ -6,6 +6,8 @@ partial model PartialHeatSource
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
 
   parameter Boolean modulating = true;
+  parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
+    annotation(Dialog(group = "Nominal condition"));
 
   //Data parameters
   parameter Real QNomRef;
@@ -26,7 +28,7 @@ partial model PartialHeatSource
 
   //Variables
   Real eta "Final efficiency of the heat source";
-  Real release "Stop heat production when the mass flow is zero";
+  Real release(min=0, max=1) "Stop heat production when the mass flow is zero";
 
   Real modulationInit if modulating
     "Initial modulation, decides on start/stop of the production unit";
@@ -40,7 +42,7 @@ partial model PartialHeatSource
     "Artificial heat losses to correct the heat balance";
   Modelica.SIunits.Power PFuel "Resulting fuel consumption";
 
-  Real m_flowHx_scaled = IDEAS.Utilities.Math.Functions.smoothMax(x1=m_flow, x2=0,deltaX=0.001) * 1/scaler
+  Real m_flowHx_scaled = IDEAS.Utilities.Math.Functions.smoothMax(x1=m_flow, x2=0,deltaX=m_flow_nominal/10000) * 1/scaler
     "mass flow rate, scaled with the original and the actual nominal power of the boiler";
 
   //Components
