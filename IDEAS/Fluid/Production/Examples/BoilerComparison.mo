@@ -12,7 +12,8 @@ model BoilerComparison
       data,
     modulationMin=20,
     modulationStart=30,
-    QNom=5000)
+    QNom=5000,
+    avoidEvents=avoidEvents.k)
     annotation (Placement(transformation(extent={{-44,56},{-24,78}})));
 
   IDEAS.Fluid.Production.PerformanceMapProduction performanceMapProduction(
@@ -22,7 +23,8 @@ model BoilerComparison
     redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler data,
     modulationMin=20,
     modulationStart=30,
-    QNom=5000)
+    QNom=5000,
+    avoidEvents=avoidEvents.k)
     annotation (Placement(transformation(extent={{-44,-4},{-24,18}})));
 
   Fluid.Production.Boiler boiler(
@@ -111,6 +113,8 @@ model BoilerComparison
   Fluid.Sensors.TemperatureTwoPort senBoiler(redeclare package Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater, m_flow_nominal=0.1)
     annotation (Placement(transformation(extent={{8,-92},{28,-72}})));
+  Modelica.Blocks.Sources.BooleanConstant avoidEvents(k=true)
+    annotation (Placement(transformation(extent={{-96,50},{-76,70}})));
 equation
   connect(TSet.y, performanceMapProduction.TSet) annotation (Line(
       points={{-71,20},{-54,20},{-54,28},{-35,28},{-35,18}},
@@ -210,5 +214,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
+            -100},{100,100}}), graphics),
+    experiment(StopTime=10000),
+    __Dymola_experimentSetupOutput);
 end BoilerComparison;

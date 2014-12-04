@@ -1,13 +1,20 @@
 within IDEAS.Fluid.Production.BaseClasses;
 partial model PartialHeatSource
   "Partial for a heat source production component"
+  extends IDEAS.Fluid.Interfaces.OnOffInterface;
 
   replaceable package Medium =
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
 
+  parameter Boolean avoidEvents = false
+    "Set to true to switch heat pumps on using a continuous transition"
+    annotation(Dialog(tab="Advanced", group="Events"));
   parameter Boolean modulating = true;
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
+  parameter SI.Frequency riseTime=120
+    "The time it takes to reach full/zero power when switching"
+    annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
 
   //Data parameters
   parameter Real QNomRef;
@@ -50,7 +57,7 @@ partial model PartialHeatSource
     "heatPort connection to water in condensor"  annotation (Placement(transformation(extent={{90,-10},{110,10}}),
         iconTransformation(extent={{90,-10},{110,10}})));
   outer SimInfoManager sim
-    annotation (Placement(transformation(extent={{-38,78},{-18,98}})));
+    annotation (Placement(transformation(extent={{80,80},{100,100}})));
 
   //Inputs
   Modelica.Blocks.Interfaces.RealInput hIn "Specific enthalpy at the inlet" annotation (Placement(transformation(
@@ -67,6 +74,56 @@ partial model PartialHeatSource
           extent={{-126,-102},{-86,-62}}),iconTransformation(extent={{-120,-72},
             {-96,-48}})));
 
+   Modelica.Blocks.Logical.Hysteresis hysteresis(
+    uLow=modulationMin,
+    uHigh=modulationStart)
+    annotation (Placement(transformation(extent={{-68,74},{-48,94}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal if avoidEvents
+    annotation (Placement(transformation(extent={{-18,62},{-6,74}})));
+  Modelica.Blocks.Continuous.Filter modulationRate(f_cut=5/(2*Modelica.Constants.pi*riseTime)) if avoidEvents
+    "Fictive modulation rate to avoid non-smooth on/off transitions causing events."
+    annotation (Placement(transformation(extent={{16,46},{28,58}})));
+  Modelica.Blocks.Logical.And and1 if avoidEvents
+    annotation (Placement(transformation(extent={{-40,60},{-26,74}})));
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=on_internal) if avoidEvents
+    annotation (Placement(transformation(extent={{-70,50},{-50,70}})));
+  Modelica.Blocks.Math.Product product if avoidEvents
+    annotation (Placement(transformation(extent={{0,48},{10,58}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y=1 - release) if
+                                                                      avoidEvents
+    annotation (Placement(transformation(extent={{-30,36},{-10,56}})));
+protected
+  Modelica.Blocks.Interfaces.RealOutput onOff_internal_filtered;
+equation
+  if avoidEvents then
+    connect(onOff_internal_filtered,modulationRate.y);
+    connect(and1.y, booleanToReal.u) annotation (Line(
+        points={{-25.3,67},{-22.65,67},{-22.65,68},{-19.2,68}},
+        color={255,0,255},
+        smooth=Smooth.None));
+    connect(hysteresis.y, and1.u1) annotation (Line(
+        points={{-47,84},{-44,84},{-44,67},{-41.4,67}},
+        color={255,0,255},
+        smooth=Smooth.None));
+    connect(booleanExpression.y, and1.u2) annotation (Line(
+        points={{-49,60},{-46,60},{-46,61.4},{-41.4,61.4}},
+        color={255,0,255},
+        smooth=Smooth.None));
+    connect(modulationRate.u, product.y) annotation (Line(
+        points={{14.8,52},{14,52},{14,53},{10.5,53}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(booleanToReal.y, product.u1) annotation (Line(
+        points={{-5.4,68},{-4,68},{-4,56},{-1,56}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(realExpression.y, product.u2) annotation (Line(
+        points={{-9,46},{-4,46},{-4,50},{-1,50}},
+        color={0,0,127},
+        smooth=Smooth.None));
+  else
+    onOff_internal_filtered = 1;
+  end if;
     annotation (Placement(transformation(extent={{66,74},{86,94}})),
               Icon(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false),

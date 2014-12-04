@@ -6,6 +6,14 @@ partial model PartialHeater
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15);
+  extends IDEAS.Fluid.Interfaces.OnOffInterface;
+
+  parameter Boolean avoidEvents = false
+    "Set to true to switch heat pumps on using a continuous transition"
+    annotation(Dialog(tab="Advanced", group="Events"));
+  parameter SI.Frequency riseTime=120
+    "The time it takes to reach full/zero power when switching"
+    annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
 
   //Data parameters
   parameter Real QNomRef;
@@ -66,7 +74,11 @@ partial model PartialHeater
     modulationStart=modulationStart,
     UALoss=UALoss,
     QNom=QNom,
-    m_flow_nominal=m_flow_nominal) constrainedby PartialHeatSource(QNomRef=QNomRef,
+    m_flow_nominal=m_flow_nominal,
+    use_onOffSignal=use_onOffSignal,
+    avoidEvents=avoidEvents,
+    riseTime=riseTime)             constrainedby PartialHeatSource(
+    QNomRef=QNomRef,
     etaRef=etaRef,
     TMax=TMax,
     TMin=TMin,
@@ -74,7 +86,10 @@ partial model PartialHeater
     modulationStart=modulationStart,
     UALoss=UALoss,
     QNom=QNom,
-    m_flow_nominal=m_flow_nominal)
+    m_flow_nominal=m_flow_nominal,
+    use_onOffSignal=use_onOffSignal,
+    avoidEvents=avoidEvents,
+    riseTime=riseTime)
     annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -199,6 +214,13 @@ equation
       points={{-40,-60},{-40,-2},{-20,-2}},
       color={191,0,0},
       smooth=Smooth.None));
+
+  if use_onOffSignal then
+    connect(on, heatSource.on) annotation (Line(
+      points={{-20,108},{-34,108},{-34,62},{-10,62},{-10,69.2}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  end if;
       annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,120}},
           preserveAspectRatio=false), graphics),

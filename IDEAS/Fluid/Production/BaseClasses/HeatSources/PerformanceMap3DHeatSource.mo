@@ -12,10 +12,6 @@ model PerformanceMap3DHeatSource
     "The 3D space containing the performance data";
 
   //Components
-  Modelica.Blocks.Logical.Hysteresis hysteresis(
-    uLow=modulationMin,
-    uHigh=modulationStart)
-    annotation (Placement(transformation(extent={{-42,40},{-22,60}})));
   Utilities.Tables.InterpolationTable3D interpolationTable(space=space)
     "Interpolation table to determine the efficiency at a modulation grade"
     annotation (Placement(transformation(extent={{-10,12},{10,32}})));
@@ -38,12 +34,12 @@ equation
   release = if noEvent(m_flow > Modelica.Constants.eps) then 0.0 else 1.0;
   modulationInit = QAsked/QMax*100;
     hysteresis.u = modulationInit;
-  modulation = if hysteresis.y then min(modulationInit, 100) else 0;
+  modulation =   if avoidEvents then onOff_internal_filtered * IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100, deltaX=0.1) elseif hysteresis.y and noEvent(release<0.5) then IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100, deltaX=0.1) else 0;
 
   //Calcualation of the heat powers
   QMax = interpolationTableQMax.y/etaRef*QNom;
   QAsked = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, TSet, Medium.X_default)) -hIn), 10);
-  QLossesToCompensate = if noEvent(modulation) > 0 then UALoss*(heatPort.T - sim.Te) else 0;
+  QLossesToCompensate = if noEvent(modulation > Modelica.Constants.eps) then UALoss*(heatPort.T - sim.Te) else 0;
 
   //Final heat power of the heat source
   eta = interpolationTable.y;
