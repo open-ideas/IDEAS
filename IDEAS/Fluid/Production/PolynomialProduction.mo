@@ -16,6 +16,7 @@ model PolynomialProduction
       powers=data.powers));
 
   replaceable BaseClasses.PartialPolynomialData data
+    "Data file containing the polynomial coefficients"
     annotation (Placement(transformation(extent={{-22,96},{-2,116}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);

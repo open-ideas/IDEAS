@@ -16,7 +16,8 @@ partial model PartialHeater
     annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
 
   //Data parameters
-  parameter Real QNomRef;
+  parameter Modelica.SIunits.Power QNomRef
+    "Nominal power of the production unit for which the data is given";
   parameter Real etaRef
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
   parameter Real modulationMin(max=29) "Minimal modulation percentage";

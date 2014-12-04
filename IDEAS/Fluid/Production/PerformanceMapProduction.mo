@@ -12,6 +12,7 @@ model PerformanceMapProduction "Production model based on performance maps"
         redeclare package Medium = Medium, space=data.space));
 
   replaceable BaseClasses.PartialPerformanceMap data
+    "Data file containing the performance map"
     annotation (Placement(transformation(extent={{-22,96},{-2,116}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);
