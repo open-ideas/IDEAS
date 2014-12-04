@@ -10,10 +10,10 @@ model PolynomialProduction
       TMin=data.TMin,
       modulationMin=data.modulationMin,
       modulationStart=data.modulationStart,
-      redeclare HeatSources.Polynomial heatSource(
-        redeclare package Medium = Medium,
-        beta=data.beta,
-        powers=data.powers));
+    redeclare BaseClasses.HeatSources.PolynomialHeatSource heatSource(
+      redeclare package Medium = Medium,
+      beta=data.beta,
+      powers=data.powers));
 
   replaceable BaseClasses.PartialPolynomialData data
     annotation (Placement(transformation(extent={{-22,96},{-2,116}})), choicesAllMatching=true);

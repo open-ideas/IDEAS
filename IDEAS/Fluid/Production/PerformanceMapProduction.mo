@@ -8,8 +8,8 @@ model PerformanceMapProduction "Production model based on performance maps"
       TMin=data.TMin,
       modulationMin=data.modulationMin,
       modulationStart=data.modulationStart,
-    redeclare HeatSources.PerformanceMap3D heatSource(redeclare package Medium
-        = Medium, space=data.space));
+    redeclare BaseClasses.HeatSources.PerformanceMap3DHeatSource heatSource(
+        redeclare package Medium = Medium, space=data.space));
 
   replaceable BaseClasses.PartialPerformanceMap data
     annotation (Placement(transformation(extent={{-22,96},{-2,116}})), choicesAllMatching=true);

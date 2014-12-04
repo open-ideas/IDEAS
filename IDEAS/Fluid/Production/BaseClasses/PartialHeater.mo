@@ -65,7 +65,16 @@ partial model PartialHeater
     modulationMin=modulationMin,
     modulationStart=modulationStart,
     UALoss=UALoss,
-    QNom=QNom)
+    QNom=QNom,
+    m_flow_nominal=m_flow_nominal) constrainedby PartialHeatSource(QNomRef=QNomRef,
+    etaRef=etaRef,
+    TMax=TMax,
+    TMin=TMin,
+    modulationMin=modulationMin,
+    modulationStart=modulationStart,
+    UALoss=UALoss,
+    QNom=QNom,
+    m_flow_nominal=m_flow_nominal)
     annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},

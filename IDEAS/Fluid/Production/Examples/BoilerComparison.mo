@@ -4,7 +4,7 @@ model BoilerComparison
   //Extensions
   extends Modelica.Icons.Example;
 
-  PolynomialProduction polynomialProduction(
+  IDEAS.Fluid.Production.PolynomialProduction polynomialProduction(
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
     m_flow_nominal=0.1,
     dp_nominal=0,
@@ -15,7 +15,7 @@ model BoilerComparison
     QNom=5000)
     annotation (Placement(transformation(extent={{-44,56},{-24,78}})));
 
-  PerformanceMapProduction performanceMapProduction(
+  IDEAS.Fluid.Production.PerformanceMapProduction performanceMapProduction(
     dp_nominal=0,
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
     m_flow_nominal=0.1,
