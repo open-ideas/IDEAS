@@ -13,10 +13,6 @@ model PolynomialHeatSource "Heat source based on a polynomial function"
   final parameter Integer k = 4 "Number of inputs + 1";
 
   //Components
-   Modelica.Blocks.Logical.Hysteresis hysteresis(
-    uLow=modulationMin,
-    uHigh=modulationStart)
-    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
 
 equation
   //Calculation of the modulation
