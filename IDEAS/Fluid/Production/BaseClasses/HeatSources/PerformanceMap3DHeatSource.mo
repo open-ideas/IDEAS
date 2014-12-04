@@ -14,10 +14,10 @@ model PerformanceMap3DHeatSource
   //Components
   Utilities.Tables.InterpolationTable3D interpolationTable(space=space)
     "Interpolation table to determine the efficiency at a modulation grade"
-    annotation (Placement(transformation(extent={{-10,12},{10,32}})));
+    annotation (Placement(transformation(extent={{-12,-58},{8,-38}})));
   Utilities.Tables.InterpolationTable3D interpolationTableQMax(space=space)
     "Interpolation table to determine the maximum possible power output at 100% modulation"
-    annotation (Placement(transformation(extent={{-10,-24},{10,-4}})));
+    annotation (Placement(transformation(extent={{-12,-88},{8,-68}})));
 
 equation
   //Calculation of the efficiency at 100% modulation
