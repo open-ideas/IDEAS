@@ -3,7 +3,7 @@ model PolynomialProduction
   "Production model based on a polynomial function derived from performance data"
 
   //Extensions
-  extends IDEAS.Fluid.Production.BaseClasses.PartialHeater(
+  extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingHeater(
       QNomRef=data.QNomRef,
       etaRef=data.etaRef,
       TMax=data.TMax,

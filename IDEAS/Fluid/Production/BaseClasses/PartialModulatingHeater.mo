@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial model PartialHeater
-  "A partial for a  production component which heats a fluid"
+partial model PartialModulatingHeater
+  "A partial for a modulating production component which heats a fluid"
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
@@ -8,6 +8,9 @@ partial model PartialHeater
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15);
   extends IDEAS.Fluid.Interfaces.OnOffInterface;
 
+  parameter Boolean avoidEvents = false
+    "Set to true to switch heat pumps on using a continuous transition"
+    annotation(Dialog(tab="Advanced", group="Events"));
   parameter SI.Frequency riseTime=120
     "The time it takes to reach full/zero power when switching"
     annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
@@ -17,6 +20,9 @@ partial model PartialHeater
     "Nominal power of the production unit for which the data is given";
   parameter Real etaRef
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
+  parameter Real modulationMin(max=29) "Minimal modulation percentage";
+  parameter Real modulationStart(min=min(30, modulationMin + 5))
+    "Min estimated modulation level required for start of the heat source";
   parameter Modelica.SIunits.Temperature TMax "Maximum set point temperature";
   parameter Modelica.SIunits.Temperature TMin "Minimum set point temperature";
 
@@ -60,23 +66,30 @@ partial model PartialHeater
         origin={-74,-100})));
 
   //Components
-  replaceable PartialHeatSource heatSource(
+  replaceable PartialModulatingHeatSource heatSource(
     QNomRef=QNomRef,
     etaRef=etaRef,
     TMax=TMax,
     TMin=TMin,
+    modulationMin=modulationMin,
+    modulationStart=modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
-    riseTime=riseTime,
-    use_onOffSignal=true)          constrainedby PartialHeatSource(
+    use_onOffSignal=use_onOffSignal,
+    avoidEvents=avoidEvents,
+    riseTime=riseTime)             constrainedby PartialModulatingHeatSource(
     QNomRef=QNomRef,
     etaRef=etaRef,
     TMax=TMax,
     TMin=TMin,
+    modulationMin=modulationMin,
+    modulationStart=modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
+    use_onOffSignal=use_onOffSignal,
+    avoidEvents=avoidEvents,
     riseTime=riseTime)
     annotation (Placement(
         transformation(
@@ -210,8 +223,8 @@ equation
 
   if use_onOffSignal then
   end if;
-  connect(on, heatSource.on) annotation (Line(
-      points={{-20,108},{-20,86},{-32,86},{-32,54},{-10,54},{-10,61.2}},
+  connect(heatSource.on, on) annotation (Line(
+      points={{-10,61.2},{-10,50},{-34,50},{-34,88},{-20,88},{-20,108}},
       color={255,0,255},
       smooth=Smooth.None));
       annotation (
@@ -261,4 +274,4 @@ equation
 <li>2014 March, Filip Jorissen, Annex60 compatibility</li>
 </ul>
 </html>"));
-end PartialHeater;
+end PartialModulatingHeater;

@@ -22,7 +22,7 @@ model BoilerComparison
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
 
     m_flow_nominal=0.1,
-    redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler data,
+    redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler3D data,
     modulationMin=20,
     modulationStart=30,
     QNom=5000,

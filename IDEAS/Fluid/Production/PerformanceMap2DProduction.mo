@@ -6,8 +6,7 @@ model PerformanceMap2DProduction "Production model based on performance maps"
       etaRef=data.etaRef,
       TMax=data.TMax,
       TMin=data.TMin,
-      modulationMin=data.modulationMin,
-      modulationStart=data.modulationStart,
+      use_onOffSignal=true,
     redeclare BaseClasses.HeatSources.PerformanceMap2DHeatSource heatSource(
         redeclare package Medium = Medium, table=data.table));
 
@@ -15,7 +14,7 @@ model PerformanceMap2DProduction "Production model based on performance maps"
     "Data file containing the performance map"
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})), choicesAllMatching=true);
 equation
-  PEl = 7 + heatSource.modulation/100*(33 - 7);
+  PEl = 7 + 100/100*(33 - 7);
   PFuel = heatSource.PFuel;
 
  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

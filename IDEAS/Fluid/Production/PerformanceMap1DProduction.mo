@@ -6,14 +6,13 @@ model PerformanceMap1DProduction "Production model based on performance maps"
       etaRef=data.etaRef,
       TMax=data.TMax,
       TMin=data.TMin,
-      modulationMin=data.modulationMin,
-      modulationStart=data.modulationStart,
+      use_onOffSignal=true,
     redeclare BaseClasses.HeatSources.PerformanceMap1DHeatSource heatSource(
         redeclare package Medium = Medium, table=data.table));
 
   replaceable BaseClasses.PartialPerformanceMap1D data
     "Data file containing the performance map"
-    annotation (Placement(transformation(extent={{-72,60},{-52,80}})), choicesAllMatching=true);
+    annotation (Placement(transformation(extent={{-80,60},{-60,80}})), choicesAllMatching=true);
 equation
   PEl = 7 + heatSource.modulation/100*(33 - 7);
   PFuel = heatSource.PFuel;

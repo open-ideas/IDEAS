@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Production;
 model PerformanceMap3DProduction "Production model based on performance maps"
 
-  extends BaseClasses.PartialHeater(
+  extends BaseClasses.PartialModulatingHeater(
       QNomRef=data.QNomRef,
       etaRef=data.etaRef,
       TMax=data.TMax,
