@@ -12,6 +12,8 @@ PartialHeater
 PartialHeatSource
 PartialModulatingHeatSource
 PartialData
-PartialPerformanceMap
+PartialPerformanceMap3D
+PartialPerformanceMap2D
+PartialPerformanceMap1D
 PartialPolynomialData
 HeatSources

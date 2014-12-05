@@ -17,9 +17,10 @@ model BoilerComparison
     use_onOffSignal=true)
     annotation (Placement(transformation(extent={{-44,56},{-24,78}})));
 
-  IDEAS.Fluid.Production.PerformanceMapProduction performanceMapProduction(
+  IDEAS.Fluid.Production.PerformanceMap3DProduction performanceMapProduction(
     dp_nominal=0,
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
+
     m_flow_nominal=0.1,
     redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler data,
     modulationMin=20,
@@ -27,7 +28,6 @@ model BoilerComparison
     QNom=5000,
     avoidEvents=avoidEvents.k)
     annotation (Placement(transformation(extent={{-44,-4},{-24,18}})));
-
 
   Modelica.Blocks.Sources.Constant TSet(k=273 + 80)
     annotation (Placement(transformation(extent={{-92,10},{-72,30}})));
@@ -59,7 +59,6 @@ model BoilerComparison
         extent={{10,-4},{-10,4}},
         rotation=270,
         origin={58,-6})));
-
 
   Fluid.Sources.FixedBoundary bou(
     nPorts=2,

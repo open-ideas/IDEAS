@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial record PartialPerformanceMap
+partial record PartialPerformanceMap3D
   extends Modelica.Icons.Record;
   extends PartialData;
 
@@ -12,4 +12,4 @@ partial record PartialPerformanceMap
   parameter IDEAS.Utilities.Tables.Plane[numberOfModulations] performanceMap
     "The performance map in the form of a space";
 
-end PartialPerformanceMap;
+end PartialPerformanceMap3D;
