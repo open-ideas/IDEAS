@@ -5,7 +5,6 @@ HeatPumpOnOff
 HeatPumpTset
 PerformanceMap3DProduction
 PerformanceMap2DProduction
-PerformanceMap1DProduction
 PolynomialProduction
 BaseClasses
 Interfaces
