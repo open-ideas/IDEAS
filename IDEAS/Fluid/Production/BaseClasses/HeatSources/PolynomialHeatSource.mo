@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model PolynomialHeatSource "Heat source based on a polynomial function"
   //Extensions
-  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource;
+  extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingHeatSource;
 
   //Parameters en Constants
   constant Real kgps2lph=3600/Medium.density(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))*1000

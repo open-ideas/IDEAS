@@ -6,10 +6,6 @@ partial model PartialHeatSource
   replaceable package Medium =
       Modelica.Media.Interfaces.PartialMedium "Medium in the component";
 
-  parameter Boolean modulating = true "true if the heatsource can modulate";
-  parameter Boolean avoidEvents = true
-    "Set to true to switch heat pumps on using a continuous transition"
-    annotation(Dialog(tab="Advanced", group="Events"));
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
   parameter SI.Frequency riseTime=120
@@ -21,9 +17,6 @@ partial model PartialHeatSource
     "Nominal power of the production unit for which the data is given";
   parameter Real etaRef
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
-  parameter Real modulationMin if modulating "Minimal modulation percentage";
-  parameter Real modulationStart(min=modulationMin + 5) if modulating
-    "Min estimated modulation level required for start of the heat source";
   parameter Modelica.SIunits.Temperature TMax "Maximum set point temperature";
   parameter Modelica.SIunits.Temperature TMin "Minimum set point temperature";
 
@@ -36,14 +29,6 @@ partial model PartialHeatSource
   //Variables
   Real eta "Final efficiency of the heat source";
   Real release(min=0, max=1) "Stop heat production when the mass flow is zero";
-
-  Real modulationInit if modulating
-    "Initial modulation, decides on start/stop of the production unit";
-  Real modulation(min=0, max=100) if modulating "Current modulation percentage";
-  Modelica.SIunits.Power QMax if modulating
-    "Maximum thermal power at 100% modulation for the given input conditions";
-  Modelica.SIunits.Power QAsked(start=0) if modulating
-    "Desired power of the heatsource";
 
   Modelica.SIunits.Power QLossesToCompensate
     "Artificial heat losses to correct the heat balance";
@@ -74,58 +59,6 @@ partial model PartialHeatSource
           extent={{-126,-102},{-86,-62}}),iconTransformation(extent={{-120,-72},
             {-96,-48}})));
 
-   Modelica.Blocks.Logical.Hysteresis hysteresis(
-    uLow=modulationMin,
-    uHigh=modulationStart)
-    annotation (Placement(transformation(extent={{-54,60},{-34,80}})));
-  Modelica.Blocks.Math.BooleanToReal booleanToReal if avoidEvents
-    annotation (Placement(transformation(extent={{14,46},{34,66}})));
-  Modelica.Blocks.Continuous.Filter modulationRate(f_cut=5/(2*Modelica.Constants.pi*riseTime)) if avoidEvents
-    "Fictive modulation rate to avoid non-smooth on/off transitions causing events."
-    annotation (Placement(transformation(extent={{36,-30},{56,-10}})));
-  Modelica.Blocks.Logical.And and1 if avoidEvents
-    annotation (Placement(transformation(extent={{-20,46},{0,66}})));
-  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=on_internal) if avoidEvents
-    annotation (Placement(transformation(extent={{-54,38},{-34,58}})));
-  Modelica.Blocks.Math.Product product if avoidEvents
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-2,-2})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=1 - release) if
-                                                                      avoidEvents
-    annotation (Placement(transformation(extent={{-40,12},{-20,32}})));
-protected
-  Modelica.Blocks.Interfaces.RealOutput onOff_internal_filtered;
-equation
-  if avoidEvents then
-    connect(onOff_internal_filtered,modulationRate.y);
-    connect(and1.y, booleanToReal.u) annotation (Line(
-        points={{1,56},{12,56}},
-        color={255,0,255},
-        smooth=Smooth.None));
-    connect(hysteresis.y, and1.u1) annotation (Line(
-        points={{-33,70},{-28,70},{-28,56},{-22,56}},
-        color={255,0,255},
-        smooth=Smooth.None));
-    connect(booleanExpression.y, and1.u2) annotation (Line(
-        points={{-33,48},{-22,48}},
-        color={255,0,255},
-        smooth=Smooth.None));
-    connect(modulationRate.u, product.y) annotation (Line(
-        points={{34,-20},{-2,-20},{-2,-13}},
-        color={0,0,127},
-        smooth=Smooth.None));
-    connect(booleanToReal.y, product.u1) annotation (Line(
-        points={{35,56},{42,56},{42,16},{4,16},{4,10}},
-        color={0,0,127},
-        smooth=Smooth.None));
-    connect(realExpression.y, product.u2) annotation (Line(
-        points={{-19,22},{-8,22},{-8,10}},
-        color={0,0,127},
-        smooth=Smooth.None));
-  else
-    onOff_internal_filtered = 1;
-  end if;
     annotation (Placement(transformation(extent={{66,74},{86,94}})),
               Icon(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false),
