@@ -22,7 +22,7 @@ model Boiler
     m_flow_nominal=m_flow_nominal,
     UA=100)
     annotation (Placement(transformation(extent={{32,-24},{12,-4}})));
-  IDEAS.Fluid.Production.Boiler heater(
+  IDEAS.Fluid.Production.BaseClasses.PartialBoiler heater(
     tauHeatLoss=3600,
     cDry=10000,
     mWater=4,

@@ -45,7 +45,8 @@ model HeatPump_BrineWater
     redeclare package MediumBrine = Medium,
     redeclare package MediumFluid = Medium,
     use_onOffSignal=false,
-    redeclare IDEAS.Fluid.Production.BaseClasses.VitoCal300GBWS301dotA29
+    redeclare
+      IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA29
       heatPumpData)
     constrainedby IDEAS.Fluid.Production.BaseClasses.PartialHeatPump
     annotation (Placement(transformation(extent={{-58,18},{-38,38}})));

@@ -4,8 +4,9 @@ model HeatPump_BrineWaterTset
   extends HeatPump_BrineWater(redeclare IDEAS.Fluid.Production.HeatPumpTset heatPump(
     redeclare package MediumBrine = Medium,
     redeclare package MediumFluid = Medium,
-    redeclare IDEAS.Fluid.Production.BaseClasses.VitoCal300GBWS301dotA08
-      heatPumpData));
+      redeclare
+        IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA08
+        heatPumpData));
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)
     annotation (Placement(transformation(extent={{2,56},{-18,76}})));
 equation

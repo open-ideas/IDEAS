@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial model PartialModulatingHeater
-  "A partial for a modulating production component which heats a fluid"
+model PartialBoiler
+  "General model for a heat production that heats a fluid, such as a boiler, condensing boiler, ... and modelled using performance maps."
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
@@ -8,31 +8,14 @@ partial model PartialModulatingHeater
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15);
   extends IDEAS.Fluid.Interfaces.OnOffInterface;
 
-  parameter Boolean avoidEvents = false
-    "Set to true to switch heat pumps on using a continuous transition"
-    annotation(Dialog(tab="Advanced", group="Events"));
-  parameter SI.Frequency riseTime=120
-    "The time it takes to reach full/zero power when switching"
-    annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
-
-  //Data parameters
-  parameter Modelica.SIunits.Power QNomRef
-    "Nominal power of the production unit for which the data is given";
-  parameter Real etaRef
-    "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
-  parameter Real modulationMin(max=29) "Minimal modulation percentage";
-  parameter Real modulationStart(min=min(30, modulationMin + 5))
-    "Min estimated modulation level required for start of the heat source";
-  parameter Modelica.SIunits.Temperature TMax "Maximum set point temperature";
-  parameter Modelica.SIunits.Temperature TMin "Minimum set point temperature";
-
   //Scalable parameters
-  parameter Modelica.SIunits.Power QNom "Nominal power"
+  parameter Modelica.SIunits.Power QNom
+    "Nominal power: if it differs from data.QNomRef, the model will be scaled"
   annotation(Dialog(group = "Nominal condition"));
   parameter Modelica.SIunits.Time tauHeatLoss=7200
     "Time constant of environmental heat losses";
-  parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
-  parameter Modelica.SIunits.HeatCapacity cDry=4800
+  parameter Modelica.SIunits.Mass mWater = 50 "Mass of water in the boiler";
+  parameter Modelica.SIunits.HeatCapacity cDry=5000
     "Capacity of dry material lumped to condensor";
 
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
@@ -40,7 +23,7 @@ partial model PartialModulatingHeater
 
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
   annotation(Dialog(group = "Nominal condition"));
-  parameter SI.Pressure dp_nominal=0 "Pressure";
+  parameter SI.Pressure dp_nominal=0 "Pressure drop";
 
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
@@ -66,30 +49,30 @@ partial model PartialModulatingHeater
         origin={-74,-100})));
 
   //Components
-  replaceable PartialModulatingHeatSource heatSource(
-    QNomRef=QNomRef,
-    etaRef=etaRef,
-    TMax=TMax,
-    TMin=TMin,
-    modulationMin=modulationMin,
-    modulationStart=modulationStart,
+  replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource   heatSource(
+    QNomRef=data.QNomRef,
+    etaRef=data.etaRef,
+    TMax=data.TMax,
+    TMin=data.TMin,
+    modulationMin=data.modulationMin,
+    modulationStart=data.modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
+    riseTime=riseTime,
     use_onOffSignal=use_onOffSignal,
-    avoidEvents=avoidEvents,
-    riseTime=riseTime)             constrainedby PartialModulatingHeatSource(
-    QNomRef=QNomRef,
-    etaRef=etaRef,
-    TMax=TMax,
-    TMin=TMin,
-    modulationMin=modulationMin,
-    modulationStart=modulationStart,
+    onOff=onOff,
+    avoidEvents=avoidEvents)    constrainedby
+    IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
+    QNomRef=data.QNomRef,
+    etaRef=data.etaRef,
+    TMax=data.TMax,
+    TMin=data.TMin,
+    modulationMin=data.modulationMin,
+    modulationStart=data.modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
-    use_onOffSignal=use_onOffSignal,
-    avoidEvents=avoidEvents,
     riseTime=riseTime)
     annotation (Placement(
         transformation(
@@ -97,12 +80,10 @@ partial model PartialModulatingHeater
         rotation=180,
         origin={-12,72})));
 
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor mDry(C=cDry, T(start=
-          T_start)) "Lumped dry mass subject to heat exchange/accumulation"
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-78,-30})));
+  parameter SI.Frequency riseTime=120
+    "The time it takes to reach full/zero power when switching"
+    annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
+
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -162,12 +143,14 @@ partial model PartialModulatingHeater
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-10,-2})));
+  replaceable parameter IDEAS.Fluid.Production.BaseClasses.PartialData           data constrainedby
+    IDEAS.Fluid.Production.BaseClasses.PartialData
+    annotation (Placement(transformation(extent={{-90,72},{-70,92}})));
+  parameter Boolean avoidEvents=true
+    "Set to true to switch heat pumps on using a continuous transition"
+    annotation (Dialog(tab="Advanced"));
 equation
 
-  connect(mDry.port, thermalLosses.port_a) annotation (Line(
-      points={{-68,-30},{-40,-30},{-40,-60}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-40,-80},{-40,-100}},
       color={191,0,0},
@@ -222,11 +205,12 @@ equation
       smooth=Smooth.None));
 
   if use_onOffSignal then
+      connect(on, heatSource.on) annotation (Line(
+        points={{-20,108},{-20,86},{-32,86},{-32,54},{-10,54},{-10,61.2}},
+        color={255,0,255},
+        smooth=Smooth.None));
   end if;
-  connect(heatSource.on, on) annotation (Line(
-      points={{-10,61.2},{-10,50},{-34,50},{-34,88},{-20,88},{-20,108}},
-      color={255,0,255},
-      smooth=Smooth.None));
+
       annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
@@ -274,4 +258,4 @@ equation
 <li>2014 March, Filip Jorissen, Annex60 compatibility</li>
 </ul>
 </html>"));
-end PartialModulatingHeater;
+end PartialBoiler;

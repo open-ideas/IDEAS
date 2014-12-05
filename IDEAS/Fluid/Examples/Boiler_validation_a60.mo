@@ -17,7 +17,7 @@ model Boiler_validation_a60 "Validation model for the boiler"
     m=1,
     UA=1)            annotation (Placement(transformation(extent={{-2,12},{18,-8}})));
 
-  IDEAS.Fluid.Production.Boiler heater(
+  IDEAS.Fluid.Production.BaseClasses.PartialBoiler heater(
     redeclare package Medium = Medium,
     QNom=par.QNom,
     tauHeatLoss=par.tau_heatLoss,
@@ -25,7 +25,7 @@ model Boiler_validation_a60 "Validation model for the boiler"
     cDry=par.cDry,
     dp_nominal=par.dpFix,
     m_flow_nominal=par.mFlowNom)
-               annotation (Placement(transformation(extent={{-70,-16},{-50,4}})));
+    annotation (Placement(transformation(extent={{-70,-16},{-50,4}})));
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
     annotation (Placement(transformation(extent={{50,30},{30,50}})));

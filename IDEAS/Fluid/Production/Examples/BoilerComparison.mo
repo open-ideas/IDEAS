@@ -4,46 +4,29 @@ model BoilerComparison
   //Extensions
   extends Modelica.Icons.Example;
 
-  IDEAS.Fluid.Production.PolynomialProduction polynomialProduction(
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
-    m_flow_nominal=0.1,
-    dp_nominal=0,
-    redeclare IDEAS.Fluid.Production.Data.Polynomials.Boiler2ndDegree
-      data,
-    modulationMin=20,
-    modulationStart=30,
-    QNom=5000,
+  package Medium = IDEAS.Media.Water.Simple;
+
+  IDEAS.Fluid.Production.BaseClasses.PartialBoiler polynomialProduction(
+    use_onOffSignal=true,
     avoidEvents=avoidEvents.k,
-    use_onOffSignal=true)
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-44,56},{-24,78}})));
 
-  IDEAS.Fluid.Production.PerformanceMap3DProduction performanceMapProduction(
-    dp_nominal=0,
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
-
-    m_flow_nominal=0.1,
-    redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler3D data,
-    modulationMin=20,
-    modulationStart=30,
-    QNom=5000,
-    avoidEvents=avoidEvents.k)
+  IDEAS.Fluid.Production.BaseClasses.PartialBoiler performanceMapProduction(
+      avoidEvents=avoidEvents.k, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-44,-4},{-24,18}})));
 
   Modelica.Blocks.Sources.Constant TSet(k=273 + 80)
     annotation (Placement(transformation(extent={{-92,10},{-72,30}})));
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Fluid.Movers.Pump pump(redeclare package Medium =
-        Modelica.Media.Water.ConstantPropertyLiquidWater, m_flow_nominal=0.1)
+  Fluid.Movers.Pump pump(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-24,28},{-4,48}})));
-  Fluid.Movers.Pump pump1(
-                         redeclare package Medium =
-        Modelica.Media.Water.ConstantPropertyLiquidWater, m_flow_nominal=0.1)
+  Fluid.Movers.Pump pump1(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-24,-26},{-4,-6}})));
   Fluid.FixedResistances.Pipe_Insulated pipe(
     UA=10,
-    m_flow_nominal=0.1,
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
+    redeclare package Medium = Medium,
     m=1,
     dp_nominal=20) annotation (Placement(transformation(
         extent={{10,-4},{-10,4}},
@@ -52,8 +35,7 @@ model BoilerComparison
 
   Fluid.FixedResistances.Pipe_Insulated pipe1(
     UA=10,
-    m_flow_nominal=0.1,
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
+    redeclare package Medium = Medium,
     m=1,
     dp_nominal=20) annotation (Placement(transformation(
         extent={{10,-4},{-10,4}},
@@ -62,7 +44,7 @@ model BoilerComparison
 
   Fluid.Sources.FixedBoundary bou(
     nPorts=2,
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
+    redeclare package Medium = Medium,
     use_T=false) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -75,14 +57,12 @@ model BoilerComparison
   Modelica.Thermal.HeatTransfer.Celsius.PrescribedTemperature
     prescribedTemperature2
     annotation (Placement(transformation(extent={{92,-16},{72,4}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(
-                                                        y=sim.Te - 273.15)
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=sim.Te - 273.15)
     annotation (Placement(transformation(extent={{124,-16},{104,4}})));
-  Fluid.Sensors.TemperatureTwoPort senPoly(redeclare package Medium =
-        Modelica.Media.Water.ConstantPropertyLiquidWater, m_flow_nominal=0.1)
+  Fluid.Sensors.TemperatureTwoPort senPoly(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{8,28},{28,48}})));
   Fluid.Sensors.TemperatureTwoPort senInterpolation(redeclare package Medium =
-        Modelica.Media.Water.ConstantPropertyLiquidWater, m_flow_nominal=0.1)
+        Medium)
     annotation (Placement(transformation(extent={{10,-26},{30,-6}})));
   Modelica.Blocks.Sources.BooleanConstant avoidEvents(k=true)
     annotation (Placement(transformation(extent={{-96,50},{-76,70}})));
@@ -122,7 +102,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 
-  connect(realExpression.y,prescribedTemperature. T) annotation (Line(
+  connect(realExpression.y, prescribedTemperature.T) annotation (Line(
       points={{-1,88},{6,88}},
       color={0,0,127},
       smooth=Smooth.None));
@@ -158,8 +138,9 @@ equation
       points={{-65.3,87},{-36,87},{-36,78.88}},
       color={255,0,255},
       smooth=Smooth.None));
-     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics),
+  annotation (
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}}), graphics),
     experiment(StopTime=10000),
     __Dymola_experimentSetupOutput);
 end BoilerComparison;

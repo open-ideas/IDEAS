@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model PerformanceMap3DHeatSource
   "Heat source based on data from a 3D performance map"
   //Extensions
-  extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingHeatSource;
+  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource;
 
   //Parameters en Constants
   constant Real kgps2lph=3600/Medium.density(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))*1000
@@ -29,21 +29,11 @@ equation
   interpolationTable.u2 = m_flowHx_scaled*kgps2lph;
   interpolationTable.u3 = modulation;
 
-  //Calculation of the modulation
-  release = if noEvent(m_flow > Modelica.Constants.eps) then 0.0 else 1.0;
-  modulationInit = QAsked/QMax*100;
-  hysteresis.u = modulationInit;
-  modulation =   if avoidEvents then onOff_internal_filtered * IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100, deltaX=0.1) elseif hysteresis.y and noEvent(release<0.5) then IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100, deltaX=0.1) else 0;
-
   //Calcualation of the heat powers
   QMax = interpolationTableQMax.y/etaRef*QNom;
-  QAsked = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, TSet, Medium.X_default)) -hIn), 10);
-  QLossesToCompensate = if noEvent(modulation > Modelica.Constants.eps) then UALoss*(heatPort.T - sim.Te) else 0;
 
   //Final heat power of the heat source
   eta = interpolationTable.y;
-  heatPort.Q_flow = -eta/etaRef*modulation/100*QNom - QLossesToCompensate;
-  PFuel = if noEvent(release < 0.5) and noEvent(eta>Modelica.Constants.eps) then -heatPort.Q_flow/eta else 0;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
