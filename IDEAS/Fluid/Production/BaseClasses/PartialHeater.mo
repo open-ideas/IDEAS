@@ -151,7 +151,12 @@ partial model PartialHeater
     from_dp=from_dp,
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
-    homotopyInitialization=homotopyInitialization)
+    homotopyInitialization=homotopyInitialization,
+    mFactor=if mWater > Modelica.Constants.eps then 1 + cDry/
+        Medium.specificHeatCapacityCp(Medium.setState_pTX(
+        Medium.p_default,
+        Medium.T_default,
+        Medium.X_default))/mWater else 0)
          annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
