@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-model PartialBoiler
+partial model PartialBoiler
   "General model for a heat production that heats a fluid, such as a boiler, condensing boiler, ... and modelled using performance maps."
 
   //Extensions
@@ -9,7 +9,7 @@ model PartialBoiler
   extends IDEAS.Fluid.Interfaces.OnOffInterface;
 
   //Scalable parameters
-  parameter Modelica.SIunits.Power QNom
+  parameter Modelica.SIunits.Power QNom = data.QNomRef
     "Nominal power: if it differs from data.QNomRef, the model will be scaled"
   annotation(Dialog(group = "Nominal condition"));
   parameter Modelica.SIunits.Time tauHeatLoss=7200
@@ -62,7 +62,9 @@ model PartialBoiler
     riseTime=riseTime,
     use_onOffSignal=use_onOffSignal,
     onOff=onOff,
-    avoidEvents=avoidEvents)    constrainedby
+    avoidEvents=avoidEvents,
+    redeclare package Medium = Medium)
+                                constrainedby
     IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
     QNomRef=data.QNomRef,
     etaRef=data.etaRef,
@@ -73,8 +75,12 @@ model PartialBoiler
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
-    riseTime=riseTime)
-    annotation (Placement(
+    riseTime=riseTime,
+    use_onOffSignal=use_onOffSignal,
+    onOff=onOff,
+    avoidEvents=avoidEvents,
+    redeclare package Medium = Medium)
+    annotation (choicesAllMatching=true, Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -144,8 +150,8 @@ model PartialBoiler
         rotation=90,
         origin={-10,-2})));
   replaceable parameter IDEAS.Fluid.Production.BaseClasses.PartialData           data constrainedby
-    IDEAS.Fluid.Production.BaseClasses.PartialData
-    annotation (Placement(transformation(extent={{-90,72},{-70,92}})));
+    PartialData
+    annotation (choicesAllMatching=true, Placement(transformation(extent={{-90,72},{-70,92}})));
   parameter Boolean avoidEvents=true
     "Set to true to switch heat pumps on using a continuous transition"
     annotation (Dialog(tab="Advanced"));
@@ -229,7 +235,11 @@ equation
         fillColor = {255,0,0},
         fillPattern = FillPattern.Solid,
         points = {{-40,-90},{-20,-70},{0,-90},{0,-50},{-20,-30},{-40,-50},{-40,-90}},
-          rotation=270)}),
+          rotation=270),
+        Text(
+          extent={{-100,100},{100,60}},
+          lineColor={0,0,255},
+          textString="%name")}),
     Documentation(info="<html>
 <p><b>Description</b> </p>
 <p>This is a partial model from which most heaters (boilers, heat pumps) will extend. This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) and it has <u>thermal losses to the environment</u>. To complete this model and turn it into a heater, a <u>heatSource</u> has to be added, specifying how much heat is injected in the heatedFluid pipe, at which efficiency, if there is a maximum power, etc. HeatSource models are grouped in <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses\">IDEAS.Thermal.Components.Production.BaseClasses.</a></p>

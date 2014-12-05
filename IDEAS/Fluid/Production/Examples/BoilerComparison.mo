@@ -1,34 +1,48 @@
 within IDEAS.Fluid.Production.Examples;
 model BoilerComparison
+  import IDEAS;
 
   //Extensions
   extends Modelica.Icons.Example;
 
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal = 1300/3600;
+
   package Medium = IDEAS.Media.Water.Simple;
 
-  IDEAS.Fluid.Production.BaseClasses.PartialBoiler polynomialProduction(
+  IDEAS.Fluid.Production.Boiler                    polynomialProduction(
     use_onOffSignal=true,
     avoidEvents=avoidEvents.k,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    redeclare
+      IDEAS.Fluid.Production.BaseClasses.HeatSources.PolynomialHeatSource
+      heatSource,
+    redeclare IDEAS.Fluid.Production.Data.Polynomials.Boiler4thDegree data)
     annotation (Placement(transformation(extent={{-44,56},{-24,78}})));
 
-  IDEAS.Fluid.Production.BaseClasses.PartialBoiler performanceMapProduction(
-      avoidEvents=avoidEvents.k, redeclare package Medium = Medium)
+  IDEAS.Fluid.Production.Boiler                    performanceMapProduction(
+      avoidEvents=avoidEvents.k, redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    use_onOffSignal=true)
     annotation (Placement(transformation(extent={{-44,-4},{-24,18}})));
 
   Modelica.Blocks.Sources.Constant TSet(k=273 + 80)
     annotation (Placement(transformation(extent={{-92,10},{-72,30}})));
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Fluid.Movers.Pump pump(redeclare package Medium = Medium)
+  Fluid.Movers.Pump pump(redeclare package Medium = Medium, m_flow_nominal=
+        m_flow_nominal)
     annotation (Placement(transformation(extent={{-24,28},{-4,48}})));
-  Fluid.Movers.Pump pump1(redeclare package Medium = Medium)
+  Fluid.Movers.Pump pump1(redeclare package Medium = Medium, m_flow_nominal=
+        m_flow_nominal)
     annotation (Placement(transformation(extent={{-24,-26},{-4,-6}})));
   Fluid.FixedResistances.Pipe_Insulated pipe(
     UA=10,
     redeclare package Medium = Medium,
     m=1,
-    dp_nominal=20) annotation (Placement(transformation(
+    dp_nominal=20,
+    m_flow_nominal=m_flow_nominal)
+                   annotation (Placement(transformation(
         extent={{10,-4},{-10,4}},
         rotation=270,
         origin={58,52})));
@@ -37,7 +51,9 @@ model BoilerComparison
     UA=10,
     redeclare package Medium = Medium,
     m=1,
-    dp_nominal=20) annotation (Placement(transformation(
+    dp_nominal=20,
+    m_flow_nominal=m_flow_nominal)
+                   annotation (Placement(transformation(
         extent={{10,-4},{-10,4}},
         rotation=270,
         origin={58,-6})));
@@ -59,10 +75,11 @@ model BoilerComparison
     annotation (Placement(transformation(extent={{92,-16},{72,4}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=sim.Te - 273.15)
     annotation (Placement(transformation(extent={{124,-16},{104,4}})));
-  Fluid.Sensors.TemperatureTwoPort senPoly(redeclare package Medium = Medium)
+  Fluid.Sensors.TemperatureTwoPort senPoly(redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{8,28},{28,48}})));
   Fluid.Sensors.TemperatureTwoPort senInterpolation(redeclare package Medium =
-        Medium)
+        Medium, m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{10,-26},{30,-6}})));
   Modelica.Blocks.Sources.BooleanConstant avoidEvents(k=true)
     annotation (Placement(transformation(extent={{-96,50},{-76,70}})));
@@ -138,9 +155,13 @@ equation
       points={{-65.3,87},{-36,87},{-36,78.88}},
       color={255,0,255},
       smooth=Smooth.None));
+  connect(onOff.y, performanceMapProduction.on) annotation (Line(
+      points={{-65.3,87},{-60,87},{-60,36},{-36,36},{-36,18.88}},
+      color={255,0,255},
+      smooth=Smooth.None));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}), graphics),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}),     graphics),
     experiment(StopTime=10000),
     __Dymola_experimentSetupOutput);
 end BoilerComparison;

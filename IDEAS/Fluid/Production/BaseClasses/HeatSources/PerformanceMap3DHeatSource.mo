@@ -33,7 +33,7 @@ equation
   QMax = interpolationTableQMax.y/etaRef*QNom;
 
   //Final heat power of the heat source
-  eta = interpolationTable.y;
+  eta = if on_internal then interpolationTable.y else 0;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));

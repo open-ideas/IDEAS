@@ -22,17 +22,17 @@ model Boiler
     m_flow_nominal=m_flow_nominal,
     UA=100)
     annotation (Placement(transformation(extent={{32,-24},{12,-4}})));
-  IDEAS.Fluid.Production.BaseClasses.PartialBoiler heater(
+  IDEAS.Fluid.Production.Boiler                    heater(
     tauHeatLoss=3600,
     cDry=10000,
     mWater=4,
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     QNom=5000)
-    annotation (Placement(transformation(extent={{-74,14},{-56,34}})));
+    annotation (Placement(transformation(extent={{-74,34},{-56,14}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
         293.15)
-    annotation (Placement(transformation(extent={{-94,-20},{-80,-6}})));
+    annotation (Placement(transformation(extent={{-94,36},{-80,50}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-92,74},{-72,94}})));
   //  Real PElLossesInt( start = 0, fixed = true);
@@ -55,7 +55,7 @@ model Boiler
     annotation (Placement(transformation(extent={{-8,8},{-28,28}})));
   constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
-    annotation (Placement(transformation(extent={{-94,28},{-74,48}})));
+    annotation (Placement(transformation(extent={{-96,-4},{-76,16}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,26},{-30,46}})));
@@ -67,7 +67,7 @@ model Boiler
     amplitude=-1,
     period=500,
     offset=1)
-    annotation (Placement(transformation(extent={{20,-80},{0,-60}})));
+    annotation (Placement(transformation(extent={{34,4},{14,24}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
@@ -77,7 +77,7 @@ equation
   //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
 
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
-      points={{-67.7,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
+      points={{-68.6,34},{-70,34},{-70,42},{-76,42},{-76,43},{-80,43}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(TReturn.port, pipe.heatPort) annotation (Line(
@@ -93,15 +93,15 @@ equation
       color={0,0,255},
       smooth=Smooth.None));
   connect(bou.ports[1], heater.port_a) annotation (Line(
-      points={{-28,18},{-42,18},{-42,19.4545},{-56,19.4545}},
+      points={{-28,18},{-42,18},{-42,20},{-55.82,20}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(realExpression.y, heater.TSet) annotation (Line(
-      points={{-73,38},{-65.9,38},{-65.9,34}},
+      points={{-75,6},{-61.4,6},{-61.4,13.6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heater.port_b, senTemBoiler_out.port_a) annotation (Line(
-      points={{-56,26.7273},{-56,36},{-50,36}},
+      points={{-55.82,28},{-55.82,36},{-50,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTemBoiler_out.port_b, pipe.port_a) annotation (Line(
@@ -113,11 +113,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTemBoiler_in.port_b, heater.port_a) annotation (Line(
-      points={{-54,-14},{-56,-14},{-56,19.4545}},
+      points={{-54,-14},{-55.82,-14},{-55.82,20}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(sine1.y, pump.m_flowSet) annotation (Line(
-      points={{-1,-70},{-10,-70},{-10,0},{-24,0},{-24,-3.6}},
+      points={{13,14},{0,14},{0,2},{-24,2},{-24,-3.6}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

@@ -1,9 +1,10 @@
 within IDEAS.Fluid.Production.Examples;
 model Boiler_validation "Validation model for the boiler"
+  import IDEAS;
 
   extends Modelica.Icons.Example;
 
-  package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
+  package Medium = IDEAS.Media.Water.Simple
     annotation (__Dymola_choicesAllMatching=true);
 
   Fluid.Movers.Pump pump(
@@ -18,7 +19,7 @@ model Boiler_validation "Validation model for the boiler"
     m_flow_nominal=1300/3600,
     T_start=313.15)
     annotation (Placement(transformation(extent={{-10,-2},{10,18}})));
-  IDEAS.Fluid.Production.BaseClasses.PartialBoiler heater(
+  IDEAS.Fluid.Production.Boiler                    heater(
     tauHeatLoss=3600,
     mWater=10,
     cDry=10000,
