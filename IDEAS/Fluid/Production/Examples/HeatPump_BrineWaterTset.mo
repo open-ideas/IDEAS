@@ -6,12 +6,13 @@ model HeatPump_BrineWaterTset
     redeclare package MediumFluid = Medium,
       redeclare
         IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA08
-        heatPumpData));
+      heatPumpData,
+      use_onOffSignal=false));
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)
-    annotation (Placement(transformation(extent={{2,56},{-18,76}})));
+    annotation (Placement(transformation(extent={{2,68},{-18,88}})));
 equation
   connect(const.y, heatPump.Tset) annotation (Line(
-      points={{-19,66},{-53,66},{-53,38}},
+      points={{-19,78},{-57,78},{-57,68}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
