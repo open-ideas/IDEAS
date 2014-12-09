@@ -75,9 +75,9 @@ model Boiler
                                 pulse(
     startTime=2000,
     period=500)
-    annotation (Placement(transformation(extent={{-74,-22},{-54,-2}})));
+    annotation (Placement(transformation(extent={{-92,-22},{-72,-2}})));
   Modelica.Blocks.Logical.Not not1
-    annotation (Placement(transformation(extent={{-50,-16},{-42,-8}})));
+    annotation (Placement(transformation(extent={{-58,-16},{-50,-8}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
@@ -131,11 +131,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(pulse.y, not1.u) annotation (Line(
-      points={{-53,-12},{-50.8,-12}},
+      points={{-71,-12},{-58.8,-12}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(not1.y, heater.on) annotation (Line(
-      points={{-41.6,-12},{-40,-12},{-40,-2},{-42.8,-2},{-42.8,15.2}},
+      points={{-49.6,-12},{-42,-12},{-42,-2},{-42.8,-2},{-42.8,15.2}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (

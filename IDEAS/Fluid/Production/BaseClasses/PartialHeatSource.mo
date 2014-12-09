@@ -52,10 +52,10 @@ partial model PartialHeatSource
   Modelica.Blocks.Interfaces.RealInput hIn "Specific enthalpy at the inlet" annotation (Placement(transformation(
           extent={{-128,60},{-88,100}}), iconTransformation(extent={{-120,48},{-96,
             72}})));
-  Modelica.Blocks.Interfaces.RealInput m_flow "Condensor mass flow rate" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealInput m_flow "Heated fluid mass flow rate" annotation (Placement(transformation(
           extent={{-128,20},{-88,60}}), iconTransformation(extent={{-120,8},{-96,
             32}})));
-  Modelica.Blocks.Interfaces.RealInput THxIn "Condensor temperature" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealInput THxIn "Heated fluid temperature" annotation (Placement(transformation(
           extent={{-128,-60},{-88,-20}}), iconTransformation(extent={{-120,-32},
             {-96,-8}})));
   Modelica.Blocks.Interfaces.RealInput TSet "Set point temperature"
