@@ -13,15 +13,18 @@ partial model PartialHeatSource
     annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
 
   //Data parameters
-  parameter Modelica.SIunits.Power QNomRef
+  parameter Modelica.SIunits.Power QNomRef = data.QNomRef
     "Nominal power of the production unit for which the data is given";
-  parameter Real etaRef
+  parameter Real etaRef = data.etaRef
     "Nominal efficiency (higher heating value)of the xxx boiler at 50/30degC.  See datafile";
-  parameter Modelica.SIunits.Temperature TMax "Maximum set point temperature";
-  parameter Modelica.SIunits.Temperature TMin "Minimum set point temperature";
+  parameter Modelica.SIunits.Temperature TMax = data.TMax
+    "Maximum set point temperature";
+  parameter Modelica.SIunits.Temperature TMin = data.TMin
+    "Minimum set point temperature";
 
   //Scalable parameters
-  parameter Modelica.SIunits.Power QNom "The power at nominal conditions";
+  parameter Modelica.SIunits.Power QNom = data.QNomRef
+    "The power at nominal conditions";
   parameter Real scaler = QNom/QNomRef "The scaling factor of the boiler data";
   parameter Modelica.SIunits.ThermalConductance UALoss
     "UA of heat losses of the heat source to environment";
@@ -32,7 +35,8 @@ partial model PartialHeatSource
 
   Modelica.SIunits.Power QLossesToCompensate
     "Artificial heat losses to correct the heat balance";
-  Modelica.SIunits.Power PFuel "Resulting fuel consumption";
+    Modelica.Blocks.Interfaces.RealOutput PFuel(unit="W")
+    "Resulting fuel consumption" annotation (Placement(transformation(extent={{100,40},{120,60}})));
 
   Real m_flowHx_scaled = IDEAS.Utilities.Math.Functions.smoothMax(x1=m_flow, x2=0,deltaX=m_flow_nominal/10000) * 1/scaler
     "mass flow rate, scaled with the original and the actual nominal power of the boiler";
@@ -64,8 +68,9 @@ partial model PartialHeatSource
     "Set to true to switch heat pumps on using a continuous transition"
     annotation(Dialog(tab="Advanced", group="Events"));
 
-  parameter Real modulationMin "Minimal modulation percentage";
-  parameter Real modulationStart(min=modulationMin + 5)
+  parameter Real modulationMin = data.modulationMin
+    "Minimal modulation percentage";
+  parameter Real modulationStart(min=modulationMin + 5) = data.modulationStart
     "Starting modulation percentage";
 
   //Modulation variables
@@ -83,7 +88,11 @@ partial model PartialHeatSource
     annotation (Placement(transformation(extent={{-54,60},{-34,80}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal if avoidEvents
     annotation (Placement(transformation(extent={{14,46},{34,66}})));
-  Modelica.Blocks.Continuous.Filter modulationRate(f_cut=5/(2*Modelica.Constants.pi*riseTime)) if avoidEvents
+  Modelica.Blocks.Continuous.Filter modulationRate(f_cut=5/(2*Modelica.Constants.pi*riseTime),
+    final analogFilter=Modelica.Blocks.Types.AnalogFilter.CriticalDamping,
+    final filterType=Modelica.Blocks.Types.FilterType.LowPass,
+    final order=2,
+    final gain=1.0) if                                                                                  avoidEvents
     "Fictive modulation rate to avoid non-smooth on/off transitions causing events."
     annotation (Placement(transformation(extent={{36,-30},{56,-10}})));
   Modelica.Blocks.Logical.And and1 if avoidEvents
@@ -99,6 +108,12 @@ partial model PartialHeatSource
     annotation (Placement(transformation(extent={{-40,12},{-20,32}})));
 protected
   Modelica.Blocks.Interfaces.RealOutput onOff_internal_filtered;
+public
+  replaceable parameter PartialData                                              data constrainedby
+    PartialData
+    annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-88},
+            {90,-68}})));
+
 equation
     //Calculation of the modulation
   release = if noEvent(m_flow > Modelica.Constants.eps) then 0.0 else 1.0;
@@ -174,6 +189,7 @@ equation
         fillPattern = FillPattern.Solid,
         points={{-60.062,-105.533},{-20.062,-65.533},{19.938,-105.533},{19.938,-45.533},
               {-20.062,-5.533},{-60.062,-45.533},{-60.062,-105.533}},
-          rotation=270)}),       Diagram(coordinateSystem(extent={{-100,-100},{100,
-            100}}, preserveAspectRatio=false), graphics));
+          rotation=270)}),       Diagram(coordinateSystem(extent={{-100,-100},{
+            100,100}},
+                   preserveAspectRatio=false), graphics));
 end PartialHeatSource;

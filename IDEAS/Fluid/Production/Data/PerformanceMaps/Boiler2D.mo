@@ -2,6 +2,7 @@ within IDEAS.Fluid.Production.Data.PerformanceMaps;
 record Boiler2D "Example of 2D performance table for condensing boiler"
 
   extends IDEAS.Fluid.Production.BaseClasses.PartialData(
+    use_2DHeatSource = true,
     QNomRef=10100,
     etaRef=0.922,
     modulationMin=10,

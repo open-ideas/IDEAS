@@ -2,8 +2,7 @@ within IDEAS.Fluid.Production;
 model Boiler
   "Dynamic boiler model, based on interpolation in performance tables."
   extends BaseClasses.PartialBoiler(redeclare replaceable
-      BaseClasses.HeatSources.PerformanceMap3DHeatSource heatSource, redeclare replaceable parameter
-      Data.PerformanceMaps.Boiler3D data);
+      BaseClasses.HeatSources.PerformanceMap3DHeatSource heatSource);
 equation
     PEl = 7 + heatSource.modulation/100*(33 - 7);
   annotation (

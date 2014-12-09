@@ -2,14 +2,13 @@ within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model PerformanceMap1DHeatSource "A heatsource based on a 1D performance map"
 
   //Extensions
-  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource;
-
-  //Parameters
-  parameter Real table[:,2] "Data table for the 1D Combi Table";
+  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(redeclare replaceable
+      Data.PerformanceMaps.Boiler1D data);
 
   Modelica.Blocks.Tables.CombiTable1D combiTable1D(
-     table=table,
-     smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
+     table=data.table,
+     smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+    columns={2})
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
 equation
   //Calcualation of the heat powers

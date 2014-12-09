@@ -1,13 +1,16 @@
 within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model PolynomialHeatSource "Heat source based on a polynomial function"
   //Extensions
-  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource;
+  extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(redeclare replaceable
+      Data.Polynomials.Boiler2ndDegree data);
 
   //Parameters en Constants
   constant Real kgps2lph=3600/Medium.density(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))*1000
     "Conversion from kg/s to l/h";
-  parameter Real beta[:] "Constant parameters of the polynomial function";
-  parameter Integer powers[:,k] "Constant powers of the polynomial function";
+  parameter Real beta[:] = data.beta
+    "Constant parameters of the polynomial function";
+  parameter Integer powers[:,k] = data.powers
+    "Constant powers of the polynomial function";
 
   final parameter Integer n = size(powers, 1);
   final parameter Integer k = 4 "Number of inputs + 1";

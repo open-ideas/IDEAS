@@ -9,7 +9,7 @@ partial model PartialBoiler
   extends IDEAS.Fluid.Interfaces.OnOffInterface;
 
   //Scalable parameters
-  parameter Modelica.SIunits.Power QNom = data.QNomRef
+  parameter Modelica.SIunits.Power QNom = heatSource.data.QNomRef
     "Nominal power: if it differs from data.QNomRef, the model will be scaled"
   annotation(Dialog(group = "Nominal condition"));
   parameter Modelica.SIunits.Time tauHeatLoss=7200
@@ -32,7 +32,6 @@ partial model PartialBoiler
     annotation (Dialog(tab="Flow resistance"));
 
   //Variables
-  Modelica.SIunits.Power PFuel "Fuel consumption in watt";
   Modelica.Blocks.Interfaces.RealInput TSet
     "Temperature setpoint, acts as on/off signal too" annotation (Placement(
         transformation(extent={{-20,-20},{20,20}},
@@ -42,20 +41,14 @@ partial model PartialBoiler
         rotation=-90,
         origin={40,104})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
-      annotation (Placement(transformation(extent={{100,82},{120,102}}),
+      annotation (Placement(transformation(extent={{-100,40},{-120,60}}),
         iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-74,-100})));
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={-110,50})));
 
   //Components
   replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource   heatSource(
-    QNomRef=data.QNomRef,
-    etaRef=data.etaRef,
-    TMax=data.TMax,
-    TMin=data.TMin,
-    modulationMin=data.modulationMin,
-    modulationStart=data.modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
@@ -66,12 +59,6 @@ partial model PartialBoiler
     redeclare package Medium = Medium)
                                 constrainedby
     IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
-    QNomRef=data.QNomRef,
-    etaRef=data.etaRef,
-    TMax=data.TMax,
-    TMin=data.TMin,
-    modulationMin=data.modulationMin,
-    modulationStart=data.modulationStart,
     UALoss=UALoss,
     QNom=QNom,
     m_flow_nominal=m_flow_nominal,
@@ -149,12 +136,12 @@ partial model PartialBoiler
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-10,-2})));
-  replaceable parameter IDEAS.Fluid.Production.BaseClasses.PartialData           data constrainedby
-    PartialData
-    annotation (choicesAllMatching=true, Placement(transformation(extent={{-90,72},{-70,92}})));
   parameter Boolean avoidEvents=true
     "Set to true to switch heat pumps on using a continuous transition"
     annotation (Dialog(tab="Advanced"));
+    Modelica.Blocks.Interfaces.RealOutput PFuel(unit="W")
+    "Resulting fuel consumption" annotation (Placement(transformation(extent={{-100,20},
+            {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
 equation
 
   connect(thermalLosses.port_b, heatPort) annotation (Line(
@@ -217,6 +204,11 @@ equation
         smooth=Smooth.None));
   end if;
 
+  connect(heatSource.PFuel, PFuel) annotation (Line(
+      points={{-23,67},{-54,67},{-54,66},{-80,66},{-80,30},{-110,30}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dot));
       annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),

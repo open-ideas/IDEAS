@@ -2,6 +2,7 @@ within IDEAS.Fluid.Production.Data.Polynomials;
 record Boiler2ndDegree
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialData(
+     use_polynomial = true,
      QNomRef=10100,
      etaRef=0.922,
      modulationMin=10,

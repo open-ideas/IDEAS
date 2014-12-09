@@ -25,7 +25,11 @@ model Boiler_validation "Validation model for the boiler"
     cDry=10000,
     redeclare package Medium = Medium,
     m_flow_nominal=1300/3600,
-    QNom=20000)
+    QNom=20000,
+    redeclare
+      IDEAS.Fluid.Production.BaseClasses.HeatSources.PerformanceMap3DHeatSource
+      heatSource(redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler3D
+        data))
     annotation (Placement(transformation(extent={{-70,4},{-50,-16}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
         293.15)
@@ -61,14 +65,6 @@ model Boiler_validation "Validation model for the boiler"
       m_flow_nominal=1300/3600)
     annotation (Placement(transformation(extent={{-24,-56},{-44,-36}})));
 equation
-  //heater.TSet = 273.15 + 82;
-
-  //   der(PElLossesInt) = HP.PEl;
-  //   der(PElNoLossesInt) = HP_NoLosses.PEl;
-  //   der(QUsefulLossesInt) =thermalConductor.port_b.Q_flow;
-  //   der(QUsefulNoLossesInt) = thermalConductor1.port_b.Q_flow;
-  //   SPFLosses = if noEvent(PElLossesInt > 0) then QUsefulLossesInt/PElLossesInt else 0;
-  //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
 
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
       points={{-64,4},{-64,11},{-80,11}},

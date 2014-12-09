@@ -1,7 +1,8 @@
 within IDEAS.Fluid.Production.Data.PerformanceMaps;
-record Boiler3D "A performance map for a Boiler"
+record Boiler3D "A 3D performance map for a Boiler"
 
   extends IDEAS.Fluid.Production.BaseClasses.PartialData(
+     use_3DHeatSource = true,
      QNomRef=10100,
      etaRef=0.922,
      modulationMin=10,
