@@ -1,13 +1,11 @@
 within IDEAS.Fluid.Production.BaseClasses;
 partial model PartialBoiler
   "General model for a heat production that heats a fluid, such as a boiler, condensing boiler, ... and modelled using performance maps."
-
   //Extensions
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15);
   extends IDEAS.Fluid.Interfaces.OnOffInterface;
-
   //Scalable parameters
   parameter Modelica.SIunits.Power QNom = heatSource.data.QNomRef
     "Nominal power: if it differs from data.QNomRef, the model will be scaled"
@@ -17,20 +15,16 @@ partial model PartialBoiler
   parameter Modelica.SIunits.Mass mWater = 50 "Mass of water in the boiler";
   parameter Modelica.SIunits.HeatCapacity cDry=5000
     "Capacity of dry material lumped to condensor";
-
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
-
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
   annotation(Dialog(group = "Nominal condition"));
   parameter SI.Pressure dp_nominal=0 "Pressure drop";
-
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Dialog(tab="Flow resistance"));
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
-
   //Variables
   Modelica.Blocks.Interfaces.RealInput TSet
     "Temperature setpoint, acts as on/off signal too" annotation (Placement(
@@ -46,7 +40,6 @@ partial model PartialBoiler
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-110,50})));
-
   //Components
   replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource   heatSource(
     UALoss=UALoss,
@@ -71,12 +64,10 @@ partial model PartialBoiler
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={-12,72})));
-
+        origin={-10,64})));
   parameter SI.Frequency riseTime=120
     "The time it takes to reach full/zero power when switching"
     annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
-
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -86,29 +77,27 @@ partial model PartialBoiler
     "heatPort for thermal losses to environment" annotation (Placement(
         transformation(extent={{-50,-110},{-30,-90}}), iconTransformation(
           extent={{-50,-110},{-30,-90}})));
-
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium) "Fluid inlet"
-    annotation (Placement(transformation(extent={{92,30},{112,50}}),
-        iconTransformation(extent={{92,30},{112,50}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(extent={{90,-50},{110,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium) "Fluid outlet"
-    annotation (Placement(transformation(extent={{92,-50},{112,-30}}),
-        iconTransformation(extent={{92,-50},{112,-30}})));
+    annotation (Placement(transformation(extent={{90,30},{110,50}}),
+        iconTransformation(extent={{90,30},{110,50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal) "Inlet temperature"
-    annotation (Placement(transformation(extent={{80,30},{60,50}})));
-
+    annotation (Placement(transformation(extent={{86,-50},{66,-30}})));
   Fluid.Sensors.MassFlowRate MassFlow(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{50,30},{30,50}})));
+    annotation (Placement(transformation(extent={{56,-50},{36,-30}})));
   Fluid.Sensors.SpecificEnthalpyTwoPort Enthalpy(
     redeclare package Medium=Medium,
     m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{20,30},{0,50}})));
+    annotation (Placement(transformation(extent={{26,-50},{6,-30}})));
   Fluid.Sensors.TemperatureTwoPort       TOut(
                                              redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal) "Outlet temperature"
-    annotation (Placement(transformation(extent={{30,-50},{50,-30}})));
+    annotation (Placement(transformation(extent={{22,30},{42,50}})));
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort pipe_HeatPort(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -133,7 +122,7 @@ partial model PartialBoiler
         Medium.X_default))/mWater else 0)
          annotation (Placement(
         transformation(
-        extent={{10,-10},{-10,10}},
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-10,-2})));
   parameter Boolean avoidEvents=true
@@ -143,69 +132,66 @@ partial model PartialBoiler
     "Resulting fuel consumption" annotation (Placement(transformation(extent={{-100,20},
             {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
 equation
-
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-40,-80},{-40,-100}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(port_a, Tin.port_a) annotation (Line(
-      points={{102,40},{80,40}},
+      points={{100,-40},{86,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Tin.port_b, MassFlow.port_a) annotation (Line(
-      points={{60,40},{50,40}},
+      points={{66,-40},{56,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(MassFlow.port_b, Enthalpy.port_a) annotation (Line(
-      points={{30,40},{20,40}},
+      points={{36,-40},{26,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TSet, heatSource.TSet) annotation (Line(
-      points={{60,114},{60,78},{-1.2,78}},
+      points={{60,114},{60,70},{0.8,70}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.THxIn, Tin.T) annotation (Line(
-      points={{-1.2,74},{70,74},{70,51}},
+      points={{0.8,66},{76,66},{76,-29}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(MassFlow.m_flow, heatSource.m_flow) annotation (Line(
-      points={{40,51},{40,70},{-1.2,70}},
+      points={{46,-29},{46,62},{0.8,62}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Enthalpy.h_out, heatSource.hIn) annotation (Line(
-      points={{10,51},{10,66},{-1.2,66}},
+      points={{16,-29},{16,58},{0.8,58}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TOut.port_b, port_b) annotation (Line(
-      points={{50,-40},{102,-40}},
+      points={{42,40},{100,40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Enthalpy.port_b, pipe_HeatPort.port_a) annotation (Line(
-      points={{0,40},{-10,40},{-10,8}},
+      points={{6,-40},{-10,-40},{-10,-12}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
-      points={{-10,-12},{-10,-40},{30,-40}},
+      points={{-10,8},{-10,40},{22,40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(heatSource.heatPort, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-22,72},{-40,72},{-40,-2},{-20,-2}},
+      points={{-20,64},{-40,64},{-40,-2},{-20,-2}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(thermalLosses.port_a, pipe_HeatPort.heatPort) annotation (Line(
       points={{-40,-60},{-40,-2},{-20,-2}},
       color={191,0,0},
       smooth=Smooth.None));
-
   if use_onOffSignal then
       connect(on, heatSource.on) annotation (Line(
-        points={{-20,108},{-20,86},{-32,86},{-32,54},{-10,54},{-10,61.2}},
+        points={{-20,108},{-20,86},{-32,86},{-32,54},{-8,54},{-8,53.2}},
         color={255,0,255},
         smooth=Smooth.None));
   end if;
-
   connect(heatSource.PFuel, PFuel) annotation (Line(
-      points={{-23,67},{-54,67},{-54,66},{-80,66},{-80,30},{-110,30}},
+      points={{-21,59},{-54,59},{-54,66},{-80,66},{-80,30},{-110,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dot));
