@@ -47,9 +47,9 @@ equation
   end if;
   if rel_internal > 0.5 then
     if not revert then
-      y_boolean = u > uHigh or pre(y_boolean) and u >= uLow;
+      y_boolean = u > uHigh_internal or pre(y_boolean) and u >= uLow_internal;
     else
-      y_boolean = u < uLow or pre(y_boolean) and u <= uHigh;
+      y_boolean = u < uLow_internal or pre(y_boolean) and u <= uHigh_internal;
     end if;
   else
     y_boolean = false;
