@@ -43,11 +43,11 @@ partial model PartialHeatSource
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
   //Inputs
   Modelica.Blocks.Interfaces.RealInput hIn "Specific enthalpy at the inlet" annotation (Placement(transformation(
-          extent={{-128,60},{-88,100}}), iconTransformation(extent={{-120,68},{
-            -96,92}})));
+          extent={{-128,60},{-88,100}}), iconTransformation(extent={{-120,68},{-96,
+            92}})));
   Modelica.Blocks.Interfaces.RealInput m_flow "Heated fluid mass flow rate" annotation (Placement(transformation(
-          extent={{-128,20},{-88,60}}), iconTransformation(extent={{-120,28},{
-            -96,52}})));
+          extent={{-128,20},{-88,60}}), iconTransformation(extent={{-120,28},{-96,
+            52}})));
   Modelica.Blocks.Interfaces.RealInput THxIn "Heated fluid temperature" annotation (Placement(transformation(
           extent={{-128,-20},{-88,20}}),  iconTransformation(extent={{-120,-12},
             {-96,12}})));
@@ -118,7 +118,7 @@ equation
   connect(QSet, QSet_internal);
 
   if useTSet then
-    QAsked = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, TSet, Medium.X_default)) -hIn), 10);
+    QAsked = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, TSet_internal, Medium.X_default)) -hIn), 10);
     QSet_internal = 0;
  else
     QAsked = QSet_internal;

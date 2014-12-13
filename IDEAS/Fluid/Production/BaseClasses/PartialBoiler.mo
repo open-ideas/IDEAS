@@ -29,8 +29,8 @@ partial model PartialBoiler
   Modelica.Blocks.Interfaces.RealInput TSet if useTSet "Set point temperature" annotation (Placement(transformation(
           extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={20,108}),                 iconTransformation(extent={{-21,-21},
-            {21,21}},
+        origin={20,108}),                 iconTransformation(extent={{-21,-21},{
+            21,21}},
         rotation=270,
         origin={33,107})));
   Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
@@ -66,7 +66,8 @@ partial model PartialBoiler
     use_onOffSignal=use_onOffSignal,
     onOff=onOff,
     avoidEvents=avoidEvents,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    useTSet=useTSet)
     annotation (choicesAllMatching=true, Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -138,7 +139,7 @@ partial model PartialBoiler
     Modelica.Blocks.Interfaces.RealOutput PFuel(unit="W")
     "Resulting fuel consumption" annotation (Placement(transformation(extent={{-100,20},
             {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
-  parameter Boolean useTSet=true
+  parameter Boolean useTSet=useTSet
     "If true, use TSet as control input, else QSet";
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
