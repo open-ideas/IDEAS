@@ -2,6 +2,18 @@
 
 
 simulateModel("IDEAS.Fluid.Production.Examples.Boiler_validation", stopTime=26000, numberOfIntervals=5000, method="dassl", resultFile="Boiler_validation");
-plot({"heater.TOut.T","heater.TSet","senTemBoiler_in.T"}, colors={{0,0,255},{255,0,0},{0,128,0}});
-plot({"heater.heatSource.modulation","heater.heatSource.modulationInit","heater.heatSource.modulationStart","heater.heatSource.modulationMin"}, subPlot=2, colors={{0,0,255},{255,0,0},{0,128,0},{255,0,255}});
+removePlots();
+Advanced.FilenameInLegend = false;
+Advanced.SequenceInLegend = true;
+Advanced.PlotLegendTooltip = true;
+Advanced.FullPlotTooltip = true;
+Advanced.DefaultAutoErase = true;
+Advanced.Legend.Horizontal = true;
+createPlot(id=1, position={15, 10, 482, 336}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, filename="Boiler_validation.mat", leftTitleType=1, bottomTitleType=1);
+createPlot(id=1, position={15, 10, 482, 79}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1);
+createPlot(id=1, position={15, 10, 482, 80}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, subPlot=3, leftTitleType=1, bottomTitleType=1);
+createPlot(id=1, position={15, 10, 482, 79}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, subPlot=4, leftTitleType=1, bottomTitleType=1);
+createPlot(id=2, position={0, 0, 1578, 698}, y={"heater.heatSource.modulationMin", "heater.heatSource.modulationStart", 
+"heater.heatSource.modulationInit", "heater.heatSource.modulation"}, range={0.0, 26000.0, -50.0, 300.0}, grid=true, filename="Boiler_validation.mat", leftTitleType=1, bottomTitleType=1, colors={{0,0,255}, {255,0,0}, {0,128,0}, {255,0,255}});
+createPlot(id=2, position={0, 0, 1578, 346}, y={"heater.TOut.T", "heater.TSet", "senTemBoiler_in.T"}, range={0.0, 26000.0, 10.0, 90.0}, grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}, {255,0,0}, {0,128,0}});
 

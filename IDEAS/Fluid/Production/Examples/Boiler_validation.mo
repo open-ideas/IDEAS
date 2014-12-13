@@ -26,7 +26,9 @@ model Boiler_validation "Validation model for the boiler"
     redeclare
       IDEAS.Fluid.Production.BaseClasses.HeatSources.PerformanceMap3DHeatSource
       heatSource(redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler3D
-        data))
+        data),
+    use_onOffSignal=false,
+    useTSet=true)
     annotation (Placement(transformation(extent={{-70,-16},{-50,4}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
         293.15)
@@ -89,7 +91,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(realExpression.y, heater.TSet) annotation (Line(
-      points={{-75,10},{-56,10},{-56,4.4}},
+      points={{-75,10},{-56.7,10},{-56.7,4.7}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heater.port_b, senTemBoiler_out.port_a) annotation (Line(

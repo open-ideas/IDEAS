@@ -26,14 +26,21 @@ partial model PartialBoiler
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
   //Variables
-  Modelica.Blocks.Interfaces.RealInput TSet
-    "Temperature setpoint, acts as on/off signal too" annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput TSet if useTSet "Set point temperature" annotation (Placement(transformation(
+          extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={60,114}),                             iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={40,104})));
+        origin={20,108}),                 iconTransformation(extent={{-21,-21},
+            {21,21}},
+        rotation=270,
+        origin={33,107})));
+  Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
+    "Setpoint for net hemal power"
+    annotation (Placement(transformation(extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={88,104}),
+        iconTransformation(extent={{-21,-21},{21,21}},
+        rotation=270,
+        origin={85,107})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
       annotation (Placement(transformation(extent={{-100,40},{-120,60}}),
         iconTransformation(
@@ -49,8 +56,8 @@ partial model PartialBoiler
     use_onOffSignal=use_onOffSignal,
     onOff=onOff,
     avoidEvents=avoidEvents,
-    redeclare package Medium = Medium)
-                                constrainedby
+    redeclare package Medium = Medium,
+    useTSet=useTSet)            constrainedby
     IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
     UALoss=UALoss,
     QNom=QNom,
@@ -131,6 +138,8 @@ partial model PartialBoiler
     Modelica.Blocks.Interfaces.RealOutput PFuel(unit="W")
     "Resulting fuel consumption" annotation (Placement(transformation(extent={{-100,20},
             {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
+  parameter Boolean useTSet=true
+    "If true, use TSet as control input, else QSet";
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-40,-80},{-40,-100}},
@@ -149,19 +158,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(TSet, heatSource.TSet) annotation (Line(
-      points={{60,114},{60,70},{0.8,70}},
+      points={{20,108},{20,72},{0.8,72}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.THxIn, Tin.T) annotation (Line(
-      points={{0.8,66},{76,66},{76,-29}},
+      points={{0.8,64},{76,64},{76,-29}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(MassFlow.m_flow, heatSource.m_flow) annotation (Line(
-      points={{46,-29},{46,62},{0.8,62}},
+      points={{46,-29},{46,60},{0.8,60}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Enthalpy.h_out, heatSource.hIn) annotation (Line(
-      points={{16,-29},{16,58},{0.8,58}},
+      points={{16,-29},{16,56},{0.8,56}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TOut.port_b, port_b) annotation (Line(
@@ -195,6 +204,10 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dot));
+  connect(QSet, heatSource.QSet) annotation (Line(
+      points={{88,104},{88,68},{0.8,68}},
+      color={0,0,127},
+      smooth=Smooth.None));
       annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
