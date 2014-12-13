@@ -29,8 +29,8 @@ partial model PartialBoiler
   Modelica.Blocks.Interfaces.RealInput TSet if useTSet "Set point temperature" annotation (Placement(transformation(
           extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={20,108}),                 iconTransformation(extent={{-21,-21},
-            {21,21}},
+        origin={20,108}),                 iconTransformation(extent={{-21,-21},{
+            21,21}},
         rotation=270,
         origin={33,107})));
   Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
