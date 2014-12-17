@@ -234,7 +234,7 @@ equation
           textString="%name")}),
     Documentation(info="<html>
 <p><b>Description</b> </p>
-<p>This is a partial model from which most heaters (boilers, heat pumps) will extend. This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) and it has <u>thermal losses to the environment</u>. To complete this model and turn it into a heater, a <u>heatSource</u> has to be added, specifying how much heat is injected in the heatedFluid pipe, at which efficiency, if there is a maximum power, etc. HeatSource models are grouped in <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses\">IDEAS.Thermal.Components.Production.BaseClasses.</a></p>
+<p>This is a partial model for a production unit to extend. This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) and it has <u>thermal losses to the environment</u>. To complete this model and turn it into a heater, a <u>heatSource</u> has to be defined, specifying how much heat is injected in the heatedFluid pipe which is calculated in the HeatSource based on the fluid flow, setpoint temperature, fluid temperature and modulation (enthalpy). HeatSource models are grouped in <a href=\"modelica://IDEAS.Fluid.Production.BaseClasses.HeatSources\">IDEAS.Fluid.Production.BaseClasses.HeatSources</a></p>
 <p>The set temperature of the model is passed as a realInput.The model has a realOutput PEl for the electricity consumption.</p>
 <p>See the extensions of this model for more details.</p>
 <p><h4>Assumptions and limitations </h4></p>
@@ -254,9 +254,7 @@ equation
 <p><h4>Validation </h4></p>
 <p>This partial model is based on physical principles and is not validated. Extensions may be validated.</p>
 <p><h4>Examples</h4></p>
-<p>See the extensions, like the <a href=\"modelica://IDEAS.Thermal.Components.Production.IdealHeater\">IdealHeater</a>, the <a href=\"modelica://IDEAS.Thermal.Components.Production.Boiler\">Boiler</a> or <a href=\"modelica://IDEAS.Thermal.Components.Production.HP_AWMod_Losses\">air-water heat pump</a></p>
-</html>", revisions="<html>
-<ul>
+<p>See the extensions, like the <a href=\"modelica://IDEAS.Fluid.Production.Boiler\">Boiler</a></p>
 <li>2014 March, Filip Jorissen, Annex60 compatibility</li>
 </ul>
 </html>"));
