@@ -93,8 +93,8 @@ partial model PartialProduction
         iconTransformation(extent={{90,30},{110,50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium) "Fluid outlet"
-    annotation (Placement(transformation(extent={{92,-50},{112,-30}}),
-        iconTransformation(extent={{92,-50},{112,-30}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(extent={{90,-50},{110,-30}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal) "Inlet temperature"
     annotation (Placement(transformation(extent={{80,30},{60,50}})));
@@ -177,7 +177,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(TOut.port_b, port_b) annotation (Line(
-      points={{50,-40},{102,-40}},
+      points={{50,-40},{100,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Enthalpy.port_b, pipe_HeatPort.port_a) annotation (Line(
