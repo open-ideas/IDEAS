@@ -1,3 +1,4 @@
 BooleanDelay
 HysteresisRelease_Heating
 HysteresisRelease_Cooling
+HysteresisRelease_Heating_NoInputs
