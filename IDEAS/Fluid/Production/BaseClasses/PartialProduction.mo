@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial model PartialBoiler
+partial model PartialProduction
   "General model for a heat production that heats a fluid, such as a boiler, condensing boiler, ... and modelled using performance maps."
 
   //Extensions
@@ -199,13 +199,13 @@ equation
 
   if use_onOffSignal then
       connect(on, heatSource.on) annotation (Line(
-        points={{-20,108},{-20,86},{-32,86},{-32,54},{-10,54},{-10,61.2}},
+        points={{-20,108},{-20,88},{-32,88},{-32,54},{-10,54},{-10,61.2}},
         color={255,0,255},
         smooth=Smooth.None));
   end if;
 
   connect(heatSource.PFuel, PFuel) annotation (Line(
-      points={{-23,67},{-54,67},{-54,66},{-80,66},{-80,30},{-110,30}},
+      points={{-23,67},{-80,67},{-80,66},{-80,66},{-80,30},{-110,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dot));
@@ -260,4 +260,4 @@ equation
 <li>2014 March, Filip Jorissen, Annex60 compatibility</li>
 </ul>
 </html>"));
-end PartialBoiler;
+end PartialProduction;

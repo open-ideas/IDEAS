@@ -5,7 +5,7 @@ HeatSource_Ideal
 HeatSource_CondensingGasBurner
 HeatSource_HP_AW
 PartialHeatPump
-PartialBoiler
+PartialProduction
 PartialHeatSource
 PartialData
 HeatSources
