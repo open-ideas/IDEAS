@@ -1,12 +1,9 @@
 within IDEAS.Fluid.Production.Examples;
 model Boiler_validation "Validation model for the boiler"
   import IDEAS;
-
   extends Modelica.Icons.Example;
-
   package Medium = IDEAS.Media.Water.Simple
     annotation (__Dymola_choicesAllMatching=true);
-
   Fluid.Movers.Pump pump(
     m=1,
     m_flow_nominal=1300/3600,
@@ -29,17 +26,18 @@ model Boiler_validation "Validation model for the boiler"
     redeclare
       IDEAS.Fluid.Production.BaseClasses.HeatSources.PerformanceMap3DHeatSource
       heatSource(redeclare IDEAS.Fluid.Production.Data.PerformanceMaps.Boiler3D
-        data))
-    annotation (Placement(transformation(extent={{-70,4},{-50,-16}})));
+        data),
+    use_onOffSignal=false,
+    useTSet=true)
+    annotation (Placement(transformation(extent={{-70,-16},{-50,4}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
         293.15)
-    annotation (Placement(transformation(extent={{-94,4},{-80,18}})));
+    annotation (Placement(transformation(extent={{-94,-38},{-80,-24}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-92,74},{-72,94}})));
   Modelica.Blocks.Sources.TimeTable pulse(offset=0, table=[0, 0; 5000, 100;
         10000, 400; 15000, 700; 20000, 1000; 25000, 1300; 50000, 1300])
     annotation (Placement(transformation(extent={{-50,72},{-30,92}})));
-
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
     annotation (Placement(transformation(extent={{-34,24},{-14,44}})));
   Modelica.Blocks.Sources.Sine sine(
@@ -53,11 +51,10 @@ model Boiler_validation "Validation model for the boiler"
     redeclare package Medium = Medium,
     p=200000)
     annotation (Placement(transformation(extent={{-12,-32},{-32,-12}})));
-
   Modelica.Blocks.Math.Gain gain(k=1/1300)
     annotation (Placement(transformation(extent={{-14,72},{6,92}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 60)
-    annotation (Placement(transformation(extent={{-96,-34},{-76,-14}})));
+    annotation (Placement(transformation(extent={{-96,0},{-76,20}})));
   Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package Medium = Medium,
       m_flow_nominal=1300/3600)
     annotation (Placement(transformation(extent={{-44,-2},{-24,18}})));
@@ -65,9 +62,8 @@ model Boiler_validation "Validation model for the boiler"
       m_flow_nominal=1300/3600)
     annotation (Placement(transformation(extent={{-24,-56},{-44,-36}})));
 equation
-
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
-      points={{-64,4},{-64,11},{-80,11}},
+      points={{-64,-16},{-64,-31},{-80,-31}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(TReturn.port, pipe.heatPort) annotation (Line(
@@ -82,9 +78,8 @@ equation
       points={{10,8},{48,8},{48,-46},{8,-46}},
       color={0,0,255},
       smooth=Smooth.None));
-
   connect(bou.ports[1], heater.port_a) annotation (Line(
-      points={{-32,-22},{-42,-22},{-42,-10},{-49.8,-10}},
+      points={{-32,-22},{-42,-22},{-42,-10},{-50,-10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pulse.y, gain.u) annotation (Line(
@@ -96,11 +91,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(realExpression.y, heater.TSet) annotation (Line(
-      points={{-75,-24},{-56,-24},{-56,-16.4}},
+      points={{-75,10},{-56.7,10},{-56.7,4.7}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heater.port_b, senTemBoiler_out.port_a) annotation (Line(
-      points={{-49.8,-2},{-49.8,8},{-44,8}},
+      points={{-50,-2},{-50,8},{-44,8}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTemBoiler_out.port_b, pipe.port_a) annotation (Line(
@@ -112,19 +107,21 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTemBoiler_in.port_b, heater.port_a) annotation (Line(
-      points={{-44,-46},{-49.8,-46},{-49.8,-10}},
+      points={{-44,-46},{-50,-46},{-50,-10}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),     graphics),
-    experiment(StopTime=40000),
+    experiment(StopTime=26000, __Dymola_NumberOfIntervals=5000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
             100}})),
-    Commands(file="Scripts/Tester_Boiler.mos" "TestModel"),
+    Commands(file=
+          "Resources/Scripts/Dymola/Fluid/Production/Examples/Boiler_validation.mos"
+        "Simulate and plot"),
     Documentation(info="<html>
-<p>Model used to validate the <a href=\"modelica://IDEAS.Thermal.Components.Production.Boiler\">IDEAS.Thermal.Components.Production.Boiler</a>. With a fixed set point, the boiler receives different mass flow rates. </p>
+<p>Model used to validate the <a href=\"IDEAS.Fluid.Production.Boiler\">IDEAS.Fluid.Production.Boiler</a>. With a fixed set point, the boiler receives different mass flow rates. </p>
 </html>", revisions="<html>
 <ul>
 <li>March 2014 by Filip Jorissen:<br/> 
