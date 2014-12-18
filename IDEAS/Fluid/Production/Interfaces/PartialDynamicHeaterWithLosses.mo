@@ -4,7 +4,7 @@ partial model PartialDynamicHeaterWithLosses
   import IDEAS;
   import IDEAS.Fluid.Production.BaseClasses.HeaterType;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    final computeFlowResistance=true, dp_nominal = 0);
+    final computeFlowResistance=true);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15, redeclare
       replaceable package Medium =
         IDEAS.Media.Water.Simple);
@@ -28,7 +28,6 @@ partial model PartialDynamicHeaterWithLosses
     "heatPort for thermal losses to environment" annotation (Placement(
         transformation(extent={{-40,-110},{-20,-90}}), iconTransformation(
           extent={{-40,-110},{-20,-90}})));
-
   parameter Boolean useTSet=true
     "If true, use TSet as control input, else QSet";
   Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
@@ -38,7 +37,6 @@ partial model PartialDynamicHeaterWithLosses
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-10,120})));
-
   Modelica.Blocks.Interfaces.RealInput TSet if useTSet
     "Temperature setpoint, acts as on/off signal too" annotation (Placement(
         transformation(extent={{-126,-20},{-86,20}}), iconTransformation(

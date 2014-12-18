@@ -19,7 +19,7 @@ partial model PartialBoiler
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate"
   annotation(Dialog(group = "Nominal condition"));
-  parameter SI.Pressure dp_nominal=0 "Pressure drop";
+  parameter SI.Pressure dp_nominal=0 "Pressure drop" annotation(Evaluate=true);
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Dialog(tab="Flow resistance"));
