@@ -5,8 +5,8 @@ model TWetBul_TDryBulPhi "Model to test the wet bulb temperature computation"
  package Medium = IDEAS.Media.Air "Medium model"
            annotation (choicesAllMatching = true);
 
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulPhi wetBulPhi(redeclare
-      package Medium = Medium) "Model for wet bulb temperature"
+  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulPhi wetBulPhi(redeclare package
+      Medium =         Medium) "Model for wet bulb temperature"
     annotation (Placement(transformation(extent={{0,40},{20,60}})));
   Modelica.Blocks.Sources.Constant p(k=101325) "Pressure"
                                     annotation (Placement(transformation(extent={{-100,

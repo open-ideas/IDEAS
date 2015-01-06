@@ -4,7 +4,8 @@ model HeatPump_BrineWaterTset
   extends HeatPump_BrineWater(redeclare IDEAS.Fluid.Production.HeatPumpTset heatPump(
     redeclare package MediumBrine = Medium,
     redeclare package MediumFluid = Medium,
-    redeclare IDEAS.Fluid.Production.BaseClasses.VitoCal300GBWS301dotA08
+      redeclare
+        IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA08
       heatPumpData,
       use_onOffSignal=false,
       use_modulationSignal=true));

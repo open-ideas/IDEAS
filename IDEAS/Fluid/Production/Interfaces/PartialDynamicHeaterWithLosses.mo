@@ -1,29 +1,24 @@
 within IDEAS.Fluid.Production.Interfaces;
-model PartialDynamicHeaterWithLosses
+partial model PartialDynamicHeaterWithLosses
   "Partial heater model incl dynamics and environmental losses"
   import IDEAS;
-
   import IDEAS.Fluid.Production.BaseClasses.HeaterType;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15, redeclare
       replaceable package Medium =
         IDEAS.Media.Water.Simple);
-
   parameter HeaterType heaterType
     "Type of the heater, is used mainly for post processing";
   parameter Modelica.SIunits.Power QNom "Nominal power";
-
   Modelica.SIunits.Power PFuel "Fuel consumption in watt";
   parameter Modelica.SIunits.Time tauHeatLoss=7200
     "Time constant of environmental heat losses";
   parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
   parameter Modelica.SIunits.HeatCapacity cDry=4800
     "Capacity of dry material lumped to condensor";
-
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
-
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -33,19 +28,29 @@ model PartialDynamicHeaterWithLosses
     "heatPort for thermal losses to environment" annotation (Placement(
         transformation(extent={{-40,-110},{-20,-90}}), iconTransformation(
           extent={{-40,-110},{-20,-90}})));
-  Modelica.Blocks.Interfaces.RealInput TSet
+
+  parameter Boolean useTSet=true
+    "If true, use TSet as control input, else QSet";
+  Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
+    "Power setpoint (if useTSet=false). Acts as on/off signal too" annotation (
+      Placement(transformation(extent={{-126,-68},{-86,-28}}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-10,120})));
+
+  Modelica.Blocks.Interfaces.RealInput TSet if useTSet
     "Temperature setpoint, acts as on/off signal too" annotation (Placement(
         transformation(extent={{-126,-20},{-86,20}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-10,120})));
+        origin={-60,120})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
     annotation (Placement(transformation(extent={{-252,10},{-232,30}}),
         iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-74,-100})));
-
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
   parameter SI.Pressure dp_nominal=0 "Pressure";
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort pipe_HeatPort(
@@ -85,15 +90,14 @@ model PartialDynamicHeaterWithLosses
     annotation (Dialog(tab="Flow resistance"));
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort TOut(
+                                             redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal) "Outlet temperature"
+    annotation (Placement(transformation(extent={{54,30},{74,50}})));
 equation
-
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-30,-80},{-30,-100}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(pipe_HeatPort.port_b, port_b) annotation (Line(
-      points={{38,4},{38,40},{100,40}},
-      color={0,127,255},
       smooth=Smooth.None));
   connect(port_a, Tin.port_a) annotation (Line(
       points={{100,-40},{74,-40}},
@@ -107,11 +111,19 @@ equation
       points={{28,-6},{-30,-6},{-30,-60}},
       color={191,0,0},
       smooth=Smooth.None));
+  connect(TOut.port_b, port_b) annotation (Line(
+      points={{74,40},{100,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
+      points={{38,4},{38,40},{54,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,120}},
           preserveAspectRatio=false), graphics),
-    Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=
-            false), graphics),
+    Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=false),
+                    graphics),
     Documentation(info="<html>
 <p><b>Description</b> </p>
 <p>This is a partial model from which most heaters (boilers, heat pumps) will extend. This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) and it has <u>thermal losses to the environment</u>. To complete this model and turn it into a heater, a <u>heatSource</u> has to be added, specifying how much heat is injected in the heatedFluid pipe, at which efficiency, if there is a maximum power, etc. HeatSource models are grouped in <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses\">IDEAS.Thermal.Components.Production.BaseClasses.</a></p>

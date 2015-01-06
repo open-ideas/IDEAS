@@ -49,7 +49,8 @@ model HeatPump_BrineWater
     redeclare package MediumBrine = Medium,
     redeclare package MediumFluid = Medium,
     use_onOffSignal=false,
-    redeclare IDEAS.Fluid.Production.BaseClasses.VitoCal300GBWS301dotA29
+    redeclare
+      IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA29
       heatPumpData,
     onOff=true,
     use_scaling=false,
