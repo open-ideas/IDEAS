@@ -139,7 +139,7 @@ partial model PartialProduction
     Modelica.Blocks.Interfaces.RealOutput PFuel(unit="W")
     "Resulting fuel consumption" annotation (Placement(transformation(extent={{-100,20},
             {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
-  parameter Boolean useTSet=useTSet
+  parameter Boolean useTSet=true
     "If true, use TSet as control input, else QSet";
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
@@ -196,12 +196,12 @@ equation
       smooth=Smooth.None));
   if use_onOffSignal then
       connect(on, heatSource.on) annotation (Line(
-        points={{-20,108},{-20,88},{-32,88},{-32,54},{-10,54},{-10,61.2}},
+        points={{-20,108},{-20,88},{-32,88},{-32,54},{-8,54},{-8,53.2}},
         color={255,0,255},
         smooth=Smooth.None));
   end if;
   connect(heatSource.PFuel, PFuel) annotation (Line(
-      points={{-23,67},{-80,67},{-80,66},{-80,66},{-80,30},{-110,30}},
+      points={{-21,59},{-80,59},{-80,30},{-110,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dot));
