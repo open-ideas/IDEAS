@@ -1,15 +1,17 @@
 within IDEAS.Fluid.Interfaces;
 record TwoPortFlowResistanceParameters
   "Parameters for flow resistance for models with two ports"
+
   parameter Boolean computeFlowResistance = true
     "=true, compute flow resistance. Set to false to assume no friction"
     annotation (Evaluate=true, Dialog(tab="Flow resistance"));
+
   parameter Boolean from_dp = false
     "= true, use m_flow = f(dp) else dp = f(m_flow)"
     annotation (Evaluate=true, Dialog(enable = computeFlowResistance,
                 tab="Flow resistance"));
   parameter Modelica.SIunits.Pressure dp_nominal(min=0, displayUnit="Pa")
-    "Pressure"                                annotation(Evaluate=true, Dialog(group = "Nominal condition"));
+    "Pressure"                                annotation(Dialog(group = "Nominal condition"));
   parameter Boolean linearizeFlowResistance = false
     "= true, use linear relation between m_flow and dp for any flow rate"
     annotation(Dialog(enable = computeFlowResistance,
@@ -17,6 +19,7 @@ record TwoPortFlowResistanceParameters
   parameter Real deltaM = 0.1
     "Fraction of nominal flow rate where flow transitions to laminar"
     annotation(Dialog(enable = computeFlowResistance, tab="Flow resistance"));
+
 annotation (preferredView="info",
 Documentation(info="<html>
 This class contains parameters that are used to
