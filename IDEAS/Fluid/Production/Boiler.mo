@@ -10,8 +10,37 @@ equation
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),
             graphics),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics),
+    Icon(graphics={
+        Ellipse(
+          extent={{-60,60},{58,-60}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.Solid,
+          fillColor={95,95,95}),
+        Ellipse(extent={{-48,46},{46,-46}}, lineColor={0,0,0},
+          fillColor={175,175,175},
+          fillPattern=FillPattern.Solid),
+        Line(
+          points={{-32,34},{30,-34}},
+          color={0,0,0},
+          smooth=Smooth.None),
+        Line(
+          points={{100,60},{44,60}},
+          color={0,0,127},
+          smooth=Smooth.None),
+        Line(
+          points={{44,60},{34,48}},
+          color={0,0,127},
+          smooth=Smooth.None),
+        Line(
+          points={{44,-60},{34,-48}},
+          color={0,0,127},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash),
+        Line(
+          points={{100,-60},{44,-60}},
+          color={0,0,127},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash)}),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">Description </font></h4></p>
 <p>Dynamic boiler model, based on interpolation in performance tables. The boiler has thermal losses to the environment which are often not mentioned in the performance tables. Therefore, the additional environmental heat losses are added to the heat production in order to ensure the same performance as in the manufacturers data, while still obtaining a dynamic model with heat losses (also when boiler is off). The heatSource will compute the required power and the environmental heat losses, and try to reach the set point. </p>
