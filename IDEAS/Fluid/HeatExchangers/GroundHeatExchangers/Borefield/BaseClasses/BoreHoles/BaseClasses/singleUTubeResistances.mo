@@ -3,6 +3,9 @@ function singleUTubeResistances
   "Thermal resistances for single U-tube, according to Bauer et al. (2011)"
 
   // Geometry of the borehole
+  input Boolean use_Rb
+    "True if the value Rb should be used instead of calculated";
+  input Real Rb(unit="(m.K)/W") "Borehole thermal resistance";
   input Modelica.SIunits.Height hSeg "Height of the element";
   input Modelica.SIunits.Radius rBor "Radius of the borehole";
   // Geometry of the pipe
@@ -38,19 +41,19 @@ protected
   Modelica.SIunits.ThermalResistance RCondPipe
     "Thermal resistance of the pipe wall";
 
-  Real Rb
+  Real Rb_internal(unit="(m.K)/W")
     "Fluid-to-grout resistance, as defined by Hellstroem. Resistance from the fluid in the pipe to the borehole wall";
-  Real Ra
+  Real Ra(unit="(m.K)/W")
     "Grout-to-grout resistance (2D) as defined by Hellstroem. Interaction between the different grout part";
 
   // Help variables
   Real sigma "Help variable as defined by Hellstroem";
   Real beta "Help variable as defined by Hellstroem";
-  Real R_1delta_LS
+  Real R_1delta_LS(unit="(m.K)/W")
     "One leg of the triangle resistance network, corresponding to the line source solution";
-  Real R_1delta_MP
+  Real R_1delta_MP(unit="(m.K)/W")
     "One leg of the triangle resistance network, corresponding to the multipole solution";
-  Real Ra_LS
+  Real Ra_LS(unit="(m.K)/W")
     "Grout-to-grout resistance calculated with the line-source approximation";
 
   Integer i=1 "Loop counter";
@@ -70,15 +73,16 @@ algorithm
 
   //Rb and Ra
   beta :=2*Modelica.Constants.pi*kFil*RCondPipe;
-  Rb :=R_1delta_MP/2;
+  Rb_internal :=if use_Rb then Rb else R_1delta_MP/2;
   Ra :=Ra_LS - 1/(Modelica.Constants.pi*kFil)*(rTub^2/(4*sha^2)*(1 + sigma*
     4*rBor^4*sha^2/(rBor^4 - sha^4))/((1 + beta)/(1 - beta) - rTub^2/(4*sha^2) +
     sigma*2*rTub^2*rBor^2*(rBor^4 + sha^4)/(rBor^4 - sha^4)^2));
 
   //Conversion of Rb (resp. Ra) to Rg (resp. Rar) of Bauer:
-  Rg  :=2*Rb/hSeg;
+  Rg  :=2*Rb_internal/hSeg;
   Rar :=Ra/hSeg;
 
+  Modelica.Utilities.Streams.print(String(Rb_internal));
 /* **************** Simplification of Bauer for single U-tube ************************
   //Thermal resistance between: Outer wall and one tube
      Rg := Modelica.Math.acosh((rBor^2 + (rTub + eTub)^2 - sha^2)/(2*rBor*(rTub +
@@ -106,6 +110,23 @@ algorithm
     test := ((1/Rgg + 1/2/Rgb)^(-1) > 0);
     i := i + 1;
   end while;
+  assert(test,
+  "Maximum number of iterations exceeded. Check the borehole geometry.
+  The tubes may be too close to the borehole wall.
+  Input to the function 
+  IDEAS.Fluid.HeatExchangers.Boreholes.BaseClasses.singleUTubeResistances
+  is
+           hSeg = " + String(hSeg) + " m
+           rBor = " + String(rBor) + " m
+           rTub = " + String(rTub) + " m
+           eTub = " + String(eTub) + " m
+           kSoi = " + String(kSoi) + " W/m/K
+           kFil = " + String(kFil) + " W/m/K
+           kTub = " + String(kTub) + " W/m/K
+  Computed x    = " + String(x) + " K/W
+           Rgb  = " + String(Rgb) + " K/W
+           Rgg  = " + String(Rgg) + " K/W");
+
   //Conduction resistance in grout from pipe wall to capacity in grout
   RCondGro := x*Rg + RCondPipe;
 
@@ -167,6 +188,10 @@ International Journal Of Energy Research, 35:312&ndash;320, 2010.</p>
 </html>", revisions="<html>
 <p>
 <ul>
+<li>
+February 14, 2014 by Michael Wetter:<br/>
+Added an assert statement to test for non-physical values.
+</li>
 <li>
 February 12, 2014, by Damien Picard:<br/>
 Remove the flow dependency of the resistances, as this function calculates the conduction resistances only.
