@@ -1,5 +1,6 @@
 within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model PolynomialHeatSource "Heat source based on a polynomial function"
+  import IDEAS;
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(redeclare replaceable
       Data.Polynomials.Boiler2ndDegree data);
@@ -19,10 +20,21 @@ model PolynomialHeatSource "Heat source based on a polynomial function"
 
 equation
   //Calcualation of the heat powers
-  QMax = PolynomialDimensions(beta=beta, powers=powers, X={100, m_flowHx_scaled*kgps2lph, THxIn-273.15}, n=n, k=k)/etaRef*QNom;
+  QMax =IDEAS.Fluid.Production.BaseClasses.PolynomialDimensions(
+    beta=beta,
+    powers=powers,
+    X={100,m_flowHx_scaled*kgps2lph,THxIn - 273.15},
+    n=n,
+    k=k)/etaRef*QNom;
 
   //Polynomial
-  eta = if on_internal then PolynomialDimensions(beta=beta, powers=powers, X={modulation, m_flowHx_scaled*kgps2lph, THxIn-273.15}, n=n, k=k) else 0;
+  eta =if on_internal then
+    IDEAS.Fluid.Production.BaseClasses.PolynomialDimensions(
+    beta=beta,
+    powers=powers,
+    X={modulation,m_flowHx_scaled*kgps2lph,THxIn - 273.15},
+    n=n,
+    k=k) else 0;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),

@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Production.BaseClasses.HeatSources;
+within IDEAS.Fluid.Production.BaseClasses;
 function PolynomialDimensions "Function to calculate the output of a polynomial based on the number of
   inputs and the degree"
 

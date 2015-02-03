@@ -107,8 +107,7 @@ protected
     "Needed to connect to conditional connector";
 
 public
-  replaceable parameter PartialData                                              data constrainedby
-    PartialData
+  replaceable parameter DataInterface data constrainedby DataInterface
     annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-88},
             {90,-68}})));
 

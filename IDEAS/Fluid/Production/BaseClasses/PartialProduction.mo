@@ -48,31 +48,6 @@ partial model PartialProduction
         rotation=0,
         origin={-110,50})));
   //Components
-  replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource   heatSource(
-    UALoss=UALoss,
-    QNom=QNom,
-    m_flow_nominal=m_flow_nominal,
-    riseTime=riseTime,
-    use_onOffSignal=use_onOffSignal,
-    onOff=onOff,
-    avoidEvents=avoidEvents,
-    redeclare package Medium = Medium,
-    useTSet=useTSet)            constrainedby
-    IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
-    UALoss=UALoss,
-    QNom=QNom,
-    m_flow_nominal=m_flow_nominal,
-    riseTime=riseTime,
-    use_onOffSignal=use_onOffSignal,
-    onOff=onOff,
-    avoidEvents=avoidEvents,
-    redeclare package Medium = Medium,
-    useTSet=useTSet)
-    annotation (choicesAllMatching=true, Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={-10,64})));
   parameter SI.Frequency riseTime=120
     "The time it takes to reach full/zero power when switching"
     annotation(Dialog(tab="Advanced", group="Events", enable=avoidEvents));
@@ -93,19 +68,10 @@ partial model PartialProduction
         Medium) "Fluid outlet"
     annotation (Placement(transformation(extent={{90,30},{110,50}}),
         iconTransformation(extent={{90,30},{110,50}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal) "Inlet temperature"
-    annotation (Placement(transformation(extent={{86,-50},{66,-30}})));
-  Fluid.Sensors.MassFlowRate MassFlow(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{56,-50},{36,-30}})));
-  Fluid.Sensors.SpecificEnthalpyTwoPort Enthalpy(
-    redeclare package Medium=Medium,
-    m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{26,-50},{6,-30}})));
   Fluid.Sensors.TemperatureTwoPort       TOut(
                                              redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal) "Outlet temperature"
-    annotation (Placement(transformation(extent={{22,30},{42,50}})));
+    annotation (Placement(transformation(extent={{38,30},{58,50}})));
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort pipe_HeatPort(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -132,7 +98,7 @@ partial model PartialProduction
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-10,-2})));
+        origin={-10,0})));
   parameter Boolean avoidEvents=true
     "Set to true to switch heat pumps on using a continuous transition"
     annotation (Dialog(tab="Advanced"));
@@ -141,75 +107,54 @@ partial model PartialProduction
             {-120,40}}), iconTransformation(extent={{-100,20},{-120,40}})));
   parameter Boolean useTSet=true
     "If true, use TSet as control input, else QSet";
+  Modulator modulator if data.isModulating;
+  HeatSource heatSource
+    annotation (Placement(transformation(extent={{60,-50},{40,-30}})));
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-40,-80},{-40,-100}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(port_a, Tin.port_a) annotation (Line(
-      points={{100,-40},{86,-40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(Tin.port_b, MassFlow.port_a) annotation (Line(
-      points={{66,-40},{56,-40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(MassFlow.port_b, Enthalpy.port_a) annotation (Line(
-      points={{36,-40},{26,-40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(TSet, heatSource.TSet) annotation (Line(
-      points={{20,108},{20,72},{0.8,72}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatSource.THxIn, Tin.T) annotation (Line(
-      points={{0.8,64},{76,64},{76,-29}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(MassFlow.m_flow, heatSource.m_flow) annotation (Line(
-      points={{46,-29},{46,60},{0.8,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(Enthalpy.h_out, heatSource.hIn) annotation (Line(
-      points={{16,-29},{16,56},{0.8,56}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(TOut.port_b, port_b) annotation (Line(
-      points={{42,40},{100,40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(Enthalpy.port_b, pipe_HeatPort.port_a) annotation (Line(
-      points={{6,-40},{-10,-40},{-10,-12}},
+      points={{58,40},{100,40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
-      points={{-10,8},{-10,40},{22,40}},
+      points={{-10,10},{-10,40},{38,40}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(heatSource.heatPort, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-20,64},{-40,64},{-40,-2},{-20,-2}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(thermalLosses.port_a, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-40,-60},{-40,-2},{-20,-2}},
+      points={{-40,-60},{-40,4.44089e-016},{-20,4.44089e-016}},
       color={191,0,0},
       smooth=Smooth.None));
   if use_onOffSignal then
-      connect(on, heatSource.on) annotation (Line(
-        points={{-20,108},{-20,88},{-32,88},{-32,54},{-8,54},{-8,53.2}},
-        color={255,0,255},
-        smooth=Smooth.None));
   end if;
-  connect(heatSource.PFuel, PFuel) annotation (Line(
-      points={{-21,59},{-80,59},{-80,30},{-110,30}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dot));
-  connect(QSet, heatSource.QSet) annotation (Line(
-      points={{88,104},{88,68},{0.8,68}},
+  if not data.isModulating then
+    connect(pipe_heatPort.port_a, port_a);
+  end if;
+
+  connect(port_a, heatSource.port_a) annotation (Line(
+      points={{100,-40},{60,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(heatSource.port_b, pipe_HeatPort.port_a) annotation (Line(
+      points={{40,-40},{-10,-40},{-10,-10}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(heatSource.port_a1, pipe_HeatPort.heatPort) annotation (Line(
+      points={{50,-30},{50,16},{-40,16},{-40,4.44089e-016},{-20,4.44089e-016},{
+          -20,6.10623e-016}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(QSet, heatSource.u) annotation (Line(
+      points={{88,104},{88,-32},{60,-32}},
       color={0,0,127},
       smooth=Smooth.None));
-      annotation (
+  connect(on, heatSource.u4) annotation (Line(
+      points={{-20,108},{-20,64},{80,64},{80,-36},{60,-36}},
+      color={255,0,255},
+      smooth=Smooth.None));
+    annotation (Placement(transformation(extent={{76,-50},{56,-30}})),
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false),

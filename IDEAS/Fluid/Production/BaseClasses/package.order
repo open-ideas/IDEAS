@@ -7,3 +7,12 @@ HeatPumpData
 VitoCal300GBWS301dotA08
 VitoCal300GBWS301dotA29
 VitoCal300GBWS301dotA45
+HeatSources
+DataInterface
+PartialHeatSource
+PartialProduction
+Modulator
+HeatSource
+PolynomialDimensions
+dataHandler
+Types
