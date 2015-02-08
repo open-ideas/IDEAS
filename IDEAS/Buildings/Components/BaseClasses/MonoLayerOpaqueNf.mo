@@ -34,8 +34,11 @@ equation
     der(T[nSta])=(Q_flow[nSta-1]+port_b.Q_flow)/C*2;
 
     // Q_flow[i] is heat flowing from (i-1) to (i)
-    for i in 2:nSta loop
-      T[i - 1] - T[i] = Q_flow[i]/G;
+    for i in 1:nSta-1 loop
+      T[i] - T[i+1] = Q_flow[i]/G;
+    end for;
+    for i in 2:nSta-1 loop
+      der(T[i]) = (Q_flow[i-1]-Q_flow[i])/C;
     end for;
   else
     der(port_a.T)=(port_a.Q_flow+port_b.Q_flow)/C;
