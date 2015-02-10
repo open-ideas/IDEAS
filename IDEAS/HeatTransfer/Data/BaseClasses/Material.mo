@@ -9,7 +9,7 @@ record Material "Thermal properties of materials w/o storage"
     "Thermal resistance of a unit area of material";
   parameter Integer nStaRef(min=0) = 3
     "Number of state variables in a reference material of 0.2 m concrete";
-  parameter Integer nSta(min=1)=max(1, integer(ceil(nStaReal)))
+  parameter Integer nSta(min=2)=1+max(1, integer(ceil(nStaReal)))
     "Actual number of state variables in material"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Boolean steadyState= (c == 0 or d == 0)
