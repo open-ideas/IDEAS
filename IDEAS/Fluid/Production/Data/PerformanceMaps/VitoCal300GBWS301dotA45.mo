@@ -1,6 +1,7 @@
 within IDEAS.Fluid.Production.Data.PerformanceMaps;
 record VitoCal300GBWS301dotA45
   "Viessmann Vitocal 300-G, type BW 301.A45 heat pump data"
+<<<<<<< HEAD
   extends BaseClasses.OnOffHeatPumpData(
     mBrine=12.7,
     mFluid=12.7,
@@ -8,6 +9,15 @@ record VitoCal300GBWS301dotA45
     m_flow_nominal_fluid=1,
     dp_nominal_brine=20000,
     dp_nominal_fluid=6000,
+=======
+  extends BaseClasses.HeatPumpData(
+    m1=12.7,
+    m2=12.7,
+    m1_flow_nominal=1.8,
+    m2_flow_nominal=1,
+    dp1_nominal=20000,
+    dp2_nominal=6000,
+>>>>>>> develop
     G=680/15,
     P_the_nominal=45000,
     T_evap_min=273.15 - 5,
