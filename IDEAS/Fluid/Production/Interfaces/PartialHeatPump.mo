@@ -62,5 +62,4 @@ equation
           lineColor={191,0,0},
           fillColor={191,0,0},
           fillPattern=FillPattern.Solid)}));
-
 end PartialHeatPump;

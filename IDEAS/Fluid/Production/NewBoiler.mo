@@ -3,16 +3,13 @@ model NewBoiler
   //Extensions
   extends Interfaces.PartialHeater(redeclare Interfaces.HeatSources.Boiler
       heatSource(
-      useToutPrimary=false,
-      useTinSecondary=false,
-      useToutSecondary=false,
-      useMassFlowSecondary=false));
+      redeclare IDEAS.Fluid.Production.Interfaces.Data.BoilerData data));
 
   Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{76,-50},{56,-30}})));
   inner SimInfoManager sim
-    annotation (Placement(transformation(extent={{-74,72},{-54,92}})));
+    annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
   Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{44,-50},{24,-30}})));

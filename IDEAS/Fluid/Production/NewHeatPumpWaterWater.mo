@@ -4,10 +4,8 @@ model NewHeatPumpWaterWater
   extends Interfaces.PartialHeatPump(
     measurePower=true,
     redeclare Interfaces.HeatSources.HeatPumpWaterWater
-     heatSource(
-      useToutPrimary=false,
-      useToutSecondary=false,
-      useMassFlowSecondary=false));
+     heatSource(redeclare
+        IDEAS.Fluid.Production.Interfaces.Data.VitoCal300GBWS301dotA08 data));
 
   Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
@@ -39,18 +37,6 @@ equation
       points={{-74,40},{-70,40},{-70,10}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(condensor.port_b, port_b) annotation (Line(
-      points={{-34,10},{-34,40},{100,40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(heatSource.TinPrimary, senTem1.T) annotation (Line(
-      points={{8,11.8},{8,0},{30,0},{30,-29}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(senTem.T, heatSource.TinSecondary) annotation (Line(
-      points={{-84,51},{-84,60},{8,60},{8,32.2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(qAsked.port_b, senTem1.port_a) annotation (Line(
       points={{54,-40},{40,-40}},
       color={0,127,255},
@@ -61,6 +47,18 @@ equation
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
       points={{20,-110},{20,-68},{84,-68},{84,-26},{66.1,-26},{66.1,-33.1}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(senTem.T, heatSource.TinSecondary) annotation (Line(
+      points={{-84,51},{-84,60},{8,60},{8,32.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(condensor.port_b, port_b) annotation (Line(
+      points={{-34,10},{-34,40},{100,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(senTem1.T, heatSource.TinPrimary) annotation (Line(
+      points={{30,-29},{30,-6},{8,-6},{8,11.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qAsked.y, heatSource.QAsked) annotation (Line(

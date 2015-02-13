@@ -158,6 +158,13 @@ package BaseClasses "Baseclasses for the construction of heater models"
           iconTransformation(extent={{-20,-20},{20,20}},
           rotation=270,
           origin={-16,120})));
+
+  equation
+    y = Modelica.Math.Vectors.interpolate(
+      values,
+      x,
+      xi);
+
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
               {100,100}}), graphics={
                                   Rectangle(
@@ -208,13 +215,6 @@ package BaseClasses "Baseclasses for the construction of heater models"
             fillPattern=FillPattern.Solid)}),
                                          Diagram(coordinateSystem(
             preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
-
-  equation
-    y = Modelica.Math.Vectors.interpolate(
-      values,
-      x,
-      xi);
-
   end Interpolator;
 
   partial model PartialHeatSource
@@ -316,6 +316,11 @@ package BaseClasses "Baseclasses for the construction of heater models"
       "heatPort connection to water in the evaporator in case of a HP"
       annotation (Placement(transformation(extent={{90,30},{110,50}}),
           iconTransformation(extent={{90,20},{110,40}})));
+
+  equation
+    QLossesToCompensate = if noEvent(massFlowPrimary > 0) then UALoss*(heatPort.T -
+      TEnvironment) else 0;
+
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
               {100,100}}), graphics={
           Line(
@@ -352,46 +357,73 @@ package BaseClasses "Baseclasses for the construction of heater models"
           Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
         Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
               100}}), graphics));
-
-  equation
-    QLossesToCompensate = if noEvent(massFlowPrimary > 0) then UALoss*(heatPort.T -
-      TEnvironment) else 0;
-
   end PartialHeatSource;
 
   partial model PartialNonModulatingHeatSource
-    extends PartialHeatSource;
+    //Extensions
+    extends PartialHeatSource(
+      final QNomRef=data.QNomRef,
+      final useTinPrimary=data.useTinPrimary,
+      final useToutPrimary=data.useToutPrimary,
+      final useTinSecondary=data.useTinSecondary,
+      final useToutSecondary=data.useToutSecondary,
+      final useMassFlowSecondary=data.useMassFlowSecondary);
 
-    Modelica.Blocks.Tables.CombiTable2D Heat
+    //Components
+    Modelica.Blocks.Tables.CombiTable2D Heat(table=data.heat)
       annotation (Placement(transformation(extent={{-20,0},{0,20}})));
-    Modelica.Blocks.Tables.CombiTable2D Power if calculatePower
+    Modelica.Blocks.Tables.CombiTable2D Power(table=data.power) if calculatePower
       annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+    replaceable PartialNonModulatingRecord data
+      constrainedby
+      IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialNonModulatingRecord
+      annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-94},{90,-74}})));
   end PartialNonModulatingHeatSource;
 
   partial model PartialModulatingHeatSource
 
     //Extensions
-    extends BaseClasses.PartialHeatSource;
+    extends BaseClasses.PartialHeatSource(
+      final QNomRef=data.QNomRef,
+      final useTinPrimary=data.useTinPrimary,
+      final useToutPrimary=data.useToutPrimary,
+      final useTinSecondary=data.useTinSecondary,
+      final useToutSecondary=data.useToutSecondary,
+      final useMassFlowSecondary=data.useMassFlowSecondary);
 
     //Parameters
-    parameter Real modulationStart=30;
-    parameter Real modulationMin=20;
+    final parameter Real modulationStart=data.modulationStart;
+    final parameter Real modulationMin=data.modulationMin;
 
-    parameter Integer n(min=2);
-    parameter Real[n] modulationVector;
+    final parameter Integer n(min=2)=data.n;
+    final parameter Real[n] modulationVector=data.modulationVector;
 
-    BaseClasses.Interpolator interpolator(n=n, values=modulationVector)
+    BaseClasses.Interpolator interpolator(
+      n=n,
+      values=modulationVector)
       annotation (Placement(transformation(extent={{22,-10},{42,10}})));
     Modelica.Blocks.Tables.CombiTable2D[n] Heat(
-      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
+      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+      table=data.heat)
       annotation (Placement(transformation(extent={{-28,-10},{-8,10}})));
-    BaseClasses.Modulator modulator(modulationMin=modulationMin, modulationStart=
-          modulationStart)
+    BaseClasses.Modulator modulator(
+      modulationMin=modulationMin,
+      modulationStart=modulationStart)
       annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
     Modelica.Blocks.Tables.CombiTable2D[n] Power(
-      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative) if calculatePower
+      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+      table=data.power) if calculatePower
       annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+    BaseClasses.Interpolator interpolator1(
+      n=n,
+      values=modulationVector) if calculatePower
+      annotation (Placement(transformation(extent={{52,-40},{72,-20}})));
+    replaceable PartialModulatingRecord data
+      constrainedby
+      IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord
+      annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-96},{90,-76}})));
   equation
+
     connect(Heat.y, interpolator.x) annotation (Line(
         points={{-7,0},{20,0}},
         color={0,0,127},
@@ -408,7 +440,51 @@ package BaseClasses "Baseclasses for the construction of heater models"
         points={{-60,51},{-60,60},{30.4,60},{30.4,12}},
         color={0,0,127},
         smooth=Smooth.None));
+    connect(Power.y, interpolator1.x) annotation (Line(
+        points={{21,-30},{50,-30}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(modulator.modulation, interpolator1.xi) annotation (Line(
+        points={{-60,51},{-60,60},{60.4,60},{60.4,-18}},
+        color={0,0,127},
+        smooth=Smooth.None));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}}), graphics));
   end PartialModulatingHeatSource;
+
+  partial record PartialRecord
+    extends Modelica.Icons.Record;
+
+    parameter Modelica.SIunits.Power QNomRef=1000;
+
+    parameter Boolean useTinPrimary=false;
+    parameter Boolean useToutPrimary=false;
+
+    parameter Boolean useTinSecondary=false;
+    parameter Boolean useToutSecondary=false;
+    parameter Boolean useMassFlowSecondary=false;
+
+  end PartialRecord;
+
+  partial record PartialNonModulatingRecord
+    extends PartialRecord;
+
+    parameter Real[:,:] heat = [[0]];
+    parameter Real[:,:] power = [[0]];
+
+  end PartialNonModulatingRecord;
+
+  partial record PartialModulatingRecord
+    extends PartialRecord;
+
+    parameter Real modulationStart=30;
+    parameter Real modulationMin=20;
+
+    parameter Real[:,:,:] heat = {[[0]]};
+    parameter Real[:,:,:] power = {[[0]]};
+
+    parameter Integer n(min=2);
+    parameter Real[n] modulationVector;
+
+  end PartialModulatingRecord;
 end BaseClasses;

@@ -3,10 +3,8 @@ model NewHeatPumpAirWater
   //Extensions
   extends Interfaces.PartialHeater(redeclare
       Interfaces.HeatSources.HeatPumpAirWater heatSource(
-      useToutPrimary=false,
-      useToutSecondary=false,
-      useMassFlowSecondary=false,
-      useTinSecondary=true));
+      redeclare IDEAS.Fluid.Production.Interfaces.Data.HeatPumpAirWaterData
+        data));
 
   Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
@@ -26,14 +24,6 @@ equation
       points={{100,-40},{84,-40}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(qAsked.y, partialHeatSource.QAsked) annotation (Line(
-      points={{71.9,-33.1},{71.9,18},{10,18}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(realExpression.y, partialHeatSource.TinSecondary) annotation (Line(
-      points={{17,56},{8,56},{8,32.2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(qAsked.port_b, senTem.port_a) annotation (Line(
       points={{64,-40},{44,-40}},
       color={0,127,255},
@@ -42,16 +32,24 @@ equation
       points={{10,-40},{24,-40}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem.T, partialHeatSource.TinPrimary) annotation (Line(
+  connect(u, qAsked.u) annotation (Line(
+      points={{20,-110},{20,-72},{88,-72},{88,-26},{76.1,-26},{76.1,-33.1}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(senTem.T, heatSource.TinPrimary) annotation (Line(
       points={{34,-29},{34,0},{8,0},{8,11.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(pipe_HeatPort.port_b, port_b) annotation (Line(
+  connect(qAsked.y, heatSource.QAsked) annotation (Line(
+      points={{71.9,-33.1},{71.9,18},{10,18}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(condensor.port_b, port_b) annotation (Line(
       points={{-34,10},{-34,40},{100,40}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(u, qAsked.u) annotation (Line(
-      points={{20,-110},{20,-72},{88,-72},{88,-26},{76.1,-26},{76.1,-33.1}},
+  connect(realExpression.y, heatSource.TinSecondary) annotation (Line(
+      points={{17,56},{8,56},{8,32.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

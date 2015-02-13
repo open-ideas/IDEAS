@@ -109,7 +109,7 @@ partial model PartialHeater
     calculatePower=measurePower,
     QNom=QNom) annotation (Placement(transformation(extent={{10,32},{-10,12}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=heatPort.T)
-    annotation (Placement(transformation(extent={{46,24},{26,44}})));
+    annotation (Placement(transformation(extent={{40,16},{20,36}})));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{10,-50},{-10,-30}})));
@@ -131,7 +131,7 @@ equation
       smooth=Smooth.None));
 
   connect(heatSource.TEnvironment, realExpression.y) annotation (Line(
-      points={{10,26},{18,26},{18,34},{25,34}},
+      points={{10,26},{19,26}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.massFlowPrimary, massFlowRate.m_flow) annotation (Line(
