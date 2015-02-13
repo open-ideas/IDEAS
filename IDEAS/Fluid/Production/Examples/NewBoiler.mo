@@ -48,7 +48,7 @@ model NewBoiler
     annotation (Placement(transformation(extent={{16,10},{-4,30}})));
   constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
-    annotation (Placement(transformation(extent={{-84,44},{-64,64}})));
+    annotation (Placement(transformation(extent={{-92,-30},{-72,-10}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-26,28},{-6,48}})));
@@ -64,12 +64,12 @@ model NewBoiler
                                 pulse(
     startTime=2000,
     period=500)
-    annotation (Placement(transformation(extent={{-92,-22},{-72,-2}})));
+    annotation (Placement(transformation(extent={{-98,48},{-78,68}})));
   Modelica.Blocks.Logical.Not not1
-    annotation (Placement(transformation(extent={{-58,-16},{-50,-8}})));
-  IDEAS.Fluid.Production.NewHeatPumpAirWater newBoiler(m_flow_nominal=
-        m_flow_nominal, QNom=1500)
-    annotation (Placement(transformation(extent={{-58,10},{-38,30}})));
+    annotation (Placement(transformation(extent={{-64,54},{-56,62}})));
+  IDEAS.Fluid.Production.NewBoiler newBoiler(m_flow_nominal=m_flow_nominal,
+      QNom=5000)
+    annotation (Placement(transformation(extent={{-68,10},{-48,30}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
@@ -103,33 +103,33 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(pulse.y, not1.u) annotation (Line(
-      points={{-71,-12},{-58.8,-12}},
+      points={{-77,58},{-64.8,58}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(newBoiler.port_b, senTemBoiler_out.port_a) annotation (Line(
-      points={{-38,24},{-32,24},{-32,38},{-26,38}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(newBoiler.port_a, senTemBoiler_in.port_b) annotation (Line(
-      points={{-38,16},{-32,16},{-32,-12},{-30,-12}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(not1.y, newBoiler.u1) annotation (Line(
-      points={{-49.6,-12},{-44,-12},{-44,16},{-62,16},{-62,28.4},{-49.2,28.4}},
 
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(fixedTemperature.port, newBoiler.heatPort) annotation (Line(
-      points={{-80,13},{-74,13},{-74,12},{-66,12},{-66,4},{-51,4},{-51,10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(realExpression.y, newBoiler.u) annotation (Line(
-      points={{-63,54},{-54,54},{-54,32}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(bou.ports[1], senTemBoiler_out.port_a) annotation (Line(
       points={{-4,20},{-32,20},{-32,38},{-26,38}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(newBoiler.port_b, senTemBoiler_out.port_a) annotation (Line(
+      points={{-48,24},{-40,24},{-40,38},{-26,38}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(newBoiler.port_a, senTemBoiler_in.port_b) annotation (Line(
+      points={{-48,16},{-40,16},{-40,-12},{-30,-12}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(not1.y, newBoiler.u1) annotation (Line(
+      points={{-55.6,58},{-50,58},{-50,40},{-58,40},{-58,30}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(fixedTemperature.port, newBoiler.heatPort) annotation (Line(
+      points={{-80,13},{-72,13},{-72,4},{-61,4},{-61,10}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(realExpression.y, newBoiler.u) annotation (Line(
+      points={{-71,-20},{-58,-20},{-58,10.2}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
