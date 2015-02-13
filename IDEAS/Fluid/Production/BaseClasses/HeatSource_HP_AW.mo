@@ -203,7 +203,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(realExpression2.y, onOff.uLow) annotation (Line(
-      points={{-50.8,64},{-24,64},{-24,64},{0,64},{0,72},{8,72}},
+      points={{-50.8,64},{0,64},{0,72},{8,72}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(on, onOff.release) annotation (Line(

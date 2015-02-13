@@ -71,7 +71,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(heater.port_b, pipe.port_a) annotation (Line(
-      points={{-56,30},{-56,36},{48,36},{48,-14},{32,-14}},
+      points={{-56,28},{-56,36},{48,36},{48,-14},{32,-14}},
       color={0,0,255},
       smooth=Smooth.None));
   connect(pipe.port_b, pump.port_a) annotation (Line(
@@ -79,11 +79,11 @@ equation
       color={0,0,255},
       smooth=Smooth.None));
   connect(pump.port_b, heater.port_a) annotation (Line(
-      points={{-34,-14},{-56,-14},{-56,18}},
+      points={{-34,-14},{-56,-14},{-56,20}},
       color={0,0,255},
       smooth=Smooth.None));
   connect(bou.ports[1], heater.port_a) annotation (Line(
-      points={{-28,18},{-42,18},{-42,18},{-56,18}},
+      points={{-28,18},{-42,18},{-42,20},{-56,20}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(HP_on.y, heater.on) annotation (Line(

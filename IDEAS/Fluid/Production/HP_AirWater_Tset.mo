@@ -61,7 +61,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tin.T, heatSource.TCondensor_in) annotation (Line(
-      points={{80,-49},{80,-42},{-55,-42},{-55,-16}},
+      points={{64,-29},{64,-42},{-55,-42},{-55,-16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort, heatFlowSensor.port_a) annotation (Line(
@@ -69,7 +69,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowSensor.port_b, pipe_HeatPort.heatPort) annotation (Line(
-      points={{0,-6},{30,-6}},
+      points={{0,-6},{28,-6}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (

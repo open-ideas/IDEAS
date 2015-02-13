@@ -174,9 +174,10 @@ equation
       points={{-40,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None));
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            -100},{100,100}}), graphics),
+              Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={
         Line(
           points={{-46,-3.30779e-015},{50,0}},
@@ -234,5 +235,4 @@ equation
           origin={-46,16},
           rotation=90)}), Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics));
-
 end HeatSource;
