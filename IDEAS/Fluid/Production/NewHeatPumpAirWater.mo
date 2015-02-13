@@ -21,7 +21,7 @@ equation
   PEl = 0;
 
   connect(port_a, qAsked.port_a) annotation (Line(
-      points={{100,-40},{84,-40}},
+      points={{100,-60},{92,-60},{92,-40},{84,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(qAsked.port_b, senTem.port_a) annotation (Line(
@@ -45,7 +45,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(condensor.port_b, port_b) annotation (Line(
-      points={{-34,10},{-34,40},{100,40}},
+      points={{-34,10},{-34,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(realExpression.y, heatSource.TinSecondary) annotation (Line(
@@ -83,7 +83,7 @@ equation
           color={0,127,255},
           smooth=Smooth.None),
         Line(
-          points={{10,-40},{0,-40},{28,40},{90,40}},
+          points={{10,-40},{-6,-40},{28,60},{90,60}},
           color={0,0,127},
           smooth=Smooth.None),
         Line(
@@ -116,7 +116,7 @@ equation
           color={0,127,255},
           smooth=Smooth.None),
         Line(
-          points={{80,-60},{100,-40}},
+          points={{80,-60},{90,-60}},
           color={0,0,0},
           smooth=Smooth.None),
         Line(

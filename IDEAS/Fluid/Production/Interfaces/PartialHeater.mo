@@ -99,10 +99,10 @@ partial model PartialHeater
         origin={-34,0})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium) "Fluid inlet"
-    annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium) "Fluid outlet"
-    annotation (Placement(transformation(extent={{90,30},{110,50}})));
+    annotation (Placement(transformation(extent={{90,50},{110,70}})));
   replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource heatSource(
     redeclare package Medium = Medium,
     UALoss=UALoss,

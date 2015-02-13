@@ -7,11 +7,11 @@ partial model PartialHeatPump
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(
                                                redeclare package Medium =
         Medium) "Fluid inlet"
-    annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
+    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(
                                                redeclare package Medium =
         Medium) "Fluid outlet"
-    annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
+    annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
   FixedResistances.Pipe_HeatPort evaporator(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -46,11 +46,12 @@ equation
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Line(
-          points={{-100,40},{-20,40},{-40,20},{-20,0},{-40,-20},{-20,-40},{-98,-40}},
+          points={{-100,60},{-20,60},{-40,40},{-20,20},{-40,0},{-20,-20},{-40,
+              -40}},
           color={0,0,255},
           smooth=Smooth.None),
         Line(
-          points={{100,40},{20,40},{40,20},{20,0},{40,-20},{20,-40},{100,-40}},
+          points={{100,60},{20,60},{40,40},{20,20},{40,0},{20,-20},{40,-40}},
           color={0,0,255},
           smooth=Smooth.None),
         Line(
@@ -61,5 +62,13 @@ equation
           points={{0,-10},{0,10},{20,0},{0,-10}},
           lineColor={191,0,0},
           fillColor={191,0,0},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid),
+        Line(
+          points={{-40,-40},{-20,-60},{-92,-60}},
+          color={0,0,255},
+          smooth=Smooth.None),
+        Line(
+          points={{40,-40},{20,-60},{90,-60}},
+          color={0,0,255},
+          smooth=Smooth.None)}));
 end PartialHeatPump;

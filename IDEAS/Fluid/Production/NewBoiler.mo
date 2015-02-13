@@ -18,7 +18,7 @@ equation
   PEl = 0;
 
   connect(port_a, qAsked.port_a) annotation (Line(
-      points={{100,-40},{76,-40}},
+      points={{100,-60},{88,-60},{88,-40},{76,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(qAsked.port_b, senTem.port_a) annotation (Line(
@@ -42,39 +42,39 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(condensor.port_b, port_b) annotation (Line(
-      points={{-34,10},{-34,40},{100,40}},
+      points={{-34,10},{-34,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Ellipse(
-          extent={{-60,56},{58,-64}},
+          extent={{-58,60},{60,-60}},
           lineColor={0,0,0},
           fillPattern=FillPattern.Solid,
           fillColor={95,95,95}),
-        Ellipse(extent={{-48,42},{46,-50}}, lineColor={0,0,0},
+        Ellipse(extent={{-46,46},{48,-46}}, lineColor={0,0,0},
           fillColor={175,175,175},
           fillPattern=FillPattern.Solid),
         Line(
-          points={{-32,30},{30,-38}},
+          points={{-30,34},{32,-34}},
           color={0,0,0},
           smooth=Smooth.None),
         Line(
-          points={{100,40},{58,40}},
+          points={{90,60},{60,60}},
           color={0,0,127},
           smooth=Smooth.None),
         Line(
-          points={{58,40},{48,28}},
+          points={{60,60},{42,42}},
           color={0,0,127},
           smooth=Smooth.None),
         Line(
-          points={{62,-40},{52,-28}},
+          points={{60,-60},{44,-44}},
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash),
         Line(
-          points={{100,-40},{62,-40}},
+          points={{90,-60},{60,-60}},
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash)}));

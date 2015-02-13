@@ -9,7 +9,7 @@ model NewHeatPumpWaterWater
 
   Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
+    annotation (Placement(transformation(extent={{-90,50},{-70,70}})));
   Sensors.TemperatureTwoPort senTem1(
                                     redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
@@ -22,7 +22,7 @@ equation
   PEl = 0;
 
   connect(port_a1, senTem.port_a) annotation (Line(
-      points={{-100,40},{-94,40}},
+      points={{-100,60},{-90,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTem1.port_b, massFlowRate.port_a) annotation (Line(
@@ -30,11 +30,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(port_b1, evaporator.port_b) annotation (Line(
-      points={{-100,-40},{-70,-40},{-70,-10}},
+      points={{-100,-60},{-70,-60},{-70,-10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTem.port_b, evaporator.port_a) annotation (Line(
-      points={{-74,40},{-70,40},{-70,10}},
+      points={{-70,60},{-70,10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(qAsked.port_b, senTem1.port_a) annotation (Line(
@@ -42,7 +42,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(qAsked.port_a, port_a) annotation (Line(
-      points={{74,-40},{100,-40}},
+      points={{74,-40},{88,-40},{88,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
@@ -50,11 +50,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(senTem.T, heatSource.TinSecondary) annotation (Line(
-      points={{-84,51},{-84,60},{8,60},{8,32.2}},
+      points={{-80,71},{-80,74},{8,74},{8,32.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(condensor.port_b, port_b) annotation (Line(
-      points={{-34,10},{-34,40},{100,40}},
+      points={{-34,10},{-34,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTem1.T, heatSource.TinPrimary) annotation (Line(
