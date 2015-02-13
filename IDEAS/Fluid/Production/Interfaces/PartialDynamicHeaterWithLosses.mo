@@ -93,10 +93,6 @@ partial model PartialDynamicHeaterWithLosses
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "heatPort for thermal losses to environment"
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort TOut(
-                                             redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal) "Inlet temperature"
-    annotation (Placement(transformation(extent={{70,50},{90,70}})));
 equation
   connect(Tin.port_b, pipe_HeatPort.port_a) annotation (Line(
       points={{54,-40},{38,-40},{38,-16}},
@@ -124,7 +120,8 @@ equation
   connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
       points={{40,4},{40,60},{70,60}},
       color={0,127,255},
-      smooth=Smooth.None));  annotation (
+      smooth=Smooth.None));
+                             annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,120}},
           preserveAspectRatio=false), graphics),
     Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=false),

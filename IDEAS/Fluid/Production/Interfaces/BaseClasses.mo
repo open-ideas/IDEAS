@@ -225,8 +225,8 @@ package BaseClasses "Baseclasses for the construction of heater models"
     replaceable package Medium=IDEAS.Media.Water.Simple;
 
     //Parameters
-    final parameter Modelica.SIunits.ThermalConductance UALoss;
-    final parameter Boolean calculatePower;
+    parameter Modelica.SIunits.ThermalConductance UALoss;
+    parameter Boolean calculatePower;
 
     parameter Modelica.SIunits.Power QNom;
     parameter Modelica.SIunits.Power QNomRef;
@@ -403,7 +403,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
       values=modulationVector)
       annotation (Placement(transformation(extent={{22,-10},{42,10}})));
     Modelica.Blocks.Tables.CombiTable2D[n] Heat(
-      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+      each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=data.heat)
       annotation (Placement(transformation(extent={{-28,-10},{-8,10}})));
     BaseClasses.Modulator modulator(
@@ -411,7 +411,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
       modulationStart=modulationStart)
       annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
     Modelica.Blocks.Tables.CombiTable2D[n] Power(
-      smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+      each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=data.power) if calculatePower
       annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
     BaseClasses.Interpolator interpolator1(
@@ -456,6 +456,9 @@ package BaseClasses "Baseclasses for the construction of heater models"
     extends Modelica.Icons.Record;
 
     parameter Modelica.SIunits.Power QNomRef=1000;
+
+    parameter Modelica.SIunits.Temperature TMax = 273.15+80;
+    parameter Modelica.SIunits.Temperature TMin = 273.15+20;
 
     parameter Boolean useTinPrimary=false;
     parameter Boolean useToutPrimary=false;
