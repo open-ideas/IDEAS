@@ -409,7 +409,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
     BaseClasses.Modulator modulator(
       modulationMin=modulationMin,
       modulationStart=modulationStart)
-      annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+      annotation (Placement(transformation(extent={{-70,20},{-50,40}})));
     Modelica.Blocks.Tables.CombiTable2D[n] Power(
       each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=data.power) if calculatePower
@@ -429,15 +429,15 @@ package BaseClasses "Baseclasses for the construction of heater models"
         color={0,0,127},
         smooth=Smooth.None));
     connect(QAsked, modulator.required) annotation (Line(
-        points={{-110,30},{-80,30},{-80,40},{-68,40}},
+        points={{-110,30},{-68,30}},
         color={0,0,127},
         smooth=Smooth.None));
     connect(on, modulator.u) annotation (Line(
-        points={{-110,0},{-60,0},{-60,29.2}},
+        points={{-110,0},{-60,0},{-60,19.2}},
         color={255,0,255},
         smooth=Smooth.None));
     connect(modulator.modulation, interpolator.xi) annotation (Line(
-        points={{-60,51},{-60,60},{30.4,60},{30.4,12}},
+        points={{-60,41},{-60,60},{30.4,60},{30.4,12}},
         color={0,0,127},
         smooth=Smooth.None));
     connect(Power.y, interpolator1.x) annotation (Line(
@@ -445,7 +445,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
         color={0,0,127},
         smooth=Smooth.None));
     connect(modulator.modulation, interpolator1.xi) annotation (Line(
-        points={{-60,51},{-60,60},{60.4,60},{60.4,-18}},
+        points={{-60,41},{-60,60},{60.4,60},{60.4,-18}},
         color={0,0,127},
         smooth=Smooth.None));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
