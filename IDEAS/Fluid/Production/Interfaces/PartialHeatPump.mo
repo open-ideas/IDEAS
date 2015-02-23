@@ -39,7 +39,7 @@ partial model PartialHeatPump
         origin={-70,0})));
 equation
   connect(heatSource.heatPortE, evaporator.heatPort) annotation (Line(
-      points={{-10,19},{-56,19},{-56,18},{-56,18},{-56,0},{-60,0}},
+      points={{-10,19},{-56,19},{-56,0},{-60,0}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
