@@ -1,8 +1,16 @@
-IdealHeater
 Boiler
+<<<<<<< HEAD
+NewBoiler
 HP_AirWater_TSet
+NewHeatPumpAirWater
 HP_WaterWater_OnOff
+NewHeatPumpWaterWater
 HP_WaterWater_TSet
-BaseClasses
-Interfaces
+IdealHeater
+Data
 Examples
+Interfaces
+BaseClasses
+Examples
+HP_AirWater_TSet_On
+HP_AirWater_TSet2

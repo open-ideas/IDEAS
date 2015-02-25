@@ -1,60 +1,54 @@
 within IDEAS.Fluid.Production.Interfaces;
-model PartialDynamicHeaterWithLosses
+partial model PartialDynamicHeaterWithLosses
   "Partial heater model incl dynamics and environmental losses"
   import IDEAS;
-
   import IDEAS.Fluid.Production.BaseClasses.HeaterType;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     final computeFlowResistance=true, dp_nominal = 0);
-
-protected
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(T_start=293.15, redeclare
       replaceable package Medium =
         IDEAS.Media.Water.Simple);
-
-public
   parameter HeaterType heaterType
     "Type of the heater, is used mainly for post processing";
   parameter Modelica.SIunits.Power QNom "Nominal power";
-
   Modelica.SIunits.Power PFuel "Fuel consumption in watt";
   parameter Modelica.SIunits.Time tauHeatLoss=7200
     "Time constant of environmental heat losses";
   parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
   parameter Modelica.SIunits.HeatCapacity cDry=4800
     "Capacity of dry material lumped to condensor";
-
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
-
-protected
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-30,-70})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-    "heatPort for thermal losses to environment" annotation (Placement(
-        transformation(extent={{-40,-110},{-20,-90}}), iconTransformation(
-          extent={{-40,-110},{-20,-90}})));
 
-public
-  Modelica.Blocks.Interfaces.RealInput TSet "Temperature setpoint"
-                           annotation (Placement(
+  parameter Boolean useTSet=true
+    "If true, use TSet as control input, else QSet";
+  Modelica.Blocks.Interfaces.RealInput QSet if not useTSet
+    "Power setpoint (if useTSet=false). Acts as on/off signal too" annotation (
+      Placement(transformation(extent={{-126,-68},{-86,-28}}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-10,120})));
+
+  Modelica.Blocks.Interfaces.RealInput TSet if useTSet
+    "Temperature setpoint, acts as on/off signal too" annotation (Placement(
         transformation(extent={{-126,-20},{-86,20}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-40,120})));
+        origin={-60,120})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
-    annotation (Placement(transformation(extent={{-252,10},{-232,30}}),
+    annotation (Placement(transformation(extent={{-94,46},{-114,66}}),
         iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-74,-100})));
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
   parameter SI.Pressure dp_nominal=0 "Pressure";
-
-protected
   IDEAS.Fluid.FixedResistances.Pipe_HeatPort pipe_HeatPort(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -72,59 +66,63 @@ protected
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
     homotopyInitialization=homotopyInitialization,
-    mFactor= if mWater > Modelica.Constants.eps then 1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater else 0)
+    mSenFac= if mWater > Modelica.Constants.eps then 1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater else 0)
          annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={40,-6})));
-public
+        origin={38,-6})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium) "Fluid inlet"
-    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium) "Fluid outlet"
-    annotation (Placement(transformation(extent={{90,50},{110,70}})));
+    annotation (Placement(transformation(extent={{90,30},{110,50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal) "Inlet temperature"
-    annotation (Placement(transformation(extent={{90,-70},{70,-50}})));
+    annotation (Placement(transformation(extent={{74,-50},{54,-30}})));
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Dialog(tab="Flow resistance"));
   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
-  IDEAS.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{70,-70},{50,-50}})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort TOut(
+                                             redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal) "Outlet temperature"
+    annotation (Placement(transformation(extent={{54,30},{74,50}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+    "heatPort for thermal losses to environment"
+    annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
 equation
-
-  connect(thermalLosses.port_b, heatPort) annotation (Line(
-      points={{-30,-80},{-30,-100}},
+  connect(Tin.port_b, pipe_HeatPort.port_a) annotation (Line(
+      points={{54,-40},{38,-40},{38,-16}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pipe_HeatPort.heatPort, thermalLosses.port_a) annotation (Line(
+      points={{28,-6},{-30,-6},{-30,-60}},
       color={191,0,0},
       smooth=Smooth.None));
+  connect(TOut.port_b, port_b) annotation (Line(
+      points={{74,40},{100,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
+      points={{38,4},{38,40},{54,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(thermalLosses.port_b, heatPort) annotation (Line(
+      points={{-30,-80},{-30,-100},{-30,-100}},
+      color={191,0,0},
+      smooth=Smooth.None));
+
   connect(pipe_HeatPort.port_b, port_b) annotation (Line(
       points={{40,4},{40,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(port_a, Tin.port_a) annotation (Line(
-      points={{100,-60},{90,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pipe_HeatPort.heatPort, thermalLosses.port_a) annotation (Line(
-      points={{30,-6},{20,-6},{20,-40},{-30,-40},{-30,-60}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(Tin.port_b, senMasFlo.port_a) annotation (Line(
-      points={{70,-60},{70,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senMasFlo.port_b, pipe_HeatPort.port_a) annotation (Line(
-      points={{50,-60},{40,-60},{40,-16}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  annotation (
+                             annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
-    Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false),
+    Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=false),
                     graphics),
     Documentation(info="<html>
 <p><b>Description</b> </p>

@@ -182,7 +182,7 @@ equation
   P_vector[5] = P100.y*QNom/QNomRef;
   QMax = 1000*Q100.y*QNom/QNomRef;
   modulationInit = QAsked/QMax*100;
-  modulation = onOff.y*IDEAS.Utilities.Math.Functions.smoothMax(modulationInit, 100,1);
+  modulation = onOff.y*IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100,1);
   // compensation of heat losses (only when the hp is operating)
   QLossesToCompensate = if noEvent(modulation > 0) then UALoss*(heatPort.T -
     TEnvironment) else 0;
@@ -203,7 +203,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(realExpression2.y, onOff.uLow) annotation (Line(
-      points={{-50.8,64},{-24,64},{-24,64},{0,64},{0,72},{8,72}},
+      points={{-50.8,64},{0,64},{0,72},{8,72}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(on, onOff.release) annotation (Line(
