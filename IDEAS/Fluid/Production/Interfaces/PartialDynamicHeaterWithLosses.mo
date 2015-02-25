@@ -66,7 +66,7 @@ partial model PartialDynamicHeaterWithLosses
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
     homotopyInitialization=homotopyInitialization,
-    mFactor= if mWater > Modelica.Constants.eps then 1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater else 0)
+    mSenFac= if mWater > Modelica.Constants.eps then 1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default, Medium.X_default))/mWater else 0)
          annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -114,16 +114,13 @@ equation
       points={{-30,-80},{-30,-100},{-30,-100}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pipe_HeatPort.port_b, TOut.port_a) annotation (Line(
-      points={{38,4},{38,40},{54,40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(Tin.port_a, port_a) annotation (Line(
-      points={{74,-40},{100,-40}},
+
+  connect(pipe_HeatPort.port_b, port_b) annotation (Line(
+      points={{40,4},{40,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
                              annotation (
-    Diagram(coordinateSystem(extent={{-100,-100},{100,120}},
+    Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),
     Icon(coordinateSystem(extent={{-100,-100},{100,120}}, preserveAspectRatio=false),
                     graphics),
