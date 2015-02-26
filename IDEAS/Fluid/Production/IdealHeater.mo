@@ -1,42 +1,49 @@
 within IDEAS.Fluid.Production;
 model IdealHeater "Ideal heater, no losses to environment, unlimited power"
-  extends IDEAS.Fluid.Production.Interfaces.PartialDynamicHeaterWithLosses(
-    final heaterType=IDEAS.Fluid.Production.BaseClasses.HeaterType.Boiler,
+  extends IDEAS.Fluid.Production.Interfaces.PartialHeater(
     final QNom=1,
     final cDry=0.1,
-    final mWater=0);
+    final mWater=0,
+    heatSource(
+      QNomRef=QNom,
+      useToutPrimary=false,
+      useTinSecondary=false,
+      useToutSecondary=false,
+      useMassFlowSecondary=false));
 
     parameter Real eta = 1 "Boiler efficiency for calculating fuel consumption";
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
-    prescribedTemperature
-    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
-  IDEAS.Utilities.Math.Max max(nin=2) "Maximum temperature"
-    annotation (Placement(transformation(extent={{-72,40},{-52,60}})));
+  Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal)
+    annotation (Placement(transformation(extent={{54,-50},{34,-30}})));
 equation
   // Electricity consumption for electronics and fan only.  Pump is covered by pumpHeater;
   // This data is taken from Viessmann VitoDens 300W, smallest model.  So only valid for
   // very small household condensing gas boilers.
   PEl = 0;
-  PFuel = prescribedTemperature.port.Q_flow/eta;
-  connect(max.y, prescribedTemperature.T) annotation (Line(
-      points={{-51,50},{-42,50}},
+  PFuel = 0;
+  connect(condensor.port_b, port_b) annotation (Line(
+      points={{-34,10},{-34,60},{100,60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(senTem.port_b, massFlowRate.port_a) annotation (Line(
+      points={{34,-40},{10,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(senTem.port_a, port_a) annotation (Line(
+      points={{54,-40},{70,-40},{70,-60},{100,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(senTem.T, heatSource.TinPrimary) annotation (Line(
+      points={{44,-29},{44,0},{8,0},{8,11.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(TSet, max.u[2]) annotation (Line(
-      points={{-106,0},{-90,0},{-90,51},{-74,51}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(prescribedTemperature.port, pipe_HeatPort.heatPort) annotation (Line(
-      points={{-20,50},{28,50},{28,-6}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(Tin.T, max.u[1]) annotation (Line(
-      points={{64,-29},{30,-29},{30,-28},{-16,-28},{-16,28},{-74,28},{-74,49}},
+  connect(u, heatSource.QAsked) annotation (Line(
+      points={{20,-110},{20,18},{10,18}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            120}}),
+            100}}),
             graphics),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),

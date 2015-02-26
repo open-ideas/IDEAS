@@ -115,10 +115,6 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(pipe_HeatPort.port_b, port_b) annotation (Line(
-      points={{40,4},{40,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
                              annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics),

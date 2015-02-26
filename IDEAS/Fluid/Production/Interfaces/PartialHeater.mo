@@ -4,7 +4,6 @@ partial model PartialHeater
 
   //Imports
   import IDEAS;
-  import IDEAS.Fluid.Production.BaseClasses.HeaterType;
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
@@ -88,12 +87,7 @@ partial model PartialHeater
     from_dp=from_dp,
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
-    homotopyInitialization=homotopyInitialization,
-    mFactor=if mWater > Modelica.Constants.eps then 1 + cDry/
-        Medium.specificHeatCapacityCp(Medium.setState_pTX(
-        Medium.p_default,
-        Medium.T_default,
-        Medium.X_default))/mWater else 0) annotation (Placement(transformation(
+    homotopyInitialization=homotopyInitialization) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-34,0})));
