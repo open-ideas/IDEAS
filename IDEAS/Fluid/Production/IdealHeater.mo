@@ -4,7 +4,7 @@ model IdealHeater "Ideal heater, no losses to environment, unlimited power"
     final QNom=1,
     final cDry=0.1,
     final mWater=0,
-    heatSource(
+    redeclare Interfaces.BaseClasses.IdealHeatSource heatSource(
       QNomRef=QNom,
       useToutPrimary=false,
       useTinSecondary=false,
