@@ -3,5 +3,6 @@ p_gamma
 erf
 ierf
 integrandBf_bt
+integrandBh_rt
 partialBoreFieldTemperature
 Examples
