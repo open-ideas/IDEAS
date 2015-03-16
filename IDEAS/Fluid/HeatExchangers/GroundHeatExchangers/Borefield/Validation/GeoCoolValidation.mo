@@ -149,13 +149,27 @@ equation
       StopTime=1.25422e+09,
       __Dymola_Algorithm="Radau"),         __Dymola_experimentSetupOutput,
     Documentation(info="<html>
-<p>This model serves as a verification for the bore field model. It simulates a real thermal response test (TRT) where one bore hole was heated with a constant thermal power. The supply temperature was measured and fitted by correlation <code>T_measured</code>. </p>
-<p>The model uses the real bore hole dimensions as well as the thermal conductivity that was obtained from the TRT test. Therefore its temperature response should be equal to <code>T_measured</code>. </p>
-<p>This model is not unit tested becasue the generation of the aggregation matrix is not supported by BuildingsPy.</p>
+<p>
+This model serves as a validation for the bore field model. 
+Measurement data from the GeoCool [1] project is used to validate the model.
+ Measured inlet temperatures are used as model inputs and the return 
+temperature can be compared with the measured return temperature.
+</p>
+<p>
+Two versions exist: 
+1) the measured temperatures are used directly as model inputs and 
+2) the measured temperatures are used to calculate the thermal power 
+demanded from the bore field and this thermal power is used as input. 
+The second option is currently disabled because it leads to an error. 
+It can be enabled by setting <code>Q_nominal = 1</code> in the heater.
+</p>
+<p>
+[1] Ruiz-Calvo, F., &#38; Montagud, C. (2014). Reference data sets for validating GSHP system models and analyzing performance parameters based on a five-year operation period. <i>Geothermics</i>, <i>51</i>, 417&#8211;428.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
-January 2015, by Filip Jorissen:<br>
+March 2015, by Filip Jorissen:<br>
 First implementation.
 </li>
 </ul>
