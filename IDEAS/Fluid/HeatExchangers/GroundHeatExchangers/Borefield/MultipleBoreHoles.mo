@@ -69,7 +69,8 @@ protected
   Modelica.SIunits.Energy UOld "Internal energy at the previous period";
   Modelica.SIunits.Energy U
     "Current internal energy, defined as U=0 for t=tStart";
-  Modelica.SIunits.Time startTime "Start time of the simulation";
+  parameter Modelica.SIunits.Time startTime(fixed=false)
+    "Start time of the simulation";
 
 public
   BaseClasses.BoreHoles.BaseClasses.SingleUTubeInternalHEX
@@ -129,19 +130,19 @@ initial algorithm
     "Steady state resistance";
 
 equation
-  assert(time < lenSim, "The chosen value for lenSim is too small. It cannot cover the whole simulation time!");
+  assert(time - startTime < lenSim, "The chosen value for lenSim is too small. It cannot cover the whole simulation time!");
 
   Q_flow = port_a.m_flow*(actualStream(port_a.h_outflow) - actualStream(port_b.h_outflow));
 
   der(U) = Q_flow
     "Integration of load to calculate below the average load/(discrete time step)";
+initial equation
+  // Set the start time for the sampling
+  startTime=time;
+
+equation
 
 algorithm
-  // Set the start time for the sampling
-  when initial() then
-    startTime := time;
-  end when;
-
   when initial() or sample(startTime, bfData.gen.tStep) then
     QAve_flow := (U - UOld)/bfData.gen.tStep;
     UOld := U;
