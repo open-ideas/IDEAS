@@ -1,9 +1,12 @@
 within IDEAS.Fluid.Production;
 model NewBoiler
   //Extensions
-  extends Interfaces.PartialHeater(redeclare Interfaces.HeatSources.Boiler
+  extends Interfaces.PartialHeater(
+    redeclare Interfaces.HeatSources.Boiler
       heatSource(
-      redeclare IDEAS.Fluid.Production.Interfaces.Data.BoilerData data));
+        redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
+                                                            data,
+        final heatPump=false));
 
   Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)

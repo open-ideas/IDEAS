@@ -1,10 +1,11 @@
 within IDEAS.Fluid.Production;
 model NewHeatPumpAirWater
   //Extensions
-  extends Interfaces.PartialHeater(redeclare
-      Interfaces.HeatSources.HeatPumpAirWater heatSource(
-      redeclare IDEAS.Fluid.Production.Interfaces.Data.HeatPumpAirWaterData
-        data));
+  extends Interfaces.PartialHeater(
+    redeclare Interfaces.HeatSources.HeatPumpAirWater heatSource(
+      redeclare replaceable
+        IDEAS.Fluid.Production.Interfaces.Data.HeatPumpAirWaterData data,
+      final heatPump=false));
 
   Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
