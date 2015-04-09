@@ -1,5 +1,4 @@
 Boiler
-<<<<<<< HEAD
 NewBoiler
 HP_AirWater_TSet
 NewHeatPumpAirWater
@@ -11,6 +10,7 @@ Data
 Examples
 Interfaces
 BaseClasses
-Examples
-HP_AirWater_TSet_On
 HP_AirWater_TSet2
+HP_GroundWater_TSet2
+HP_AirWater_TSet
+HP_WaterWater_TSet
