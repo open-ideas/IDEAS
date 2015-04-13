@@ -19,7 +19,8 @@ model Boiler
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={86,-10})));
-  Modelica.Blocks.Sources.RealExpression Q_val(y=-QNom*interpolator.y * scaler - QLossesToCompensate)
+  Modelica.Blocks.Sources.RealExpression Q_val(y=QNom*interpolator.y*scaler +
+        QLossesToCompensate)
     annotation (Placement(transformation(extent={{20,-66},{80,-46}})));
 equation
   connect(QNom_val.y, modulator.max) annotation (Line(

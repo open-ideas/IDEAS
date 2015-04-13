@@ -11,8 +11,8 @@ model HeatPumpAirWater
     annotation (Placement(transformation(extent={{-68,-4},{-38,16}})));
   Modelica.Blocks.Sources.RealExpression TinSecondary_val[n](each y=TinSecondary - 273.15)
     annotation (Placement(transformation(extent={{-68,-18},{-38,2}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=-1000*interpolator.y*
-        scaler - QLossesToCompensate)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=1000*interpolator.y*
+        scaler + QLossesToCompensate)
     annotation (Placement(transformation(extent={{10,-60},{74,-42}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
     annotation (Placement(transformation(

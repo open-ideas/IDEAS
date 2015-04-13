@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production.Interfaces;
 partial model PartialHeatPump
 
   //Extensions
-  extends PartialHeater(heatSource(heatPump=true));
+  extends PartialHeater(heatSource(heatPumpWaterWater=true));
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(
                                                redeclare package Medium =
@@ -29,7 +29,7 @@ partial model PartialHeatPump
     linearizeFlowResistance=linearizeFlowResistance,
     deltaM=deltaM,
     homotopyInitialization=homotopyInitialization,
-    mFactor=if mWater > Modelica.Constants.eps then 1 + cDry/
+    mSenFac=if mWater > Modelica.Constants.eps then 1 + cDry/
         Medium.specificHeatCapacityCp(Medium.setState_pTX(
         Medium.p_default,
         Medium.T_default,
@@ -37,9 +37,23 @@ partial model PartialHeatPump
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,0})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses1(
+                                                                          G=
+        UALoss) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-54,-70})));
 equation
   connect(heatSource.heatPortE, evaporator.heatPort) annotation (Line(
       points={{-10,19},{-56,19},{-56,0},{-60,0}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalLosses1.port_b, heatPort) annotation (Line(
+      points={{-54,-80},{-54,-100},{-30,-100}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(evaporator.heatPort, thermalLosses1.port_a) annotation (Line(
+      points={{-60,-1.77636e-015},{-56,-1.77636e-015},{-56,-60},{-54,-60}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

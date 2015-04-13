@@ -230,7 +230,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
 
     parameter Modelica.SIunits.Power QNom;
     parameter Modelica.SIunits.Power QNomRef;
-    parameter Boolean heatPump = false;
+    parameter Boolean heatPumpWaterWater = false;
 
     final parameter Real scaler = QNom/QNomRef;
 
@@ -242,7 +242,11 @@ package BaseClasses "Baseclasses for the construction of heater models"
     parameter Boolean useMassFlowSecondary=true;
 
     //Variables
-    Modelica.SIunits.Power QLossesToCompensate;
+    Modelica.SIunits.Power QLossesToCompensate = if noEvent(massFlowPrimary > 0) then UALoss*(heatPort.T -
+      TEnvironment) else 0 "Compensation for the heat losses of the condensor";
+    Modelica.SIunits.Power QLossesToCompensateE = if noEvent(massFlowPrimary > 0) then UALoss*(heatPortE.T -
+      TEnvironment) else 0 if heatPumpWaterWater
+      "Compensation for the heat losses of the evaporator if water-water heat pump is used";
 
     //Components
 
@@ -312,14 +316,10 @@ package BaseClasses "Baseclasses for the construction of heater models"
           extent={{-10,-10},{10,10}},
           rotation=0,
           origin={-100,-40})));
-    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortE if heatPump
+    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortE if heatPumpWaterWater
       "heatPort connection to water in the evaporator in case of a HP"
       annotation (Placement(transformation(extent={{90,30},{110,50}}),
           iconTransformation(extent={{90,20},{110,40}})));
-
-  equation
-    QLossesToCompensate = if noEvent(massFlowPrimary > 0) then UALoss*(heatPort.T -
-      TEnvironment) else 0;
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
               {100,100}}), graphics={

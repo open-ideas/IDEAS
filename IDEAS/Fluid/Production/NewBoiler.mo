@@ -6,7 +6,7 @@ model NewBoiler
       heatSource(
         redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
                                                             data,
-        final heatPump=false));
+        final heatPumpWaterWater=false));
 
   Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
