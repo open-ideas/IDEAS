@@ -23,7 +23,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
           origin={21,69})));
   equation
     if not useQSet then
-      y = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, u, Medium.X_default)) -port_a.h_outflow), 10);
+      y = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, u, Medium.X_default)) -port_b.h_outflow), 10);
    else
       y = u;
     end if;
@@ -385,8 +385,8 @@ package BaseClasses "Baseclasses for the construction of heater models"
         points={{-110,30},{-56,30},{-56,-1},{-42,-1}},
         color={0,0,127},
         smooth=Smooth.None));
-    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
-              -100,-100},{100,100}}), graphics));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -100},{100,100}}),      graphics));
   end IdealHeatSource;
 
   partial model PartialNonModulatingHeatSource
@@ -400,9 +400,9 @@ package BaseClasses "Baseclasses for the construction of heater models"
       final useMassFlowSecondary=data.useMassFlowSecondary);
 
     //Components
-    Modelica.Blocks.Tables.CombiTable2D Heat(table=data.heat)
+    Modelica.Blocks.Tables.CombiTable2D heat(table=data.heat)
       annotation (Placement(transformation(extent={{-20,0},{0,20}})));
-    Modelica.Blocks.Tables.CombiTable2D Power(table=data.power) if calculatePower
+    Modelica.Blocks.Tables.CombiTable2D power(table=data.power) if calculatePower
       annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
     replaceable PartialNonModulatingRecord data
       constrainedby
@@ -432,7 +432,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
       n=n,
       values=modulationVector)
       annotation (Placement(transformation(extent={{22,-10},{42,10}})));
-    Modelica.Blocks.Tables.CombiTable2D[n] Heat(
+    Modelica.Blocks.Tables.CombiTable2D[n] heat(
       each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=data.heat)
       annotation (Placement(transformation(extent={{-28,-10},{-8,10}})));
@@ -440,7 +440,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
       modulationMin=modulationMin,
       modulationStart=modulationStart)
       annotation (Placement(transformation(extent={{-70,20},{-50,40}})));
-    Modelica.Blocks.Tables.CombiTable2D[n] Power(
+    Modelica.Blocks.Tables.CombiTable2D[n] power(
       each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=data.power) if calculatePower
       annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
@@ -454,7 +454,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
       annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-96},{90,-76}})));
   equation
 
-    connect(Heat.y, interpolator.x) annotation (Line(
+    connect(heat.y, interpolator.x) annotation (Line(
         points={{-7,0},{20,0}},
         color={0,0,127},
         smooth=Smooth.None));
@@ -470,7 +470,7 @@ package BaseClasses "Baseclasses for the construction of heater models"
         points={{-60,41},{-60,60},{30.4,60},{30.4,12}},
         color={0,0,127},
         smooth=Smooth.None));
-    connect(Power.y, interpolator1.x) annotation (Line(
+    connect(power.y, interpolator1.x) annotation (Line(
         points={{21,-30},{50,-30}},
         color={0,0,127},
         smooth=Smooth.None));
