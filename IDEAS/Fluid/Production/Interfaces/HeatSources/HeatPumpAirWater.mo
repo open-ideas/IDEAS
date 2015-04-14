@@ -5,8 +5,8 @@ model HeatPumpAirWater
     IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingHeatSource(
     calculatePower=false);
 
-  Modelica.Blocks.Sources.RealExpression QNom_val(y=heat[end].y * 1000)
-    annotation (Placement(transformation(extent={{-22,20},{-42,40}})));
+  Modelica.Blocks.Sources.RealExpression QNom_val(y=heat[end].y * 1000 * scaler)
+    annotation (Placement(transformation(extent={{-12,20},{-42,40}})));
   Modelica.Blocks.Sources.RealExpression TinPrimary_val[n](each y=TinPrimary - 273.15)
     annotation (Placement(transformation(extent={{-68,-4},{-38,16}})));
   Modelica.Blocks.Sources.RealExpression TinSecondary_val[n](each y=TinSecondary - 273.15)
@@ -38,7 +38,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(QNom_val.y, modulator.max) annotation (Line(
-      points={{-43,30},{-52,30}},
+      points={{-43.5,30},{-52,30}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

@@ -71,20 +71,25 @@ partial model PartialHeater
     QNom=QNom,
     m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{10,48},{-10,28}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=heatPort.T)
-    annotation (Placement(transformation(extent={{40,40},{20,60}})));
+  Modelica.Blocks.Sources.RealExpression TEnv_val(y=heatPort.T)
+    annotation (Placement(transformation(extent={{40,42},{20,62}})));
   Modelica.Blocks.Sources.RealExpression m_flow_val(y=port_a.m_flow)
     annotation (Placement(transformation(extent={{78,-2},{54,18}})));
   Modelica.Blocks.Sources.BooleanExpression on_val(y=on_internal)
     annotation (Placement(transformation(extent={{40,28},{20,48}})));
+  IDEAS.Fluid.Production.Interfaces.BaseClasses.QAsked
+                                qAsked(redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{40,12},{20,32}})));
+  Modelica.Blocks.Sources.RealExpression h_in_val(y=inStream(port_a.h_outflow))
+    annotation (Placement(transformation(extent={{80,26},{50,42}})));
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-30,-80},{-30,-100}},
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(heatSource.TEnvironment, realExpression.y) annotation (Line(
-      points={{10,42},{14,42},{14,50},{19,50}},
+  connect(heatSource.TEnvironment, TEnv_val.y) annotation (Line(
+      points={{10,42},{14,42},{14,52},{19,52}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort, vol.heatPort) annotation (Line(
@@ -102,6 +107,26 @@ equation
   connect(on_val.y, heatSource.on) annotation (Line(
       points={{19,38},{10,38}},
       color={255,0,255},
+      smooth=Smooth.None));
+  connect(qAsked.T_in, heatSource.TinPrimary) annotation (Line(
+      points={{19.1,16.1},{8,16.1},{8,27.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(qAsked.y, heatSource.QAsked) annotation (Line(
+      points={{19.1,28.1},{19.1,34},{10,34}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(u, qAsked.u) annotation (Line(
+      points={{30,106},{30,78},{84,78},{84,21.9},{40.9,21.9}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(h_in_val.y, qAsked.h_in) annotation (Line(
+      points={{48.5,34},{46,34},{46,31.1},{40.9,31.1}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(m_flow_val.y, qAsked.m_flow) annotation (Line(
+      points={{52.8,8},{48,8},{48,13.9},{40.9,13.9}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},

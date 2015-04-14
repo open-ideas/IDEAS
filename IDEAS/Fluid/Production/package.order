@@ -13,3 +13,5 @@ BaseClasses
 HP_AirWater_TSet2
 HP_GroundWater_TSet2
 NewBoiler_save
+NewHeatPumpAirWater_save
+NewHeatPumpWaterWater_save

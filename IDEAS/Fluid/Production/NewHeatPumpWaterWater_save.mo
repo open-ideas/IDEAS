@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production;
-model NewHeatPumpWaterWater
+model NewHeatPumpWaterWater_save
   //Extensions
   extends Interfaces.PartialHeatPump(
     measurePower=true,
@@ -67,4 +67,4 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
-end NewHeatPumpWaterWater;
+end NewHeatPumpWaterWater_save;
