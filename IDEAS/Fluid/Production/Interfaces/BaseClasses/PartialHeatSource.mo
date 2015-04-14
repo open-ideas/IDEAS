@@ -10,6 +10,8 @@ partial model PartialHeatSource
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
 
   parameter Modelica.SIunits.ThermalConductance UALoss;
+  parameter Modelica.SIunits.ThermalConductance UALossE if heatPumpWaterWater;
+
   parameter Boolean calculatePower;
 
   parameter Modelica.SIunits.Power QNom;
@@ -20,47 +22,53 @@ partial model PartialHeatSource
 
   parameter Boolean useTinPrimary=true;
   parameter Boolean useToutPrimary=true;
+  parameter Boolean useMassFlowPrimary=true;
 
   parameter Boolean useTinSecondary=true;
   parameter Boolean useToutSecondary=true;
-  parameter Boolean useMassFlowSecondary=true;
 
   //Variables
-  Modelica.SIunits.Power QLossesToCompensate = if noEvent(massFlowPrimary > m_flow_nominal/10000) then UALoss*(heatPort.T -
+  Modelica.SIunits.Power QLossesToCompensate = if noEvent(massFlowSecondary > m_flow_nominal/10000) then UALoss*(heatPort.T -
     TEnvironment) else 0 "Compensation for the heat losses of the condensor";
-  Modelica.SIunits.Power QLossesToCompensateE = if noEvent(massFlowPrimary > m_flow_nominal/10000) then UALoss*(heatPortE.T -
+  Modelica.SIunits.Power QLossesToCompensateE = if noEvent(massFlowSecondary > m_flow_nominal/10000) then UALossE*(heatPortE.T -
     TEnvironment) else 0 if heatPumpWaterWater
     "Compensation for the heat losses of the evaporator if water-water heat pump is used";
 
   //Components
 
   //Interfaces
-  Modelica.Blocks.Interfaces.RealInput TinPrimary if useTinPrimary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput TinSecondary if
+                                                     useTinSecondary annotation (
+      Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={-80,108}),                           iconTransformation(extent={{-10,-10},
-            {10,10}},
+        origin={-80,108}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,102})));
-  Modelica.Blocks.Interfaces.RealInput ToutPrimary if useToutPrimary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput ToutSecondary if
+                                                      useToutSecondary
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={-40,108}),                           iconTransformation(extent={{-10,-10},
-            {10,10}},
+        origin={-40,108}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-40,102})));
-  Modelica.Blocks.Interfaces.RealInput massFlowPrimary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput massFlowSecondary annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={0,108}),                              iconTransformation(extent={{-10,-10},
-            {10,10}},
+        origin={0,108}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,102})));
-  Modelica.Blocks.Interfaces.RealInput TinSecondary if useTinSecondary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput TinPrimary if   useTinPrimary
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=90,
-        origin={-80,-110}),                           iconTransformation(extent={{-10,-10},
-            {10,10}},
+        origin={-80,-110}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-80,-102})));
   Modelica.Blocks.Interfaces.RealInput QAsked annotation (Placement(
@@ -68,18 +76,20 @@ partial model PartialHeatSource
             {10,10}},
         rotation=0,
         origin={-100,40})));
-  Modelica.Blocks.Interfaces.RealInput ToutSecondary if useToutSecondary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput ToutPrimary if   useToutPrimary
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=90,
-        origin={-40,-110}),                           iconTransformation(extent={{-10,-10},
-            {10,10}},
+        origin={-40,-110}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-102})));
-  Modelica.Blocks.Interfaces.RealInput massFlowSecondary if useMassFlowSecondary annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+  Modelica.Blocks.Interfaces.RealInput massFlowPrimary if   useMassFlowPrimary
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=90,
-        origin={0,-110}),                              iconTransformation(
-          extent={{-10,-10},{10,10}},
+        origin={0,-110}), iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-40,-102})));
 
@@ -102,8 +112,8 @@ partial model PartialHeatSource
         origin={-100,-40})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortE if heatPumpWaterWater
     "heatPort connection to water in the evaporator in case of a HP"
-    annotation (Placement(transformation(extent={{90,30},{110,50}}),
-        iconTransformation(extent={{90,20},{110,40}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(extent={{90,-50},{110,-30}})));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={

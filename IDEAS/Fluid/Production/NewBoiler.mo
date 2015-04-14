@@ -1,12 +1,11 @@
 within IDEAS.Fluid.Production;
 model NewBoiler
   //Extensions
-  extends Interfaces.PartialHeater(
+  extends Interfaces.PartialHeaterTwoPort(
     redeclare Interfaces.HeatSources.Boiler
       heatSource(
         redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
-                                                            data,
-        final heatPumpWaterWater=false));
+                                                            data));
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));

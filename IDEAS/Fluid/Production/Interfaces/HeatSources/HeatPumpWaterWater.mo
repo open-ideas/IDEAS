@@ -5,7 +5,8 @@ model HeatPumpWaterWater
   extends
     IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialNonModulatingHeatSource(
     heatPumpWaterWater=true,
-    calculatePower=true);
+    calculatePower=true,
+    redeclare replaceable Data.VitoCal300GBWS301dotA08 data);
 
   //Variables
   Real cop;
@@ -28,19 +29,11 @@ equation
   PCond = PEl*cop;
 
   connect(TinPrimary, heat.u1) annotation (Line(
-      points={{-80,108},{-80,16},{-22,16}},
+      points={{-80,-110},{-80,16},{-22,16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TinPrimary, power.u1) annotation (Line(
-      points={{-80,108},{-80,-24},{-2,-24}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TinSecondary, power.u2) annotation (Line(
-      points={{-80,-110},{-80,-52},{-60,-52},{-60,-36},{-2,-36}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TinSecondary, heat.u2) annotation (Line(
-      points={{-80,-110},{-80,-52},{-60,-52},{-60,4},{-22,4}},
+      points={{-80,-110},{-80,-24},{-2,-24}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatPort, prescribedHeatFlow.port) annotation (Line(
@@ -52,11 +45,19 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatPortE, prescribedHeatFlow1.port) annotation (Line(
-      points={{100,40},{80,40}},
+      points={{100,-40},{90,-40},{90,40},{80,40}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(prescribedHeatFlow1.Q_flow, QEva.y) annotation (Line(
       points={{60,40},{52.3,40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(ToutSecondary, heat.u2) annotation (Line(
+      points={{-40,108},{-42,108},{-42,4},{-22,4}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(power.u2, heat.u2) annotation (Line(
+      points={{-2,-36},{-42,-36},{-42,4},{-22,4}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

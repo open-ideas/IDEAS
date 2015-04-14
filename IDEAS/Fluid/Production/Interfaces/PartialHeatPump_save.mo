@@ -45,7 +45,7 @@ partial model PartialHeatPump_save
         origin={-54,-70})));
 equation
   connect(heatSource.heatPortE, evaporator.heatPort) annotation (Line(
-      points={{-10,19},{-56,19},{-56,0},{-60,0}},
+      points={{-10,26},{-56,26},{-56,0},{-60,0}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(thermalLosses1.port_b, heatPort) annotation (Line(

@@ -10,9 +10,10 @@ model Boiler
 
   Modelica.Blocks.Sources.RealExpression QNom_val(y=heat[end].y*QNom)
     annotation (Placement(transformation(extent={{-10,20},{-40,40}})));
-  Modelica.Blocks.Sources.RealExpression TinPrimary_val[n](each y=TinPrimary - 273.15)
+  Modelica.Blocks.Sources.RealExpression TinPrimary_val[n](each y=ToutSecondary
+         - 273.15)
     annotation (Placement(transformation(extent={{-74,-4},{-38,16}})));
-  Modelica.Blocks.Sources.RealExpression massFlowPrimary_val[n](each y=massFlowPrimary*scaler*kgps2lph)
+  Modelica.Blocks.Sources.RealExpression massFlowSecondary_val[n](each y=massFlowSecondary*scaler*kgps2lph)
     annotation (Placement(transformation(extent={{-82,-18},{-38,2}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
     annotation (Placement(transformation(
@@ -31,7 +32,7 @@ equation
       points={{-36.2,6},{-30,6}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(massFlowPrimary_val.y, heat.u2) annotation (Line(
+  connect(massFlowSecondary_val.y, heat.u2) annotation (Line(
       points={{-35.8,-8},{-34,-8},{-34,-6},{-30,-6}},
       color={0,0,127},
       smooth=Smooth.None));

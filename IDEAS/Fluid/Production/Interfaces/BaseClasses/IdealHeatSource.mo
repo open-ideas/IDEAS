@@ -18,7 +18,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(TinPrimary, max.u[2]) annotation (Line(
-      points={{-80,108},{-80,40},{-52,40},{-52,1},{-42,1}},
+      points={{-80,-110},{-80,40},{-52,40},{-52,1},{-42,1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(QAsked, max.u[1]) annotation (Line(

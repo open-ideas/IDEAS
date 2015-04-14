@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Production;
 model NewHeatPumpWaterWater_save
   //Extensions
-  extends Interfaces.PartialHeatPump(
+  extends Interfaces.PartialHeatPump_save(
     measurePower=true,
     redeclare Interfaces.HeatSources.HeatPumpWaterWater
      heatSource(redeclare
@@ -14,7 +14,7 @@ model NewHeatPumpWaterWater_save
                                     redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{40,-50},{20,-30}})));
-  Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium,
+  Interfaces.BaseClasses.QAsked_save qAsked(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{74,-50},{54,-30}})));
 equation
@@ -42,15 +42,15 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(qAsked.port_a, port_a) annotation (Line(
-      points={{74,-40},{88,-40},{88,0},{-100,0}},
+      points={{74,-40},{88,-40},{88,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
-      points={{30,106},{30,-68},{84,-68},{84,-26},{74.9,-26},{74.9,-40.1}},
+      points={{20,-110},{20,-68},{84,-68},{84,-26},{66.1,-26},{66.1,-33.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(senTem.T, heatSource.TinSecondary) annotation (Line(
-      points={{-80,71},{-80,74},{8,74},{8,48.2}},
+      points={{-80,71},{-80,74},{8,74},{8,11.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(condensor.port_b, port_b) annotation (Line(
@@ -58,11 +58,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTem1.T, heatSource.TinPrimary) annotation (Line(
-      points={{30,-29},{30,-6},{8,-6},{8,27.8}},
+      points={{30,-29},{30,-6},{8,-6},{8,32.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{53.1,-33.9},{53.1,34},{10,34}},
+      points={{61.9,-33.1},{61.9,18},{10,18}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

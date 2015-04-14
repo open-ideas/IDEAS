@@ -8,7 +8,7 @@ partial model PartialModulatingHeatSource
     final useToutPrimary=data.useToutPrimary,
     final useTinSecondary=data.useTinSecondary,
     final useToutSecondary=data.useToutSecondary,
-    final useMassFlowSecondary=data.useMassFlowSecondary);
+    final useMassFlowPrimary=data.useMassFlowPrimary);
 
   //Parameters
   final parameter Real modulationStart=data.modulationStart;

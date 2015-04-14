@@ -3,7 +3,7 @@ record HeatPumpAirWaterData
   //Extensions
   extends IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord(
     useTinPrimary=true,
-    useTinSecondary=true,
+    useToutSecondary=true,
     n=4,
     QNomRef=7177,
     modulationVector={30,50,90,100},

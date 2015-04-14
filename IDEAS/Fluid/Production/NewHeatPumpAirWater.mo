@@ -1,22 +1,21 @@
 within IDEAS.Fluid.Production;
 model NewHeatPumpAirWater
   //Extensions
-  extends Interfaces.PartialHeater(
+  extends Interfaces.PartialHeaterTwoPort(
     redeclare Interfaces.HeatSources.HeatPumpAirWater heatSource(
       redeclare replaceable
-        IDEAS.Fluid.Production.Interfaces.Data.HeatPumpAirWaterData data,
-      final heatPumpWaterWater=false));
+        IDEAS.Fluid.Production.Interfaces.Data.HeatPumpAirWaterData data));
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-74,72},{-54,92}})));
   Modelica.Blocks.Sources.RealExpression Te_val(y=sim.Te)
-    annotation (Placement(transformation(extent={{40,56},{20,76}})));
+    annotation (Placement(transformation(extent={{40,36},{20,56}})));
 equation
   PFuel = 0;
   PEl = 0;
 
-  connect(Te_val.y, heatSource.TinSecondary) annotation (Line(
-      points={{19,66},{8,66},{8,48.2}},
+  connect(Te_val.y, heatSource.TinPrimary) annotation (Line(
+      points={{19,46},{8,46},{8,34.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

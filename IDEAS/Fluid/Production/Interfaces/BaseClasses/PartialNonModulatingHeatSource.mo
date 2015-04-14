@@ -7,7 +7,7 @@ partial model PartialNonModulatingHeatSource
     final useToutPrimary=data.useToutPrimary,
     final useTinSecondary=data.useTinSecondary,
     final useToutSecondary=data.useToutSecondary,
-    final useMassFlowSecondary=data.useMassFlowSecondary);
+    final useMassFlowPrimary=data.useMassFlowPrimary);
 
   //Components
   Modelica.Blocks.Tables.CombiTable2D heat(table=data.heat)

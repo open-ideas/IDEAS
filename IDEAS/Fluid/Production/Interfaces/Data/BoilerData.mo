@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production.Interfaces.Data;
 record BoilerData
   //Extensions
   extends IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord(
-    useTinPrimary=true,
+    useToutSecondary=true,
     n=5,
     QNomRef=10100,
     modulationVector={20,40,60,80,100},

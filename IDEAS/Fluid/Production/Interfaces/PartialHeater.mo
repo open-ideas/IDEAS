@@ -4,12 +4,10 @@ partial model PartialHeater
 
   //Imports
   import IDEAS;
-
+  replaceable package Medium =
+      Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+      annotation (choicesAllMatching = true);
   //Extensions
-  extends IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger(
-    redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=2, V=mWater
-          /rho_default),
-    final showDesignFlowDirection=true);
   extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
 
   //Parameters
@@ -39,9 +37,9 @@ partial model PartialHeater
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{-6,-6},{6,6}},
         rotation=-90,
-        origin={-30,-70})));
+        origin={-20,-80})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "heatPort for thermal losses to environment" annotation (Placement(
         transformation(extent={{-40,-110},{-20,-90}}), iconTransformation(
@@ -65,67 +63,56 @@ partial model PartialHeater
   //Components
   replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource
     heatSource(
-    redeclare package Medium = Medium,
     UALoss=UALoss,
     calculatePower=measurePower,
-    QNom=QNom,
-    m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{10,48},{-10,28}})));
-  Modelica.Blocks.Sources.RealExpression TEnv_val(y=heatPort.T)
-    annotation (Placement(transformation(extent={{40,42},{20,62}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_val(y=port_a.m_flow)
-    annotation (Placement(transformation(extent={{78,-2},{54,18}})));
-  Modelica.Blocks.Sources.BooleanExpression on_val(y=on_internal)
-    annotation (Placement(transformation(extent={{40,28},{20,48}})));
+    QNom=QNom)
+    annotation (Placement(transformation(extent={{10,34},{-10,14}})));
   IDEAS.Fluid.Production.Interfaces.BaseClasses.QAsked
-                                qAsked(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{40,12},{20,32}})));
-  Modelica.Blocks.Sources.RealExpression h_in_val(y=inStream(port_a.h_outflow))
-    annotation (Placement(transformation(extent={{80,26},{50,42}})));
+                                qAsked
+    annotation (Placement(transformation(extent={{40,10},{20,18}})));
+  Modelica.Blocks.Sources.RealExpression m_flow_val
+          annotation (Placement(transformation(extent={{78,-4},{54,12}})));
+
+  Modelica.Blocks.Sources.RealExpression h_in_val
+          annotation (Placement(transformation(extent={{80,10},{50,26}})));
+  Modelica.Blocks.Sources.RealExpression TEnv_val(y=heatPort.T)
+    annotation (Placement(transformation(extent={{40,26},{20,40}})));
+
+  Modelica.Blocks.Sources.BooleanExpression on_val(y=on_internal)
+    annotation (Placement(transformation(extent={{40,16},{20,30}})));
+
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
-      points={{-30,-80},{-30,-100}},
+      points={{-20,-86},{-20,-94},{-30,-94},{-30,-100}},
       color={191,0,0},
       smooth=Smooth.None));
 
   connect(heatSource.TEnvironment, TEnv_val.y) annotation (Line(
-      points={{10,42},{14,42},{14,52},{19,52}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatSource.heatPort, vol.heatPort) annotation (Line(
-      points={{-10,38},{-20,38},{-20,-10},{-9,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalLosses.port_a, vol.heatPort) annotation (Line(
-      points={{-30,-60},{-30,-40},{-20,-40},{-20,-10},{-9,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(m_flow_val.y, heatSource.massFlowPrimary) annotation (Line(
-      points={{52.8,8},{0,8},{0,27.8}},
+      points={{10,28},{14,28},{14,33},{19,33}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(on_val.y, heatSource.on) annotation (Line(
-      points={{19,38},{10,38}},
+      points={{19,23},{20,23},{20,24},{10,24}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(qAsked.T_in, heatSource.TinPrimary) annotation (Line(
-      points={{19.1,16.1},{8,16.1},{8,27.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{19.1,28.1},{19.1,34},{10,34}},
+      points={{19.5,14.04},{20,14.04},{20,14},{14,14},{14,20},{10,20}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
-      points={{30,106},{30,78},{84,78},{84,21.9},{40.9,21.9}},
+      points={{30,106},{30,68},{84,68},{84,13.96},{40.9,13.96}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(h_in_val.y, qAsked.h_in) annotation (Line(
-      points={{48.5,34},{46,34},{46,31.1},{40.9,31.1}},
+      points={{48.5,18},{46,18},{46,17.64},{40.9,17.64}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(m_flow_val.y, qAsked.m_flow) annotation (Line(
-      points={{52.8,8},{48,8},{48,13.9},{40.9,13.9}},
+      points={{52.8,4},{48,4},{48,10.76},{40.9,10.76}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(m_flow_val.y, heatSource.massFlowSecondary) annotation (Line(
+      points={{52.8,4},{0,4},{0,13.8}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

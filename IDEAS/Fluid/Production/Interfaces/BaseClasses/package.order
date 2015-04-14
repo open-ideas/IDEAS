@@ -8,4 +8,5 @@ PartialModulatingHeatSource
 PartialRecord
 PartialNonModulatingRecord
 PartialModulatingRecord
+HeatPumpData
 QAsked_save

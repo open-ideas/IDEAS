@@ -24,8 +24,8 @@ model Interpolator
 
 equation
   y = Modelica.Math.Vectors.interpolate(
-    values,
     x,
+    values,
     xi);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
