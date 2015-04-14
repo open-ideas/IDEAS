@@ -1,16 +1,17 @@
 within IDEAS.Fluid.Production.Interfaces;
-partial model PartialHeater
+partial model PartialHeater_save
   "Partial heater model incl dynamics and environmental losses"
 
   //Imports
   import IDEAS;
 
   //Extensions
-  extends IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger(
-    redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=2, V=mWater
-          /rho_default),
-    final showDesignFlowDirection=true);
-  extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
+   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
+     final computeFlowResistance=true,
+     dp_nominal = 0);
+   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
+     T_start=293.15,
+     redeclare replaceable package Medium=IDEAS.Media.Water.Simple);
 
   //Parameters
   //****************************************************************************
@@ -31,8 +32,15 @@ partial model PartialHeater
 
   //Fluid settings
   //**************
+  parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
+  parameter SI.Pressure dp_nominal=0 "Pressure";
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
+   parameter Boolean dynamicBalance=true
+    "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
+     annotation (Dialog(tab="Flow resistance"));
+   parameter Boolean homotopyInitialization=true "= true, use homotopy method"
+    annotation (Dialog(tab="Flow resistance"));
 
   //Variables
   Modelica.SIunits.Power PFuel "Fuel consumption in watt";
@@ -49,12 +57,12 @@ partial model PartialHeater
 
   Modelica.Blocks.Interfaces.RealInput u "Input for the heater. Can be T or Q"
                                           annotation (Placement(transformation(
-          extent={{20,-20},{-20,20}},
+          extent={{-20,-20},{20,20}},
         rotation=90,
-        origin={30,106}),                iconTransformation(
-        extent={{18,-18},{-18,18}},
+        origin={20,-110}),               iconTransformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={40,110})));
+        origin={0,-98})));
   Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
     annotation (Placement(transformation(extent={{-252,10},{-232,30}}),
         iconTransformation(
@@ -63,45 +71,79 @@ partial model PartialHeater
         origin={-74,-100})));
 
   //Components
+  IDEAS.Fluid.FixedResistances.Pipe_HeatPort condensor(
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_nominal,
+    m=mWater,
+    energyDynamics=energyDynamics,
+    massDynamics=massDynamics,
+    p_start=p_start,
+    T_start=T_start,
+    X_start=X_start,
+    C_start=C_start,
+    C_nominal=C_nominal,
+    dynamicBalance=dynamicBalance,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    homotopyInitialization=homotopyInitialization) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-34,0})));
+   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+         Medium) "Fluid inlet"
+     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+         Medium) "Fluid outlet"
+     annotation (Placement(transformation(extent={{90,50},{110,70}})));
   replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource
     heatSource(
     redeclare package Medium = Medium,
     UALoss=UALoss,
     calculatePower=measurePower,
-    QNom=QNom,
-    m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{10,48},{-10,28}})));
+    QNom=QNom) annotation (Placement(transformation(extent={{10,32},{-10,12}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=heatPort.T)
-    annotation (Placement(transformation(extent={{40,40},{20,60}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_val(y=port_a.m_flow)
-    annotation (Placement(transformation(extent={{78,-2},{54,18}})));
-  Modelica.Blocks.Sources.BooleanExpression on_val(y=on_internal)
-    annotation (Placement(transformation(extent={{40,28},{20,48}})));
+    annotation (Placement(transformation(extent={{40,16},{20,36}})));
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium =
+        Medium)
+    annotation (Placement(transformation(extent={{10,-50},{-10,-30}})));
+  Modelica.Blocks.Interfaces.BooleanInput u1 annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={0,112}), iconTransformation(extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={0,100})));
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-30,-80},{-30,-100}},
       color={191,0,0},
       smooth=Smooth.None));
+  connect(condensor.heatPort, thermalLosses.port_a) annotation (Line(
+      points={{-44,6.66134e-016},{-44,0},{-50,0},{-50,-50},{-30,-50},{-30,-60}},
+      color={191,0,0},
+      smooth=Smooth.None));
 
   connect(heatSource.TEnvironment, realExpression.y) annotation (Line(
-      points={{10,42},{14,42},{14,50},{19,50}},
+      points={{10,26},{19,26}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatSource.heatPort, vol.heatPort) annotation (Line(
-      points={{-10,38},{-20,38},{-20,-10},{-9,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalLosses.port_a, vol.heatPort) annotation (Line(
-      points={{-30,-60},{-30,-40},{-20,-40},{-20,-10},{-9,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(m_flow_val.y, heatSource.massFlowPrimary) annotation (Line(
-      points={{52.8,8},{0,8},{0,27.8}},
+  connect(heatSource.massFlowPrimary, massFlowRate.m_flow) annotation (Line(
+      points={{0,11.8},{0,-29}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(on_val.y, heatSource.on) annotation (Line(
-      points={{19,38},{10,38}},
+  connect(massFlowRate.port_b, condensor.port_a) annotation (Line(
+      points={{-10,-40},{-34,-40},{-34,-10}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(u1, heatSource.on) annotation (Line(
+      points={{0,112},{0,80},{60,80},{60,22},{10,22}},
       color={255,0,255},
+      smooth=Smooth.None));
+  connect(condensor.heatPort, heatSource.heatPort) annotation (Line(
+      points={{-44,0},{-50,0},{-50,22},{-10,22}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
@@ -136,4 +178,4 @@ equation
 <li>2014 March, Filip Jorissen, Annex60 compatibility</li>
 </ul>
 </html>"));
-end PartialHeater;
+end PartialHeater_save;

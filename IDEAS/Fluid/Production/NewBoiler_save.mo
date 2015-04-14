@@ -1,42 +1,52 @@
 within IDEAS.Fluid.Production;
-model NewBoiler
+model NewBoiler_save
   //Extensions
-  extends Interfaces.PartialHeater(
+  extends Interfaces.PartialHeater_save(
     redeclare Interfaces.HeatSources.Boiler
       heatSource(
         redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
                                                             data,
         final heatPumpWaterWater=false));
 
-  Interfaces.BaseClasses.QAsked qAsked(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{36,18},{22,32}})));
+  Interfaces.BaseClasses.QAsked_save qAsked(redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal)
+    annotation (Placement(transformation(extent={{76,-50},{56,-30}})));
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
-  Modelica.Blocks.Sources.RealExpression h_in_val(y=inStream(port_a.h_outflow))
-    annotation (Placement(transformation(extent={{88,22},{52,42}})));
+  Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_nominal)
+    annotation (Placement(transformation(extent={{44,-50},{24,-30}})));
 equation
   PFuel = 0;
   PEl = 0;
 
-  connect(qAsked.T_in, heatSource.TinPrimary) annotation (Line(
-      points={{21.37,20.87},{8,20.87},{8,27.8}},
-      color={0,0,127},
+  connect(port_a, qAsked.port_a) annotation (Line(
+      points={{100,-60},{88,-60},{88,-40},{76,-40}},
+      color={0,127,255},
       smooth=Smooth.None));
-  connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{21.37,29.27},{18,29.27},{18,34},{10,34}},
-      color={0,0,127},
+  connect(qAsked.port_b, senTem.port_a) annotation (Line(
+      points={{56,-40},{44,-40}},
+      color={0,127,255},
       smooth=Smooth.None));
-  connect(m_flow_val.y, qAsked.m_flow) annotation (Line(
-      points={{52.8,8},{46,8},{46,19.33},{36.63,19.33}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(h_in_val.y, qAsked.h_in) annotation (Line(
-      points={{50.2,32},{44,32},{44,31.37},{36.63,31.37}},
-      color={0,0,127},
+  connect(massFlowRate.port_a, senTem.port_b) annotation (Line(
+      points={{10,-40},{24,-40}},
+      color={0,127,255},
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
-      points={{30,106},{30,70},{90,70},{90,24.93},{36.63,24.93}},
+      points={{20,-110},{20,-68},{80,-68},{80,-28},{68.1,-28},{68.1,-33.1}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatSource.QAsked, qAsked.y) annotation (Line(
+      points={{10,18},{63.9,18},{63.9,-33.1}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatSource.TinPrimary, senTem.T) annotation (Line(
+      points={{8,11.8},{8,-12},{34,-12},{34,-29}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(condensor.port_b, port_b) annotation (Line(
+      points={{-34,10},{-34,60},{100,60}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
@@ -71,4 +81,4 @@ equation
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash)}));
-end NewBoiler;
+end NewBoiler_save;
