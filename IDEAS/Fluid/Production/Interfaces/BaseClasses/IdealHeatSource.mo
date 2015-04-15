@@ -1,7 +1,8 @@
 within IDEAS.Fluid.Production.Interfaces.BaseClasses;
 model IdealHeatSource
   //Extensions
-  extends PartialHeatSource;
+  extends PartialHeatSource(
+    modulating=false);
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature

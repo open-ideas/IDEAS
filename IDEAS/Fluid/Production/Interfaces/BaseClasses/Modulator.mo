@@ -58,8 +58,9 @@ equation
       points={{0,-108},{0,-12}},
       color={255,0,255},
       smooth=Smooth.None));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                         graphics={
         Ellipse(
           fillColor={245,245,245},
           fillPattern=FillPattern.Solid,

@@ -126,11 +126,11 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(fixedTemperature.port, newBoiler.heatPort) annotation (Line(
-      points={{-80,13},{-72,13},{-72,4},{-48,4},{-48,17}},
+      points={{-80,13},{-72,13},{-72,4},{-48,4},{-48,20}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(realExpression.y, newBoiler.u) annotation (Line(
-      points={{-37,10},{-69,10},{-69,24}},
+      points={{-37,10},{-68.6,10},{-68.6,24}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

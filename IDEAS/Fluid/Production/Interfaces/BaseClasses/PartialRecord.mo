@@ -3,6 +3,7 @@ partial record PartialRecord
   extends Modelica.Icons.Record;
 
    parameter Modelica.SIunits.Power QNomRef=1000;
+   parameter Real etaRef=1;
 
    parameter Modelica.SIunits.Temperature TMax = 273.15+80;
    parameter Modelica.SIunits.Temperature TMin = 273.15+20;

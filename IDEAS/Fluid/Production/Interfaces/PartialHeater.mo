@@ -24,8 +24,11 @@ partial model PartialHeater
 
   //Heater settings
   //***************
-  parameter Boolean useQSet=false "Set to true to use Q as an input";
-  parameter Boolean measurePower=false "Set to true to measure the power";
+  parameter Boolean useQSet=false if not modulationInput
+    "Set to true to use Q as an input";
+  parameter Boolean modulating=true;
+  parameter Boolean modulationInput=true if modulating
+    "Set to true to use modulation as an input";
 
   //Fluid settings
   //**************
@@ -33,86 +36,125 @@ partial model PartialHeater
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
 
   //Variables
-  Modelica.SIunits.Power PFuel "Fuel consumption in watt";
-
+  //*********
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=-90,
-        origin={-20,-80})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-    "heatPort for thermal losses to environment" annotation (Placement(
-        transformation(extent={{-40,-110},{-20,-90}}), iconTransformation(
-          extent={{-40,-110},{-20,-90}})));
-
-  Modelica.Blocks.Interfaces.RealInput u "Input for the heater. Can be T or Q"
-                                          annotation (Placement(transformation(
-          extent={{20,-20},{-20,20}},
-        rotation=90,
-        origin={30,106}),                iconTransformation(
-        extent={{18,-18},{-18,18}},
-        rotation=90,
-        origin={40,110})));
-  Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
-    annotation (Placement(transformation(extent={{-252,10},{-232,30}}),
-        iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-74,-100})));
+        origin={-36,-42})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+    "heatPort for thermal losses to environment" annotation (Placement(
+        transformation(extent={{-10,-110},{10,-90}}),  iconTransformation(
+          extent={{-10,-110},{10,-90}})));
+
+  Modelica.Blocks.Interfaces.RealInput u if not modulationInput
+    "Input for the heater. Can be T or Q" annotation (Placement(transformation(
+          extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={20,108}),                iconTransformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={20,108})));
+  Modelica.Blocks.Interfaces.RealOutput PFuelOrEl
+    "Electrical or fuel consumption"
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={20,-106}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-80,-30})));
 
   //Components
   replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource
     heatSource(
     UALoss=UALoss,
-    calculatePower=measurePower,
-    QNom=QNom)
-    annotation (Placement(transformation(extent={{10,34},{-10,14}})));
+    QNom=QNom,
+    modulating=modulating,
+    modulationInput=modulationInput)
+    annotation (Placement(transformation(extent={{-4,42},{-24,22}})));
   IDEAS.Fluid.Production.Interfaces.BaseClasses.QAsked
-                                qAsked
-    annotation (Placement(transformation(extent={{40,10},{20,18}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_val
-          annotation (Placement(transformation(extent={{78,-4},{54,12}})));
+                                qAsked if not modulationInput
+    annotation (Placement(transformation(extent={{30,6},{10,26}})));
+  Modelica.Blocks.Sources.RealExpression mFlowSecondary
+    annotation (Placement(transformation(extent={{62,0},{42,20}})));
 
-  Modelica.Blocks.Sources.RealExpression h_in_val
-          annotation (Placement(transformation(extent={{80,10},{50,26}})));
-  Modelica.Blocks.Sources.RealExpression TEnv_val(y=heatPort.T)
-    annotation (Placement(transformation(extent={{40,26},{20,40}})));
+  Modelica.Blocks.Sources.RealExpression hIn
+    annotation (Placement(transformation(extent={{62,14},{42,34}})));
 
-  Modelica.Blocks.Sources.BooleanExpression on_val(y=on_internal)
-    annotation (Placement(transformation(extent={{40,16},{20,30}})));
+  Modelica.Blocks.Sources.BooleanExpression OnOff(y=on_internal)
+    annotation (Placement(transformation(extent={{28,22},{8,42}})));
 
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TEnvironment
+    annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor ToutSecondary
+    annotation (Placement(transformation(extent={{-36,22},{-56,42}})));
+  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
+    "modulation input"
+    annotation (Placement(transformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-60,108}), iconTransformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-60,108})));
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
-      points={{-20,-86},{-20,-94},{-30,-94},{-30,-100}},
+      points={{-36,-52},{-36,-100},{0,-100}},
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(heatSource.TEnvironment, TEnv_val.y) annotation (Line(
-      points={{10,28},{14,28},{14,33},{19,33}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(on_val.y, heatSource.on) annotation (Line(
-      points={{19,23},{20,23},{20,24},{10,24}},
+  connect(OnOff.y, heatSource.on) annotation (Line(
+      points={{7,32},{-4,32}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{19.5,14.04},{20,14.04},{20,14},{14,14},{14,20},{10,20}},
+      points={{9,16},{4,16},{4,28},{-4,28}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(u, qAsked.u) annotation (Line(
-      points={{30,106},{30,68},{84,68},{84,13.96},{40.9,13.96}},
+      points={{20,108},{20,21.2}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(h_in_val.y, qAsked.h_in) annotation (Line(
-      points={{48.5,18},{46,18},{46,17.64},{40.9,17.64}},
+  connect(hIn.y, qAsked.h_in) annotation (Line(
+      points={{41,24},{36,24},{36,18},{30.8,18}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(m_flow_val.y, qAsked.m_flow) annotation (Line(
-      points={{52.8,4},{48,4},{48,10.76},{40.9,10.76}},
+  connect(mFlowSecondary.y, heatSource.massFlowSecondary) annotation (Line(
+      points={{41,10},{-14,10},{-14,21.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(m_flow_val.y, heatSource.massFlowSecondary) annotation (Line(
-      points={{52.8,4},{0,4},{0,13.8}},
+  connect(qAsked.m_flow, heatSource.massFlowSecondary) annotation (Line(
+      points={{30.8,14},{36,14},{36,10},{-14,10},{-14,21.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(TEnvironment.port, heatPort) annotation (Line(
+      points={{40,-40},{32,-40},{32,-76},{-36,-76},{-36,-100},{0,-100}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(TEnvironment.T, heatSource.TEnvironment) annotation (Line(
+      points={{60,-40},{76,-40},{76,42},{4,42},{4,36},{-4,36}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatSource.heatPort, thermalLosses.port_a) annotation (Line(
+      points={{-24,32},{-36,32},{-36,-32}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(heatSource.heatPort, ToutSecondary.port) annotation (Line(
+      points={{-24,32},{-36,32}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(ToutSecondary.T, heatSource.ToutSecondary) annotation (Line(
+      points={{-56,32},{-60,32},{-60,16},{-10,16},{-10,21.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(heatSource.power, PFuelOrEl) annotation (Line(
+      points={{-24.6,28},{-32,28},{-32,6},{20,6},{20,-106}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(uModulation, heatSource.uModulation) annotation (Line(
+      points={{-60,108},{-60,84},{-20,84},{-20,42.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

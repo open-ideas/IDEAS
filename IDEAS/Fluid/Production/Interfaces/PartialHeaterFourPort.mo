@@ -4,8 +4,8 @@ partial model PartialHeaterFourPort
   //Extensions
   extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger(vol2(nPorts=2));
   extends IDEAS.Fluid.Production.Interfaces.PartialHeater(
-    m_flow_val(y=port_a2.m_flow),
-    h_in_val(y=inStream(port_a2.h_outflow)),
+    mFlowSecondary(y=port_a2.m_flow),
+    hIn(y=inStream(port_a2.h_outflow)),
     qAsked(redeclare package Medium = Medium2, useQSet=false),
     heatSource(
       m_flow_nominal=m2_flow_nominal,
@@ -14,57 +14,43 @@ partial model PartialHeaterFourPort
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLossesE(G=UALossE)
                 annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
+        extent={{-10,-10},{10,10}},
         rotation=-90,
-       origin={-40,-80})));
+       origin={-66,-42})));
 
   parameter Modelica.SIunits.Mass mBrine=5 "Mass of water in the Evaporator";
   final parameter Modelica.SIunits.ThermalConductance UALossE=(cDry + mBrine*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
-  Modelica.Blocks.Sources.RealExpression h_in_val1(y=Medium1.temperature_phX(
+  Modelica.Blocks.Sources.RealExpression TinPrimary(y=Medium1.temperature_phX(
         Medium1.p_default,
         inStream(port_a1.h_outflow),
         Medium1.X_default))
-          annotation (Placement(transformation(extent={{50,36},{20,52}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_out
-    annotation (Placement(transformation(extent={{-10,4},{-4,10}})));
+    annotation (Placement(transformation(extent={{-34,40},{-14,60}})));
 equation
   connect(heatPort, heatPort) annotation (Line(
-      points={{-30,-100},{-30,-96},{-30,-96},{-30,-100}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalLossesE.port_b, heatPort) annotation (Line(
-      points={{-40,-86},{-40,-86},{-40,-100},{-30,-100}},
+      points={{0,-100},{0,-96},{0,-96},{0,-100}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatSource.heatPortE, vol1.heatPort) annotation (Line(
-      points={{-10,28},{-20,28},{-20,60},{-10,60}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatSource.heatPort, vol2.heatPort) annotation (Line(
-      points={{-10,24},{-20,24},{-20,-40},{20,-40},{20,-60},{12,-60}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalLosses.port_a, vol2.heatPort) annotation (Line(
-      points={{-20,-74},{20,-74},{20,-60},{12,-60}},
+      points={{-24,36},{-36,36},{-36,60},{-10,60}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(thermalLossesE.port_a, vol1.heatPort) annotation (Line(
-      points={{-40,-74},{-40,60},{-10,60}},
+      points={{-66,-32},{-66,60},{-10,60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(h_in_val1.y, heatSource.TinPrimary) annotation (Line(
-      points={{18.5,44},{8,44},{8,34.2}},
+  connect(TinPrimary.y, heatSource.TinPrimary) annotation (Line(
+      points={{-13,50},{-6,50},{-6,42.2}},
       color={0,0,127},
-      smooth=Smooth.None));
-  connect(T_out.port, vol2.heatPort) annotation (Line(
-      points={{-10,7},{-16,7},{-16,6},{-20,6},{-20,-40},{20,-40},{20,-60},{12,-60}},
-      color={191,0,0},
       smooth=Smooth.None));
 
-  connect(T_out.T, heatSource.ToutSecondary) annotation (Line(
-      points={{-4,7},{4,7},{4,8},{4,8},{4,13.8}},
-      color={0,0,127},
+  connect(thermalLosses.port_a, vol2.heatPort) annotation (Line(
+      points={{-36,-32},{-36,-20},{16,-20},{16,-60},{12,-60}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalLossesE.port_b, heatPort) annotation (Line(
+      points={{-66,-52},{-66,-76},{-36,-76},{-36,-100},{0,-100}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(
@@ -76,29 +62,14 @@ equation
           textString="Condensor")}),      Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Line(
-          points={{-100,60},{-20,60},{-40,40},{-20,20},{-40,0},{-20,-20},{-40,
-              -40}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{100,60},{20,60},{40,40},{20,20},{40,0},{20,-20},{40,-40}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{-20,0},{0,0}},
+          points={{0,38},{0,-34}},
           color={191,0,0},
           thickness=0.5),
         Polygon(
-          points={{0,-10},{0,10},{20,0},{0,-10}},
+          points={{-10,-10},{-10,10},{10,0},{-10,-10}},
           lineColor={191,0,0},
           fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{-40,-40},{-20,-60},{-92,-60}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{40,-40},{20,-60},{90,-60}},
-          color={0,0,255},
-          smooth=Smooth.None)}));
+          fillPattern=FillPattern.Solid,
+          origin={0,-36},
+          rotation=270)}));
 end PartialHeaterFourPort;

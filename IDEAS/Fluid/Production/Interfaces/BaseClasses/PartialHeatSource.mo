@@ -10,13 +10,15 @@ partial model PartialHeatSource
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
 
   parameter Modelica.SIunits.ThermalConductance UALoss;
-  parameter Modelica.SIunits.ThermalConductance UALossE if heatPumpWaterWater;
-
-  parameter Boolean calculatePower;
+  parameter Modelica.SIunits.ThermalConductance UALossE = UALoss if heatPumpWaterWater;
 
   parameter Modelica.SIunits.Power QNom;
   parameter Modelica.SIunits.Power QNomRef;
-  parameter Boolean heatPumpWaterWater = false;
+
+  //Settings
+  parameter Boolean heatPumpWaterWater = true;
+  parameter Boolean modulating=true;
+  parameter Boolean modulationInput=true if modulating;
 
   final parameter Real scaler = QNom/QNomRef;
 
@@ -71,7 +73,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-80,-102})));
-  Modelica.Blocks.Interfaces.RealInput QAsked annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput QAsked if not modulationInput annotation (Placement(
         transformation(extent={{-130,10},{-90,50}}),  iconTransformation(extent={{-10,-10},
             {10,10}},
         rotation=0,
@@ -115,6 +117,17 @@ partial model PartialHeatSource
     annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
         iconTransformation(extent={{90,-50},{110,-30}})));
 
+  Modelica.Blocks.Interfaces.RealOutput power
+    annotation (Placement(transformation(extent={{96,30},{116,50}})));
+  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
+    "modulation input"
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=90,
+        origin={60,-110}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={60,-102})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={
         Line(

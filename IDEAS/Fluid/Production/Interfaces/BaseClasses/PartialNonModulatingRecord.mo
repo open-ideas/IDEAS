@@ -4,6 +4,7 @@ partial record PartialNonModulatingRecord
 
   parameter Real[:,:] heat = [[0]];
   parameter Real[:,:] power = [[0]];
+  parameter Real[:,:] cop = [[0]];
   parameter Modelica.SIunits.Mass m1(min=Modelica.Constants.eps)
     "Fluid content of the evaporator";
 

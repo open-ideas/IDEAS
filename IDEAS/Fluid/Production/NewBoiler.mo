@@ -2,16 +2,15 @@ within IDEAS.Fluid.Production;
 model NewBoiler
   //Extensions
   extends Interfaces.PartialHeaterTwoPort(
+    final modulating=true,
     redeclare Interfaces.HeatSources.Boiler
       heatSource(
         redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
                                                             data));
 
   inner SimInfoManager sim
-    annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 equation
-  PFuel = 0;
-  PEl = 0;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
@@ -27,23 +26,5 @@ equation
         Line(
           points={{-30,34},{32,-34}},
           color={0,0,0},
-          smooth=Smooth.None),
-        Line(
-          points={{90,60},{60,60}},
-          color={0,0,127},
-          smooth=Smooth.None),
-        Line(
-          points={{60,60},{42,42}},
-          color={0,0,127},
-          smooth=Smooth.None),
-        Line(
-          points={{60,-60},{44,-44}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-        Line(
-          points={{90,-60},{60,-60}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash)}));
+          smooth=Smooth.None)}));
 end NewBoiler;

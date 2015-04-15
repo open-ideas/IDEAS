@@ -3,8 +3,8 @@ Modulator
 Interpolator
 PartialHeatSource
 IdealHeatSource
-PartialNonModulatingHeatSource
-PartialModulatingHeatSource
+Partial2DHeatSource
+Partial3DHeatSource
 PartialRecord
 PartialNonModulatingRecord
 PartialModulatingRecord

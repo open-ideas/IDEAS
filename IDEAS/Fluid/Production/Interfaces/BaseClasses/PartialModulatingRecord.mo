@@ -5,8 +5,11 @@ partial record PartialModulatingRecord
   parameter Real modulationStart=30;
   parameter Real modulationMin=20;
 
+  parameter Boolean efficiencyData=true;
+
   parameter Real[:,:,:] heat = {[[0]]};
   parameter Real[:,:,:] power = {[[0]]};
+  parameter Real[:,:,:] cop = {[[0]]};
 
   parameter Integer n(min=2);
   parameter Real[n] modulationVector;

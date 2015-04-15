@@ -2,9 +2,11 @@ within IDEAS.Fluid.Production.Interfaces.Data;
 record BoilerData
   //Extensions
   extends IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord(
-    useToutSecondary=true,
+    useTinSecondary=false,
+    efficiencyData=true,
     n=5,
     QNomRef=10100,
+    etaRef=0.96,
     modulationVector={20,40,60,80,100},
     heat={
       [0, 100, 400, 700, 1000, 1300; 20.0, 0.9969, 0.9987, 0.999, 0.999,
@@ -33,6 +35,7 @@ record BoilerData
         0.9753; 30.0, 0.8824, 0.9184, 0.9324, 0.941, 0.9471; 40.0, 0.8736,
         0.8909, 0.902, 0.9092, 0.9143; 50.0, 0.8676, 0.8731, 0.8741, 0.8746,
         0.8774; 60.0, 0.8, 0.867, 0.8681, 0.8686, 0.8689; 70.0, 0.8, 0.8609,
-        0.8619, 0.8625, 0.8628; 80.0, 0.8, 0.8547, 0.8558, 0.8563, 0.8566]});
+        0.8619, 0.8625, 0.8628; 80.0, 0.8, 0.8547, 0.8558, 0.8563, 0.8566]},
+    power=heat);
 
 end BoilerData;
