@@ -24,11 +24,10 @@ partial model PartialHeater
 
   //Heater settings
   //***************
-  parameter Boolean useQSet=false if not modulationInput
-    "Set to true to use Q as an input";
+  parameter Boolean useQSet=false "Set to true to use Q as an input";
   parameter Boolean modulating=true
     "Set to true if the heater is able to modulate";
-  parameter Boolean modulationInput=true if modulating
+  parameter Boolean modulationInput=true
     "Set to true to use modulation as an input";
 
   //Fluid settings
@@ -36,18 +35,12 @@ partial model PartialHeater
   final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
 
-  //Variables
+  //Intefaces
   //*********
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(
-    G=UALoss) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-36,-42})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "heatPort for thermal losses to environment" annotation (Placement(
         transformation(extent={{-10,-110},{10,-90}}),  iconTransformation(
           extent={{-10,-110},{10,-90}})));
-
   Modelica.Blocks.Interfaces.RealInput u if not modulationInput
     "Input for the heater. Can be T or Q" annotation (Placement(transformation(
           extent={{20,-20},{-20,20}},
@@ -56,6 +49,15 @@ partial model PartialHeater
         extent={{20,-20},{-20,20}},
         rotation=90,
         origin={20,108})));
+  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
+    "modulation input"
+    annotation (Placement(transformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-60,108}), iconTransformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-60,108})));
   Modelica.Blocks.Interfaces.RealOutput PFuelOrEl
     "Electrical or fuel consumption"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
@@ -67,6 +69,13 @@ partial model PartialHeater
         origin={-80,-30})));
 
   //Components
+  //**********
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(
+    G=UALoss) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-36,-42})));
+
   replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource
     heatSource(
     UALoss=UALoss,
@@ -90,15 +99,6 @@ partial model PartialHeater
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor ToutSecondary
     annotation (Placement(transformation(extent={{-36,22},{-56,42}})));
-  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
-    "modulation input"
-    annotation (Placement(transformation(
-        extent={{20,-20},{-20,20}},
-        rotation=90,
-        origin={-60,108}), iconTransformation(
-        extent={{20,-20},{-20,20}},
-        rotation=90,
-        origin={-60,108})));
 
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
@@ -118,7 +118,6 @@ equation
       points={{20,108},{20,21.2}},
       color={0,0,127},
       smooth=Smooth.None));
-    heatSource.uModulation = 0;
   end if;
   connect(qAsked.y, heatSource.QAsked) annotation (Line(
       points={{9,16},{4,16},{4,28},{-4,28}},
@@ -162,7 +161,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(uModulation, heatSource.uModulation) annotation (Line(
-      points={{-60,108},{-60,84},{-20,84},{-20,42.2}},
+      points={{-60,108},{-60,86},{-20,86},{-20,42.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

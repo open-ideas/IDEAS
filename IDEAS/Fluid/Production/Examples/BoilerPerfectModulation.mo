@@ -1,8 +1,7 @@
 within IDEAS.Fluid.Production.Examples;
-model BoilerWithModulationInput
-  "General example and tester for a modulating boiler with a modulation input"
+model BoilerPerfectModulation
+  "General example and tester for a modulating boiler with perfect calculation of the modulation"
   import IDEAS;
-  import Buildings;
 
   extends Modelica.Icons.Example;
 
@@ -46,8 +45,12 @@ model BoilerWithModulationInput
   Sources.Boundary_pT bou(          redeclare package Medium = Medium,
     p=200000,
     nPorts=1)
-    annotation (Placement(transformation(extent={{42,10},{22,30}})));
+    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={-20,54})));
   constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
+  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
+    annotation (Placement(transformation(extent={{60,60},{40,80}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{0,28},{20,48}})));
@@ -66,19 +69,16 @@ model BoilerWithModulationInput
     annotation (Placement(transformation(extent={{-100,-20},{-80,0}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-64,8},{-56,16}})));
-  IDEAS.Fluid.Production.NewBoiler newBoiler(m_flow_nominal=m_flow_nominal,
+  IDEAS.Fluid.Production.NewBoiler newBoiler(
+    m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     dp_nominal=0,
     useQSet=false,
     QNom=10000,
-    modulationInput=true)
+    modulationInput=false)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,14})));
-  Buildings.Controls.Continuous.LimPID conPID(yMax=100)
-    annotation (Placement(transformation(extent={{20,64},{0,84}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
-    annotation (Placement(transformation(extent={{52,64},{32,84}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
@@ -117,7 +117,7 @@ equation
       smooth=Smooth.None));
 
   connect(bou.ports[1], senTemBoiler_out.port_a) annotation (Line(
-      points={{22,20},{-6,20},{-6,38},{0,38}},
+      points={{-20,44},{-20,38},{0,38}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(newBoiler.port_b, senTemBoiler_out.port_a) annotation (Line(
@@ -136,21 +136,13 @@ equation
       points={{-55.6,12},{-40.8,12}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(senTemBoiler_out.T, conPID.u_m) annotation (Line(
-      points={{10,49},{10,62}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(conPID.y, newBoiler.uModulation) annotation (Line(
-      points={{-1,74},{-50,74},{-50,8},{-40.8,8}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(conPID.u_s, realExpression.y) annotation (Line(
-      points={{22,74},{31,74}},
+  connect(realExpression.y, newBoiler.u) annotation (Line(
+      points={{39,70},{-50,70},{-50,16},{-40.8,16}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}), graphics),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}),     graphics),
     experiment(StopTime=15000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
@@ -165,4 +157,4 @@ Annex60 compatibility
 </li>
 </ul>
 </html>"));
-end BoilerWithModulationInput;
+end BoilerPerfectModulation;

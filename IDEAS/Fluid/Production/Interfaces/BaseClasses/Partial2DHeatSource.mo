@@ -3,16 +3,14 @@ partial model Partial2DHeatSource
   //Extensions
   extends PartialHeatSource(
     final QNomRef=data.QNomRef,
-     useTinPrimary=data.useTinPrimary,
-     useToutPrimary=data.useToutPrimary,
-     useTinSecondary=data.useTinSecondary,
-     useToutSecondary=data.useToutSecondary,
-     useMassFlowPrimary=data.useMassFlowPrimary);
+    useTinPrimary=data.useTinPrimary,
+    useToutPrimary=data.useToutPrimary,
+    useTinSecondary=data.useTinSecondary,
+    useToutSecondary=data.useToutSecondary,
+    useMassFlowPrimary=data.useMassFlowPrimary);
 
   //Variables
-  Modelica.SIunits.Power QMax "The evaporator power";
-  Modelica.SIunits.Power QEvaporator if heatPumpWaterWater
-    "The evaporator power";
+  Modelica.SIunits.Power QEvaporator "The evaporator power";
   Modelica.SIunits.Power QCondensor "The condensor power";
   Real modulationInit "The scaling of the heater power";
   Real modulation;
@@ -32,11 +30,11 @@ partial model Partial2DHeatSource
     annotation (Placement(transformation(extent={{-80,-30},{-40,-10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PCondensor
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator if heatPumpWaterWater
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator
     annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=QCondensor)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator) if heatPumpWaterWater
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
 equation
 
@@ -46,33 +44,31 @@ equation
     if modulating then
       //Check if the modulation is given as an input
       if modulationInput then
-        modulationInit=uModulation;
+        modulationInit=uModulationMock;
       else
         //If not use perfect modulation
-        modulationInit=QAsked/QNom;
+        modulationInit=QAsked/QNom*100;
       end if;
     else
-      //If the heater cannot modulate set the modulation to 1
-      modulationInit=1;
+      //If the heater cannot modulate set the modulation to 100
+      modulationInit=100;
     end if;
   else
     modulationInit = 0;
   end if;
 
-  // Limit the modulation between [0,1]
+  // Limit the modulation between [0,100] and scale to [0,1]
   modulation = IDEAS.Utilities.Math.Functions.smoothMax(
     x1=IDEAS.Utilities.Math.Functions.smoothMin(
       x1=modulationInit,
-      x2=1,
+      x2=100,
       deltaX=0.1),
     x2=0,
-    deltaX=0.1);
+    deltaX=0.1)/100;
 
   //Heat powers
   QCondensor = modulation*(heatTable.y*scaler-QLossesToCompensate);
-  if heatPumpWaterWater then
-    QEvaporator = modulation*(powerTable.y*scaler - (QCondensor + QLossesToCompensateE));
-  end if;
+  QEvaporator = modulation*(powerTable.y*scaler - (QCondensor + QLossesToCompensateE));
 
   //Fuel or electricity power
   power = modulation*powerTable.y;
@@ -94,6 +90,7 @@ equation
       points={{-38,-20},{-10,-20},{-10,-56},{-2,-56}},
       color={0,0,127},
       smooth=Smooth.None));
+
   connect(PCondensor.Q_flow,realExpression1. y) annotation (Line(
       points={{66,0},{61,0}},
       color={0,0,127},
@@ -106,7 +103,7 @@ equation
       points={{86,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(PEvaporator.port, heatPortE) annotation (Line(
+  connect(PEvaporator.port, heatPortEMock) annotation (Line(
       points={{86,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));

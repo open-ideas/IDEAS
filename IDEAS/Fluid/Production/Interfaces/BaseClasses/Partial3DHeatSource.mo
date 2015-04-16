@@ -25,9 +25,8 @@ partial model Partial3DHeatSource
   Real modulationInit "Initial modulation value";
   Real modulation "Final modulation value";
 
-  Modelica.SIunits.Power QEvaporator if heatPumpWaterWater
-    "The evaporator power";
   Modelica.SIunits.Power QCondensor "The condensor power";
+  Modelica.SIunits.Power QEvaporator "The evaporator power";
 
   Modelica.SIunits.Power QInit "Initial value of the condensor power";
   Modelica.SIunits.Power QMax "Maximum value of the condensor power";
@@ -37,17 +36,17 @@ partial model Partial3DHeatSource
   Modelica.Blocks.Tables.CombiTable2D[n] heatTable(
     each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
     table=data.heat)
-    annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
+    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   Modelica.Blocks.Tables.CombiTable2D[n] powerTable(
     each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
     table=data.power)
-    annotation (Placement(transformation(extent={{-4,-72},{16,-52}})));
-  replaceable Data.BoilerData         data
+    annotation (Placement(transformation(extent={{0,-48},{20,-28}})));
+  replaceable Data.BoilerData data
     constrainedby
     IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord
     annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-96},{90,-76}})));
   Modelica.Blocks.Sources.RealExpression tableInput1[n]
-    annotation (Placement(transformation(extent={{-80,-40},{-40,-20}})));
+    annotation (Placement(transformation(extent={{-80,-34},{-40,-14}})));
   Modelica.Blocks.Sources.RealExpression tableInput2[n]
     annotation (Placement(transformation(extent={{-80,-60},{-40,-40}})));
   Controls.Discrete.HysteresisRelease_boolean onOff(
@@ -63,11 +62,11 @@ partial model Partial3DHeatSource
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PCondensor
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator if heatPumpWaterWater
-    annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=QCondensor)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator) if heatPumpWaterWater
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator
+    annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
 equation
   //Limit Q with a maximum equal to the power at modulation 100
@@ -84,7 +83,7 @@ equation
   //Calculate the modulation (modulating=true)
   if modulationInput then
     //Use the input modulation
-     modulationInit=uModulation;
+     modulationInit=uModulationMock;
   else
     //Calculate the required modulation for QAsked
     if efficiencyData then
@@ -117,29 +116,28 @@ equation
 
   //Calculate the heater powers
   if modulationInput then
-    QFinal = QMax*uModulation*onOff.y;
+    QFinal = QMax*uModulationMock/100*onOff.y;
   else
     QFinal = QInit*onOff.y;
   end if;
+
   QCondensor = (QFinal-QLossesToCompensate);
-  if heatPumpWaterWater then
-    QEvaporator = power + QCondensor + QLossesToCompensateE;
-  end if;
+  QEvaporator = power + QCondensor + QLossesToCompensateE;
 
   connect(heatTable.u1, tableInput1.y) annotation (Line(
-      points={{-22,-24},{-32,-24},{-32,-30},{-38,-30}},
+      points={{-2,-4},{-32,-4},{-32,-24},{-38,-24}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(tableInput2.y, heatTable.u2) annotation (Line(
-      points={{-38,-50},{-28,-50},{-28,-36},{-22,-36}},
+      points={{-38,-50},{-28,-50},{-28,-16},{-2,-16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(tableInput1.y, powerTable.u1) annotation (Line(
-      points={{-38,-30},{-32,-30},{-32,-56},{-6,-56}},
+      points={{-38,-24},{-32,-24},{-32,-32},{-2,-32}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(tableInput2.y, powerTable.u2) annotation (Line(
-      points={{-38,-50},{-28,-50},{-28,-68},{-6,-68}},
+      points={{-38,-50},{-28,-50},{-28,-44},{-2,-44}},
       color={0,0,127},
       smooth=Smooth.None));
 
@@ -155,15 +153,16 @@ equation
       points={{66,0},{61,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(PEvaporator.Q_flow,realExpression2. y) annotation (Line(
-      points={{66,-40},{61,-40}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(PCondensor.port, heatPort) annotation (Line(
       points={{86,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(PEvaporator.port, heatPortE) annotation (Line(
+  connect(PEvaporator.Q_flow, realExpression2.y) annotation (Line(
+      points={{66,-40},{61,-40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(PEvaporator.port, heatPortEMock) annotation (Line(
       points={{86,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));

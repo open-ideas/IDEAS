@@ -2,8 +2,8 @@ within IDEAS.Fluid.Production.Interfaces.HeatSources;
 model Boiler
   //Extensions
   extends IDEAS.Fluid.Production.Interfaces.BaseClasses.Partial3DHeatSource(
-      tableInput1(y=ToutSecondary - 273.15),
-      tableInput2(y=massFlowSecondary*kgps2lph),
+    tableInput1(y=ToutSecondary - 273.15),
+    tableInput2(y=massFlowSecondary*kgps2lph),
     redeclare Data.BoilerData data);
 
   //Parameters

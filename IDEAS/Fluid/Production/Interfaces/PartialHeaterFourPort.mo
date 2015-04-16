@@ -10,7 +10,9 @@ partial model PartialHeaterFourPort
     heatSource(
       m_flow_nominal=m2_flow_nominal,
       UALossE=UALossE,
-      heatPumpWaterWater=true));
+      heatPumpWaterWater=true,
+      useTinPrimary=true,
+      useToutSecondary=true));
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLossesE(G=UALossE)
                 annotation (Placement(transformation(
@@ -25,7 +27,7 @@ partial model PartialHeaterFourPort
         Medium1.p_default,
         inStream(port_a1.h_outflow),
         Medium1.X_default))
-    annotation (Placement(transformation(extent={{-34,40},{-14,60}})));
+    annotation (Placement(transformation(extent={{-94,38},{-74,58}})));
 equation
   connect(heatPort, heatPort) annotation (Line(
       points={{0,-100},{0,-96},{0,-96},{0,-100}},
@@ -40,7 +42,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(TinPrimary.y, heatSource.TinPrimary) annotation (Line(
-      points={{-13,50},{-6,50},{-6,42.2}},
+      points={{-73,48},{-6,48},{-6,42.2}},
       color={0,0,127},
       smooth=Smooth.None));
 

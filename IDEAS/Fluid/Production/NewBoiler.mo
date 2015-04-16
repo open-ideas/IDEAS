@@ -6,7 +6,8 @@ model NewBoiler
     redeclare Interfaces.HeatSources.Boiler
       heatSource(
         redeclare replaceable IDEAS.Fluid.Production.Interfaces.Data.BoilerData
-                                                            data));
+                                                            data,
+        heatPumpWaterWater=true));
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));

@@ -1,12 +1,12 @@
 within IDEAS.Fluid.Production.Examples;
-model NewHPWW "Test of a heat pump using a temperature setpoint"
+model HPWWPerfectModulation "Test of a heat pump using a temperature setpoint"
   extends Modelica.Icons.Example;
     package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (__Dymola_choicesAllMatching=true);
   constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
 
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)
-    annotation (Placement(transformation(extent={{-2,40},{-20,58}})));
+    annotation (Placement(transformation(extent={{60,60},{40,80}})));
   Modelica.Blocks.Sources.Step     const1(
     height=-0.5,
     offset=1,
@@ -35,7 +35,7 @@ model NewHPWW "Test of a heat pump using a temperature setpoint"
     use_T_in=true,
     p=200000,
     nPorts=1)
-    annotation (Placement(transformation(extent={{78,2},{58,-18}})));
+    annotation (Placement(transformation(extent={{78,4},{58,-16}})));
   Modelica.Blocks.Sources.Sine sine(
     freqHz=1/500,
     amplitude=5,
@@ -50,18 +50,28 @@ model NewHPWW "Test of a heat pump using a temperature setpoint"
   Modelica.Blocks.Sources.Constant
                                sine1(k=273.15 + 15)
     annotation (Placement(transformation(extent={{-118,-20},{-98,0}})));
-  NewHeatPumpWaterWater newHeatPumpWaterWater(use_onOffSignal=false, onOff=true)
+  NewHeatPumpWaterWater newHeatPumpWaterWater(                       onOff=true,
+    use_onOffSignal=true,
+    modulationInput=false,
+    modulating=true)
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-2,4})));
+  Modelica.Blocks.Sources.BooleanPulse
+                                pulse(
+    startTime=2000,
+    period=500)
+    annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
+  Modelica.Blocks.Logical.Not not1
+    annotation (Placement(transformation(extent={{-68,46},{-60,54}})));
 equation
   connect(sine1.y,bou1. T_in) annotation (Line(
       points={{-97,-10},{-88,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(sine.y,bou. T_in) annotation (Line(
-      points={{87,-10},{86,-10},{86,-12},{80,-12}},
+      points={{87,-10},{80,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TWater_out.port_b, pump.port_a) annotation (Line(
@@ -69,7 +79,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou.ports[1], pump.port_a) annotation (Line(
-      points={{58,-8},{52,-8},{52,-20},{40,-20}},
+      points={{58,-6},{52,-6},{52,-20},{40,-20}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump1.port_a, TBrine_out.port_b) annotation (Line(
@@ -97,8 +107,16 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(const.y, newHeatPumpWaterWater.u) annotation (Line(
-      points={{-20.9,49},{-26,49},{-26,0},{-12.6,0}},
+      points={{39,70},{-20,70},{-20,2},{-12.8,2}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(pulse.y,not1. u) annotation (Line(
+      points={{-79,50},{-68.8,50}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(not1.y, newHeatPumpWaterWater.on) annotation (Line(
+      points={{-59.6,50},{-24,50},{-24,6},{-12.8,6}},
+      color={255,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,
             -100},{120,100}}), graphics),
@@ -115,4 +133,4 @@ Initial version
     experiment(StopTime=1000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(extent={{-120,-100},{120,100}})));
-end NewHPWW;
+end HPWWPerfectModulation;

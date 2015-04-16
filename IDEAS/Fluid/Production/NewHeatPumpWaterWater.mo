@@ -4,7 +4,11 @@ model NewHeatPumpWaterWater
   extends Interfaces.PartialHeaterFourPort(
     redeclare Interfaces.HeatSources.HeatPumpWaterWater
      heatSource(redeclare
-        IDEAS.Fluid.Production.Interfaces.Data.VitoCal300GBWS301dotA08 data),
+        IDEAS.Fluid.Production.Interfaces.Data.VitoCal300GBWS301dotA08 data,
+      useMassFlowPrimary=false,
+      useTinPrimary=true,
+      useTinSecondary=false,
+      useToutPrimary=false),
     vol1(V=heatSource.data.m1/rho1_nominal),
     vol2(V=heatSource.data.m2/rho2_nominal));
 

@@ -10,33 +10,30 @@ partial model PartialHeatSource
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
 
   parameter Modelica.SIunits.ThermalConductance UALoss;
-  parameter Modelica.SIunits.ThermalConductance UALossE = UALoss if heatPumpWaterWater;
+  parameter Modelica.SIunits.ThermalConductance UALossE = UALoss;
 
   parameter Modelica.SIunits.Power QNom;
   parameter Modelica.SIunits.Power QNomRef;
 
   //Settings
-  parameter Boolean heatPumpWaterWater = true;
-  parameter Boolean modulating=true;
-  parameter Boolean modulationInput=true if modulating;
+  parameter Boolean heatPumpWaterWater = false;
+  parameter Boolean modulating = true;
+  parameter Boolean modulationInput = true;
 
   final parameter Real scaler = QNom/QNomRef;
 
-  parameter Boolean useTinPrimary=true;
-  parameter Boolean useToutPrimary=true;
-  parameter Boolean useMassFlowPrimary=true;
+  parameter Boolean useTinPrimary=false;
+  parameter Boolean useToutPrimary=false;
+  parameter Boolean useMassFlowPrimary=false;
 
-  parameter Boolean useTinSecondary=true;
-  parameter Boolean useToutSecondary=true;
+  parameter Boolean useTinSecondary=false;
+  parameter Boolean useToutSecondary=false;
 
   //Variables
-  Modelica.SIunits.Power QLossesToCompensate = if noEvent(massFlowSecondary > m_flow_nominal/10000) then UALoss*(heatPort.T -
-    TEnvironment) else 0 "Compensation for the heat losses of the condensor";
-  Modelica.SIunits.Power QLossesToCompensateE = if noEvent(massFlowSecondary > m_flow_nominal/10000) then UALossE*(heatPortE.T -
-    TEnvironment) else 0 if heatPumpWaterWater
-    "Compensation for the heat losses of the evaporator if water-water heat pump is used";
-
-  //Components
+  Modelica.SIunits.Power QLossesToCompensate
+    "Compensation for the heat losses of the condensor";
+  Modelica.SIunits.Power QLossesToCompensateE "Compensation for the heat losses of the evaporator if a water-water 
+     heat pump is used";
 
   //Interfaces
   Modelica.Blocks.Interfaces.RealInput TinSecondary if useTinSecondary annotation (
@@ -93,6 +90,7 @@ partial model PartialHeatSource
         rotation=90,
         origin={-40,-102})));
 
+  //Components
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "heatPort connection to water in condensor"
     annotation (Placement(transformation(extent={{90,-10},{110,10}}),
@@ -117,7 +115,8 @@ partial model PartialHeatSource
 
   Modelica.Blocks.Interfaces.RealOutput power
     annotation (Placement(transformation(extent={{96,30},{116,50}})));
-  Modelica.Blocks.Interfaces.RealInput uModulation "modulation input"
+  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
+    "modulation input"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -161,4 +160,63 @@ partial model PartialHeatSource
         Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics));
+
+  //Input mocks
+protected
+  Modelica.Blocks.Interfaces.RealOutput TinSecondaryMock;
+  Modelica.Blocks.Interfaces.RealOutput ToutSecondaryMock;
+  Modelica.Blocks.Interfaces.RealOutput TinPrimaryMock;
+  Modelica.Blocks.Interfaces.RealOutput ToutPrimaryMock;
+  Modelica.Blocks.Interfaces.RealOutput massFlowPrimaryMock;
+
+  Modelica.Blocks.Interfaces.RealOutput uModulationMock;
+
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortEMock;
+
+equation
+  //Conditional inputs
+  if not useTinSecondary then
+    TinSecondaryMock=0;
+  end if;
+  if not useToutSecondary then
+    ToutSecondaryMock=0;
+  end if;
+  if not useMassFlowPrimary then
+    massFlowPrimaryMock=0;
+  end if;
+  if not useTinPrimary then
+    TinPrimaryMock=0;
+  end if;
+  if not useToutPrimary then
+    ToutPrimaryMock=0;
+  end if;
+
+  if not modulationInput then
+    uModulationMock=0;
+  end if;
+
+  if not heatPumpWaterWater then
+    heatPortEMock.T=273.15;
+  end if;
+
+  connect(TinSecondary, TinSecondaryMock);
+  connect(ToutSecondary, ToutSecondaryMock);
+  connect(TinPrimary, TinPrimaryMock);
+  connect(ToutPrimary, ToutPrimaryMock);
+  connect(massFlowPrimary, massFlowPrimaryMock);
+  connect(uModulation, uModulationMock);
+  connect(heatPortE, heatPortEMock);
+
+  if noEvent(massFlowSecondary > m_flow_nominal/10000) then
+    QLossesToCompensate = UALoss*(heatPort.T -TEnvironment);
+  else
+    QLossesToCompensate= 0;
+  end if;
+
+  if noEvent(massFlowPrimaryMock > m_flow_nominal/10000) then
+    QLossesToCompensateE = UALossE*(heatPortEMock.T - TEnvironment);
+  else
+    QLossesToCompensateE = 0;
+  end if;
+
 end PartialHeatSource;
