@@ -1,15 +1,17 @@
 within IDEAS.Fluid.Production.Interfaces;
 partial model PartialHeaterTwoPort
   extends IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger(
-  redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=3, V=mWater
-        /rho_default),
+  redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(
+    nPorts=3,
+    V=mWater/rho_default),
   final showDesignFlowDirection=true);
 
   extends PartialHeater(
     hIn(y=inStream(port_a.h_outflow)),
     mFlowSecondary(y=port_a.m_flow),
-    heatSource(m_flow_nominal=m_flow_nominal,
-      redeclare package Medium = Medium,
+    heatSource(
+      m_flow_nominal=m_flow_nominal,
+      redeclare package Medium=Medium,
       useTinPrimary=false,
       useToutPrimary=false,
       useMassFlowPrimary=false),

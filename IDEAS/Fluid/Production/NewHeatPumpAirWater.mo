@@ -7,7 +7,7 @@ model NewHeatPumpAirWater
       useTinSecondary=false));
 
   inner SimInfoManager sim
-    annotation (Placement(transformation(extent={{-74,72},{-54,92}})));
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Blocks.Sources.RealExpression TAmbient(y=sim.Te)
     annotation (Placement(transformation(extent={{26,50},{6,70}})));
 equation

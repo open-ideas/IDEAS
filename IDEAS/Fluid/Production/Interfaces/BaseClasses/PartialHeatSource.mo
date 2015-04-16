@@ -39,8 +39,7 @@ partial model PartialHeatSource
   //Components
 
   //Interfaces
-  Modelica.Blocks.Interfaces.RealInput TinSecondary if
-                                                     useTinSecondary annotation (
+  Modelica.Blocks.Interfaces.RealInput TinSecondary if useTinSecondary annotation (
       Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -48,8 +47,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,102})));
-  Modelica.Blocks.Interfaces.RealInput ToutSecondary if
-                                                      useToutSecondary
+  Modelica.Blocks.Interfaces.RealInput ToutSecondary if useToutSecondary
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -65,7 +63,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,102})));
-  Modelica.Blocks.Interfaces.RealInput TinPrimary if   useTinPrimary
+  Modelica.Blocks.Interfaces.RealInput TinPrimary if useTinPrimary
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -73,12 +71,12 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-80,-102})));
-  Modelica.Blocks.Interfaces.RealInput QAsked if not modulationInput annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput QAsked annotation (Placement(
         transformation(extent={{-130,10},{-90,50}}),  iconTransformation(extent={{-10,-10},
             {10,10}},
         rotation=0,
         origin={-100,40})));
-  Modelica.Blocks.Interfaces.RealInput ToutPrimary if   useToutPrimary
+  Modelica.Blocks.Interfaces.RealInput ToutPrimary if useToutPrimary
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -86,7 +84,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-102})));
-  Modelica.Blocks.Interfaces.RealInput massFlowPrimary if   useMassFlowPrimary
+  Modelica.Blocks.Interfaces.RealInput massFlowPrimary if useMassFlowPrimary
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -119,8 +117,7 @@ partial model PartialHeatSource
 
   Modelica.Blocks.Interfaces.RealOutput power
     annotation (Placement(transformation(extent={{96,30},{116,50}})));
-  Modelica.Blocks.Interfaces.RealInput uModulation if modulationInput
-    "modulation input"
+  Modelica.Blocks.Interfaces.RealInput uModulation "modulation input"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,

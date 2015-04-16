@@ -26,7 +26,8 @@ partial model PartialHeater
   //***************
   parameter Boolean useQSet=false if not modulationInput
     "Set to true to use Q as an input";
-  parameter Boolean modulating=true;
+  parameter Boolean modulating=true
+    "Set to true if the heater is able to modulate";
   parameter Boolean modulationInput=true if modulating
     "Set to true to use modulation as an input";
 
@@ -37,8 +38,8 @@ partial model PartialHeater
 
   //Variables
   //*********
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
-        UALoss) annotation (Placement(transformation(
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(
+    G=UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-36,-42})));
@@ -74,7 +75,7 @@ partial model PartialHeater
     modulationInput=modulationInput)
     annotation (Placement(transformation(extent={{-4,42},{-24,22}})));
   IDEAS.Fluid.Production.Interfaces.BaseClasses.QAsked
-                                qAsked if not modulationInput
+                                qAsked
     annotation (Placement(transformation(extent={{30,6},{10,26}})));
   Modelica.Blocks.Sources.RealExpression mFlowSecondary
     annotation (Placement(transformation(extent={{62,0},{42,20}})));
@@ -98,6 +99,7 @@ partial model PartialHeater
         extent={{20,-20},{-20,20}},
         rotation=90,
         origin={-60,108})));
+
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-36,-52},{-36,-100},{0,-100}},
@@ -108,12 +110,18 @@ equation
       points={{7,32},{-4,32}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{9,16},{4,16},{4,28},{-4,28}},
+
+  if modulationInput then
+    qAsked.u=0;
+  else
+    connect(u, qAsked.u) annotation (Line(
+      points={{20,108},{20,21.2}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(u, qAsked.u) annotation (Line(
-      points={{20,108},{20,21.2}},
+    heatSource.uModulation = 0;
+  end if;
+  connect(qAsked.y, heatSource.QAsked) annotation (Line(
+      points={{9,16},{4,16},{4,28},{-4,28}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(hIn.y, qAsked.h_in) annotation (Line(

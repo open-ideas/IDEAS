@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production.Examples;
-model NewBoiler
-  "General example and tester for a modulating air-to-water heat pump"
+model BoilerWithPerfectModulation
+  "General example and tester for a modulating boiler with perfect calculation of the modulation"
   import IDEAS;
 
   extends Modelica.Icons.Example;
@@ -72,7 +72,8 @@ model NewBoiler
     dp_nominal=0,
     useQSet=false,
     QNom=10000,
-    modulationInput=false)
+    modulationInput=false,
+    heatSource(modulationInput=false))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,14})));
@@ -129,13 +130,13 @@ equation
       points={{-48,-34},{-12,-34},{-12,14},{-20,14}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(realExpression.y, newBoiler.u) annotation (Line(
-      points={{-59,28},{-50,28},{-50,16},{-40.8,16}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(not1.y, newBoiler.on) annotation (Line(
       points={{-55.6,12},{-40.8,12}},
       color={255,0,255},
+      smooth=Smooth.None));
+  connect(realExpression.y, newBoiler.u) annotation (Line(
+      points={{-59,28},{-50,28},{-50,16},{-40.8,16}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
@@ -154,4 +155,4 @@ Annex60 compatibility
 </li>
 </ul>
 </html>"));
-end NewBoiler;
+end BoilerWithPerfectModulation;

@@ -3,7 +3,8 @@ Boiler_validation
 HeatPump_AirWater
 HeatPump_WaterWater
 HeatPump_WaterWaterTSet
-NewBoiler
+BoilerWithModulationInput
+BoilerWithPerfectModulation
 SolarThermalCollector
 NewBoiler_save
 NewHeatPump_AirWater

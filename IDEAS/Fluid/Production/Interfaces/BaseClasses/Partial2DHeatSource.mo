@@ -40,15 +40,19 @@ partial model Partial2DHeatSource
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
 equation
 
-  // Determine modulation
+  //Determine modulation
   if on then
+    //Check if the heater can modulate
     if modulating then
+      //Check if the modulation is given as an input
       if modulationInput then
         modulationInit=uModulation;
       else
+        //If not use perfect modulation
         modulationInit=QAsked/QNom;
       end if;
     else
+      //If the heater cannot modulate set the modulation to 1
       modulationInit=1;
     end if;
   else

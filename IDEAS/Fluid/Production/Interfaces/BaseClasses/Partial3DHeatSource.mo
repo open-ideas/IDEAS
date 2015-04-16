@@ -29,10 +29,8 @@ partial model Partial3DHeatSource
     "The evaporator power";
   Modelica.SIunits.Power QCondensor "The condensor power";
 
-  Modelica.SIunits.Power QInit if not modulatingInput
-    "Initial value of the condensor power";
-  Modelica.SIunits.Power QMax if not modulatingInput
-    "Maximum value of the condensor power";
+  Modelica.SIunits.Power QInit "Initial value of the condensor power";
+  Modelica.SIunits.Power QMax "Maximum value of the condensor power";
   Modelica.SIunits.Power QFinal "Final value of the condensor power";
 
   //Components
@@ -83,10 +81,12 @@ equation
     x2=QMax,
     deltaX=0.1);
 
-  //Calculate the modulation
+  //Calculate the modulation (modulating=true)
   if modulationInput then
+    //Use the input modulation
      modulationInit=uModulation;
   else
+    //Calculate the required modulation for QAsked
     if efficiencyData then
       modulationInit = Modelica.Math.Vectors.interpolate(
         heatTable.y .* modulationVector*data.QNomRef / 100,
@@ -116,8 +116,8 @@ equation
       modulation)*onOff.y;
 
   //Calculate the heater powers
-  if modulatingInput then
-    QFinal = data.QNomRef*uModulation;
+  if modulationInput then
+    QFinal = QMax*uModulation*onOff.y;
   else
     QFinal = QInit*onOff.y;
   end if;
