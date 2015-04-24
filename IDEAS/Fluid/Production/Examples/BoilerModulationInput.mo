@@ -79,7 +79,7 @@ model BoilerModulationInput
         origin={-30,14})));
   Buildings.Controls.Continuous.LimPID conPID(yMax=100)
     annotation (Placement(transformation(extent={{20,60},{0,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 56.85)
     annotation (Placement(transformation(extent={{60,60},{40,80}})));
 equation
   //   der(PElLossesInt) = HP.PEl;

@@ -124,42 +124,6 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={60,-102})));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={
-        Line(
-          points={{-70,-20},{30,-20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-70,20},{30,20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-90,0},{-70,-20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-90,0},{-70,20}},
-          color={191,0,0},
-          thickness=0.5),
-        Polygon(
-          points={{30,0},{30,40},{60,20},{30,0}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{30,-40},{30,0},{60,-20},{30,-40}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{60,40},{80,-40}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
-      Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}), graphics));
 
   //Input mocks
 protected
@@ -219,4 +183,40 @@ equation
     QLossesToCompensateE = 0;
   end if;
 
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            {100,100}}), graphics={
+        Line(
+          points={{-70,-20},{30,-20}},
+          color={191,0,0},
+          thickness=0.5),
+        Line(
+          points={{-70,20},{30,20}},
+          color={191,0,0},
+          thickness=0.5),
+        Line(
+          points={{-90,0},{-70,-20}},
+          color={191,0,0},
+          thickness=0.5),
+        Line(
+          points={{-90,0},{-70,20}},
+          color={191,0,0},
+          thickness=0.5),
+        Polygon(
+          points={{30,0},{30,40},{60,20},{30,0}},
+          lineColor={191,0,0},
+          fillColor={191,0,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{30,-40},{30,0},{60,-20},{30,-40}},
+          lineColor={191,0,0},
+          fillColor={191,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{60,40},{80,-40}},
+          lineColor={191,0,0},
+          fillColor={191,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
+      Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}), graphics));
 end PartialHeatSource;

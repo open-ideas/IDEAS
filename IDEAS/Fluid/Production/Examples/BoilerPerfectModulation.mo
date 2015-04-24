@@ -49,7 +49,7 @@ model BoilerPerfectModulation
         rotation=90,
         origin={-20,54})));
   constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
-  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 56.85)
     annotation (Placement(transformation(extent={{60,60},{40,80}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
@@ -75,7 +75,8 @@ model BoilerPerfectModulation
     dp_nominal=0,
     useQSet=false,
     QNom=10000,
-    modulationInput=false)
+    modulationInput=false,
+    mWater=15)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,14})));

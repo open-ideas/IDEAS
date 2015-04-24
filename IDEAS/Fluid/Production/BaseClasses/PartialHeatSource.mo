@@ -189,9 +189,9 @@ equation
           smooth=Smooth.None),
       Polygon(
         origin={65.533,-20.062},
-        lineColor = {255,0,0},
-        fillColor = {255,0,0},
-        fillPattern = FillPattern.Solid,
+        lineColor=  {255,0,0},
+        fillColor=  {255,0,0},
+        fillPattern=  FillPattern.Solid,
         points={{-60.062,-105.533},{-20.062,-65.533},{19.938,-105.533},{19.938,-45.533},
               {-20.062,-5.533},{-60.062,-45.533},{-60.062,-105.533}},
           rotation=270),

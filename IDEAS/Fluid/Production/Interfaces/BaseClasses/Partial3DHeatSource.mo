@@ -121,8 +121,8 @@ equation
     QFinal = QInit*onOff.y;
   end if;
 
-  QCondensor = (QFinal-QLossesToCompensate);
-  QEvaporator = power + QCondensor + QLossesToCompensateE;
+  QCondensor = QFinal + QLossesToCompensate;
+  QEvaporator = -(-power + QCondensor - QLossesToCompensateE);
 
   connect(heatTable.u1, tableInput1.y) annotation (Line(
       points={{-2,-4},{-32,-4},{-32,-24},{-38,-24}},
