@@ -87,7 +87,8 @@ protected
     dynamicBalance=dynamicBalance,
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) if
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    allowFlowReversal=allowFlowReversal) if
                                           includePipes
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -101,19 +102,25 @@ protected
     massDynamics=massDynamics,
     dynamicBalance=dynamicBalance,
     m_flow_nominal=m_flow_nominal,
-    redeclare package Medium = Medium) if includePipes
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal) if
+                                          includePipes
     annotation (Placement(transformation(extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-40,-60})),                                            choicesAllMatching=true);
   Sensors.TemperatureTwoPort senTemSup(
     m_flow_nominal=m_flow_nominal,
     tau=tauTSensor,
-    redeclare package Medium = Medium) if measureSupplyT
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal) if
+                                          measureSupplyT
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Sensors.TemperatureTwoPort senTemRet(
     m_flow_nominal=m_flow_nominal,
     tau=tauTSensor,
-    redeclare package Medium = Medium) if measureReturnT
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal) if
+                                          measureReturnT
     annotation (Placement(transformation(extent={{-60,-50},{-80,-70}})));
 
 equation
