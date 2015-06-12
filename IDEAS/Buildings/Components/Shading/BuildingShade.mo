@@ -8,13 +8,13 @@ model BuildingShade
     "Height difference between top of object and top of window";
   parameter Modelica.SIunits.Length hWin = 1 "Window height";
 
-  Real tanZen = tan(min(angZen, Modelica.Constants.pi/2.2));
+  Real tanZen = tan(min(angZen, Modelica.Constants.pi/2.01));
 
 equation
-  if noEvent(tanZen < L/dh) then
+  if noEvent(tanZen > L/dh) then
     iSolDir=0;
-  elseif noEvent(tanZen > L/2/dh) then
-    iSolDir=solDir * (L/tanZen-dh)/dh;
+  elseif noEvent(tanZen > L/(dh+hWin)) then
+    iSolDir=solDir * (L/tanZen-dh)/hWin;
   else
     iSolDir=solDir;
   end if;
