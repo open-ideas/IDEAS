@@ -7,7 +7,8 @@ partial model Partial2DHeatSource
     useToutPrimary=data.useToutPrimary,
     useTinSecondary=data.useTinSecondary,
     useToutSecondary=data.useToutSecondary,
-    useMassFlowPrimary=data.useMassFlowPrimary);
+    useMassFlowPrimary=data.useMassFlowPrimary,
+    T_max = data.TMax, T_min = data.TMin);
 
   //Variables
   Modelica.SIunits.Power QEvaporator "The evaporator power";
@@ -37,9 +38,14 @@ partial model Partial2DHeatSource
   Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
 equation
+  if heatPumpWaterWater then
+    T_low = heatPortEMock.T;
+  else
+    T_low = data.TMin + 10;
+  end if;
 
   //Determine modulation
-  if on then
+  if on_internal then
     //Check if the heater can modulate
     if modulating then
       //Check if the modulation is given as an input
@@ -64,11 +70,15 @@ equation
       x2=100,
       deltaX=0.1),
     x2=0,
-    deltaX=0.1)/100;
+    deltaX=0.1)/100 * modulation_security_internal;
 
   //Heat powers
-  QCondensor = modulation*(heatTable.y*scaler-QLossesToCompensate);
-  QEvaporator = modulation*(powerTable.y*scaler - (QCondensor + QLossesToCompensateE));
+  QCondensor = modulation*(heatTable.y*scaler + QLossesToCompensate);
+  if heatPumpWaterWater then
+    QEvaporator = modulation*( - ( -powerTable.y*scaler + QCondensor + QLossesToCompensateE));
+  else
+    QEvaporator = 0;
+  end if;
 
   //Fuel or electricity power
   power = modulation*powerTable.y;

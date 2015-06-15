@@ -100,6 +100,9 @@ partial model PartialHeater
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor ToutSecondary
     annotation (Placement(transformation(extent={{-36,22},{-56,42}})));
 
+  parameter Boolean use_modulation_security=false
+    "Set to true if power modulation should be used to avoid exceeding temperature."
+                                                                                     annotation(dialog(tab="Advanced",group="Events"));
 equation
   connect(thermalLosses.port_b, heatPort) annotation (Line(
       points={{-36,-52},{-36,-100},{0,-100}},

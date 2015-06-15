@@ -28,22 +28,22 @@ protected
 
   Modelica.Blocks.Sources.RealExpression limLow(y=T_low - T_min)
     "Lower temperature limit"
-    annotation (Placement(transformation(extent={{-96,-100},{-76,-80}})));
+    annotation (Placement(transformation(extent={{44,66},{64,86}})));
   Modelica.Blocks.Sources.RealExpression limUp(y=T_max - T_high)
     "Upper temperature limit"
-    annotation (Placement(transformation(extent={{-96,-86},{-76,-66}})));
+    annotation (Placement(transformation(extent={{44,80},{64,100}})));
   Modelica.Blocks.Logical.Hysteresis hysteresis(
     pre_y_start=true,
     uLow=0,
     uHigh=deltaT_security)
-    annotation (Placement(transformation(extent={{-68,-82},{-56,-70}})));
+    annotation (Placement(transformation(extent={{72,84},{84,96}})));
   Modelica.Blocks.Logical.Hysteresis hysteresis1(
     pre_y_start=true,
     uLow=0,
     uHigh=deltaT_security)
-    annotation (Placement(transformation(extent={{-68,-96},{-56,-84}})));
+    annotation (Placement(transformation(extent={{72,70},{84,82}})));
   Modelica.Blocks.Logical.And on_security
-    annotation (Placement(transformation(extent={{-50,-86},{-42,-78}})));
+    annotation (Placement(transformation(extent={{90,80},{98,88}})));
 equation
   if not use_modulation_security then
     modulation_security_internal = 1;
@@ -51,19 +51,19 @@ equation
   connect(modulation_security, modulation_security_internal);
 
   connect(hysteresis.y, on_security.u1) annotation (Line(
-      points={{-55.4,-76},{-54,-76},{-54,-82},{-50.8,-82}},
+      points={{84.6,90},{86,90},{86,84},{89.2,84}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(limUp.y, hysteresis.u) annotation (Line(
-      points={{-75,-76},{-69.2,-76}},
+      points={{65,90},{70.8,90}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(limLow.y, hysteresis1.u) annotation (Line(
-      points={{-75,-90},{-69.2,-90}},
+      points={{65,76},{70.8,76}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(hysteresis1.y, on_security.u2) annotation (Line(
-      points={{-55.4,-90},{-54,-90},{-54,-85.2},{-50.8,-85.2}},
+      points={{84.6,76},{86,76},{86,80.8},{89.2,80.8}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

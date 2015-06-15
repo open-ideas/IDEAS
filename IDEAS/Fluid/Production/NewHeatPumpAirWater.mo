@@ -2,6 +2,9 @@ within IDEAS.Fluid.Production;
 model NewHeatPumpAirWater
   //Extensions
   extends Interfaces.PartialHeaterTwoPort(
+    mWater = heatSource.data.m2,
+    QNom = heatSource.data.QNomRef,
+    m_flow_nominal = heatSource.data.m2_flow_nominal,
     redeclare Interfaces.HeatSources.HeatPumpAirWater heatSource(
       useTinPrimary=true,
       useTinSecondary=false));
