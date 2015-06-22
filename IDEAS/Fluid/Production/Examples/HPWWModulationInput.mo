@@ -46,7 +46,8 @@ model HPWWModulationInput "Test of a heat pump using a temperature setpoint"
   Modelica.Blocks.Sources.Constant
                                sine1(k=273.15 + 15)
     annotation (Placement(transformation(extent={{-118,-20},{-98,0}})));
-  NewHeatPumpWaterWater newHeatPumpWaterWater(                       onOff=true,
+  HeatPumpWaterWater newHeatPumpWaterWater(
+    onOff=true,
     use_onOffSignal=true,
     modulating=true,
     modulationInput=true,
@@ -57,8 +58,7 @@ model HPWWModulationInput "Test of a heat pump using a temperature setpoint"
     dp2_nominal=0,
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    redeclare package Medium = Medium)
-    annotation (Placement(transformation(
+    redeclare package Medium = Medium) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-2,4})));
@@ -71,6 +71,9 @@ model HPWWModulationInput "Test of a heat pump using a temperature setpoint"
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-68,46},{-60,54}})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
+        566.3)
+    annotation (Placement(transformation(extent={{-12,-52},{8,-32}})));
 equation
   connect(sine1.y,bou1. T_in) annotation (Line(
       points={{-97,-10},{-88,-10}},
@@ -132,8 +135,10 @@ equation
       points={{-59.6,50},{-24,50},{-24,6},{-12.8,6}},
       color={255,0,255},
       smooth=Smooth.None));
+  connect(fixedTemperature.port, newHeatPumpWaterWater.heatPort) annotation (
+      Line(points={{8,-42},{14,-42},{14,-40},{14,4},{8,4}}, color={191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,
-            -100},{120,100}}), graphics),
+            -100},{120,100}})),
     __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/Production/Examples/HeatPump_WaterWaterTSet.mos"
         "Simulate and plot"),  Documentation(revisions="<html>
 <ul>

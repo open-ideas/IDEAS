@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Production.Interfaces.HeatSources;
+within IDEAS.Fluid.Production.BaseClasses.HeatSources;
 model HeatPumpAirWater
   import IDEAS;
   //Extensions

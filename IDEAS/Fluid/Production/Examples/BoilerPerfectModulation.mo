@@ -69,15 +69,15 @@ model BoilerPerfectModulation
     annotation (Placement(transformation(extent={{-100,-20},{-80,0}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-64,8},{-56,16}})));
-  IDEAS.Fluid.Production.NewBoiler newBoiler(
+  IDEAS.Fluid.Production.Boiler newBoiler(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     dp_nominal=0,
     useQSet=false,
     QNom=10000,
     modulationInput=false,
-    mWater=15)
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+    mWater=15) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,14})));
 equation

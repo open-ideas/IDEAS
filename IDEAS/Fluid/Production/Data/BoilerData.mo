@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Production.Interfaces.Data;
+within IDEAS.Fluid.Production.Data;
 record BoilerData
   //Extensions
   extends IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord(

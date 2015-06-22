@@ -1,5 +1,6 @@
 within IDEAS.Fluid.Production.Interfaces.BaseClasses;
 partial model Partial3DHeatSource
+  import IDEAS;
 
   //Extensions
   extends PartialHeatSource(
@@ -41,10 +42,10 @@ partial model Partial3DHeatSource
     each smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
     table=data.power)
     annotation (Placement(transformation(extent={{0,-48},{20,-28}})));
-  replaceable Data.BoilerData data
-    constrainedby
+  replaceable IDEAS.Fluid.Production.Data.BoilerData data constrainedby
     IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialModulatingRecord
-    annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-96},{90,-76}})));
+    annotation (choicesAllMatching=true, Placement(transformation(extent={{70,-96},
+            {90,-76}})));
   Modelica.Blocks.Sources.RealExpression tableInput1[n]
     annotation (Placement(transformation(extent={{-80,-34},{-40,-14}})));
   Modelica.Blocks.Sources.RealExpression tableInput2[n]

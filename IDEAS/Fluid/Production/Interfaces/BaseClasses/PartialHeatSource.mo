@@ -30,6 +30,9 @@ partial model PartialHeatSource
   parameter Boolean useTinSecondary=false;
   parameter Boolean useToutSecondary=false;
 
+  parameter Modelica.SIunits.Temperature TEnvironment = 293.15
+    "Temperature at which the power measurements have been done (use to estimate the losses).";
+
   //Variables
   Modelica.SIunits.Power QLossesToCompensate
     "Compensation for the heat losses of the condensor";
@@ -104,11 +107,7 @@ partial model PartialHeatSource
             {10,10}},
         rotation=0,
         origin={-100,0})));
-  Modelica.Blocks.Interfaces.RealInput TEnvironment annotation (Placement(
-        transformation(extent={{-130,-70},{-90,-30}}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-100,-40})));
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortE if heatPumpWaterWater
     "heatPort connection to water in the evaporator in case of a HP"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}}),

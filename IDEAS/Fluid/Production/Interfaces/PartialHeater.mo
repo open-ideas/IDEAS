@@ -95,8 +95,6 @@ partial model PartialHeater
   Modelica.Blocks.Sources.BooleanExpression OnOff(y=on_internal)
     annotation (Placement(transformation(extent={{28,22},{8,42}})));
 
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TEnvironment
-    annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor ToutSecondary
     annotation (Placement(transformation(extent={{-36,22},{-56,42}})));
 
@@ -136,14 +134,6 @@ equation
       smooth=Smooth.None));
   connect(qAsked.m_flow, heatSource.massFlowSecondary) annotation (Line(
       points={{30.8,14},{36,14},{36,10},{-14,10},{-14,21.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TEnvironment.port, heatPort) annotation (Line(
-      points={{40,-40},{32,-40},{32,-76},{-36,-76},{-36,-100},{0,-100}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TEnvironment.T, heatSource.TEnvironment) annotation (Line(
-      points={{60,-40},{76,-40},{76,42},{4,42},{4,36},{-4,36}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort, thermalLosses.port_a) annotation (Line(

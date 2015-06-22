@@ -1,10 +1,9 @@
 within IDEAS.Fluid.Production;
-model NewHeatPumpWaterWater
+model HeatPumpWaterWater
   //Extensions
   extends Interfaces.PartialHeaterFourPort(
-    redeclare Interfaces.HeatSources.HeatPumpWaterWater
-     heatSource(redeclare
-        IDEAS.Fluid.Production.Interfaces.Data.VitoCal300GBWS301dotA08 data,
+    redeclare BaseClasses.HeatSources.HeatPumpWaterWater heatSource(
+      redeclare IDEAS.Fluid.Production.Data.VitoCal300GBWS301dotA08 data,
       useMassFlowPrimary=false,
       useTinPrimary=true,
       useTinSecondary=false,
@@ -14,4 +13,4 @@ model NewHeatPumpWaterWater
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
-end NewHeatPumpWaterWater;
+end HeatPumpWaterWater;
