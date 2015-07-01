@@ -2,6 +2,7 @@ within IDEAS.Fluid.Production.Interfaces.BaseClasses;
 partial model PartialHeatSource
 
   //Extensions
+   extends IDEAS.Fluid.Production.Interfaces.ModulationSecurity;
 
   //Packages
   replaceable package Medium=IDEAS.Media.Water.Simple;
@@ -137,7 +138,9 @@ protected
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortEMock;
 
+  Boolean on_internal = on and on_security.y;
 equation
+  T_high = heatPort.T;
   //Conditional inputs
   if not useTinSecondary then
     TinSecondaryMock=0;
@@ -173,13 +176,9 @@ equation
 
   if noEvent(massFlowSecondary > m_flow_nominal/10000) then
     QLossesToCompensate = UALoss*(heatPort.T -TEnvironment);
-  else
-    QLossesToCompensate= 0;
-  end if;
-
-  if noEvent(massFlowPrimaryMock > m_flow_nominal/10000) then
     QLossesToCompensateE = UALossE*(heatPortEMock.T - TEnvironment);
   else
+    QLossesToCompensate= 0;
     QLossesToCompensateE = 0;
   end if;
 

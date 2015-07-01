@@ -1,6 +1,5 @@
 within IDEAS.Fluid.Production.Interfaces.BaseClasses;
 partial model Partial3DHeatSource
-  import Buildings;
 
   //Extensions
   extends PartialHeatSource(
@@ -10,7 +9,8 @@ partial model Partial3DHeatSource
      useTinSecondary=data.useTinSecondary,
      useToutSecondary=data.useToutSecondary,
      useMassFlowPrimary=data.useMassFlowPrimary,
-     modulating=true);
+     modulating=true,
+    T_max = data.TMax, T_min = data.TMin);
 
   //Parameters
   final parameter Real modulationStart=data.modulationStart;
@@ -64,16 +64,24 @@ partial model Partial3DHeatSource
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=QCondensor)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator if heatPumpWaterWater
     annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator)
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator) if heatPumpWaterWater
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=on_internal)
+    annotation (Placement(transformation(extent={{-60,2},{-40,22}})));
 equation
+  if heatPumpWaterWater then
+    T_low = heatPortEMock.T;
+  else
+    T_low = data.TMin + 10;
+  end if;
+
   //Limit Q with a maximum equal to the power at modulation 100
   if efficiencyData then
     QMax = heatTable[end].y*data.QNomRef*scaler;
   else
-    QMax = heatTable[end].y;
+    QMax = heatTable[end].y*scaler;
   end if;
   QInit = IDEAS.Utilities.Math.Functions.smoothMin(
     x1=QAsked,
@@ -83,7 +91,7 @@ equation
   //Calculate the modulation (modulating=true)
   if modulationInput then
     //Use the input modulation
-     modulationInit=uModulationMock;
+     modulationInit=uModulationMock * modulation_security_internal;
   else
     //Calculate the required modulation for QAsked
     if efficiencyData then
@@ -106,13 +114,13 @@ equation
       x2=100,
       deltaX=0.1),
     x2=0,
-    deltaX=0.1);
+    deltaX=0.1) * modulation_security_internal;
 
   //Calculate the power based on the modulation
   power = Modelica.Math.Vectors.interpolate(
       data.modulationVector,
       powerTable.y,
-      modulation)*onOff.y;
+      modulation)*onOff.y * scaler;
 
   //Calculate the heater powers
   if modulationInput then
@@ -122,7 +130,12 @@ equation
   end if;
 
   QCondensor = QFinal + QLossesToCompensate;
-  QEvaporator = -(-power + QCondensor - QLossesToCompensateE);
+
+  if heatPumpWaterWater then
+    QEvaporator = -(-power + QCondensor + QLossesToCompensateE);
+  else
+    QEvaporator = 0;
+  end if;
 
   connect(heatTable.u1, tableInput1.y) annotation (Line(
       points={{-2,-4},{-32,-4},{-32,-24},{-38,-24}},
@@ -141,10 +154,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(on, onOff.release) annotation (Line(
-      points={{-110,0},{-20,0},{-20,18}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(realExpression.y, onOff.u) annotation (Line(
       points={{-39,30},{-32,30}},
       color={0,0,127},
@@ -165,6 +174,10 @@ equation
   connect(PEvaporator.port, heatPortEMock) annotation (Line(
       points={{86,-40},{100,-40}},
       color={191,0,0},
+      smooth=Smooth.None));
+  connect(booleanExpression.y, onOff.release) annotation (Line(
+      points={{-39,12},{-20,12},{-20,18}},
+      color={255,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(

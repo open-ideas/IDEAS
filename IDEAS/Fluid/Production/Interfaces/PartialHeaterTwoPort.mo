@@ -15,19 +15,14 @@ partial model PartialHeaterTwoPort
       useTinPrimary=false,
       useToutPrimary=false,
       useMassFlowPrimary=false,
-      heatPumpWaterWater=true,
-      useToutSecondary=true),
+      heatPumpWaterWater=false,
+      useToutSecondary=true,
+      use_modulation_security=use_modulation_security),
     qAsked(redeclare package Medium = Medium));
 
-  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=20)
-    annotation (Placement(transformation(extent={{-90,26},{-70,46}})));
 equation
   connect(vol.heatPort, thermalLosses.port_a) annotation (Line(
       points={{-9,-10},{-36,-10},{-36,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(fixedTemperature.port, heatSource.heatPortE) annotation (Line(
-      points={{-70,36},{-24,36}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
