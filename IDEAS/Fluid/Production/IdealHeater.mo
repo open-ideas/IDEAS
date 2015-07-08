@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production;
 model IdealHeater "Ideal heater, no losses to environment, unlimited power"
-  extends IDEAS.Fluid.Production.Interfaces.PartialHeater(
+  extends IDEAS.Fluid.Production.Interfaces.PartialHeaterTwoPort(
     final QNom=1,
     final cDry=0.1,
     final mWater=0,
@@ -8,37 +8,13 @@ model IdealHeater "Ideal heater, no losses to environment, unlimited power"
       QNomRef=QNom,
       useToutPrimary=false,
       useTinSecondary=false,
-      useToutSecondary=false,
-      useMassFlowSecondary=false));
+      useToutSecondary=false));
 
     parameter Real eta = 1 "Boiler efficiency for calculating fuel consumption";
-  Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{54,-50},{34,-30}})));
 equation
-  // Electricity consumption for electronics and fan only.  Pump is covered by pumpHeater;
-  // This data is taken from Viessmann VitoDens 300W, smallest model.  So only valid for
-  // very small household condensing gas boilers.
-  PEl = 0;
-  PFuel = 0;
-  connect(condensor.port_b, port_b) annotation (Line(
-      points={{-34,10},{-34,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTem.port_b, massFlowRate.port_a) annotation (Line(
-      points={{34,-40},{10,-40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTem.port_a, port_a) annotation (Line(
-      points={{54,-40},{70,-40},{70,-60},{100,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTem.T, heatSource.TinPrimary) annotation (Line(
-      points={{44,-29},{44,0},{8,0},{8,11.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
+
   connect(u, heatSource.QAsked) annotation (Line(
-      points={{20,-110},{20,18},{10,18}},
+      points={{20,108},{20,28},{-4,28}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
@@ -60,14 +36,6 @@ equation
           points={{-32,34},{30,-34}},
           color={0,0,0},
           smooth=Smooth.None),
-        Line(
-          points={{100,60},{44,60}},
-          color={0,0,127},
-          smooth=Smooth.None),
-        Line(
-          points={{44,60},{34,48}},
-          color={0,0,127},
-          smooth=Smooth.None),
         Polygon(
           points={{10,-25},{30,35},{-10,-25},{10,-25}},
           lineColor={0,255,128},
@@ -83,17 +51,7 @@ equation
           fillColor={0,255,128},
           fillPattern=FillPattern.Solid,
           origin={30,0},
-          rotation=270),
-        Line(
-          points={{44,-60},{34,-48}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-        Line(
-          points={{100,-60},{44,-60}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash)}),
+          rotation=270)}),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">Description </font></h4></p>
 <p>Ideal&nbsp;heater,&nbsp;will&nbsp;always&nbsp;make&nbsp;sure&nbsp;to&nbsp;reach&nbsp;the&nbsp;setpoint (no power limitation). This heater has thermal losses to the environment but an energy conversion efficiency of one. The IdealHeatSource will compute the required power and the environmental heat losses, and deliver exactly this heat flux to the heatedFluid so it will reach the set point. </p>
