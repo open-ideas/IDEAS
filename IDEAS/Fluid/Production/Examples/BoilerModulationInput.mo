@@ -21,10 +21,9 @@ model BoilerModulationInput
     m=5,
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
-    UA=100)
+    UA=0)
     annotation (Placement(transformation(extent={{80,-22},{60,-2}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
-        293.15)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=333.15)
     annotation (Placement(transformation(extent={{-68,-44},{-48,-24}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-92,74},{-72,94}})));
@@ -63,8 +62,7 @@ model BoilerModulationInput
     offset=1) annotation (Placement(transformation(extent={{84,6},{64,26}})));
   Modelica.Blocks.Sources.BooleanPulse
                                 pulse(
-    startTime=2000,
-    period=500)
+    startTime=2000, period=5000)
     annotation (Placement(transformation(extent={{-100,-20},{-80,0}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-64,8},{-56,16}})));
@@ -73,13 +71,14 @@ model BoilerModulationInput
     dp_nominal=0,
     useQSet=false,
     QNom=10000,
-    modulationInput=true)
+    modulationInput=true,
+    use_modulation_security=true)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,14})));
   Buildings.Controls.Continuous.LimPID conPID(yMax=100)
     annotation (Placement(transformation(extent={{20,60},{0,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 56.85)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 100)
     annotation (Placement(transformation(extent={{60,60},{40,80}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
@@ -153,7 +152,7 @@ equation
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}}), graphics),
-    experiment(StopTime=15000),
+    experiment(StopTime=30000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
             100}})),

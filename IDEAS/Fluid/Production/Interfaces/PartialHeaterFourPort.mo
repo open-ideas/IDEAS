@@ -12,7 +12,8 @@ partial model PartialHeaterFourPort
       UALossE=UALossE,
       heatPumpWaterWater=true,
       useTinPrimary=true,
-      useToutSecondary=true));
+      useToutSecondary=true,
+      use_modulation_security=use_modulation_security));
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLossesE(G=UALossE)
                 annotation (Placement(transformation(
