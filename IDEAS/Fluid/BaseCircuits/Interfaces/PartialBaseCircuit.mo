@@ -4,7 +4,7 @@ partial model PartialBaseCircuit "Partial for a mixing circuit"
 
   // Extensions ----------------------------------------------------------------
 
-  extends CircuitInterface;
+  extends IDEAS.Fluid.BaseCircuits.Interfaces.CircuitInterfaceExtended;
 
 equation
   if includePipes then
