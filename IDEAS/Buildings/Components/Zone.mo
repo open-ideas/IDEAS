@@ -53,9 +53,10 @@ protected
     allowFlowReversal=allowFlowReversal,
     show_T=false)
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
-  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
-      nSurf=nSurf, final linear=linRad)
-    "internal longwave radiative heat exchange" annotation (Placement(
+  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(
+    final nSurf=nSurf,
+    final linearise=linRad) "internal longwave radiative heat exchange"
+                                                annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
