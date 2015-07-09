@@ -12,8 +12,8 @@ protected
     V=129.6,
     n50=0.822*0.5*20,
     corrCV=0.822,
-    T_start=293.15,
-    linear=true)
+    T_start=293.15)
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{40,0},{80,40}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
