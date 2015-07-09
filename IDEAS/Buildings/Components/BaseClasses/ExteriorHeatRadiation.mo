@@ -5,10 +5,10 @@ model ExteriorHeatRadiation
   parameter Modelica.SIunits.Area A "Surface area";
   parameter Boolean linearise = true "Linearise radiative heat transfer"
     annotation(Evaluate=true, Dialog(group="Linearisation"));
-  parameter Modelica.SIunits.Temperature Tenv_nom = 283.15
+  parameter Modelica.SIunits.Temperature Tenv_nom = 280
     "Nominal temperature of environment"
     annotation(Dialog(group="Linearisation", enable=linearise));
-  parameter Modelica.SIunits.TemperatureDifference dT_nom = 2
+  parameter Modelica.SIunits.TemperatureDifference dT_nom = 5
     "Nominal temperature difference between wall and environment"
     annotation(Dialog(group="Linearisation", enable=linearise));
 
