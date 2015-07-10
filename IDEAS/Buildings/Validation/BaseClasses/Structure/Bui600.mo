@@ -13,8 +13,8 @@ model Bui600 "BESTEST Building model case 600"
     n50=0.822*0.5*20,
     corrCV=0.822,
     T_start=293.15,
-    linear=true,
     redeclare package Medium = Medium)
+
                 annotation (Placement(transformation(extent={{40,0},{80,40}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
@@ -111,5 +111,5 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
-            {150,100}}),       graphics));
+            {150,100}})));
 end Bui600;

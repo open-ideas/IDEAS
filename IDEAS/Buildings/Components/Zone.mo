@@ -17,8 +17,6 @@ model Zone "thermal building zone"
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
 
-  parameter Boolean linear=true "Linearized computation of long wave radiation";
-
   final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/20*(273.15
        + 21 - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
@@ -27,7 +25,9 @@ model Zone "thermal building zone"
     "Additional power required to compensate for the effects of intermittent heating";
   parameter Real fRH=11
     "Reheat factor for calculation of design heat load, (EN 12831, table D.10 Annex D)"
-                                                                                        annotation(Dialog(group="Design heat load"));
+     annotation(Dialog(group="Design heat load"));
+  parameter Boolean linRad=true "Linearized computation of long wave radiation"
+    annotation(Dialog(group="Linearisation"));
   parameter Modelica.SIunits.Area A = 0 "Total conditioned floor area" annotation(Dialog(group="Design heat load"));
 
   Modelica.SIunits.Power QTra_design=sum(propsBus.QTra_design)
@@ -53,9 +53,10 @@ protected
     allowFlowReversal=allowFlowReversal,
     show_T=false)
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
-  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
-      nSurf=nSurf, final linear=linear)
-    "internal longwave radiative heat exchange" annotation (Placement(
+  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(
+    final nSurf=nSurf,
+    final linearise=linRad) "internal longwave radiative heat exchange"
+                                                annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
