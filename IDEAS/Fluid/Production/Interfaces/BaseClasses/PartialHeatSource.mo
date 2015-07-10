@@ -5,7 +5,7 @@ partial model PartialHeatSource
    extends IDEAS.Fluid.Production.Interfaces.ModulationSecurity;
 
   //Packages
-  replaceable package Medium=IDEAS.Media.Water.Simple;
+  replaceable package Medium=IDEAS.Media.Water;
 
   //Parameters
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;

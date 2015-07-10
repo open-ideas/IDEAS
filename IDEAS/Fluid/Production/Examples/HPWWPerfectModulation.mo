@@ -7,11 +7,6 @@ model HPWWPerfectModulation "Test of a heat pump using a temperature setpoint"
 
   Modelica.Blocks.Sources.Constant const(k=273.15 + 26.85)
     annotation (Placement(transformation(extent={{60,60},{40,80}})));
-  Modelica.Blocks.Sources.Step     const1(
-    height=-0.5,
-    offset=1,
-    startTime=500)
-    annotation (Placement(transformation(extent={{4,-76},{-12,-60}})));
   Movers.Pump       pump1(
     m=1,
     useInput=false,

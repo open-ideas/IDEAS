@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Production.Interfaces.Data;
+within IDEAS.Fluid.Production.Data;
 record VitoCal300GBWS301dotA08
   import IDEAS;
   extends IDEAS.Fluid.Production.BaseClasses.PartialNonModulatingRecord(

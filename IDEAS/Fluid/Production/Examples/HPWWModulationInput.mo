@@ -50,14 +50,14 @@ model HPWWModulationInput "Test of a heat pump using a temperature setpoint"
     use_onOffSignal=true,
     modulating=true,
     modulationInput=true,
-    QNom=1000,
     m1_flow_nominal=4200/3600,
     m2_flow_nominal=4200/3600,
     dp1_nominal=0,
     dp2_nominal=0,
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    QNom=100)
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,

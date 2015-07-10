@@ -76,15 +76,13 @@ partial model PartialHeater
         rotation=-90,
         origin={-36,-42})));
 
-  replaceable IDEAS.Fluid.Production.Interfaces.BaseClasses.PartialHeatSource
-    heatSource(
+  replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource heatSource(
     UALoss=UALoss,
     QNom=QNom,
     modulating=modulating,
     modulationInput=modulationInput)
     annotation (Placement(transformation(extent={{-4,42},{-24,22}})));
-  IDEAS.Fluid.Production.Interfaces.BaseClasses.QAsked
-                                qAsked
+  IDEAS.Fluid.Production.BaseClasses.QAsked qAsked
     annotation (Placement(transformation(extent={{30,6},{10,26}})));
   Modelica.Blocks.Sources.RealExpression mFlowSecondary
     annotation (Placement(transformation(extent={{62,0},{42,20}})));

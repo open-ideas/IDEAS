@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Production.Data.PerformanceMaps;
+within IDEAS.Fluid.Production.Data.PerformanceMaps.HeatPumps;
 record VitoCal300GBWS301dotA29
   "Viessmann Vitocal 300-G, type BW 301.A29 heat pump data"
   extends BaseClasses.HeatPumpData(

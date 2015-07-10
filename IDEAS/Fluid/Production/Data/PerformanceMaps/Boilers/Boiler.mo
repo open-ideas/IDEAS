@@ -1,5 +1,5 @@
-within IDEAS.Fluid.Production.Interfaces.Data;
-record BoilerData
+within IDEAS.Fluid.Production.Data.PerformanceMaps.Boilers;
+record Boiler
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingRecord(
     useTinSecondary=false,
@@ -41,4 +41,4 @@ record BoilerData
     m2_flow_nominal = 0.15,
     dp2_nominal = 0);
 
-end BoilerData;
+end Boiler;

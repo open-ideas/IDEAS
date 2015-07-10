@@ -1,13 +1,12 @@
 within IDEAS.Fluid.Production;
-model NewHeatPumpAirWater
+model HeatPumpAirWater
   //Extensions
   extends Interfaces.PartialHeaterTwoPort(
     mWater = heatSource.data.m2,
     QNom = heatSource.data.QNomRef,
     m_flow_nominal = heatSource.data.m2_flow_nominal,
-    redeclare Interfaces.HeatSources.HeatPumpAirWater heatSource(
-      useTinPrimary=true,
-      useTinSecondary=false));
+    redeclare HeatSources.HeatPumpAirWater heatSource(useTinPrimary=true,
+        useTinSecondary=false));
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -61,4 +60,4 @@ equation
           points={{-30,-12},{10,8},{-6,-26},{30,-12}},
           color={0,127,0},
           smooth=Smooth.None)}));
-end NewHeatPumpAirWater;
+end HeatPumpAirWater;

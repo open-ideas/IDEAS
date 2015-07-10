@@ -1,12 +1,8 @@
 QAsked
-Modulator
-Interpolator
 PartialHeatSource
-IdealHeatSource
 Partial2DHeatSource
 Partial3DHeatSource
 PartialRecord
 PartialNonModulatingRecord
 PartialModulatingRecord
 HeatPumpData
-QAsked_save
