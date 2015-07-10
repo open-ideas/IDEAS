@@ -1,5 +1,5 @@
 within IDEAS.Fluid.BaseCircuits.Interfaces;
-model CircuitInterface
+partial model CircuitInterface
 
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
     "Medium in the component"
@@ -29,109 +29,6 @@ model CircuitInterface
 
   // Components ----------------------------------------------------------------
 
-public
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort if includePipes
-    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Blocks.Interfaces.RealOutput Tsup if measureSupplyT
-    "Supply temperature" annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={70,108}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={76,104})));
-
-  Modelica.Blocks.Interfaces.RealOutput Tret if measureReturnT
-    "Return temperature" annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-70,-108}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-76,-104})));
-
-protected
-  FixedResistances.InsulatedPipe pipeSupply(
-    UA=UA,
-    m=m/2,
-    dp_nominal=dp,
-    energyDynamics=energyDynamics,
-    dynamicBalance=dynamicBalance,
-    m_flow_nominal=m_flow_nominal,
-    redeclare package Medium = Medium,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    allowFlowReversal=allowFlowReversal) if
-                                          includePipes
-    annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=180,
-        origin={-80,60})), choicesAllMatching=true);
-  FixedResistances.InsulatedPipe pipeReturn(
-    UA=UA,
-    dp_nominal=dp,
-    m=m/2,
-    energyDynamics=energyDynamics,
-    massDynamics=massDynamics,
-    dynamicBalance=dynamicBalance,
-    m_flow_nominal=m_flow_nominal,
-    redeclare package Medium = Medium,
-    allowFlowReversal=allowFlowReversal) if
-                                          includePipes
-    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
-        rotation=0,
-        origin={-40,-60})),                                            choicesAllMatching=true);
-  Sensors.TemperatureTwoPort senTemSup(
-    m_flow_nominal=m_flow_nominal,
-    tau=tauTSensor,
-    redeclare package Medium = Medium,
-    allowFlowReversal=allowFlowReversal) if
-                                          measureSupplyT
-    annotation (Placement(transformation(extent={{60,50},{80,70}})));
-  Sensors.TemperatureTwoPort senTemRet(
-    m_flow_nominal=m_flow_nominal,
-    tau=tauTSensor,
-    redeclare package Medium = Medium,
-    allowFlowReversal=allowFlowReversal) if
-                                          measureReturnT
-    annotation (Placement(transformation(extent={{-60,-50},{-80,-70}})));
-
-equation
-  connect(port_a1, pipeSupply.port_a) annotation (Line(
-      points={{-100,60},{-90,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pipeSupply.heatPort, heatPort) annotation (Line(
-      points={{-80,56},{-80,-40},{-24,-40},{-24,-100},{0,-100}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(pipeReturn.heatPort, heatPort) annotation (Line(
-      points={{-40,-56},{-40,-40},{-24,-40},{-24,-100},{0,-100}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(port_b1, senTemSup.port_b) annotation (Line(
-      points={{100,60},{80,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(Tsup, Tsup) annotation (Line(
-      points={{70,108},{70,108}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(senTemSup.T, Tsup) annotation (Line(
-      points={{70,71},{70,108}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(port_b2, senTemRet.port_b) annotation (Line(
-      points={{-100,-60},{-80,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTemRet.port_a, pipeReturn.port_b) annotation (Line(
-      points={{-60,-60},{-50,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTemRet.T, Tret) annotation (Line(
-      points={{-70,-71},{-70,-108}},
-      color={0,0,127},
-      smooth=Smooth.None));
     annotation (Placement(transformation(extent={{60,10},{80,30}})),
               Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={
@@ -145,5 +42,7 @@ equation
           points={{-100,60},{100,60}},
           color={0,0,127},
           smooth=Smooth.None),
-        Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}));
+        Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}), graphics));
 end CircuitInterface;
