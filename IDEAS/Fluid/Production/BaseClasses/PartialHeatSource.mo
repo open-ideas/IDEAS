@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial model PartialHeatSource
+partial model PartialHeatSource "Partial model for a heatsource"
 
   //Extensions
    extends IDEAS.Fluid.Production.Interfaces.ModulationSecurity;
@@ -8,36 +8,49 @@ partial model PartialHeatSource
   replaceable package Medium=IDEAS.Media.Water;
 
   //Parameters
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+    "Nominal mass flow in the primary circuit";
 
-  parameter Modelica.SIunits.ThermalConductance UALoss;
-  parameter Modelica.SIunits.ThermalConductance UALossE = UALoss;
+  parameter Modelica.SIunits.ThermalConductance UALoss1
+    "Thermal conductance of the primary circuit";
+  parameter Modelica.SIunits.ThermalConductance UALoss2 = UALoss1
+    "Thermal conductance of the secondary circuit";
 
-  parameter Modelica.SIunits.Power QNom;
-  parameter Modelica.SIunits.Power QNomRef;
+  parameter Modelica.SIunits.Power QNom "Nominal power of the heater";
+  parameter Modelica.SIunits.Power QNomRef
+    "Nominal power of the heater which was used to create the performance data";
 
   //Settings
-  parameter Boolean heatPumpWaterWater = false;
-  parameter Boolean modulating = true;
-  parameter Boolean modulationInput = true;
+  parameter Boolean heatPumpWaterWater = false
+    "Set to true if the heater is a water water heat pump";
+  parameter Boolean modulating = true
+    "Set to true if the heater is able to modulate";
+  parameter Boolean modulationInput = true
+    "Set to true to use the modulation as an input";
 
-  final parameter Real scaler = QNom/QNomRef;
+  final parameter Real scaler = QNom/QNomRef
+    "Scaler to scale the power of the model according to the power of the heater used to create the performance data";
 
-  parameter Boolean useTinPrimary=false;
-  parameter Boolean useToutPrimary=false;
-  parameter Boolean useMassFlowPrimary=false;
+  parameter Boolean useTin2=false
+    "Set to true if the inlet temperature of the secondary circuit is used in the performance data";
+  parameter Boolean useTout2=false
+    "Set to true if the outlet temperature of the secondary circuit is used in the performance data";
+  parameter Boolean useMassFlow2=false
+    "Set to true if the massflow rate of the secondary circuit is used in the performance data";
 
-  parameter Boolean useTinSecondary=false;
-  parameter Boolean useToutSecondary=false;
+  parameter Boolean useTin1=false
+    "Set to true if the inlet temperature of the primary circuit is used in the performance data";
+  parameter Boolean useTout1=false
+    "Set to true if the outlet temperature of the secondary circuit is used in the performance data";
 
   //Variables
-  Modelica.SIunits.Power QLossesToCompensate
-    "Compensation for the heat losses of the condensor";
-  Modelica.SIunits.Power QLossesToCompensateE "Compensation for the heat losses of the evaporator if a water-water 
+  Modelica.SIunits.Power QLossesToCompensate1
+    "Compensation for the heat losses in the primary circuit";
+  Modelica.SIunits.Power QLossesToCompensate2 "Compensation for the heat losses in the secondary circuit if a water-water 
      heat pump is used";
 
   //Interfaces
-  Modelica.Blocks.Interfaces.RealInput TinSecondary if useTinSecondary annotation (
+  Modelica.Blocks.Interfaces.RealInput Tin1 if         useTin1 annotation (
       Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -45,15 +58,15 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,102})));
-  Modelica.Blocks.Interfaces.RealInput ToutSecondary if useToutSecondary
-    annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealInput Tout1 if         useTout1 annotation (
+      Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={-40,108}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-40,102})));
-  Modelica.Blocks.Interfaces.RealInput massFlowSecondary annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput massFlow1 annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -61,8 +74,8 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,102})));
-  Modelica.Blocks.Interfaces.RealInput TinPrimary if useTinPrimary
-    annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealInput Tin2 if       useTin2 annotation (
+      Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-80,-110}), iconTransformation(
@@ -74,7 +87,7 @@ partial model PartialHeatSource
             {10,10}},
         rotation=0,
         origin={-100,40})));
-  Modelica.Blocks.Interfaces.RealInput ToutPrimary if useToutPrimary
+  Modelica.Blocks.Interfaces.RealInput Tout2 if       useTout2
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -82,7 +95,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-102})));
-  Modelica.Blocks.Interfaces.RealInput massFlowPrimary if useMassFlowPrimary
+  Modelica.Blocks.Interfaces.RealInput massFlow2 if       useMassFlow2
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -92,7 +105,7 @@ partial model PartialHeatSource
         origin={-40,-102})));
 
   //Components
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
     "heatPort connection to water in condensor"
     annotation (Placement(transformation(extent={{90,-10},{110,10}}),
         iconTransformation(extent={{90,-10},{110,10}})));
@@ -109,7 +122,7 @@ partial model PartialHeatSource
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-100,-40})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortE if heatPumpWaterWater
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2 if heatPumpWaterWater
     "heatPort connection to water in the evaporator in case of a HP"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
         iconTransformation(extent={{90,-50},{110,-30}})));
@@ -128,34 +141,35 @@ partial model PartialHeatSource
 
   //Input mocks
 protected
-  Modelica.Blocks.Interfaces.RealOutput TinSecondaryMock;
-  Modelica.Blocks.Interfaces.RealOutput ToutSecondaryMock;
-  Modelica.Blocks.Interfaces.RealOutput TinPrimaryMock;
-  Modelica.Blocks.Interfaces.RealOutput ToutPrimaryMock;
-  Modelica.Blocks.Interfaces.RealOutput massFlowPrimaryMock;
+  Modelica.Blocks.Interfaces.RealOutput Tin1Mock;
+  Modelica.Blocks.Interfaces.RealOutput Tout1Mock;
+  Modelica.Blocks.Interfaces.RealOutput Tin2Mock;
+  Modelica.Blocks.Interfaces.RealOutput Tout2Mock;
+  Modelica.Blocks.Interfaces.RealOutput massFlow2Mock;
 
   Modelica.Blocks.Interfaces.RealOutput uModulationMock;
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPortEMock;
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2Mock;
 
   Boolean on_internal = on and on_security.y;
 equation
-  T_high = heatPort.T;
+  T_high = heatPort1.T;
+
   //Conditional inputs
-  if not useTinSecondary then
-    TinSecondaryMock=0;
+  if not useTin1 then
+    Tin1Mock=0;
   end if;
-  if not useToutSecondary then
-    ToutSecondaryMock=0;
+  if not useTout1 then
+    Tout1Mock=0;
   end if;
-  if not useMassFlowPrimary then
-    massFlowPrimaryMock=0;
+  if not useMassFlow2 then
+    massFlow2Mock=0;
   end if;
-  if not useTinPrimary then
-    TinPrimaryMock=0;
+  if not useTin2 then
+    Tin2Mock=0;
   end if;
-  if not useToutPrimary then
-    ToutPrimaryMock=0;
+  if not useTout2 then
+    Tout2Mock=0;
   end if;
 
   if not modulationInput then
@@ -163,23 +177,24 @@ equation
   end if;
 
   if not heatPumpWaterWater then
-    heatPortEMock.T=273.15;
+    heatPort2Mock.T=273.15;
   end if;
 
-  connect(TinSecondary, TinSecondaryMock);
-  connect(ToutSecondary, ToutSecondaryMock);
-  connect(TinPrimary, TinPrimaryMock);
-  connect(ToutPrimary, ToutPrimaryMock);
-  connect(massFlowPrimary, massFlowPrimaryMock);
+  connect(Tin1, Tin1Mock);
+  connect(Tout1, Tout1Mock);
+  connect(Tin2, Tin2Mock);
+  connect(Tout2, Tout2Mock);
+  connect(massFlow2, massFlow2Mock);
   connect(uModulation, uModulationMock);
-  connect(heatPortE, heatPortEMock);
+  connect(heatPort2, heatPort2Mock);
 
-  if noEvent(massFlowSecondary > m_flow_nominal/10000) then
-    QLossesToCompensate = UALoss*(heatPort.T -TEnvironment);
-    QLossesToCompensateE = UALossE*(heatPortEMock.T - TEnvironment);
+  //Apply compensating heat losses if fluid is flowing
+  if noEvent(massFlow1 > m_flow_nominal/10000) then
+    QLossesToCompensate1 = UALoss1*(heatPort1.T -TEnvironment);
+    QLossesToCompensate2 = UALoss2*(heatPort2Mock.T - TEnvironment);
   else
-    QLossesToCompensate= 0;
-    QLossesToCompensateE = 0;
+    QLossesToCompensate1= 0;
+    QLossesToCompensate2 = 0;
   end if;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},

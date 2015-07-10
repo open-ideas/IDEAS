@@ -1,5 +1,6 @@
 within IDEAS.Fluid.Production.Interfaces;
 partial model PartialHeaterFourPort
+  "Partial interface for a fourport production system"
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger(vol2(nPorts=2));
@@ -8,7 +9,7 @@ partial model PartialHeaterFourPort
     hIn(y=inStream(port_a2.h_outflow)),
     qAsked(redeclare package Medium = Medium2, useQSet=false),
     heatSource(
-      m_flow_nominal=m2_flow_nominal,
+      final m_flow_nominal=m2_flow_nominal,
       UALossE=UALossE,
       heatPumpWaterWater=true,
       useTinPrimary=true,
@@ -21,8 +22,9 @@ partial model PartialHeaterFourPort
         rotation=-90,
        origin={-66,-42})));
 
-  parameter Modelica.SIunits.Mass mBrine=5 "Mass of water in the Evaporator";
-  final parameter Modelica.SIunits.ThermalConductance UALossE=(cDry + mBrine*
+  parameter Modelica.SIunits.Mass mEvaporator=5
+    "Mass of water in the Evaporator";
+  final parameter Modelica.SIunits.ThermalConductance UALossE=(cDry + mEvaporator*
       Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
   Modelica.Blocks.Sources.RealExpression TinPrimary(y=Medium1.temperature_phX(
         Medium1.p_default,

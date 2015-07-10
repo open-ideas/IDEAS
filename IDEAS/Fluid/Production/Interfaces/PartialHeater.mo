@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production.Interfaces;
 partial model PartialHeater
-  "Partial heater model incl dynamics and environmental losses"
+  "Partial heater model including dynamics and environmental losses"
 
   //Imports
   import IDEAS;

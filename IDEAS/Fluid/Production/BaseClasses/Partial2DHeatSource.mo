@@ -4,43 +4,49 @@ partial model Partial2DHeatSource
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
     final QNomRef=data.QNomRef,
-    useTinPrimary=data.useTinPrimary,
-    useToutPrimary=data.useToutPrimary,
-    useTinSecondary=data.useTinSecondary,
-    useToutSecondary=data.useToutSecondary,
-    useMassFlowPrimary=data.useMassFlowPrimary,
+    useTin2=data.useTin2,
+    useTout2=data.useTout2,
+    useMassFlow2=data.useMassFlow2,
+    useTin1=data.useTin1,
+    useTout1=data.useTout1,
     T_max = data.TMax, T_min = data.TMin);
 
   //Variables
-  Modelica.SIunits.Power QEvaporator "The evaporator power";
-  Modelica.SIunits.Power QCondensor "The condensor power";
+  Modelica.SIunits.Power Q1 "Primary circuit power";
+  Modelica.SIunits.Power Q2 "Secondary circuit power";
+
   Real modulationInit "The scaling of the heater power";
   Real modulation;
 
   //Components
   Modelica.Blocks.Tables.CombiTable2D heatTable(table=data.heat)
+    "Table containing the heat data"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Blocks.Tables.CombiTable2D powerTable(table=data.power)
+    "Table containing the power/fuel data"
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
   replaceable IDEAS.Fluid.Production.BaseClasses.PartialNonModulatingRecord
     data constrainedby
-    IDEAS.Fluid.Production.BaseClasses.PartialNonModulatingRecord annotation (
+    IDEAS.Fluid.Production.BaseClasses.PartialNonModulatingRecord
+    "Record holding the heater data and the performance map"                                                               annotation (
       choicesAllMatching=true, Placement(transformation(extent={{70,-94},{90,-74}})));
   Modelica.Blocks.Sources.RealExpression tableInput1
+    "Name of the first independent variable of the performance table"
     annotation (Placement(transformation(extent={{-80,-10},{-40,10}})));
   Modelica.Blocks.Sources.RealExpression tableInput2
+    "Name of the second independent variable of the performance table"
     annotation (Placement(transformation(extent={{-80,-30},{-40,-10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PCondensor
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P1
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P2
     annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=QCondensor)
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=Q1)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator)
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=Q2)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
 equation
   if heatPumpWaterWater then
-    T_low = heatPortEMock.T;
+    T_low = heatPort2Mock.T;
   else
     T_low = data.TMin + 10;
   end if;
@@ -74,11 +80,11 @@ equation
     deltaX=0.1)/100 * modulation_security_internal;
 
   //Heat powers
-  QCondensor = modulation*(heatTable.y*scaler + QLossesToCompensate);
+  Q1 = modulation*(heatTable.y*scaler + QLossesToCompensate1);
   if heatPumpWaterWater then
-    QEvaporator = modulation*( - ( -powerTable.y*scaler + QCondensor + QLossesToCompensateE));
+    Q2 = modulation*( - ( -powerTable.y*scaler + Q1 + QLossesToCompensate2));
   else
-    QEvaporator = 0;
+    Q2 = 0;
   end if;
 
   //Fuel or electricity power
@@ -102,19 +108,19 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(PCondensor.Q_flow,realExpression1. y) annotation (Line(
+  connect(P1.Q_flow,realExpression1. y) annotation (Line(
       points={{66,0},{61,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(PEvaporator.Q_flow,realExpression2. y) annotation (Line(
+  connect(P2.Q_flow,realExpression2. y) annotation (Line(
       points={{66,-40},{61,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(PCondensor.port, heatPort) annotation (Line(
+  connect(P1.port, heatPort1) annotation (Line(
       points={{86,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(PEvaporator.port, heatPortEMock) annotation (Line(
+  connect(P2.port, heatPort2Mock) annotation (Line(
       points={{86,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -124,10 +130,10 @@ equation
           lineColor={0,127,0},
           fillColor={0,0,127},
           fillPattern=FillPattern.Solid,
-          textString="TinSecondary
-ToutSecondary
-massFlowSecondary
-TinPrimary
-ToutPrimary
-massFlowPrimary")}));
+          textString="Tin1
+Tout1
+massFlow1
+Tin2
+Tout2
+massFlow2")}));
 end Partial2DHeatSource;
