@@ -16,13 +16,5 @@ partial model PumpParameters
   parameter Boolean motorCooledByFluid = true
     "If true, then motor heat is added to fluid stream" annotation(Dialog(
                    group = "Pump parameters"));
-  parameter IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
-    motorEfficiency(r_V={1}, eta={0.7})
-    "Normalized volume flow rate vs. efficiency" annotation(Dialog(
-                   group = "Pump parameters"));
-  parameter IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
-    hydraulicEfficiency(r_V={1}, eta={0.7})
-    "Normalized volume flow rate vs. efficiency" annotation(Dialog(
-                   group = "Pump parameters"));
 
 end PumpParameters;
