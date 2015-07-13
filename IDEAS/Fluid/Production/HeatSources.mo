@@ -3,8 +3,8 @@ package HeatSources
   model HeatPumpAirWater
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial3DHeatSource(
-        tableInput1(y=TinPrimary-273.15),
-        tableInput2(y=ToutSecondary-273.15),
+        tableInput1(y=Tin1 - 273.15),
+        tableInput2(y=Tout2 - 273.15),
       redeclare Data.HeatPumpAirWaterData data);
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -14,8 +14,8 @@ package HeatSources
   model Boiler
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial3DHeatSource(
-      tableInput1(y=ToutSecondary - 273.15),
-      tableInput2(y=massFlowSecondary*kgps2lph),
+      tableInput1(y=Tout2 - 273.15),
+      tableInput2(y=m_flow2*kgps2lph),
       redeclare Data.PerformanceMaps.Boilers.Boiler data);
 
     //Parameters
@@ -30,8 +30,8 @@ package HeatSources
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial2DHeatSource(
       redeclare replaceable Data.VitoCal300GBWS301dotA08 data,
-      tableInput1(y=TinPrimary),
-      tableInput2(y=ToutSecondary));
+      tableInput1(y=Tin1),
+      tableInput2(y=Tout2));
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}}), graphics));

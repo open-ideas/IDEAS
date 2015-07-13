@@ -2,8 +2,8 @@ within IDEAS.Fluid.Production.Data;
 record HeatPumpAirWaterData
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingRecord(
-    useTinPrimary=true,
-    useToutSecondary=true,
+    useTin1=true,
+    useTout2=true,
     efficiencyData=false,
     n=4,
     heat=cop.*power,

@@ -5,11 +5,11 @@ partial model Partial3DHeatSource
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialHeatSource(
     final QNomRef=data.QNomRef,
-     useTinPrimary=data.useTinPrimary,
-     useToutPrimary=data.useToutPrimary,
-     useTinSecondary=data.useTinSecondary,
-     useToutSecondary=data.useToutSecondary,
-     useMassFlowPrimary=data.useMassFlowPrimary,
+     useTin1=data.useTin1,
+     useTout1=data.useTout1,
+     useMassFlow1=data.useMassFlow1,
+     useTin2=data.useTin2,
+     useTout2=data.useTout2,
      modulating=true,
     T_max = data.TMax, T_min = data.TMin);
 
@@ -26,8 +26,8 @@ partial model Partial3DHeatSource
   Real modulationInit "Initial modulation value";
   Real modulation "Final modulation value";
 
-  Modelica.SIunits.Power QCondensor "The condensor power";
-  Modelica.SIunits.Power QEvaporator "The evaporator power";
+  Modelica.SIunits.Power Q2 "The secondary power";
+  Modelica.SIunits.Power Q1 "The primary power";
 
   Modelica.SIunits.Power QInit "Initial value of the condensor power";
   Modelica.SIunits.Power QMax "Maximum value of the condensor power";
@@ -61,19 +61,19 @@ partial model Partial3DHeatSource
   Modelica.Blocks.Sources.RealExpression realExpression(y=modulation)
     annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
 
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PCondensor
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P2
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=QCondensor)
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=Q2)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow PEvaporator if heatPumpWaterWater
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P1 if heatPumpWaterWater
     annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=QEvaporator) if heatPumpWaterWater
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=Q1) if heatPumpWaterWater
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=on_internal)
     annotation (Placement(transformation(extent={{-60,2},{-40,22}})));
 equation
   if heatPumpWaterWater then
-    T_low = heatPortEMock.T;
+    T_low = heatPort1Mock.T;
   else
     T_low = data.TMin + 10;
   end if;
@@ -130,12 +130,12 @@ equation
     QFinal = QInit*onOff.y;
   end if;
 
-  QCondensor = QFinal + QLossesToCompensate;
+  Q2 = QFinal + QLossesToCompensate2;
 
   if heatPumpWaterWater then
-    QEvaporator = -(-power + QCondensor + QLossesToCompensateE);
+    Q1 = -(-power + Q2 + QLossesToCompensate1);
   else
-    QEvaporator = 0;
+    Q1 = 0;
   end if;
 
   connect(heatTable.u1, tableInput1.y) annotation (Line(
@@ -159,21 +159,21 @@ equation
       points={{-39,30},{-32,30}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(PCondensor.Q_flow,realExpression1. y) annotation (Line(
+  connect(P2.Q_flow,realExpression1. y) annotation (Line(
       points={{66,0},{61,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(PCondensor.port, heatPort) annotation (Line(
-      points={{86,0},{100,0}},
+  connect(P2.port, heatPort2) annotation (Line(
+      points={{86,0},{94,0},{94,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(PEvaporator.Q_flow, realExpression2.y) annotation (Line(
+  connect(P1.Q_flow, realExpression2.y) annotation (Line(
       points={{66,-40},{61,-40}},
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(PEvaporator.port, heatPortEMock) annotation (Line(
-      points={{86,-40},{100,-40}},
+  connect(P1.port, heatPort1) annotation (Line(
+      points={{86,-40},{94,-40},{94,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(booleanExpression.y, onOff.release) annotation (Line(
@@ -182,14 +182,14 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(
-          extent={{-80,-60},{-40,-80}},
+          extent={{-72,-66},{-48,-78}},
           lineColor={0,127,0},
           fillColor={0,0,127},
           fillPattern=FillPattern.Solid,
-          textString="TinSecondary
-ToutSecondary
-massFlowSecondary
-TinPrimary
-ToutPrimary
-massFlowPrimary")}));
+          textString="Tin2
+Tout2
+massFlow2
+Tin1
+Tout1
+massFlow1")}));
 end Partial3DHeatSource;

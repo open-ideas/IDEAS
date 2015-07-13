@@ -12,8 +12,8 @@ partial record PartialRecord
 
    parameter Boolean useTin2=true;
    parameter Boolean useTout2=true;
-   parameter Boolean useMassFlow2=true;
 
+   parameter Boolean useMassFlow1=true;
    parameter Boolean useTin1=true;
    parameter Boolean useTout1=true;
 

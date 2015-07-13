@@ -6,7 +6,7 @@ partial model Partial2DHeatSource
     final QNomRef=data.QNomRef,
     useTin2=data.useTin2,
     useTout2=data.useTout2,
-    useMassFlow2=data.useMassFlow2,
+    useMassFlow1=data.useMassFlow1,
     useTin1=data.useTin1,
     useTout1=data.useTout1,
     T_max = data.TMax, T_min = data.TMin);
@@ -37,16 +37,16 @@ partial model Partial2DHeatSource
     "Name of the second independent variable of the performance table"
     annotation (Placement(transformation(extent={{-80,-30},{-40,-10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P1
-    annotation (Placement(transformation(extent={{66,-10},{86,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P2
     annotation (Placement(transformation(extent={{66,-50},{86,-30}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P2
+    annotation (Placement(transformation(extent={{66,-10},{86,10}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=Q1)
-    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=Q2)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=Q2)
+    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
 equation
   if heatPumpWaterWater then
-    T_low = heatPort2Mock.T;
+    T_low = heatPort1Mock.T;
   else
     T_low = data.TMin + 10;
   end if;
@@ -80,11 +80,11 @@ equation
     deltaX=0.1)/100 * modulation_security_internal;
 
   //Heat powers
-  Q1 = modulation*(heatTable.y*scaler + QLossesToCompensate1);
+  Q2 = modulation*(heatTable.y*scaler + QLossesToCompensate2);
   if heatPumpWaterWater then
-    Q2 = modulation*( - ( -powerTable.y*scaler + Q1 + QLossesToCompensate2));
+    Q1 = modulation*( - ( -powerTable.y*scaler + Q2 + QLossesToCompensate1));
   else
-    Q2 = 0;
+    Q1 = 0;
   end if;
 
   //Fuel or electricity power
@@ -109,24 +109,24 @@ equation
       smooth=Smooth.None));
 
   connect(P1.Q_flow,realExpression1. y) annotation (Line(
-      points={{66,0},{61,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(P2.Q_flow,realExpression2. y) annotation (Line(
       points={{66,-40},{61,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(P1.port, heatPort1) annotation (Line(
+  connect(P2.Q_flow,realExpression2. y) annotation (Line(
+      points={{66,0},{61,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(P2.port, heatPort2) annotation (Line(
       points={{86,0},{100,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(P2.port, heatPort2Mock) annotation (Line(
+  connect(P1.port, heatPort1) annotation (Line(
       points={{86,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(
-          extent={{-80,-24},{-40,-60}},
+          extent={{-80,-42},{-40,-78}},
           lineColor={0,127,0},
           fillColor={0,0,127},
           fillPattern=FillPattern.Solid,

@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production.Data.PerformanceMaps.Boilers;
 record Boiler
   //Extensions
   extends IDEAS.Fluid.Production.BaseClasses.PartialModulatingRecord(
-    useTinSecondary=false,
+    useTin2=false,
     efficiencyData=true,
     n=5,
     QNomRef=10100,

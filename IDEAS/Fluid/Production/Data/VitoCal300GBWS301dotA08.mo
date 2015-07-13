@@ -2,8 +2,8 @@ within IDEAS.Fluid.Production.Data;
 record VitoCal300GBWS301dotA08
   import IDEAS;
   extends IDEAS.Fluid.Production.BaseClasses.PartialNonModulatingRecord(
-    useTinPrimary=true,
-    useToutSecondary=true,
+    useTin1=true,
+    useTout2=true,
     QNomRef=8000,
     heat={
       {0,       268.15,   273.15,   275.15,   283.15,  288.15},

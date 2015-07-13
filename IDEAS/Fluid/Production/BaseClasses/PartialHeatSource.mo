@@ -10,10 +10,9 @@ partial model PartialHeatSource "Partial model for a heatsource"
   //Parameters
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal
     "Nominal mass flow in the primary circuit";
-
-  parameter Modelica.SIunits.ThermalConductance UALoss1
+  parameter Modelica.SIunits.ThermalConductance UALoss1=UALoss2
     "Thermal conductance of the primary circuit";
-  parameter Modelica.SIunits.ThermalConductance UALoss2 = UALoss1
+  parameter Modelica.SIunits.ThermalConductance UALoss2
     "Thermal conductance of the secondary circuit";
 
   parameter Modelica.SIunits.Power QNom "Nominal power of the heater";
@@ -35,13 +34,13 @@ partial model PartialHeatSource "Partial model for a heatsource"
     "Set to true if the inlet temperature of the secondary circuit is used in the performance data";
   parameter Boolean useTout2=false
     "Set to true if the outlet temperature of the secondary circuit is used in the performance data";
-  parameter Boolean useMassFlow2=false
-    "Set to true if the massflow rate of the secondary circuit is used in the performance data";
 
   parameter Boolean useTin1=false
     "Set to true if the inlet temperature of the primary circuit is used in the performance data";
   parameter Boolean useTout1=false
-    "Set to true if the outlet temperature of the secondary circuit is used in the performance data";
+    "Set to true if the outlet temperature of the primary circuit is used in the performance data";
+  parameter Boolean useMassFlow1=false
+    "Set to true if the massflow rate of the secondary circuit is used in the performance data";
 
   //Variables
   Modelica.SIunits.Power QLossesToCompensate1
@@ -66,7 +65,7 @@ partial model PartialHeatSource "Partial model for a heatsource"
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-40,102})));
-  Modelica.Blocks.Interfaces.RealInput massFlow1 annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput m_flow1 if         useMassFlow1 annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -95,7 +94,7 @@ partial model PartialHeatSource "Partial model for a heatsource"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-102})));
-  Modelica.Blocks.Interfaces.RealInput massFlow2 if       useMassFlow2
+  Modelica.Blocks.Interfaces.RealInput m_flow2
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
@@ -105,10 +104,10 @@ partial model PartialHeatSource "Partial model for a heatsource"
         origin={-40,-102})));
 
   //Components
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
-    "heatPort connection to water in condensor"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}}),
-        iconTransformation(extent={{90,-10},{110,10}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1 if heatPumpWaterWater
+    "heatPort connection to water in primary circuit"
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(extent={{90,-50},{110,-30}})));
   Modelica.Blocks.Interfaces.BooleanInput on
     annotation (Placement(
         transformation(extent={{-20,-20},{20,20}},
@@ -122,10 +121,10 @@ partial model PartialHeatSource "Partial model for a heatsource"
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-100,-40})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2 if heatPumpWaterWater
-    "heatPort connection to water in the evaporator in case of a HP"
-    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
-        iconTransformation(extent={{90,-50},{110,-30}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2
+    "heatPort connection to water in the secondary circuit"
+    annotation (Placement(transformation(extent={{90,-10},{110,10}}),
+        iconTransformation(extent={{90,-10},{110,10}})));
 
   Modelica.Blocks.Interfaces.RealOutput power
     annotation (Placement(transformation(extent={{96,30},{116,50}})));
@@ -143,17 +142,18 @@ partial model PartialHeatSource "Partial model for a heatsource"
 protected
   Modelica.Blocks.Interfaces.RealOutput Tin1Mock;
   Modelica.Blocks.Interfaces.RealOutput Tout1Mock;
+  Modelica.Blocks.Interfaces.RealOutput massFlow1Mock;
+
   Modelica.Blocks.Interfaces.RealOutput Tin2Mock;
   Modelica.Blocks.Interfaces.RealOutput Tout2Mock;
-  Modelica.Blocks.Interfaces.RealOutput massFlow2Mock;
 
   Modelica.Blocks.Interfaces.RealOutput uModulationMock;
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2Mock;
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1Mock;
 
   Boolean on_internal = on and on_security.y;
 equation
-  T_high = heatPort1.T;
+  T_high = heatPort2.T;
 
   //Conditional inputs
   if not useTin1 then
@@ -162,8 +162,8 @@ equation
   if not useTout1 then
     Tout1Mock=0;
   end if;
-  if not useMassFlow2 then
-    massFlow2Mock=0;
+  if not useMassFlow1 then
+    massFlow1Mock=0;
   end if;
   if not useTin2 then
     Tin2Mock=0;
@@ -177,21 +177,21 @@ equation
   end if;
 
   if not heatPumpWaterWater then
-    heatPort2Mock.T=273.15;
+    heatPort1Mock.T=273.15;
   end if;
 
   connect(Tin1, Tin1Mock);
   connect(Tout1, Tout1Mock);
   connect(Tin2, Tin2Mock);
   connect(Tout2, Tout2Mock);
-  connect(massFlow2, massFlow2Mock);
+  connect(m_flow1, massFlow1Mock);
   connect(uModulation, uModulationMock);
-  connect(heatPort2, heatPort2Mock);
+  connect(heatPort1, heatPort1Mock);
 
   //Apply compensating heat losses if fluid is flowing
-  if noEvent(massFlow1 > m_flow_nominal/10000) then
-    QLossesToCompensate1 = UALoss1*(heatPort1.T -TEnvironment);
-    QLossesToCompensate2 = UALoss2*(heatPort2Mock.T - TEnvironment);
+  if noEvent(m_flow2 > m_flow_nominal/10000) then
+    QLossesToCompensate1 = UALoss2*(heatPort1Mock.T - TEnvironment);
+    QLossesToCompensate2 = UALoss2*(heatPort2.T -TEnvironment);
   else
     QLossesToCompensate1= 0;
     QLossesToCompensate2 = 0;

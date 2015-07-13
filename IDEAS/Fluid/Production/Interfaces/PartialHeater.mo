@@ -16,10 +16,10 @@ partial model PartialHeater
   //Heater Characteristics
   //**********************
   parameter Modelica.SIunits.Power QNom "Nominal power";
-  parameter Modelica.SIunits.Time tauHeatLoss=7200
+  parameter Modelica.SIunits.Time tauHeatLoss2=7200
     "Time constant of environmental heat losses";
-  parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
-  parameter Modelica.SIunits.HeatCapacity cDry=4800
+  parameter Modelica.SIunits.Mass m2=5 "Mass of water in the secondary circuit";
+  parameter Modelica.SIunits.HeatCapacity cDry2=4800
     "Capacity of dry material lumped to condensor";
 
   //Heater settings
@@ -32,8 +32,8 @@ partial model PartialHeater
 
   //Fluid settings
   //**************
-  final parameter Modelica.SIunits.ThermalConductance UALoss=(cDry + mWater*
-      Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss;
+  final parameter Modelica.SIunits.ThermalConductance UALoss2=(cDry2 + m2*
+      Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss2;
 
   //Intefaces
   //*********
@@ -70,40 +70,43 @@ partial model PartialHeater
 
   //Components
   //**********
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(
-    G=UALoss) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses2(G=UALoss2)
+    annotation (Placement(transformation(
+        extent={{-6,-6},{6,6}},
         rotation=-90,
-        origin={-36,-42})));
+        origin={-36,-30})));
 
   replaceable IDEAS.Fluid.Production.BaseClasses.PartialHeatSource heatSource(
-    UALoss=UALoss,
+    UALoss2=UALoss2,
     QNom=QNom,
     modulating=modulating,
-    modulationInput=modulationInput)
-    annotation (Placement(transformation(extent={{-4,42},{-24,22}})));
+    modulationInput=modulationInput,
+    useTout2=true)
+    annotation (Placement(transformation(extent={{-4,22},{-24,42}})));
   IDEAS.Fluid.Production.BaseClasses.QAsked qAsked
-    annotation (Placement(transformation(extent={{30,6},{10,26}})));
-  Modelica.Blocks.Sources.RealExpression mFlowSecondary
+    annotation (Placement(transformation(extent={{30,36},{10,56}})));
+  Modelica.Blocks.Sources.RealExpression m_flow2
     annotation (Placement(transformation(extent={{62,0},{42,20}})));
 
   Modelica.Blocks.Sources.RealExpression hIn
-    annotation (Placement(transformation(extent={{62,14},{42,34}})));
+    annotation (Placement(transformation(extent={{62,38},{42,58}})));
 
   Modelica.Blocks.Sources.BooleanExpression OnOff(y=on_internal)
     annotation (Placement(transformation(extent={{28,22},{8,42}})));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TEnvironment
-    annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor ToutSecondary
-    annotation (Placement(transformation(extent={{-36,22},{-56,42}})));
+    annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+        rotation=90,
+        origin={6,-32})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Tout2
+    annotation (Placement(transformation(extent={{-36,26},{-48,38}})));
 
   parameter Boolean use_modulation_security=false
     "Set to true if power modulation should be used to avoid exceeding temperature."
                                                                                      annotation(dialog(tab="Advanced",group="Events"));
 equation
-  connect(thermalLosses.port_b, heatPort) annotation (Line(
-      points={{-36,-52},{-36,-100},{0,-100}},
+  connect(thermalLosses2.port_b, heatPort) annotation (Line(
+      points={{-36,-36},{-36,-100},{0,-100}},
       color={191,0,0},
       smooth=Smooth.None));
 
@@ -116,54 +119,54 @@ equation
     qAsked.u=0;
   else
     connect(u, qAsked.u) annotation (Line(
-      points={{20,108},{20,21.2}},
+      points={{20,108},{20,51.2}},
       color={0,0,127},
       smooth=Smooth.None));
   end if;
   connect(qAsked.y, heatSource.QAsked) annotation (Line(
-      points={{9,16},{4,16},{4,28},{-4,28}},
+      points={{9,46},{4,46},{4,36},{-4,36}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(hIn.y, qAsked.h_in) annotation (Line(
-      points={{41,24},{36,24},{36,18},{30.8,18}},
+      points={{41,48},{30.8,48}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(mFlowSecondary.y, heatSource.massFlowSecondary) annotation (Line(
-      points={{41,10},{-14,10},{-14,21.8}},
+  connect(m_flow2.y, heatSource.m_flow2) annotation (Line(
+      points={{41,10},{-10,10},{-10,21.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(qAsked.m_flow, heatSource.massFlowSecondary) annotation (Line(
-      points={{30.8,14},{36,14},{36,10},{-14,10},{-14,21.8}},
+  connect(qAsked.m_flow, heatSource.m_flow2) annotation (Line(
+      points={{30.8,44},{36,44},{36,10},{-10,10},{-10,21.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TEnvironment.port, heatPort) annotation (Line(
-      points={{40,-40},{32,-40},{32,-76},{-36,-76},{-36,-100},{0,-100}},
+      points={{6,-36},{6,-40},{-36,-40},{-36,-100},{0,-100}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(TEnvironment.T, heatSource.TEnvironment) annotation (Line(
-      points={{60,-40},{76,-40},{76,42},{4,42},{4,36},{-4,36}},
+      points={{6,-28},{6,28},{-4,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatSource.heatPort, thermalLosses.port_a) annotation (Line(
-      points={{-24,32},{-36,32},{-36,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatSource.heatPort, ToutSecondary.port) annotation (Line(
-      points={{-24,32},{-36,32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(ToutSecondary.T, heatSource.ToutSecondary) annotation (Line(
-      points={{-56,32},{-60,32},{-60,16},{-10,16},{-10,21.8}},
+  connect(Tout2.T, heatSource.Tout2) annotation (Line(
+      points={{-48,32},{-52,32},{-52,16},{-14,16},{-14,21.8}},
       color={0,0,127},
       smooth=Smooth.None));
 
   connect(heatSource.power, PFuelOrEl) annotation (Line(
-      points={{-24.6,28},{-32,28},{-32,6},{20,6},{20,-106}},
+      points={{-24.6,36},{-32,36},{-32,6},{20,6},{20,-106}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(uModulation, heatSource.uModulation) annotation (Line(
-      points={{-60,108},{-60,86},{-20,86},{-20,42.2}},
+      points={{-60,108},{-60,12},{-20,12},{-20,21.8}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatSource.heatPort2, Tout2.port) annotation (Line(
+      points={{-24,32},{-36,32}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalLosses2.port_a, Tout2.port) annotation (Line(
+      points={{-36,-24},{-36,32}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},

@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production;
 model Boiler
   //Extensions
   extends Interfaces.PartialHeaterTwoPort(
-    mWater = heatSource.data.m2,
+    m2 = heatSource.data.m2,
     QNom = heatSource.data.QNomRef,
     m_flow_nominal = heatSource.data.m2_flow_nominal,
     dp_nominal = heatSource.data.dp2_nominal,
