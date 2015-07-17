@@ -8,7 +8,8 @@ model Boiler
     dp_nominal = heatSource.data.dp2_nominal,
     final modulating=true,
     redeclare HeatSources.Boiler heatSource(redeclare replaceable
-        IDEAS.Fluid.Production.Data.PerformanceMaps.Boilers.Boiler data));
+        IDEAS.Fluid.Production.Data.PerformanceMaps.Boilers.Boiler data, useTin1=
+          false));
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));

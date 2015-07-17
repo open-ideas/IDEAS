@@ -3,8 +3,8 @@ package HeatSources
   model HeatPumpAirWater
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial3DHeatSource(
-        tableInput1(y=Tin1 - 273.15),
-        tableInput2(y=Tout2 - 273.15),
+      tableInput1(y=Tin1 - 273.15),
+      tableInput2(y=Tout2 - 273.15),
       redeclare Data.HeatPumpAirWaterData data);
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

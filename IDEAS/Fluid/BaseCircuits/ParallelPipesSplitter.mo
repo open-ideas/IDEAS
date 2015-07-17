@@ -11,7 +11,8 @@ model ParallelPipesSplitter
   //Parameters
   parameter Integer n(min=1) "Number of outgoing connections";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal "Nominal flow rate";
-  parameter Modelica.SIunits.Volume V "Volume of the piping";
+  parameter Modelica.SIunits.Volume V=m_flow_nominal*30/1000
+    "Volume of the piping";
 
   //Components
   Modelica.Fluid.Interfaces.FluidPort_b port_bN[n](

@@ -4,7 +4,7 @@ model InteriorConvection "interior surface convection"
   parameter Modelica.SIunits.Area A "surface area";
   parameter Modelica.SIunits.Angle inc "inclination";
 
-  parameter Boolean linearise = false
+  parameter Boolean linearise = true
     "= true, if convective heat transfer should be linearised"
     annotation(Evaluate=true);
   parameter Modelica.SIunits.TemperatureDifference dT_nominal = -2
@@ -83,7 +83,7 @@ equation
   port_a.Q_flow + port_b.Q_flow = 0;
   dT = port_a.T - port_b.T;
 
-  if use_hConState then
+  if use_hConState and not linearise then
     der(hConState) = (hCon-hConState)/tau;
   else
     hConState=hCon;

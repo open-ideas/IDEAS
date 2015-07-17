@@ -21,6 +21,7 @@ partial model Partial3DHeatSource
   final parameter Real[n] modulationVector=data.modulationVector;
 
   parameter Boolean efficiencyData= data.efficiencyData;
+  parameter Boolean copData=data.copData;
 
   //Variables
   Real modulationInit "Initial modulation value";
@@ -80,10 +81,19 @@ equation
 
   //Limit Q with a maximum equal to the power at modulation 100
   if efficiencyData then
-    QMax = heatTable[end].y*data.QNomRef*scaler;
+    if copData then
+      QMax = powerTable[end].y*heatTable[end].y*data.QNomRef*scaler;
+    else
+      QMax = heatTable[end].y*data.QNomRef*scaler;
+    end if;
   else
-    QMax = heatTable[end].y*scaler;
+    if copData then
+      QMax = powerTable[end].y*heatTable[end].y*scaler;
+    else
+      QMax = heatTable[end].y*scaler;
+    end if;
   end if;
+
   QInit = IDEAS.Utilities.Math.Functions.smoothMin(
     x1=QAsked,
     x2=QMax,
@@ -96,15 +106,29 @@ equation
   else
     //Calculate the required modulation for QAsked
     if efficiencyData then
-      modulationInit = Modelica.Math.Vectors.interpolate(
-        heatTable.y .* modulationVector*data.QNomRef / 100,
-        data.modulationVector,
-        QInit/scaler);
+      if copData then
+        modulationInit = Modelica.Math.Vectors.interpolate(
+          powerTable.y .* heatTable.y .* modulationVector*data.QNomRef / 100,
+          data.modulationVector,
+          QInit/scaler);
+      else
+        modulationInit = Modelica.Math.Vectors.interpolate(
+          heatTable.y .* modulationVector*data.QNomRef / 100,
+          data.modulationVector,
+          QInit/scaler);
+      end if;
     else
-      modulationInit = Modelica.Math.Vectors.interpolate(
-        heatTable.y,
-        data.modulationVector,
-        QInit/scaler);
+      if copData then
+        modulationInit = Modelica.Math.Vectors.interpolate(
+          heatTable.y.*powerTable.y,
+          data.modulationVector,
+          QInit/scaler);
+      else
+        modulationInit = Modelica.Math.Vectors.interpolate(
+          heatTable.y,
+          data.modulationVector,
+          QInit/scaler);
+      end if;
     end if;
   end if;
 

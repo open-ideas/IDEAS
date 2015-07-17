@@ -7,6 +7,7 @@ partial record PartialModulatingRecord
   parameter Real modulationMin=20;
 
   parameter Boolean efficiencyData=true;
+  parameter Boolean copData=false;
 
   parameter Real[:,:,:] heat = {[[0]]};
   parameter Real[:,:,:] power = {[[0]]};

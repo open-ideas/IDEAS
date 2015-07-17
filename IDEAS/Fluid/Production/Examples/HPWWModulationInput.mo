@@ -46,7 +46,7 @@ model HPWWModulationInput "Test of a heat pump using a temperature setpoint"
   Modelica.Blocks.Sources.Constant
                                sine1(k=273.15 + 15)
     annotation (Placement(transformation(extent={{-118,-20},{-98,0}})));
-  NewHeatPumpWaterWater newHeatPumpWaterWater(                       onOff=true,
+  HeatPumpWaterWater    newHeatPumpWaterWater(                       onOff=true,
     use_onOffSignal=true,
     modulating=true,
     modulationInput=true,

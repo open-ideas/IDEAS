@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Production.Examples;
-model BoilerModulationInput
-  "General example and tester for a modulating boiler with a modulation input"
+model HPAWModulationInput
+  "General example and tester for a modulating air-water heat pump with a modulation input"
   import IDEAS;
   import Buildings;
 
@@ -68,20 +68,20 @@ model BoilerModulationInput
     annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-64,6},{-56,14}})));
-  IDEAS.Fluid.Production.Boiler newBoiler(
+  IDEAS.Fluid.Production.HeatPumpAirWater HPAW(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     dp_nominal=0,
     useQSet=false,
     modulationInput=true,
     use_modulation_security=true,
-    QNom=10000) annotation (Placement(transformation(
+    QNom=1000*10000) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,12})));
-  Buildings.Controls.Continuous.LimPID conPID(yMax=100)
+  Buildings.Controls.Continuous.LimPID conPID(yMax=100, Ti=180)
     annotation (Placement(transformation(extent={{20,60},{0,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 60)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 55)
     annotation (Placement(transformation(extent={{60,60},{40,80}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
@@ -124,19 +124,19 @@ equation
       points={{-20,44},{-20,38},{0,38}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(newBoiler.port_b, senTemBoiler_out.port_a) annotation (Line(
+  connect(HPAW.port_b, senTemBoiler_out.port_a) annotation (Line(
       points={{-30,22},{-30,38},{0,38}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(newBoiler.port_a, senTemBoiler_in.port_b) annotation (Line(
+  connect(HPAW.port_a, senTemBoiler_in.port_b) annotation (Line(
       points={{-30,2},{-30,-12},{-6,-12}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(fixedTemperature.port, newBoiler.heatPort) annotation (Line(
+  connect(fixedTemperature.port, HPAW.heatPort) annotation (Line(
       points={{-40,-30},{-12,-30},{-12,12},{-20,12}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(not1.y, newBoiler.on) annotation (Line(
+  connect(not1.y, HPAW.on) annotation (Line(
       points={{-55.6,10},{-40.8,10}},
       color={255,0,255},
       smooth=Smooth.None));
@@ -144,7 +144,7 @@ equation
       points={{10,49},{10,58}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(conPID.y, newBoiler.uModulation) annotation (Line(
+  connect(conPID.y, HPAW.uModulation) annotation (Line(
       points={{-1,70},{-50,70},{-50,6},{-40.8,6}},
       color={0,0,127},
       smooth=Smooth.None));
@@ -169,4 +169,4 @@ Annex60 compatibility
 </li>
 </ul>
 </html>"));
-end BoilerModulationInput;
+end HPAWModulationInput;

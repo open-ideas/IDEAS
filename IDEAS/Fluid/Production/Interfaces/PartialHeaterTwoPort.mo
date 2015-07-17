@@ -12,7 +12,6 @@ partial model PartialHeaterTwoPort
     heatSource(
       final m_flow_nominal=m_flow_nominal,
       redeclare package Medium=Medium,
-      final useTin1=false,
       final useTout1=false,
       final useMassFlow1=false,
       final heatPumpWaterWater=false,
