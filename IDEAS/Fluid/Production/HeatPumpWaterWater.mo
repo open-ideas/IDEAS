@@ -9,10 +9,7 @@ model HeatPumpWaterWater
     m2_flow_nominal = heatSource.data.m2_flow_nominal,
     dp1_nominal = heatSource.data.dp1_nominal,
     dp2_nominal = heatSource.data.dp2_nominal,
-    redeclare Data.HeatSources.HeatPumpWaterWater heatSource(
-      redeclare
-        IDEAS.Fluid.Production.Data.PerformanceMaps.HeatPumps.VitoCal300GBWS301dotA08
-        data,
+    redeclare HeatSources.HeatPumpWaterWater heatSource(
       useMassFlow1=false,
       useTin1=true,
       useTin2=false,

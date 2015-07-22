@@ -3,6 +3,7 @@ HeatPumpAirWater
 HeatPumpWaterWater
 HP_WaterWater_OnOff
 HP_WaterWater_TSet
+HeatSources
 Data
 Examples
 Interfaces

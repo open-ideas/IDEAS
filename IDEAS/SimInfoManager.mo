@@ -37,8 +37,7 @@ equation
     Icon(graphics={
         Bitmap(extent={{22,-8},{20,-8}}, fileName="")}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}),
-            graphics),
+            100,100}})),
     Documentation(info="<html>
 <p>
 The SimInfoManager manages all simulation information. 

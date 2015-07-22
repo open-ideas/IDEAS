@@ -14,6 +14,8 @@ partial model Partial2DHeatSource
   parameter Boolean copData=data.copData;
 
   //Variables
+  Modelica.SIunits.Power QMax "Maximum power for the current conditions";
+
   Modelica.SIunits.Power Q1 "Primary circuit power";
   Modelica.SIunits.Power Q2 "Secondary circuit power";
 
@@ -54,6 +56,12 @@ equation
     T_low = data.TMin + 10;
   end if;
 
+  if copData then
+    QMax = heatTable.y*powerTable.y*scaler;
+  else
+    QMax = heatTable.y*scaler;
+  end if;
+
   //Determine modulation
   if on_internal then
     //Check if the heater can modulate
@@ -63,7 +71,7 @@ equation
         modulationInit=uModulationMock;
       else
         //If not use perfect modulation
-        modulationInit=QAsked/QNom*100;
+        modulationInit=QAsked/QMax*100;
       end if;
     else
       //If the heater cannot modulate set the modulation to 100
