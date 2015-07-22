@@ -1,11 +1,12 @@
-within IDEAS.Fluid.Production;
+within IDEAS.Fluid.Production.Data;
 package HeatSources
   model HeatPumpAirWater
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial3DHeatSource(
       tableInput1(y=Tin1 - 273.15),
       tableInput2(y=Tout2 - 273.15),
-      redeclare Data.HeatPumpAirWaterData data);
+      redeclare Data.PerformanceMaps.HeatPumps.HPAW
+                                          data);
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}}), graphics));
@@ -29,7 +30,8 @@ package HeatSources
 
     //Extensions
     extends IDEAS.Fluid.Production.BaseClasses.Partial2DHeatSource(
-      redeclare replaceable Data.VitoCal300GBWS301dotA08 data,
+      redeclare replaceable
+        Data.PerformanceMaps.HeatPumps.VitoCal300GBWS301dotA45 data,
       tableInput1(y=Tin1),
       tableInput2(y=Tout2));
 

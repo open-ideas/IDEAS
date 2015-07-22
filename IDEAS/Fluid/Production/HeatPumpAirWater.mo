@@ -5,7 +5,7 @@ model HeatPumpAirWater
     m2 = heatSource.data.m2,
     QNom = heatSource.data.QNomRef,
     m_flow_nominal = heatSource.data.m2_flow_nominal,
-    redeclare HeatSources.HeatPumpAirWater heatSource);
+    redeclare Data.HeatSources.HeatPumpAirWater heatSource);
 
   inner SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));

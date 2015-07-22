@@ -139,7 +139,6 @@ partial model PartialHeatSource "Partial model for a heatsource"
         origin={60,-102})));
 
   //Input mocks
-protected
   Modelica.Blocks.Interfaces.RealOutput Tin1Mock;
   Modelica.Blocks.Interfaces.RealOutput Tout1Mock;
   Modelica.Blocks.Interfaces.RealOutput massFlow1Mock;
@@ -151,7 +150,7 @@ protected
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1Mock;
 
-  Boolean on_internal = on and on_security.y;
+  Boolean on_internal = on; //and on_security.y;
 equation
   T_high = heatPort2.T;
 
@@ -190,7 +189,7 @@ equation
 
   //Apply compensating heat losses if fluid is flowing
   if noEvent(m_flow2 > m_flow_nominal/10000) then
-    QLossesToCompensate1 = UALoss2*(heatPort1Mock.T - TEnvironment);
+    QLossesToCompensate1 = UALoss1*(heatPort1Mock.T - TEnvironment);
     QLossesToCompensate2 = UALoss2*(heatPort2.T -TEnvironment);
   else
     QLossesToCompensate1= 0;

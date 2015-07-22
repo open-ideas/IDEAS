@@ -75,7 +75,7 @@ model HPAWModulationInput
     useQSet=false,
     modulationInput=true,
     use_modulation_security=true,
-    QNom=1000*10000) annotation (Placement(transformation(
+    QNom=10000)      annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,12})));

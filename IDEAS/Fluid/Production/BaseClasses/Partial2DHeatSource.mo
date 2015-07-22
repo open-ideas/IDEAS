@@ -11,6 +11,8 @@ partial model Partial2DHeatSource
     useTout1=data.useTout1,
     T_max = data.TMax, T_min = data.TMin);
 
+  parameter Boolean copData=data.copData;
+
   //Variables
   Modelica.SIunits.Power Q1 "Primary circuit power";
   Modelica.SIunits.Power Q2 "Secondary circuit power";
@@ -44,6 +46,7 @@ partial model Partial2DHeatSource
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=Q2)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+
 equation
   if heatPumpWaterWater then
     T_low = heatPort1Mock.T;
@@ -80,7 +83,12 @@ equation
     deltaX=0.1)/100 * modulation_security_internal;
 
   //Heat powers
-  Q2 = modulation*(heatTable.y*scaler + QLossesToCompensate2);
+  if copData then
+    Q2 = modulation*(heatTable.y*powerTable.y*scaler + QLossesToCompensate2);
+  else
+    Q2 = modulation*(heatTable.y*scaler + QLossesToCompensate2);
+  end if;
+
   if heatPumpWaterWater then
     Q1 = modulation*( - ( -powerTable.y*scaler + Q2 + QLossesToCompensate1));
   else

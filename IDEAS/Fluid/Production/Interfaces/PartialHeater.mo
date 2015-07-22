@@ -4,9 +4,6 @@ partial model PartialHeater
 
   //Imports
   import IDEAS;
-  replaceable package Medium =
-      Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choicesAllMatching = true);
   //Extensions
   extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
 
@@ -30,10 +27,7 @@ partial model PartialHeater
   parameter Boolean modulationInput=true
     "Set to true to use modulation as an input";
 
-  //Fluid settings
-  //**************
-  final parameter Modelica.SIunits.ThermalConductance UALoss2=(cDry2 + m2*
-      Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss2;
+  parameter Modelica.SIunits.ThermalConductance UALoss2;
 
   //Intefaces
   //*********
@@ -70,7 +64,7 @@ partial model PartialHeater
 
   //Components
   //**********
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses2(G=UALoss2)
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses2
     annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=-90,
@@ -157,7 +151,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(uModulation, heatSource.uModulation) annotation (Line(
-      points={{-60,108},{-60,12},{-20,12},{-20,21.8}},
+      points={{-60,108},{-60,86},{-56,86},{-56,12},{-20,12},{-20,21.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort2, Tout2.port) annotation (Line(
@@ -168,9 +162,9 @@ equation
       points={{-36,-24},{-36,32}},
       color={191,0,0},
       smooth=Smooth.None));
-  annotation (
+      annotation (choicesAllMatching = true,
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
-          preserveAspectRatio=false), graphics),
+          preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false),
                     graphics),
     Documentation(info="<html>

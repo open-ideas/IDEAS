@@ -1,12 +1,15 @@
 within IDEAS.Fluid.Production.Interfaces;
 partial model PartialHeaterTwoPort
   "Partial heater interface for a twoport production system"
+
   extends IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger(
   redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(
     nPorts=3, V=m2/rho_default),
   final showDesignFlowDirection=true);
 
   extends PartialHeater(
+    final UALoss2=(cDry2 + m2*
+      Medium.specificHeatCapacityCp(Medium.setState_pTX(Medium.p_default, Medium.T_default,Medium.X_default)))/tauHeatLoss2,
     hIn(y=inStream(port_a.h_outflow)),
     m_flow2(y=port_a.m_flow),
     heatSource(
@@ -17,7 +20,8 @@ partial model PartialHeaterTwoPort
       final heatPumpWaterWater=false,
       useTout2=true,
       use_modulation_security=use_modulation_security),
-    qAsked(redeclare package Medium = Medium));
+    qAsked(redeclare package Medium = Medium),
+    thermalLosses2(G=UALoss2));
 
 equation
   connect(vol.heatPort, Tout2.port) annotation (Line(

@@ -4,6 +4,7 @@ partial record PartialRecord
 
    parameter Modelica.SIunits.Power QNomRef=1000;
    parameter Real etaRef=1;
+   parameter Boolean copData=false;
 
    parameter Modelica.SIunits.Temperature TMax = 273.15+80
     "Maximum temperature of condensor or boiler";
