@@ -9,7 +9,7 @@ model Zone "thermal building zone"
   parameter Boolean allowFlowReversal=system.allowFlowReversal
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Assumptions"));
-  parameter Boolean calculateViewFactor = false
+  parameter Boolean calculateViewFactor = true
     "Explicit calculation of view factors: only for rectangular zones!"
     annotation(Dialog(tab="Advanced"));
 
@@ -106,11 +106,12 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(propsBus[:].surfRad, radDistr.radSurfTot) annotation (Line(
-      points={{-100,40},{-74,40},{-74,-26},{-54,-26},{-54,-34}},
-  connect(summation.y, TSensor) annotation (Line(
+      points={{-100.1,39.9},{-74,39.9},{-74,-26},{-54,-26},{-54,-34}},
+  connect(summation(
+          y),          TSensor) annotation (Line(
       points={{12.6,-60},{59.3,-60},{59.3,0},{106,0}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None))));
   connect(radDistr.TRad, summation.u[1]) annotation (Line(
       points={{-44,-44},{-22,-44},{-22,-60.6},{-1.2,-60.6}},
       color={0,0,127},
@@ -139,14 +140,14 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(propsBus.epsLw, zoneLwDistributionViewFactor.epsLw) annotation (Line(
-      points={{-100,40},{-82,40},{-82,-10},{-42,-10}},
+      points={{-100.1,39.9},{-82,39.9},{-82,-10},{-42,-10}},
       color={127,0,0},
       smooth=Smooth.None), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(propsBus.area, zoneLwDistributionViewFactor.A) annotation (Line(
-      points={{-100,40},{-82,40},{-82,-14},{-42,-14}},
+      points={{-100.1,39.9},{-82,39.9},{-82,-14},{-42,-14}},
       color={127,0,0},
       smooth=Smooth.None), Text(
       string="%first",
@@ -225,11 +226,11 @@ end for;
       color={191,0,0},
       smooth=Smooth.None));
   connect(zoneLwDistributionViewFactor.inc, propsBus.inc) annotation (Line(
-      points={{-36,0},{-38,0},{-38,40},{-100,40}},
+      points={{-36,0},{-38,0},{-38,39.9},{-100.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(zoneLwDistributionViewFactor.azi, propsBus.azi) annotation (Line(
-      points={{-28,-1.77636e-15},{-28,40},{-100,40}},
+      points={{-28,-1.77636e-15},{-28,39.9},{-100.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(zoneLwDistributionViewFactor.port_a, radDistr.radSurfTot) annotation (
