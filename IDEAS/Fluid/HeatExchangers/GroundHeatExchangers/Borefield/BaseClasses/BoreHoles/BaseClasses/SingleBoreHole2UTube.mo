@@ -2,17 +2,15 @@ within IDEAS.Fluid.HeatExchangers.GroundHeatExchangers.Borefield.BaseClasses.Bor
 model SingleBoreHole2UTube "Single 2U-tube borehole heat exchanger"
 
   extends Interface.PartialSingleBoreHole(
-    m_flow_nominal=gen.m_flow_nominal_bh,
-    T_start=gen.T_start,
-    dp_nominal=gen.dp_nominal);
+    T_start=gen.T_start);
 
   BoreHoleSegmentHeightPort borHolSeg[gen.nVer](
     redeclare each final package Medium = Medium,
     each final soi=soi,
     each final fil=fil,
     each final gen=gen,
-    final dp_nominal={if i == 1 and gen.parallel2UTube then gen.dp_nominal
-         elseif i == 1 and not gen.parallel2UTube then gen.dp_nominal/2 else 0
+    final dp_nominal={if i == 1 and gen.parallel2UTube then dp_nominal
+         elseif i == 1 and not gen.parallel2UTube then dp_nominal/2 else 0
         for i in 1:gen.nVer},
     each final TExt_start=T_start,
     each final TFil_start=T_start,
@@ -46,7 +44,8 @@ model SingleBoreHole2UTube "Single 2U-tube borehole heat exchanger"
          else gen.m_flow_small,
     each final dynFil=dynFil,
     each final mSenFac=mSenFac,
-    each final use_TWall=use_TWall) "Discretized borehole segments"
+    each final use_TWall=use_TWall,
+    m_flow_nominal=m_flow_nominal) "Discretized borehole segments"
     annotation (Placement(transformation(extent={{-10,-30},{10,10}})));
 
 equation
