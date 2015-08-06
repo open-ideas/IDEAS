@@ -4,13 +4,13 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
   parameter Modelica.SIunits.Area A "Layer area";
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Angle inc "Inclination";
-
+  parameter Integer nStaMin= 2 "Minimum number of states per layer";
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
 
   final parameter Boolean present = mat.d <> 0;
 
-  final parameter Integer nSta=mat.nSta "Number of states";
+  final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";
   final parameter Real R = mat.R "Total specific thermal resistance";
   final parameter Real Ctot =  mat.rho*mat.c*mat.d
     "Total specific heat capacity";
