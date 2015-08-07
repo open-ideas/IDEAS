@@ -105,13 +105,6 @@ equation
       points={{-50.2,-54},{-50,-54},{-50,-72},{80,-72},{80,-60},{100,-60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(propsBus[:].surfRad, radDistr.radSurfTot) annotation (Line(
-      points={{-100.1,39.9},{-74,39.9},{-74,-26},{-54,-26},{-54,-34}},
-  connect(summation(
-          y),          TSensor) annotation (Line(
-      points={{12.6,-60},{59.3,-60},{59.3,0},{106,0}},
-      color={0,0,127},
-      smooth=Smooth.None))));
   connect(radDistr.TRad, summation.u[1]) annotation (Line(
       points={{-44,-44},{-22,-44},{-22,-60.6},{-1.2,-60.6}},
       color={0,0,127},
@@ -238,6 +231,10 @@ end for;
       points={{-32,-20},{-32,-26},{-54,-26},{-54,-34}},
       color={191,0,0},
       smooth=Smooth.None));
+  connect(summation.y, TSensor) annotation (Line(points={{12.6,-60},{30,-60},{30,
+          0},{106,0}}, color={0,0,127}));
+  connect(radDistr.radSurfTot, propsBus.surfRad) annotation (Line(points={{-54,
+          -34},{-70,-34},{-82,-34},{-82,39.9},{-100.1,39.9}}, color={191,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -267,6 +264,6 @@ Added view factor implementation.
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}})));
 end Zone;

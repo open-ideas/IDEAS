@@ -31,6 +31,7 @@ tester=r.Tester(executable='dymola')
 """ number of parallel processes started."""
 
 tester.setNumberOfThreads(4)
+tester.setSinglePackage("IDEAS.Buildings")
 
 """ Html validation on/off"""
 # tester.validate_html = False
