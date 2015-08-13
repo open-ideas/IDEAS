@@ -21,7 +21,8 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy = false
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
-
+  parameter Boolean linearise = false "Linearises building model equations"
+    annotation(Dialog(group="Linearisation"));
   parameter Modelica.SIunits.Energy Emax = 1
     "Error bound for violation of conservation of energy"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = strictConservationOfEnergy));

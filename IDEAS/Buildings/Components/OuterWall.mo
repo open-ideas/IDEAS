@@ -8,7 +8,7 @@ model OuterWall "Opaque building envelope construction"
            then 0 else port_emb.Q_flow)));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Boolean linearise=true
+  parameter Boolean linConv=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
@@ -39,8 +39,8 @@ protected
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
     final A=AWall,
     final inc=inc,
-    final linearise=linearise,
-    final dT_nominal=dT_nominal)
+    final dT_nominal=dT_nominal,
+    final linearise=linConv or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorSolarAbsorption solAbs
