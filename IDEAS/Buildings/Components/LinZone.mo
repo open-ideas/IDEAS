@@ -1,8 +1,8 @@
 within IDEAS.Buildings.Components;
-model Zone "thermal building zone"
+model LinZone "Linearisable zone model"
   extends IDEAS.Buildings.Components.Interfaces.StateZone(
     Eexpr(y=vol.dynBal.U),
-    useFluidPorts=not linearise,
+    useFluidPorts=not sim.linearise,
     connectWeaBus=not linearise);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(redeclare package
       Medium = IDEAS.Media.Air);
@@ -89,8 +89,7 @@ protected
     annotation (Placement(transformation(extent={{0,-28},{-16,-12}})));
 protected
   outer input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
-    final numSolBus=sim.numAzi + 1,
-    addAngles=addAngles) if false
+    final numSolBus=sim.numAzi + 1) if linearise
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-100,-2})));
@@ -167,6 +166,8 @@ equation
       smooth=Smooth.None));
 
 for i in 1:nSurf loop
+  connect(vol_lin.port, propsBus[i].surfCon) annotation (Line(points={{-32,66},{
+          -36,66},{-36,39.9},{-100.1,39.9}}, color={191,0,0}));
   connect(weaBus, propsBus[i].weaBus) annotation (Line(
           points={{-100,-2},{-100,39.9},{-100.1,39.9}},
           color={255,204,51},
@@ -233,6 +234,7 @@ end for;
     annotation (Line(points={{-42,66},{-37,66},{-32,66}}, color={191,0,0}));
   connect(vol_lin.port, gainCon)
     annotation (Line(points={{-32,66},{100,66},{100,-30}}, color={191,0,0}));
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -252,4 +254,4 @@ end for;
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})));
-end Zone;
+end LinZone;

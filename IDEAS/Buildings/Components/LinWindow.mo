@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components;
-model Window "Multipane window"
+model LinWindow "Linearisable window model"
 
   extends IDEAS.Buildings.Components.Interfaces.StateWall(QTra_design(fixed=false));
 
@@ -386,4 +386,4 @@ Adjusted implementation for grouping of solar calculations.
 </li>
 </ul>
 </html>"));
-end Window;
+end LinWindow;
