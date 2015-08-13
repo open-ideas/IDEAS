@@ -1,8 +1,10 @@
 within IDEAS.Buildings.Components.Examples;
-model ZoneExample
+model ZoneExampleLinearise
+  extends IDEAS.Buildings.Components.Interfaces.LinearisationInterface;
   package Medium = IDEAS.Media.Air;
   extends Modelica.Icons.Example;
-  Zone zone(
+  LinZone
+       zone(
     nSurf=4,
     redeclare package Medium = Medium,
     V=2,
@@ -18,11 +20,7 @@ model ZoneExample
     inc=0,
     azi=0)
     annotation (Placement(transformation(extent={{-54,-2},{-44,18}})));
-  Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
 
-  inner SimInfoManager sim
-    annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   InternalWall
              commonWall1(
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
@@ -35,13 +33,15 @@ model ZoneExample
     annotation (Placement(transformation(extent={{-5,-10},{5,10}},
         rotation=90,
         origin={11,-38})));
-  Window window(
+  LinWindow
+         window(
     A=1,
     inc=0,
     azi=0,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2 glazing,
     redeclare IDEAS.Buildings.Data.Interfaces.Frame fraType,
-    redeclare IDEAS.Buildings.Components.Shading.Screen shaType)
+    redeclare IDEAS.Buildings.Components.Shading.Screen shaType,
+    numWindow=1)
     annotation (Placement(transformation(extent={{-54,-82},{-44,-62}})));
   SlabOnGround slabOnGround(
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.LightWall
@@ -61,7 +61,8 @@ model ZoneExample
     AWall=10,
     insulationThickness=0)
     annotation (Placement(transformation(extent={{-54,-58},{-44,-38}})));
-  Zone zone1(
+  LinZone
+       zone1(
     nSurf=2,
     redeclare package Medium = Medium,
     V=2,
@@ -74,10 +75,6 @@ equation
       points={{-44,12},{-12,12},{-12,-4.5},{20,-4.5}},
       color={255,204,51},
       thickness=0.5,
-      smooth=Smooth.None));
-  connect(bou.ports[1], zone.flowPort_In) annotation (Line(
-      points={{-40,90},{32,90},{32,4.44089e-16}},
-      color={0,127,255},
       smooth=Smooth.None));
   connect(commonWall1.propsBus_a, zone.propsBus[2]) annotation (Line(
       points={{7,-33},{6,-33},{6,-5.5},{20,-5.5}},
@@ -98,10 +95,6 @@ equation
       points={{-44,34},{-12,34},{-12,-6.5},{20,-6.5}},
       color={255,204,51},
       thickness=0.5,
-      smooth=Smooth.None));
-  connect(zone1.flowPort_In, zone.flowPort_In) annotation (Line(
-      points={{32,-50},{32,0}},
-      color={0,0,0},
       smooth=Smooth.None));
   connect(commonWall1.propsBus_b, zone1.propsBus[1]) annotation (Line(
       points={{7,-43},{6.5,-43},{6.5,-55},{20,-55}},
@@ -124,4 +117,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end ZoneExample;
+end ZoneExampleLinearise;

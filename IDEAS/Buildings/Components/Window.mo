@@ -7,17 +7,9 @@ model Window "Multipane window"
   parameter Real frac(
     min=0,
     max=1) = 0.15 "Area fraction of the window frame";
-  parameter Boolean linConv=true
+  parameter Boolean linearise=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
-  parameter Boolean linearise = sim.linearise
-    "Create connections for linearisation"
-    annotation(Dialog(group="Linearisation"));
-  parameter Boolean createOutputs = sim.createOutputs
-    "Create connections for linearisation"
-    annotation(Dialog(group="Linearisation"));
-  parameter Integer numWindow(start=0) if sim.linearise "Index of this window"
-    annotation(Dialog(group="Linearisation"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
@@ -57,13 +49,13 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1
-         - frac), linearise=linConv or sim.linearise)
+         - frac))
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   BaseClasses.InteriorConvection                                  iCon(final A=
         A*(1 - frac), final inc=inc,
-    dT_nominal=dT_nominal,
-    linearise=linConv or sim.linearise)
+    linearise=linearise,
+    dT_nominal=dT_nominal)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRad(final A=A
@@ -75,9 +67,7 @@ protected
     final SwAbs=glazing.SwAbs,
     final SwTrans=glazing.SwTrans,
     final SwTransDif=glazing.SwTransDif,
-    final SwAbsDif=glazing.SwAbsDif,
-    linearise=linearise,
-    createOutputs=createOutputs)
+    final SwAbsDif=glazing.SwAbsDif)
     annotation (Placement(transformation(extent={{-10,-70},{10,-50}})));
 
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iConFra(A=A*frac,
@@ -110,8 +100,8 @@ protected
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
   Modelica.Blocks.Sources.RealExpression Qgai(y=-(propsBus_a.surfCon.Q_flow +
-        propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow)) if
-                                                           sim.computeConservationOfEnergy
+        propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow))
+    if                                                     sim.computeConservationOfEnergy
     "Heat gains in model (using propsbus since frame can be conditionally removed)"
     annotation (Placement(transformation(extent={{-116,40},{-96,60}})));
   Modelica.Blocks.Sources.RealExpression E1(y=0) if        sim.computeConservationOfEnergy
@@ -124,19 +114,6 @@ protected
                                                                                    sim.computeConservationOfEnergy
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
-protected
-  outer input Interfaces.WindowBus[sim.nWindow] winBusIn if
-                                                    linearise and not createOutputs annotation (
-      Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=90,
-        origin={80,-50})));
-  outer output Interfaces.WindowBus[sim.nWindow] winBusOut if
-                                                    linearise and createOutputs annotation (
-      Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=90,
-        origin={80,-70})));
 initial equation
   QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
 
@@ -224,15 +201,15 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,-64},{-64,-64},{-64,-64},{-50,-64}},
+      points={{-79.4,-64},{-50,-64}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-68},{-64,-68},{-64,-68},{-50,-68}},
+      points={{-79.4,-68},{-50,-68}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-66},{-64,-66},{-64,-66},{-50,-66}},
+      points={{-79.4,-66},{-50,-66}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.weaBus, propsBus_a.weaBus) annotation (Line(
@@ -299,31 +276,7 @@ equation
     annotation (Line(points={{-40,-58},{-25,-58},{-10,-58}}, color={0,0,127}));
   connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-40,-64},{
           -26,-64},{-26,-66},{-10,-66}}, color={0,0,127}));
-  connect(solWin.AbsQFlowInput, winBusIn[numWindow].AbsQFlow) annotation (Line(
-      points={{10.4,-51},{34.2,-51},{34.2,-49.9},{80.1,-49.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.iSolDirInput, winBusIn[numWindow].iSolDir) annotation (Line(
-      points={{10.4,-55},{32.2,-55},{32.2,-49.9},{80.1,-49.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.iSolDifInput, winBusIn[numWindow].iSolDif) annotation (Line(
-      points={{10.4,-59},{30.2,-59},{30.2,-49.9},{80.1,-49.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.iSolDirOutput, winBusOut[numWindow].iSolDir) annotation (Line(
-      points={{10.6,-65},{32.3,-65},{32.3,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.iSolDifOutput, winBusOut[numWindow].iSolDif) annotation (Line(
-      points={{10.6,-68},{30,-68},{30,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.AbsQFlowOutput, winBusOut[numWindow].AbsQFlow) annotation (Line(
-      points={{10.6,-62},{32,-62},{32,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-   annotation (
+  annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
         Polygon(

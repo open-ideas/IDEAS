@@ -8,6 +8,6 @@ protected
   inner input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
     final numSolBus=sim.numAzi + 1) if sim.linearise and not sim.createOutputs;
 public
-  inner SimInfoManager sim
+  inner SimInfoManager sim(linearise=true, createOutputs=false)
     annotation (Placement(transformation(extent={{-100,78},{-80,98}})));
 end LinearisationInterface;
