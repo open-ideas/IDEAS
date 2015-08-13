@@ -11,36 +11,44 @@ model SwWindowResponse "shortwave window respones"
   parameter Real SwTransDif
     "transmitted solar radiation for look-up table as function of angle of incidence";
 
+  parameter Boolean linearise = false
+    "Set to true for enabling linearization inputs/outputs";
+  parameter Boolean createOutputs = false
+    "Set to true for enabling linearization inputs/outputs";
+
   final parameter Integer[nLay] columns=if (nLay == 1) then {2} else integer(
       linspace(
       2,
       nLay + 1,
       nLay));
 
-  Modelica.Blocks.Interfaces.RealInput solDir
+  Modelica.Blocks.Interfaces.RealInput solDir if not linearise or createOutputs
     "direct solar illuminance on surface se"
     annotation (Placement(transformation(extent={{-120,40},{-80,80}})));
-  Modelica.Blocks.Interfaces.RealInput solDif
+  Modelica.Blocks.Interfaces.RealInput solDif if not linearise or createOutputs
     "diffuse solar illuminance on surface s"
     annotation (Placement(transformation(extent={{-120,0},{-80,40}})));
-  Modelica.Blocks.Interfaces.RealInput angInc "angle of incidence"
+  Modelica.Blocks.Interfaces.RealInput angInc if not linearise or createOutputs
+    "angle of incidence"
     annotation (Placement(transformation(extent={{-120,-80},{-80,-40}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs if not linearise or not createOutputs
     "solar absorptance in the panes"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir if not linearise or not createOutputs
     "transmitted direct solar riadtion"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif if not linearise or not createOutputs
     "transmitted difuse solar riadtion"
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
-  IDEAS.Buildings.Components.BaseClasses.AngleOfIncidence angDir
+  IDEAS.Buildings.Components.BaseClasses.AngleOfIncidence angDir if not linearise or createOutputs
     "angle of incidence conversion"
     annotation (Placement(transformation(extent={{-58,-52},{-40,-34}})));
   Modelica.Blocks.Tables.CombiTable1Ds SwAbsDir(
     final table=SwAbs,
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
-    final columns=columns) "lookup table for AOI dependent absorptance"
+    final columns=columns) if
+       not linearise or createOutputs
+    "lookup table for AOI dependent absorptance"
     annotation (Placement(transformation(
         extent={{-9,-9},{9,9}},
         rotation=90,
@@ -48,57 +56,71 @@ model SwWindowResponse "shortwave window respones"
   Modelica.Blocks.Tables.CombiTable1Ds SwTransDir(
     final table=SwTrans,
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
-    final columns={2}) "lookup table for AOI dependent transmittance"
+    final columns={2}) if
+       not linearise or createOutputs
+    "lookup table for AOI dependent transmittance"
     annotation (Placement(transformation(
         extent={{-9,-9},{9,9}},
         rotation=90,
         origin={-3,-11})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nLay] Abs_flow
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nLay] Abs_flow if not linearise or not createOutputs
     "solar absorptance in the panes source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=90,
         origin={-8.88178e-016,78})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dir_flow
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dir_flow if not linearise or not createOutputs
     "transmitted direct solar riadtion source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={-20,-78})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dif_flow
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dif_flow if not linearise or not createOutputs
     "transmitted difuse solar riadtion source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={20,-78})));
-  Modelica.Blocks.Math.Product[nLay] SwAbsDirProd annotation (Placement(
+  Modelica.Blocks.Math.Product[nLay] SwAbsDirProd if not linearise or createOutputs annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={-33,19})));
-  Modelica.Blocks.Math.Product SwTransDirProd annotation (Placement(
+  Modelica.Blocks.Math.Product SwTransDirProd if not linearise or createOutputs annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={-7,19})));
-  Modelica.Blocks.Math.Product[nLay] SwAbsDifProd annotation (Placement(
+  Modelica.Blocks.Math.Gain[   nLay] SwAbsDifProd(k=SwAbsDif) if
+                                                     not linearise or createOutputs annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={19,17})));
-  Modelica.Blocks.Math.Product SwTransDifProd annotation (Placement(
+  Modelica.Blocks.Math.Gain    SwTransDifProd(k=SwTransDif) if
+                                                 not linearise or createOutputs annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={45,17})));
-  Modelica.Blocks.Math.Add[nLay] add annotation (Placement(transformation(
+  Modelica.Blocks.Math.Add[nLay] add if not linearise or createOutputs annotation (Placement(transformation(
         extent={{8,-8},{-8,8}},
         rotation=-90,
         origin={-32,48})));
 
+  Modelica.Blocks.Interfaces.RealInput[nLay] AbsQFlowInput if linearise and not createOutputs
+    annotation (Placement(transformation(extent={{124,70},{84,110}})));
+  Modelica.Blocks.Interfaces.RealInput iSolDirInput if linearise and not createOutputs
+    annotation (Placement(transformation(extent={{124,30},{84,70}})));
+  Modelica.Blocks.Interfaces.RealInput iSolDifInput if linearise and not createOutputs
+    annotation (Placement(transformation(extent={{124,-10},{84,30}})));
+  Modelica.Blocks.Interfaces.RealOutput[nLay] AbsQFlowOutput if linearise and createOutputs
+    annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput iSolDifOutput if linearise and createOutputs
+    annotation (Placement(transformation(extent={{96,-90},{116,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput iSolDirOutput if linearise and createOutputs
+    annotation (Placement(transformation(extent={{96,-60},{116,-40}})));
 equation
-  SwAbsDifProd.u2 = SwAbsDif;
-  SwTransDifProd.u2 = SwTransDif;
 
   connect(angDir.angIncDeg, SwAbsDir.u) annotation (Line(
       points={{-40,-43},{-29,-43},{-29,-21.8}},
@@ -124,10 +146,6 @@ equation
       points={{20,-86},{20,-100}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(solDif, SwTransDifProd.u1) annotation (Line(
-      points={{-100,20},{-62,20},{-62,2},{40.8,2},{40.8,8.6}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(solDir, SwTransDirProd.u1) annotation (Line(
       points={{-100,60},{-60,60},{-60,4},{-11.2,4},{-11.2,10.6}},
       color={0,0,127},
@@ -146,8 +164,8 @@ equation
         points={{-100,60},{-60,60},{-60,4},{-37.2,4},{-37.2,10.6}},
         color={0,0,127},
         smooth=Smooth.None));
-    connect(solDif, SwAbsDifProd[i].u1) annotation (Line(
-        points={{-100,20},{-62,20},{-62,2},{14.8,2},{14.8,8.6}},
+    connect(solDif, SwAbsDifProd[i].u) annotation (Line(
+        points={{-100,20},{-62,20},{-62,2},{19,2},{19,8.6}},
         color={0,0,127},
         smooth=Smooth.None));
   end for;
@@ -172,9 +190,38 @@ equation
       points={{-32,56.8},{-32,62},{-4.89859e-016,62},{-4.89859e-016,70}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(Abs_flow.Q_flow, AbsQFlowInput) annotation (Line(
+      points={{0,70},{2,70},{2,62},{74,62},{74,90},{104,90}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(iSolDirInput, Dir_flow.Q_flow) annotation (Line(
+      points={{104,50},{70,50},{70,-48},{-20,-48},{-20,-70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(iSolDifInput, Dif_flow.Q_flow) annotation (Line(
+      points={{104,10},{88,10},{88,-70},{20,-70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(AbsQFlowOutput, add.y) annotation (Line(
+      points={{106,-20},{56,-20},{56,56.8},{-32,56.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SwTransDirProd.y, iSolDirOutput) annotation (Line(
+      points={{-7,26.7},{-7,40},{52,40},{52,-50},{106,-50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SwTransDifProd.y, iSolDifOutput) annotation (Line(
+      points={{45,24.7},{45,32},{52,32},{52,-80},{106,-80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(solDif, SwTransDifProd.u) annotation (Line(
+      points={{-100,20},{-66,20},{-66,0},{45,0},{45,8.6}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+            100}}),
+            graphics),
     Icon(graphics={
         Rectangle(
           extent={{-80,90},{80,70}},

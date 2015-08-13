@@ -5,6 +5,7 @@ partial model StateZone "Partial model for thermal building zones"
       annotation (choicesAllMatching = true);
   parameter Integer nSurf(min=1)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
+  parameter Boolean useFluidPorts = true "Set false to remove fluidPorts";
   outer IDEAS.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -28,8 +29,10 @@ partial model StateZone "Partial model for thermal building zones"
         rotation=-90,
         origin={-100,40})));
   Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare package Medium = Medium)
+    if                                                                           useFluidPorts
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
   Fluid.Interfaces.FlowPort_a flowPort_In(redeclare package Medium = Medium)
+    if                                                                          useFluidPorts
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 
 protected
