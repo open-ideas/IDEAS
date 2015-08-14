@@ -107,7 +107,8 @@ protected
     numAzi=sim.numAzi,
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
-    lat=sim.lat)
+    lat=sim.lat,
+    forceWeaBusPassThrough=sim.linearise)
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));
@@ -229,15 +230,15 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,-64},{-64,-64},{-64,-64},{-50,-64}},
+      points={{-79.4,-64},{-50,-64}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-68},{-64,-68},{-64,-68},{-50,-68}},
+      points={{-79.4,-68},{-50,-68}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-66},{-64,-66},{-64,-66},{-50,-66}},
+      points={{-79.4,-66},{-50,-66}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.weaBus, propsBus_a.weaBus) annotation (Line(
