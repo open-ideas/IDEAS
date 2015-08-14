@@ -174,6 +174,10 @@ public
     annotation (Placement(transformation(extent={{66,24},{40,44}})));
   Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
     annotation (Placement(transformation(extent={{66,-20},{40,0}})));
+  Modelica.Blocks.Sources.RealExpression TGround(y=TdesGround)
+    annotation (Placement(transformation(extent={{66,-34},{40,-14}})));
+  Modelica.Blocks.Sources.RealExpression u_dummy(y=1)
+    annotation (Placement(transformation(extent={{66,-50},{40,-30}})));
   parameter SI.Angle offsetAzi=0 "Offset for the azimuth angle series"
     annotation(Dialog(tab="Incidence angles"));
   parameter SI.Angle ceilingInc = IDEAS.Constants.Ceiling
@@ -314,6 +318,10 @@ equation
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{20,-70},{0,-70},{0,-100}},  color={191,0,0}));
 
+  connect(u_dummy.y, weaBus.dummy) annotation (Line(points={{38.7,-40},{26,-40},
+          {14.05,-40},{14.05,72.05}}, color={0,0,127}));
+  connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{38.7,-24},{
+          14.05,-24},{14.05,72.05}}, color={0,0,127}));
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
@@ -390,8 +398,8 @@ equation
           textStyle={TextStyle.Italic},
           fontName="Bookman Old Style",
           textString="i")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}})),
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>

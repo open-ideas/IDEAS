@@ -17,7 +17,7 @@ model MonoLayerGround "Non-fictive single material layer"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.SIunits.Temperature[nSta] T(start = T_start*ones(T_start))
+  Modelica.SIunits.Temperature[nSta] T(each start = T_start)
     "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[nFlo] Q_flow
     "Heat flow rate from state i to i+1";
