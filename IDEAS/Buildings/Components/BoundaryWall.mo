@@ -18,7 +18,8 @@ model BoundaryWall "Opaque wall with boundary conditions"
   parameter Boolean use_Q_in = false
     "Get the boundary heat flux from the input connector";
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab = "Initialization"));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in annotation (Placement(transformation(
           extent={{-60,50},{-40,70}}), iconTransformation(extent={{-60,50},{-40,
             70}})));

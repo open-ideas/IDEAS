@@ -16,7 +16,8 @@ model OuterWall "Opaque building envelope construction"
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab = "Initialization"));
   Modelica.SIunits.Power QSolIrr = (gainDir.y + gainDif.y)
     "Total solar irradiance";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb
