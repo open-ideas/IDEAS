@@ -22,8 +22,22 @@ model MixedAir "Mixed air capacity of the thermal zone"
         rotation=-90,
         origin={0,-30})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCap(C=1012*1.204*V
-        *corrCV, T(start=293.15)) "air capacity"
+        *corrCV, T(start=T_start)) "air capacity"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+  parameter Modelica.SIunits.Temperature T_start=293.15
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
+
+initial equation
+  if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      heatCap.T = T_start;
+  elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+      der(heatCap.T) = 0;
+  end if;
 equation
   for i in 1:nSurf loop
     connect(heatCap.port, conSurf[i]) annotation (Line(

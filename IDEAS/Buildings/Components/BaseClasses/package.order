@@ -16,7 +16,6 @@ MultiLayerGround
 MultiLayerLucent
 MultiLayerOpaque
 SwWindowResponse
-ThermalResistor
 ZoneLwDistribution
 ZoneLwGainDistribution
 EnergyPort

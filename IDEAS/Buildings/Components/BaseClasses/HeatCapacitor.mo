@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses;
 model HeatCapacitor "Lumped thermal element storing heat"
   parameter Modelica.SIunits.HeatCapacity C "Heat capacity of element (= cp*m)";
-  Modelica.SIunits.Temperature T(start=293.15, displayUnit="degC")
+  Modelica.SIunits.Temperature T(start=T_start,displayUnit="degC")
     "Temperature of element";
   Modelica.SIunits.TemperatureSlope der_T(start=0)
     "Time derivative of temperature (= der(T))";
@@ -10,6 +10,21 @@ model HeatCapacitor "Lumped thermal element storing heat"
         origin={0,-100},
         extent={{-10,-10},{10,10}},
         rotation=90)));
+
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+  parameter Modelica.SIunits.Temperature T_start=293.15
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
+
+initial equation
+  if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      T = T_start;
+  elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+      der(T) = 0;
+  end if;
 equation
   T = port.T;
   der_T = der(T);
