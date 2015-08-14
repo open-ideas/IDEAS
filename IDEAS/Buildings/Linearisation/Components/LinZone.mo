@@ -58,7 +58,7 @@ protected
     show_T=false) if not linearise
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
-      nSurf=nSurf, final linear=linRad or linearise)
+      nSurf=nSurf, final linearise=linRad or linearise)
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
