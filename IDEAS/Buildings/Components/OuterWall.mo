@@ -6,6 +6,7 @@ model OuterWall "Opaque building envelope construction"
     E(y=layMul.E),
     Qgai(y=layMul.port_a.Q_flow + (if sim.openSystemConservationOfEnergy
            then 0 else port_emb.Q_flow)));
+
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
   parameter Boolean linConv=true
@@ -33,7 +34,7 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
-    final A=AWall)
+    final A=AWall, linearise=sim.linearise)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-60},{-40,-40}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
