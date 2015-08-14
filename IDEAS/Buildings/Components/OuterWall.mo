@@ -34,7 +34,7 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
-    final A=AWall)
+    final A=AWall, linearise=sim.linearise)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-60},{-40,-40}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(

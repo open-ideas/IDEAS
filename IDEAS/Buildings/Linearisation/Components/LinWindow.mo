@@ -9,7 +9,7 @@ model LinWindow "Linearisable window model"
     min=0,
     max=1) = 0.15 "Area fraction of the window frame";
   parameter Boolean linConv=true
-    "= true, if convective heat transfer should be linearised"
+    "= true, if interior convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Boolean linearise = sim.linearise
     "Create connections for linearisation"
@@ -59,7 +59,7 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1
-         - frac), linearise=linConv or sim.linearise)
+         - frac), linearise=sim.linearise)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iCon(
@@ -84,7 +84,9 @@ protected
     annotation (Placement(transformation(extent={{-10,-70},{10,-50}})));
 
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iConFra(A=A*frac,
-      inc=inc) if fraType.present
+      inc=inc,
+    linearise=linConv or sim.linearise) if
+                  fraType.present
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRadFra(final
@@ -92,7 +94,8 @@ protected
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,80},{-40,100}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eConFra(final A=A*
-        frac) if fraType.present
+        frac, linearise=sim.linearise) if
+                 fraType.present
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(final G=
