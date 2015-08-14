@@ -4,18 +4,19 @@ package Interfaces
   model LinearisationInterface
     "Extend this interface if you want to linearise a model"
     import IDEAS;
-
+  protected
     inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       winBusIn if sim.linearise;
+  public
     inner IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       winBusOut if sim.createOutputs;
   protected
     output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       windowBusOut if sim.createOutputs "Dummy for getting outputs";
-  public
+  protected
     inner input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
       final numSolBus=sim.numAzi + 1) if sim.linearise;
-
+  public
     inner output IDEAS.Buildings.Components.Interfaces.WeaBus weaBusOut(
      final numSolBus=sim.numAzi + 1) if sim.createOutputs;
 

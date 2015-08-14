@@ -127,7 +127,7 @@ protected
                                                                                    sim.computeConservationOfEnergy
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
-
+protected
   outer input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
     winBusIn if linearise annotation (Placement(
         transformation(

@@ -30,13 +30,13 @@ model SwWindowResponse "shortwave window respones"
     annotation (Placement(transformation(extent={{-120,0},{-80,40}})));
   Modelica.Blocks.Interfaces.RealInput angInc "angle of incidence"
     annotation (Placement(transformation(extent={{-120,-80},{-80,-40}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs if not linearise
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs
     "solar absorptance in the panes"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir if not linearise
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir
     "transmitted direct solar riadtion"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif if not linearise
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif
     "transmitted difuse solar riadtion"
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
   IDEAS.Buildings.Components.BaseClasses.AngleOfIncidence angDir
