@@ -61,7 +61,8 @@ def _runUnitTests():
 #    ut.deleteTemporaryDirectories(False)
 #    ut.useExistingResults(['/tmp/tmp-Buildings-0-fagmeZ'])
 #    #print ut.getDataDictionary()
-    ut.setSinglePackage("Annex60.Fluid.Interfaces.Examples")
+   # ut.setSinglePackage("Annex60.Fluid.Interfaces.Examples")
+    ut.setNumberOfThreads(2)
     retVal = ut.run()
     exit(retVal)
 
