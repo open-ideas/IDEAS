@@ -1,5 +1,6 @@
-within IDEAS.Buildings.Components;
+within IDEAS.Buildings.Linearisation.Components;
 model LinWindow "Linearisable window model"
+  import IDEAS;
 
   extends IDEAS.Buildings.Components.Interfaces.StateWall(QTra_design(fixed=false));
 
@@ -16,8 +17,8 @@ model LinWindow "Linearisable window model"
   parameter Boolean createOutputs = sim.createOutputs
     "Create connections for linearisation"
     annotation(Dialog(group="Linearisation"));
-  parameter Integer numWindow(start=0) if sim.linearise "Index of this window"
-    annotation(Dialog(group="Linearisation"));
+  parameter Integer indexWindow "Index of this window"
+    annotation(Dialog(group="Linearisation"),Evaluate=true);
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
@@ -30,7 +31,8 @@ model LinWindow "Linearisable window model"
     annotation (__Dymola_choicesAllMatching=true, Dialog(group=
           "Construction details"));
   replaceable IDEAS.Buildings.Components.Shading.None shaType constrainedby
-    Interfaces.StateShading(final azi=azi) "First shading type"
+    IDEAS.Buildings.Components.Interfaces.StateShading(
+                            final azi=azi) "First shading type"
                                                           annotation (Placement(transformation(extent={{-50,-70},
             {-40,-50}})),
       __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
@@ -60,8 +62,9 @@ protected
          - frac), linearise=linConv or sim.linearise)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
-  BaseClasses.InteriorConvection                                  iCon(final A=
-        A*(1 - frac), final inc=inc,
+  IDEAS.Buildings.Components.BaseClasses.InteriorConvection iCon(
+    final A=A*(1 - frac),
+    final inc=inc,
     dT_nominal=dT_nominal,
     linearise=linConv or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
@@ -124,16 +127,15 @@ protected
                                                                                    sim.computeConservationOfEnergy
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
-protected
-  outer input Interfaces.WindowBus[sim.nWindow] winBusIn if
-                                                    linearise and not createOutputs annotation (
-      Placement(transformation(
+
+  outer input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
+    winBusIn if linearise annotation (Placement(
+        transformation(
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={80,-50})));
-  outer output Interfaces.WindowBus[sim.nWindow] winBusOut if
-                                                    linearise and createOutputs annotation (
-      Placement(transformation(
+  outer IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
+    winBusOut annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={80,-70})));
@@ -299,30 +301,24 @@ equation
     annotation (Line(points={{-40,-58},{-25,-58},{-10,-58}}, color={0,0,127}));
   connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-40,-64},{
           -26,-64},{-26,-66},{-10,-66}}, color={0,0,127}));
-  connect(solWin.AbsQFlowInput, winBusIn[numWindow].AbsQFlow) annotation (Line(
+  connect(solWin.AbsQFlowInput, winBusIn[indexWindow].AbsQFlow) annotation (Line(
       points={{10.4,-51},{34.2,-51},{34.2,-49.9},{80.1,-49.9}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solWin.iSolDirInput, winBusIn[numWindow].iSolDir) annotation (Line(
+  connect(solWin.iSolDirInput, winBusIn[indexWindow].iSolDir) annotation (Line(
       points={{10.4,-55},{32.2,-55},{32.2,-49.9},{80.1,-49.9}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solWin.iSolDifInput, winBusIn[numWindow].iSolDif) annotation (Line(
+  connect(solWin.iSolDifInput, winBusIn[indexWindow].iSolDif) annotation (Line(
       points={{10.4,-59},{30.2,-59},{30.2,-49.9},{80.1,-49.9}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solWin.iSolDirOutput, winBusOut[numWindow].iSolDir) annotation (Line(
-      points={{10.6,-65},{32.3,-65},{32.3,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.iSolDifOutput, winBusOut[numWindow].iSolDif) annotation (Line(
-      points={{10.6,-68},{30,-68},{30,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solWin.AbsQFlowOutput, winBusOut[numWindow].AbsQFlow) annotation (Line(
-      points={{10.6,-62},{32,-62},{32,-69.9},{80.1,-69.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(solWin.AbsQFlowOutput, winBusOut[indexWindow].AbsQFlow) annotation (Line(points={{10.6,
+          -62},{46,-62},{46,-69.9},{80.1,-69.9}},       color={0,0,127}));
+  connect(solWin.iSolDirOutput, winBusOut[indexWindow].iSolDir) annotation (Line(points={{10.6,
+          -65},{45.3,-65},{45.3,-69.9},{80.1,-69.9}},      color={0,0,127}));
+  connect(solWin.iSolDifOutput, winBusOut[indexWindow].iSolDif) annotation (Line(points={{10.6,
+          -68},{44,-68},{44,-69.9},{80.1,-69.9}},      color={0,0,127}));
    annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
