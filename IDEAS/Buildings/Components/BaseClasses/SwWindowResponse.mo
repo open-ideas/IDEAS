@@ -11,6 +11,11 @@ model SwWindowResponse "shortwave window respones"
   parameter Real SwTransDif
     "transmitted solar radiation for look-up table as function of angle of incidence";
 
+  parameter Boolean linearise = false
+    "Set to true for enabling linearization inputs/outputs";
+  parameter Boolean createOutputs = false
+    "Set to true for enabling linearization inputs/outputs";
+
   final parameter Integer[nLay] columns=if (nLay == 1) then {2} else integer(
       linspace(
       2,
@@ -71,7 +76,7 @@ model SwWindowResponse "shortwave window respones"
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={20,-78})));
-  Modelica.Blocks.Math.Product[nLay] SwAbsDirProd annotation (Placement(
+  Modelica.Blocks.Math.Product[nLay] SwAbsDirProd  annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
@@ -81,12 +86,12 @@ model SwWindowResponse "shortwave window respones"
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={-7,19})));
-  Modelica.Blocks.Math.Product[nLay] SwAbsDifProd annotation (Placement(
+  Modelica.Blocks.Math.Gain[   nLay] SwAbsDifProd(k=SwAbsDif)  annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={19,17})));
-  Modelica.Blocks.Math.Product SwTransDifProd annotation (Placement(
+  Modelica.Blocks.Math.Gain    SwTransDifProd(k=SwTransDif)  annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
@@ -96,9 +101,19 @@ model SwWindowResponse "shortwave window respones"
         rotation=-90,
         origin={-32,48})));
 
+  Modelica.Blocks.Interfaces.RealInput[nLay] AbsQFlowInput if linearise
+    annotation (Placement(transformation(extent={{124,70},{84,110}})));
+  Modelica.Blocks.Interfaces.RealInput iSolDirInput if linearise
+    annotation (Placement(transformation(extent={{124,30},{84,70}})));
+  Modelica.Blocks.Interfaces.RealInput iSolDifInput if linearise
+    annotation (Placement(transformation(extent={{124,-10},{84,30}})));
+  Modelica.Blocks.Interfaces.RealOutput[nLay] AbsQFlowOutput
+    annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput iSolDifOutput
+    annotation (Placement(transformation(extent={{96,-90},{116,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput iSolDirOutput
+    annotation (Placement(transformation(extent={{96,-60},{116,-40}})));
 equation
-  SwAbsDifProd.u2 = SwAbsDif;
-  SwTransDifProd.u2 = SwTransDif;
 
   connect(angDir.angIncDeg, SwAbsDir.u) annotation (Line(
       points={{-40,-43},{-29,-43},{-29,-21.8}},
@@ -124,10 +139,7 @@ equation
       points={{20,-86},{20,-100}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(solDif, SwTransDifProd.u1) annotation (Line(
-      points={{-100,20},{-62,20},{-62,2},{40.8,2},{40.8,8.6}},
-      color={0,0,127},
-      smooth=Smooth.None));
+
   connect(solDir, SwTransDirProd.u1) annotation (Line(
       points={{-100,60},{-60,60},{-60,4},{-11.2,4},{-11.2,10.6}},
       color={0,0,127},
@@ -146,20 +158,25 @@ equation
         points={{-100,60},{-60,60},{-60,4},{-37.2,4},{-37.2,10.6}},
         color={0,0,127},
         smooth=Smooth.None));
-    connect(solDif, SwAbsDifProd[i].u1) annotation (Line(
-        points={{-100,20},{-62,20},{-62,2},{14.8,2},{14.8,8.6}},
+    connect(solDif, SwAbsDifProd[i].u) annotation (Line(
+        points={{-100,20},{-62,20},{-62,2},{19,2},{19,8.6}},
         color={0,0,127},
         smooth=Smooth.None));
   end for;
-
-  connect(SwTransDifProd.y, Dif_flow.Q_flow) annotation (Line(
+  if not linearise then
+    connect(add.y, Abs_flow.Q_flow) annotation (Line(
+      points={{-32,56.8},{-32,62},{-4.89859e-016,62},{-4.89859e-016,70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+    connect(SwTransDifProd.y, Dif_flow.Q_flow) annotation (Line(
       points={{45,24.7},{45,32},{66,32},{66,-44},{20,-44},{20,-70}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(SwTransDirProd.y, Dir_flow.Q_flow) annotation (Line(
+    connect(SwTransDirProd.y, Dir_flow.Q_flow) annotation (Line(
       points={{-7,26.7},{-7,50},{80,50},{80,-54},{-20,-54},{-20,-70}},
       color={0,0,127},
       smooth=Smooth.None));
+  end if;
   connect(SwAbsDirProd.y, add.u2) annotation (Line(
       points={{-33,26.7},{-33,31.35},{-36.8,31.35},{-36.8,38.4}},
       color={0,0,127},
@@ -168,13 +185,39 @@ equation
       points={{19,24.7},{19,32},{-27.2,32},{-27.2,38.4}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(add.y, Abs_flow.Q_flow) annotation (Line(
-      points={{-32,56.8},{-32,62},{-4.89859e-016,62},{-4.89859e-016,70}},
+
+  connect(Abs_flow.Q_flow, AbsQFlowInput) annotation (Line(
+      points={{0,70},{2,70},{2,62},{74,62},{74,90},{104,90}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(iSolDirInput, Dir_flow.Q_flow) annotation (Line(
+      points={{104,50},{70,50},{70,-48},{-20,-48},{-20,-70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(iSolDifInput, Dif_flow.Q_flow) annotation (Line(
+      points={{104,10},{88,10},{88,-70},{20,-70}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(AbsQFlowOutput, add.y) annotation (Line(
+      points={{106,-20},{56,-20},{56,56.8},{-32,56.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SwTransDirProd.y, iSolDirOutput) annotation (Line(
+      points={{-7,26.7},{-7,40},{52,40},{52,-50},{106,-50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SwTransDifProd.y, iSolDifOutput) annotation (Line(
+      points={{45,24.7},{45,32},{52,32},{52,-80},{106,-80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(solDif, SwTransDifProd.u) annotation (Line(
+      points={{-100,20},{-66,20},{-66,0},{45,0},{45,8.6}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+            100}}),
+            graphics),
     Icon(graphics={
         Rectangle(
           extent={{-80,90},{80,70}},

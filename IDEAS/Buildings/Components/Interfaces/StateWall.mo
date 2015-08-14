@@ -48,5 +48,4 @@ Adjusted implementation for grouping of solar calculations.
 </li>
 </ul>
 </html>"));
-
 end StateWall;

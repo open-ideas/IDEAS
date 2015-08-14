@@ -1,0 +1,22 @@
+simulateModel("IDEAS.Buildings.Linearisation.Examples.ZoneExampleCreateOutputs", stopTime=1e+06, method="dassl", resultFile="ZoneExampleCreateOutputs");
+
+createPlot(id=1, 
+position={0, 0, 1387, 702}, 
+y={"weaBusOut.solBus[1].iSolDir", "weaBusOut.solBus[2].iSolDir", "weaBusOut.solBus[3].iSolDir", "winBusOut[1].iSolDir", "winBusOut[2].iSolDir"}, 
+range={0.0, 1000000.0, -100.0, 600.0}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}, {180,56,148}, {0,0,0}});
+createPlot(id=1, 
+position={0, 0, 1387, 230}, 
+y={"winBusOut[2].iSolDif", "winBusOut[1].iSolDif", "weaBusOut.solBus[1].iSolDif", "weaBusOut.solBus[2].iSolDif", "weaBusOut.solBus[3].iSolDif", "weaBusOut.solBus[4].iSolDif"}, 
+range={0.0, 1000000.0, -50.0, 250.0}, 
+grid=true, 
+subPlot=2, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}, {180,56,148}, {0,0,0}, {162,29,33}});
+createPlot(id=1, 
+position={0, 0, 1387, 230}, 
+y={"weaBusOut.Te", "weaBusOut.Tdes"}, 
+range={0.0, 1000000.0, 260.0, 290.0}, 
+grid=true, 
+subPlot=3, 
+colors={{28,108,200}, {238,46,47}});
