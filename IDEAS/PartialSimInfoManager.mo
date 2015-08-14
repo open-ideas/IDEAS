@@ -22,13 +22,16 @@ partial model PartialSimInfoManager
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
   parameter Boolean linearise = false "Linearises building model equations"
-    annotation(Dialog(group="Linearisation"));
+    annotation(Dialog(tab="Linearisation"));
   parameter Boolean createOutputs = false
     "Creates output connections when linearising windows"
-    annotation(Dialog(group="Linearisation"));
+    annotation(Dialog(tab="Linearisation"));
   parameter Integer nWindow = 1
     "Number of windows in the to be linearised model"
-    annotation(Dialog(group="Linearisation"));
+    annotation(Dialog(tab="Linearisation"));
+  parameter Integer nLayWin= 3
+    "Number of window layers in the to be linearised model; should be maximum of all windows"
+    annotation(Dialog(tab="Linearisation"));
   parameter Modelica.SIunits.Energy Emax = 1
     "Error bound for violation of conservation of energy"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = strictConservationOfEnergy));

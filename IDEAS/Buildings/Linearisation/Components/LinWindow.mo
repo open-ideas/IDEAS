@@ -127,15 +127,15 @@ protected
                                                                                    sim.computeConservationOfEnergy
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
-protected
+
   outer input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-    winBusIn if linearise annotation (Placement(
+    winBusIn(each nLay = sim.nLayWin) if linearise annotation (Placement(
         transformation(
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={80,-50})));
   outer IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-    winBusOut annotation (Placement(transformation(
+    winBusOut(each nLay = sim.nLayWin) annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={80,-70})));

@@ -6,13 +6,14 @@ package Interfaces
     import IDEAS;
   protected
     inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-      winBusIn if sim.linearise;
+      winBusIn(each nLay=sim.nLayWin) if sim.linearise;
   public
     inner IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-      winBusOut if sim.createOutputs;
+      winBusOut(each nLay=sim.nLayWin) if sim.createOutputs;
   protected
     output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-      windowBusOut if sim.createOutputs "Dummy for getting outputs";
+      windowBusOut(each nLay=sim.nLayWin) if sim.createOutputs
+      "Dummy for getting outputs";
   protected
     inner input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
       final numSolBus=sim.numAzi + 1) if sim.linearise;
