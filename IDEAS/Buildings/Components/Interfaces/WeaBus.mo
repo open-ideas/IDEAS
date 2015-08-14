@@ -6,7 +6,7 @@ expandable connector WeaBus "Data bus that stores weather data"
   Modelica.SIunits.Temperature Te(start = 293.15)
     "Ambient sensible temperature"                                               annotation ();
   Modelica.SIunits.Temperature Tdes(start = 293.15) "Design temperature" annotation ();
-  Real hConExt(start = 18.3) "Exterior convective heat transfer coefficient" annotation ();
+  Real hConExt(unit="W/(m2.K)", start = 18.3) "Exterior convective heat transfer coefficient" annotation ();
   Real dummy(start=1)
     "Dummy variable of value 1 to include constant term in linearization (see SlabOnGround)";
   Modelica.SIunits.Temperature TGroundDes(start=284.15)
