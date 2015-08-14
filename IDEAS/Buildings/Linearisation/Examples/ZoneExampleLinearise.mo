@@ -122,9 +122,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),           __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Buildings/Components/Examples/ZoneExample.mos"
-        "Simulate and plot"),
+            -100},{100,100}})),
     Documentation(revisions="<html>
 <ul>
 <li>
@@ -132,5 +130,7 @@ By Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    experiment(StopTime=1e+006),
+    __Dymola_experimentSetupOutput);
 end ZoneExampleLinearise;
