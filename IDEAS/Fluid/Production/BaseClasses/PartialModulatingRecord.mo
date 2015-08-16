@@ -3,8 +3,8 @@ partial record PartialModulatingRecord
   import IDEAS;
   extends IDEAS.Fluid.Production.BaseClasses.PartialRecord;
 
-  parameter Real modulationStart=15;
-  parameter Real modulationMin=10;
+  parameter Real modulationStart=0;
+  parameter Real modulationMin=-1;
 
   parameter Boolean efficiencyData=true;
 

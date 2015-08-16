@@ -19,6 +19,8 @@ partial model Partial2DHeatSource
   Modelica.SIunits.Power Q1 "Primary circuit power";
   Modelica.SIunits.Power Q2 "Secondary circuit power";
 
+  Modelica.SIunits.Power P "Power";
+
   Real modulationInit "The scaling of the heater power";
   Real modulation;
 
@@ -45,10 +47,20 @@ partial model Partial2DHeatSource
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow P2
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=Q1)
-    annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
+    annotation (Placement(transformation(extent={{30,-50},{50,-30}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=Q2)
-    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+    annotation (Placement(transformation(extent={{30,-10},{50,10}})));
 
+  Modelica.Blocks.Math.Gain gain(k=1)
+    annotation (Placement(transformation(extent={{54,-44},{62,-36}})));
+  Modelica.Blocks.Math.Gain gain1(k=1)
+    annotation (Placement(transformation(extent={{54,-4},{62,4}})));
+  Modelica.Blocks.Math.Gain gain2(k=scaler)
+    annotation (Placement(transformation(extent={{84,36},{92,44}})));
+  Modelica.Blocks.Sources.RealExpression realExpression3(y=P)
+    annotation (Placement(transformation(extent={{56,30},{76,50}})));
+
+  Boolean doIGenerateEvents = on_internal;
 equation
   if heatPumpWaterWater then
     T_low = heatPort1Mock.T;
@@ -104,7 +116,7 @@ equation
   end if;
 
   //Fuel or electricity power
-  power = modulation*powerTable.y;
+  P = modulation*powerTable.y;
 
   //Connections
   connect(tableInput1.y, heatTable.u1) annotation (Line(
@@ -124,14 +136,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(P1.Q_flow,realExpression1. y) annotation (Line(
-      points={{66,-40},{61,-40}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(P2.Q_flow,realExpression2. y) annotation (Line(
-      points={{66,0},{61,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(P2.port, heatPort2) annotation (Line(
       points={{86,0},{100,0}},
       color={191,0,0},
@@ -140,6 +144,18 @@ equation
       points={{86,-40},{100,-40}},
       color={191,0,0},
       smooth=Smooth.None));
+  connect(P1.Q_flow, gain.y)
+    annotation (Line(points={{66,-40},{62.4,-40}}, color={0,0,127}));
+  connect(gain.u, realExpression1.y)
+    annotation (Line(points={{53.2,-40},{51,-40}}, color={0,0,127}));
+  connect(P2.Q_flow, gain1.y)
+    annotation (Line(points={{66,0},{62.4,0}}, color={0,0,127}));
+  connect(gain1.u, realExpression2.y)
+    annotation (Line(points={{53.2,0},{51,0}}, color={0,0,127}));
+  connect(power, gain2.y)
+    annotation (Line(points={{106,40},{92.4,40}}, color={0,0,127}));
+  connect(gain2.u, realExpression3.y)
+    annotation (Line(points={{83.2,40},{77,40}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(
           extent={{-80,-42},{-40,-78}},

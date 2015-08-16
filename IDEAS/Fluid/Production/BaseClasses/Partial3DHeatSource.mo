@@ -57,7 +57,8 @@ partial model Partial3DHeatSource
     release(start=false),
     use_input=false,
     uLow_val=data.modulationMin,
-    uHigh_val=data.modulationStart)
+    uHigh_val=data.modulationStart,
+    y_start=true)
     annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=modulation)
     annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
@@ -142,10 +143,17 @@ equation
     deltaX=0.1) * modulation_security_internal;
 
   //Calculate the power based on the modulation
-  power = Modelica.Math.Vectors.interpolate(
-      data.modulationVector,
-      powerTable.y,
-      modulation)*onOff.y * scaler;
+  if efficiencyData then
+    power = QFinal/Modelica.Math.Vectors.interpolate(
+        data.modulationVector,
+        heatTable.y,
+        modulation);
+  else
+    power = Modelica.Math.Vectors.interpolate(
+        data.modulationVector,
+        powerTable.y,
+        modulation)*onOff.y * scaler;
+  end if;
 
   //Calculate the heater powers
   if modulationInput then
