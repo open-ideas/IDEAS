@@ -4,7 +4,7 @@ model LinWindow "Linearisable window model"
 
   extends IDEAS.Buildings.Components.Interfaces.StateWall(QTra_design(fixed=false));
 
-  parameter Modelica.SIunits.Area A "Total window and windowframe area";
+  parameter Modelica.SIunits.Area A "Total window and window frame area";
   parameter Real frac(
     min=0,
     max=1) = 0.15 "Area fraction of the window frame";
@@ -108,7 +108,8 @@ protected
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-    forceWeaBusPassThrough=sim.linearise)
+    forceWeaBusPassThrough=sim.linearise,
+    linearisation=sim.linearise)
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));

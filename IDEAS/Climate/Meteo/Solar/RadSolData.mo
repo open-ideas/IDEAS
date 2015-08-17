@@ -7,7 +7,12 @@ model RadSolData "Selects or generates correct solar data for this surface"
   parameter SI.Angle ceilingInc "Roof inclination angle in solBus";
   parameter SI.Angle offsetAzi
     "Offset azimuth angle of irradation data calculated in solBus";
-  parameter Boolean forceWeaBusPassThrough = false;
+  parameter Boolean forceWeaBusPassThrough = linearisation
+    "Set to true when inputs must be taken from the weather bus, i.e. when linearising"
+    annotation(Dialog(group="Linearisation"));
+  parameter Boolean linearisation = false
+    "Set to true when component is part of a to be linearised model"
+  annotation(Dialog(group="Linearisation"));
 
   parameter Boolean solDataInBus=
    forceWeaBusPassThrough or
@@ -56,6 +61,11 @@ protected
     "Required for avoiding warnings?"
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-78,10},{-38,50}})));
+public
+  Modelica.Blocks.Sources.Constant constAngLin(k=0) if
+                                                 linearisation
+    "Dummy inputs when linearising. This avoids unnecessary state space inputs."
+    annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation
 
   connect(radSol.weaBus, weaBus) annotation (Line(
@@ -77,31 +87,40 @@ equation
       smooth=Smooth.None));
       end if;
   connect(solDir, solBusDummy1.iSolDir) annotation (Line(
-      points={{106,20},{24,20},{24,30.1},{-57.9,30.1}},
+      points={{106,20},{-58,20},{-58,30.1},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solDif, solBusDummy1.iSolDif) annotation (Line(
-      points={{106,0},{30,0},{30,2},{-57.9,2},{-57.9,30.1}},
+      points={{106,0},{-57.9,0},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tenv, solBusDummy1.Tenv) annotation (Line(
-      points={{106,-20},{46,-20},{46,-16},{-57.9,-16},{-57.9,30.1}},
+      points={{106,-20},{-57.9,-20},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(angInc, solBusDummy1.angInc) annotation (Line(
-      points={{106,-40},{46,-40},{46,-42},{-57.9,-42},{-57.9,30.1}},
+  if not linearisation then
+    connect(angInc, solBusDummy1.angInc) annotation (Line(
+      points={{106,-40},{-58,-40},{-58,-40},{-58,-40},{-58,30}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(angZen, solBusDummy1.angZen) annotation (Line(
-      points={{106,-60},{-57.9,-60},{-57.9,30.1}},
+    connect(angZen, solBusDummy1.angZen) annotation (Line(
+      points={{106,-60},{-58,-60},{-58,30}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(angAzi, solBusDummy1.angAzi) annotation (Line(
-      points={{106,-80},{-57.9,-80},{-57.9,30.1}},
+    connect(angAzi, solBusDummy1.angAzi) annotation (Line(
+      points={{106,-80},{-58,-80},{-58,30}},
       color={0,0,127},
       smooth=Smooth.None));
+  end if;
+  connect(constAngLin.y, angInc) annotation (Line(points={{-79,-60},{-78,-60},{-78,
+          -40},{106,-40}}, color={0,0,127}));
+  connect(constAngLin.y, angZen)
+    annotation (Line(points={{-79,-60},{-78,-60},{106,-60}}, color={0,0,127}));
+  connect(constAngLin.y, angAzi) annotation (Line(points={{-79,-60},{-78,-60},{-78,
+          -80},{106,-80}}, color={0,0,127}));
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics), Documentation(info="<html>
+            -100},{100,100}})),           Documentation(info="<html>
 <p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>
 </html>", revisions="<html>
 <ul>
