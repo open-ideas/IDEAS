@@ -65,7 +65,8 @@ protected
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-    forceWeaBusPassThrough=sim.linearise)
+    forceWeaBusPassThrough=sim.linearise,
+    linearisation=sim.linearise)
     annotation (Placement(transformation(extent={{-92,-36},{-72,-16}})));
 initial equation
   QTra_design =U_value*AWall*(273.15 + 21 - Tdes.y);
