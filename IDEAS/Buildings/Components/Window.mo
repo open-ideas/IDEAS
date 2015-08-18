@@ -98,8 +98,6 @@ protected
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));
   Modelica.Blocks.Math.Gain gainDif(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-56},{-62,-48}})));
-  Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
-    annotation (Placement(transformation(extent={{60,70},{80,90}})));
   Modelica.Blocks.Sources.RealExpression Qgai(y=-(propsBus_a.surfCon.Q_flow +
         propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow)) if
                                                            sim.computeConservationOfEnergy
@@ -116,7 +114,7 @@ protected
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
 initial equation
-  QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*A*(273.15 + 21 - sim.Tdes);
 
 equation
   connect(eCon.port_a, layMul.port_a) annotation (Line(
@@ -256,10 +254,6 @@ equation
       smooth=Smooth.None));
   connect(eCon.hConExt, propsBus_a.weaBus.hConExt) annotation (Line(
       points={{-20,-39},{50.1,-39},{50.1,39.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(Tdes.u, propsBus_a.weaBus.Tdes) annotation (Line(
-      points={{58,80},{50.1,80},{50.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow)

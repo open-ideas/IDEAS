@@ -78,10 +78,9 @@ equation
     connect(sim.weaBus.solBus[i].Tenv,   stateSpace.u[offSolBus[i]+3]);
   end for;
   connect(sim.weaBus.Te, stateSpace.u[lastOffSolBus+1]);
-  connect(sim.weaBus.Tdes, stateSpace.u[lastOffSolBus+2]);
-  connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+3]);
-  connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+4]);
-  connect(sim.weaBus.TGroundDes, stateSpace.u[lastOffSolBus+5]);
+  connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
+  connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
+  connect(sim.weaBus.TGroundDes, stateSpace.u[lastOffSolBus+4]);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),

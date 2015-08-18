@@ -174,8 +174,7 @@ public
   Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
     "Exterior convective heat transfer coefficient"
     annotation (Placement(transformation(extent={{66,24},{40,44}})));
-  Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
-    annotation (Placement(transformation(extent={{66,-20},{40,0}})));
+
   Modelica.Blocks.Sources.RealExpression TGround(y=TdesGround)
     annotation (Placement(transformation(extent={{66,-34},{40,-14}})));
   Modelica.Blocks.Sources.RealExpression u_dummy(y=1)
@@ -306,10 +305,6 @@ equation
       visible=false));
   connect(hConExpr.y, weaBus.hConExt) annotation (Line(
       points={{38.7,34},{14.05,34},{14.05,72.05}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TdesExpr.y, weaBus.Tdes) annotation (Line(
-      points={{38.7,-10},{14.05,-10},{14.05,72.05}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSol.solBus, weaBus.solBus) annotation (Line(

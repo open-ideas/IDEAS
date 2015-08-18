@@ -37,7 +37,7 @@ protected
   inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
     winBusIn(each nLay=sim.nLayWin) if sim.linearise;
 public
-  Components.StateSpace stateSpace
+  Components.StateSpace ssm(x_start=ones(ssm.states)*293.15)
     annotation (Placement(transformation(extent={{56,44},{76,64}})));
 equation
   connect(const.y,win [3].Ctrl) annotation (Line(
@@ -48,7 +48,7 @@ equation
       points={{18,60},{-20,60},{-20,60}},
       color={255,204,51},
       thickness=0.5));
-  connect(windowBusOut, stateSpace.winBus) annotation (Line(
+  connect(windowBusOut, ssm.winBus) annotation (Line(
       points={{18,60},{37,60},{56,60}},
       color={255,204,51},
       thickness=0.5));

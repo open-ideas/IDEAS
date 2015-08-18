@@ -56,8 +56,6 @@ protected
     annotation (Placement(transformation(extent={{-58,-28},{-50,-20}})));
   Modelica.Blocks.Math.Gain gainDif(k=AWall)
     annotation (Placement(transformation(extent={{-58,-32},{-50,-24}})));
-  Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
-    annotation (Placement(transformation(extent={{80,0},{60,20}})));
   Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
@@ -69,7 +67,7 @@ protected
     linearisation=sim.linearise)
     annotation (Placement(transformation(extent={{-92,-36},{-72,-16}})));
 initial equation
-  QTra_design =U_value*AWall*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*AWall*(273.15 + 21 - sim.Tdes);
 
 equation
   connect(extCon.port_a, layMul.port_a) annotation (Line(
@@ -162,10 +160,6 @@ equation
       smooth=Smooth.None));
   connect(extCon.hConExt, propsBus_a.weaBus.hConExt) annotation (Line(
       points={{-20,-59},{50.1,-59},{50.1,39.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(Tdes.u, propsBus_a.weaBus.Tdes) annotation (Line(
-      points={{82,10},{82,56},{50.1,56},{50.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (
