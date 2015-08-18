@@ -65,7 +65,8 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design)  annotation (Placement(transformation(extent={{-16,36},{-36,56}})));
@@ -83,6 +84,9 @@ protected
   Modelica.Blocks.Sources.Constant E0(k=0)
     "All internal energy is assigned to right side"
     annotation (Placement(transformation(extent={{-126,42},{-106,62}})));
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(layMul.port_b, propsBus_a.surfRad) annotation (Line(
       points={{10,-30},{14,-30},{14,39.9},{50.1,39.9}},

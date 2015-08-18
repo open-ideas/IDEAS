@@ -12,11 +12,15 @@ model MultiLayerGround "multiple ground layers in series"
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
 
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
   IDEAS.Buildings.Components.BaseClasses.MonoLayerGround[nLay] nMat(
     each final A=A,
     each final inc=inc,
     final mat=mats,
-    each T_start = T_start) "layers";
+    each T_start = T_start,
+    each energyDynamics=energyDynamics) "layers";
 
   final parameter Real R=sum(nMat.R) "total specific thermal resistance";
 

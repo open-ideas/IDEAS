@@ -23,7 +23,20 @@ equation
   connect(add.y, y)
     annotation (Line(points={{55,0},{104,0},{104,0}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),Documentation(revisions="<html>
+            -100},{100,100}})),Documentation(info="<html>
+<p>
+This model is simulate a state space model which have B and D matrices including the initial condition x0.
+This is particullarly usefull for reduced order models where you do not know the initial state.
+The system equations are then:</p>
+<p>
+x+ = Ax + [B x0] [u 1].T
+</p>
+<p>
+y = Cx + [D y0] [u 1].T
+</p>
+<p>
+In order to get the reduced order model, look at \"Resources\\Matlab\\dymola_ROM.m\".
+</html>",revisions="<html>
 <ul>
 <li>
 July, 2015 by Damien Picard:<br/>

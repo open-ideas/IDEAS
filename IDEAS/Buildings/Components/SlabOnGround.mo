@@ -49,7 +49,8 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "Declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
@@ -65,7 +66,8 @@ protected
     final nLay=3,
     final mats={ground1,ground2,ground3},
     final locGain=1,
-    T_start=T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "Declaration of array of resistances and capacitances for ground simulation"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow periodicFlow(T_ref=284.15)
@@ -78,6 +80,9 @@ protected
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   Modelica.Blocks.Math.Gain              QmExp(k=-Qm) "Real expression for Qm"
     annotation (Placement(transformation(extent={{-70,-2},{-50,18}})));
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
 
   connect(layMul.port_b, intCon.port_a) annotation (Line(

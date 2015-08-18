@@ -199,7 +199,11 @@ equation
     assert(abs(Etot)<Emax, "Conservation of energy violation > Emax J!");
   end if;
 
-  der(Qint) = Qgai.Q_flow;
+  if not linearise then
+    der(Qint) = Qgai.Q_flow;
+  else
+    Qint = 0;
+  end if;
   Etot=  Qint-E.E;
 
   connect(TEnv.y,XiEnv. T) annotation (Line(

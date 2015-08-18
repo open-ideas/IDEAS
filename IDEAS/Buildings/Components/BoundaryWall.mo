@@ -45,7 +45,8 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_b(final A=
@@ -55,6 +56,9 @@ protected
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
 
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(layMul.port_b, intCon_b.port_a) annotation (Line(
       points={{4.44089e-16,-30},{20,-30}},

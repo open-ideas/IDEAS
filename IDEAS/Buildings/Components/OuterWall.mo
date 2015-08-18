@@ -31,7 +31,8 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
@@ -66,6 +67,9 @@ protected
     forceWeaBusPassThrough=sim.linearise,
     linearisation=sim.linearise)
     annotation (Placement(transformation(extent={{-92,-36},{-72,-16}})));
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 initial equation
   QTra_design =U_value*AWall*(273.15 + 21 - sim.Tdes);
 

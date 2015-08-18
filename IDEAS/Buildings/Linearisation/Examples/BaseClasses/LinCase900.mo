@@ -1,14 +1,23 @@
 within IDEAS.Buildings.Linearisation.Examples.BaseClasses;
 model LinCase900
+  import IDEAS;
   extends IDEAS.Buildings.Linearisation.Interfaces.LinearisationInterface(sim(
         nWindow=3));
   package Medium = IDEAS.Media.Air;
 
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
+    "Formulation of energy balance";
+  parameter SI.Temperature T_start=293.15
+    "Start temperature for each of the layers";
+
   Components.LinZone        gF(
     V=129.6,
     corrCV=0.822,
-    nSurf=9,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    T_start=T_start,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    nSurf=10)
     annotation (Placement(transformation(extent={{50,-2},{90,38}})));
   Buildings.Components.OuterWall[4] wall(
     final AWall={21.6,16.2,9.6,16.2},
@@ -21,7 +30,9 @@ model LinCase900
     redeclare final parameter
       IDEAS.Buildings.Validation.Data.Insulation.foaminsulation insulationType,
     final insulationThickness={0.0615,0.0615,0.0615,0.0615},
-    each T_start=293.15)      annotation (Placement(transformation(
+    each T_start=T_start,
+    each energyDynamics=energyDynamics)
+                              annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-39,-16})));
@@ -35,7 +46,8 @@ model LinCase900
     final AWall=48,
     final inc=IDEAS.Constants.Floor,
     final azi=IDEAS.Constants.South,
-    T_start=293.15)                  annotation (Placement(transformation(
+    T_start=T_start,
+    energyDynamics=energyDynamics)                 annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-9,-16})));
@@ -64,52 +76,73 @@ model LinCase900
     final AWall=48,
     final inc=IDEAS.Constants.Ceiling,
     final azi=IDEAS.Constants.South,
-    T_start=293.15) annotation (Placement(transformation(
+    T_start=T_start,
+    energyDynamics=energyDynamics)
+                    annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-69,-16})));
 
   Modelica.Blocks.Sources.Constant const(k=0)
-    annotation (Placement(transformation(extent={{72,-30},{52,-10}})));
+    annotation (Placement(transformation(extent={{12,-48},{32,-28}})));
   Modelica.Blocks.Interfaces.RealOutput y
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+
+  IDEAS.Buildings.Components.SlabOnGround slabOnGround(
+    inc=0,
+    azi=0,
+    insulationThickness=0.2,
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround constructionType,
+
+    AWall=20,
+    PWall=24,
+    T_start=T_start,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) annotation (
+      Placement(transformation(
+        extent={{5,10},{-5,-10}},
+        rotation=270,
+        origin={51,-16})));
 equation
    connect(roof.propsBus_a,gF. propsBus[1]) annotation (Line(
-      points={{-73,-11},{-73,29.5556},{50,29.5556}},
+      points={{-73,-11},{-73,29.6},{50,29.6}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_a,gF. propsBus[2:5]) annotation (Line(
-      points={{-43,-11},{-43,26},{50,26}},
+      points={{-43,-11},{-43,26.4},{50,26.4}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(floor.propsBus_a,gF. propsBus[6]) annotation (Line(
-      points={{-13,-11},{-13,25.1111},{50,25.1111}},
+      points={{-13,-11},{-13,25.6},{50,25.6}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(win.propsBus_a,gF. propsBus[7:9]) annotation (Line(
-      points={{17,-11},{17,22.4444},{50,22.4444}},
+      points={{17,-11},{17,23.2},{50,23.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(const.y, win[1].Ctrl) annotation (Line(
-      points={{51,-20},{31,-20}},
+      points={{33,-38},{38,-38},{38,-20},{31,-20}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(const.y, win[2].Ctrl) annotation (Line(
-      points={{51,-20},{31,-20}},
+      points={{33,-38},{38,-38},{38,-20},{31,-20}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(const.y, win[3].Ctrl) annotation (Line(
-      points={{51,-20},{31,-20}},
+      points={{33,-38},{38,-38},{38,-20},{31,-20}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(gF.TSensor, y) annotation (Line(
       points={{91.2,18},{106,18},{106,-20}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(slabOnGround.propsBus_a, gF.propsBus[10]) annotation (Line(
+      points={{47,-11},{40,-11},{40,22.4},{50,22.4}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
 <p>Run script to linearise:</p>
@@ -119,7 +152,9 @@ re=Modelica_LinearSystems2.ModelAnalysis.Linearize(&QUOT;IDEAS.Buildings.Lineari
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;A&QUOT;,matrix=re.A);
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;B&QUOT;,matrix=re.B, append=true);
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;C&QUOT;,matrix=re.C, append=true);
-writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;D&QUOT;,matrix=re.D, append=true);</pre>
+writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;D&QUOT;,matrix=re.D, append=true);
+OutputCPUtime:=true;
+</pre>
 </html>", revisions="<html>
 <ul>
 <li>

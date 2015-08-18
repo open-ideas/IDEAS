@@ -11,12 +11,14 @@ model MultiLayerOpaque "multiple material layers in series"
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
-
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   IDEAS.Buildings.Components.BaseClasses.MonoLayerOpaque[nLay] nMat(
     each final A=A,
     each final inc=inc,
     each final T_start=T_start,
-    final mat=mats) "layers";
+    final mat=mats,
+    each energyDynamics=energyDynamics) "layers";
 
   final parameter Real R=sum(nMat.R) "total specific thermal resistance";
 
