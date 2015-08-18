@@ -31,7 +31,9 @@ model RadSolData "Selects or generates correct solar data for this surface"
     final inc=inc,
     final azi=azi,
     lat=lat,
-    numAzi=numAzi) if not solDataInBus
+    numAzi=numAzi,
+    final outputAngles=not linearisation) if
+                      not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-94,24},{-74,44}})));
 
@@ -41,7 +43,8 @@ model RadSolData "Selects or generates correct solar data for this surface"
     annotation (Placement(transformation(extent={{96,-10},{116,10}})));
 
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1)
+                                     weaBus(numSolBus=numAzi + 1, outputAngles=
+        not linearisation)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
   Modelica.Blocks.Interfaces.RealOutput angInc
@@ -57,8 +60,8 @@ protected
     "Surface is a horizontal surface";
 protected
   output Buildings.Components.Interfaces.SolBus
-                                         solBusDummy1
-    "Required for avoiding warnings?"
+                                         solBusDummy1(outputAngles=not
+        linearisation) "Required for avoiding warnings?"
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-78,10},{-38,50}})));
 public
@@ -100,15 +103,15 @@ equation
       smooth=Smooth.None));
   if not linearisation then
     connect(angInc, solBusDummy1.angInc) annotation (Line(
-      points={{106,-40},{-58,-40},{-58,-40},{-58,-40},{-58,30}},
+      points={{106,-40},{-57.9,-40},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
     connect(angZen, solBusDummy1.angZen) annotation (Line(
-      points={{106,-60},{-58,-60},{-58,30}},
+      points={{106,-60},{-57.9,-60},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
     connect(angAzi, solBusDummy1.angAzi) annotation (Line(
-      points={{106,-80},{-58,-80},{-58,30}},
+      points={{106,-80},{-57.9,-80},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
   end if;

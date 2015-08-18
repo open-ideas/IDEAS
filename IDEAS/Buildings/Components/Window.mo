@@ -92,7 +92,7 @@ protected
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-	forceWeaBusPassThrough=sim.linearise)
+ forceWeaBusPassThrough=sim.linearise)
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));
@@ -101,8 +101,8 @@ protected
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
   Modelica.Blocks.Sources.RealExpression Qgai(y=-(propsBus_a.surfCon.Q_flow +
-        propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow))
-    if                                                     sim.computeConservationOfEnergy
+        propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow)) if
+                                                           sim.computeConservationOfEnergy
     "Heat gains in model (using propsbus since frame can be conditionally removed)"
     annotation (Placement(transformation(extent={{-116,40},{-96,60}})));
   Modelica.Blocks.Sources.RealExpression E1(y=0) if        sim.computeConservationOfEnergy

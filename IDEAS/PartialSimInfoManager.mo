@@ -150,7 +150,8 @@ protected
       fill(IDEAS.Constants.Wall, numAzi)) "surface inclination";
 public
   Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1)
+                                     weaBus(numSolBus=numAzi + 1, final
+      outputAngles=not linearise)
     annotation (Placement(transformation(extent={{4,62},{24,82}})));
   Climate.Meteo.Solar.ShadedRadSol[
                              numAzi+1] radSol(
@@ -160,7 +161,8 @@ public
         fill(ceilingInc,1),
         fill(offsetAzi, numAzi) + (0:numAzi-1)*Modelica.Constants.pi*2/numAzi),
     each numAzi=numAzi,
-    each lat=lat)
+    each lat=lat,
+    each final outputAngles=not linearise)
              annotation (Placement(transformation(extent={{44,54},{64,74}})));
 public
   Modelica.Blocks.Sources.RealExpression TskyPow4Expr(y=TskyPow4)

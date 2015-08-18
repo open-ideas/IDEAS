@@ -16,9 +16,11 @@ package Interfaces
       "Dummy for getting outputs";
   protected
     inner input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
+      final outputAngles= not sim.linearise,
       final numSolBus=sim.numAzi + 1) if sim.linearise;
   public
     inner output IDEAS.Buildings.Components.Interfaces.WeaBus weaBusOut(
+     final outputAngles= not sim.linearise,
      final numSolBus=sim.numAzi + 1) if sim.createOutputs;
 
   public

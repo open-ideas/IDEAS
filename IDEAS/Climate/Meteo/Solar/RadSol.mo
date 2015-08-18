@@ -9,11 +9,14 @@ model RadSol "solar angle to surface"
   parameter Modelica.SIunits.Angle azi(displayUnit="degree") "azimuth";
   parameter Modelica.SIunits.Angle lat(displayUnit="degree") "latitude";
 
+  parameter Boolean outputAngles = true "Create outputs for angles in solBus";
+
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1)
+                                     weaBus(numSolBus=numAzi + 1, final
+      outputAngles=outputAngles)
     annotation (Placement(transformation(extent={{-110,70},{-90,90}})));
   output Buildings.Components.Interfaces.SolBus
-                                         solBus
+                                         solBus(final outputAngles=outputAngles)
     annotation (Placement(transformation(extent={{80,-20},{120,20}})));
 
 protected
@@ -109,8 +112,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}),
-                      graphics), Icon(graphics={
+            -100},{100,100}})),  Icon(graphics={
         Polygon(
           points={{-90,-80},{-40,-40},{40,-40},{90,-80},{-90,-80}},
           lineColor={95,95,95},

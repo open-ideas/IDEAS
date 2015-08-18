@@ -35,8 +35,8 @@ model InternalWall "interior opaque wall between two zones"
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Interfaces.ZoneBus propsBus_b(numAzi=sim.numAzi,
-    computeConservationOfEnergy=sim.computeConservationOfEnergy)
-    "Outer side (1st layer)"
+    computeConservationOfEnergy=sim.computeConservationOfEnergy,
+    weaBus(final outputAngles=not sim.linearise)) "Outer side (1st layer)"
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-50,40})));

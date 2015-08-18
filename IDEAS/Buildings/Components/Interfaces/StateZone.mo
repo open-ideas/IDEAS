@@ -22,7 +22,9 @@ partial model StateZone "Partial model for thermal building zones"
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
       Placement(transformation(extent={{96,-10},{116,10}}), iconTransformation(
           extent={{96,-10},{116,10}})));
-  ZoneBus[nSurf] propsBus(each final numAzi=sim.numAzi,
+  ZoneBus[nSurf] propsBus(
+      each weaBus(final outputAngles=not sim.linearise),
+      each final numAzi=sim.numAzi,
       each final computeConservationOfEnergy=sim.computeConservationOfEnergy)
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
