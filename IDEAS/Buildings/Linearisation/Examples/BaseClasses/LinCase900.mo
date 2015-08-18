@@ -114,7 +114,8 @@ equation
             -100},{100,100}})),           Documentation(info="<html>
 <p>Run script to linearise:</p>
 <pre> 
-re=Modelica_LinearSystems2.ModelAnalysis.Linearize(&QUOT;IDEAS.Buildings.Linearisation.BaseClasses.LinCase900&QUOT;);
+OutputCPUtime:=false;
+re=Modelica_LinearSystems2.ModelAnalysis.Linearize(&QUOT;IDEAS.Buildings.Linearisation.Examples.BaseClasses.LinCase900&QUOT;);
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;A&QUOT;,matrix=re.A);
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;B&QUOT;,matrix=re.B, append=true);
 writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;C&QUOT;,matrix=re.C, append=true);
