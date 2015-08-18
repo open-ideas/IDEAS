@@ -1,7 +1,6 @@
 within IDEAS.Buildings.Components;
 model Zone "thermal building zone"
-  extends IDEAS.Buildings.Components.Interfaces.StateZone(Eexpr(y=E), propsBus(
-        weaBus(final outputAngles=not sim.linearise)));
+  extends IDEAS.Buildings.Components.Interfaces.StateZone(Eexpr(y=E));
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(redeclare package
       Medium = IDEAS.Media.Air);
 
@@ -219,6 +218,6 @@ end for;
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}})));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}})));
 end Zone;
