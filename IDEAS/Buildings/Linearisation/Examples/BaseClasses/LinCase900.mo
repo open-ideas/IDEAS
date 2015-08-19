@@ -93,7 +93,6 @@ model LinCase900
     azi=0,
     insulationThickness=0.2,
     redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround constructionType,
-
     AWall=20,
     PWall=24,
     T_start=T_start,
@@ -102,6 +101,9 @@ model LinCase900
         extent={{5,10},{-5,-10}},
         rotation=270,
         origin={51,-16})));
+
+  IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium = Medium, nPorts=
+       1) if gF.useFluidPorts annotation (Placement(transformation(extent={{20,60},{40,80}})));
 equation
    connect(roof.propsBus_a,gF. propsBus[1]) annotation (Line(
       points={{-73,-11},{-73,29.6},{50,29.6}},
@@ -143,6 +145,8 @@ equation
       points={{47,-11},{40,-11},{40,22.4},{50,22.4}},
       color={255,204,51},
       thickness=0.5));
+  connect(bou.ports[1], gF.flowPort_Out)
+    annotation (Line(points={{40,70},{66,70},{66,38}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
 <p>Run script to linearise:</p>
@@ -162,5 +166,7 @@ March, 2015 by Filip Jorissen:<br/>
 First implementation
 </li>
 </ul>
-</html>"));
+</html>"),
+    experiment(StopTime=1e+006, Tolerance=1e-007),
+    __Dymola_experimentSetupOutput);
 end LinCase900;

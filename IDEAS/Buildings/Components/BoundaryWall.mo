@@ -5,7 +5,7 @@ model BoundaryWall "Opaque wall with boundary conditions"
     E(y=layMul.E),
       Qgai(y=layMul.port_a.Q_flow + (if sim.openSystemConservationOfEnergy
            then 0 else port_emb.Q_flow)));
-  parameter Boolean linConv=true
+  parameter Boolean linIntCon=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-1
@@ -52,7 +52,7 @@ protected
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_b(final A=
         AWall, final inc=inc,
     dT_nominal=dT_nominal,
-    linearise=linConv or sim.linearise)
+    linearise=linIntCon or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
 

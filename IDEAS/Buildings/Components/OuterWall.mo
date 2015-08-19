@@ -9,9 +9,16 @@ model OuterWall "Opaque building envelope construction"
 
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Boolean linConv=true
+  parameter Boolean linIntCon=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
+  parameter Boolean linExtCon=false
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Convection"));
+  parameter Boolean linRad=true
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Radiation"));
+
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
@@ -36,21 +43,21 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
-    final A=AWall, linearise=sim.linearise)
+    final A=AWall, linearise=sim.linearise or linExtCon)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-60},{-40,-40}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
     final A=AWall,
     final inc=inc,
     final dT_nominal=dT_nominal,
-    final linearise=linConv or sim.linearise)
+    final linearise=linIntCon or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorSolarAbsorption solAbs
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation extRad(
-    final A=AWall)
+    final A=AWall, linearise=linRad or sim.linearise)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
   Modelica.Blocks.Math.Gain gainDir(k=AWall)
