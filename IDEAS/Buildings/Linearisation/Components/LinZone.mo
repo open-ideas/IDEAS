@@ -99,8 +99,9 @@ public
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature if   linearise
     annotation (Placement(transformation(extent={{-76,60},{-64,72}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/1005.45
-        /(V/3600*n50/20)) if  linearise
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/
+        1005.45/(1.2*V/3600*n50/20)) if
+                              linearise
     annotation (Placement(transformation(extent={{-58,58},{-42,74}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
         *mSenFac, T(start=T_start)) if   linearise

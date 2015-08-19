@@ -28,12 +28,13 @@ protected
   final parameter Integer[2] Bsize = if use_matrix then size(B) else readMatrixSize(fileName=fileName, matrixName="B");
   final parameter Integer[2] Csize = if use_matrix then size(C) else readMatrixSize(fileName=fileName, matrixName="C");
 
- final parameter Integer[nWin] offWinCon = {nQConv + nQRad + nEmb + sum(winNLay[1:i-1]) + 2*(i-1) for i in 1:nWin}
+ final parameter Integer[nWin] offWinCon = {sum(winNLay[1:i-1]) + 2*(i-1) for i in 1:nWin}
     "Offset of index for window connections";
   final parameter Integer lastWinCon = offWinCon[end] + winNLay[end] + 2;
   final parameter Integer[numSolBus] offSolBus = {lastWinCon + (i-1)*3 for i in 1:numSolBus}
     "Total number of input signals in solBus";
   final parameter Integer lastOffSolBus = offSolBus[end] + 3;
+  final parameter Integer lastOfWeaBus = lastOffSolBus + 4;
 
 public
   Modelica.Blocks.Interfaces.RealOutput[stateSpace.nout] y
@@ -57,15 +58,6 @@ public
         rotation=90,
         origin={-100,60})));
 equation
-  for i in 1:nEmb loop
-     connect(Q_flowEmb[i],stateSpace.u[i]);
-  end for;
-  for i in 1:nQConv loop
-     connect(Q_flowConv[i],stateSpace.u[i+nEmb]);
-  end for;
-  for i in 1:nQRad loop
-     connect(Q_flowRad[i],stateSpace.u[nEmb+nQConv+i]);
-  end for;
 
   for i in 1:nWin loop
     connect(winBus[i].AbsQFlow[1:winNLay[i]], stateSpace.u[offWinCon[i]+1:(offWinCon[i]+winNLay[i])]);
@@ -81,6 +73,16 @@ equation
   connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
   connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
   connect(sim.weaBus.TGroundDes, stateSpace.u[lastOffSolBus+4]);
+
+  for i in 1:nEmb loop
+     connect(Q_flowEmb[i],stateSpace.u[lastOfWeaBus+i]);
+  end for;
+  for i in 1:nQConv loop
+     connect(Q_flowConv[i],stateSpace.u[lastOfWeaBus+i+nEmb]);
+  end for;
+  for i in 1:nQRad loop
+     connect(Q_flowRad[i],stateSpace.u[lastOfWeaBus+nEmb+nQConv+i]);
+  end for;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),

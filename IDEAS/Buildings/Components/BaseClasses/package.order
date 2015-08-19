@@ -3,11 +3,9 @@ AngleOfIncidence
 ExteriorConvection
 ExteriorHeatRadiation
 ExteriorSolarAbsorption
-HeatCapacitor
 HeatRadiation
 InteriorConvection
 InteriorConvectionWindow
-MixedAir
 MonoLayerGround
 MonoLayerLucent
 MonoLayerOpaque
