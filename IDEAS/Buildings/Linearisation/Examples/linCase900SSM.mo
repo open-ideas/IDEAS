@@ -2,7 +2,13 @@ within IDEAS.Buildings.Linearisation.Examples;
 model linCase900SSM
   extends Modelica.Icons.Example;
   extends IDEAS.Buildings.Linearisation.Interfaces.StateSpaceModelInterface(ssm(
-        fileName="linCase900_ssm.mat"));
+        fileName="linCase900_ssm.mat",
+      nEmb=0,
+      nQRad=0,
+      nQConvGai=0,
+      nWin=3,
+      nQConv=1,
+      nQRadGai=1));
 
   Components.LinWindow[3] win(
     final A={6,6,6},
@@ -23,7 +29,13 @@ model linCase900SSM
 
   Modelica.Blocks.Interfaces.RealOutput y_ssm[size(ssm.y, 1)]
     annotation (Placement(transformation(extent={{100,44},{120,64}})));
-  Components.StateSpaceExtended rom5(
+  Components.StateSpaceExtended rom5(fileName="linCase900_ssm.mat",
+      nEmb=0,
+      nQConv=0,
+      nQRad=0,
+      nQConvGai=0,
+      nQRadGai=0,
+      nWin=3,
     A=[-7.259423880576415e-06,3.936798340546162e-05,-4.962445012914214e-06,
         1.323915718796795e-05,-1.88252375481358e-06; 3.936798103488421e-05,-0.001281010714171152,
         0.0002227710710907596,-0.0007264543515296409,0.0001196438489482868; -4.962440063394087e-06,
@@ -220,10 +232,21 @@ model linCase900SSM
         0.005717136967536052,0.0001189794128431975,-0.00796525320739722,
         0.001331665007563578,-7.733588841390016e-05,0.0005430544336355652],
     use_matrix=true,
-    nout=1) annotation (Placement(transformation(extent={{56,-10},{76,10}})));
+    nout=1,
+    nEmb=0,
+      nQConv=0,
+      nQRad=0,
+      nQConvGai=0,
+      nQRadGai=0,
+      nWin=3)
+            annotation (Placement(transformation(extent={{56,-10},{76,10}})));
 
   Modelica.Blocks.Interfaces.RealOutput y_rom10[size(rom5.y, 1)]
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Sources.Constant QConv[ssm.nQConv](k=10)
+    annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
+  Modelica.Blocks.Sources.Constant QGaiRad[ssm.nQRadGai](k=20)
+    annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
 equation
   connect(const.y, win[3].Ctrl) annotation (Line(
       points={{-59,40},{-48,40},{-48,52},{-49,52}},
@@ -233,7 +256,7 @@ equation
   connect(ssm.y, y_ssm)
     annotation (Line(points={{76.4,54},{110,54}}, color={0,0,127}));
   connect(rom5.winBus, windowBusOut) annotation (Line(
-      points={{56,-54},{34,-54},{18,-54},{18,60}},
+      points={{56,-52},{34,-52},{18,-52},{18,62}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
@@ -242,7 +265,7 @@ equation
   connect(rom5.y, y_rom5)
     annotation (Line(points={{76.4,-60},{110,-60}}, color={0,0,127}));
   connect(rom10.winBus, windowBusOut) annotation (Line(
-      points={{56,6},{34,6},{18,6},{18,60}},
+      points={{56,8},{34,8},{18,8},{18,62}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
@@ -250,6 +273,11 @@ equation
       extent={{6,3},{6,3}}));
   connect(rom10.y, y_rom10)
     annotation (Line(points={{76.4,0},{110,0}}, color={0,0,127}));
+  connect(ssm.Q_flowConv, QConv.y) annotation (Line(points={{55.2,56},{40,56},{
+          40,20},{-40,20},{-40,10},{-59,10}}, color={0,0,127}));
+  connect(QGaiRad.y, ssm.Q_flowRadGai) annotation (Line(points={{-59,-30},{-40,
+          -30},{-20,-30},{-20,14},{46,14},{46,46.6},{55.2,46.6}}, color={0,0,
+          127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
