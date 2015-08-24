@@ -109,11 +109,11 @@ model SwWindowResponse "shortwave window respones"
     annotation (Placement(transformation(extent={{124,30},{84,70}})));
   Modelica.Blocks.Interfaces.RealInput iSolDifInput if linearise
     annotation (Placement(transformation(extent={{124,-10},{84,30}})));
-  Modelica.Blocks.Interfaces.RealOutput[nLay] AbsQFlowOutput
+  Modelica.Blocks.Interfaces.RealOutput[nLay] AbsQFlowOutput if createOutputs
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
-  Modelica.Blocks.Interfaces.RealOutput iSolDifOutput
+  Modelica.Blocks.Interfaces.RealOutput iSolDifOutput if createOutputs
     annotation (Placement(transformation(extent={{96,-90},{116,-70}})));
-  Modelica.Blocks.Interfaces.RealOutput iSolDirOutput
+  Modelica.Blocks.Interfaces.RealOutput iSolDirOutput if createOutputs
     annotation (Placement(transformation(extent={{96,-60},{116,-40}})));
 equation
 
