@@ -40,5 +40,9 @@ equation
   connect(nonLinear.y, y_nonLinear)
     annotation (Line(points={{0.6,-52},{108,-52}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})));
+            -100},{100,100}})), Documentation(info="<html>
+<p>
+This model contains both the linear and the non-linear version of the example model.
+</p>
+</html>"));
 end linCase900;

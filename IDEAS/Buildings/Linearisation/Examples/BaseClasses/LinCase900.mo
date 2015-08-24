@@ -149,6 +149,9 @@ equation
     annotation (Line(points={{40,70},{66,70},{66,38}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
+<p>
+This example model is used to demonstrate the linearisation technique.
+</p>
 <p>Run script to linearise:</p>
 <pre> 
 OutputCPUtime:=false;

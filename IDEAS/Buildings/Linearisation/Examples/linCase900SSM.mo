@@ -252,16 +252,21 @@ equation
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Documentation(info="<html>
-            <p>Before running this model, you might need to run the following script in order to create the state space model:</p>
-<pre> 
-OutputCPUtime:=false;
-re=Modelica_LinearSystems2.ModelAnalysis.Linearize(&QUOT;IDEAS.Buildings.Linearisation.Examples.BaseClasses.LinCase900&QUOT;);
-writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;A&QUOT;,matrix=re.A);
-writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;B&QUOT;,matrix=re.B, append=true);
-writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;C&QUOT;,matrix=re.C, append=true);
-writeMatrix(fileName=&QUOT;linCase900_ssm.mat&QUOT;,matrixName=&QUOT;D&QUOT;,matrix=re.D, append=true);
-OutputCPUtime:=true;
-</pre>
+<p>
+This model allows comparing the simulation accuracy of the 
+\"true\" linearised state space model with two reduced order models (ROMs).
+</p>
+<p>
+Before running this model, 
+you may need to run the following script in order to create the state space model:
+</p>
+<code>OutputCPUtime:=false;<br/>
+re=Modelica_LinearSystems2.ModelAnalysis.Linearize(\"IDEAS.Buildings.Linearisation.Examples.BaseClasses.LinCase900\");<br/>
+writeMatrix(fileName=\"linCase900_ssm.mat\",matrixName=\"A\",matrix=re.A);<br/>
+writeMatrix(fileName=\"linCase900_ssm.mat\",matrixName=\"B\",matrix=re.B, append=true);<br/>
+writeMatrix(fileName=\"linCase900_ssm.mat\",matrixName=\"C\",matrix=re.C, append=true);<br/>
+writeMatrix(fileName=\"linCase900_ssm.mat\",matrixName=\"D\",matrix=re.D, append=true);<br/>
+OutputCPUtime:=true;</code>
 </html>", revisions="<html>
 <ul>
 <li>

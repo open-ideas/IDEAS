@@ -37,5 +37,10 @@ equation
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
           "../../IDEAS/IDEAS/Resources/Scripts/Dymola/Buildings/Linearisation/Examples/linCase900Comparison.mos"
-        "Simulate and Plot"));
+        "Simulate and Plot"),
+    Documentation(info="<html>
+<p>
+This model allows comparing the simulation accuracy between non-linear, linear, linearised and reduced order models for the example model IDEAS.Buildings.Linearisation.Examples.BaseClasses.LinCase900.
+</p>
+</html>"));
 end linCase900Comparison;

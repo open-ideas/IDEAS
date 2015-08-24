@@ -73,7 +73,8 @@ package Interfaces
               -100},{100,100}})));
   end StateSpaceModelInterface;
 
-  expandable connector WindowBus "Linearized window bus"
+  expandable connector WindowBus
+    "Bus containing inputs/outputs for linear window model"
     extends Modelica.Icons.SignalBus;
     parameter Integer nLay = 3 "Number of window layers";
 
