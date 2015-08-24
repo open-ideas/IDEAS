@@ -5,13 +5,26 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Angle inc "Inclination";
   parameter Integer nStaMin= 2 "Minimum number of states per layer";
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+  parameter Modelica.SIunits.Temperature T_start=293.15
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
 
   final parameter Boolean present = mat.d <> 0;
-
   final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";
   final parameter Real R = mat.R "Total specific thermal resistance";
   final parameter Real Ctot =  mat.rho*mat.c*mat.d
     "Total specific heat capacity";
+
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
+
   Modelica.Blocks.Interfaces.RealOutput E(unit="J")=
     if nSta == 1
       then T[1]*C
@@ -25,21 +38,8 @@ protected
   final parameter Real Cinv(unit="K/J") = 1/C
     "Dummy parameter for efficiently handling check for division by zero";
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[max(nSta-1,1)] Q_flow
     "Heat flow rate from state i to i-1";
-
-  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-    "Formulation of energy balance"
-    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-
-  parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start value of temperature"
-    annotation(Dialog(tab = "Initialization"));
 
 initial equation
   if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
