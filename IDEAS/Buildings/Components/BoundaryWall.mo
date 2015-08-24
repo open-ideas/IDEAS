@@ -5,7 +5,7 @@ model BoundaryWall "Opaque wall with boundary conditions"
     E(y=layMul.E),
       Qgai(y=layMul.port_a.Q_flow + (if sim.openSystemConservationOfEnergy
            then 0 else port_emb.Q_flow)));
-  parameter Boolean linConv=true
+  parameter Boolean linIntCon=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-1
@@ -19,7 +19,8 @@ model BoundaryWall "Opaque wall with boundary conditions"
   parameter Boolean use_Q_in = false
     "Get the boundary heat flux from the input connector";
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab = "Initialization"));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in annotation (Placement(transformation(
           extent={{-60,50},{-40,70}}), iconTransformation(extent={{-60,50},{-40,
             70}})));
@@ -45,16 +46,20 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=ones(constructionType.nLay)*T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_b(final A=
         AWall, final inc=inc,
     dT_nominal=dT_nominal,
-    linearise=linConv or sim.linearise)
+    linearise=linIntCon or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
 
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(layMul.port_b, intCon_b.port_a) annotation (Line(
       points={{4.44089e-16,-30},{20,-30}},

@@ -5,8 +5,6 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Angle inc "Inclination";
   parameter Integer nStaMin= 2 "Minimum number of states per layer";
-  parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the states";
 
   final parameter Boolean present = mat.d <> 0;
 
@@ -27,7 +25,6 @@ protected
   final parameter Real Cinv(unit="K/J") = 1/C
     "Dummy parameter for efficiently handling check for division by zero";
 
-public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
@@ -35,12 +32,27 @@ public
   Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[max(nSta-1,1)] Q_flow
     "Heat flow rate from state i to i-1";
-initial equation
 
-  T = ones(nSta)*T_start;
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
+  parameter Modelica.SIunits.Temperature T_start=293.15
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
+
+initial equation
+  if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      T=T_start*ones(nSta);
+  elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+      der(T)=zeros(nSta);
+  end if;
+equation
+  // connectors
+  port_a.Q_flow = +Q_flow[1];
+  port_b.Q_flow = -Q_flow[nFlo];
 
   assert(nSta>=1, "Number of states needs to be higher than zero.");
-equation
   port_a.T=T[1];
 
   if nSta > 1 then

@@ -16,9 +16,11 @@ package Interfaces
       "Dummy for getting outputs";
   protected
     inner input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
+      final outputAngles= not sim.linearise,
       final numSolBus=sim.numAzi + 1) if sim.linearise;
   public
     inner output IDEAS.Buildings.Components.Interfaces.WeaBus weaBusOut(
+     final outputAngles= not sim.linearise,
      final numSolBus=sim.numAzi + 1) if sim.createOutputs;
 
   public
@@ -30,7 +32,49 @@ package Interfaces
     connect(winBusOut,windowBusOut);
   end LinearisationInterface;
 
-  expandable connector WindowBus "Linearized window bus"
+  partial model StateSpaceModelInterface
+    parameter Modelica.SIunits.Temperature T_start=293.15;
+    inner SimInfoManager sim(
+      nWindow=ssm.nWin,
+      final linearise=false,
+      final createOutputs=true,
+      final nLayWin=max(ssm.winNLay))
+      annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+
+    inner IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
+      winBusOut(each nLay=sim.nLayWin) annotation (Placement(transformation(
+          extent={{-20,-20},{20,20}},
+          rotation=270,
+          origin={-20,60})));
+  protected
+    output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
+      windowBusOut(each nLay=sim.nLayWin) "Dummy for getting outputs" annotation (
+       Placement(transformation(
+          extent={{-20,-20},{20,20}},
+          rotation=270,
+          origin={18,60})));
+  protected
+    inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
+      winBusIn(each nLay=sim.nLayWin) if sim.linearise;
+  public
+    Components.StateSpace ssm(x_start=ones(ssm.states)*T_start)
+      annotation (Placement(transformation(extent={{56,44},{76,64}})));
+
+  equation
+    connect(winBusOut, windowBusOut) annotation (Line(
+        points={{-20,60},{18,60}},
+        color={255,204,51},
+        thickness=0.5));
+    connect(windowBusOut, ssm.winBus) annotation (Line(
+        points={{18,60},{37,60},{56,60}},
+        color={255,204,51},
+        thickness=0.5));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -100},{100,100}})));
+  end StateSpaceModelInterface;
+
+  expandable connector WindowBus
+    "Bus containing inputs/outputs for linear window model"
     extends Modelica.Icons.SignalBus;
     parameter Integer nLay = 3 "Number of window layers";
 

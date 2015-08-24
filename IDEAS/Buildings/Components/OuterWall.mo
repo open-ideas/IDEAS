@@ -9,14 +9,22 @@ model OuterWall "Opaque building envelope construction"
 
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Boolean linConv=true
+  parameter Boolean linIntCon=true
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
+  parameter Boolean linExtCon=false
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Convection"));
+  parameter Boolean linRad=true
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Radiation"));
+
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab = "Initialization"));
   Modelica.SIunits.Power QSolIrr = (gainDir.y + gainDif.y)
     "Total solar irradiance";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb
@@ -30,33 +38,32 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=ones(constructionType.nLay)*T_start)
+    T_start=T_start,
+    energyDynamics=energyDynamics)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
-    final A=AWall, linearise=sim.linearise)
+    final A=AWall, linearise=sim.linearise or linExtCon)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-60},{-40,-40}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
     final A=AWall,
     final inc=inc,
     final dT_nominal=dT_nominal,
-    final linearise=linConv or sim.linearise)
+    final linearise=linIntCon or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorSolarAbsorption solAbs
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation extRad(
-    final A=AWall)
+    final A=AWall, linearise=linRad or sim.linearise)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
   Modelica.Blocks.Math.Gain gainDir(k=AWall)
     annotation (Placement(transformation(extent={{-58,-28},{-50,-20}})));
   Modelica.Blocks.Math.Gain gainDif(k=AWall)
     annotation (Placement(transformation(extent={{-58,-32},{-50,-24}})));
-  Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
-    annotation (Placement(transformation(extent={{80,0},{60,20}})));
   Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
@@ -64,10 +71,14 @@ protected
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-    forceWeaBusPassThrough=sim.linearise)
+    forceWeaBusPassThrough=sim.linearise,
+    linearisation=sim.linearise)
     annotation (Placement(transformation(extent={{-92,-36},{-72,-16}})));
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 initial equation
-  QTra_design =U_value*AWall*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*AWall*(273.15 + 21 - sim.Tdes);
 
 equation
   connect(extCon.port_a, layMul.port_a) annotation (Line(
@@ -160,10 +171,6 @@ equation
       smooth=Smooth.None));
   connect(extCon.hConExt, propsBus_a.weaBus.hConExt) annotation (Line(
       points={{-20,-59},{50.1,-59},{50.1,39.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(Tdes.u, propsBus_a.weaBus.Tdes) annotation (Line(
-      points={{82,10},{82,56},{50.1,56},{50.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (

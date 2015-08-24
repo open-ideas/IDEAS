@@ -4,7 +4,7 @@ model LinZone "Linearisable zone model"
   extends IDEAS.Buildings.Components.Interfaces.StateZone(
     Eexpr(y=vol.dynBal.U),
     useFluidPorts=not sim.linearise,
-    connectWeaBus=not linearise);
+    connectWeaBus=not sim.linearise);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(redeclare package
       Medium = IDEAS.Media.Air);
 
@@ -19,7 +19,8 @@ model LinZone "Linearisable zone model"
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
 
-  parameter Boolean linRad=true "Linearized computation of long wave radiation";
+  parameter Boolean linRad=true "Linearized computation of long wave radiation"
+                                                                                annotation(Dialog(tab="Radiation"));
   parameter Boolean linearise = sim.linearise
     "Linearise model: simplify fluid part";
 
@@ -98,8 +99,9 @@ public
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature if   linearise
     annotation (Placement(transformation(extent={{-76,60},{-64,72}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/1005.45
-        /(V/3600*n50/20)) if  linearise
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/
+        1005.45/(1.2*V/3600*n50/20)) if
+                              linearise
     annotation (Placement(transformation(extent={{-58,58},{-42,74}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
         *mSenFac, T(start=T_start)) if   linearise
@@ -227,8 +229,6 @@ end for;
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(prescribedTemperature.T, weaBus.Te) annotation (Line(points={{-77.2,66},
-          {-100.05,66},{-100.05,-1.95}}, color={0,0,127}));
   connect(prescribedTemperature.port, airLeakage_lin.port_a)
     annotation (Line(points={{-64,66},{-61,66},{-58,66}}, color={191,0,0}));
   connect(airLeakage_lin.port_b, vol_lin.port)
@@ -236,6 +236,8 @@ end for;
   connect(vol_lin.port, gainCon)
     annotation (Line(points={{-32,66},{100,66},{100,-30}}, color={191,0,0}));
 
+  connect(prescribedTemperature.T, propsBus[1].weaBus.Te) annotation (Line(
+        points={{-77.2,66},{-90,66},{-100.1,66},{-100.1,39.9}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -253,6 +255,6 @@ end for;
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}})));
 end LinZone;

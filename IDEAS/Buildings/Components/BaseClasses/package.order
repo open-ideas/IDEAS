@@ -3,11 +3,9 @@ AngleOfIncidence
 ExteriorConvection
 ExteriorHeatRadiation
 ExteriorSolarAbsorption
-HeatCapacitor
 HeatRadiation
 InteriorConvection
 InteriorConvectionWindow
-MixedAir
 MonoLayerGround
 MonoLayerLucent
 MonoLayerOpaque
@@ -16,7 +14,6 @@ MultiLayerGround
 MultiLayerLucent
 MultiLayerOpaque
 SwWindowResponse
-ThermalResistor
 viewFactorRectRectPerp
 viewFactorRectRectPar
 ZoneLwDistributionViewFactor
