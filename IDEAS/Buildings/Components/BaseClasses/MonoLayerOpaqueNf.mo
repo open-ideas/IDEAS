@@ -47,13 +47,11 @@ initial equation
   elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
       der(T)=zeros(nSta);
   end if;
-equation
-  // connectors
-  port_a.Q_flow = +Q_flow[1];
-  port_b.Q_flow = -Q_flow[nFlo];
 
   assert(nSta>=1, "Number of states needs to be higher than zero.");
-  port_a.T=T[1];
+
+equation
+   port_a.T=T[1];
 
   if nSta > 1 then
     der(T[1])=(port_a.Q_flow-Q_flow[1])*Cinv*2;
