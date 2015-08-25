@@ -20,6 +20,8 @@ model BoundaryWall "Opaque wall with boundary conditions"
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the layers"
     annotation(Dialog(tab = "Initialization"));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in annotation (Placement(transformation(
           extent={{-60,50},{-40,70}}), iconTransformation(extent={{-60,50},{-40,
             70}})));
@@ -31,13 +33,13 @@ model BoundaryWall "Opaque wall with boundary conditions"
     "Port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 protected
+  final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
+    "Wall U-value";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow if use_Q_in
     annotation (Placement(transformation(extent={{-60,10},{-80,30}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature if use_T_in
     annotation (Placement(transformation(extent={{-60,50},{-80,70}})));
-  final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
-    "Wall U-value";
 
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
@@ -55,10 +57,6 @@ protected
     linearise=linIntCon or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
-
-public
-  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(layMul.port_b, intCon_b.port_a) annotation (Line(
       points={{4.44089e-16,-30},{20,-30}},

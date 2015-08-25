@@ -31,6 +31,10 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.SIunits.Temperature TRef_b=291.15
     "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
     annotation (Dialog(group="Design heat loss"));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
@@ -87,10 +91,7 @@ protected
   Modelica.Blocks.Sources.Constant E0(k=0)
     "All internal energy is assigned to right side"
     annotation (Placement(transformation(extent={{-126,42},{-106,62}})));
-public
-  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-    "Formulation of energy balance"
-    annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
+
 equation
   connect(layMul.port_b, propsBus_a.surfRad) annotation (Line(
       points={{10,-30},{14,-30},{14,39.9},{50.1,39.9}},
