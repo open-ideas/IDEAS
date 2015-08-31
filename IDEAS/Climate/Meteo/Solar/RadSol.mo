@@ -27,7 +27,7 @@ protected
   BaseClasses.solDirTil solDirTil(inc=inc)
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
   BaseClasses.Perez
-        perez(inc=inc)
+        perez(inc=inc, rho=rho)
     annotation (Placement(transformation(extent={{0,-8},{20,12}})));
 
   Modelica.Blocks.Sources.Constant dummyValAzi(k=0) if
@@ -42,6 +42,8 @@ protected
                                                      not remDefVals
     "Tenv value when not needed"
     annotation (Placement(transformation(extent={{-20,-84},{-8,-72}})));
+public
+  parameter Real rho=0.2 "Ground reflectance";
 equation
   connect(angSolar.angInc, solDirTil.angSol) annotation (Line(
       points={{-20,36},{0,36}},
