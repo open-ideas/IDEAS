@@ -15,7 +15,8 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
 
   final parameter Boolean present = mat.d <> 0;
   final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";
-  final parameter Real R = mat.R "Total specific thermal resistance";
+  final parameter Modelica.SIunits.ThermalInsulance R = mat.R
+    "Total specific thermal resistance";
   final parameter Real Ctot =  mat.rho*mat.c*mat.d
     "Total specific heat capacity";
 
