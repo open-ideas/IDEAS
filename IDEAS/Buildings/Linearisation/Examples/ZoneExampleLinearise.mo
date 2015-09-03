@@ -130,6 +130,8 @@ By Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
+</html>", info="<html>
+<p>Linearise this model to obtain a state space model representation of the building model. Model IDEAS.Buildings.Linearisation.Examples.ZoneExampleCreateOutputs can be used to create a file with the state space model inputs.</p>
 </html>"),
     experiment(StopTime=1e+006),
     __Dymola_experimentSetupOutput);

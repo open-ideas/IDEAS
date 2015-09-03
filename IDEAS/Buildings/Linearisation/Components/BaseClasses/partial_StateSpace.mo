@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Linearisation.Components;
+within IDEAS.Buildings.Linearisation.Components.BaseClasses;
 partial model partial_StateSpace "State space model with bus inputs"
 
   parameter Boolean use_matrix = false;

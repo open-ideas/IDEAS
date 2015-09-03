@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Linearisation.Components;
 model StateSpaceExtended
   "State space model for structure. The model requires extended B and D matrices (B_ext = [B Ax0] and D_ext = [D Cx0]) in order to include the initial conditions."
-  extends partial_StateSpace;
+  extends BaseClasses.partial_StateSpace;
   parameter Integer nout = 3
     "Number of outputs. This should be equal to stateSpace.nout, but Dymola return an error as the number of output cannot be checked";
   parameter Real[nout] y0 = 293.15*ones(stateSpace.nout)

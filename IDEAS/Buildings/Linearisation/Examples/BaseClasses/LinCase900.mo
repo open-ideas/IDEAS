@@ -167,6 +167,9 @@ equation
         color={191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
+<p>
+This example model is used to demonstrate the linearisation technique.
+</p>
 <p>Run script to linearise:</p>
 <pre> 
 OutputCPUtime:=false;

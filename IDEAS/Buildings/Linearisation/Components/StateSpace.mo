@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Linearisation.Components;
 model StateSpace "State space model with bus inputs"
-  extends partial_StateSpace;
+  extends BaseClasses.partial_StateSpace;
 
 equation
   connect(stateSpace.y, y)
