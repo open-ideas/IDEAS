@@ -26,6 +26,8 @@ partial model partial_StateSpace "State space model with bus inputs"
     x_start=x_start)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
+  parameter Boolean debug=false
+    "Set to set to change all heat flow input to zero and all temperature to 293";
 protected
   final parameter Integer[2] Bsize = if use_matrix then size(B) else readMatrixSize(fileName=fileName, matrixName="B");
   final parameter Integer[2] Csize = if use_matrix then size(C) else readMatrixSize(fileName=fileName, matrixName="C");
@@ -69,36 +71,82 @@ public
       Placement(transformation(extent={{-140,-104},{-100,-64}}),
         iconTransformation(extent={{-120,-84},{-100,-64}})));
 
+  Modelica.Blocks.Sources.Constant const3_0[3](k=0)
+    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
+  Modelica.Blocks.Sources.Constant const1_0(k=0)
+    annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));
+  Modelica.Blocks.Sources.Constant const293(k=293)
+    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 equation
   for i in 1:nWin loop
-    connect(winBus[i].AbsQFlow[1:winNLay[i]], stateSpace.u[offWinCon[i]+1:(offWinCon[i]+winNLay[i])]);
-    connect(winBus[i].iSolDir, stateSpace.u[offWinCon[i]+winNLay[i]+1]);
-    connect(winBus[i].iSolDif, stateSpace.u[offWinCon[i]+winNLay[i]+2]);
+    if debug then
+      connect(const3_0.y, stateSpace.u[offWinCon[i] + 1:(offWinCon[i] + winNLay[
+        i])]);
+      connect(const1_0.y, stateSpace.u[offWinCon[i]+winNLay[i]+1]);
+      connect(const1_0.y, stateSpace.u[offWinCon[i]+winNLay[i]+2]);
+    else
+      connect(winBus[i].AbsQFlow[1:winNLay[i]], stateSpace.u[offWinCon[i]+1:(offWinCon[i]+winNLay[i])]);
+      connect(winBus[i].iSolDir, stateSpace.u[offWinCon[i]+winNLay[i]+1]);
+      connect(winBus[i].iSolDif, stateSpace.u[offWinCon[i]+winNLay[i]+2]);
+    end if;
   end for;
   for i in 1:numSolBus loop
-    connect(sim.weaBus.solBus[i].iSolDir, stateSpace.u[offSolBus[i]+1]);
-    connect(sim.weaBus.solBus[i].iSolDif, stateSpace.u[offSolBus[i]+2]);
-    connect(sim.weaBus.solBus[i].Tenv,   stateSpace.u[offSolBus[i]+3]);
+    if debug then
+      connect(const1_0.y, stateSpace.u[offSolBus[i]+1]);
+      connect(const1_0.y, stateSpace.u[offSolBus[i]+2]);
+      connect(const293.y,   stateSpace.u[offSolBus[i]+3]);
+    else
+      connect(sim.weaBus.solBus[i].iSolDir, stateSpace.u[offSolBus[i]+1]);
+      connect(sim.weaBus.solBus[i].iSolDif, stateSpace.u[offSolBus[i]+2]);
+      connect(sim.weaBus.solBus[i].Tenv,   stateSpace.u[offSolBus[i]+3]);
+    end if;
   end for;
-  connect(sim.weaBus.Te, stateSpace.u[lastOffSolBus+1]);
-  connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
-  connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
-  connect(sim.weaBus.TGroundDes, stateSpace.u[lastOffSolBus+4]);
+  if debug then
+    connect(const293.y, stateSpace.u[lastOffSolBus+1]);
+    connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
+    connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
+    connect(const293.y, stateSpace.u[lastOffSolBus+4]);
+  else
+    connect(sim.weaBus.Te, stateSpace.u[lastOffSolBus+1]);
+    connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
+    connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
+    connect(sim.weaBus.TGroundDes, stateSpace.u[lastOffSolBus+4]);
+  end if;
 
   for i in 1:nEmb loop
-     connect(Q_flowEmb[i],stateSpace.u[lastOfWeaBus+i]);
+    if debug then
+      connect(const1_0.y,stateSpace.u[lastOfWeaBus+i]);
+    else
+      connect(Q_flowEmb[i],stateSpace.u[lastOfWeaBus+i]);
+    end if;
   end for;
   for i in 1:nQConv loop
-    connect(Q_flowConv[i],stateSpace.u[nEmb+lastOfWeaBus+i]);
+    if debug then
+      connect(const1_0.y,stateSpace.u[nEmb+lastOfWeaBus+i]);
+    else
+      connect(Q_flowConv[i],stateSpace.u[nEmb+lastOfWeaBus+i]);
+    end if;
   end for;
   for i in 1:nQRad loop
-    connect(Q_flowRad[i],stateSpace.u[nEmb+nQConv+lastOfWeaBus+i]);
+    if debug then
+      connect(const1_0.y,stateSpace.u[nEmb+nQConv+lastOfWeaBus+i]);
+    else
+      connect(Q_flowRad[i],stateSpace.u[nEmb+nQConv+lastOfWeaBus+i]);
+    end if;
   end for;
   for i in 1:nQConvGai loop
-    connect(Q_flowConvGai[i],stateSpace.u[nEmb+nQConv+nQRad+lastOfWeaBus+i]);
+    if debug then
+      connect(const1_0.y,stateSpace.u[nEmb+nQConv+nQRad+lastOfWeaBus+i]);
+    else
+      connect(Q_flowConvGai[i],stateSpace.u[nEmb+nQConv+nQRad+lastOfWeaBus+i]);
+    end if;
   end for;
   for i in 1:nQRadGai loop
-    connect(Q_flowRadGai[i],stateSpace.u[nEmb+nQConv+nQRad+nQConvGai+lastOfWeaBus+i]);
+    if debug then
+      connect(const1_0.y,stateSpace.u[nEmb+nQConv+nQRad+nQConvGai+lastOfWeaBus+i]);
+    else
+      connect(Q_flowRadGai[i],stateSpace.u[nEmb+nQConv+nQRad+nQConvGai+lastOfWeaBus+i]);
+    end if;
   end for;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
