@@ -106,6 +106,9 @@ public
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
         *mSenFac, T(start=T_start)) if   linearise
     annotation (Placement(transformation(extent={{-42,66},{-22,86}})));
+protected
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem_lin if linearise
+    annotation (Placement(transformation(extent={{72,42},{88,58}})));
 initial equation
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 equation
@@ -118,10 +121,15 @@ equation
       points={{-100.1,39.9},{-74,39.9},{-74,-26},{-54,-26},{-54,-20}},
       color={191,0,0},
       smooth=Smooth.None));
+  if not linearise then
   connect(summation.y, TSensor) annotation (Line(
       points={{12.6,-60},{59.3,-60},{59.3,0},{106,0}},
       color={0,0,127},
       smooth=Smooth.None));
+  else
+    connect(senTem_lin.port, vol_lin.port) annotation (Line(points={{72,50},{60,50},
+          {60,66},{-32,66}}, color={191,0,0}));
+  end if;
   connect(radDistr.TRad, summation.u[1]) annotation (Line(
       points={{-44,-44},{-22,-44},{-22,-60.6},{-1.2,-60.6}},
       color={0,0,127},
@@ -238,6 +246,9 @@ end for;
 
   connect(prescribedTemperature.T, propsBus[1].weaBus.Te) annotation (Line(
         points={{-77.2,66},{-90,66},{-100.1,66},{-100.1,39.9}}, color={0,0,127}));
+  connect(senTem_lin.T, TSensor) annotation (Line(points={{88,50},{94,50},{94,0},
+          {106,0}}, color={0,0,127}));
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -255,6 +266,6 @@ end for;
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}})));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}})));
 end LinZone;

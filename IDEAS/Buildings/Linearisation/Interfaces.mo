@@ -45,14 +45,14 @@ package Interfaces
       winBusOut(each nLay=sim.nLayWin) annotation (Placement(transformation(
           extent={{-20,-20},{20,20}},
           rotation=270,
-          origin={-20,60})));
+          origin={-20,62})));
   protected
     output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       windowBusOut(each nLay=sim.nLayWin) "Dummy for getting outputs" annotation (
        Placement(transformation(
           extent={{-20,-20},{20,20}},
           rotation=270,
-          origin={18,60})));
+          origin={18,62})));
   protected
     inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       winBusIn(each nLay=sim.nLayWin) if sim.linearise;
@@ -62,11 +62,11 @@ package Interfaces
 
   equation
     connect(winBusOut, windowBusOut) annotation (Line(
-        points={{-20,60},{18,60}},
+        points={{-20,62},{18,62}},
         color={255,204,51},
         thickness=0.5));
     connect(windowBusOut, ssm.winBus) annotation (Line(
-        points={{18,60},{37,60},{56,60}},
+        points={{18,62},{56,62}},
         color={255,204,51},
         thickness=0.5));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

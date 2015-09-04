@@ -104,6 +104,14 @@ model LinCase900
 
   IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium = Medium, nPorts=
        1) if gF.useFluidPorts annotation (Placement(transformation(extent={{20,60},{40,80}})));
+  IDEAS.Utilities.IO.heatPortPrescribedHeatFlow heatPortPrescribedHeatFlow
+    annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
+  Modelica.Blocks.Interfaces.RealInput QCon
+    annotation (Placement(transformation(extent={{-130,-80},{-90,-40}})));
+  IDEAS.Utilities.IO.heatPortPrescribedHeatFlow heatPortPrescribedHeatFlow1
+    annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
+  Modelica.Blocks.Interfaces.RealInput QGaiRad
+    annotation (Placement(transformation(extent={{-130,20},{-90,60}})));
 equation
    connect(roof.propsBus_a,gF. propsBus[1]) annotation (Line(
       points={{-73,-11},{-73,29.6},{50,29.6}},
@@ -147,6 +155,16 @@ equation
       thickness=0.5));
   connect(bou.ports[1], gF.flowPort_Out)
     annotation (Line(points={{40,70},{66,70},{66,38}}, color={0,127,255}));
+  connect(heatPortPrescribedHeatFlow.port1, gF.gainCon) annotation (Line(points
+        ={{-20,-90},{94,-90},{94,-4},{102,-4},{102,12},{90,12}}, color={191,0,0}));
+  connect(heatPortPrescribedHeatFlow.Q_flow, QCon) annotation (Line(points={{
+          -40.8,-83},{-90,-83},{-90,-60},{-110,-60}}, color={0,0,127}));
+  connect(heatPortPrescribedHeatFlow1.Q_flow, QGaiRad) annotation (Line(points=
+          {{-40.8,-53},{-62,-53},{-62,-54},{-84,-54},{-84,40},{-110,40}}, color
+        ={0,0,127}));
+  connect(heatPortPrescribedHeatFlow1.port1, gF.gainRad) annotation (Line(
+        points={{-20,-60},{32,-60},{88,-60},{88,-2},{96,-2},{96,6},{90,6}},
+        color={191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
 <p>
