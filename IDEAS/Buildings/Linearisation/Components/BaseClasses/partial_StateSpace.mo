@@ -75,7 +75,7 @@ public
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   Modelica.Blocks.Sources.Constant const1_0(k=0)
     annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));
-  Modelica.Blocks.Sources.Constant const293(k=293)
+  Modelica.Blocks.Sources.Constant const293(k=293.15)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 equation
   for i in 1:nWin loop
@@ -104,7 +104,7 @@ equation
   if debug then
     connect(const293.y, stateSpace.u[lastOffSolBus+1]);
     connect(sim.weaBus.hConExt, stateSpace.u[lastOffSolBus+2]);
-    connect(sim.weaBus.dummy, stateSpace.u[lastOffSolBus+3]);
+    connect(const1_0.y, stateSpace.u[lastOffSolBus+3]);
     connect(const293.y, stateSpace.u[lastOffSolBus+4]);
   else
     connect(sim.weaBus.Te, stateSpace.u[lastOffSolBus+1]);
