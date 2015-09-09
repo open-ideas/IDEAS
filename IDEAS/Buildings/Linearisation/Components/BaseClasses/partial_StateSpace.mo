@@ -18,13 +18,13 @@ partial model partial_StateSpace "State space model with bus inputs"
   parameter Integer states = Bsize[1];
   parameter Integer inputs = Bsize[2];
   parameter Integer outputs = Csize[1];
-  Modelica.Blocks.Continuous.StateSpace stateSpace(
-    A=if use_matrix then A else readMatrix(fileName=fileName, matrixName="A", rows=states, columns=  states),
-    B=if use_matrix then B else readMatrix(fileName=fileName, matrixName="B", rows=states, columns=  inputs),
-    C=if use_matrix then C else readMatrix(fileName=fileName, matrixName="C", rows=outputs, columns=states),
-    D=if use_matrix then D else readMatrix(fileName=fileName, matrixName="D", rows=outputs, columns=inputs),
-    x_start=x_start)
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+   Modelica.Blocks.Continuous.StateSpace stateSpace(
+     A=if use_matrix then A else readMatrix(fileName=fileName, matrixName="A", rows=states, columns=  states),
+     B=if use_matrix then B else readMatrix(fileName=fileName, matrixName="B", rows=states, columns=  inputs),
+     C=if use_matrix then C else readMatrix(fileName=fileName, matrixName="C", rows=outputs, columns=states),
+     D=if use_matrix then D else readMatrix(fileName=fileName, matrixName="D", rows=outputs, columns=inputs),
+     x_start=x_start)
+     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
   parameter Boolean debug=false
     "Set to set to change all heat flow input to zero and all temperature to 293";
@@ -34,10 +34,10 @@ protected
 
  final parameter Integer[nWin] offWinCon = {sum(winNLay[1:i-1]) + 2*(i-1) for i in 1:nWin}
     "Offset of index for window connections";
-  final parameter Integer lastWinCon = offWinCon[end] + winNLay[end] + 2;
+  final parameter Integer lastWinCon = if nWin > 0 then offWinCon[end] + winNLay[end] + 2 else 0;
   final parameter Integer[numSolBus] offSolBus = {lastWinCon + (i-1)*3 for i in 1:numSolBus}
     "Total number of input signals in solBus";
-  final parameter Integer lastOffSolBus = offSolBus[end] + 3;
+  final parameter Integer lastOffSolBus = if numSolBus > 0 then offSolBus[end] + 3 else lastWinCon;
   final parameter Integer lastOfWeaBus = lastOffSolBus + 4;
 
 public
@@ -77,6 +77,7 @@ public
     annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));
   Modelica.Blocks.Sources.Constant const293(k=293.15)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+
 equation
   for i in 1:nWin loop
     if debug then
