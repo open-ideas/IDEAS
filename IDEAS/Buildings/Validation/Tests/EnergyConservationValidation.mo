@@ -1,9 +1,12 @@
 within IDEAS.Buildings.Validation.Tests;
 model EnergyConservationValidation
   "This example shows how conservation of energy can be checked."
-  extends Components.Examples.ZoneExample(sim(computeConservationOfEnergy=true,
-      strictConservationOfEnergy=true,
-      Emax=1));
+  extends Components.Examples.ZoneExample(
+    sim(computeConservationOfEnergy=true,
+        strictConservationOfEnergy=true,
+        Emax=1),
+    zone(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
+    zone1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
 
   annotation (
     experiment(
