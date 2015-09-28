@@ -43,9 +43,7 @@ partial model PartialHeatSource "Partial model for a heatsource"
     "Set to true if the massflow rate of the secondary circuit is used in the performance data";
 
   //Variables
-  Modelica.SIunits.Power QLossesToCompensate1
-    "Compensation for the heat losses in the primary circuit";
-  Modelica.SIunits.Power QLossesToCompensate2 "Compensation for the heat losses in the secondary circuit if a water-water 
+  Modelica.SIunits.Power QLossesToCompensate "Compensation for the heat losses in the primary circuit if boiler, compensation for the heat losses in the secondary circuit if a water-water 
      heat pump is used";
 
   //Interfaces
@@ -117,10 +115,10 @@ partial model PartialHeatSource "Partial model for a heatsource"
         rotation=0,
         origin={-100,0})));
   Modelica.Blocks.Interfaces.RealInput TEnvironment annotation (Placement(
-        transformation(extent={{-130,-70},{-90,-30}}), iconTransformation(
+        transformation(extent={{-130,-90},{-90,-50}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={-100,-40})));
+        origin={-100,-60})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort2
     "heatPort connection to water in the secondary circuit"
     annotation (Placement(transformation(extent={{90,-10},{110,10}}),
@@ -189,11 +187,9 @@ equation
 
   //Apply compensating heat losses if fluid is flowing
   if noEvent(m_flow2 > m_flow_nominal/10000) then
-    QLossesToCompensate1 = UALoss1*(heatPort1Mock.T - TEnvironment);
-    QLossesToCompensate2 = UALoss2*(heatPort2.T -TEnvironment);
+    QLossesToCompensate = UALoss2*(heatPort2.T -TEnvironment);
   else
-    QLossesToCompensate1= 0;
-    QLossesToCompensate2 = 0;
+    QLossesToCompensate = 0;
   end if;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
@@ -230,6 +226,6 @@ equation
           fillColor={191,0,0},
           fillPattern=FillPattern.Solid),
         Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
-      Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}), graphics));
+      Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}})));
 end PartialHeatSource;

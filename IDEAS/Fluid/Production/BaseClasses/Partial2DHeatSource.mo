@@ -12,6 +12,8 @@ partial model Partial2DHeatSource
     T_max = data.TMax, T_min = data.TMin);
 
   parameter Boolean copData=data.copData;
+  parameter Boolean reversible = false;
+  parameter Real EER = 6 annotation(Dialog(enable=reversible));
 
   //Variables
   Modelica.SIunits.Power QMax "Maximum power for the current conditions";
@@ -61,7 +63,17 @@ partial model Partial2DHeatSource
     annotation (Placement(transformation(extent={{56,30},{76,50}})));
 
   Boolean doIGenerateEvents = on_internal;
+  Modelica.Blocks.Interfaces.BooleanInput rev if reversible
+    annotation (Placement(transformation(extent={{-130,-60},{-90,-20}}),
+        iconTransformation(extent={{-110,-40},{-90,-20}})));
+protected
+  Modelica.Blocks.Interfaces.BooleanOutput rev_internal;
 equation
+  if reversible then
+    connect(rev_internal,rev);
+  else
+    rev_internal = false;
+  end if;
   if heatPumpWaterWater then
     T_low = heatPort1Mock.T;
   else
@@ -69,7 +81,7 @@ equation
   end if;
 
   if copData then
-    QMax = heatTable.y*powerTable.y*scaler;
+    QMax = if rev_internal then -EER*powerTable.y*scaler else heatTable.y*powerTable.y*scaler;
   else
     QMax = heatTable.y*scaler;
   end if;
@@ -104,13 +116,13 @@ equation
 
   //Heat powers
   if copData then
-    Q2 = modulation*(heatTable.y*powerTable.y*scaler + QLossesToCompensate2);
+    Q2 = if rev_internal then modulation*(-EER*powerTable.y*scaler + QLossesToCompensate) else modulation*(heatTable.y*powerTable.y*scaler + QLossesToCompensate);
   else
-    Q2 = modulation*(heatTable.y*scaler + QLossesToCompensate2);
+    Q2 = modulation*(heatTable.y*scaler + QLossesToCompensate);
   end if;
 
   if heatPumpWaterWater then
-    Q1 = modulation*( - ( -powerTable.y*scaler + Q2 + QLossesToCompensate1));
+    Q1 = modulation*powerTable.y*scaler - Q2;
   else
     Q1 = 0;
   end if;
@@ -167,5 +179,6 @@ Tout1
 massFlow1
 Tin2
 Tout2
-massFlow2")}));
+massFlow2")}), Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}})));
 end Partial2DHeatSource;

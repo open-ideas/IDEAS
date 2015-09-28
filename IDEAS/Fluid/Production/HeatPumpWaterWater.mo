@@ -13,8 +13,13 @@ model HeatPumpWaterWater
       useMassFlow1=false,
       useTin1=true,
       useTin2=false,
-      useTout1=false));
-
+      useTout1=false,
+      reversible = reversible,
+      EER = EER));
+  parameter Real EER=6;
+equation
+  connect(rev, heatSource.rev) annotation (Line(points={{60,108},{60,108},{60,64},
+          {60,64},{60,29},{-4,29}}, color={255,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
+            -100},{100,100}})));
 end HeatPumpWaterWater;

@@ -4,6 +4,7 @@ model QAsked
 
   //Parameters
   parameter Boolean useQSet=false "Set to true to use Q as an input";
+  parameter Boolean reversible=false;
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
@@ -41,9 +42,30 @@ model QAsked
         extent={{-20,-20},{20,20}},
         rotation=0,
         origin={-108,-20})));
+
+ Modelica.Blocks.Interfaces.BooleanInput rev if reversible
+    "Reverse the heat pump"                                                         annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={60,108}), iconTransformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={-58,52})));
+protected
+  Modelica.Blocks.Interfaces.BooleanOutput rev_internal;
 equation
+  if reversible then
+    connect(rev,rev_internal);
+  else
+    rev_internal = false;
+  end if;
  if not useQSet then
-    y = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, u, Medium.X_default)) - h_in), 10);
+    if rev_internal then
+      y = IDEAS.Utilities.Math.Functions.smoothMin(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, u, Medium.X_default)) - h_in), 10);
+    else
+      y = IDEAS.Utilities.Math.Functions.smoothMax(0, m_flow*(Medium.specificEnthalpy(Medium.setState_pTX(Medium.p_default, u, Medium.X_default)) - h_in), 10);
+    end if;
  else
     y = u;
  end if;
