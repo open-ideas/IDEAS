@@ -65,7 +65,7 @@ protected
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1
-         - frac), linearise=sim.linearise or linExtCon) if
+         - frac), linearise=linearise or linExtCon) if
                                                not removeDynamics
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
@@ -73,11 +73,11 @@ protected
     final A=A*(1 - frac),
     final inc=inc,
     dT_nominal=dT_nominal,
-    linearise=linIntCon or sim.linearise) if  not removeDynamics
+    linearise=linIntCon or linearise) if  not removeDynamics
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRad(final A=A
-        *(1 - frac), linearise=sim.linearise or linRad) if
+        *(1 - frac), linearise=linearise or linRad) if
                          not removeDynamics
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
@@ -94,17 +94,17 @@ protected
 
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iConFra(A=A*frac,
       inc=inc,
-    linearise=linIntCon or sim.linearise) if
+    linearise=linIntCon or linearise) if
                   fraType.present and not removeDynamics
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRadFra(final
-      A=A*frac, linearise=sim.linearise or linRad) if
+      A=A*frac, linearise=linearise or linRad) if
                          fraType.present and not removeDynamics
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,80},{-40,100}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eConFra(final A=A*
-        frac, linearise=sim.linearise or linExtCon) if
+        frac, linearise=linearise or linExtCon) if
                  fraType.present and not removeDynamics
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
@@ -118,8 +118,8 @@ protected
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-    forceWeaBusPassThrough=sim.linearise,
-    linearisation=sim.linearise)
+    forceWeaBusPassThrough=linearise,
+    linearisation=linearise)
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));
