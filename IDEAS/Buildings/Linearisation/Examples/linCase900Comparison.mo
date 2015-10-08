@@ -36,7 +36,7 @@ equation
     experiment(StopTime=1e+006),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
-          "../../IDEAS/IDEAS/Resources/Scripts/Dymola/Buildings/Linearisation/Examples/linCase900Comparison.mos"
+          "modelica://IDEAS/Resources/Scripts/Dymola/Buildings/Linearisation/Examples/linCase900Comparison.mos"
         "Simulate and Plot"),
     Documentation(info="<html>
 <p>
