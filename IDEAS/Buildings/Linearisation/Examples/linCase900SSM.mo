@@ -243,9 +243,9 @@ model linCase900SSM
 
   Modelica.Blocks.Interfaces.RealOutput y_rom10[size(rom5.y, 1)]
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Sources.Constant QConv[ssm.nQConv](k=10)
+  Modelica.Blocks.Sources.Constant QConv[ssm.nQConv](k=0)
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
-  Modelica.Blocks.Sources.Constant QGaiRad[ssm.nQRadGai](k=20)
+  Modelica.Blocks.Sources.Constant QGaiRad[ssm.nQRadGai](k=0)
     annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
 equation
   connect(const.y, win[3].Ctrl) annotation (Line(
@@ -273,10 +273,10 @@ equation
       extent={{6,3},{6,3}}));
   connect(rom10.y, y_rom10)
     annotation (Line(points={{76.4,0},{110,0}}, color={0,0,127}));
-  connect(ssm.Q_flowConv, QConv.y) annotation (Line(points={{55.2,56},{40,56},{
-          40,20},{-40,20},{-40,10},{-59,10}}, color={0,0,127}));
+  connect(ssm.Q_flowConv, QConv.y) annotation (Line(points={{55,56},{40,56},{40,
+          20},{-40,20},{-40,10},{-59,10}},    color={0,0,127}));
   connect(QGaiRad.y, ssm.Q_flowRadGai) annotation (Line(points={{-59,-30},{-40,
-          -30},{-20,-30},{-20,14},{46,14},{46,46.6},{55.2,46.6}}, color={0,0,
+          -30},{-20,-30},{-20,14},{46,14},{46,46.6},{55,46.6}},   color={0,0,
           127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
