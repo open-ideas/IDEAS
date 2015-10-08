@@ -34,11 +34,23 @@ model linCase900
     annotation (Placement(transformation(extent={{96,38},{116,58}})));
   Modelica.Blocks.Interfaces.RealOutput y_nonLinear
     annotation (Placement(transformation(extent={{98,-62},{118,-42}})));
+  Modelica.Blocks.Sources.Constant QGaiRad(k=0)
+    annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
+  Modelica.Blocks.Sources.Constant QConv(k=0)
+    annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
 equation
   connect(linear.y, y_linear)
     annotation (Line(points={{0.6,48},{106,48}}, color={0,0,127}));
   connect(nonLinear.y, y_nonLinear)
     annotation (Line(points={{0.6,-52},{108,-52}}, color={0,0,127}));
+  connect(QConv.y, linear.QCon) annotation (Line(points={{-49,20},{-36,20},{-36,
+          44},{-21,44}}, color={0,0,127}));
+  connect(QGaiRad.y, nonLinear.QGaiRad) annotation (Line(points={{-49,-20},{-36,
+          -20},{-36,-46},{-21,-46}}, color={0,0,127}));
+  connect(QGaiRad.y, linear.QGaiRad) annotation (Line(points={{-49,-20},{-48,
+          -20},{-48,38},{-48,54},{-21,54}}, color={0,0,127}));
+  connect(QConv.y, nonLinear.QCon) annotation (Line(points={{-49,20},{-34,20},{
+          -34,-56},{-21,-56}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(info="<html>
 <p>
