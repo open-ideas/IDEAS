@@ -65,7 +65,7 @@ protected
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-78,10},{-38,50}})));
 public
-  Modelica.Blocks.Sources.Constant constAngLin(k=0) if
+  Modelica.Blocks.Sources.Constant constAngLin(k=1) if
                                                  linearisation
     "Dummy inputs when linearising. This avoids unnecessary state space inputs."
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
