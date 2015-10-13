@@ -15,8 +15,9 @@ model SwWindowResponse "shortwave window respones"
     "Set to true for enabling linearization inputs/outputs";
   parameter Boolean createOutputs = false
     "Set to true for enabling linearization inputs/outputs";
-  parameter Boolean removeDynamics = false
-    "Set to true for removing the heatports";
+  parameter Boolean createOutputsOnly = false
+    "Set to true for removing the heatports"
+    annotation(Dialog(enable = createOutputs));
 
   final parameter Integer[nLay] columns=if (nLay == 1) then {2} else integer(
       linspace(
@@ -32,13 +33,13 @@ model SwWindowResponse "shortwave window respones"
     annotation (Placement(transformation(extent={{-120,0},{-80,40}})));
   Modelica.Blocks.Interfaces.RealInput angInc "angle of incidence"
     annotation (Placement(transformation(extent={{-120,-80},{-80,-40}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs if not removeDynamics
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs if not createOutputsOnly
     "solar absorptance in the panes"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir if  not removeDynamics
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir if  not createOutputsOnly
     "transmitted direct solar riadtion"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif if  not removeDynamics
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif if  not createOutputsOnly
     "transmitted difuse solar riadtion"
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
   IDEAS.Buildings.Components.BaseClasses.AngleOfIncidence angDir
@@ -60,19 +61,19 @@ model SwWindowResponse "shortwave window respones"
         extent={{-9,-9},{9,9}},
         rotation=90,
         origin={-3,-11})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nLay] Abs_flow if  not removeDynamics
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nLay] Abs_flow if  not createOutputsOnly
     "solar absorptance in the panes source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=90,
         origin={-8.88178e-016,78})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dir_flow if  not removeDynamics
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dir_flow if  not createOutputsOnly
     "transmitted direct solar riadtion source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={-20,-78})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dif_flow if  not removeDynamics
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dif_flow if  not createOutputsOnly
     "transmitted difuse solar riadtion source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},

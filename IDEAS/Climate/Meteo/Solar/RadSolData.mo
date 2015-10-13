@@ -7,14 +7,11 @@ model RadSolData "Selects or generates correct solar data for this surface"
   parameter SI.Angle ceilingInc "Roof inclination angle in solBus";
   parameter SI.Angle offsetAzi
     "Offset azimuth angle of irradation data calculated in solBus";
-  parameter Boolean forceWeaBusPassThrough = linearisation
+  parameter Boolean forceWeaBusPassThrough = sim.linearise
     "Set to true when inputs must be taken from the weather bus, i.e. when linearising"
     annotation(Dialog(group="Linearisation"));
-  parameter Boolean linearisation = false
-    "Set to true when component is part of a to be linearised model"
-  annotation(Dialog(group="Linearisation"));
 
-  parameter Boolean solDataInBus=
+  final parameter Boolean solDataInBus=
    forceWeaBusPassThrough or
    isRoof or
     (inc==IDEAS.Constants.Wall
@@ -32,7 +29,7 @@ model RadSolData "Selects or generates correct solar data for this surface"
     final azi=azi,
     lat=lat,
     numAzi=numAzi,
-    final outputAngles=not linearisation) if
+    final outputAngles=not sim.linearise) if
                       not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-94,24},{-74,44}})));
@@ -43,8 +40,7 @@ model RadSolData "Selects or generates correct solar data for this surface"
     annotation (Placement(transformation(extent={{96,-10},{116,10}})));
 
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1, outputAngles=
-        not linearisation)
+    weaBus(numSolBus=numAzi + 1, outputAngles=not sim.linearise)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
   Modelica.Blocks.Interfaces.RealOutput angInc
@@ -61,14 +57,17 @@ protected
 protected
   output Buildings.Components.Interfaces.SolBus
                                          solBusDummy1(outputAngles=not
-        linearisation) "Required for avoiding warnings?"
+        sim.linearise) "Required for avoiding warnings?"
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-78,10},{-38,50}})));
 public
   Modelica.Blocks.Sources.Constant constAngLin(k=1) if
-                                                 linearisation
+                                                 sim.linearise
     "Dummy inputs when linearising. This avoids unnecessary state space inputs."
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
+  outer SimInfoManager       sim
+    "Simulation information manager for climate data"
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 equation
 
   connect(radSol.weaBus, weaBus) annotation (Line(
@@ -101,7 +100,7 @@ equation
       points={{106,-20},{-57.9,-20},{-57.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
-  if not linearisation then
+  if not sim.linearise then
     connect(angInc, solBusDummy1.angInc) annotation (Line(
       points={{106,-40},{-57.9,-40},{-57.9,30.1}},
       color={0,0,127},

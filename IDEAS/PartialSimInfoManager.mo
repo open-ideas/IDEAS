@@ -21,6 +21,18 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy = false
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
+  parameter Boolean linIntCon=true
+    "= true, if interior convective heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linExtCon=false
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linIntRad=true
+    "= true, if interior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
+  parameter Boolean linExtRad=false
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
   parameter Boolean linearise = false "Linearises building model equations"
     annotation(Dialog(tab="Linearisation"));
   parameter Boolean createOutputs = false
@@ -192,6 +204,9 @@ public
   IDEAS.Buildings.Components.BaseClasses.EnergyPort E "Model internal energy"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
+public
+  input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[nWindow]
+    winBusOut(each nLay = nLayWin) if createOutputs;
 initial equation
   Etot=0;
 equation

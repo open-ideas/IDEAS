@@ -71,7 +71,7 @@ public
       Placement(transformation(extent={{-140,-104},{-100,-64}}),
         iconTransformation(extent={{-120,-84},{-100,-64}})));
 
-  Modelica.Blocks.Sources.Constant const3_0[3](k=0)
+  Modelica.Blocks.Sources.Constant const3_0[3](each k=0)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   Modelica.Blocks.Sources.Constant const1_0(k=0)
     annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));

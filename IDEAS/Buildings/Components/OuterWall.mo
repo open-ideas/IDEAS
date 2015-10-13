@@ -9,13 +9,13 @@ model OuterWall "Opaque building envelope construction"
 
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Boolean linIntCon=true
+  parameter Boolean linIntCon=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
-  parameter Boolean linExtCon=false
+  parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
-  parameter Boolean linRad=true
+  parameter Boolean linExtRad=sim.linExtRad
     "= true, if exterior radiative heat transfer should be linearised"
     annotation(Dialog(tab="Radiation"));
 
@@ -57,7 +57,7 @@ protected
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation extRad(
-    final A=AWall, linearise=linRad or sim.linearise)
+    final A=AWall, linearise=linExtRad or sim.linearise)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
   Modelica.Blocks.Math.Gain gainDir(k=AWall)
@@ -70,9 +70,7 @@ protected
     numAzi=sim.numAzi,
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
-    lat=sim.lat,
-    forceWeaBusPassThrough=sim.linearise,
-    linearisation=sim.linearise)
+    lat=sim.lat)
     annotation (Placement(transformation(extent={{-92,-36},{-72,-16}})));
 public
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial

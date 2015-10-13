@@ -4,9 +4,8 @@ partial model StateWall "Partial model for building envelope components"
     "Inclination of the wall, i.e. 90deg denotes vertical";
   parameter Modelica.SIunits.Angle azi
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Boolean removeDynamics = false
-    "Set to true to create window outputs to be connected to state space model."
-                                                                                                        annotation(Dialog(group="Linearisation"));
+  parameter Boolean useBus = true "Set to false to remove the bus connector"
+    annotation(Dialog(group="Linearisation"));
 
   outer IDEAS.SimInfoManager sim
     "Simulation information manager for climate data"
@@ -14,7 +13,7 @@ partial model StateWall "Partial model for building envelope components"
   parameter Modelica.SIunits.Power QTra_design
     "Design heat losses at reference temperature of the boundary space";
 
-  ZoneBus propsBus_a(weaBus(final outputAngles=not sim.linearise), numAzi=sim.numAzi, computeConservationOfEnergy=sim.computeConservationOfEnergy) if not removeDynamics
+  ZoneBus propsBus_a(weaBus(final outputAngles=not sim.linearise), numAzi=sim.numAzi, computeConservationOfEnergy=sim.computeConservationOfEnergy) if useBus
     "Inner side (last layer)"
                      annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},

@@ -6,9 +6,9 @@ partial model StateZone "Partial model for thermal building zones"
   parameter Integer nSurf(min=1)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
   parameter Boolean connectWeaBus = true
-    annotation(Dialog(group="Advanced"));
+    annotation(Dialog(tab="Linearise"));
   parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
-    annotation(Dialog(group="Advanced"));
+    annotation(Dialog(tab="Linearise"));
   outer IDEAS.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));

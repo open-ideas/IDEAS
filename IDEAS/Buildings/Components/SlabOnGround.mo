@@ -10,7 +10,7 @@ model SlabOnGround "opaque floor on ground slab"
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
   parameter Modelica.SIunits.Length PWall "Total wall perimeter";
-  parameter Boolean linearise=true
+  parameter Boolean linIntCon=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
@@ -56,8 +56,8 @@ protected
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
     final A=AWall,
     final inc=inc,
-    final linearise=linearise,
-    final dT_nominal=dT_nominal)
+    final dT_nominal=dT_nominal,
+    final linearise=sim.linearise or linIntCon)
     "Convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   BaseClasses.MultiLayerGround layGro(

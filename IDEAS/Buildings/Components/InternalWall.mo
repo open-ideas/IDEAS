@@ -16,13 +16,13 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.SIunits.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
     annotation (Dialog(group="Design heat loss"));
-  parameter Boolean linIntCon_a=true
+  parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised at port a"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
-  parameter Boolean linIntCon_b=true
+  parameter Boolean linIntCon_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised at port b"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_b=1
