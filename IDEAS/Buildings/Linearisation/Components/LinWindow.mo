@@ -2,25 +2,27 @@ within IDEAS.Buildings.Linearisation.Components;
 model LinWindow "Linearisable window model"
   import IDEAS;
 
-  extends IDEAS.Buildings.Components.Interfaces.StateWall(QTra_design(fixed=false));
-
+  extends IDEAS.Buildings.Components.Interfaces.StateWall(QTra_design(fixed=false), final useBus = not createOutputsOnly);
+  parameter Boolean createOutputsOnly = false
+    "Set true to compute outputs for linearisation, but remove all other components"
+    annotation(Dialog(group="Linearisation"));
   parameter Modelica.SIunits.Area A "Total window and window frame area";
   parameter Real frac(
     min=0,
     max=1) = 0.15 "Area fraction of the window frame";
-  parameter Boolean linIntCon=true
+  parameter Boolean linIntCon=sim.linIntCon
     "= true, if interior convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
-  parameter Boolean linExtCon=false
+  parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
-  parameter Boolean linRad=true
+  parameter Boolean linExtRad=sim.linExtRad
     "= true, if exterior radiative heat transfer should be linearised"
     annotation(Dialog(tab="Radiation"));
-  parameter Boolean linearise = sim.linearise
+  final parameter Boolean linearise = sim.linearise
     "Create connections for linearisation"
     annotation(Dialog(group="Linearisation"));
-  parameter Boolean createOutputs = sim.createOutputs
+  final parameter Boolean createOutputs = sim.createOutputs
     "Create connections for linearisation"
     annotation(Dialog(group="Linearisation"));
   parameter Integer indexWindow = 1 "Index of this window"
@@ -61,24 +63,24 @@ protected
     final A=A*(1 - frac),
     final inc=inc,
     final nLay=glazing.nLay,
-    final mats=glazing.mats) if not removeDynamics
+    final mats=glazing.mats) if not createOutputsOnly
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eCon(final A=A*(1
          - frac), linearise=linearise or linExtCon) if
-                                               not removeDynamics
+                                               not createOutputsOnly
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iCon(
     final A=A*(1 - frac),
     final inc=inc,
     dT_nominal=dT_nominal,
-    linearise=linIntCon or linearise) if  not removeDynamics
+    linearise=linIntCon or linearise) if  not createOutputsOnly
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRad(final A=A
-        *(1 - frac), linearise=linearise or linRad) if
-                         not removeDynamics
+        *(1 - frac), linearise=linearise or linExtRad) if
+                         not createOutputsOnly
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,-20},{-40,0}})));
   IDEAS.Buildings.Components.BaseClasses.SwWindowResponse solWin(
@@ -89,27 +91,27 @@ protected
     final SwAbsDif=glazing.SwAbsDif,
     linearise=linearise,
     createOutputs=createOutputs,
-    final removeDynamics=removeDynamics)
+    final createOutputsOnly=createOutputsOnly)
     annotation (Placement(transformation(extent={{-10,-70},{10,-50}})));
 
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection iConFra(A=A*frac,
       inc=inc,
     linearise=linIntCon or linearise) if
-                  fraType.present and not removeDynamics
+                  fraType.present and not createOutputsOnly
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation skyRadFra(final
-      A=A*frac, linearise=linearise or linRad) if
-                         fraType.present and not removeDynamics
+      A=A*frac, linearise=linearise or linExtRad) if
+                         fraType.present and not createOutputsOnly
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,80},{-40,100}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection eConFra(final A=A*
         frac, linearise=linearise or linExtCon) if
-                 fraType.present and not removeDynamics
+                 fraType.present and not createOutputsOnly
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(final G=
-        fraType.U_value*A*frac) if fraType.present  and not removeDynamics  annotation (Placement(transformation(extent={{-10,70},{10,90}})));
+        fraType.U_value*A*frac) if fraType.present  and not createOutputsOnly  annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
   Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
@@ -117,9 +119,7 @@ protected
     numAzi=sim.numAzi,
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
-    lat=sim.lat,
-    forceWeaBusPassThrough=linearise,
-    linearisation=linearise)
+    lat=sim.lat)
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-44},{-62,-36}})));
@@ -127,17 +127,17 @@ protected
     annotation (Placement(transformation(extent={{-70,-56},{-62,-48}})));
   Modelica.Blocks.Sources.RealExpression Qgai(y=-(propsBus_a.surfCon.Q_flow +
         propsBus_a.surfRad.Q_flow + solWin.iSolDif.Q_flow + solWin.iSolDir.Q_flow)) if
-                                                           sim.computeConservationOfEnergy and not removeDynamics
+                                                           sim.computeConservationOfEnergy and not createOutputsOnly
     "Heat gains in model (using propsbus since frame can be conditionally removed)"
     annotation (Placement(transformation(extent={{-116,40},{-96,60}})));
-  Modelica.Blocks.Sources.RealExpression E1(y=0) if        sim.computeConservationOfEnergy and not removeDynamics
+  Modelica.Blocks.Sources.RealExpression E1(y=0) if        sim.computeConservationOfEnergy and not createOutputsOnly
     "Internal energy model"
     annotation (Placement(transformation(extent={{-116,60},{-96,80}})));
-  IDEAS.Buildings.Components.BaseClasses.PrescribedEnergy prescribedHeatFlowE if  sim.computeConservationOfEnergy and not removeDynamics
+  IDEAS.Buildings.Components.BaseClasses.PrescribedEnergy prescribedHeatFlowE if  sim.computeConservationOfEnergy and not createOutputsOnly
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,60},{-66,80}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai if
-                                                                                   sim.computeConservationOfEnergy and not removeDynamics
+                                                                                   sim.computeConservationOfEnergy and not createOutputsOnly
     "Component for computing conservation of energy"
     annotation (Placement(transformation(extent={{-86,40},{-66,60}})));
 
@@ -147,11 +147,7 @@ protected
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={80,-50})));
-  outer IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-    winBusOut(each nLay = sim.nLayWin) annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=90,
-        origin={80,-70})));
+
 initial equation
   QTra_design =U_value*A*(273.15 + 21 - sim.Tdes);
 
@@ -255,6 +251,7 @@ equation
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
+
   connect(shaType.solDif, gainDif.y) annotation (Line(
       points={{-50,-58},{-56,-58},{-56,-52},{-61.6,-52}},
       color={0,0,127},
@@ -322,18 +319,18 @@ equation
       points={{10.4,-59},{30.2,-59},{30.2,-49.9},{80.1,-49.9}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solWin.AbsQFlowOutput, winBusOut[indexWindow].AbsQFlow) annotation (Line(points={{10.6,
+  if createOutputs then
+  connect(solWin.AbsQFlowOutput, sim.winBusOut[indexWindow].AbsQFlow) annotation (Line(points={{10.6,
           -62},{46,-62},{46,-69.9},{80.1,-69.9}},       color={0,0,127}));
-  connect(solWin.iSolDirOutput, winBusOut[indexWindow].iSolDir) annotation (Line(points={{10.6,
+  connect(solWin.iSolDirOutput, sim.winBusOut[indexWindow].iSolDir) annotation (Line(points={{10.6,
           -65},{45.3,-65},{45.3,-69.9},{80.1,-69.9}},      color={0,0,127}));
-  connect(solWin.iSolDifOutput, winBusOut[indexWindow].iSolDif) annotation (Line(points={{10.6,
+  connect(solWin.iSolDifOutput, sim.winBusOut[indexWindow].iSolDif) annotation (Line(points={{10.6,
           -68},{44,-68},{44,-69.9},{80.1,-69.9}},      color={0,0,127}));
-  if removeDynamics then
-    connect(sim.weaBus, radSolData.weaBus) annotation (Line(
-      points={{41.4,-82.8},{-78,-82.8},{-78,-52},{-80,-52}},
-      color={255,204,51},
-      thickness=0.5));
   end if;
+  if createOutputsOnly then
+    connect(sim.weaBus, radSolData.weaBus);
+  end if;
+
    annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={

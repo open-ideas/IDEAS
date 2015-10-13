@@ -1,16 +1,12 @@
 within IDEAS.Buildings.Linearisation.Components;
 model LinZone "Linearisable zone model"
-  import IDEAS;
   extends IDEAS.Buildings.Components.Interfaces.StateZone(
     Eexpr(y=vol.dynBal.U),
     useFluidPorts=not sim.linearise,
     connectWeaBus=not sim.linearise);
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(redeclare package
       Medium = IDEAS.Media.Air);
-
-  outer Modelica.Fluid.System system
-    annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
-  parameter Boolean allowFlowReversal=system.allowFlowReversal
+  parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Assumptions"));
 
@@ -19,10 +15,10 @@ model LinZone "Linearisable zone model"
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
 
-  parameter Boolean linRad=true "Linearized computation of long wave radiation"
-                                                                                annotation(Dialog(tab="Radiation"));
-  parameter Boolean linearise = sim.linearise
-    "Linearise model: simplify fluid part";
+  parameter Boolean linIntRad=sim.linIntRad
+    "Linearized computation of long wave radiation"                             annotation(Dialog(tab="Radiation"));
+  parameter Boolean simplifyAirModel = sim.linearise
+    "Simplify air model to heat capacitor. Used for linearisation.";
 
   final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/20*(273.15
        + 21 - sim.Tdes)
@@ -44,6 +40,8 @@ model LinZone "Linearisable zone model"
   Modelica.SIunits.Temperature TStar=radDistr.TRad;
 
 protected
+  parameter Boolean simplifyAirModelInternal = simplifyAirModel or sim.linearise
+    "Always use simple model when linearising";
   IDEAS.Buildings.Components.BaseClasses.ZoneLwGainDistribution radDistr(final
       nSurf=nSurf) "distribution of radiative internal gains" annotation (
       Placement(transformation(
@@ -56,10 +54,10 @@ protected
     V=V,
     n50=n50,
     allowFlowReversal=allowFlowReversal,
-    show_T=false) if not linearise
+    show_T=false) if not simplifyAirModelInternal
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
-      nSurf=nSurf, final linearise=linRad or linearise)
+      nSurf=nSurf, final linearise=linIntRad)
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
@@ -80,7 +78,7 @@ protected
     C_start=C_start,
     C_nominal=C_nominal,
     allowFlowReversal=allowFlowReversal,
-    mSenFac=corrCV) if not linearise                           annotation (Placement(
+    mSenFac=corrCV) if not simplifyAirModelInternal                           annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -91,23 +89,24 @@ protected
     annotation (Placement(transformation(extent={{0,-28},{-16,-12}})));
 protected
   outer input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
-    final numSolBus=sim.numAzi + 1) if linearise
+    each final weaBus(outputAngles=not sim.linearise),
+    final numSolBus=sim.numAzi + 1) if sim.linearise
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-100,-2})));
 public
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
-    prescribedTemperature if   linearise
+    prescribedTemperature if   simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-76,60},{-64,72}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/
         1005.45/(1.2*V/3600*n50/20)) if
-                              linearise
+                              simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-58,58},{-42,74}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
-        *mSenFac, T(start=T_start)) if   linearise
+        *mSenFac, T(start=T_start)) if   simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-42,66},{-22,86}})));
 protected
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem_lin if linearise
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem_lin if simplifyAirModelInternal
     annotation (Placement(transformation(extent={{72,42},{88,58}})));
 initial equation
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
@@ -121,7 +120,7 @@ equation
       points={{-100.1,39.9},{-74,39.9},{-74,-26},{-54,-26},{-54,-20}},
       color={191,0,0},
       smooth=Smooth.None));
-  if not linearise then
+  if not simplifyAirModelInternal then
   connect(summation.y, TSensor) annotation (Line(
       points={{12.6,-60},{59.3,-60},{59.3,0},{106,0}},
       color={0,0,127},

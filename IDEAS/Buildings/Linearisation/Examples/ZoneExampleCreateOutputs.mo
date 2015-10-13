@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Linearisation.Examples;
 model ZoneExampleCreateOutputs
-  extends ZoneExampleLinearise(sim(createOutputs=true));
+  extends ZoneExampleLinearise(sim(createOutputs=true, linearise=false));
   annotation (
     experiment(StopTime=1e+06),
     __Dymola_experimentSetupOutput(

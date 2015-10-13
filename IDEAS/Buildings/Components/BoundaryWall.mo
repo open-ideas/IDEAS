@@ -5,7 +5,7 @@ model BoundaryWall "Opaque wall with boundary conditions"
     E(y=layMul.E),
       Qgai(y=layMul.port_a.Q_flow + (if sim.openSystemConservationOfEnergy
            then 0 else port_emb.Q_flow)));
-  parameter Boolean linIntCon=true
+  parameter Boolean linIntCon=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-1

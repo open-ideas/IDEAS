@@ -2,31 +2,23 @@ within IDEAS.Buildings.Linearisation.Examples;
 model linCase900
   extends Modelica.Icons.Example;
   BaseClasses.LinCase900 linear(
-    sim(linearise=false),
-    roof(linRad=true,
+    sim(linearise=false,
+      linIntCon=true,
       linExtCon=true,
-      linIntCon=true),
-    wall(linIntCon=true,
-      linExtCon=true,
-      linRad=true),
-    floor(linIntCon=true),
-    win(linIntCon=true,
-      linExtCon=true,
-      linRad=true),
-    gF(useFluidPorts=false, linRad=true,
-      linearise=true),
-    T_start=T_start,
-    slabOnGround(linearise=true))
+      linIntRad=true,
+      linExtRad=true),
+    gF(useFluidPorts=false, simplifyAirModel=true),
+    T_start=T_start)
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+
   BaseClasses.LinCase900 nonLinear(
     T_start=T_start,
-    sim(linearise=false),
-    roof(linIntCon=false),
-    wall(linIntCon=false),
-    floor(linIntCon=false),
-    win(linIntCon=false),
-    gF(                     linRad=false),
-    slabOnGround(linearise=false))
+    sim(linearise=false,
+      linIntCon=false,
+      linExtCon=false,
+      linIntRad=false,
+      linExtRad=false),
+    gF(simplifyAirModel=false))
     annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
   parameter SI.Temperature T_start=293.15
     "Start temperature for each of the layers";

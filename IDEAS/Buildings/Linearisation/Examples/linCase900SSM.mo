@@ -20,7 +20,8 @@ model linCase900SSM
     redeclare final parameter IDEAS.Buildings.Data.Frames.None fraType,
     each frac=0,
     final indexWindow={1,2,3},
-    removeDynamics=true) annotation (Placement(transformation(
+    each createOutputsOnly=true)
+                            annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-45,62})));

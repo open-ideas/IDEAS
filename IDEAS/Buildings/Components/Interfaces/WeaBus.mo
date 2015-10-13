@@ -14,7 +14,7 @@ expandable connector WeaBus "Data bus that stores weather data"
   Real dummy(start=1)
     "Dummy variable of value 1 to include constant term in linearization (see SlabOnGround)"
     annotation ();
-  Modelica.SIunits.Temperature TGroundDes(start=284.15)
+  Modelica.SIunits.Temperature TGroundDes(start=283.15)
     "Design ground temperature" annotation ();
   annotation (
     defaultComponentName="weaBus",

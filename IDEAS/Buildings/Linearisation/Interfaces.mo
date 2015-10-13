@@ -3,14 +3,10 @@ package Interfaces
   extends Modelica.Icons.InterfacesPackage;
   model LinearisationInterface
     "Extend this interface if you want to linearise a model"
-    import IDEAS;
   protected
     inner input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       winBusIn(each nLay=sim.nLayWin) if sim.linearise;
   public
-    inner IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-      winBusOut(each nLay=sim.nLayWin) if sim.createOutputs;
-  protected
     output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       windowBusOut(each nLay=sim.nLayWin) if sim.createOutputs
       "Dummy for getting outputs";
@@ -29,7 +25,7 @@ package Interfaces
 
   equation
     connect(sim.weaBus, weaBusOut);
-    connect(winBusOut,windowBusOut);
+    connect(sim.winBusOut,windowBusOut);
   end LinearisationInterface;
 
   partial model StateSpaceModelInterface
@@ -41,11 +37,6 @@ package Interfaces
       final nLayWin=max(ssm.winNLay))
       annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-    inner IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
-      winBusOut(each nLay=sim.nLayWin) annotation (Placement(transformation(
-          extent={{-20,-20},{20,20}},
-          rotation=270,
-          origin={-20,62})));
   protected
     output IDEAS.Buildings.Linearisation.Interfaces.WindowBus[sim.nWindow]
       windowBusOut(each nLay=sim.nLayWin) "Dummy for getting outputs" annotation (
@@ -61,10 +52,7 @@ package Interfaces
       annotation (Placement(transformation(extent={{56,44},{76,64}})));
 
   equation
-    connect(winBusOut, windowBusOut) annotation (Line(
-        points={{-20,62},{18,62}},
-        color={255,204,51},
-        thickness=0.5));
+    connect(sim.winBusOut,windowBusOut);
     connect(windowBusOut, ssm.winBus) annotation (Line(
         points={{18,62},{56,62}},
         color={255,204,51},
