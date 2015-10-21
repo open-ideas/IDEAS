@@ -103,7 +103,7 @@ public
                               simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-58,58},{-42,74}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
-        *mSenFac, T(start=T_start)) if   simplifyAirModelInternal
+        *mSenFac, T(fixed=true, start=T_start)) if   simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-42,66},{-22,86}})));
 protected
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem_lin if simplifyAirModelInternal
