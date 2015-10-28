@@ -72,7 +72,7 @@ The borefield model with this BfData record has not yet been initialized. Please
      + fil.pathMod + "()," + "gen=" + gen.pathMod + "())" + "\n
 ************************************************************************************************************************ \n ");
 
-  TResSho := readMatrix(
+  TResSho := ExternData.Functions.readMatrix(
     fileName=pathSave + "ShoTermData.mat",
     matrixName="TResSho",
     rows=1,
@@ -113,14 +113,14 @@ The borefield model with this BfData record has not yet been initialized. Please
     existAgg := true;
     writeAgg := false;
 
-    mat := readMatrix(
+    mat := ExternData.Functions.readMatrix(
       fileName=pathSave + "TWallSteSta.mat",
       matrixName="TWallSteSta",
       rows=1,
       columns=1);
     TWallSteSta := mat[1, 1];
 
-    kappaMat := readMatrix(
+    kappaMat := ExternData.Functions.readMatrix(
       fileName=pathSave + "Agg" + String(lenSim) + ".mat",
       matrixName="kappaMat",
       rows=q_max,
