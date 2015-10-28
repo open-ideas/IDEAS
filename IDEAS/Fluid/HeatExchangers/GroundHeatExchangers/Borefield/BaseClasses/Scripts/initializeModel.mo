@@ -48,7 +48,7 @@ algorithm
     existShoTerRes := true;
   end if;
 
-  TResSho := readMatrix(
+  TResSho := ExternData.Functions.readMatrix(
     fileName=pathSave + "ShoTermData.mat",
     matrixName="TResSho",
     rows=1,
