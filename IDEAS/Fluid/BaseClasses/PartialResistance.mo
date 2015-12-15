@@ -29,7 +29,7 @@ protected
 
   final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_pos = abs(m_flow_nominal)
     "Absolute value of nominal flow rate";
-  final parameter Modelica.SIunits.Pressure dp_nominal_pos = abs(dp_nominal)
+  final parameter Modelica.SIunits.Pressure dp_nominal_pos = if abs(dp_nominal)>0 then abs(dp_nominal) else 1
     "Absolute value of nominal pressure";
 equation
   // Isenthalpic state transformation (no storage and no loss of energy)
