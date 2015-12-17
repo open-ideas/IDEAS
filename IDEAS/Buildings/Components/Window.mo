@@ -281,6 +281,8 @@ equation
     annotation (Line(points={{-40,-58},{-25,-58},{-10,-58}}, color={0,0,127}));
   connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-40,-64},{
           -26,-64},{-26,-66},{-10,-66}}, color={0,0,127}));
+  connect(layFra.port_b, layMul.port_b)
+    annotation (Line(points={{10,80},{10,80},{10,-30}}, color={191,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
@@ -329,6 +331,12 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 17, 2015, Filip Jorissen:<br/>
+Added thermal connection between frame and glazing state. 
+This is required for decoupling steady state thermal dynamics
+without adding a second state for the window.
+</li>
 <li>
 July 14, 2015, Filip Jorissen:<br/>
 Removed second shading device since a new partial was created
