@@ -331,6 +331,8 @@ equation
     connect(sim.weaBus, radSolData.weaBus);
   end if;
 
+  connect(layMul.port_b, layFra.port_b)
+    annotation (Line(points={{10,-30},{10,80},{10,80}}, color={191,0,0}));
    annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
@@ -379,6 +381,12 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 17, 2015, Filip Jorissen:<br/>
+Added thermal connection between frame and glazing state. 
+This is required for decoupling steady state thermal dynamics
+without adding a second state for the window.
+</li>
 <li>
 July 14, 2015, Filip Jorissen:<br/>
 Removed second shading device since a new partial was created
