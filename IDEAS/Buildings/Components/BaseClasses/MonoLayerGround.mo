@@ -5,9 +5,6 @@ model MonoLayerGround "Non-fictive single material layer"
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Angle inc "Inclination";
 
-  parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the states";
-
   final parameter Boolean present = mat.d <> 0;
 
   final parameter Integer nSta=mat.nSta;
@@ -17,18 +14,29 @@ model MonoLayerGround "Non-fictive single material layer"
   final parameter Modelica.SIunits.ThermalConductance G = (A*mat.k*nSta)/mat.d;
   final parameter Modelica.SIunits.HeatCapacity C = (A*mat.rho*mat.c*mat.d)/nSta;
 
-public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
+  Modelica.SIunits.Temperature[nSta] T(each start = T_start)
+    "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[nFlo] Q_flow
     "Heat flow rate from state i to i+1";
 
-initial equation
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
+  parameter Modelica.SIunits.Temperature T_start=293.15
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
+
+initial equation
+  if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      T=ones(nSta)*T_start;
+  elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
       der(T)=zeros(nSta);
+  end if;
 
 equation
   // connectors

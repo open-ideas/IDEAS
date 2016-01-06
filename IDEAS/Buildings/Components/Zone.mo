@@ -15,7 +15,7 @@ model Zone "thermal building zone"
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   parameter Real corrCV=5 "Multiplication factor for the zone air capacity";
 
-  parameter Boolean linearise=true
+  parameter Boolean linIntRad=sim.linIntRad
     "Linearized computation of long wave radiation";
 
   final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/20*(273.15
@@ -53,8 +53,9 @@ protected
     allowFlowReversal=allowFlowReversal,
     show_T=false)
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
-  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
-      nSurf=nSurf, final linearise=linearise)
+  IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(
+    final nSurf=nSurf,
+    final linearise=linIntRad or sim.linearise)
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},

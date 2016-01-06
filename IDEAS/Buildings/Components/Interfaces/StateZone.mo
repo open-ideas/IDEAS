@@ -5,6 +5,10 @@ partial model StateZone "Partial model for thermal building zones"
       annotation (choicesAllMatching = true);
   parameter Integer nSurf(min=1)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
+  parameter Boolean connectWeaBus = true
+    annotation(Dialog(tab="Linearise"));
+  parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
+    annotation(Dialog(tab="Linearise"));
   outer IDEAS.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -18,7 +22,9 @@ partial model StateZone "Partial model for thermal building zones"
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
       Placement(transformation(extent={{96,-10},{116,10}}), iconTransformation(
           extent={{96,-10},{116,10}})));
-  ZoneBus[nSurf] propsBus(each final numAzi=sim.numAzi,
+  ZoneBus[nSurf] propsBus(
+      each weaBus(final outputAngles=not sim.linearise),
+      each final numAzi=sim.numAzi,
       each final computeConservationOfEnergy=sim.computeConservationOfEnergy)
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
@@ -28,8 +34,10 @@ partial model StateZone "Partial model for thermal building zones"
         rotation=-90,
         origin={-100,40})));
   Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare package Medium = Medium)
+    if                                                                           useFluidPorts
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
   Fluid.Interfaces.FlowPort_a flowPort_In(redeclare package Medium = Medium)
+    if                                                                          useFluidPorts
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 
 protected
@@ -54,11 +62,13 @@ equation
   connect(sim.Qgai, dummy1);
   connect(sim.E, dummy2);
 for i in 1:nSurf loop
-  connect(sim.weaBus, propsBus[i].weaBus) annotation (Line(
+  if connectWeaBus then
+    connect(sim.weaBus, propsBus[i].weaBus) annotation (Line(
        points={{-88.6,97.2},{-88.6,100},{-100.1,100},{-100.1,39.9}},
        color={255,204,51},
        thickness=0.5,
        smooth=Smooth.None));
+  end if;
   connect(dummy1, propsBus[i].Qgai);
   connect(dummy2, propsBus[i].E);
 end for;

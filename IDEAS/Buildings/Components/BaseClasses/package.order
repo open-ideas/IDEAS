@@ -4,11 +4,9 @@ EnergyPort
 ExteriorConvection
 ExteriorHeatRadiation
 ExteriorSolarAbsorption
-HeatCapacitor
 HeatRadiation
 InteriorConvection
 InteriorConvectionWindow
-MixedAir
 MonoLayerGround
 MonoLayerLucent
 MonoLayerOpaque
@@ -18,6 +16,5 @@ MultiLayerLucent
 MultiLayerOpaque
 PrescribedEnergy
 SwWindowResponse
-ThermalResistor
 ZoneLwDistribution
 ZoneLwGainDistribution

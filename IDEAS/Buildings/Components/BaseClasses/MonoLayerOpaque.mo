@@ -21,12 +21,16 @@ public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  MonoLayerOpaqueNf monoLayerOpaqueNf(A=A, mat=mat, inc=inc, T_start=T_start) if notFictive
+  MonoLayerOpaqueNf monoLayerOpaqueNf(A=A, mat=mat, inc=inc, T_start=T_start,
+    energyDynamics=energyDynamics) if                                            notFictive
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
 
 protected
   Modelica.Blocks.Interfaces.RealInput E_internal;
 
+public
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(E_internal, monoLayerOpaqueNf.E);
   if not notFictive then
