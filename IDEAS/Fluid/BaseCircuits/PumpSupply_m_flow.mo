@@ -18,9 +18,12 @@ model PumpSupply_m_flow "Pump on supply duct"
       flowRegulator(
         filteredSpeed=filteredSpeed,
         riseTime=riseTime,
-        init=init,
-        motorCooledByFluid=motorCooledByFluid));
+        init=init));
 
+  replaceable parameter IDEAS.Fluid.Movers.Data.FlowControlled per
+    "Record with performance data"
+    annotation (choicesAllMatching=true,
+      Placement(transformation(extent={{60,-80},{80,-60}})));
 equation
   connect(u, flowRegulator.m_flow_in) annotation (Line(
       points={{0,108},{0,70},{0,72},{-0.2,72}},

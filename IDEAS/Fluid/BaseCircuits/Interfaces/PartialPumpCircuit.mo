@@ -3,6 +3,12 @@ model PartialPumpCircuit
 
   // Extensions ----------------------------------------------------------------
 
+  parameter Integer tauPump = 30
+    "Time constant of the pump if dynamicBalance is true" annotation(Dialog(
+                   group = "Pump parameters"));
+  parameter Boolean addPowerToMedium = false "Add heat to the medium" annotation(Dialog(
+                   group = "Pump parameters"));
+
   extends PartialFlowCircuit(redeclare Movers.BaseClasses.PartialFlowMachine
       flowRegulator(
         tau=tauPump,
@@ -10,8 +16,6 @@ model PartialPumpCircuit
         massDynamics=massDynamics,
         dynamicBalance=dynamicBalance,
         addPowerToMedium=addPowerToMedium));
-
-  extends PumpParameters;
 
   annotation (Icon(graphics={
         Ellipse(extent={{-20,80},{20,40}},lineColor={0,0,127},

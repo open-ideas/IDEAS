@@ -22,8 +22,14 @@ model PumpSupply_dp
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       motorCooledByFluid=false,
       addPowerToMedium=false,
-      allowFlowReversal=true),                  final useBalancingValve=true,
+      allowFlowReversal=true,
+      final per = per),        final useBalancingValve=true,
     balancingValve(show_T=true));
+
+  replaceable parameter IDEAS.Fluid.Movers.Data.FlowControlled per
+    "Record with performance data"
+    annotation (choicesAllMatching=true,
+      Placement(transformation(extent={{60,-80},{80,-60}})));
 
 equation
   connect(flowRegulator.P, power) annotation (Line(
