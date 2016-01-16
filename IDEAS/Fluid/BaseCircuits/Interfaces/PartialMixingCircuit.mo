@@ -31,25 +31,24 @@ protected
     final l=lSupply)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
 
-  Modelica.Blocks.Interfaces.RealInput y "Three way valve position setpoint"
-    annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,104})));
 public
   Sensors.MassFlowRate senMasFlo annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={0,10})));
+  Modelica.Blocks.Interfaces.RealInput u "Three way valve position setpoint"
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={0,110}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={0,100})));
 equation
   if not measureSupplyT then
     connect(partialThreeWayValve.port_2, port_b1);
   end if;
 
-  connect(partialThreeWayValve.y, y) annotation (Line(
-      points={{0,72},{0,104}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(partialThreeWayValve.port_2, senTemSup.port_a) annotation (Line(
       points={{10,60},{60,60}},
       color={0,127,255},
@@ -96,9 +95,14 @@ equation
           origin={0,50},
           rotation=90),
         Line(
-          points={{0,40},{0,0},{20,-40},{60,-60}},
+          points={{0,-60},{0,40}},
           color={0,127,255},
-          pattern=LinePattern.Dash)}),
+          pattern=LinePattern.Dash),
+        Ellipse(
+          extent={{-6,-54},{6,-66}},
+          lineColor={0,127,255},
+          fillColor={0,127,255},
+          fillPattern=FillPattern.Solid)}),
                                  Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-100,-100},{100,100}}), graphics));
+          extent={{-100,-100},{100,100}})));
 end PartialMixingCircuit;
