@@ -15,7 +15,7 @@ model PumpSupply_dp
   replaceable parameter IDEAS.Fluid.Movers.Data.FlowControlled per
     "Record with performance data"
     annotation (choicesAllMatching=true,
-      Placement(transformation(extent={{60,-80},{80,-60}})));
+      Placement(transformation(extent={{-100,80},{-80,100}})));
 
   //Extensions
   extends Interfaces.PartialPumpCircuit(redeclare

@@ -4,7 +4,6 @@ FlowController
 MixingCircuit_EqualPercentage
 MixingCircuit_Linear
 MixingCircuit_Tset
-ParallelPipesSplitter
 PumpSupply_dp
 PumpSupply_m_flow
 ThermostaticRadiatorValve
