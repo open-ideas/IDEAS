@@ -1,13 +1,15 @@
 within IDEAS.Fluid.BaseCircuits.Interfaces;
 model PartialPumpCircuit
 
-  // Extensions ----------------------------------------------------------------
+  // Parameters ----------------------------------------------------------------
 
   parameter Integer tauPump = 30
     "Time constant of the pump if dynamicBalance is true" annotation(Dialog(
                    group = "Pump parameters"));
   parameter Boolean addPowerToMedium = false "Add heat to the medium" annotation(Dialog(
                    group = "Pump parameters"));
+
+  // Extensions ----------------------------------------------------------------
 
   extends PartialFlowCircuit(redeclare Movers.BaseClasses.PartialFlowMachine
       flowRegulator(
