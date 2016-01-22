@@ -14,11 +14,11 @@ extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
   Fluid.Interfaces.IdealSource       idealSource(
     redeclare package Medium = Medium,
     control_m_flow=true,
-    allowFlowReversal=false)
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Fluid.FixedResistances.Pipe_HeatPort       pipe_HeatPort(
     redeclare package Medium = Medium,
-    allowFlowReversal=false,
+    allowFlowReversal=allowFlowReversal,
     dynamicBalance=false,
     m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
@@ -65,10 +65,29 @@ equation
     annotation (Line(points={{-21,60},{-40,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),
-                   graphics={Text(
-          extent={{-60,60},{60,-60}},
-          lineColor={0,128,255},
-          textString="ACH")}),                                   Diagram(
+                   graphics={
+        Rectangle(
+          extent={{-70,60},{70,-60}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
+                             Text(
+          extent={{-50,-20},{50,-60}},
+          lineColor={255,255,255},
+          textString="ACH"),
+        Rectangle(
+          extent={{-99,5},{102,-5}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{2,-5},{102,5}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid)}),                      Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
     Documentation(revisions="<html>

@@ -6,6 +6,7 @@ Modelica model environment for Integrated District Energy Assessment Simulations
 ### Current release
 
 The current release is v0.3, which has been pushed on 2 september 2015. Major changes compared to v0.2 are:
+
 1. Added code for checking conservation of energy
 2. Added options for linear / non-linear radiative heat exchange and convection for exterior and interior faces of walls and floors/ceilings. Respective correlations have been changed.
 3. Overall improvements resulting in more efficient code and less warnings.
@@ -34,5 +35,6 @@ The **IDEAS** package is licensed by [KU Leuven](http://www.kuleuven.be) and [3E
 
 ### References
 
-1. Baetens R., De Coninck R., Van Roy J., Verbruggen B., Driesen J., Helsen L., Saelens D. (2012). Assessing electrical bottlenecks at feeder level for residential net zero-energy buildings by integrated system simulation. *Applied Energy*, **96**, 74-83.
+1. Baetens, R., De Coninck, R., Jorissen, F., Picard, D., Helsen, L., Saelens, D. (2015). OpenIDEAS - An Open Framework for Integrated District Energy Simulations. Proceedings of Building Simulation 2015 - Int. Conference of the Int. Buildings Performance Simulation Association. Hyderabad (India), 7-9 December 2015.
 2. De Coninck R., Baetens R., Saelens D., Woyte A., Helsen L. (2014). Rule-based demand side management of domestic hot water production with heat pumps in zero energy neighbourhoods. *Journal of Building Performance Simulation*, **7** (4), 271-288.
+3. Baetens R., De Coninck R., Van Roy J., Verbruggen B., Driesen J., Helsen L., Saelens D. (2012). Assessing electrical bottlenecks at feeder level for residential net zero-energy buildings by integrated system simulation. *Applied Energy*, **96**, 74-83.

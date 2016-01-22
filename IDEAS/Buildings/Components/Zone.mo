@@ -177,6 +177,7 @@ end for;
       points={{-16,-20},{-18,-20},{-18,-59.4},{-1.2,-59.4}},
       color={0,0,127},
       smooth=Smooth.None));
+
       if allowFlowReversal then
   connect(airLeakage.port_a, vol.ports[4]) annotation (Line(
       points={{40,40},{-10,40}},
