@@ -11,7 +11,7 @@ record LumpedVolumeDeclarations "Declarations for lumped volumes"
   parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
     "Formulation of mass balance"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  final parameter Modelica.Fluid.Types.Dynamics substanceDynamics=energyDynamics
+  parameter Modelica.Fluid.Types.Dynamics substanceDynamics=energyDynamics
     "Formulation of substance balance"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   final parameter Modelica.Fluid.Types.Dynamics traceDynamics=energyDynamics

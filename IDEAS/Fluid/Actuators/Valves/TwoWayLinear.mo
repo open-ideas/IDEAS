@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Actuators.Valves;
 model TwoWayLinear "Two way valve with linear flow characteristics"
-  extends BaseClasses.PartialTwoWayValveKv(phi=l + y_actual*(1 - l));
+  extends BaseClasses.PartialTwoWayValveKv(phi=l + y_actual*(1 - l), showDesignFlowDirection=false);
 
 initial equation
   // Since the flow model IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow computes

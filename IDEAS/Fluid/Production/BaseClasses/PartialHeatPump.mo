@@ -220,7 +220,7 @@ equation
           rotation=90,
           thickness=0.5),
         Line(
-          points={{-14,21},{6,1},{-14,-23}},
+          points={{-14,21},{6,1},{-14,-19}},
           color={255,0,0},
           smooth=Smooth.None,
           origin={-1,-14},

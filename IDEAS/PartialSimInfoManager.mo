@@ -207,6 +207,9 @@ public
 public
   input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[nWindow]
     winBusOut(each nLay = nLayWin) if createOutputs;
+  Modelica.Blocks.Sources.RealExpression CEnv(y=0)
+    "Concentration of trace substance in surroundings"
+    annotation (Placement(transformation(extent={{-70,-58},{-50,-38}})));
 initial equation
   Etot=0;
 equation
@@ -333,11 +336,14 @@ equation
       smooth=Smooth.None));
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{20,-70},{0,-70},{0,-100}},  color={191,0,0}));
-
   connect(u_dummy.y, weaBus.dummy) annotation (Line(points={{38.7,-40},{26,-40},
           {14.05,-40},{14.05,72.05}}, color={0,0,127}));
   connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{38.7,-24},{
           14.05,-24},{14.05,72.05}}, color={0,0,127}));
+  connect(CEnv.y, weaBus.CEnv) annotation (Line(points={{-49,-48},{-32,-48},{14,
+          -48},{14,72}}, color={0,0,127}));
+  connect(XiEnv.X[1], weaBus.X_wEnv)
+    annotation (Line(points={{-9,-86},{14,-86},{14,72}}, color={0,0,127}));
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
@@ -419,6 +425,10 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+January 29, 2015, Filip Jorissen:<br/>
+Made changes for allowing a proper implementation of <code>airLeakage</code>.
+</li>
 <li>
 June 14, 2015, Filip Jorissen:<br/>
 Adjusted implementation for computing conservation of energy.

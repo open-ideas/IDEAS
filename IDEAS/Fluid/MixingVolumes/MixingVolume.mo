@@ -199,8 +199,5 @@ IDEAS.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
           fillColor={170,213,255}), Text(
           extent={{-58,14},{58,-18}},
           lineColor={0,0,0},
-          textString="V=%V"),         Text(
-          extent={{-152,100},{148,140}},
-          textString="%name",
-          lineColor={0,0,255})}));
+          textString="V=%V")}));
 end MixingVolume;
