@@ -11,6 +11,10 @@ model SlabOnGround "opaque floor on ground slab"
     annotation(Dialog(tab = "Initialization"));
   parameter Modelica.SIunits.Length PWall "Total wall perimeter";
   parameter Boolean linIntCon=sim.linIntCon
+  parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
+    "Total wall perimeter";
+  parameter Boolean linearise=true
+
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3

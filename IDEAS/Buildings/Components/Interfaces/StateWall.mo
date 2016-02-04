@@ -11,7 +11,8 @@ partial model StateWall "Partial model for building envelope components"
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
   parameter Modelica.SIunits.Power QTra_design
-    "Design heat losses at reference temperature of the boundary space";
+    "Design heat losses at reference temperature of the boundary space"
+    annotation(Dialog(tab="Design power"));
 
   ZoneBus propsBus_a(weaBus(final outputAngles=not sim.linearise), numAzi=sim.numAzi, computeConservationOfEnergy=sim.computeConservationOfEnergy) if useBus
     "Inner side (last layer)"
