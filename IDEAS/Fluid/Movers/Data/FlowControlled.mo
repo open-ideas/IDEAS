@@ -3,13 +3,11 @@ record FlowControlled
   "Generic data record for pumps and fans with prescribed m_flow or dp"
   extends Modelica.Icons.Record;
 
-  parameter
-    IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+  parameter IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
     hydraulicEfficiency(
       V_flow={0},
       eta={0.7}) "Hydraulic efficiency";
-  parameter
-    IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+  parameter IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
     motorEfficiency(
       V_flow={0},
       eta={0.7}) "Electric motor efficiency";

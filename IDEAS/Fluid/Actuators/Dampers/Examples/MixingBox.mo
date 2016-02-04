@@ -3,8 +3,7 @@ model MixingBox
   "Mixing box with constant pressure difference and varying control signal"
   extends Modelica.Icons.Example;
 
- package Medium = IDEAS.Media.Air
-    "Medium in the component"
+ package Medium = IDEAS.Media.Air "Medium in the component"
          annotation (choicesAllMatching = true);
 
   Dampers.MixingBox mixBox(
@@ -20,8 +19,8 @@ model MixingBox
     redeclare package Medium = Medium) "mixing box"
                             annotation (Placement(transformation(extent={{14,
             -22},{34,-2}})));
-    IDEAS.Fluid.Sources.Boundary_pT bouIn(             redeclare package
-      Medium = Medium, T=273.15 + 10,
+    IDEAS.Fluid.Sources.Boundary_pT bouIn(             redeclare package Medium
+      =        Medium, T=273.15 + 10,
     use_p_in=true,
     nPorts=2)                                             annotation (Placement(
         transformation(extent={{-60,2},{-40,22}})));
@@ -53,7 +52,6 @@ model MixingBox
     offset=0,
     startTime=60)
                  annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
-
 
 equation
   connect(yDam.y, mixBox.y) annotation (Line(points={{-19,50},{24,50},{24,

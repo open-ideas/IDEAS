@@ -4,8 +4,7 @@ model TemperatureDependentDensityDerivativeCheck
   extends Modelica.Icons.Example;
 
    package Medium =
-      IDEAS.Media.Specialized.Water.TemperatureDependentDensity
-    "Medium model";
+      IDEAS.Media.Specialized.Water.TemperatureDependentDensity "Medium model";
 
     Modelica.SIunits.Temperature T "Temperature";
     Modelica.SIunits.SpecificEnthalpy hLiqSym "Liquid phase enthalpy";
