@@ -2,9 +2,9 @@ within IDEAS.Interfaces.Examples;
 model building
   extends IDEAS.Interfaces.Building(
     redeclare Buildings.Examples.BaseClasses.structure building,
-    redeclare Circuits.VentilationSystems.None ventilationSystem,
+                redeclare VentilationSystems.None             ventilationSystem,
     redeclare Occupants.Standards.None occupant,
-    redeclare Circuits.HeatingSystems.None heatingSystem,
+    redeclare HeatingSystems.None                                 heatingSystem,
     redeclare BaseClasses.CausalInhomeFeeder inHomeGrid);
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

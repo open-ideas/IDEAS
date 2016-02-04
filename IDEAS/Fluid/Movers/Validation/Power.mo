@@ -19,7 +19,8 @@ model Power "Power calculation comparison among three mover types"
     annotation (Placement(transformation(extent={{40,60},{60,80}})));
 
   // Compute the actual efficiencies
-  parameter IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
+  parameter
+    IDEAS.Fluid.Movers.BaseClasses.Characteristics.efficiencyParameters
     efficiency(V_flow=per.pressure.V_flow, eta=sqrt(per.pressure.V_flow.*per.pressure.dp./
     {IDEAS.Fluid.Movers.BaseClasses.Characteristics.power(
       per=per.power,

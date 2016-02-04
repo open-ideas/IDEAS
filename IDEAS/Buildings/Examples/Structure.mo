@@ -3,7 +3,7 @@ model Structure "Example detailed building structure model"
   extends Modelica.Icons.Example;
   BaseClasses.structure structure
     annotation (Placement(transformation(extent={{-36,-20},{-6,0}})));
-  Circuits.VentilationSystems.None none(
+  VentilationSystems.None none(
     nLoads=0,
     nZones=structure.nZones,
     VZones=structure.VZones)
