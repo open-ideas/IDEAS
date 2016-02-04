@@ -9,8 +9,7 @@ model SlabOnGround "opaque floor on ground slab"
   parameter Modelica.SIunits.Temperature T_start=288.15
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
-  parameter Modelica.SIunits.Length PWall "Total wall perimeter";
-  parameter Boolean linIntCon=sim.linIntCon
+  parameter Boolean linIntCon=sim.linIntCon;
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total wall perimeter";
   parameter Boolean linearise=true
