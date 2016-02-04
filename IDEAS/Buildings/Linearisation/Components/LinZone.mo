@@ -53,7 +53,6 @@ protected
     m_flow_nominal=V/3600*n50/20,
     V=V,
     n50=n50,
-    allowFlowReversal=allowFlowReversal,
     show_T=false) if not simplifyAirModelInternal
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   IDEAS.Buildings.Components.BaseClasses.ZoneLwDistribution radDistrLw(final
@@ -98,9 +97,8 @@ public
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature if   simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-76,60},{-64,72}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor airLeakage_lin(R=1/
-        1005.45/(1.2*V/3600*n50/20)) if
-                              simplifyAirModelInternal
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor airLeakage_lin(G=1005.45
+        *V/3600*n50/20) if    simplifyAirModelInternal
     annotation (Placement(transformation(extent={{-58,58},{-42,74}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor vol_lin(C=V*1.2*1005.45
         *mSenFac, T(fixed=true, start=T_start)) if   simplifyAirModelInternal

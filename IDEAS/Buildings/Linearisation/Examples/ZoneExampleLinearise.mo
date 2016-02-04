@@ -78,6 +78,20 @@ model ZoneExampleLinearise
     A=2) annotation (Placement(transformation(extent={{-54,-26},{-44,-6}})));
   IDEAS.Buildings.Components.Shading.ShadingControl shadingControl1
     annotation (Placement(transformation(extent={{-80,-44},{-60,-24}})));
+  IDEAS.Utilities.IO.heatPortPrescribedHeatFlow heatPortPrescribedHeatFlow1
+    annotation (Placement(transformation(extent={{70,-26},{60,-16}})));
+  Modelica.Blocks.Interfaces.RealOutput TSensor1
+    "Sensor temperature of the zone, i.e. operative temeprature"
+    annotation (Placement(transformation(extent={{90,-20},{110,0}})));
+  Modelica.Blocks.Interfaces.RealOutput TSensor2
+    "Sensor temperature of the zone, i.e. operative temeprature"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+  Modelica.Blocks.Interfaces.RealInput Q_flow
+    annotation (Placement(transformation(extent={{110,-38},{88,-16}})));
+  IDEAS.Utilities.IO.heatPortPrescribedHeatFlow heatPortPrescribedHeatFlow2
+    annotation (Placement(transformation(extent={{72,-82},{62,-72}})));
+  Modelica.Blocks.Interfaces.RealInput Q_flow1
+    annotation (Placement(transformation(extent={{112,-94},{90,-72}})));
 equation
   connect(commonWall.propsBus_a, zone.propsBus[1]) annotation (Line(
       points={{-44,12},{-12,12},{-12,-4.4},{20,-4.4}},
@@ -121,6 +135,20 @@ equation
       points={{-44,-12},{-12,-12},{-12,-7.6},{20,-7.6}},
       color={255,204,51},
       thickness=0.5));
+  connect(zone.TSensor, TSensor1)
+    annotation (Line(points={{40.6,-10},{100,-10}}, color={0,0,127}));
+  connect(zone1.TSensor, TSensor2)
+    annotation (Line(points={{40.6,-60},{100,-60}}, color={0,0,127}));
+  connect(heatPortPrescribedHeatFlow1.port1, zone.gainCon) annotation (Line(
+        points={{60,-21},{54,-21},{54,-20},{46,-20},{46,-13},{40,-13}}, color={
+          191,0,0}));
+  connect(heatPortPrescribedHeatFlow1.Q_flow, Q_flow) annotation (Line(points={
+          {70.4,-17.5},{80,-17.5},{80,-27},{99,-27}}, color={0,0,127}));
+  connect(Q_flow1, heatPortPrescribedHeatFlow2.Q_flow) annotation (Line(points=
+          {{101,-83},{82,-83},{82,-73.5},{72.4,-73.5}}, color={0,0,127}));
+  connect(heatPortPrescribedHeatFlow2.port1, zone1.gainCon) annotation (Line(
+        points={{62,-77},{58,-77},{58,-78},{48,-78},{48,-63},{40,-63}}, color={
+          191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
     Documentation(revisions="<html>
