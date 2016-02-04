@@ -1,17 +1,9 @@
 within IDEAS;
-package Electric "Electrical in-home and feeder systems"
+package Electrical "Electrical in-home and feeder systems"
 import MCM = Modelica.ComplexMath;
 
 
 extends Modelica.Icons.Package;
-
-
-
-
-
-
-
-
 
 
 
@@ -40,5 +32,4 @@ annotation(Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100.0,-100.
     Line(
       origin={6.2593,48.0},
       points={{53.7407,-58.0},{53.7407,-93.0},{-66.2593,-93.0},{-66.2593,-58.0}})}));
-
-end Electric;
+end Electrical;
