@@ -17,8 +17,7 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
   final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";
   final parameter Modelica.SIunits.ThermalInsulance R = mat.R
     "Total specific thermal resistance";
-  final parameter Real Ctot =  mat.rho*mat.c*mat.d
-    "Total specific heat capacity";
+  final parameter Real Ctot =  A*mat.rho*mat.c*mat.d "Total heat capacity";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
