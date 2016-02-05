@@ -15,7 +15,10 @@ model MonoLayerOpaque "single material layer"
 
   final parameter Modelica.SIunits.ThermalInsulance R = mat.R
     "Total specific thermal resistance";
-
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+  parameter Boolean linIntCon=false
+    "Linearise interior convection inside air layers / cavities in walls";
   final parameter Boolean realLayer = (mat.d <> 0);
   final parameter Boolean airLayer = mat.gas;
 
@@ -26,8 +29,8 @@ model MonoLayerOpaque "single material layer"
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   IDEAS.Buildings.Components.BaseClasses.MonoLayerOpaqueNf monoLayerOpaqueNf(A=A, mat=mat, inc=inc, T_start=T_start,energyDynamics=energyDynamics) if realLayer and not airLayer
-
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
+
   IDEAS.Buildings.Components.BaseClasses.AirCavity airCavity(
     A=A,
     inc=inc,
@@ -35,16 +38,14 @@ model MonoLayerOpaque "single material layer"
     k=mat.k,
     dT_nominal=1,
     epsLw_a=epsLw_a,
-    epsLw_b=epsLw_b) if
+    epsLw_b=epsLw_b,
+    linearise=linIntCon) if
                      realLayer and airLayer
     annotation (Placement(transformation(extent={{-10,50},{10,30}})));
 
 protected
   Modelica.Blocks.Interfaces.RealInput E_internal;
 
-public
-  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 equation
   connect(E_internal, monoLayerOpaqueNf.E);
   if not realLayer then
@@ -59,7 +60,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
-if not realLayer then
+if not realLayer or airLayer then
   connect(port_a, port_b) annotation (Line(
       points={{-100,0},{100,0}},
       color={191,0,0},
