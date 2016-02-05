@@ -94,7 +94,7 @@ protected
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(final G=
         fraType.U_value*A*frac) if fraType.present  annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
-  Climate.Meteo.Solar.RadSolData radSolData(
+  BoundaryConditions.Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
     numAzi=sim.numAzi,

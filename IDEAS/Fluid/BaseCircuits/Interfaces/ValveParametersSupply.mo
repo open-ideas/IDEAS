@@ -1,7 +1,7 @@
 within IDEAS.Fluid.BaseCircuits.Interfaces;
 model ValveParametersSupply
 
-  parameter IDEAS.Fluid.Types.CvTypes CvDataSupply=IDEAS.Fluid.Types.CvTypes.OpPoint
+  parameter IDEAS.Fluid.Types.CvTypes CvDataSupply = IDEAS.Fluid.Types.CvTypes.OpPoint
     "Selection of flow coefficient"
    annotation(Dialog(group = "Flow Coefficient Supply Valve"));
   parameter Real KvSupply(

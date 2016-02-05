@@ -83,7 +83,7 @@ public
   Real angZen = acos(cos(lat)*cos(angDec)*cos(angHou) + sin(lat)*sin(angDec));
 
 protected
-  IDEAS.Climate.Time.SimTimes timMan(
+  IDEAS.BoundaryConditions.Climate.Time.SimTimes timMan(
     timZonSta=timZonSta,
     lon=lon,
     DST=false,
@@ -104,18 +104,17 @@ protected
     annotation (Placement(transformation(extent={{-70,-102},{-50,-82}})));
   Modelica.Blocks.Sources.RealExpression TEnv(y=Te)
     annotation (Placement(transformation(extent={{-70,-86},{-50,-66}})));
-  Climate.Meteo.Solar.BaseClasses.RelativeAirMass
-                  relativeAirMass
+  BoundaryConditions.Climate.Meteo.Solar.BaseClasses.RelativeAirMass
+    relativeAirMass
     annotation (Placement(transformation(extent={{-78,42},{-60,60}})));
-  Climate.Meteo.Solar.BaseClasses.SkyBrightness
-                skyBrightness
+  BoundaryConditions.Climate.Meteo.Solar.BaseClasses.SkyBrightness
+    skyBrightness
     annotation (Placement(transformation(extent={{-52,42},{-34,60}})));
-  Climate.Meteo.Solar.BaseClasses.SkyClearness
-               skyClearness
+  BoundaryConditions.Climate.Meteo.Solar.BaseClasses.SkyClearness skyClearness
     annotation (Placement(transformation(extent={{-78,70},{-60,88}})));
 
-  Climate.Meteo.Solar.BaseClasses.SkyBrightnessCoefficients
-                            skyBrightnessCoefficients
+  BoundaryConditions.Climate.Meteo.Solar.BaseClasses.SkyBrightnessCoefficients
+    skyBrightnessCoefficients
     annotation (Placement(transformation(extent={{-18,60},{0,78}})));
 
   Modelica.Blocks.Sources.RealExpression zenithAngle(y=angZen)
@@ -137,21 +136,21 @@ protected
   parameter SI.Angle inc[numAzi + 1]=cat(
       1,
       fill(ceilingInc,1),
-      fill(IDEAS.Constants.Wall, numAzi)) "surface inclination";
+      fill(IDEAS.Types.Tilt.Wall, numAzi)) "surface inclination";
 public
   Buildings.Components.Interfaces.WeaBus
                                      weaBus(numSolBus=numAzi + 1)
     annotation (Placement(transformation(extent={{4,62},{24,82}})));
-  Climate.Meteo.Solar.ShadedRadSol[
-                             numAzi+1] radSol(
+  BoundaryConditions.Climate.Meteo.Solar.ShadedRadSol[numAzi + 1] radSol(
     inc=inc,
     azi=cat(
         1,
-        fill(ceilingInc,1),
-        fill(offsetAzi, numAzi) + (0:numAzi-1)*Modelica.Constants.pi*2/numAzi),
+        fill(ceilingInc, 1),
+        fill(offsetAzi, numAzi) + (0:numAzi - 1)*Modelica.Constants.pi*2/numAzi),
+
     each numAzi=numAzi,
     each lat=lat)
-             annotation (Placement(transformation(extent={{44,54},{64,74}})));
+    annotation (Placement(transformation(extent={{44,54},{64,74}})));
 public
   Modelica.Blocks.Sources.RealExpression TskyPow4Expr(y=TskyPow4)
     "Power 4 of sky temperature"
@@ -166,7 +165,7 @@ public
     annotation (Placement(transformation(extent={{66,-20},{40,0}})));
   parameter SI.Angle offsetAzi=0 "Offset for the azimuth angle series"
     annotation(Dialog(tab="Incidence angles"));
-  parameter SI.Angle ceilingInc = IDEAS.Constants.Ceiling
+  parameter SI.Angle ceilingInc = IDEAS.Types.Tilt.Ceiling
     "Ceiling inclination angle"
     annotation(Dialog(tab="Incidence angles"));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=10e6)

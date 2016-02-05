@@ -12,8 +12,14 @@ model PumpSupply_dp
     "Type of initialization (no init/steady state/initial state/initial output)"
     annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=filteredSpeed));
 
+  replaceable parameter IDEAS.Fluid.Movers.Data.FlowControlled per
+    "Record with performance data"
+    annotation (choicesAllMatching=true,
+      Placement(transformation(extent={{-100,80},{-80,100}})));
+
   //Extensions
-  extends Interfaces.PartialPumpCircuit(redeclare Movers.FlowMachine_dp
+  extends Interfaces.PartialPumpCircuit(redeclare
+      IDEAS.Fluid.Movers.FlowControlled_dp
       flowRegulator(
       filteredSpeed=filteredSpeed,
       riseTime=riseTime,
@@ -21,7 +27,9 @@ model PumpSupply_dp
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       motorCooledByFluid=false,
       addPowerToMedium=false,
-      allowFlowReversal=true),                  final useBalancingValve=true,
+      allowFlowReversal=true,
+      final per = per),
+    final useBalancingValve=true,
     balancingValve(show_T=true));
 
 equation

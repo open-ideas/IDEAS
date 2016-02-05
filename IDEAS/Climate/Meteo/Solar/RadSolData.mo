@@ -10,7 +10,7 @@ model RadSolData "Selects or generates correct solar data for this surface"
 
   parameter Boolean solDataInBus=
    isRoof or
-    (inc==IDEAS.Constants.Wall
+    (inc==IDEAS.Types.Tilt.Wall
       and abs(sin((azi-offsetAzi)*numAzi))<0.05)
     "True if solBus contains correct data for this surface"
     annotation(Evaluate=true);
