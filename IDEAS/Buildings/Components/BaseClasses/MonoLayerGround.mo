@@ -38,6 +38,7 @@ initial equation
       der(T)=zeros(nSta);
   end if;
 
+
 equation
   // connectors
   port_a.Q_flow = +Q_flow[1];

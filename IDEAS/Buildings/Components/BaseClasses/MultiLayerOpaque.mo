@@ -6,9 +6,11 @@ model MultiLayerOpaque "multiple material layers in series"
   parameter Integer nLay(min=1) "number of layers";
   parameter IDEAS.Buildings.Data.Interfaces.Material[nLay] mats
     "array of layer materials";
-  parameter Integer locGain(min=1) "location of the internal gain";
+  parameter Integer nGain = 0 "Number of gains";
+  parameter Integer locGain[max(nGain,1)](each min=1)
+    "location of the internal gains";
 
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.SIunits.Temperature[nLay] T_start=fill(293.15,nLay)
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
@@ -16,16 +18,18 @@ model MultiLayerOpaque "multiple material layers in series"
   IDEAS.Buildings.Components.BaseClasses.MonoLayerOpaque[nLay] nMat(
     each final A=A,
     each final inc=inc,
-    each final T_start=T_start,
+    each energyDynamics=energyDynamics,
+    final T_start=T_start,
     final mat=mats,
-    each energyDynamics=energyDynamics) "layers";
+    epsLw_a=cat(1, {0.85}, mats[1:nLay-1].epsLw_b),
+    epsLw_b=cat(1, mats[2:nLay].epsLw_a, {0.85})) "layers";
 
   final parameter Modelica.SIunits.ThermalInsulance R=sum(nMat.R)
     "total specific thermal resistance";
 
   Modelica.SIunits.Energy E = sum(nMat.E);
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain[nGain]
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
@@ -57,7 +61,9 @@ equation
     connect(nMat[j].port_b, nMat[j + 1].port_a);
   end for;
 
-  connect(nMat[locGain].port_b, port_gain);
+  for i in 1:nGain loop
+    connect(nMat[locGain[i]].port_b, port_gain[i]);
+  end for;
   connect(port_b, nMat[nLay].port_b);
 
   iEpsLw_a = mats[1].epsLw_a;

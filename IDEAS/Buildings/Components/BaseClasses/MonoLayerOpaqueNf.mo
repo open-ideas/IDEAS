@@ -2,7 +2,6 @@ within IDEAS.Buildings.Components.BaseClasses;
 model MonoLayerOpaqueNf "Non-fictive single material layer"
 
   parameter Modelica.SIunits.Area A "Layer area";
-  parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Angle inc "Inclination";
   parameter Integer nStaMin= 2 "Minimum number of states per layer";
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
@@ -10,8 +9,8 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start value of temperature"
-    annotation(Dialog(tab = "Initialization"));
+    "Start temperature for each of the states";
+  parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
 
   final parameter Boolean present = mat.d <> 0;
   final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";

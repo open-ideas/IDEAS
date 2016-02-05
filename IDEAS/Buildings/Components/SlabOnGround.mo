@@ -4,7 +4,7 @@ model SlabOnGround "opaque floor on ground slab"
   extends IDEAS.Buildings.Components.Interfaces.StateWallNoSol(
     QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes),
     Qgai(y=layMul.port_a.Q_flow
-           + (if sim.openSystemConservationOfEnergy then 0 else port_emb.Q_flow)),
+           + (if sim.openSystemConservationOfEnergy then 0 else sum(port_emb.Q_flow))),
     E(y=layMul.E));
   parameter Modelica.SIunits.Temperature T_start=288.15
     "Start value of temperature"
@@ -12,17 +12,25 @@ model SlabOnGround "opaque floor on ground slab"
   parameter Boolean linIntCon=sim.linIntCon;
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total wall perimeter";
+  parameter Modelica.SIunits.Temperature TeAvg = 273.15+10.8
+    "Annual average outdoor temperature";
+  parameter Modelica.SIunits.Temperature TiAvg = 273.15+22
+    "Annual average indoor temperature";
+  parameter Modelica.SIunits.TemperatureDifference dTeAvg = 4
+    "Amplitude of variation of monthly average outdoor temperature";
+  parameter Modelica.SIunits.TemperatureDifference dTiAvg = 2
+    "Amplitude of variation of monthly average indoor temperature";
   parameter Boolean linearise=true
-
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
+
   parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb[constructionType.nGain]
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  parameter Modelica.SIunits.HeatFlowRate Qm = UEqui*AWall*(22 - 9) - Lpi*4*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*9*cos(2*3.1415/12*(m - 1 - beta))
+  Modelica.SIunits.HeatFlowRate Qm = UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta))
     "Two-dimensionl correction for edge flow";
 
 //Calculation of heat loss based on ISO 13370
@@ -44,7 +52,7 @@ protected
   final parameter Real delta=sqrt(3.15*10^7*ground1.k/3.14/ground1.rho/ground1.c);
   final parameter Real Lpi=AWall*ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
-  parameter Integer m = 7;
+  Real m = sim.timCal/3.1536e7*12 "time in months";
 
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
     final A=AWall,
@@ -52,8 +60,9 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=T_start,
-    energyDynamics=energyDynamics)
+    energyDynamics=energyDynamics,
+    final nGain=constructionType.nGain,
+    T_start=ones(constructionType.nLay)*T_start)
     "Declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon(
@@ -69,8 +78,8 @@ protected
     final nLay=3,
     final mats={ground1,ground2,ground3},
     final locGain=1,
-    T_start=T_start,
-    energyDynamics=energyDynamics)
+    energyDynamics=energyDynamics,
+    final T_start={TeAvg, TeAvg, TeAvg})
     "Declaration of array of resistances and capacitances for ground simulation"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow periodicFlow(T_ref=284.15)
@@ -80,12 +89,17 @@ protected
         origin={-30,-8})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
                                                          fixedTemperature
+               annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow adiabaticBoundary(Q_flow=0,
+      T_ref=285.15)
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  Modelica.Blocks.Math.Gain              QmExp(k=-Qm) "Real expression for Qm"
-    annotation (Placement(transformation(extent={{-70,-2},{-50,18}})));
 public
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
     "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{-32,12},{-12,32}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y=-Qm)
+    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 equation
 
   connect(layMul.port_b, intCon.port_a) annotation (Line(
@@ -113,7 +127,7 @@ equation
       points={{-10,-30},{-14,-30},{-14,-8},{-20,-8}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(fixedTemperature.port, layGro.port_a) annotation (Line(
+  connect(adiabaticBoundary.port, layGro.port_a) annotation (Line(
       points={{-50,-30},{-40,-30}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -145,20 +159,18 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(QmExp.y, periodicFlow.Q_flow)
-    annotation (Line(points={{-49,8},{-48,8},{-48,-8},{-40,-8}},
-                                                 color={0,0,127}));
-  connect(QmExp.u, propsBus_a.weaBus.dummy) annotation (Line(points={{-72,8},{
-          -80,8},{-80,39.9},{50.1,39.9}}, color={0,0,127}), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   connect(fixedTemperature.T, propsBus_a.weaBus.TGroundDes) annotation (Line(
         points={{-72,-30},{-90,-30},{-90,39.9},{50.1,39.9}}, color={0,0,127}),
       Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
+  connect(realExpression.y, product.u1) annotation (Line(points={{-59,30},{
+          -47.5,30},{-47.5,28},{-34,28}}, color={0,0,127}));
+  connect(product.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-34,16},
+          {-84,16},{-84,39.9},{50.1,39.9}}, color={0,0,127}));
+  connect(product.y, periodicFlow.Q_flow) annotation (Line(points={{-11,22},{
+          -12,22},{-12,2},{-12,4},{-64,4},{-64,-8},{-40,-8}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={

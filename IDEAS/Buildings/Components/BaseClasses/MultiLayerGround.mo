@@ -8,7 +8,7 @@ model MultiLayerGround "multiple ground layers in series"
     "array of layer materials";
   parameter Integer locGain(min=1) "location of the internal gain";
 
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.SIunits.Temperature[nLay] T_start=fill(293.15,nLay)
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
 
@@ -19,8 +19,8 @@ model MultiLayerGround "multiple ground layers in series"
     each final A=A,
     each final inc=inc,
     final mat=mats,
-    each T_start = T_start,
-    each energyDynamics=energyDynamics) "layers";
+    each energyDynamics=energyDynamics,
+    final T_start=T_start) "layers";
 
   final parameter Modelica.SIunits.ThermalInsulance R=sum(nMat.R)
     "total specific thermal resistance";
