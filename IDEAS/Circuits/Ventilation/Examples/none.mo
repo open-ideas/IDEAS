@@ -29,8 +29,6 @@ replaceable package Medium =      IDEAS.Media.Air;
     plugFeeder(v(re(start=230), im(start=0))) if not standAlone
     "Electricity connection to the district feeder"
     annotation (Placement(transformation(extent={{78,-10},{98,10}})));
-  inner Modelica.Fluid.System system
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   inner SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
@@ -60,7 +58,7 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(structure.TSensor, none.TSensor) annotation (Line(
-      points={{-47.4,-36},{-36,-36},{-36,-6},{-28.4,-6}},
+      points={{-47.4,-36},{-36,-36},{-36,-6},{-28.2,-6}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
