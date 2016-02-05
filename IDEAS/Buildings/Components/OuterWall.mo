@@ -56,7 +56,7 @@ protected
     annotation (Placement(transformation(extent={{-58,-32},{-50,-24}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
     annotation (Placement(transformation(extent={{80,0},{60,20}})));
-  Climate.Meteo.Solar.RadSolData radSolData(
+  BoundaryConditions.Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
     numAzi=sim.numAzi,
