@@ -30,13 +30,14 @@ algorithm
       "\\",
       "/"));
 
+  Modelica.Utilities.Streams.print("Generated sha key: " + sha);
  //Creation of a folder .BfData in the simulation folder
   Modelica.Utilities.Files.createDirectory(".BfData");
 
   pathSave := ".BfData/" + sha;
   // --------------- Check if the short term response (TResSho) needs to be calculated or loaded
   if not Modelica.Utilities.Files.exist(pathSave + "ShoTermData.mat") then
-
+    Modelica.Utilities.Streams.print("Storing sha: " + sha);
     ShortTimeResponseHX(
             soi=soi,
             fil=fil,
@@ -45,6 +46,7 @@ algorithm
 
     existShoTerRes := false;
   else
+    Modelica.Utilities.Streams.print("Sha already exists: " + sha);
     existShoTerRes := true;
   end if;
 

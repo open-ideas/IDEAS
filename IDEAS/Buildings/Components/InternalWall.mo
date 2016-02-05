@@ -1,11 +1,10 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
 
-
   extends IDEAS.Buildings.Components.Interfaces.StateWallNoSol(
-	incExp(y=inc +
-	          Modelica.Constants.pi), aziExp(y=azi + Modelica.Constants.pi),
-	final QTra_design=U_value*AWall*(TRef_a - TRef_b),
+ incExp(y=inc +
+           Modelica.Constants.pi), aziExp(y=azi + Modelica.Constants.pi),
+ final QTra_design=U_value*AWall*(TRef_a - TRef_b),
     E(y=layMul.E),
       Qgai(y=if sim.openSystemConservationOfEnergy then 0 else sum(port_emb.Q_flow)));
 
@@ -13,33 +12,40 @@ model InternalWall "interior opaque wall between two zones"
     "Thermal insulation thickness"
     annotation (Dialog(group="Construction details"));
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation (Dialog(tab="Initialization"));
 
   parameter Modelica.SIunits.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-                                                                                               annotation (Dialog(group="Design heat loss"));
-  parameter Boolean linearise_a=true
-    "= true, if convective heat transfer should be linearised"
-    annotation(Dialog(tab="Convection"));
+    annotation (Dialog(group="Design heat loss"));
+  parameter Boolean linIntCon_a=sim.linIntCon
+    "= true, if convective heat transfer should be linearised at port a"
+    annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Convection"));
-  parameter Boolean linearise_b=true
-    "= true, if convective heat transfer should be linearised"
-    annotation(Dialog(tab="Convection"));
+    annotation (Dialog(tab="Convection"));
+  parameter Boolean linIntCon_b=sim.linIntCon
+    "= true, if convective heat transfer should be linearised at port b"
+    annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_b=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Convection"));
+    annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.Temperature TRef_b=291.15
     "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
-                                                                                               annotation (Dialog(group="Design heat loss"));
+    annotation (Dialog(group="Design heat loss"));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb[constructionType.nGain]
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Interfaces.ZoneBus propsBus_b(numAzi=sim.numAzi,
-    computeConservationOfEnergy=sim.computeConservationOfEnergy)
-    "Outer side (1st layer)"
-        annotation (Placement(transformation(extent={{-20,-20},{20,20}},
+  Interfaces.ZoneBus propsBus_b(
+    numAzi=sim.numAzi,
+    computeConservationOfEnergy=sim.computeConservationOfEnergy,
+    weaBus(final outputAngles=not sim.linearise)) "Outer side (1st layer)"
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-50,40})));
 
@@ -50,15 +56,15 @@ protected
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_b(
     final A=AWall,
     final inc=inc,
-    linearise=linearise_b,
-    dT_nominal=dT_nominal_b)
+    dT_nominal=dT_nominal_b,
+    linearise=linIntCon_b or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{-20,-40},{-40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.InteriorConvection intCon_a(
     final A=AWall,
     final inc=inc + Modelica.Constants.pi,
-    linearise=linearise_a,
-    dT_nominal=dT_nominal_a)
+    dT_nominal=dT_nominal_a,
+    linearise=linIntCon_a or sim.linearise)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   IDEAS.Buildings.Components.BaseClasses.MultiLayerOpaque layMul(
@@ -66,12 +72,14 @@ protected
     final nLay=constructionType.nLay,
     final mats=constructionType.mats,
     final locGain=constructionType.locGain,
-    T_start=ones(constructionType.nLay)*T_start,
+    energyDynamics=energyDynamics,
     final inc=inc,
-    final nGain=constructionType.nGain)
+    final nGain=constructionType.nGain,
+    T_start=ones(constructionType.nLay)*T_start)
     "declaration of array of resistances and capacitances for wall simulation"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
-  Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design)  annotation (Placement(transformation(extent={{-16,36},{-36,56}})));
+  Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design)
+    annotation (Placement(transformation(extent={{-16,36},{-36,56}})));
   //Negative, because it's losses from zone side b to zone side a, oposite of calculation of QTra_design
 
   Modelica.Blocks.Sources.RealExpression incExp1(y=inc) "Inclination angle"
@@ -187,11 +195,11 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(incExp1.y, propsBus_b.inc) annotation (Line(
-      points={{-69,80},{-50,80},{-50,40}},
+      points={{-69,80},{-50.1,80},{-50.1,40.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(aziExp1.y, propsBus_b.azi) annotation (Line(
-      points={{-69,64},{-60,64},{-60,40},{-50,40}},
+      points={{-69,64},{-60,64},{-60,40.1},{-50.1,40.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Qgai_b.port, propsBus_b.Qgai) annotation (Line(points={{-82,34},{-66,
@@ -202,7 +210,7 @@ equation
     annotation (Line(points={{-102,52},{-105,52}}, color={0,0,127}));
 
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false,extent={{-50,-100},{50,100}}),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}}),
         graphics={
         Rectangle(
           extent={{-10,80},{10,-70}},
@@ -235,7 +243,7 @@ equation
           smooth=Smooth.None,
           color={0,0,0},
           thickness=0.5)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-50,-100},{50,
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,
             100}})),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">General description</font></h4></p>

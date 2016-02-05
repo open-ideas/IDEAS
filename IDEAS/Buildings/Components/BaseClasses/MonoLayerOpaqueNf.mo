@@ -3,17 +3,28 @@ model MonoLayerOpaqueNf "Non-fictive single material layer"
 
   parameter Modelica.SIunits.Area A "Layer area";
   parameter Modelica.SIunits.Angle inc "Inclination";
+  parameter Integer nStaMin= 2 "Minimum number of states per layer";
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
-  parameter Integer nStaMin(min=1) = 2 "Minimum number of states";
 
   final parameter Boolean present = mat.d <> 0;
-  final parameter Integer nSta=max(nStaMin, mat.nSta) "Number of states";
-  final parameter Real R = mat.R "Total specific thermal resistance";
-  final parameter Modelica.SIunits.HeatCapacity Ctot =  A*mat.rho*mat.c*mat.d
-    "Total heat capacity";
-  Modelica.Blocks.Interfaces.RealOutput E(unit="J")= sum(T.*C);
+  final parameter Integer nSta=max(mat.nSta,nStaMin) "Number of states";
+  final parameter Modelica.SIunits.ThermalInsulance R = mat.R
+    "Total specific thermal resistance";
+  final parameter Real Ctot =  A*mat.rho*mat.c*mat.d "Total heat capacity";
+
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
+
+  Modelica.Blocks.Interfaces.RealOutput E(unit="J")=sum(T.*C);
 
 protected
   final parameter Modelica.SIunits.ThermalConductance[max(nSta-1,1)] G = fill(max(nSta-1,1)*A/R,max(nSta-1,1));
@@ -23,23 +34,24 @@ protected
     else cat(1,{0.5}, ones(nSta-2), {0.5})/(nSta-1));
   final parameter Real[nSta] Cinv(unit="K/J") = ones(nSta)./C
     "Dummy parameter for efficiently handling check for division by zero";
-  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
+
   Modelica.SIunits.HeatFlowRate[max(nSta-1,1)] Q_flow
     "Heat flow rate from state i to i-1";
 
-public
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-
 initial equation
+  if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
+      T=T_start*ones(nSta);
+  elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+      der(T)=zeros(nSta);
+  end if;
+
   T = ones(nSta)*T_start;
   assert(nSta>=1, "Number of states needs to be higher than zero.");
   assert(abs(sum(C)-A*mat.rho*mat.c*mat.d)<1e-6, "Verification error in MonLayerOpaqueNf");
   assert(abs(sum(ones(size(G,1))./G)-R/A)<1e-6, "Verification error in MonLayerOpaqueNf");
+
 equation
-  port_a.T=T[1];
+   port_a.T=T[1];
 
   if nSta > 1 then
     der(T[1])=(port_a.Q_flow-Q_flow[1])*Cinv[1];

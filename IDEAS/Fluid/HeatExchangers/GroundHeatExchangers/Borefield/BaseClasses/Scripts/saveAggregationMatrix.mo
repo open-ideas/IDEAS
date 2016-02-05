@@ -40,17 +40,18 @@ protected
 algorithm
   // --------------- Generate SHA-code and path
 
-  sha := shaBorefieldRecords(
-    soiPath=Modelica.Utilities.Strings.replace(
-      soi.pathCom,
-      "\\",
-      "/"), filPath=Modelica.Utilities.Strings.replace(
-      fil.pathCom,
-      "\\",
-      "/"),genPath=Modelica.Utilities.Strings.replace(
-      gen.pathCom,
-      "\\",
-      "/"));
+  sha := "23033343426040632479047739265712832237839644947988569128960";
+//   sha := shaBorefieldRecords(
+//     soiPath=Modelica.Utilities.Strings.replace(
+//       soi.pathCom,
+//       "\\",
+//       "/"), filPath=Modelica.Utilities.Strings.replace(
+//       fil.pathCom,
+//       "\\",
+//       "/"),genPath=Modelica.Utilities.Strings.replace(
+//       gen.pathCom,
+//       "\\",
+//       "/"));
 
  //creation of a folder .BfData in the simulation folder
   Modelica.Utilities.Files.createDirectory(".BfData");

@@ -21,7 +21,29 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy = false
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
-
+  parameter Boolean linIntCon=true
+    "= true, if interior convective heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linExtCon=false
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linIntRad=true
+    "= true, if interior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
+  parameter Boolean linExtRad=false
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
+  parameter Boolean linearise = false "Linearises building model equations"
+    annotation(Dialog(tab="Linearisation"));
+  parameter Boolean createOutputs = false
+    "Creates output connections when linearising windows"
+    annotation(Dialog(tab="Linearisation"));
+  parameter Integer nWindow = 1
+    "Number of windows in the to be linearised model"
+    annotation(Dialog(tab="Linearisation"));
+  parameter Integer nLayWin= 3
+    "Number of window layers in the to be linearised model; should be maximum of all windows"
+    annotation(Dialog(tab="Linearisation"));
   parameter Modelica.SIunits.Energy Emax = 1
     "Error bound for violation of conservation of energy"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = strictConservationOfEnergy));
@@ -140,7 +162,8 @@ protected
       fill(IDEAS.Constants.Wall, numAzi)) "surface inclination";
 public
   Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1)
+                                     weaBus(numSolBus=numAzi + 1, final
+      outputAngles=not linearise)
     annotation (Placement(transformation(extent={{4,62},{24,82}})));
   Climate.Meteo.Solar.ShadedRadSol[
                              numAzi+1] radSol(
@@ -150,7 +173,8 @@ public
         fill(ceilingInc,1),
         fill(offsetAzi, numAzi) + (0:numAzi-1)*Modelica.Constants.pi*2/numAzi),
     each numAzi=numAzi,
-    each lat=lat)
+    each lat=lat,
+    each final outputAngles=not linearise)
              annotation (Placement(transformation(extent={{44,54},{64,74}})));
 public
   Modelica.Blocks.Sources.RealExpression TskyPow4Expr(y=TskyPow4)
@@ -162,8 +186,11 @@ public
   Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
     "Exterior convective heat transfer coefficient"
     annotation (Placement(transformation(extent={{66,24},{40,44}})));
-  Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
-    annotation (Placement(transformation(extent={{66,-20},{40,0}})));
+
+  Modelica.Blocks.Sources.RealExpression TGround(y=TdesGround)
+    annotation (Placement(transformation(extent={{66,-34},{40,-14}})));
+  Modelica.Blocks.Sources.RealExpression u_dummy(y=1)
+    annotation (Placement(transformation(extent={{66,-50},{40,-30}})));
   parameter SI.Angle offsetAzi=0 "Offset for the azimuth angle series"
     annotation(Dialog(tab="Incidence angles"));
   parameter SI.Angle ceilingInc = IDEAS.Constants.Ceiling
@@ -178,6 +205,8 @@ public
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
 public
+  input IDEAS.Buildings.Linearisation.Interfaces.WindowBus[nWindow]
+    winBusOut(each nLay = nLayWin) if createOutputs;
   Modelica.Blocks.Sources.RealExpression CEnv(y=0)
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{-70,-58},{-50,-38}})));
@@ -188,7 +217,11 @@ equation
     assert(abs(Etot)<Emax, "Conservation of energy violation > Emax J!");
   end if;
 
-  der(Qint) = Qgai.Q_flow;
+  if not linearise then
+    der(Qint) = Qgai.Q_flow;
+  else
+    Qint = 0;
+  end if;
   Etot=  Qint-E.E;
 
   connect(TEnv.y,XiEnv. T) annotation (Line(
@@ -296,10 +329,6 @@ equation
       points={{38.7,34},{14.05,34},{14.05,72.05}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(TdesExpr.y, weaBus.Tdes) annotation (Line(
-      points={{38.7,-10},{14.05,-10},{14.05,72.05}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(radSol.solBus, weaBus.solBus) annotation (Line(
       points={{64,64},{74,64},{74,50},{14.05,50},{14.05,72.05}},
       color={255,204,51},
@@ -307,7 +336,10 @@ equation
       smooth=Smooth.None));
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{20,-70},{0,-70},{0,-100}},  color={191,0,0}));
-
+  connect(u_dummy.y, weaBus.dummy) annotation (Line(points={{38.7,-40},{26,-40},
+          {14.05,-40},{14.05,72.05}}, color={0,0,127}));
+  connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{38.7,-24},{
+          14.05,-24},{14.05,72.05}}, color={0,0,127}));
   connect(CEnv.y, weaBus.CEnv) annotation (Line(points={{-49,-48},{-32,-48},{14,
           -48},{14,72}}, color={0,0,127}));
   connect(XiEnv.X[1], weaBus.X_wEnv)
@@ -388,8 +420,8 @@ equation
           textStyle={TextStyle.Italic},
           fontName="Bookman Old Style",
           textString="i")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}})),
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>

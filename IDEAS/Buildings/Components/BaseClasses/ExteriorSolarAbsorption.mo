@@ -2,7 +2,7 @@ within IDEAS.Buildings.Components.BaseClasses;
 model ExteriorSolarAbsorption
   "shortwave radiation absorption on an exterior surface"
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Blocks.Interfaces.RealInput solDir
     "direct solar illuminance on surface se"

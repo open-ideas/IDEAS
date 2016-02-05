@@ -225,6 +225,7 @@ block ReaderTMY3 "Reader for TMY3 weather data"
 
   constant Real epsCos = 1e-6 "Small value to avoid division by 0";
 
+
   Modelica.Blocks.Tables.CombiTable1Ds datRea1(
     final tableOnFile=true,
     tableName="tab1",
@@ -232,6 +233,7 @@ block ReaderTMY3 "Reader for TMY3 weather data"
     final smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
     final columns=8:11) "Data reader"
     annotation (Placement(transformation(extent={{-80,160},{-60,180}})));
+
   Modelica.Blocks.Tables.CombiTable1Ds datRea(
     final tableOnFile=true,
     tableName="tab1",
@@ -240,6 +242,7 @@ block ReaderTMY3 "Reader for TMY3 weather data"
     final columns={2,3,4,5,6,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,
         28,29,30}) "Data reader"
     annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
+
 protected
   IDEAS.BoundaryConditions.WeatherData.BaseClasses.CheckTemperature
     cheTemDryBul "Check dry bulb temperature "

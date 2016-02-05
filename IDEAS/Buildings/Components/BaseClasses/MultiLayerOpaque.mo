@@ -10,17 +10,22 @@ model MultiLayerOpaque "multiple material layers in series"
   parameter Integer locGain[max(nGain,1)](each min=1)
     "location of the internal gains";
 
-  parameter Modelica.SIunits.Temperature T_start[nLay]=ones(nLay)*293.15
-    "Start temperature for each of the layers";
-
+  parameter Modelica.SIunits.Temperature[nLay] T_start=fill(293.15,nLay)
+    "Start value of temperature"
+    annotation(Dialog(tab = "Initialization"));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+    "Formulation of energy balance" annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   IDEAS.Buildings.Components.BaseClasses.MonoLayerOpaque[nLay] nMat(
     each final A=A,
     each final inc=inc,
+    each energyDynamics=energyDynamics,
     final T_start=T_start,
     final mat=mats,
+    each linIntCon=linIntCon,
     epsLw_a=cat(1, {0.85}, mats[1:nLay-1].epsLw_b),
     epsLw_b=cat(1, mats[2:nLay].epsLw_a, {0.85})) "layers";
-
+  parameter Boolean linIntCon=false
+    "Linearise interior convection inside air layers / cavities in walls";
   final parameter Modelica.SIunits.ThermalInsulance R=sum(nMat.R)
     "total specific thermal resistance";
 
@@ -29,9 +34,9 @@ model MultiLayerOpaque "multiple material layers in series"
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain[nGain]
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput iEpsLw_b
     "output of the interior emissivity for radiative heat losses"
