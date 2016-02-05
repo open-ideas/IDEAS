@@ -20,11 +20,11 @@ protected
   IDEAS.Buildings.Components.OuterWall[4] wall(
     redeclare final parameter Data.Constructions.LightWall_195 constructionType,
     redeclare final parameter Data.Insulation.fiberglass insulationType,
-    final azi={IDEAS.Constants.North,IDEAS.Constants.East,IDEAS.Constants.South,
-        IDEAS.Constants.West},
+    final azi={IDEAS.Types.Azimuth.N,IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,
+        IDEAS.Types.Azimuth.W},
     final insulationThickness={0.066,0.066,0.066,0.066},
-    final inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall,
-        IDEAS.Constants.Wall},
+    final inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,
+        IDEAS.Types.Tilt.Wall},
     final AWall={21.6,16.2,21.6,16.2})
                                annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -36,8 +36,8 @@ protected
     redeclare final parameter Data.Insulation.insulation insulationType,
     final insulationThickness=1.003,
     final AWall=48,
-    final inc=IDEAS.Constants.Floor,
-    final azi=IDEAS.Constants.South) annotation (Placement(transformation(
+    final inc=IDEAS.Types.Tilt.Floor,
+    final azi=IDEAS.Types.Azimuth.S) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-19,-14})));
@@ -46,8 +46,8 @@ protected
     redeclare final parameter Data.Insulation.fiberglass insulationType,
     final insulationThickness=0.1118,
     final AWall=48,
-    final inc=IDEAS.Constants.Ceiling,
-    final azi=IDEAS.Constants.South) annotation (Placement(transformation(
+    final inc=IDEAS.Types.Tilt.Ceiling,
+    final azi=IDEAS.Types.Azimuth.S) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-79,-14})));

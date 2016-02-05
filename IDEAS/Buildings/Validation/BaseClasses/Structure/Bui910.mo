@@ -14,10 +14,10 @@ protected
     annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
   IDEAS.Buildings.Components.OuterWall[4] wall(
     final AWall={21.6,16.2,9.6,16.2},
-    final azi={IDEAS.Constants.North,IDEAS.Constants.East,IDEAS.Constants.South,
-        IDEAS.Constants.West},
-    final inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall,
-        IDEAS.Constants.Wall},
+    final azi={IDEAS.Types.Azimuth.N,IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,
+        IDEAS.Types.Azimuth.W},
+    final inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,
+        IDEAS.Types.Tilt.Wall},
     redeclare final parameter Data.Constructions.HeavyWall constructionType,
     redeclare final parameter Data.Insulation.foaminsulation insulationType,
     final insulationThickness={0.0615,0.0615,0.0615,0.0615}) annotation (
@@ -31,16 +31,16 @@ protected
     redeclare final parameter Data.Insulation.insulation insulationType,
     final insulationThickness=1.003,
     final AWall=48,
-    final inc=IDEAS.Constants.Floor,
-    final azi=IDEAS.Constants.South) annotation (Placement(transformation(
+    final inc=IDEAS.Types.Tilt.Floor,
+    final azi=IDEAS.Types.Azimuth.S) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-19,-14})));
   IDEAS.Buildings.Components.Window[2] win(
     final A={6,6},
     redeclare final parameter Data.Glazing.GlaBesTest glazing,
-    final inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall},
-    final azi={IDEAS.Constants.South,IDEAS.Constants.South},
+    final inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall},
+    final azi={IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.S},
     redeclare replaceable IDEAS.Buildings.Components.Shading.Overhang shaType(
       each hWin=2.0,
       each wWin=3.0,
@@ -59,8 +59,8 @@ protected
     redeclare final parameter Data.Insulation.fiberglass insulationType,
     final insulationThickness=0.1118,
     final AWall=48,
-    final inc=IDEAS.Constants.Ceiling,
-    final azi=IDEAS.Constants.South) annotation (Placement(transformation(
+    final inc=IDEAS.Types.Tilt.Ceiling,
+    final azi=IDEAS.Types.Azimuth.S) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-79,-14})));
