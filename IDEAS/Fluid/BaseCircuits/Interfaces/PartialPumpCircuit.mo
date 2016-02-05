@@ -1,6 +1,14 @@
 within IDEAS.Fluid.BaseCircuits.Interfaces;
 model PartialPumpCircuit
 
+  // Parameters ----------------------------------------------------------------
+
+  parameter Integer tauPump = 30
+    "Time constant of the pump if dynamicBalance is true" annotation(Dialog(
+                   group = "Pump parameters"));
+  parameter Boolean addPowerToMedium = false "Add heat to the medium" annotation(Dialog(
+                   group = "Pump parameters"));
+
   // Extensions ----------------------------------------------------------------
 
   extends PartialFlowCircuit(redeclare Movers.BaseClasses.PartialFlowMachine
@@ -11,11 +19,9 @@ model PartialPumpCircuit
         dynamicBalance=dynamicBalance,
         addPowerToMedium=addPowerToMedium));
 
-  extends PumpParameters;
-
   annotation (Icon(graphics={
         Ellipse(extent={{-20,80},{20,40}},lineColor={0,0,127},
-          fillColor={0,128,255},
+          fillColor={0,127,255},
           fillPattern=FillPattern.Solid),
         Line(
           points={{0,94},{4,80},{0,64}},

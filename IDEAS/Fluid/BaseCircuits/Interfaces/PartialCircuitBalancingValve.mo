@@ -6,12 +6,6 @@ partial model PartialCircuitBalancingValve
   extends ValveParametersReturn;
   extends PartialBaseCircuit( pipeReturn(dp_nominal=0));
 
-  // Parameter -----------------------------------------------------------------
-
-  parameter Boolean useBalancingValve=false
-    "Set to true to include a balancing valve"
-    annotation(Dialog(group = "Settings"));
-
   // Components ----------------------------------------------------------------
 
 //protected

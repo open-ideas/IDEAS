@@ -81,7 +81,12 @@ equation
           origin={0,50},
           rotation=90),
         Line(
-          points={{0,40},{0,0},{60,0},{60,-60}},
-          color={0,0,255},
-          smooth=Smooth.None)}));
+          points={{0,-60},{0,40}},
+          color={0,127,255},
+          pattern=LinePattern.Dash),
+        Ellipse(
+          extent={{-6,-54},{6,-66}},
+          lineColor={0,127,255},
+          fillColor={0,127,255},
+          fillPattern=FillPattern.Solid)}));
 end MixingCircuit_Tset;

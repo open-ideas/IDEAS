@@ -11,6 +11,7 @@ model PartialFlowCircuit
   parameter Boolean measurePower=true
     "Set to false to remove the power consumption measurement of the flow regulator"
     annotation(Dialog(group = "Settings"));
+
   // Components ----------------------------------------------------------------
 
 protected
