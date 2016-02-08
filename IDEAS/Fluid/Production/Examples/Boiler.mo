@@ -1,11 +1,10 @@
 within IDEAS.Fluid.Production.Examples;
 model Boiler
   "General example and tester for a modulating air-to-water heat pump"
-  import IDEAS;
-
   extends Modelica.Icons.Example;
 
-  package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
+  constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
+  package Medium = IDEAS.Media.Water
     annotation (__Dymola_choicesAllMatching=true);
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
@@ -32,7 +31,7 @@ model Boiler
     p=200000,
     nPorts=1)
     annotation (Placement(transformation(extent={{-24,12},{-32,20}})));
-  constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
+
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
