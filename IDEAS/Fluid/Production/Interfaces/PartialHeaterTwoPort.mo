@@ -4,8 +4,7 @@ partial model PartialHeaterTwoPort
 
   extends IDEAS.Fluid.Interfaces.TwoPortHeatMassExchanger(
   redeclare final IDEAS.Fluid.MixingVolumes.MixingVolume vol(
-    nPorts=2, V=m2/rho_default),
-  final showDesignFlowDirection=true);
+    nPorts=2, V=m2/rho_default));
 
   extends PartialHeater(
     final UALoss2=(cDry2 + m2*
