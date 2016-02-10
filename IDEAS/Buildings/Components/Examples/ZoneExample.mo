@@ -5,8 +5,8 @@ model ZoneExample
   Zone zone(
     nSurf=4,
     redeclare package Medium = Medium,
-    V=2,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    V=20)
          annotation (Placement(transformation(extent={{20,-20},{40,0}})));
   BoundaryWall
              commonWall(
@@ -15,8 +15,8 @@ model ZoneExample
     redeclare parameter IDEAS.Buildings.Data.Insulation.Rockwool insulationType,
     insulationThickness=0.1,
     AWall=10,
-    inc=0,
-    azi=0)
+    azi=0,
+    inc=1.5707963267949)
     annotation (Placement(transformation(extent={{-54,-2},{-44,18}})));
   Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
@@ -30,18 +30,18 @@ model ZoneExample
     redeclare parameter IDEAS.Buildings.Data.Insulation.Rockwool insulationType,
     insulationThickness=0.1,
     AWall=10,
-    inc=0,
-    azi=0)
+    azi=0,
+    inc=IDEAS.Constants.Wall)
     annotation (Placement(transformation(extent={{-5,-10},{5,10}},
         rotation=90,
         origin={11,-38})));
   Window window(
     A=1,
-    inc=0,
-    azi=0,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2 glazing,
-    redeclare IDEAS.Buildings.Data.Interfaces.Frame fraType,
-    redeclare IDEAS.Buildings.Components.Shading.Screen shaType)
+    redeclare IDEAS.Buildings.Components.Shading.Screen shaType,
+    redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
+    inc=IDEAS.Constants.Wall,
+    azi=IDEAS.Constants.South)
     annotation (Placement(transformation(extent={{-54,-82},{-44,-62}})));
   SlabOnGround slabOnGround(
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.LightWall
@@ -53,19 +53,19 @@ model ZoneExample
     inc=0,
     azi=0) annotation (Placement(transformation(extent={{-54,20},{-44,40}})));
   OuterWall outerWall(
-    inc=0,
     azi=0,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     redeclare parameter IDEAS.Buildings.Data.Insulation.Glasswool insulationType,
     AWall=10,
-    insulationThickness=0)
+    insulationThickness=0,
+    inc=1.5707963267949)
     annotation (Placement(transformation(extent={{-54,-58},{-44,-38}})));
   Zone zone1(
     nSurf=2,
     redeclare package Medium = Medium,
-    V=2,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    V=20)
          annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   Shading.ShadingControl shadingControl
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
