@@ -20,7 +20,7 @@ partial model PartialCircuitBalancingValve
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=m_flow_nominal^2/KvReturn^2*1e5,
-    allowFlowReversal=false) if                            useBalancingValve
+    allowFlowReversal=allowFlowReversal) if                useBalancingValve
     annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
 
 equation

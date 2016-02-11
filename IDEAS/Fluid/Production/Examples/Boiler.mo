@@ -1,38 +1,15 @@
 within IDEAS.Fluid.Production.Examples;
 model Boiler
   "General example and tester for a modulating air-to-water heat pump"
-  import IDEAS;
-
   extends Modelica.Icons.Example;
 
-  package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
+  constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
+  package Medium = IDEAS.Media.Water
     annotation (__Dymola_choicesAllMatching=true);
 
-  IDEAS.Fluid.Movers.Pump pump(
-    m=1,
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
-    useInput=true,
-    filteredMassFlowRate=true,
-    riseTime=10)
-    annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
-  IDEAS.Fluid.FixedResistances.Pipe_Insulated pipe(
-    m=5,
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
-    UA=100)
-    annotation (Placement(transformation(extent={{32,-24},{12,-4}})));
-  IDEAS.Fluid.Production.Boiler heater(
-    tauHeatLoss=3600,
-    cDry=10000,
-    mWater=4,
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
-    QNom=5000)
-    annotation (Placement(transformation(extent={{-74,14},{-56,34}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
         293.15)
-    annotation (Placement(transformation(extent={{-94,-20},{-80,-6}})));
+    annotation (Placement(transformation(extent={{-76,52},{-60,68}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-92,74},{-72,94}})));
   //  Real PElLossesInt( start = 0, fixed = true);
@@ -43,31 +20,48 @@ model Boiler
   //  Real SPFNoLosses( start = 0);
   //
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
-    annotation (Placement(transformation(extent={{-40,-62},{-20,-42}})));
+    annotation (Placement(transformation(extent={{-16,-60},{4,-40}})));
   Modelica.Blocks.Sources.Sine sine(
     freqHz=1/5000,
     startTime=5000,
     amplitude=4,
     offset=273.15 + 15)
-    annotation (Placement(transformation(extent={{-82,-62},{-62,-42}})));
-  Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium,
-    p=200000)
-    annotation (Placement(transformation(extent={{-8,8},{-28,28}})));
-  constant SI.MassFlowRate m_flow_nominal=0.15 "Nominal mass flow rate";
+    annotation (Placement(transformation(extent={{-58,-60},{-38,-40}})));
+  Sources.Boundary_pT bou(          redeclare package Medium = Medium,
+    p=200000,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{-24,12},{-32,20}})));
+
   Modelica.Blocks.Sources.RealExpression realExpression(y=273.15 + 50)
-    annotation (Placement(transformation(extent={{-94,28},{-74,48}})));
+    annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_out(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-50,26},{-30,46}})));
+    annotation (Placement(transformation(extent={{-26,28},{-6,48}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemBoiler_in(redeclare package
       Medium = Medium, m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-38,-22},{-54,-6}})));
-  Modelica.Blocks.Sources.Pulse sine1(
+    annotation (Placement(transformation(extent={{-14,-20},{-30,-4}})));
+  Modelica.Blocks.Sources.Pulse pulse1(
     startTime=2000,
     amplitude=-1,
     period=500,
-    offset=1)
-    annotation (Placement(transformation(extent={{20,-80},{0,-60}})));
+    offset=1) annotation (Placement(transformation(extent={{32,2},{20,14}})));
+  Modelica.Blocks.Sources.BooleanPulse
+                                pulse(
+    startTime=2000,
+    period=500)
+    annotation (Placement(transformation(extent={{-92,-22},{-72,-2}})));
+  Modelica.Blocks.Logical.Not not1
+    annotation (Placement(transformation(extent={{-62,-16},{-54,-8}})));
+  IDEAS.Fluid.Production.Boiler boiler(modulationInput=false, redeclare package
+      Medium = IDEAS.Media.Water)
+    annotation (Placement(transformation(extent={{-56,48},{-36,28}})));
+  IDEAS.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium =
+        Annex60.Media.Water, m_flow_nominal=0.1)
+    annotation (Placement(transformation(extent={{22,-22},{2,-2}})));
+  IDEAS.Fluid.FixedResistances.InsulatedPipe insulatedPipe(
+    redeclare package Medium = Annex60.Media.Water,
+    m_flow_nominal=0.1,
+    UA=100) annotation (Placement(transformation(extent={{62,-2},{42,-22}})));
 equation
   //   der(PElLossesInt) = HP.PEl;
   //   der(PElNoLossesInt) = HP_NoLosses.PEl;
@@ -76,49 +70,57 @@ equation
   //   SPFLosses = if noEvent(PElLossesInt > 0) then QUsefulLossesInt/PElLossesInt else 0;
   //   SPFNoLosses = if noEvent(PElNoLossesInt > 0) then QUsefulNoLossesInt/PElNoLossesInt else 0;
 
-  connect(heater.heatPort, fixedTemperature.port) annotation (Line(
-      points={{-67.7,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TReturn.port, pipe.heatPort) annotation (Line(
-      points={{-20,-52},{22,-52},{22,-24}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(sine.y, TReturn.T) annotation (Line(
-      points={{-61,-52},{-42,-52}},
+      points={{-37,-50},{-18,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(pipe.port_b, pump.port_a) annotation (Line(
-      points={{12,-14},{-14,-14}},
-      color={0,0,255},
+  connect(pulse.y, not1.u) annotation (Line(
+      points={{-71,-12},{-62.8,-12}},
+      color={255,0,255},
       smooth=Smooth.None));
-  connect(bou.ports[1], heater.port_a) annotation (Line(
-      points={{-28,18},{-42,18},{-42,18},{-56,18}},
-      color={0,127,255},
+  connect(fixedTemperature.port, boiler.heatPort) annotation (Line(
+      points={{-60,60},{-46,60},{-46,48}},
+      color={191,0,0},
       smooth=Smooth.None));
-  connect(realExpression.y, heater.TSet) annotation (Line(
-      points={{-73,38},{-68.6,38},{-68.6,36}},
+  connect(realExpression.y, boiler.u) annotation (Line(
+      points={{-59,10},{-44,10},{-44,27.2}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heater.port_b, senTemBoiler_out.port_a) annotation (Line(
-      points={{-56,30},{-56,36},{-50,36}},
+  connect(not1.y, boiler.on) annotation (Line(
+      points={{-53.6,-12},{-48,-12},{-48,27.2}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(boiler.port_b, senTemBoiler_out.port_a) annotation (Line(
+      points={{-36,38},{-26,38}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTemBoiler_out.port_b, pipe.port_a) annotation (Line(
-      points={{-30,36},{48,36},{48,-14},{32,-14}},
+  connect(senTemBoiler_in.port_b, boiler.port_a) annotation (Line(
+      points={{-30,-12},{-40,-12},{-40,20},{-56,20},{-56,38}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(pump.port_b, senTemBoiler_in.port_a) annotation (Line(
-      points={{-34,-14},{-38,-14}},
+  connect(bou.ports[1], boiler.port_a) annotation (Line(
+      points={{-32,16},{-40,16},{-40,20},{-56,20},{-56,38}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTemBoiler_in.port_b, heater.port_a) annotation (Line(
-      points={{-54,-14},{-56,-14},{-56,18}},
+  connect(fan.port_b, senTemBoiler_in.port_a) annotation (Line(
+      points={{2,-12},{-14,-12}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(sine1.y, pump.m_flowSet) annotation (Line(
-      points={{-1,-70},{-10,-70},{-10,0},{-24,0},{-24,-3.6}},
+  connect(pulse1.y, fan.m_flow_in) annotation (Line(
+      points={{19.4,8},{12.2,8},{12.2,0}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(insulatedPipe.port_b, fan.port_a) annotation (Line(
+      points={{42,-12},{22,-12}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(TReturn.port, insulatedPipe.heatPort) annotation (Line(
+      points={{4,-50},{52,-50},{52,-16}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(senTemBoiler_out.port_b, insulatedPipe.port_a) annotation (Line(
+      points={{-6,38},{70,38},{70,-12},{62,-12}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{

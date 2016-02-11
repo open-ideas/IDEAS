@@ -3,4 +3,10 @@ Boiler_validation
 HeatPump_AirWater
 HeatPump_WaterWater
 HeatPump_WaterWaterTSet
+BoilerModulationInput
+BoilerPerfectModulation
+HPWWModulationInput
+HPWWPerfectModulation
 SolarThermalCollector
+NewBoiler_save
+NewHeatPump_AirWater

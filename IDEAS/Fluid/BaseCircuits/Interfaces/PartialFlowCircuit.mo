@@ -16,7 +16,8 @@ model PartialFlowCircuit
 protected
   replaceable IDEAS.Fluid.Interfaces.PartialTwoPortInterface flowRegulator(
     redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal)
+    m_flow_nominal=m_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
 
 public

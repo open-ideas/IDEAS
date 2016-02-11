@@ -1,10 +1,9 @@
 Boiler
-HP_AirWater_TSet2
-HP_AirWater_TSet
-HP_GroundWater_TSet2
+HeatPumpAirWater
+HeatPumpWaterWater
 HP_WaterWater_OnOff
 HP_WaterWater_TSet
-IdealHeater
+HeatSources
 Data
 Examples
 Interfaces
