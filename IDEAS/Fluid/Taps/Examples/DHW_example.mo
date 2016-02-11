@@ -1,7 +1,8 @@
-within IDEAS.Fluid.Domestic_Hot_Water.Examples;
+within IDEAS.Fluid.Taps.Examples;
 model DHW_example
 
-  DHW_RealInput dHW_RealInput(             redeclare package Medium = Medium,
+  BalancedTap_m_flow dHW_RealInput(
+    redeclare package Medium = Medium,
     tau=1,
     TDHWSet=318.15)
     annotation (Placement(transformation(extent={{-2,-4},{22,10}})));
@@ -24,13 +25,14 @@ model DHW_example
     duration=50000,
     offset=273.15 + 70)
     annotation (Placement(transformation(extent={{-94,-8},{-74,12}})));
-  DHW_ProfileReader dHW_ProfileReader(
+  BalancedTap dHW_ProfileReader(
     redeclare package Medium = Medium,
     VDayAvg=1,
     profileType=2,
     TDHWSet=318.15,
     m_flow_nominal=1,
-    table(fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/") + "Inputs/DHWProfile_2d.txt"))
+    table(fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/")
+           + "Inputs/DHWProfile_2d.txt"))
     annotation (Placement(transformation(extent={{4,-54},{28,-40}})));
   Sources.Boundary_pT bou2(
     redeclare package Medium = Medium,
