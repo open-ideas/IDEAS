@@ -3,17 +3,20 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
 
   parameter Modelica.SIunits.Area A "Layer area";
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
-  parameter Modelica.SIunits.Angle inc "Inclination";
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
   parameter Integer nStaMin(min=1) = 2 "Minimum number of states";
   parameter Boolean placeCapacityAtSurf_b = true
     "Set to true to place last capacity at the surface b of the layer.";
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics= Modelica.Fluid.Types.Dynamics.FixedInitial
+    "Static (steady state) or transient (dynamic) thermal conduction model"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   final parameter Boolean present=mat.d <> 0;
   final parameter Integer nSta=max(nStaMin, mat.nSta) "Number of states";
   final parameter Real R=mat.R "Total specific thermal resistance";
   final parameter Modelica.SIunits.HeatCapacity Ctot=A*mat.rho*mat.c*mat.d
     "Total heat capacity";
+
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") = sum(T .* C);
 
 protected
@@ -40,10 +43,15 @@ public
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 initial equation
-  T = ones(nSta)*T_start;
+  if energyDynamics== Modelica.Fluid.Types.Dynamics.FixedInitial then
+    T = ones(nSta)*T_start;
+  elseif energyDynamics== Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
+    der(T)=zeros(nSta);
+  end if;
   assert(nSta >= 1, "Number of states needs to be higher than zero.");
-  assert(abs(sum(C) - A*mat.rho*mat.c*mat.d) < 1e-6, "Verification error in MonLayerOpaqueNf");
-  assert(abs(sum(ones(size(G, 1)) ./ G) - R/A) < 1e-6, "Verification error in MonLayerOpaqueNf");
+  assert(abs(sum(C) - A*mat.rho*mat.c*mat.d) < 1e-6, "Verification error in MonLayerDynamic");
+  assert(abs(sum(ones(size(G, 1)) ./ G) - R/A) < 1e-6, "Verification error in MonLayerDynamic");
+  assert(not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState, "MonoLayerDynamic is configured to steady state, which is not the scope of this model!");
 equation
   port_a.T = T[1];
 
@@ -104,5 +112,12 @@ equation
 <p>For the purpose of dynamic building simulation, the partial differential equation of the continuous time and space model of heat transport through a solid is most often simplified into ordinary differential equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
 <p align=\"center\"><img src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
 <p>where <img src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to<img src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and <img src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and <img src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where <img src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and <img src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where <img src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.</p>
+</html>", revisions="<html>
+<ul>
+<li>
+February 10, 2016, by Filip Jorissen and Damien Picard:<br/>
+Revised implementation.
+</li>
+</ul>
 </html>"));
 end MonoLayerDynamic;

@@ -2,20 +2,11 @@ within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
 
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     QTra_design(fixed=false),
-     E(y=layMul.E),
-     Qgai(y=layMul.port_a.Q_flow + (if sim.openSystemConservationOfEnergy
-            then 0 else sum(port_emb.Q_flow))));
+     dT_nominal_a=-3,
+     QTra_design(fixed=false));
+
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Boolean linearise=true
-    "= true, if convective heat transfer should be linearised"
-    annotation(Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal=-3
-    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Convection"));
-  parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
   Modelica.SIunits.Power QSolIrr = (gainDir.y + gainDif.y)
     "Total solar irradiance";
 
@@ -43,8 +34,7 @@ protected
     ceilingInc=sim.ceilingInc,
     lat=sim.lat)
     annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
-  Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough"
-    annotation (Placement(transformation(extent={{80,0},{60,20}})));
+  Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
 initial equation
   QTra_design =U_value*AWall*(273.15 + 21 - Tdes.y);
 
@@ -103,11 +93,7 @@ equation
       points={{-22,-27},{50.1,-27},{50.1,39.9}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(Tdes.u, propsBus_a.weaBus.Tdes) annotation (Line(points={{82,10},{86,10},
-          {90,10},{90,39.9},{50.1,39.9}}, color={0,0,127}), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
+  connect(Tdes.u, propsBus_a.weaBus.Tdes);
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
@@ -171,8 +157,8 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
-June 14, 2015, Filip Jorissen:<br/>
-Adjusted implementation for computing conservation of energy.
+February 10, 2016, by Filip Jorissen and Damien Picard:<br/>
+Revised implementation: cleaned up connections and partials.
 </li>
 <li>
 June 14, 2015, Filip Jorissen:<br/>

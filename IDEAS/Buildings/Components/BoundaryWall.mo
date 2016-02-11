@@ -1,7 +1,8 @@
 within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final QTra_design=U_value*AWall*(273.15 + 21 - TRef_a));
+     final QTra_design=U_value*AWall*(273.15 + 21 - TRef_a),
+     dT_nominal_a=-1);
 
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector";
@@ -9,41 +10,43 @@ model BoundaryWall "Opaque wall with boundary conditions"
     "Get the boundary heat flux from the input connector";
 
   Modelica.Blocks.Interfaces.RealInput T if use_T_in annotation (Placement(transformation(
-          extent={{-60,50},{-40,70}}), iconTransformation(extent={{-60,50},{-40,
-            70}})));
+          extent={{-114,10},{-94,30}}),iconTransformation(extent={{-114,10},{
+            -94,30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow if use_Q_in annotation (Placement(
-        transformation(extent={{-60,10},{-40,30}}), iconTransformation(extent={{
-            -60,10},{-40,30}})));
+        transformation(extent={{-114,-30},{-94,-10}}),
+                                                    iconTransformation(extent={{-114,
+            -30},{-94,-10}})));
 
 protected
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow if use_Q_in
-    annotation (Placement(transformation(extent={{-60,10},{-80,30}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow(final
+      alpha=0) if                                                                use_Q_in
+    annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature if use_T_in
-    annotation (Placement(transformation(extent={{-60,50},{-80,70}})));
+    annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
 
 equation
   if use_Q_in then
   connect(Q_flow, prescribedHeatFlow.Q_flow) annotation (Line(
-      points={{-50,20},{-60,20}},
+      points={{-104,-20},{-60,-20}},
       color={0,0,127},
       smooth=Smooth.None));
 
   end if;
   if use_T_in then
   connect(T, prescribedTemperature.T) annotation (Line(
-      points={{-50,60},{-58,60}},
+      points={{-104,20},{-62,20}},
       color={0,0,127},
       smooth=Smooth.None));
 
   end if;
 
-  connect(layMul.port_b, prescribedHeatFlow.port) annotation (Line(points={{-10,
-          0},{-50,0},{-88,0},{-88,20},{-80,20}}, color={191,0,0}));
-  connect(prescribedTemperature.port, layMul.port_b) annotation (Line(points={{-80,
-          60},{-88,60},{-88,0},{-10,0}}, color={191,0,0}));
+  connect(layMul.port_b, prescribedHeatFlow.port) annotation (Line(points={{-10,0},
+          {-10,0},{-20,0},{-20,-20},{-40,-20}},  color={191,0,0}));
+  connect(prescribedTemperature.port, layMul.port_b) annotation (Line(points={{-40,20},
+          {-20,20},{-20,0},{-10,0}},     color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),
@@ -96,6 +99,10 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 10, 2016, by Filip Jorissen and Damien Picard:<br/>
+Revised implementation: cleaned up connections and partials.
+</li>
 <li>
 June 14, 2015, Filip Jorissen:<br/>
 Adjusted implementation for computing conservation of energy.

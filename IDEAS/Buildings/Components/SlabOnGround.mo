@@ -3,7 +3,8 @@ model SlabOnGround "opaque floor on ground slab"
 
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes), layMul(
-        placeCapacityAtSurf_b=false));
+        placeCapacityAtSurf_b=false),
+        dT_nominal_a=-3);
 
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total wall perimeter";
@@ -120,6 +121,10 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 10, 2016, by Filip Jorissen and Damien Picard:<br/>
+Revised implementation: cleaned up connections and partials.
+</li>
 <li>
 June 14, 2015, Filip Jorissen:<br/>
 Adjusted implementation for computing conservation of energy.
