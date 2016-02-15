@@ -29,7 +29,7 @@ model IdealRadiatorHeating "Example and test for ideal heating with radiators"
         origin={86,-30})));
   Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{76,-80},{96,-60}})));
-  IDEAS.Occupants.Standards.ISO13790 iSO13790_1(
+  IDEAS.BoundaryConditions.Occupants.Standards.ISO13790 iSO13790_1(
     nZones=building.nZones,
     nLoads=0,
     AFloor=building.AZones)

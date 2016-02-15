@@ -9,7 +9,7 @@ class PvArray
     annotation (choicesAllMatching=true);
   extends IDEAS.Electric.Photovoltaics.Components.DCgen;
 
-  IDEAS.Climate.Meteo.Solar.RadSol radSol(
+  IDEAS.BoundaryConditions.Climate.Meteo.Solar.RadSol radSol(
     azi=azi,
     inc=inc,
     A=1) annotation (Placement(transformation(extent={{-100,44},{-80,64}})));

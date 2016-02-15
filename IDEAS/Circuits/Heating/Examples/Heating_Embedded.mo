@@ -40,7 +40,7 @@ model Heating_Embedded
     annotation (Placement(transformation(extent={{-20,30},{-40,50}})));
   IDEAS.Circuits.Ventilation.None none(nZones=nZones, VZones=building.VZones)
     annotation (Placement(transformation(extent={{-42,64},{-22,84}})));
-  IDEAS.Occupants.Standards.ISO13790 occ(
+  IDEAS.BoundaryConditions.Occupants.Standards.ISO13790 occ(
     nZones=building.nZones,
     nLoads=0,
     AFloor=building.AZones)

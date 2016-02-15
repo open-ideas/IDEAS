@@ -21,7 +21,7 @@ model Heating_Radiators
 
   Ventilation.None none(nZones=nZones, VZones=building.VZones)
     annotation (Placement(transformation(extent={{-20,30},{0,50}})));
-  Occupants.Standards.ISO13790 occ(
+  BoundaryConditions.Occupants.Standards.ISO13790 occ(
     nZones=building.nZones,
     AFloor=building.AZones,
     nLoads=0) annotation (Placement(transformation(extent={{0,-54},{20,-34}})));
