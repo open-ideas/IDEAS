@@ -4,6 +4,7 @@ SimInfoManager
 Airflow
 BoundaryConditions
 Buildings
+Circuits
 Climate
 Constants
 Controls
