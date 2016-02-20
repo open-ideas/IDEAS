@@ -136,7 +136,7 @@ protected
   parameter SI.Angle inc[numAzi + 1]=cat(
       1,
       fill(ceilingInc,1),
-      fill(IDEAS.Constants.Wall, numAzi)) "surface inclination";
+      fill(IDEAS.Types.Tilt.Wall, numAzi)) "surface Tilt";
 public
   Buildings.Components.Interfaces.WeaBus
                                      weaBus(numSolBus=numAzi + 1)
@@ -147,10 +147,10 @@ public
         1,
         fill(ceilingInc, 1),
         fill(offsetAzi, numAzi) + (0:numAzi - 1)*Modelica.Constants.pi*2/numAzi),
-
     each numAzi=numAzi,
     each lat=lat)
     annotation (Placement(transformation(extent={{44,54},{64,74}})));
+
 public
   Modelica.Blocks.Sources.RealExpression TskyPow4Expr(y=TskyPow4)
     "Power 4 of sky temperature"
@@ -165,8 +165,7 @@ public
     annotation (Placement(transformation(extent={{66,-20},{40,0}})));
   parameter SI.Angle offsetAzi=0 "Offset for the azimuth angle series"
     annotation(Dialog(tab="Incidence angles"));
-  parameter SI.Angle ceilingInc = IDEAS.Constants.Ceiling
-    "Ceiling inclination angle"
+  parameter SI.Angle ceilingInc = IDEAS.Types.Tilt.Ceiling "Ceiling Tilt angle"
     annotation(Dialog(tab="Incidence angles"));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=10e6)
     annotation (Placement(transformation(extent={{40,-80},{20,-60}})));

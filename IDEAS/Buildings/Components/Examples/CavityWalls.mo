@@ -17,8 +17,8 @@ model CavityWalls
     nSurf=2)
          annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
-    inc=IDEAS.Constants.Wall,
-    azi=IDEAS.Constants.South,
+    inc=IDEAS.Types.Tilt.Wall,
+    azi=IDEAS.Types.Azimuth.S,
     insulationThickness=0.1,
     redeclare parameter
       IDEAS.Buildings.Data.Constructions.CavityWallPartialFill
@@ -30,8 +30,8 @@ model CavityWalls
   IDEAS.Buildings.Components.Window winLin(
     A=1,
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
-    inc=IDEAS.Constants.Wall,
-    azi=IDEAS.Constants.South,
+    inc=IDEAS.Types.Tilt.Wall,
+    azi=IDEAS.Types.Azimuth.S,
     redeclare Data.Glazing.Ins2Ar glazing,
     windowDynamicsType=IDEAS.Buildings.Components.BaseClasses.WindowDynamicsType.Two)
     "Window with linear convection correlations inside the window"
