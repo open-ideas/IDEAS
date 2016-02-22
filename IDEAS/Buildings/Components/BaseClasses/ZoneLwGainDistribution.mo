@@ -4,16 +4,16 @@ model ZoneLwGainDistribution "distribution of radiative internal gains"
   parameter Integer nSurf(min=1) "number of surfaces in contact with the zone";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir
-    "direct solar radiation gains recieved through windows"
+    "direct solar radiation gains received through windows"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif
-    "difuse solar radiation gains recieved through windows"
+    "difuse solar radiation gains received through windows"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a radGain
     "longwave internal gains"
     annotation (Placement(transformation(extent={{-110,-48},{-90,-28}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b[nSurf] radSurfTot
-    "total recieved radiation by surface"
+    "total received radiation by surface"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput TRad "radiative zonetemperature"
     annotation (Placement(transformation(
@@ -38,19 +38,29 @@ model ZoneLwGainDistribution "distribution of radiative internal gains"
         origin={40,100})));
 
 protected
-  Real[nSurf] areaAbsDifSol=area .* epsSw "longwave emissivity weighted areas";
-  Real areaAbsDifTotSol=sum(areaAbsDifSol)
+  final parameter Real[nSurf] areaAbsDifSol(fixed=false)
+    "longwave emissivity weighted areas";
+  final parameter Real areaAbsDifTotSol=sum(areaAbsDifSol)
     "sum of longwave emissivity weighted areas";
-  Real[nSurf] areaAbsGain=area .* epsLw "shortwave emissivity weighted areas";
-  Real areaAbsTotGain=sum(areaAbsGain)
+  final parameter Real[nSurf] areaAbsGain(fixed=false)
+    "shortwave emissivity weighted areas";
+  final parameter Real areaAbsTotGain = sum(areaAbsGain)
     "sum of shortwave emissivity weighted areas";
 
-  Real[nSurf] weightFactorDir = 0.96 * area ./ (ones(nSurf)*sum(area))
+  final parameter Real[nSurf] weightFactorDir(fixed=false)
     "weightfactor for received direct shortwave solar radiation";
-  Real[nSurf] weightFactorDif = 0.96 * areaAbsDifSol ./ (ones(nSurf)*areaAbsDifTotSol)
+  final parameter Real[nSurf] weightFactorDif(fixed=false)
     "weightfactor for received direct shortwave solar radiation";
-  Real[nSurf] weightFactorGain = areaAbsGain ./ (ones(nSurf)*areaAbsTotGain)
+  final parameter Real[nSurf] weightFactorGain(fixed=false)
     "weightfactor for received direct shortwave solar radiation";
+
+initial equation
+
+  areaAbsDifSol = area .* epsSw;
+  areaAbsGain = area .* epsLw;
+  weightFactorDir = area ./ (ones(nSurf)*sum(area));
+  weightFactorDif = areaAbsDifSol ./ (ones(nSurf)*areaAbsDifTotSol);
+  weightFactorGain = areaAbsGain ./ (ones(nSurf)*areaAbsTotGain);
 
 equation
   for k in 1:nSurf loop

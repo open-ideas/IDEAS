@@ -4,14 +4,13 @@ model InteriorConvectionWindow "interior surface convection for windows"
   parameter Modelica.SIunits.Area A "surface area";
   parameter Modelica.SIunits.Angle inc "inclination";
 
-  parameter Boolean fixed = false
+  parameter Boolean fixed = true
     "Fixed convective heat transfer coefficient or DT-dependent.";
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a(T(start=293.15))
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b(T(start=293.15))
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Real hcon;
 
 protected
   Modelica.SIunits.TemperatureDifference dT;
@@ -29,7 +28,6 @@ end if;
 
   port_a.Q_flow + port_b.Q_flow = 0 "no heat is stored";
   dT = port_a.T - port_b.T;
-  hcon = port_a.Q_flow/dT;
 
   annotation (Icon(graphics={
         Rectangle(

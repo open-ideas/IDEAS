@@ -1,9 +1,9 @@
 UsersGuide
-DistributionGrid
-Photovoltaic
-Battery
+Batteries
 Connections
+Distribution
+Photovoltaics
 Data
-BaseClasses
-Validation
 Examples
+Validation
+BaseClasses

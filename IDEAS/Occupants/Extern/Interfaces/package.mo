@@ -1,4 +1,7 @@
 within IDEAS.Occupants.Extern;
-package Interfaces 
-extends Modelica.Icons.InterfacesPackage;
+package Interfaces "Interfaces"
+
+
+extends Modelica.Icons.Package;
+
 end Interfaces;

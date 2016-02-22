@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model Overhang "Roof overhangs"
-  extends IDEAS.Buildings.Components.Interfaces.StateShading(controled=false);
+  extends IDEAS.Buildings.Components.Interfaces.StateShading(final controlled=false);
 
   // Window properties
   parameter Modelica.SIunits.Length hWin "Window height";
@@ -51,6 +51,10 @@ protected
   Modelica.SIunits.Angle verAzi
     "Angle between projection of sun's rays and normal to vertical surface";
 
+initial equation
+
+    assert(dep > 0, "The depth of the overhang must be larger than zero.");
+
 initial algorithm
 
   for i in 1:4 loop
@@ -70,17 +74,17 @@ equation
   for i in 1:4 loop
     y2[i] = tmpH[i];
     x2[i]*y1 = x1*tmpH[i];
-    area[i] = IDEAS.BaseClasses.Math.MinSmooth(u1=y1,u2=y2[i],delta=del_L)*tmpW[i]
-      -(IDEAS.BaseClasses.Math.MinSmooth(y1,tmpH[i],del_L)*IDEAS.BaseClasses.Math.MinSmooth(u1=x2[i],u2=y1,delta=del_L)/2)
-      + IDEAS.BaseClasses.Math.MaxSmooth(u1=shdwTrnglRtio*(IDEAS.BaseClasses.Math.MinSmooth(u1=x1,u2=x2[i],delta=del_L) - tmpW[i]),u2=0,delta=del_L)*IDEAS.BaseClasses.Math.MaxSmooth(u1=(IDEAS.BaseClasses.Math.MinSmooth(u1=x1,u2=x2[i],delta=del_L) - tmpW[i]),u2=0,delta=del_L)/2;
+    area[i] = IDEAS.Utilities.Math.Functions.smoothMin(x1=y1,x2=y2[i],deltaX=del_L)*tmpW[i]
+      -(IDEAS.Utilities.Math.Functions.smoothMin(y1,tmpH[i],del_L)*IDEAS.Utilities.Math.Functions.smoothMin(x1=x2[i],x2=y1,deltaX=del_L)/2)
+      + IDEAS.Utilities.Math.Functions.smoothMax(x1=shdwTrnglRtio*(IDEAS.Utilities.Math.Functions.smoothMin(x1=x1,x2=x2[i],deltaX=del_L) - tmpW[i]),x2=0,deltaX=del_L)*IDEAS.Utilities.Math.Functions.smoothMax(x1=(IDEAS.Utilities.Math.Functions.smoothMin(x1=x1,x2=x2[i],deltaX=del_L) - tmpW[i]),x2=0,deltaX=del_L)/2;
   end for;
   shdArea = area[4] + area[3] - area[2] - area[1];
   // correction case: Sun not in front of the wall
   crShdArea1 = Modelica.Media.Air.MoistAir.Utilities.spliceFunction(pos=shdArea,neg=AWin,x=(Modelica.Constants.pi/2)-verAzi,deltax=0.01);
   // correction case: Sun not above horizon
   crShdArea2 = Modelica.Media.Air.MoistAir.Utilities.spliceFunction(pos=shdArea,neg=AWin,x=alt,deltax=0.01);
-  crShdArea=IDEAS.BaseClasses.Math.MaxSmooth(u1=crShdArea1,u2=crShdArea2,delta=0.01);
-  fraSun = IDEAS.BaseClasses.Math.MinSmooth( u1=IDEAS.BaseClasses.Math.MaxSmooth(u1=1-crShdArea/AWin,u2=0,delta=0.01),u2=1.0,delta=0.01);
+  crShdArea=IDEAS.Utilities.Math.Functions.smoothMax(x1=crShdArea1,x2=crShdArea2,deltaX=0.01);
+  fraSun = IDEAS.Utilities.Math.Functions.smoothMin( x1=IDEAS.Utilities.Math.Functions.smoothMax(x1=1-crShdArea/AWin,x2=0,deltaX=0.01),x2=1.0,deltaX=0.01);
 
   iSolDir = solDir * fraSun;
 
@@ -90,7 +94,7 @@ equation
       smooth=Smooth.None));
 
   connect(angInc, iAngInc) annotation (Line(
-      points={{-60,-50},{-14,-50},{-14,-70},{40,-70}},
+      points={{-60,-50},{-14,-50},{-14,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(graphics), Documentation(info="<html>

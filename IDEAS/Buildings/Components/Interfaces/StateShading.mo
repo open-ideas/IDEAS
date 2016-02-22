@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.Interfaces;
 partial model StateShading "Window shading"
 
-  parameter Boolean controled=true;
+  parameter Boolean controlled=true;
 
   parameter Modelica.SIunits.Angle azi "window azimuth";
 
@@ -26,8 +26,8 @@ partial model StateShading "Window shading"
             40,10},{60,30}})));
   Modelica.Blocks.Interfaces.RealOutput iAngInc
     "angle of incidence after transmittance through shading (or not)"
-    annotation (Placement(transformation(extent={{20,-90},{60,-50}}),
-        iconTransformation(extent={{40,-70},{60,-50}})));
+    annotation (Placement(transformation(extent={{20,-70},{60,-30}}),
+        iconTransformation(extent={{40,-50},{60,-30}})));
 
   Modelica.Blocks.Interfaces.RealInput angInc "angle of incidence" annotation (
       Placement(transformation(extent={{-80,-70},{-40,-30}}),
@@ -35,7 +35,7 @@ partial model StateShading "Window shading"
   Modelica.Blocks.Interfaces.RealInput angAzi "angle of incidence" annotation (
       Placement(transformation(extent={{-80,-110},{-40,-70}}),
         iconTransformation(extent={{-60,-90},{-40,-70}})));
-  Modelica.Blocks.Interfaces.RealInput Ctrl if controled
+  Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
       Placement(transformation(
         extent={{20,-20},{-20,20}},
@@ -44,8 +44,8 @@ partial model StateShading "Window shading"
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,-100})));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,
-            -100},{100,100}}), graphics), Icon(coordinateSystem(
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,
+            -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=true, extent={{-50,-100},{50,100}}), graphics={
         Polygon(
           points={{-50,80},{0,60},{4,60},{4,-20},{-50,0},{-50,80}},
