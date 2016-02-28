@@ -2,6 +2,19 @@ within IDEAS.Circuits;
 package BaseCircuits 
 
 
-  extends Modelica.Icons.VariantsPackage;
+  extends Modelica.Icons.BasesPackage;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end BaseCircuits;

@@ -2,6 +2,9 @@ within IDEAS.Circuits;
 package Ventilation 
 
 
-extends Modelica.Icons.Package;
+  extends Modelica.Icons.VariantsPackage;
+
+
+
 
 end Ventilation;
