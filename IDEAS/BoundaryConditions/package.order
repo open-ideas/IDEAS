@@ -1,5 +1,5 @@
 UsersGuide
-PartialSimInfoManager
+SimInfoManager
 SkyTemperature
 SolarGeometry
 SolarIrradiation
@@ -7,3 +7,4 @@ WeatherData
 Types
 Occupants
 Climate
+BaseClasses

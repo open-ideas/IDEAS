@@ -1,4 +1,4 @@
-within IDEAS.BoundaryConditions;
+within IDEAS.BoundaryConditions.BaseClasses;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
   parameter String filDir = Modelica.Utilities.Files.loadResource("modelica://IDEAS") + "/Inputs/"
