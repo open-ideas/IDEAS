@@ -5,8 +5,6 @@ partial model HeatingSystem "Partial heating/cooling system"
 
   replaceable package Medium=IDEAS.Media.Water;
 
-
-
   // *********** Building characteristics and  interface ***********
   // --- General
   parameter Integer nZones(min=1)
@@ -92,100 +90,82 @@ partial model HeatingSystem "Partial heating/cooling system"
     "Return water connection to the DH grid"
     annotation (Placement(transformation(extent={{110,-110},{130,-90}})));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},{200,
-            100}}), graphics={
-        Rectangle(
-          extent={{-200,100},{200,-100}},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid,
-          lineColor={191,0,0}),
-        Line(
-          points={{50,-20},{30,0}},
-          color={0,0,127}),
-        Line(
-          points={{30,0},{0,-30}},
-          color={0,0,127},
-          pattern=LinePattern.Dash),
-        Line(
-          points={{30,0},{-8,0}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{200,100},{200,-100}},
-          color={85,170,255},
-          smooth=Smooth.None),
-        Line(
-          points={{-28,-20},{-128,-20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-28,20},{-128,20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-8,0},{-28,-20}},
-          color={191,0,0},
-          thickness=0.5),
-        Line(
-          points={{-8,0},{-28,20}},
-          color={191,0,0},
-          thickness=0.5),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},{
+            200,220}}),
+                    graphics={
         Polygon(
-          points={{-128,0},{-128,40},{-158,20},{-128,0}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-128,-40},{-128,0},{-158,-20},{-128,-40}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-158,40},{-178,-40}},
-          lineColor={191,0,0},
-          fillColor={191,0,0},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{200,0},{30,0}},
-          color={85,170,255},
-          smooth=Smooth.None),
-        Line(points={{30,70},{30,40}}),
-        Line(points={{52.9,32.8},{70.2,57.3}}),
-        Line(points={{7.1,32.8},{-10.2,57.3}}),
-        Line(points={{67.6,13.7},{95.8,23.9}}),
-        Ellipse(
-          lineColor={64,64,64},
-          fillColor={215,215,215},
-          extent={{18,-12},{42,12}},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          origin={30,0},
-          rotation=-17.5,
-          fillColor={64,64,64},
+          points={{-200,200},{-180,200},{-180,220},{160,220},{96,-100},{-180,-100},
+              {-180,-80},{-200,-80},{-200,200}},
           pattern=LinePattern.None,
+          fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          points={{-5.0,0.0},{-2.0,60.0},{0.0,65.0},{2.0,60.0},{5.0,0.0}}),
-        Ellipse(
-          fillColor={64,64,64},
+          lineColor={0,0,0}),
+        Polygon(
+          points={{96,-100},{180,-100},{180,-78},{200,-78},{200,200},{180,200},{
+              180,220},{160,220},{96,-100}},
+          fillColor={255,145,145},
+          fillPattern=FillPattern.Solid,
           pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Polygon(
+          points={{-186,188},{-186,188}},
+          lineColor={0,0,0},
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Solid),
+        Line(points={{180,100}}, color={0,0,0}),
+        Ellipse(extent={{50,-10},{90,-50}}, lineColor={255,255,255}),
+        Polygon(points={{50,-30},{82,-14},{82,-46},{50,-30}},
+                                                           lineColor={255,255,255}),
+        Line(points={{0,-20}}, color={162,29,33}),
+        Polygon(points={{-108,28},{-88,-12},{-108,-12},{-88,28},{-108,28}},
+            lineColor={255,255,255}),
+        Line(points={{50,-30},{-98,-30},{-98,-12}},
+                                                  color={255,255,255}),
+        Line(points={{-46,78}}, color={162,29,33}),
+        Line(points={{-118,100}}, color={162,29,33}),
+        Line(points={{-98,28},{-98,148}},   color={255,255,255}),
+        Polygon(points={{-64,28},{-44,-12},{-64,-12},{-44,28},{-64,28}},
+            lineColor={255,255,255}),
+        Line(points={{-54,28},{-54,148}}, color={255,255,255}),
+        Line(points={{-54,-30},{-54,-30},{-54,-12}},
+                                                  color={255,255,255}),
+        Polygon(points={{-22,28},{-2,-12},{-22,-12},{-2,28},{-22,28}},
+            lineColor={255,255,255}),
+        Line(points={{-12,28},{-12,148}}, color={255,255,255}),
+        Line(points={{-12,-30},{-12,-30},{-12,-12}},
+                                                  color={255,255,255}),
+        Polygon(points={{18,28},{38,-12},{18,-12},{38,28},{18,28}},
+            lineColor={255,255,255}),
+        Line(points={{28,28},{28,148}}, color={255,255,255}),
+        Line(points={{28,-30},{28,-30},{28,-12}}, color={255,255,255}),
+        Line(points={{90,-30},{112,-30}},
+                                     color={255,255,255}),
+        Ellipse(
+          extent={{-200,220},{-160,180}},
+          fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          extent={{23,-7},{37,7}}),
-        Line(
-          points={{60,-30},{50,-20}},
-          color={0,0,127},
-          pattern=LinePattern.Dash),
-        Line(
-          points={{0,-100},{0,-30}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-        Line(
-          points={{60,-100},{60,-30}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},{
-            200,100}}), graphics),
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Ellipse(
+          extent={{-200,-60},{-160,-100}},
+          fillColor={255,170,170},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Ellipse(
+          extent={{160,-60},{200,-100}},
+          fillColor={255,145,145},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Ellipse(
+          extent={{160,220},{200,180}},
+          fillColor={255,145,145},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0})}),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-200},
+            {200,220}})),
     Documentation(info="<html>
 <p><b>Description</b> </p>
 <p>Interface model for a complete multi-zone heating system (with our without domestic hot water and solar system).</p>
