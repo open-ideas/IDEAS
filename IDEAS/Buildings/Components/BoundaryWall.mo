@@ -2,8 +2,11 @@ within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      final QTra_design=U_value*AWall*(273.15 + 21 - TRef_a),
-     dT_nominal_a=-1);
-
+     dT_nominal_a=-1,
+    layMul(energyDynamics=energyDynamics));
+  parameter Modelica.Fluid.Types.Dynamics energyDynamics= if use_T_in then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else  Modelica.Fluid.Types.Dynamics.FixedInitial
+    "Static (steady state) or transient (dynamic) thermal conduction model"
+    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector";
   parameter Boolean use_Q_in = false
