@@ -2,7 +2,8 @@ within IDEAS.Buildings.Components.Shading;
 model Screen "Exterior screen"
   extends IDEAS.Buildings.Components.Interfaces.StateShading(final controlled=true);
 
-  parameter Real shaCorr=0.24 "Shortwave transmittance of shortwave radiation";
+  parameter Real shaCorr = screen.G
+    "Shortwave transmittance of shortwave radiation";
 
 protected
   Modelica.Blocks.Nonlinear.Limiter limiter(
@@ -13,6 +14,9 @@ protected
         rotation=90,
         origin={-10,-60})));
 
+public
+  replaceable parameter Data.Interfaces.Screen screen
+    annotation (choicesAllMatching = true, Placement(transformation(extent={{60,60},{80,80}})));
 equation
   iSolDir = solDir*(1 - limiter.y);
   iSolDif = solDif*(1 - limiter.y) + solDif*limiter.y*shaCorr + solDir*limiter.y
