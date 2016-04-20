@@ -42,56 +42,56 @@ partial model Occupant
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),
                          graphics={
-        Rectangle(
-          extent={{-200,100},{200,-100}},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid,
-          lineColor={191,0,0}),
-        Line(
-          points={{200,100},{200,-100}},
-          color={85,170,255},
-          smooth=Smooth.None),
         Polygon(
-          points={{-10,-38},{-10,42},{50,2},{-10,-38}},
-          lineColor={0,0,0},
+          points={{-200,80},{-180,80},{-180,100},{160,100},{120,-100},{-180,
+              -100},{-180,-80},{-200,-80},{-200,80}},
+          pattern=LinePattern.None,
+          fillColor={221,234,196},
+          fillPattern=FillPattern.Solid,
+          lineColor={0,0,0}),
+        Polygon(
+          points={{40,60},{58,-58},{40,60}},
+          pattern=LinePattern.None,
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{4,50},{4,-52},{44,-52},{44,50},{4,50}},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
-          lineThickness=0.5),
-        Rectangle(
-          extent={{70,42},{50,-38}},
-          lineColor={0,0,0},
+          pattern=LinePattern.None),
+        Polygon(
+          points={{4,0},{-46,50},{-46,-52},{4,0}},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
-          lineThickness=0.5),
-        Text(
-          extent={{-28,32},{34,-28}},
-          lineColor={0,0,0},
-          fillColor={95,95,95},
+          pattern=LinePattern.None),
+        Ellipse(
+          extent={{-200,100},{-160,60}},
+          fillColor={221,234,196},
           fillPattern=FillPattern.Solid,
-          textStyle={TextStyle.Italic},
-          fontName="Bookman Old Style",
-          textString="?"),
-        Line(
-          points={{-200,20},{-20,20}},
-          color={127,0,0},
-          smooth=Smooth.None),
-        Line(
-          points={{-200,-20},{-20,-20}},
-          color={127,0,0},
-          smooth=Smooth.None),
-        Line(
-          points={{0,100},{0,52}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-        Line(
-          points={{60,100},{60,52}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-        Line(
-          points={{210,0},{80,0}},
-          color={85,170,255},
-          smooth=Smooth.None)}), Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-200,-100},{200,100}}), graphics));
+          pattern=LinePattern.None),
+        Ellipse(
+          extent={{-200,-60},{-160,-100}},
+          fillColor={221,234,196},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Ellipse(
+          extent={{160,-60},{200,-100}},
+          fillColor={210,227,177},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Ellipse(
+          extent={{160,100},{200,60}},
+          fillColor={210,227,177},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Polygon(
+          points={{160,100},{120,-100},{180,-100},{180,-80},{200,-80},{200,80},
+              {180,80},{180,100},{160,100}},
+          fillColor={210,227,177},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None)}),
+                                 Diagram(coordinateSystem(preserveAspectRatio=false,
+          extent={{-200,-100},{200,100}})));
 end Occupant;

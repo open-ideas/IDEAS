@@ -9,7 +9,7 @@ Simulation of all so far modeled BESTEST cases in a single simulation.
 
 */
 
-  inner IDEAS.SimInfoManager sim(
+  inner IDEAS.BoundaryConditions.IDEAS.BoundaryConditions.SimInfoManager sim(
     filNam="BESTEST.TMY",
     lat=0.69464104229374,
     lon=-1.8308503853421,

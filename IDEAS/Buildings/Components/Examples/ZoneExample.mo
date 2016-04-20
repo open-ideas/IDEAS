@@ -21,7 +21,7 @@ model ZoneExample
   Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
 
-  inner SimInfoManager sim
+  inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   InternalWall
              commonWall1(
@@ -31,7 +31,7 @@ model ZoneExample
     insulationThickness=0.1,
     AWall=10,
     azi=0,
-    inc=IDEAS.Constants.Wall)
+    inc=IDEAS.Types.Tilt.Wall)
     annotation (Placement(transformation(extent={{-5,-10},{5,10}},
         rotation=90,
         origin={11,-38})));
@@ -40,8 +40,8 @@ model ZoneExample
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2 glazing,
     redeclare IDEAS.Buildings.Components.Shading.Screen shaType,
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
-    inc=IDEAS.Constants.Wall,
-    azi=IDEAS.Constants.South)
+    inc=IDEAS.Types.Tilt.Wall,
+    azi=IDEAS.Types.Azimuth.S)
     annotation (Placement(transformation(extent={{-54,-82},{-44,-62}})));
   SlabOnGround slabOnGround(
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.LightWall

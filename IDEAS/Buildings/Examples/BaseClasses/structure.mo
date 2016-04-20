@@ -23,18 +23,18 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.Rockwool insulationType,
     AWall={10,21,10},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     insulationThickness={0.16,0.16,0.16},
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall})
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall})
     annotation (Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
         rotation=90,
         origin={-17.5,-75.5})));
   Components.Window[3] gF_win(
     A={5.5,1,5.5},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Kr glazing,
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall},
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall},
     redeclare IDEAS.Buildings.Components.Shading.None shaType) annotation (
       Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
@@ -45,8 +45,8 @@ model structure "Example detailed building structure model"
     insulationThickness=0.14,
     AWall=72,
     PWall=26,
-    inc=IDEAS.Constants.Floor,
-    azi=IDEAS.Constants.South,
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=IDEAS.Types.Azimuth.S,
     redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround constructionType)
                                annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -57,18 +57,18 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.Rockwool insulationType,
     AWall={10,21,10},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     insulationThickness={0.16,0.16,0.16},
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall})
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall})
     annotation (Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
         rotation=90,
         origin={-17.5,-15.5})));
   Components.Window[3] fF_win(
     A={5.5,1,5.5},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Kr glazing,
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall},
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall},
     redeclare IDEAS.Buildings.Components.Shading.None shaType) annotation (
       Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
@@ -78,8 +78,8 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
     insulationThickness=0.04,
     AWall=74,
-    inc=IDEAS.Constants.Floor,
-    azi=IDEAS.Constants.South,
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=IDEAS.Types.Azimuth.S,
     redeclare IDEAS.Buildings.Data.Constructions.TABS constructionType)
                                annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -90,18 +90,18 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.Rockwool insulationType,
     AWall={10,21,10},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     insulationThickness={0.16,0.16,0.16},
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall})
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall})
     annotation (Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
         rotation=90,
         origin={-17.5,44.5})));
   Components.Window[3] sF_win(
     A={5.5,1,5.5},
-    azi={IDEAS.Constants.East,IDEAS.Constants.South,IDEAS.Constants.West},
+    azi={IDEAS.Types.Azimuth.E,IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.W},
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Kr glazing,
-    inc={IDEAS.Constants.Wall,IDEAS.Constants.Wall,IDEAS.Constants.Wall},
+    inc={IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall,IDEAS.Types.Tilt.Wall},
     redeclare IDEAS.Buildings.Components.Shading.None shaType) annotation (
       Placement(transformation(
         extent={{-5.5,-10.5},{5.5,10.5}},
@@ -111,8 +111,8 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
     insulationThickness=0.04,
     AWall=74,
-    inc=IDEAS.Constants.Floor,
-    azi=IDEAS.Constants.South,
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=IDEAS.Types.Azimuth.S,
     redeclare IDEAS.Buildings.Data.Constructions.TABS constructionType)
                                annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -123,8 +123,8 @@ model structure "Example detailed building structure model"
     redeclare IDEAS.Buildings.Data.Insulation.Xps insulationType,
     insulationThickness=0.32,
     AWall=74,
-    inc=IDEAS.Constants.Ceiling,
-    azi=IDEAS.Constants.South) annotation (Placement(transformation(
+    inc=IDEAS.Types.Tilt.Ceiling,
+    azi=IDEAS.Types.Azimuth.S) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-77,44})));

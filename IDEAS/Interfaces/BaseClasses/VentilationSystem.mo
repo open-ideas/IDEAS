@@ -3,8 +3,6 @@ partial model VentilationSystem
 
   extends IDEAS.Interfaces.BaseClasses.PartialSystem;
 
-
-
   replaceable package Medium = IDEAS.Media.Air
     constrainedby Modelica.Media.Interfaces.PartialMedium
     "Medium in the component"
