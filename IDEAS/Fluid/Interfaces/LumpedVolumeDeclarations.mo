@@ -6,16 +6,16 @@ record LumpedVolumeDeclarations "Declarations for lumped volumes"
 
   // Assumptions
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-    "Formulation of energy balance"
+    "Type of energy balance: dynamic (3 initialization options) or steady state"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   parameter Modelica.Fluid.Types.Dynamics massDynamics=energyDynamics
-    "Formulation of mass balance"
+    "Type of mass balance: dynamic (3 initialization options) or steady state"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   final parameter Modelica.Fluid.Types.Dynamics substanceDynamics=energyDynamics
-    "Formulation of substance balance"
+    "Type of independent mass fraction balance: dynamic (3 initialization options) or steady state"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   final parameter Modelica.Fluid.Types.Dynamics traceDynamics=energyDynamics
-    "Formulation of trace substance balance"
+    "Type of trace substance balance: dynamic (3 initialization options) or steady state"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
   // Initialization
@@ -25,7 +25,8 @@ record LumpedVolumeDeclarations "Declarations for lumped volumes"
   parameter Medium.Temperature T_start=Medium.T_default
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
-  parameter Medium.MassFraction X_start[Medium.nX] = Medium.X_default
+  parameter Medium.MassFraction X_start[Medium.nX](
+       quantity=Medium.substanceNames) = Medium.X_default
     "Start value of mass fractions m_i/m"
     annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
   parameter Medium.ExtraProperty C_start[Medium.nC](
@@ -36,7 +37,7 @@ record LumpedVolumeDeclarations "Declarations for lumped volumes"
        quantity=Medium.extraPropertiesNames) = fill(1E-2, Medium.nC)
     "Nominal value of trace substances. (Set to typical order of magnitude.)"
    annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
-  parameter Real mSenFac(min=1)=1
+  parameter Real mSenFac(min=0.1)=1
     "Factor for scaling the sensible thermal mass of the volume"
     annotation(Dialog(tab="Dynamics"));
 
@@ -61,6 +62,10 @@ IDEAS.Rooms.BaseClasses.MixedAir</a>.
 </html>",
 revisions="<html>
 <ul>
+<li>
+January 26, 2016, by Michael Wetter:<br/>
+Added <code>quantity=Medium.substanceNames</code> for <code>X_start</code>.
+</li>
 <li>
 October 21, 2014, by Filip Jorissen:<br/>
 Added parameter <code>mFactor</code> to increase the thermal capacity.

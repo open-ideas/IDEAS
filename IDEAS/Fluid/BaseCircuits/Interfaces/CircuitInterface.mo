@@ -6,7 +6,7 @@ partial model CircuitInterface "Partial circuit for base circuits"
     annotation (__Dymola_choicesAllMatching=true);
 
   //Extensions
-  extends IDEAS.Fluid.Interfaces.FourPort(
+  extends IDEAS.Fluid.Interfaces.PartialFourPort(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
     final allowFlowReversal1 = allowFlowReversal,
@@ -159,13 +159,11 @@ equation
         Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135}),
                                Line(
           points={{-100,-60},{100,-60}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash),
-                                   Line(
+          color={0,127,255},
+          thickness=0.5),          Line(
           points={{-100,60},{100,60}},
-          color={0,0,127},
-          smooth=Smooth.None),
+          color={255,85,85},
+          thickness=0.5),
         Rectangle(
           extent={{-100,-50},{-80,-70}},
           lineColor={0,0,0},
