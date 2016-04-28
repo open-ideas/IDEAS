@@ -6,7 +6,8 @@ extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(final allowFlowReversal=f
   parameter Modelica.SIunits.Volume V "zone air volume";
   parameter Real n50(min=0)=0.4 "n50-value of airtightness";
 
-  outer IDEAS.SimInfoManager sim "Simulation information manager"
+  outer BoundaryConditions.SimInfoManager
+                             sim "Simulation information manager"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   Fluid.Interfaces.IdealSource idealSourceOut(
@@ -73,7 +74,7 @@ equation
   connect(idealSourceIn.port_b, port_b)
     annotation (Line(points={{60,0},{80,0},{100,0}}, color={0,127,255}));
   connect(sim.weaBus, weaBus) annotation (Line(
-      points={{-88.6,97.2},{-40,97.2},{-40,86}},
+      points={{-84,92.8},{-40,92.8},{-40,86}},
       color={255,204,51},
       thickness=0.5));
   connect(bou.T_in, weaBus.Te) annotation (Line(points={{6,42},{6,86.05},{-39.95,

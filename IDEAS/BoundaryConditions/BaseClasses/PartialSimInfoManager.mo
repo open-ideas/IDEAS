@@ -100,7 +100,7 @@ protected
       fill(ceilingInc,1),
       fill(IDEAS.Constants.Wall, numAzi)) "surface inclination";
 
-  IDEAS.Climate.Time.SimTimes timMan(
+  IDEAS.BoundaryConditions.Climate.Time.SimTimes timMan(
     timZonSta=timZonSta,
     lon=lon,
     DST=false,
