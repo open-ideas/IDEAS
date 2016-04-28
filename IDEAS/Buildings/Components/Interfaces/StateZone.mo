@@ -3,7 +3,7 @@ partial model StateZone "Partial model for thermal building zones"
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Integer nSurf(min=1)
+  parameter Integer nSurf(min=2)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
   outer IDEAS.SimInfoManager sim
     "Simulation information manager for climate data"
