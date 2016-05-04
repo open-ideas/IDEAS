@@ -100,6 +100,7 @@ protected
       fill(ceilingInc,1),
       fill(IDEAS.Types.Tilt.Wall, numAzi)) "surface inclination";
 
+public
   IDEAS.BoundaryConditions.Climate.Time.SimTimes timMan(
     timZonSta=timZonSta,
     lon=lon,
@@ -107,6 +108,7 @@ protected
     ifSolCor=true)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
 
+protected
   BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
   filNam=filNamClim,
   lat=lat,
@@ -115,8 +117,10 @@ protected
   datRea1(tableName="data"),
   datRea(tableName="data")) if useTmy3Reader
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
+public
   Utilities.Psychrometrics.X_pTphi XiEnv(use_p_in=false)
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+protected
   Modelica.Blocks.Sources.RealExpression phiEnv(y=relHum)
     annotation (Placement(transformation(extent={{-124,-22},{-104,-2}})));
   Modelica.Blocks.Sources.RealExpression TEnv(y=Te)

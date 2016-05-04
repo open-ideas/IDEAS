@@ -29,7 +29,7 @@ model HP_AirWater_TSet2 "Air-to-water heat pump with temperature set point"
     final hIn=inStream(port_a.h_outflow),
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-60,-16},{-40,4}})));
-  outer IDEAS.SimInfoManager sim
+  outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
 
 public
@@ -62,7 +62,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowSensor.port_b, pipe_HeatPort.heatPort) annotation (Line(
-      points={{0,-6},{30,-6}},
+      points={{0,-6},{16,-6},{16,-10},{30,-10}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(

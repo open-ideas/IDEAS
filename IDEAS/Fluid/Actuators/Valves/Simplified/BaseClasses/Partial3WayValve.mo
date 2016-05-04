@@ -1,7 +1,9 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified.BaseClasses;
 model Partial3WayValve "Partial for 3-way valves"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
-  parameter Modelica.SIunits.Mass m = 1 "Fluid content of the mixing valve";
+  parameter Modelica.SIunits.Time tau = 1;
+  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
+    "Fluid content of the mixing valve";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         Medium) "Hot fluid inlet"
