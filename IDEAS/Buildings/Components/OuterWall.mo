@@ -5,6 +5,13 @@ model OuterWall "Opaque building envelope construction"
      dT_nominal_a=-3,
      QTra_design(fixed=false));
 
+  parameter Boolean linExtCon=sim.linExtCon
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Convection"));
+  parameter Boolean linExtRad=sim.linExtRad
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Radiation"));
+
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
   Modelica.SIunits.Power QSolIrr = (gainDir.y + gainDif.y)
@@ -12,14 +19,14 @@ model OuterWall "Opaque building envelope construction"
 
 protected
   IDEAS.Buildings.Components.BaseClasses.ExteriorConvection extCon(
-    final A=AWall)
+    final A=AWall, linearise=linExtCon)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-22,-28},{-42,-8}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorSolarAbsorption solAbs
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-22,-8},{-42,12}})));
   IDEAS.Buildings.Components.BaseClasses.ExteriorHeatRadiation extRad(
-    final A=AWall)
+    final A=AWall, linearise=linExtRad)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
   Modelica.Blocks.Math.Gain gainDir(k=AWall)

@@ -22,6 +22,19 @@ partial model PartialSimInfoManager
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
 
+  parameter Boolean linIntCon=true
+    "= true, if interior convective heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linExtCon=false
+    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
+    annotation(Dialog(tab="Linearisation", group="Convection"));
+  parameter Boolean linIntRad=true
+    "= true, if interior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
+  parameter Boolean linExtRad=false
+    "= true, if exterior radiative heat transfer should be linearised"
+    annotation(Dialog(tab="Linearisation", group="Radiation"));
+
   parameter Modelica.SIunits.Energy Emax = 1
     "Error bound for violation of conservation of energy"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = strictConservationOfEnergy));

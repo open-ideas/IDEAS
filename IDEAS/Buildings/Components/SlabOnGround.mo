@@ -21,6 +21,8 @@ model SlabOnGround "opaque floor on ground slab"
     annotation(Dialog(tab="Convection"));
   Modelica.SIunits.HeatFlowRate Qm = UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta))
     "Two-dimensionl correction for edge flow";
+  Modelica.Blocks.Math.Gain  QmExp(k=-Qm) "Real expression for Qm"
+    annotation (Placement(transformation(extent={{-56,18},{-46,28}})));
 
 //Calculation of heat loss based on ISO 13370
 protected
@@ -59,18 +61,22 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow adiabaticBoundary(Q_flow=0,
       T_ref=285.15)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-  Modelica.Blocks.Sources.RealExpression QmExp(y=-Qm) "Real expression for Qm"
-    annotation (Placement(transformation(extent={{-80,12},{-60,32}})));
 equation
 
   connect(QmExp.y, periodicFlow.Q_flow)
-    annotation (Line(points={{-59,22},{-40,22}}, color={0,0,127}));
+    annotation (Line(points={{-45.5,23},{-45.5,22},{-40,22}},
+                                                 color={0,0,127}));
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
           -14,22},{-14,0},{-10,0}}, color={191,0,0}));
   connect(layGro.port_a, layMul.port_b)
     annotation (Line(points={{-20,0},{-15,0},{-10,0}}, color={191,0,0}));
   connect(layGro.port_b, adiabaticBoundary.port)
     annotation (Line(points={{-40,0},{-45,0},{-50,0}}, color={191,0,0}));
+  connect(QmExp.u, propsBus_a.weaBus.dummy) annotation (Line(points={{-57,23},{
+          -60,23},{-60,40},{100.1,40},{100.1,19.9}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
