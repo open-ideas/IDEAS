@@ -4,7 +4,8 @@ model SlabOnGround "opaque floor on ground slab"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes), layMul(
         placeCapacityAtSurf_b=false),
-        dT_nominal_a=-3);
+        dT_nominal_a=-3,
+    redeclare replaceable Data.Constructions.FloorOnGround constructionType);
 
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total wall perimeter";
@@ -21,8 +22,6 @@ model SlabOnGround "opaque floor on ground slab"
     annotation(Dialog(tab="Convection"));
   Modelica.SIunits.HeatFlowRate Qm = UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta))
     "Two-dimensionl correction for edge flow";
-  Modelica.Blocks.Math.Gain  QmExp(k=-Qm) "Real expression for Qm"
-    annotation (Placement(transformation(extent={{-56,18},{-46,28}})));
 
 //Calculation of heat loss based on ISO 13370
 protected
@@ -61,22 +60,25 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow adiabaticBoundary(Q_flow=0,
       T_ref=285.15)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
+public
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{-30,36},{-38,44}})));
+  Modelica.Blocks.Sources.RealExpression Qm_val(y=-Qm)
+    annotation (Placement(transformation(extent={{0,50},{-20,70}})));
 equation
 
-  connect(QmExp.y, periodicFlow.Q_flow)
-    annotation (Line(points={{-45.5,23},{-45.5,22},{-40,22}},
-                                                 color={0,0,127}));
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
           -14,22},{-14,0},{-10,0}}, color={191,0,0}));
   connect(layGro.port_a, layMul.port_b)
     annotation (Line(points={{-20,0},{-15,0},{-10,0}}, color={191,0,0}));
   connect(layGro.port_b, adiabaticBoundary.port)
     annotation (Line(points={{-40,0},{-45,0},{-50,0}}, color={191,0,0}));
-  connect(QmExp.u, propsBus_a.weaBus.dummy) annotation (Line(points={{-57,23},{
-          -60,23},{-60,40},{100.1,40},{100.1,19.9}}, color={0,0,127}), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
+  connect(Qm_val.y, product.u1) annotation (Line(points={{-21,60},{-26,60},{-26,
+          42.4},{-29.2,42.4}}, color={0,0,127}));
+  connect(product.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-29.2,37.6},
+          {100.1,37.6},{100.1,19.9}}, color={0,0,127}));
+  connect(product.y, periodicFlow.Q_flow) annotation (Line(points={{-38.4,40},{-50,
+          40},{-50,22},{-40,22}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
         graphics={
@@ -111,8 +113,7 @@ equation
           color={0,0,0},
           thickness=0.5,
           smooth=Smooth.None)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,
-            100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}})),
     Documentation(info="<html>
 <p><h4><font color=\"#008000\">General description</font></h4></p>
 <p><h5>Goal</h5></p>

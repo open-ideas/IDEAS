@@ -27,10 +27,13 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-
+  parameter Boolean createOutputsOnly = false
+    "Set true to compute outputs for linearisation, but remove all other components"
+    annotation(Dialog(group="Linearisation"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     numAzi=sim.numAzi,
-    computeConservationOfEnergy=sim.computeConservationOfEnergy) "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    computeConservationOfEnergy=sim.computeConservationOfEnergy,
+    weaBus(final outputAngles=not sim.linearise)) "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -44,7 +47,8 @@ partial model PartialSurface "Partial model for building envelope component"
   BaseClasses.InteriorConvection intCon_a(
     linearise=linearise_a,
     dT_nominal=dT_nominal_a,
-    final inc=inc) "Convective heat transfer correlation for port_a"
+    final inc=inc) if                          not createOutputsOnly
+    "Convective heat transfer correlation for port_a"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 protected
   Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design);
@@ -66,7 +70,7 @@ protected
 
 protected
   IDEAS.Buildings.Components.BaseClasses.MultiLayer layMul(final inc=inc,
-      energyDynamics=energyDynamics)
+      energyDynamics=energyDynamics) if not createOutputsOnly
     "Multilayer component that allows simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 

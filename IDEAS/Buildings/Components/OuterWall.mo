@@ -39,7 +39,8 @@ protected
     numAzi=sim.numAzi,
     offsetAzi=sim.offsetAzi,
     ceilingInc=sim.ceilingInc,
-    lat=sim.lat)
+    lat=sim.lat,
+    final outputAngles=not sim.linearise)
     annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
 initial equation

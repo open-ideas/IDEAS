@@ -20,7 +20,8 @@ model RadSolData "Selects or generates correct solar data for this surface"
     "Solbus index for this surface";
 
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1)
+                                     weaBus(numSolBus=numAzi + 1, outputAngles=
+        outputAngles)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
   Modelica.Blocks.Interfaces.RealOutput solDir
@@ -43,15 +44,19 @@ protected
     final inc=inc,
     final azi=azi,
     lat=lat,
-    numAzi=numAzi) if not solDataInBus
+    numAzi=numAzi,
+    outputAngles=outputAngles) if
+                      not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 
   output Buildings.Components.Interfaces.SolBus
-                                         solBusDummy
+                                         solBusDummy(outputAngles=outputAngles)
     "Required for avoiding warnings?"
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-60,10},{-20,50}})));
+public
+  parameter Boolean outputAngles=true "Set to false when linearising only";
 equation
 
   connect(radSol.solBus, solBusDummy) annotation (Line(
@@ -96,8 +101,8 @@ equation
           {-72,58},{100,58},{100,80}}, color={0,0,127}));
   connect(radSol.solDirPer, weaBus.solDirPer) annotation (Line(points={{-80.4,40},
           {-80.4,60},{100,60},{100,80}}, color={0,0,127}));
-  connect(radSol.solGloHor, weaBus.solGloHor) annotation (Line(points={{-80.4,38},
-          {-82,38},{-82,62},{-82,62},{100,62},{100,80}}, color={0,0,127}));
+  connect(radSol.solGloHor, weaBus.solGloHor) annotation (Line(points={{-80.4,
+          38},{-82,38},{-82,62},{100,62},{100,80}},      color={0,0,127}));
   connect(radSol.solDifHor, weaBus.solDifHor) annotation (Line(points={{-80.4,36},
           {-84,36},{-84,64},{100,64},{100,80}}, color={0,0,127}));
   connect(radSol.angDec, weaBus.angDec) annotation (Line(points={{-80.4,30},{-86,

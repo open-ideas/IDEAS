@@ -17,7 +17,7 @@ public
     annotation (Placement(transformation(extent={{-22,6},{-12,26}})));
 equation
   connect(sim.weaBus, weaBus) annotation (Line(
-      points={{-88.6,5.2},{-88.6,34},{-54,34}},
+      points={{-84,0.8},{-84,34},{-54,34}},
       color={255,204,51},
       thickness=0.5));
   connect(buildingShade.solDir, weaBus.solBus[2].iSolDir) annotation (Line(points={{-22,-4},

@@ -5,7 +5,9 @@ partial model StateZone "Partial model for thermal building zones"
       annotation (choicesAllMatching = true);
   parameter Integer nSurf(min=2)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
-  outer IDEAS.BoundaryConditions.SimInfoManager sim
+  parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
+    annotation(Dialog(tab="Linearise"));
+  outer SmartGeotherm.Interface.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
@@ -19,7 +21,8 @@ partial model StateZone "Partial model for thermal building zones"
       Placement(transformation(extent={{96,-10},{116,10}}), iconTransformation(
           extent={{96,-10},{116,10}})));
   ZoneBus[nSurf] propsBus(each final numAzi=sim.numAzi,
-      each final computeConservationOfEnergy=sim.computeConservationOfEnergy)
+      each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
+      each weaBus(final outputAngles=not sim.linearise))
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -28,10 +31,11 @@ partial model StateZone "Partial model for thermal building zones"
         rotation=-90,
         origin={-100,40})));
   Fluid.Interfaces.FlowPort_b flowPort_Out(redeclare package Medium = Medium)
+    if                                                                           useFluidPorts
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
   Fluid.Interfaces.FlowPort_a flowPort_In(redeclare package Medium = Medium)
+    if                                                                          useFluidPorts
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
-
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr if
        sim.computeConservationOfEnergy "Internal energy model";

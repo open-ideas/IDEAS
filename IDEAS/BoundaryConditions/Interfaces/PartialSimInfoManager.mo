@@ -22,16 +22,18 @@ partial model PartialSimInfoManager
     "Compute conservation of energy for open system"
     annotation(Evaluate=true,Dialog(tab="Conservation of energy", enable = computeConservationOfEnergy));
 
+  parameter Boolean linearise = false "Linearises building model equations"
+    annotation(Dialog(tab="Linearisation"));
   parameter Boolean linIntCon=true
     "= true, if interior convective heat transfer should be linearised"
     annotation(Dialog(tab="Linearisation", group="Convection"));
-  parameter Boolean linExtCon=false
+  parameter Boolean linExtCon=if linearise then true else false
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Linearisation", group="Convection"));
-  parameter Boolean linIntRad=true
+  parameter Boolean linIntRad=if linearise then true else true
     "= true, if interior radiative heat transfer should be linearised"
     annotation(Dialog(tab="Linearisation", group="Radiation"));
-  parameter Boolean linExtRad=false
+  parameter Boolean linExtRad=if linearise then true else false
     "= true, if exterior radiative heat transfer should be linearised"
     annotation(Dialog(tab="Linearisation", group="Radiation"));
 
@@ -325,7 +327,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(TdesExpr.y, weaBus.Tdes) annotation (Line(
-      points={{1,-10},{60.05,-10},{60.05,28.05}},
+      points={{1,-10},{60,-10},{60,28}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSol.solBus, weaBus.solBus) annotation (Line(

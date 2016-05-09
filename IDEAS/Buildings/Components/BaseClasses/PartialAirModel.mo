@@ -4,6 +4,8 @@ model PartialAirModel "Partial for an air model"
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare replaceable package Medium = IDEAS.Media.Air);
 
+  parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
+    annotation(Dialog(tab="Linearise"));
   parameter Integer nSurf "Number of connected surfaces";
   parameter Integer nSeg=1 "Number of air segments";
   parameter Modelica.SIunits.Volume Vtot "Total zone air volume";
@@ -21,10 +23,10 @@ model PartialAirModel "Partial for an air model"
   Modelica.Blocks.Interfaces.RealInput[nSurf] azi "Azimuth of surface"
     annotation (Placement(transformation(extent={{-128,20},{-88,60}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-        Medium)
+        Medium) if useFluidPorts
     annotation (Placement(transformation(extent={{30,90},{50,110}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-        Medium)
+        Medium) if useFluidPorts
     annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
   outer BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
