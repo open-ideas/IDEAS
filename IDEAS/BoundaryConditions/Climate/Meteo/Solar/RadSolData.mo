@@ -7,9 +7,12 @@ model RadSolData "Selects or generates correct solar data for this surface"
   parameter SI.Angle ceilingInc "Roof inclination angle in solBus";
   parameter SI.Angle offsetAzi
     "Offset azimuth angle of irradation data calculated in solBus";
+  parameter SI.Angle ceilingAzi "Roof azimuth angle in solBus";
+  parameter Boolean useLinearisation = false
+    "Set to true if used for linearisation";
   parameter Boolean solDataInBus=
    isRoof or
-    (inc==IDEAS.Types.Tilt.Wall
+    (abs(inc-IDEAS.Types.Tilt.Wall)<0.05
       and abs(sin((azi-offsetAzi)*numAzi))<0.05)
     "True if solBus contains correct data for this surface"
     annotation(Evaluate=true);
@@ -38,8 +41,8 @@ model RadSolData "Selects or generates correct solar data for this surface"
   Modelica.Blocks.Interfaces.RealOutput Tenv "Environment temperature"
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
 protected
-      parameter Boolean isRoof = ceilingInc == inc
-    "Surface is a horizontal surface";
+      parameter Boolean isRoof = ( (abs(ceilingInc-inc) <0.05) and (abs(inc)< 0.05 or abs(ceilingAzi - azi)<0.05))
+    "Surface has the predifined roof inclination and orientation.";
   IDEAS.BoundaryConditions.Climate.Meteo.Solar.ShadedRadSol radSol(
     final inc=inc,
     final azi=azi,
@@ -57,8 +60,14 @@ protected
         transformation(extent={{-60,10},{-20,50}})));
 public
   parameter Boolean outputAngles=true "Set to false when linearising only";
+  Modelica.Blocks.Sources.Constant constAngLin(k=1) if
+                                                 solDataInBus and not outputAngles
+    "Dummy inputs when linearising. This avoids unnecessary state space inputs."
+    annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation
-
+      assert( not useLinearisation or (useLinearisation and solDataInBus), "The solar data must come
+      from the weabus when the model is linearised. Check if the azimuth and inclination angles
+      of the surfaces correspond to the ones predefined in SimInfoManager.");
   connect(radSol.solBus, solBusDummy) annotation (Line(
       points={{-60,30},{-40,30}},
       color={255,204,51},
@@ -83,6 +92,7 @@ equation
       points={{106,-20},{-39.9,-20},{-39.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
+  if not (solDataInBus and not outputAngles) then
   connect(angInc, solBusDummy.angInc) annotation (Line(
       points={{106,-40},{-40,-40},{-40,-42},{-39.9,-42},{-39.9,30.1}},
       color={0,0,127},
@@ -95,6 +105,7 @@ equation
       points={{106,-80},{-39.9,-80},{-39.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
+  end if;
   connect(radSol.TePow4, weaBus.TePow4) annotation (Line(points={{-66,40.6},{-66,
           56},{100,56},{100,80}}, color={0,0,127}));
   connect(radSol.TskyPow4, weaBus.TskyPow4) annotation (Line(points={{-72,40.6},
@@ -115,6 +126,14 @@ equation
           72},{100,72},{100,80}}, color={0,0,127}));
   connect(radSol.F2, weaBus.F2) annotation (Line(points={{-80.4,20},{-94,20},{-94,
           74},{100,74},{100,80}}, color={0,0,127}));
+
+    connect(constAngLin.y, angInc) annotation (Line(points={{-79,-60},{-78,-60},{-78,
+          -40},{106,-40}}, color={0,0,127}));
+  connect(constAngLin.y, angZen)
+    annotation (Line(points={{-79,-60},{-78,-60},{106,-60}}, color={0,0,127}));
+  connect(constAngLin.y, angAzi)
+                                annotation (Line(points={{-79,-60},{-78,-60},{-78,
+          -80},{106,-80}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Documentation(info="<html>
 <p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>

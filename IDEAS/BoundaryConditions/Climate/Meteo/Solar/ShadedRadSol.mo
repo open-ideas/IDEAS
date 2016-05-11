@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Climate.Meteo.Solar;
 model ShadedRadSol "Solar angle to surface"
   extends IDEAS.BoundaryConditions.Climate.Meteo.Solar.RadSol(final remDefVals=
-        true, solBus(outputAngles=outputAngles));
+        true);
 
   final parameter Real Fssky=(1 + cos(inc))/2
     "radiant-interchange configuration factor between surface and sky";
@@ -22,8 +22,7 @@ protected
   Modelica.Blocks.Sources.RealExpression TenvExpr(
     y=(Fssky*TskyPow4 + (1 - Fssky)*TePow4)^0.25) "Environment temperature"
     annotation (Placement(transformation(extent={{0,70},{60,90}})));
-public
-  parameter Boolean outputAngles=true "Set to false when linearising only";
+
 equation
   connect(angleAzimuth.angDec, angSolar.angDec) annotation (Line(
       points={{0,-44},{-66,-44},{-66,36},{-40,36}},

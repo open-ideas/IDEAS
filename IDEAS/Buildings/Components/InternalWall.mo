@@ -22,7 +22,7 @@ model InternalWall "interior opaque wall between two zones"
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     numAzi=sim.numAzi,
     computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each final weaBus(outputAngles=not sim.linearise)) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+    each final weaBus(outputAngles=sim.outputAngles)) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,

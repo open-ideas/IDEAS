@@ -16,6 +16,8 @@ expandable connector WeaBus "Data bus that stores weather data"
     annotation ();
   Modelica.SIunits.Temperature TGroundDes(start=283.15)
     "Design ground temperature" annotation ();
+  Modelica.SIunits.Temperature Tdes(start=-8 + 273.15)
+    "Design ground temperature" annotation ();
   annotation (
     defaultComponentName="weaBus",
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,

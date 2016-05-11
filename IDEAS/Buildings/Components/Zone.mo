@@ -62,12 +62,6 @@ protected
   Modelica.Blocks.Math.Sum add(nin=2, k={0.5,0.5}) "Operative temperature"
     annotation (Placement(transformation(extent={{66,-6},{78,6}})));
 
-  outer input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
-    final outputAngles=not sim.linearise,
-    final numSolBus=sim.numAzi + 1) if sim.linearise
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-100,-2})));
 public
   BaseClasses.ZoneLwDistributionViewFactor zoneLwDistributionViewFactor(
     final nSurf=nSurf,
@@ -84,7 +78,9 @@ public
     allowFlowReversal=allowFlowReversal,
     n50=n50,
     n50toAch=n50toAch,
-    mSenFac=corrCV)    constrainedby BaseClasses.PartialAirModel(
+    mSenFac=corrCV,
+    useFluidPorts=useFluidPorts)
+                       constrainedby BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
     nSurf=nSurf,
     Vtot=V,
@@ -92,7 +88,8 @@ public
     allowFlowReversal=allowFlowReversal,
     n50=n50,
     n50toAch=n50toAch,
-    mSenFac=corrCV) "Zone air model"
+    mSenFac=corrCV,
+    useFluidPorts=useFluidPorts) "Zone air model"
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})), Dialog(tab="Advanced", group="Air model"));
 
 initial equation
@@ -168,11 +165,6 @@ for i in 1:nSurf loop
       points={{-50,-60},{-50,-64},{-100.1,-64},{-100.1,39.9}},
       color={191,0,0},
       smooth=Smooth.None));
-    connect(weaBus, propsBus[i].weaBus) annotation (Line(
-          points={{-100,-2},{-100,39.9},{-100.1,39.9}},
-          color={255,204,51},
-          thickness=0.5,
-          smooth=Smooth.None));
 end for;
       if allowFlowReversal then
       else

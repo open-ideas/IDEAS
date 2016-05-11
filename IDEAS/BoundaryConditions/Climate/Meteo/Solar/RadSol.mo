@@ -8,7 +8,10 @@ model RadSol "solar angle to surface"
   parameter Modelica.SIunits.Angle azi(displayUnit="degree") "azimuth";
   parameter Modelica.SIunits.Angle lat(displayUnit="degree") "latitude";
   parameter Boolean remDefVals = false "Remove default signal values";
-  output Buildings.Components.Interfaces.SolBus solBus
+  parameter Boolean outputAngles=true "Set to false when linearising only";
+
+  output Buildings.Components.Interfaces.SolBus solBus(outputAngles=
+        outputAngles)
     annotation (Placement(transformation(extent={{80,-20},{120,20}})));
 
   Modelica.Blocks.Interfaces.RealInput angZen
@@ -48,6 +51,7 @@ protected
                                                      not remDefVals
     "Tenv dummy value when not needed"
     annotation (Placement(transformation(extent={{-20,-76},{-8,-64}})));
+
 equation
   connect(angSolar.angInc, solDirTil.angSol) annotation (Line(
       points={{-20,36},{0,36}},

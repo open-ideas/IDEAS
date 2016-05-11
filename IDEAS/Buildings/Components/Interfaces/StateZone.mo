@@ -7,7 +7,7 @@ partial model StateZone "Partial model for thermal building zones"
     "Number of surfaces adjacent to and heat exchangeing with the zone";
   parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
     annotation(Dialog(tab="Linearise"));
-  outer SmartGeotherm.Interface.SimInfoManager sim
+  outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
@@ -22,7 +22,7 @@ partial model StateZone "Partial model for thermal building zones"
           extent={{96,-10},{116,10}})));
   ZoneBus[nSurf] propsBus(each final numAzi=sim.numAzi,
       each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-      each weaBus(final outputAngles=not sim.linearise))
+      each weaBus(final outputAngles=sim.outputAngles))
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -60,12 +60,14 @@ initial equation
 equation
   connect(sim.Qgai, dummy1);
   connect(sim.E, dummy2);
-for i in 1:nSurf loop
+  for i in 1:nSurf loop
+     if not sim.linearise then
   connect(sim.weaBus, propsBus[i].weaBus) annotation (Line(
-       points={{-84,92.8},{-84,100},{-100.1,100},{-100.1,39.9}},
+       points={{-84,92.8},{-84,96},{-84,96},{-84,100},{-100.1,100},{-100.1,39.9}},
        color={255,204,51},
        thickness=0.5,
        smooth=Smooth.None));
+     end if;
   connect(dummy1, propsBus[i].Qgai);
   connect(dummy2, propsBus[i].E);
 end for;
