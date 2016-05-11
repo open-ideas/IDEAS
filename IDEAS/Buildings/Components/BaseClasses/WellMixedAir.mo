@@ -1,11 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses;
 model WellMixedAir "Zone air model assuming perfectly mixed air"
   extends PartialAirModel(final nSeg=1);
-  parameter Boolean allowFlowReversal=true
-    "= true to allow flow reversal in medium, false restricts to design direction (ports[1] -> ports[2]). Used only if model has two ports.";
-  parameter Real n50=0.4 "n50-value of airtightness";
-  parameter Real n50toAch = 20 "Conversion fractor from n50 to Air Change Rate";
-  Modelica.SIunits.Energy E = vol.U "Internal energy";
+
 protected
   Fluid.MixingVolumes.MixingVolume         vol(
     m_flow_nominal=m_flow_nominal,

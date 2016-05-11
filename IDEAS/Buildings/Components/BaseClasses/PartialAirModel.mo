@@ -3,7 +3,11 @@ model PartialAirModel "Partial for an air model"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare replaceable package Medium = IDEAS.Media.Air);
-
+  parameter Boolean allowFlowReversal=true
+    "= true to allow flow reversal in medium, false restricts to design direction (ports[1] -> ports[2]). Used only if model has two ports.";
+  parameter Real n50=0.4 "n50-value of airtightness";
+  parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate";
+  Modelica.Blocks.Interfaces.RealOutput E;
   parameter Boolean useFluidPorts = true "Set false to remove fluidPorts"
     annotation(Dialog(tab="Linearise"));
   parameter Integer nSurf "Number of connected surfaces";
