@@ -21,7 +21,7 @@ model ZoneExample
   Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
 
-  inner SmartGeotherm.Interface.SimInfoManager
+  inner IDEAS.BoundaryConditions.SimInfoManager
                                           sim
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   InternalWall
@@ -44,7 +44,7 @@ model ZoneExample
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S)
     annotation (Placement(transformation(extent={{-54,-82},{-44,-62}})));
-  SmartGeotherm.BaseClasses.Linearisation.Components.SlabOnGround slabOnGround(
+  SlabOnGround                                                    slabOnGround(
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.LightWall
       constructionType,
     redeclare parameter IDEAS.Buildings.Data.Insulation.Pir insulationType,

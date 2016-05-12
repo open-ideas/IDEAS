@@ -222,9 +222,9 @@ public
   parameter Integer nLayWin= 3
     "Number of window layers in the to be linearised model; should be maximum of all windows"
     annotation(Dialog(tab="Linearisation"));
-  input SmartGeotherm.BaseClasses.Linearisation.Interfaces.WindowBus[nWindow]
-    winBusOut(each nLay=nLayWin) if   createOutputs;
-
+  input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
+      each nLay=nLayWin) if           createOutputs
+    "Bus for windows in case of linearisation";
 initial equation
   Etot = 0;
 equation
@@ -480,5 +480,4 @@ Adjusted implementation for grouping of solar calculations.
 </li>
 </ul>
 </html>"));
-
 end PartialSimInfoManager;

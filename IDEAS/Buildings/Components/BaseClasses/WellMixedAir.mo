@@ -34,7 +34,9 @@ public
 protected
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem
     annotation (Placement(transformation(extent={{60,-70},{80,-50}})));
+  Modelica.Blocks.Interfaces.RealInput E_internal = vol.U;
 equation
+  connect(E_internal,E);
   connect(vol.ports[1], port_a) annotation (Line(points={{-3,10},{-3,10},{40,10},
           {40,100}},  color={0,127,255}));
   connect(vol.ports[2], port_b)
