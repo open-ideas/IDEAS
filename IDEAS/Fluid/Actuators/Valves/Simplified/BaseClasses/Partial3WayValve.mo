@@ -1,8 +1,9 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified.BaseClasses;
 model Partial3WayValve "Partial for 3-way valves"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
-  parameter Modelica.SIunits.Time tau = 1;
-  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
+  parameter Real tau = 1 "Valve opening time constant"
+    annotation(Dialog(enable=dynamicValve,tab="Dynamics", group="Filter"));
+  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau 
     "Fluid content of the mixing valve";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
