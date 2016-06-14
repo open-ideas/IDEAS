@@ -5,7 +5,8 @@ model InternalWall "interior opaque wall between two zones"
   E(y=layMul.E),
   Qgai(y=(if sim.openSystemConservationOfEnergy
          then 0 else sum(port_emb.Q_flow))),
-  final QTra_design=U_value*AWall*(TRef_a - TRef_b));
+  final QTra_design=U_value*AWall*(TRef_a - TRef_b),
+    intCon_a(use_hConState=use_hConState));
 
   parameter Boolean linearise_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
@@ -36,7 +37,8 @@ protected
     final A=AWall,
     linearise=linearise_b,
     dT_nominal=dT_nominal_b,
-    final inc=inc + Modelica.Constants.pi)
+    final inc=inc + Modelica.Constants.pi,
+    use_hConState=use_hConState)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{-22,-10},{-42,10}})));
  Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design);
@@ -55,6 +57,9 @@ protected
   Modelica.Blocks.Sources.Constant E0(final k=0)
     "All internal energy is assigned to right side";
 
+public
+  parameter Boolean use_hConState=false
+    "Introduce state to avoid non-linear systems when linearise = false";
 equation
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
       points={{-10,0},{-14,0},{-14,40.1},{-50.1,40.1}},
