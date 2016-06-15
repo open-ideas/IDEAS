@@ -62,7 +62,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowSensor.port_b, pipe_HeatPort.heatPort) annotation (Line(
-      points={{0,-6},{16,-6},{16,-10},{30,-10}},
+      points={{0,-6},{30,-6}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
