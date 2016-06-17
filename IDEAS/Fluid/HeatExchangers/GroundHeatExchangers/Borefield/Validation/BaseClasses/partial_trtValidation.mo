@@ -27,7 +27,11 @@ partial model partial_trtValidation
     tableName="data",
     columns={2},
     offset={0},
+<<<<<<< HEAD
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint) if verifyWithData
+=======
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
+>>>>>>> remotes/upstream/develop
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 
   Modelica.Blocks.Sources.CombiTimeTable TIn_measured(
@@ -35,7 +39,11 @@ partial model partial_trtValidation
     tableName="data",
     columns={2},
     offset={0},
+<<<<<<< HEAD
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint) if verifyWithData
+=======
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
+>>>>>>> remotes/upstream/develop
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
 equation
   connect(realExpression.y, TMea_in.Kelvin)

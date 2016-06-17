@@ -1,7 +1,8 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified.BaseClasses;
 model Partial3WayValve "Partial for 3-way valves"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
-  parameter Modelica.SIunits.Time tau = 1;
+  parameter Real tau = 1 "Valve opening time constant"
+    annotation(Dialog(enable=dynamicValve,tab="Dynamics", group="Filter"));
   final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
     "Fluid content of the mixing valve";
 
@@ -36,8 +37,8 @@ model Partial3WayValve "Partial for 3-way valves"
 
   Interfaces.IdealSource idealSource(redeclare package Medium = Medium,
       control_m_flow=true,
-    allowFlowReversal=allowFlowReversal,
-    m_flow_small=0)        annotation (Placement(transformation(
+    allowFlowReversal=allowFlowReversal)
+                           annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={0,-44})));
