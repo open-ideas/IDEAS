@@ -15,7 +15,7 @@ partial model PartialSimInfoManager
 
   parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S},
                          {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E}}
-                        "Combination of inclination and azimuth which are pre-computed and added to solBus.";
+                        "Combination of inclination and azimuth which are pre-computed and added to solBus." annotation(Dialog(tab="Incidence angles"));
 
   parameter Boolean computeConservationOfEnergy=false
     "Add equations for verifying conservation of energy"
