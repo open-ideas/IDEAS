@@ -13,8 +13,8 @@ partial model PartialSimInfoManager
     "standard time zone";
 
 
-  parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},
-                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S}}
+  parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S},
+                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E}}
                         "Combination of inclination and azimuth which are pre-computed and added to solBus.";
 
   parameter Boolean computeConservationOfEnergy=false
