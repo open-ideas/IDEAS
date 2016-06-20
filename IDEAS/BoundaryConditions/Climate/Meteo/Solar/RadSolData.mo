@@ -1,29 +1,15 @@
 within IDEAS.BoundaryConditions.Climate.Meteo.Solar;
 model RadSolData "Selects or generates correct solar data for this surface"
-  parameter SI.Angle inc "inclination";
-  parameter SI.Angle azi "azimuth";
-  parameter SI.Angle lat "latitude";
-  parameter Integer numAzi "Number of irradation data calculated in solBus";
-  parameter SI.Angle ceilingInc "Roof inclination angle in solBus";
-  parameter SI.Angle offsetAzi
-    "Offset azimuth angle of irradation data calculated in solBus";
-  parameter SI.Angle ceilingAzi "Roof azimuth angle in solBus";
+  parameter Modelica.SIunits.Angle inc "inclination";
+  parameter Modelica.SIunits.Angle azi "azimuth";
+  parameter Modelica.SIunits.Angle lat "latitude";
   parameter Boolean useLinearisation = false
     "Set to true if used for linearisation";
-  parameter Boolean solDataInBus=
-   isRoof or
-    (abs(inc-IDEAS.Types.Tilt.Wall)<0.05
-      and abs(sin((azi-offsetAzi)*numAzi))<0.05)
-    "True if solBus contains correct data for this surface"
-    annotation(Evaluate=true);
-  final parameter Integer solDataIndex=
-    if isRoof then
-      1 else
-      2+integer(floor(mod((azi-offsetAzi)/Modelica.Constants.pi/2,1)*numAzi))
-    "Solbus index for this surface";
+  parameter Integer numIncAndAziInBus "Number of pre-computed combination of inc and azi for solar radiation";
+  parameter Modelica.SIunits.Angle[numIncAndAziInBus,2] incAndAziInBus "Combination of {inclination, azimuth} for which the solar data is available in weaBus.";
 
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-                                     weaBus(numSolBus=numAzi + 1, outputAngles=
+                                     weaBus(numSolBus=numIncAndAziInBus, outputAngles=
         outputAngles)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
@@ -41,13 +27,14 @@ model RadSolData "Selects or generates correct solar data for this surface"
   Modelica.Blocks.Interfaces.RealOutput Tenv "Environment temperature"
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
 protected
-      parameter Boolean isRoof = ( (abs(ceilingInc-inc) <0.05) and (abs(inc)< 0.05 or abs(ceilingAzi - azi)<0.05))
-    "Surface has the predifined roof inclination and orientation.";
+  final parameter Boolean solDataInBus=if sum( { if sum(abs(incAndAziInBus[i,:] - {inc,azi}))<0.05 then 1 else 0 for i in 1:numIncAndAziInBus})   ==1 then true else false
+    "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
+  final parameter Integer solDataIndex=sum( { if sum(abs(incAndAziInBus[i,:] - {inc,azi}))<0.05 then i else 0 for i in 1:numIncAndAziInBus})
+    "Index of the {inc,azi} combination in incAndAziInBus" annotation(Evaluate=true);
   IDEAS.BoundaryConditions.Climate.Meteo.Solar.ShadedRadSol radSol(
     final inc=inc,
     final azi=azi,
     lat=lat,
-    numAzi=numAzi,
     outputAngles=outputAngles) if
                       not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
@@ -66,8 +53,8 @@ public
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation
       assert( not useLinearisation or (useLinearisation and solDataInBus), "The solar data must come
-      from the weabus when the model is linearised. Check if the azimuth and inclination angles
-      of the surfaces correspond to the ones predefined in SimInfoManager.");
+      from the weabus when the model is linearised. Add the combination {inc,azi} = {"+String(inc)+","+String(azi)+"}
+      to the parameter incAndAziInBus of the SimInfoManager.");
   connect(radSol.solBus, solBusDummy) annotation (Line(
       points={{-60,30},{-40,30}},
       color={255,204,51},

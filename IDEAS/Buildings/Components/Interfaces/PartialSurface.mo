@@ -29,7 +29,7 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
-    numAzi=sim.numAzi,
+    numIncAndAziInBus=sim.numIncAndAziInBus,
     computeConservationOfEnergy=sim.computeConservationOfEnergy,
     weaBus(final outputAngles=sim.outputAngles)) if not createOutputsOnly "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
@@ -50,8 +50,7 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
   parameter Boolean createOutputsOnly = sim.createOutputs
-    "Set to true when windows is only used to generate disturbances for linearisation"
-                                                                                       annotation(Dialog(tab="Linearisation"));
+    "Set to true when windows is only used to generate disturbances for linearisation" annotation(Dialog(tab="Linearisation"));
 protected
   Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design) if  not createOutputsOnly;
 

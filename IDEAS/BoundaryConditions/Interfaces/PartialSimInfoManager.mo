@@ -11,11 +11,12 @@ partial model PartialSimInfoManager
   parameter Modelica.SIunits.Angle lon(displayUnit="deg") = 0.075921822461753;
   parameter Modelica.SIunits.Time timZonSta(displayUnit="h") = 3600
     "standard time zone";
-  parameter Integer numAzi=4 "Number of azimuth angles that are calculated"
-    annotation (Dialog(tab="Incidence angles"));
-  parameter SI.Angle ceilingAzi = 0
-    "Ceiling azimuth angle (only important if ceiling not horizontal)"
-    annotation(Dialog(tab="Incidence angles"));
+
+
+  parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},
+                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S}}
+                        "Combination of inclination and azimuth which are pre-computed and added to solBus.";
+
   parameter Boolean computeConservationOfEnergy=false
     "Add equations for verifying conservation of energy"
     annotation (Evaluate=true, Dialog(tab="Conservation of energy"));
@@ -59,10 +60,6 @@ partial model PartialSimInfoManager
 
   final parameter Modelica.SIunits.Temperature TdesGround=10 + 273.15
     "design ground temperature";
-  parameter SI.Angle offsetAzi=0 "Offset for the azimuth angle series"
-    annotation (Dialog(tab="Incidence angles"));
-  parameter SI.Angle ceilingInc=IDEAS.Types.Tilt.Ceiling
-    "Ceiling inclination angle" annotation (Dialog(tab="Incidence angles"));
 
 public
   Modelica.SIunits.Irradiance solDirPer
@@ -123,11 +120,6 @@ protected
   final parameter Boolean BesTest=Modelica.Utilities.Strings.isEqual(filNam, "BesTest.txt")
     "boolean to determine if this simulation is a BESTEST simulation";
 
-  parameter SI.Angle inc[numAzi + 1]=cat(
-      1,
-      fill(ceilingInc, 1),
-      fill(IDEAS.Types.Tilt.Wall, numAzi)) "surface inclination";
-
 public
   IDEAS.BoundaryConditions.Climate.Time.SimTimes timMan(
     timZonSta=timZonSta,
@@ -136,7 +128,7 @@ public
     ifSolCor=true)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
 
-protected
+  final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1) "Number of pre-computed azimuth";
   BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
     filNam=filNamClim,
     lat=lat,
@@ -175,16 +167,12 @@ protected
     annotation (Placement(transformation(extent={{-124,62},{-104,82}})));
 
 public
-  Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=numAzi + 1,
+  Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=numIncAndAziInBus,
       outputAngles=outputAngles)
     annotation (Placement(transformation(extent={{50,18},{70,38}})));
-  BoundaryConditions.Climate.Meteo.Solar.ShadedRadSol[numAzi + 1] radSol(
-    inc=inc,
-    azi=cat(
-        1,
-        fill(ceilingInc, 1),
-        fill(offsetAzi, numAzi) + (0:numAzi - 1)*Modelica.Constants.pi*2/numAzi),
-    each numAzi=numAzi,
+  BoundaryConditions.Climate.Meteo.Solar.ShadedRadSol[numIncAndAziInBus] radSol(
+    inc=incAndAziInBus[:,1],
+    azi=incAndAziInBus[:,2],
     each lat=lat,
     each outputAngles=outputAngles)
     annotation (Placement(transformation(extent={{20,40},{40,60}})));
@@ -296,7 +284,7 @@ equation
       points={{-103,116},{60,116},{60,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  for i in 1:numAzi + 1 loop
+  for i in 1:numIncAndAziInBus loop
     connect(radSol[i].F2, skyBrightnessCoefficients.F2) annotation (Line(points=
            {{19.6,40},{2,40},{2,72},{-6,72}}, color={0,0,127}));
     connect(radSol[i].F1, skyBrightnessCoefficients.F1) annotation (Line(points=

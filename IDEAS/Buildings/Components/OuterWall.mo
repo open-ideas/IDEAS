@@ -36,13 +36,11 @@ protected
   BoundaryConditions.Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
-    numAzi=sim.numAzi,
-    offsetAzi=sim.offsetAzi,
-    ceilingInc=sim.ceilingInc,
     lat=sim.lat,
     final outputAngles=sim.outputAngles,
-    ceilingAzi=sim.ceilingAzi,
-    useLinearisation=sim.linearise)
+    useLinearisation=sim.linearise,
+    incAndAziInBus=sim.incAndAziInBus,
+    numIncAndAziInBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
 initial equation

@@ -3,7 +3,6 @@ model RadSol "solar angle to surface"
   extends Modelica.Blocks.Interfaces.BlockIcon;
 
   parameter Real rho=0.2 "Ground reflectance";
-  parameter Integer numAzi = 4;
   parameter Modelica.SIunits.Angle inc(displayUnit="degree") "inclination";
   parameter Modelica.SIunits.Angle azi(displayUnit="degree") "azimuth";
   parameter Modelica.SIunits.Angle lat(displayUnit="degree") "latitude";

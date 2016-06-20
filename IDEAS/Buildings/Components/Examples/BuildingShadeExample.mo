@@ -10,7 +10,7 @@ model BuildingShadeExample
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-12},{-80,8}})));
 protected
-  Interfaces.WeaBus                  weaBus(numSolBus=sim.numAzi + 1)
+  Interfaces.WeaBus                  weaBus(numSolBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{-64,24},{-44,44}})));
 public
   Shading.None none(azi=0)

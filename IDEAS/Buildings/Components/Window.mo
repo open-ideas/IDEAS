@@ -109,12 +109,10 @@ protected
   BoundaryConditions.Climate.Meteo.Solar.RadSolData radSolData(
     inc=inc,
     azi=azi,
-    numAzi=sim.numAzi,
-    offsetAzi=sim.offsetAzi,
-    ceilingInc=sim.ceilingInc,
     lat=sim.lat,
-    ceilingAzi=sim.ceilingAzi,
-    outputAngles=sim.outputAngles)
+    outputAngles=sim.outputAngles,
+    incAndAziInBus=sim.incAndAziInBus,
+    numIncAndAziInBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     annotation (Placement(transformation(extent={{-70,-34},{-62,-26}})));
@@ -142,6 +140,7 @@ protected
 
 initial equation
   QTra_design = (U_value*A + briType.G) *(273.15 + 21 - Tdes.y);
+
 
 equation
   connect(eCon.port_a, layMul.port_b) annotation (Line(
