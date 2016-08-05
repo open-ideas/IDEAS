@@ -6,3 +6,7 @@ HeatSource_Ideal
 HeaterType
 PartialHeatPump
 HeatPumpData
+HeatPump3D
+HeatPumpData3D
+InputType
+OutputType
