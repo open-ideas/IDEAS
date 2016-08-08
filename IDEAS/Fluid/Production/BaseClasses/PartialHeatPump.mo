@@ -34,6 +34,9 @@ partial model PartialHeatPump "Heat pump partial"
   parameter Boolean perfFromTout = false
     "= true, then recompute performance based on evaporator outlet temperature instead of directly using the inlet temperature"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
+  parameter Modelica.SIunits.TemperatureDifference dT_eva_nom(min=0) = 5
+    "Nominal temperature difference over evaporator that was used for setting up performance tables, required when perfFromTout=true"
+    annotation(Dialog(tab="Advanced", enable=perfFromTout));
   parameter Boolean use_modulationSignal=false
     "enables an input for modulating the heat pump ideally (no change of COP, just scaling of the electrical and thermal power)"
     annotation (Dialog(tab="Advanced"));
@@ -131,8 +134,7 @@ public
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_out_cond
     annotation (Placement(transformation(extent={{-20,-50},{-40,-30}})));
   Modelica.Blocks.Sources.RealExpression TEvapInExp(y=(if perfFromTout then
-        vol1.T + P_evap/heatPumpData.m1_flow_nominal/
-        Medium1.specificHeatCapacityCp(state_default1) else TEvapIn))
+        vol1.T + dT_eva_nom else TEvapIn))
     annotation (Placement(transformation(extent={{-110,4},{-90,24}})));
 
 equation

@@ -44,9 +44,9 @@ model HeatPump_perfFromTout
     annotation (Placement(transformation(extent={{-100,-20},{-80,-40}})));
   Modelica.Blocks.Sources.Sine sine1(
     amplitude=4,
-    offset=273.15 + 10,
     startTime=0,
-    freqHz=1/3000)
+    freqHz=1/3000,
+    offset=273.15 + 12)
     annotation (Placement(transformation(extent={{-132,-40},{-112,-20}})));
   HP_WaterWater_OnOff HP_nom(
     redeclare package Medium1 = Medium,
@@ -191,7 +191,7 @@ model HeatPump_perfFromTout
     redeclare package Medium = Medium,
     m_flow_nominal=2550/3600,
     tau=0) annotation (Placement(transformation(extent={{20,10},{40,30}})));
-  Modelica.Blocks.Sources.Constant mod(k=0.8)
+  Modelica.Blocks.Sources.Constant mod(k=0.7)
     "Mass flow rate modulation factor"
     annotation (Placement(transformation(extent={{-120,20},{-100,40}})));
 equation
