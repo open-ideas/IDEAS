@@ -1,11 +1,10 @@
 within IDEAS.Fluid.Production.BaseClasses;
-partial record HeatPumpData3D
-  "Data record for storing data for a heat pump"
+partial record HeatPumpData3D "Data record for storing data for a heat pump"
   extends Modelica.Icons.Record;
 
-  parameter Integer nDim1(min=1) "Number of elements in dimension 1";
-  parameter Integer nDim2(min=1) "Number of elements in dimension 2";
-  parameter Integer nDim3(min=1, max=7) "Number of elements in dimension 3";
+  parameter Integer nDim1(min=1) = size(indicesDim1,1) "Number of elements in dimension 1";
+  parameter Integer nDim2(min=1) = size(indicesDim2,1) "Number of elements in dimension 2";
+  parameter Integer nDim3(min=1, max=7) = size(indicesDim3,1) "Number of elements in dimension 3";
 
   parameter IDEAS.Fluid.Production.BaseClasses.InputType inputType1
     "Table input type corresponding to first dimension"
@@ -24,9 +23,9 @@ partial record HeatPumpData3D
     "Output of table b"
     annotation(Evaluate=true);
 
-  parameter Real indicesDim1[nDim1];
-  parameter Real indicesDim2[nDim2];
-  parameter Real indicesDim3[nDim3];
+  parameter Real indicesDim1[:];
+  parameter Real indicesDim2[:];
+  parameter Real indicesDim3[:];
 
   parameter Real table1_a[nDim1, nDim2] = zeros(nDim1,nDim2)
     "Table matrix containing dimensions 1 and 2 for first entry of dimension 3"
@@ -70,14 +69,6 @@ partial record HeatPumpData3D
   parameter Real table7_b[nDim1, nDim2] = zeros(nDim1,nDim2)
     "Table matrix containing dimensions 1 and 2 for seventh entry of dimension 3"
     annotation (Dialog(group="Table data definition"));
-
-
-
-  parameter Modelica.SIunits.Mass m1(min=Modelica.Constants.eps)
-    "Fluid content of the evaporator";
-
-  parameter Modelica.SIunits.Mass m2(min=Modelica.Constants.eps)
-    "Fluid content of the condensor";
 
   parameter Modelica.SIunits.MassFlowRate m1_flow_nominal
     "Mass flow rate of the evaporator for calculation of the pressure drop";

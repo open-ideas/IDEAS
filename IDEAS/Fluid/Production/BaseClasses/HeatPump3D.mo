@@ -1,5 +1,6 @@
 within IDEAS.Fluid.Production.BaseClasses;
 model HeatPump3D "Heat pump partial"
+
   replaceable parameter
     IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
     constrainedby IDEAS.Fluid.Production.BaseClasses.HeatPumpData3D
@@ -16,12 +17,12 @@ model HeatPump3D "Heat pump partial"
     final m2_flow_nominal=dat.m2_flow_nominal,
     dp1_nominal=if computeFlowResistance_1 then dat.dp1_nominal else 0,
     dp2_nominal=if computeFlowResistance_2 then dat.dp2_nominal else 0,
-    vol1(V=dat.m1/Medium1.density(state_default1),
+    vol1(V=dat.m1_flow_nominal/Medium1.density(state_default1)*tau1,
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true),
     redeclare IDEAS.Fluid.MixingVolumes.MixingVolume vol2(
-      V=dat.m2/Medium1.density(state_default2),
+      V=dat.m2_flow_nominal/Medium1.density(state_default2)*tau2,
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
