@@ -1,10 +1,12 @@
 within IDEAS.Fluid.Production.Examples;
 model HeatPumpComparison
   extends Modelica.Icons.Example;
+  package Medium = IDEAS.Media.Water(T_min=Modelica.SIunits.Conversions.from_degC(-15));
   BaseClasses.HeatPump3D hp3D(
     redeclare Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat,
     redeclare package Medium1 = Medium,
-    redeclare package Medium2 = Medium)
+    redeclare package Medium2 = Medium,
+    use_onOffSignal=false)
     annotation (Placement(transformation(extent={{40,0},{60,20}})));
   HP_WaterWater_OnOff hp(
     use_onOffSignal=false,
@@ -18,15 +20,16 @@ model HeatPumpComparison
   Sources.MassFlowSource_T boundary(
     redeclare package Medium = Medium,
     m_flow=hp.m1_flow_nominal,
-    T=283.15,
-    nPorts=1)
+    nPorts=1,
+    T=278.15)
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
-  replaceable package Medium = IDEAS.Media.Water;
+
   Sources.MassFlowSource_T boundary1(
     redeclare package Medium = Medium,
     m_flow=hp.m1_flow_nominal,
-    T=283.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    nPorts=1,
+    T=boundary.T)
+              annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
