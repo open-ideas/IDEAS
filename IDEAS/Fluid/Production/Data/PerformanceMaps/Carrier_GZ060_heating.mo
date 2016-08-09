@@ -18,7 +18,7 @@ record Carrier_GZ060_heating
     outputType1=IDEAS.Fluid.Production.BaseClasses.OutputType.COP,
     outputType2=IDEAS.Fluid.Production.BaseClasses.OutputType.QCon,
     inputType1=IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva,
-    inputType2=IDEAS.Fluid.Production.BaseClasses.InputType.T_outCon,
+    inputType2=IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon,
     inputType3=IDEAS.Fluid.Production.BaseClasses.InputType.m_flowEva);
 
   annotation (Documentation(revisions="<html>
