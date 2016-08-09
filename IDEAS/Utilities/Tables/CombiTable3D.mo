@@ -160,7 +160,7 @@ algorithm
   else
 
     for i in 1:(nDim3-1) loop
-      if u3>=indicesDim3[i] and u3 <= indicesDim3[i+1] then
+      if u3>=indicesDim3[i] and u3 <= indicesDim3[i+1] or u3<=indicesDim3[1] then
         break;
       end if;
     end for;
