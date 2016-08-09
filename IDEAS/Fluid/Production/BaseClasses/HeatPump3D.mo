@@ -1,12 +1,21 @@
 within IDEAS.Fluid.Production.BaseClasses;
 model HeatPump3D "Heat pump partial"
+  replaceable parameter
+    IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
+    constrainedby IDEAS.Fluid.Production.BaseClasses.HeatPumpData3D
+    "Heat pump performance data"
+    annotation (choicesAllMatching=true,Dialog(group="Data"),Placement(transformation(extent={{60,82},{80,102}})));
+  parameter Modelica.Blocks.Types.Smoothness smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments
+    "Smoothness of table interpolation"
+    annotation(Dialog(group="Data"));
+
   extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger(
     tau1=30,
     tau2=30,
-    m1_flow_nominal=dat.m1_flow_nominal,
-    m2_flow_nominal=dat.m2_flow_nominal,
-    dp1_nominal=if computeFlowResistance then dat.dp1_nominal else 0,
-    dp2_nominal=if computeFlowResistance then dat.dp2_nominal else 0,
+    final m1_flow_nominal=dat.m1_flow_nominal,
+    final m2_flow_nominal=dat.m2_flow_nominal,
+    dp1_nominal=if computeFlowResistance_1 then dat.dp1_nominal else 0,
+    dp2_nominal=if computeFlowResistance_2 then dat.dp2_nominal else 0,
     vol1(V=dat.m1/Medium1.density(state_default1),
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
@@ -18,26 +27,22 @@ model HeatPump3D "Heat pump partial"
       prescribedHeatFlowRate=true));
   extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
 
-  replaceable parameter
-    IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
-    constrainedby IDEAS.Fluid.Production.BaseClasses.HeatPumpData3D
-    "Heat pump performance data"
-    annotation (choicesAllMatching=true,Placement(transformation(extent={{60,82},{80,102}})));
-  parameter Modelica.Blocks.Types.Smoothness smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments
-    "Smoothness of table interpolation";
-  parameter Boolean computeFlowResistance = true
-    "=true, compute flow resistance. Set to false to assume no friction"
-    annotation (Evaluate=true, Dialog(tab="Flow resistance"));
+  parameter Boolean computeFlowResistance_1 = true
+    "= true, compute flow resistance for primary side. Set to false to assume no friction"
+    annotation (Evaluate=true, Dialog(tab="Flow resistance", group="Medium 1"));
+  parameter Boolean computeFlowResistance_2 = true
+    "= true, compute flow resistance for secondary side. Set to false to assume no friction"
+    annotation (Evaluate=true, Dialog(tab="Flow resistance", group="Medium 2"));
   parameter Modelica.SIunits.Time dt_disable= 1800
     "Determines how long heat pump is disabled when condensor/evaporator temperature bounds are crossed"
     annotation(Dialog(tab="Temperature protection"));
   parameter IDEAS.Fluid.Production.BaseClasses.TemperatureLimits temLimCon=
     IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Ignore
-    "Temperature limit for condensor"
+    "Action when crossing temperature limit for condensor"
     annotation(Evaluate=true, Dialog(tab="Temperature protection"));
   parameter IDEAS.Fluid.Production.BaseClasses.TemperatureLimits temLimEva=
     IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Ignore
-    "Temperature limit for evaporator"
+    "Action when crossing temperature limit for evaporator"
     annotation(Evaluate=true, Dialog(tab="Temperature protection"));
 
   Modelica.SIunits.Power QEva "Thermal power of the evaporator (positive)";
