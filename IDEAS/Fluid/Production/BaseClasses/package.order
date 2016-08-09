@@ -10,3 +10,4 @@ HeatPump3D
 HeatPumpData3D
 InputType
 OutputType
+TemperatureLimits

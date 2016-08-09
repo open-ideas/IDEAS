@@ -16,8 +16,10 @@ model HeatPump3D "Heat pump partial"
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
+  extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
 
-  replaceable parameter IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
+  replaceable parameter
+    IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
     constrainedby IDEAS.Fluid.Production.BaseClasses.HeatPumpData3D
     "Heat pump performance data"
     annotation (choicesAllMatching=true,Placement(transformation(extent={{60,82},{80,102}})));
@@ -26,7 +28,17 @@ model HeatPump3D "Heat pump partial"
   parameter Boolean computeFlowResistance = true
     "=true, compute flow resistance. Set to false to assume no friction"
     annotation (Evaluate=true, Dialog(tab="Flow resistance"));
-
+  parameter Modelica.SIunits.Time dt_disable= 1800
+    "Determines how long heat pump is disabled when condensor/evaporator temperature bounds are crossed"
+    annotation(Dialog(tab="Temperature protection"));
+  parameter IDEAS.Fluid.Production.BaseClasses.TemperatureLimits temLimCon=
+    IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Ignore
+    "Temperature limit for condensor"
+    annotation(Evaluate=true, Dialog(tab="Temperature protection"));
+  parameter IDEAS.Fluid.Production.BaseClasses.TemperatureLimits temLimEva=
+    IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Ignore
+    "Temperature limit for evaporator"
+    annotation(Evaluate=true, Dialog(tab="Temperature protection"));
 
   Modelica.SIunits.Power QEva "Thermal power of the evaporator (positive)";
   Modelica.SIunits.Power QCon "Thermal power of the condensor (positive)";
@@ -54,14 +66,8 @@ model HeatPump3D "Heat pump partial"
     smoothness=smoothness,
     is2Dtable=dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.None)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
-  Sensors.Temperature senTemConIn(redeclare package Medium = Medium2)
-    "Temperature sensor for condensor inlet"
-    annotation (Placement(transformation(extent={{110,-40},{90,-20}})));
-  Sensors.Temperature senTemEvaIn(redeclare package Medium = Medium2)
-    "Temperature sensor for evaporator inlet"
-    annotation (Placement(transformation(extent={{-110,40},{-90,20}})));
 
-  Utilities.Tables.CombiTable3D table_b(
+  IDEAS.Utilities.Tables.CombiTable3D table_b(
     final nDim1=dat.nDim1,
     final nDim2=dat.nDim2,
     final nDim3=dat.nDim3,
@@ -78,31 +84,15 @@ model HeatPump3D "Heat pump partial"
     final table7=dat.table7_b,
     is2Dtable=dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.None)
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+
+  Sensors.Temperature senTemConIn(redeclare package Medium = Medium2)
+    "Temperature sensor for condensor inlet"
+    annotation (Placement(transformation(extent={{110,-40},{90,-20}})));
+  Sensors.Temperature senTemEvaIn(redeclare package Medium = Medium2)
+    "Temperature sensor for evaporator inlet"
+    annotation (Placement(transformation(extent={{-110,40},{-90,20}})));
+
 protected
-  Modelica.Blocks.Sources.RealExpression QEvap(y=-QEva)
-    annotation (Placement(transformation(extent={{-72,70},{-54,50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatEvap
-    annotation (Placement(transformation(extent={{-40,70},{-20,50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatCond
-    annotation (Placement(transformation(extent={{60,-70},{40,-50}})));
-
-  Modelica.Blocks.Sources.RealExpression QCond(y=QCon)
-    annotation (Placement(transformation(extent={{86,-70},{66,-50}})));
-
-  Modelica.Blocks.Routing.RealPassThrough inputs[6]
-    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Modelica.Blocks.Sources.RealExpression m_flowEva(y=port_a1.m_flow)
-    "Evaporator mass flow rate"
-    annotation (Placement(transformation(extent={{-100,14},{-82,-6}})));
-  Modelica.Blocks.Sources.RealExpression m_flowCon(y=port_a2.m_flow)
-    "Condensor mass flow rate"
-    annotation (Placement(transformation(extent={{-100,-6},{-82,-26}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemEvaOut
-    "Temperature sensor for evaporator outlet temperature"
-    annotation (Placement(transformation(extent={{-20,34},{-32,46}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemConOut
-    "Temperature sensor for condensor outlet temperature"
-    annotation (Placement(transformation(extent={{-20,-46},{-32,-34}})));
   parameter Medium1.ThermodynamicState state_default1=
       Medium1.setState_pTX(
       Medium1.p_default,
@@ -120,39 +110,156 @@ protected
     elseif dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva then 3
     elseif dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon then 4
     elseif dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outEva then 5
-    else 6;
+    elseif dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outCon then 6
+    else 7;
   parameter Integer inputIndex2=
     if     dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.m_flowEva then 1
     elseif dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.m_flowCon then 2
     elseif dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva then 3
     elseif dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon then 4
     elseif dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outEva then 5
-    else 6;
+    elseif dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outCon then 6
+    else 7;
   parameter Integer inputIndex3=
     if     dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.m_flowEva then 1
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.m_flowCon then 2
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva then 3
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon then 4
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outEva then 5
-    else 6;
+    elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outCon then 6
+    else 7;
+  parameter Boolean useDummyInput7 = not (dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed);
+
+  discrete Boolean temProAct(start=false)
+    "True if temperature protection is activated";
+  discrete Modelica.SIunits.Time temProTim(start=0)
+    "Time when temperature protection was activated";
+  Modelica.Blocks.Sources.Constant zero(k=0) if
+    useDummyInput7 "Zero dummy input"
+      annotation (Placement(transformation(extent={{-100,-44},{-80,-24}})));
+  Modelica.Blocks.Sources.RealExpression QEvap(y=-QEva)
+    annotation (Placement(transformation(extent={{-72,70},{-54,50}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatEvap
+    annotation (Placement(transformation(extent={{-40,70},{-20,50}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatCond
+    annotation (Placement(transformation(extent={{60,-70},{40,-50}})));
+
+  Modelica.Blocks.Sources.RealExpression QCond(y=QCon)
+    annotation (Placement(transformation(extent={{86,-70},{66,-50}})));
+
+  Modelica.Blocks.Routing.RealPassThrough inputs[7]
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+  Modelica.Blocks.Sources.RealExpression m_flowEva(y=port_a1.m_flow)
+    "Evaporator mass flow rate"
+    annotation (Placement(transformation(extent={{-100,14},{-82,-6}})));
+  Modelica.Blocks.Sources.RealExpression m_flowCon(y=port_a2.m_flow)
+    "Condensor mass flow rate"
+    annotation (Placement(transformation(extent={{-100,-6},{-82,-26}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemEvaOut
+    "Temperature sensor for evaporator outlet temperature"
+    annotation (Placement(transformation(extent={{-20,34},{-32,46}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemConOut
+    "Temperature sensor for condensor outlet temperature"
+    annotation (Placement(transformation(extent={{-20,-46},{-32,-34}})));
+  Modelica.SIunits.Power QEvaInt "Internal variable for solving from table";
+  Modelica.SIunits.Power QConInt "Internal variable for solving from table";
+  Real copInt "Internal variable for solving from table";
+  Modelica.SIunits.Power PInt "Internal variable for solving from table";
 
 equation
-  QEva = P*(cop - 1);
-  QCon = P*cop;
-
+  // fetch variables that are available in table
   table_a.y =
-    if     dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then P
-    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEva
-    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QCon
-    else  cop;
+    if     dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt
+    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt
+    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt
+    else  copInt;
   table_b.y =
-    if     dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then P
-    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEva
-    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QCon
-    else  cop;
+    if     dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt
+    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt
+    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt
+    else  copInt;
+
+  // equations for solving variables that are not in table
+  QEvaInt = PInt*(copInt - 1);
+  QConInt = PInt*copInt;
+
+//====================================================================================================
+// Code for handling temperature limits
+//====================================================================================================
+
+  when initial() then
+    temProTim=time-1;
+    temProAct=false;
+  end when;
+
+  // assert or warning for condensor temperature limit
+  if temLimCon == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Warning or temLimCon == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Error then
+    assert(vol2.heatPort.T >= dat.TConMin and vol2.heatPort.T <= dat.TConMax, "Condensor temperature exceeded the limit allowed by the data sheet record!", (if temLimCon == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Warning then AssertionLevel.warning else AssertionLevel.error));
+  end if;
+
+  // assert or warning for evaporator temperature limit
+  if temLimEva == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Warning or temLimEva == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Error then
+    assert(vol1.heatPort.T >= dat.TEvaMin and vol1.heatPort.T <= dat.TEvaMax, "Evaporator temperature exceeded the limit allowed by the data sheet record!", (if temLimEva == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Warning then AssertionLevel.warning else AssertionLevel.error));
+  end if;
+
+  // trigger disable for condensor if needed
+  if temLimCon == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Disable then
+    when vol2.heatPort.T <= dat.TConMin or vol2.heatPort.T >= dat.TConMax then
+      temProAct=true;
+      temProTim=time;
+    end when;
+  end if;
+
+  // trigger disable for evaporator if needed
+  if temLimEva == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Disable then
+    when vol1.heatPort.T <= dat.TEvaMin or vol1.heatPort.T >= dat.TEvaMax then
+      temProAct=true;
+      temProTim=time;
+    end when;
+  end if;
+
+  if temLimEva == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Disable or temLimCon == IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Disable then
+    // when HP has been disabled sufficiently long, reenable if temperatures are now within limits
+    when time>temProTim + dt_disable then
+      if vol2.heatPort.T >= dat.TConMin and vol2.heatPort.T <= dat.TConMax and vol1.heatPort.T >= dat.TEvaMin and vol1.heatPort.T <= dat.TEvaMax then
+        temProAct=false;
+      else
+        // otherwise renew timer
+        temProTim=time;
+      end if;
+    end when;
+
+    if temProAct or not on_internal then
+      // when disabled set all powers to zero
+      P=0;
+      QEva=0;
+      QCon=0;
+      cop=1;
+    else
+      // otherise use internal values
+      P=PInt;
+      QEva=QEvaInt;
+      QCon=QConInt;
+      cop=copInt;
+    end if;
+  else
+    if not on_internal then
+      // when disabled set all powers to zero
+      P=0;
+      QEva=0;
+      QCon=0;
+      cop=1;
+    else
+      // otherise use internal values
+      P=PInt;
+      QEva=QEvaInt;
+      QCon=QConInt;
+      cop=copInt;
+    end if;
+  end if;
 
   connect(prescribedHeatEvap.port, vol1.heatPort) annotation (Line(
-      points={{-20,60},{-10,60}},
+      points={{-20,60},{-14,60},{-14,60},{-10,60}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(prescribedHeatCond.port, vol2.heatPort) annotation (Line(
@@ -193,6 +300,7 @@ equation
     annotation (Line(points={{-20,-40},{12,-40},{12,-60}}, color={191,0,0}));
   connect(senTemConOut.T, inputs[6].u) annotation (Line(points={{-32,-40},{-48,-40},
           {-66,-40},{-66,0},{-62,0}}, color={0,0,127}));
+  connect(zero.y, inputs[7].u);
   connect(inputs[inputIndex1].y, table_a.u1) annotation (Line(points={{-39,0},{-12,0},{-12,
           16},{-2,16}}, color={0,0,127}));
   connect(inputs[inputIndex2].y, table_a.u2) annotation (Line(points={{-39,0},{-14,0},{-14,
