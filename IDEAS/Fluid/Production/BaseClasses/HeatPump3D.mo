@@ -1,5 +1,5 @@
 within IDEAS.Fluid.Production.BaseClasses;
-model HeatPump3D "Heat pump partial"
+partial model HeatPump3D "Heat pump partial"
 
   replaceable parameter
     IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
@@ -9,7 +9,7 @@ model HeatPump3D "Heat pump partial"
   parameter Modelica.Blocks.Types.Smoothness smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments
     "Smoothness of table interpolation"
     annotation(Dialog(group="Data"));
-
+  extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
   extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger(
     tau1=30,
     tau2=30,
@@ -26,7 +26,6 @@ model HeatPump3D "Heat pump partial"
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
-  extends IDEAS.Fluid.Interfaces.OnOffInterface(use_onOffSignal=true);
 
   parameter Boolean computeFlowResistance_1 = true
     "= true, compute flow resistance for primary side. Set to false to assume no friction"
@@ -167,27 +166,32 @@ protected
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemConOut
     "Temperature sensor for condensor outlet temperature"
     annotation (Placement(transformation(extent={{-20,-46},{-32,-34}})));
-  Modelica.SIunits.Power QEvaInt "Internal variable for solving from table";
-  Modelica.SIunits.Power QConInt "Internal variable for solving from table";
-  Real copInt "Internal variable for solving from table";
-  Modelica.SIunits.Power PInt "Internal variable for solving from table";
+  Modelica.SIunits.Power QEvaInt2 "Internal variable for handling temperature protection";
+  Modelica.SIunits.Power QConInt2 "Internal variable for handling temperature protection";
+  Real copInt2 "Internal variable for handling temperature protection";
+  Modelica.SIunits.Power PInt2 "Internal variable for handling temperature protection";
+
+  Modelica.SIunits.Power QEvaInt "Internal variable for handling control signal";
+  Modelica.SIunits.Power QConInt "Internal variable for handling control signal";
+  Real copInt "Internal variable for handling control signal";
+  Modelica.SIunits.Power PInt "Internal variable for handling control signal";
 
 equation
   // fetch variables that are available in table
   table_a.y =
-    if     dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt
-    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt
-    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt
-    else  copInt;
+    if     dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt2
+    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt2
+    elseif dat.outputType1 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt2
+    else  copInt2;
   table_b.y =
-    if     dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt
-    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt
-    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt
-    else  copInt;
+    if     dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.P then PInt2
+    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QEva then QEvaInt2
+    elseif dat.outputType2 == IDEAS.Fluid.Production.BaseClasses.OutputType.QCon then QConInt2
+    else  copInt2;
 
   // equations for solving variables that are not in table
-  QEvaInt = PInt*(copInt - 1);
-  QConInt = PInt*copInt;
+  QEvaInt2 = PInt2*(copInt2 - 1);
+  QConInt2 = PInt2*copInt2;
 
 //====================================================================================================
 // Code for handling temperature limits
@@ -235,32 +239,32 @@ equation
       end if;
     end when;
 
-    if temProAct or not on_internal then
+   if temProAct or not on_internal then
       // when disabled set all powers to zero
-      P=0;
-      QEva=0;
-      QCon=0;
-      cop=1;
+      PInt=0;
+      QEvaInt=0;
+      QConInt=0;
+      copInt=1;
     else
-      // otherise use internal values
-      P=PInt;
-      QEva=QEvaInt;
-      QCon=QConInt;
-      cop=copInt;
+      // otherwise use internal values
+      PInt=PInt2;
+      QEvaInt=QEvaInt2;
+      QConInt=QConInt2;
+      copInt=copInt2;
     end if;
   else
-    if not on_internal then
-      // when disabled set all powers to zero
-      P=0;
-      QEva=0;
-      QCon=0;
-      cop=1;
+    if on_internal then
+      // otherwise use internal values
+      PInt=PInt2;
+      QEvaInt=QEvaInt2;
+      QConInt=QConInt2;
+      copInt=copInt2;
     else
-      // otherise use internal values
-      P=PInt;
-      QEva=QEvaInt;
-      QCon=QConInt;
-      cop=copInt;
+      // when disabled set all powers to zero
+      PInt=0;
+      QEvaInt=0;
+      QConInt=0;
+      copInt=1;
     end if;
   end if;
 

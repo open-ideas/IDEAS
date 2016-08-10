@@ -11,3 +11,4 @@ HeatPumpData3D
 InputType
 OutputType
 TemperatureLimits
+HeatPumpModulating

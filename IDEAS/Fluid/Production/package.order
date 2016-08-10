@@ -9,3 +9,7 @@ Data
 Examples
 Interfaces
 BaseClasses
+HeatPump_OnOff
+HeatPump_TSet
+HeatPump_y
+HeatPump_Nrpm
