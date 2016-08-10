@@ -1,25 +1,21 @@
 within IDEAS.Fluid.Production.BaseClasses;
 model HeatPumpModulating "Modulating heat pump"
-  extends HeatPump3D;
-
-
+  extends HeatPump3D(modExp(y=modInt));
 
 protected
-  parameter Boolean hasSpeedTable = dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed "True, if the performance data is a function of the compressor normalized speed";
   Real modInt "Modulation factor";
-public
-  Modelica.Blocks.Sources.RealExpression modExp(y=modInt) if hasSpeedTable
-    "Table input for modulation rate"
-    annotation (Placement(transformation(extent={{-122,-18},{-102,2}})));
+  parameter Boolean hasSpeedTable = dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed "True, if the performance data is a function of the compressor normalized speed";
 equation
 
+  // mod will be used as an input to the performance tables
+  // and therefore the performance tables will determine the impact of the modulation rate
   if hasSpeedTable then
     P=PInt;
     QEva=QEvaInt;
     QCon=QConInt;
     cop=copInt;
-    connect(modExp.y, inputs[7].u) annotation (Line(points={{-101,-8},{-101,-8},{-66,
-          -8},{-66,0},{-62,0}}, color={0,0,127}));
+  // mod will NOT be used as an input to the performance tables
+  // therefore use default rescaling: resale thermal powers linearly and assume that COP remains the same
   else
     P=PInt*modInt;
     QEva=QEvaInt*modInt;

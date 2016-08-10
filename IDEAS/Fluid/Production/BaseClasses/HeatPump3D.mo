@@ -133,15 +133,13 @@ protected
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outEva then 5
     elseif dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.T_outCon then 6
     else 7;
-  parameter Boolean useDummyInput7 = not (dat.inputType1 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType2 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed or dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.Speed);
-
   discrete Boolean temProAct(start=false)
     "True if temperature protection is activated";
   discrete Modelica.SIunits.Time temProTim(start=0)
     "Time when temperature protection was activated";
-  Modelica.Blocks.Sources.Constant zero(k=0) if
-    useDummyInput7 "Zero dummy input"
-      annotation (Placement(transformation(extent={{-100,-44},{-80,-24}})));
+  Modelica.Blocks.Sources.RealExpression modExp(y=1)
+    "Table input for modulation rate"
+    annotation (Placement(transformation(extent={{-122,-18},{-102,2}})));
   Modelica.Blocks.Sources.RealExpression QEvap(y=-QEva)
     annotation (Placement(transformation(extent={{-72,70},{-54,50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatEvap
@@ -310,7 +308,7 @@ equation
     annotation (Line(points={{-20,-40},{12,-40},{12,-60}}, color={191,0,0}));
   connect(senTemConOut.T, inputs[6].u) annotation (Line(points={{-32,-40},{-48,-40},
           {-66,-40},{-66,0},{-62,0}}, color={0,0,127}));
-  connect(zero.y, inputs[7].u);
+  connect(modExp.y, inputs[7].u);
   connect(inputs[inputIndex1].y, table_a.u1) annotation (Line(points={{-39,0},{-12,0},{-12,
           16},{-2,16}}, color={0,0,127}));
   connect(inputs[inputIndex2].y, table_a.u2) annotation (Line(points={{-39,0},{-14,0},{-14,
