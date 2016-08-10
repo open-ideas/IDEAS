@@ -94,7 +94,7 @@ model HeatPump3D "Heat pump partial"
   Sensors.Temperature senTemConIn(redeclare package Medium = Medium2)
     "Temperature sensor for condensor inlet"
     annotation (Placement(transformation(extent={{110,-40},{90,-20}})));
-  Sensors.Temperature senTemEvaIn(redeclare package Medium = Medium2)
+  Sensors.Temperature senTemEvaIn(redeclare package Medium = Medium1)
     "Temperature sensor for evaporator inlet"
     annotation (Placement(transformation(extent={{-110,40},{-90,20}})));
 
