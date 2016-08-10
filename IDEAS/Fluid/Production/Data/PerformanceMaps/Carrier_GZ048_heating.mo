@@ -6,8 +6,8 @@ record Carrier_GZ048_heating
     m2_flow_nominal=0.85,
     dp1_nominal=27600,
     dp2_nominal=100,
-    indicesDim1 = {272.04, 277.59, 283.15, 288.71, 294.26, 299.82},
-    indicesDim2 = {288.71, 294.26, 299.82},
+    indicesDim1 = {288.71, 294.26, 299.82},
+    indicesDim2 = {272.04, 277.59, 283.15, 288.71, 294.26, 299.82},
     indicesDim3 = {0.38, 0.50, 0.76},
     table1_a = { {3.50, 3.80, 4.20, 4.60, 4.90, 5.30},  {3.10, 3.40, 3.80, 4.10, 4.40, 4.70},  {2.80, 3.10, 3.40, 3.70, 4.00, 4.30}},
     table1_b = { {10521.25, 11840.07, 13832.95, 15591.38, 17437.73, 19342.69},  {10374.72, 11752.15, 13598.50, 15298.31, 17086.04, 18932.39},  {10257.49, 11634.92, 13422.66, 15063.85, 16822.28, 18580.71}},
@@ -17,8 +17,8 @@ record Carrier_GZ048_heating
     table3_b = { {11400.46, 13070.97, 15181.08, 17173.96, 19225.46, 21364.88},  {11166.01, 12777.90, 14829.40, 16734.36, 18756.55, 20808.05},  {11019.47, 12572.75, 14507.02, 16382.67, 18316.94, 20309.83}},
     outputType1=IDEAS.Fluid.Production.BaseClasses.OutputType.COP,
     outputType2=IDEAS.Fluid.Production.BaseClasses.OutputType.QCon,
-    inputType1=IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva,
-    inputType2=IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon,
+    inputType1=IDEAS.Fluid.Production.BaseClasses.InputType.T_inCon,
+    inputType2=IDEAS.Fluid.Production.BaseClasses.InputType.T_inEva,
     inputType3=IDEAS.Fluid.Production.BaseClasses.InputType.m_flowEva);
 
   annotation (Documentation(revisions="<html>
