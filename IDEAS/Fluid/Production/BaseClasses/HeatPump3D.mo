@@ -2,7 +2,7 @@ within IDEAS.Fluid.Production.BaseClasses;
 partial model HeatPump3D "Heat pump partial"
 
   replaceable parameter
-    IDEAS.Fluid.Production.Data.PerformanceMaps.VitoCal300GBWS301dotA45_3D dat
+    Data.PerformanceMaps.VitoCal300GBWS301dotA45                           dat
     constrainedby IDEAS.Fluid.Production.BaseClasses.HeatPumpData3D
     "Heat pump performance data"
     annotation (choicesAllMatching=true,Dialog(group="Data"),Placement(transformation(extent={{60,82},{80,102}})));
@@ -44,6 +44,19 @@ partial model HeatPump3D "Heat pump partial"
     IDEAS.Fluid.Production.BaseClasses.TemperatureLimits.Ignore
     "Action when crossing temperature limit for evaporator"
     annotation(Evaluate=true, Dialog(tab="Temperature protection"));
+
+  parameter Boolean TEvaInFromTEvaOut = false
+    "= true, then recompute performance based on evaporator outlet temperature instead of directly using the inlet temperature"
+    annotation(Evaluate=true, Dialog(tab="Advanced"));
+  parameter Boolean TConInFromTConOut = false
+    "= true, then recompute performance based on evaporator outlet temperature instead of directly using the inlet temperature"
+    annotation(Evaluate=true, Dialog(tab="Advanced"));
+  parameter Modelica.SIunits.TemperatureDifference dTEva_nominal(min=0) = 5
+    "Nominal temperature difference between evaporator fluid inlet and outlet for which the performance map was set up"
+    annotation(Dialog(tab="Advanced", enable=TEvaInFromTEvaOut));
+  parameter Modelica.SIunits.TemperatureDifference dTCon_nominal(max=0) = -5
+    "Nominal temperature difference between condensor fluid inlet and outlet for which the performance map was set up"
+    annotation(Dialog(tab="Advanced", enable=TConInFromTConOut));
 
   Modelica.SIunits.Power QEva "Thermal power of the evaporator (positive)";
   Modelica.SIunits.Power QCon "Thermal power of the condensor (positive)";
@@ -92,10 +105,10 @@ partial model HeatPump3D "Heat pump partial"
 
   Sensors.Temperature senTemConIn(redeclare package Medium = Medium2)
     "Temperature sensor for condensor inlet"
-    annotation (Placement(transformation(extent={{110,-40},{90,-20}})));
+    annotation (Placement(transformation(extent={{106,-52},{94,-42}})));
   Sensors.Temperature senTemEvaIn(redeclare package Medium = Medium1)
     "Temperature sensor for evaporator inlet"
-    annotation (Placement(transformation(extent={{-110,40},{-90,20}})));
+    annotation (Placement(transformation(extent={{-106,54},{-94,42}})));
 
 protected
   parameter Medium1.ThermodynamicState state_default1=
@@ -139,7 +152,7 @@ protected
     "Time when temperature protection was activated";
   Modelica.Blocks.Sources.RealExpression modExp(y=1)
     "Table input for modulation rate"
-    annotation (Placement(transformation(extent={{-122,-18},{-102,2}})));
+    annotation (Placement(transformation(extent={{-100,-22},{-80,-8}})));
   Modelica.Blocks.Sources.RealExpression QEvap(y=-QEva)
     annotation (Placement(transformation(extent={{-72,70},{-54,50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatEvap
@@ -154,10 +167,10 @@ protected
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Modelica.Blocks.Sources.RealExpression m_flowEva(y=port_a1.m_flow)
     "Evaporator mass flow rate"
-    annotation (Placement(transformation(extent={{-100,14},{-82,-6}})));
+    annotation (Placement(transformation(extent={{-100,18},{-80,32}})));
   Modelica.Blocks.Sources.RealExpression m_flowCon(y=port_a2.m_flow)
     "Condensor mass flow rate"
-    annotation (Placement(transformation(extent={{-100,-6},{-82,-26}})));
+    annotation (Placement(transformation(extent={{-100,8},{-80,22}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTemEvaOut
     "Temperature sensor for evaporator outlet temperature"
     annotation (Placement(transformation(extent={{-20,34},{-32,46}})));
@@ -174,6 +187,18 @@ protected
   Real copInt "Internal variable for handling control signal";
   Modelica.SIunits.Power PInt "Internal variable for handling control signal";
 
+  Modelica.Blocks.Sources.RealExpression m_flowCon1(
+                                                   y=port_a2.m_flow)
+    "Condensor mass flow rate"
+    annotation (Placement(transformation(extent={{-42,-8},{-24,-28}})));
+  Modelica.Blocks.Sources.RealExpression TEvaIn(y=if TEvaInFromTEvaOut then
+        vol1.T + dTEva_nominal else senTemEvaIn.T)
+    "Evaporator inlet temperature - may be recomputed from outlet temperature"
+    annotation (Placement(transformation(extent={{-100,-2},{-80,12}})));
+  Modelica.Blocks.Sources.RealExpression TConIn(y=if TConInFromTConOut then
+        vol2.T + dTCon_nominal else senTemConIn.T)
+    "Condensor inlet temperature - may be recomputed from outlet temperature"
+    annotation (Placement(transformation(extent={{-100,-12},{-80,2}})));
 equation
   // fetch variables that are available in table
   table_a.y =
@@ -283,23 +308,21 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(senTemConIn.port, port_a2)
-    annotation (Line(points={{100,-40},{100,-60}}, color={0,127,255}));
+    annotation (Line(points={{100,-52},{100,-50},{100,-60}},
+                                                   color={0,127,255}));
   connect(senTemEvaIn.port, port_a1)
-    annotation (Line(points={{-100,40},{-100,60}}, color={0,127,255}));
+    annotation (Line(points={{-100,54},{-100,50},{-100,60}},
+                                                   color={0,127,255}));
   connect(table_b.u3, table_a.u3) annotation (Line(points={{-2,-16},{-16,-16},{-16,
           4},{-2,4}}, color={0,0,127}));
   connect(table_b.u2, table_a.u2) annotation (Line(points={{-2,-10},{-14,-10},{-14,
           10},{-2,10}}, color={0,0,127}));
   connect(table_b.u1, table_a.u1) annotation (Line(points={{-2,-4},{-12,-4},{-12,
           16},{-2,16}}, color={0,0,127}));
-  connect(m_flowEva.y, inputs[1].u) annotation (Line(points={{-81.1,4},{-74,4},{
-          -74,0},{-62,0}}, color={0,0,127}));
-  connect(m_flowCon.y, inputs[2].u) annotation (Line(points={{-81.1,-16},{-74,-16},
-          {-74,0},{-62,0}}, color={0,0,127}));
-  connect(senTemEvaIn.T, inputs[3].u) annotation (Line(points={{-93,30},{-80,30},
-          {-66,30},{-66,0},{-62,0}}, color={0,0,127}));
-  connect(senTemConIn.T, inputs[4].u) annotation (Line(points={{93,-30},{-66,-30},
-          {-66,0},{-62,0}}, color={0,0,127}));
+  connect(m_flowEva.y, inputs[1].u) annotation (Line(points={{-79,25},{-66,25},{
+          -66,0},{-62,0}}, color={0,0,127}));
+  connect(m_flowCon.y, inputs[2].u) annotation (Line(points={{-79,15},{-66,15},{
+          -66,0},{-62,0}},  color={0,0,127}));
   connect(senTemEvaOut.port, vol1.heatPort) annotation (Line(points={{-20,40},{-20,
           40},{-10,40},{-10,60}}, color={191,0,0}));
   connect(senTemEvaOut.T, inputs[5].u) annotation (Line(points={{-32,40},{-66,40},
@@ -308,13 +331,19 @@ equation
     annotation (Line(points={{-20,-40},{12,-40},{12,-60}}, color={191,0,0}));
   connect(senTemConOut.T, inputs[6].u) annotation (Line(points={{-32,-40},{-48,-40},
           {-66,-40},{-66,0},{-62,0}}, color={0,0,127}));
-  connect(modExp.y, inputs[7].u);
+
   connect(inputs[inputIndex1].y, table_a.u1) annotation (Line(points={{-39,0},{-12,0},{-12,
           16},{-2,16}}, color={0,0,127}));
   connect(inputs[inputIndex2].y, table_a.u2) annotation (Line(points={{-39,0},{-14,0},{-14,
           10},{-2,10}}, color={0,0,127}));
   connect(inputs[inputIndex3].y, table_a.u3) annotation (Line(points={{-39,0},{-16,0},{-16,
           4},{-2,4}}, color={0,0,127}));
+  connect(TEvaIn.y, inputs[3].u) annotation (Line(points={{-79,5},{-66,5},{-66,0},
+          {-62,0}},    color={0,0,127}));
+  connect(modExp.y, inputs[7].u) annotation (Line(points={{-79,-15},{-66,-15},{-66,
+          0},{-62,0}}, color={0,0,127}));
+  connect(TConIn.y, inputs[4].u) annotation (Line(points={{-79,-5},{-66,-5},{-66,
+          0},{-62,0}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
