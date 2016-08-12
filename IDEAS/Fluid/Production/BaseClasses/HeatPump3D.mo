@@ -22,7 +22,7 @@ partial model HeatPump3D "Heat pump partial"
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true),
     redeclare IDEAS.Fluid.MixingVolumes.MixingVolume vol2(
-      V=dat.m2_flow_nominal/Medium1.density(state_default2)*tau2,
+      V=dat.m2_flow_nominal/Medium2.density(state_default2)*tau2,
       energyDynamics=energyDynamics,
       massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
@@ -83,7 +83,7 @@ partial model HeatPump3D "Heat pump partial"
     final table7=dat.table7_a,
     smoothness=smoothness,
     is2Dtable=dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.None)
-    annotation (Placement(transformation(extent={{0,0},{20,20}})));
+    annotation (Placement(transformation(extent={{40,0},{60,20}})));
 
   IDEAS.Utilities.Tables.CombiTable3D table_b(
     final nDim1=dat.nDim1,
@@ -101,7 +101,7 @@ partial model HeatPump3D "Heat pump partial"
     final table6=dat.table6_b,
     final table7=dat.table7_b,
     is2Dtable=dat.inputType3 == IDEAS.Fluid.Production.BaseClasses.InputType.None)
-    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+    annotation (Placement(transformation(extent={{40,-20},{60,0}})));
 
   Sensors.Temperature senTemConIn(redeclare package Medium = Medium2)
     "Temperature sensor for condensor inlet"
@@ -187,10 +187,6 @@ protected
   Real copInt "Internal variable for handling control signal";
   Modelica.SIunits.Power PInt "Internal variable for handling control signal";
 
-  Modelica.Blocks.Sources.RealExpression m_flowCon1(
-                                                   y=port_a2.m_flow)
-    "Condensor mass flow rate"
-    annotation (Placement(transformation(extent={{-42,-8},{-24,-28}})));
   Modelica.Blocks.Sources.RealExpression TEvaIn(y=if TEvaInFromTEvaOut then
         vol1.T + dTEva_nominal else senTemEvaIn.T)
     "Evaporator inlet temperature - may be recomputed from outlet temperature"
@@ -199,6 +195,19 @@ protected
         vol2.T + dTCon_nominal else senTemConIn.T)
     "Condensor inlet temperature - may be recomputed from outlet temperature"
     annotation (Placement(transformation(extent={{-100,-12},{-80,2}})));
+
+  IDEAS.Utilities.Math.Limiter u1Limiter(
+                          uMin=dat.indicesDim1[1], uMax=dat.indicesDim1[size(
+        dat.indicesDim1, 1)])                      "Limiter for first input"
+    annotation (Placement(transformation(extent={{-8,12},{0,20}})));
+  IDEAS.Utilities.Math.Limiter u2Limiter(
+                          uMin=dat.indicesDim2[1], uMax=dat.indicesDim2[size(
+        dat.indicesDim2, 1)])                      "Limiter for second input"
+    annotation (Placement(transformation(extent={{-8,-4},{0,4}})));
+  IDEAS.Utilities.Math.Limiter u3Limiter(
+                          uMin=dat.indicesDim3[1], uMax=dat.indicesDim3[size(
+        dat.indicesDim3, 1)])                      "Limiter for third input"
+    annotation (Placement(transformation(extent={{-8,-20},{0,-12}})));
 equation
   // fetch variables that are available in table
   table_a.y =
@@ -313,12 +322,6 @@ equation
   connect(senTemEvaIn.port, port_a1)
     annotation (Line(points={{-100,54},{-100,50},{-100,60}},
                                                    color={0,127,255}));
-  connect(table_b.u3, table_a.u3) annotation (Line(points={{-2,-16},{-16,-16},{-16,
-          4},{-2,4}}, color={0,0,127}));
-  connect(table_b.u2, table_a.u2) annotation (Line(points={{-2,-10},{-14,-10},{-14,
-          10},{-2,10}}, color={0,0,127}));
-  connect(table_b.u1, table_a.u1) annotation (Line(points={{-2,-4},{-12,-4},{-12,
-          16},{-2,16}}, color={0,0,127}));
   connect(m_flowEva.y, inputs[1].u) annotation (Line(points={{-79,25},{-66,25},{
           -66,0},{-62,0}}, color={0,0,127}));
   connect(m_flowCon.y, inputs[2].u) annotation (Line(points={{-79,15},{-66,15},{
@@ -332,18 +335,32 @@ equation
   connect(senTemConOut.T, inputs[6].u) annotation (Line(points={{-32,-40},{-48,-40},
           {-66,-40},{-66,0},{-62,0}}, color={0,0,127}));
 
-  connect(inputs[inputIndex1].y, table_a.u1) annotation (Line(points={{-39,0},{-12,0},{-12,
-          16},{-2,16}}, color={0,0,127}));
-  connect(inputs[inputIndex2].y, table_a.u2) annotation (Line(points={{-39,0},{-14,0},{-14,
-          10},{-2,10}}, color={0,0,127}));
-  connect(inputs[inputIndex3].y, table_a.u3) annotation (Line(points={{-39,0},{-16,0},{-16,
-          4},{-2,4}}, color={0,0,127}));
+  connect(inputs[inputIndex1].y, u1Limiter.u) annotation (Line(points={{-39,0},{
+          -12,0},{-12,16},{-8.8,16}},
+                        color={0,0,127}));
+  connect(inputs[inputIndex2].y, u2Limiter.u) annotation (Line(points={{-39,0},{
+          -8.8,0}},     color={0,0,127}));
+  connect(inputs[inputIndex3].y, u3Limiter.u) annotation (Line(points={{-39,0},{
+          -12,0},{-12,-16},{-8.8,-16}},
+                      color={0,0,127}));
   connect(TEvaIn.y, inputs[3].u) annotation (Line(points={{-79,5},{-66,5},{-66,0},
           {-62,0}},    color={0,0,127}));
   connect(modExp.y, inputs[7].u) annotation (Line(points={{-79,-15},{-66,-15},{-66,
           0},{-62,0}}, color={0,0,127}));
   connect(TConIn.y, inputs[4].u) annotation (Line(points={{-79,-5},{-66,-5},{-66,
           0},{-62,0}}, color={0,0,127}));
+  connect(u1Limiter.y, table_a.u1)
+    annotation (Line(points={{0.4,16},{19.2,16},{38,16}}, color={0,0,127}));
+  connect(u3Limiter.y, table_b.u3)
+    annotation (Line(points={{0.4,-16},{38,-16}}, color={0,0,127}));
+  connect(u3Limiter.y, table_a.u3) annotation (Line(points={{0.4,-16},{20,-16},{
+          20,4},{38,4}}, color={0,0,127}));
+  connect(u2Limiter.y, table_a.u2) annotation (Line(points={{0.4,0},{18,0},{18,10},
+          {38,10}}, color={0,0,127}));
+  connect(u2Limiter.y, table_b.u2) annotation (Line(points={{0.4,0},{18,0},{18,-10},
+          {38,-10}}, color={0,0,127}));
+  connect(u1Limiter.y, table_b.u1) annotation (Line(points={{0.4,16},{16,16},{16,
+          -4},{38,-4}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
