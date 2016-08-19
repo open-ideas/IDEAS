@@ -6,18 +6,19 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
 
   parameter Modelica.SIunits.Angle inc
-    "Inclination of the wall, i.e. 90deg denotes vertical";
+    "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
   parameter Modelica.SIunits.Angle azi
-    "Azimuth of the wall, i.e. 0deg denotes South";
+    "Azimuth angle of the wall, i.e. see IDEAS.Types.Azimuth";
   parameter Modelica.SIunits.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
-    annotation (Dialog(tab="Design power"));
+    annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab="Dynamics", group="Initial condition"));
 
   parameter Modelica.SIunits.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-    annotation (Dialog(group="Design heat loss"));
+    annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Boolean linearise_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
@@ -42,7 +43,7 @@ partial model PartialSurface "Partial model for building envelope component"
         rotation=-90,
         origin={50,20})));
 
-  BaseClasses.InteriorConvection intCon_a(
+  BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon_a(
     linearise=linearise_a,
     dT_nominal=dT_nominal_a,
     final inc=inc) if  not createOutputsOnly
@@ -61,7 +62,7 @@ protected
   Modelica.Blocks.Sources.RealExpression E if
        sim.computeConservationOfEnergy and  not createOutputsOnly
     "Model internal energy";
-  IDEAS.Buildings.Components.BaseClasses.PrescribedEnergy prescribedHeatFlowE if
+  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE if
        sim.computeConservationOfEnergy and not createOutputsOnly
     "Component for computing conservation of energy";
   Modelica.Blocks.Sources.RealExpression Qgai if
@@ -72,8 +73,8 @@ protected
     "Component for computing conservation of energy";
 
 protected
-  IDEAS.Buildings.Components.BaseClasses.MultiLayer layMul(final inc=inc,
-      energyDynamics=energyDynamics) if not createOutputsOnly
+  IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
+    layMul(final inc=inc, energyDynamics=energyDynamics)
     "Multilayer component that allows simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 

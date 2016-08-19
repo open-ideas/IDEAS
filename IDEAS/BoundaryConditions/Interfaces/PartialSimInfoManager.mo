@@ -7,8 +7,9 @@ partial model PartialSimInfoManager
   parameter String filNam="Uccle.TMY" "Name of weather data file"
     annotation (Dialog(enable=useTmy3Reader));
   parameter Modelica.SIunits.Angle lat(displayUnit="deg") = 0.88749992463912
-    "latitude of the locatioin";
-  parameter Modelica.SIunits.Angle lon(displayUnit="deg") = 0.075921822461753;
+    "Latitude of the location";
+  parameter Modelica.SIunits.Angle lon(displayUnit="deg") = 0.075921822461753
+    "Longitude of the location";
   parameter Modelica.SIunits.Time timZonSta(displayUnit="h") = 3600
     "standard time zone";
 
@@ -61,7 +62,9 @@ partial model PartialSimInfoManager
   final parameter Modelica.SIunits.Temperature TdesGround=10 + 273.15
     "design ground temperature";
 
-public
+  parameter Modelica.SIunits.Temperature Tenv_nom= 280
+    "Nominal ambient temperature, only used when linearising equations";
+
   Modelica.SIunits.Irradiance solDirPer
     "direct irradiation on normal to solar zenith";
   Modelica.SIunits.Irradiance solDirHor
@@ -92,6 +95,7 @@ public
   Modelica.SIunits.Energy Etot "Total internal energy";
   Modelica.SIunits.Energy Qint "Total energy from boundary";
 
+
   Real hCon=IDEAS.Utilities.Math.Functions.spliceFunction(
       x=Va - 5,
       pos=7.1*abs(Va)^(0.78),
@@ -104,7 +108,7 @@ public
   Real angHou=(timSol/3600 - 12)*2*Modelica.Constants.pi/24;
   Real angZen=acos(cos(lat)*cos(angDec)*cos(angHou) + sin(lat)*sin(angDec));
 
-public
+protected
   Modelica.Blocks.Sources.RealExpression hour(y=angHou) "Hour angle"
     annotation (Placement(transformation(extent={{-124,34},{-104,54}})));
   Modelica.Blocks.Sources.RealExpression dec(y=angDec) "declination angle"
@@ -112,11 +116,10 @@ public
   Modelica.Blocks.Sources.RealExpression solDirPerExp(y=solDirPer)
     "Perpendicular direct solar radiation"
     annotation (Placement(transformation(extent={{-124,10},{-104,30}})));
-protected
+
   final parameter Boolean DST=true
     "boolean to take into account daylight saving time";
   final parameter Integer yr=2014 "depcited year for DST only";
-
   final parameter Boolean BesTest=Modelica.Utilities.Strings.isEqual(filNam, "BesTest.txt")
     "boolean to determine if this simulation is a BESTEST simulation";
 
@@ -124,7 +127,7 @@ public
   IDEAS.BoundaryConditions.Climate.Time.SimTimes timMan(
     timZonSta=timZonSta,
     lon=lon,
-    DST=false,
+    DST=DST,
     ifSolCor=true)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
 
@@ -193,7 +196,8 @@ public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a Qgai
     "Thermal gains in model"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  IDEAS.Buildings.Components.BaseClasses.EnergyPort E "Model internal energy"
+  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
+    "Model internal energy"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
   Modelica.Blocks.Sources.RealExpression CEnv(y=0)
@@ -305,6 +309,11 @@ equation
             {28,102},{28,60.6}}, color={0,0,127}));
     connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{-103,116},
             {-90,116},{34,116},{34,60.6}}, color={0,0,127}));
+    connect(radSol[i].solBus, weaBus.solBus[i]) annotation (Line(
+      points={{40,50},{60.05,50},{60.05,28.05}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));		
   end for;
   connect(skyBrightnessCoefficients.F1, weaBus.F1) annotation (Line(
       points={{-6,76},{4,76},{4,34},{60,34},{60,28}},
@@ -350,11 +359,6 @@ equation
   connect(TdesExpr.y, weaBus.Tdes) annotation (Line(
       points={{1,-10},{60.05,-10},{60.05,28.05}},
       color={0,0,127},
-      smooth=Smooth.None));
-  connect(radSol.solBus, weaBus.solBus) annotation (Line(
-      points={{40,50},{60.05,50},{60.05,28.05}},
-      color={255,204,51},
-      thickness=0.5,
       smooth=Smooth.None));
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{20,-70},{0,-70},{0,-100}}, color={191,0,0}));

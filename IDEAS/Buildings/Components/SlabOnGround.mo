@@ -1,6 +1,5 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
-
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes), layMul(
         placeCapacityAtSurf_b=false),
@@ -8,7 +7,7 @@ model SlabOnGround "opaque floor on ground slab"
     redeclare replaceable Data.Constructions.FloorOnGround constructionType);
 
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
-    "Total wall perimeter";
+    "Total floor slab perimeter";
   parameter Modelica.SIunits.Temperature TeAvg = 273.15+10.8
     "Annual average outdoor temperature";
   parameter Modelica.SIunits.Temperature TiAvg = 273.15+22
@@ -44,12 +43,12 @@ protected
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
   Real m = sim.timCal/3.1536e7*12 "time in months";
 
-  BaseClasses.MultiLayer layGro(
+  BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
     final A=AWall,
     final inc=inc,
     final nLay=3,
     final mats={ground1,ground2,ground3},
-    final T_start={TeAvg, TeAvg, TeAvg})
+    final T_start={TeAvg,TeAvg,TeAvg})
     "Declaration of array of resistances and capacitances for ground simulation"
     annotation (Placement(transformation(extent={{-20,-10},{-40,10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow periodicFlow(T_ref=284.15)
