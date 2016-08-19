@@ -5,9 +5,10 @@ model InternalWall "interior opaque wall between two zones"
   E(y=layMul.E),
   Qgai(y=(if sim.openSystemConservationOfEnergy
          then 0 else sum(port_emb.Q_flow))),
-  final QTra_design=U_value*AWall*(TRef_a - TRef_b));
+  final QTra_design=U_value*AWall*(TRef_a - TRef_b),
+    intCon_a);
 
-  parameter Boolean linearise_b=false
+  parameter Boolean linearise_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_b=1
@@ -20,8 +21,9 @@ model InternalWall "interior opaque wall between two zones"
     "port for gains by embedded active layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
-    numAzi=sim.numAzi,
-    computeConservationOfEnergy=sim.computeConservationOfEnergy) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+    numIncAndAziInBus=sim.numIncAndAziInBus,
+    computeConservationOfEnergy=sim.computeConservationOfEnergy,
+    each final weaBus(outputAngles=sim.outputAngles)) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
