@@ -2,7 +2,6 @@ within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with optional prescribed heat flow rate or temperature boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=U_value*AWall*(273.15 + 21 - TRef_a),
-     dT_nominal_a=-1,
      layMul(monLay(energyDynamics=cat(1, {(if use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}, fill(energyDynamics, layMul.nLay-1)))));
 
   parameter Boolean use_T_in = false

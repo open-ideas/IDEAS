@@ -14,7 +14,6 @@ partial model PartialOpaqueSurface
     E(y=layMul.E),
     Qgai(y=layMul.port_b.Q_flow + (if sim.openSystemConservationOfEnergy
          then 0 else sum(port_emb.Q_flow))),
-    intCon_a(A=AWall),
     layMul(final A=AWall,
       final nLay=constructionType.nLay,
       final mats=constructionType.mats,

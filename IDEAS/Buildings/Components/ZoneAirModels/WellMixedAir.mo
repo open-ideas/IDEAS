@@ -31,6 +31,7 @@ protected
     n50toAch=n50toAch) if useAirLeakage
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
+
 protected
   constant Modelica.SIunits.SpecificEnthalpy lambdaWater = 2260000
     "Latent heat of evaporation water";
@@ -52,6 +53,16 @@ public
   Fluid.Sensors.RelativeHumidity senRelHum(redeclare package Medium = Medium)
     "Relative humidity of the zone air"
     annotation (Placement(transformation(extent={{20,-30},{40,-50}})));
+  BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon[nSurf](A=APar, inc=
+        incPar,
+    each linearise=false,
+    each dT_nominal=dT_nominal)
+    "Interior convection model"
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+
+
+  parameter SI.TemperatureDifference dT_nominal=-2
+    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder";
 equation
   assert(vol.ports[1].Xi_outflow[1] <= 0.1,
          "The water content of the zone air model is very high. 
@@ -65,9 +76,8 @@ equation
     annotation (Line(points={{1.6,10},{-40,10},{-40,100}},
                                                        color={0,127,255}));
   for i in 1:nSurf loop
-    connect(vol.heatPort, ports_surf[i]) annotation (Line(points={{10,-1.33227e-15},
-            {10,-1.33227e-15},{10,-20},{-46,-20},{-46,0},{-100,0}},
-                                               color={191,0,0}));
+    connect(intCon[1].port_b, vol.heatPort) annotation (Line(points={{-60,0},{-40,
+          0},{-40,-20},{10,-20},{10,0}}, color={191,0,0}));
   end for;
   connect(airLeakage.port_a, vol.ports[3]) annotation (Line(points={{-10,40},{
           -22,40},{-22,38},{-22,10},{1.11022e-15,10}},color={0,127,255}));
@@ -98,6 +108,8 @@ equation
     annotation (Line(points={{41,-40},{72,-40},{108,-40}}, color={0,0,127}));
   connect(senRelHum.port, vol.ports[5]) annotation (Line(points={{30,-30},{30,-30},
           {30,-14},{30,10},{-3.2,10}}, color={0,127,255}));
+  connect(intCon.port_a, ports_surf)
+    annotation (Line(points={{-80,0},{-100,0}},          color={191,0,0}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>

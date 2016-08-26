@@ -41,13 +41,22 @@ partial model PartialAirModel "Partial for air models"
     "Heat convection ports for air volumes"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealInput mWat_flow
-    "Moisture mass flow rate being added to the zone air"
+    "Water vapor mass flow rate being added to the zone air"
     annotation (Placement(transformation(extent={{128,60},{88,100}})));
   Modelica.Blocks.Interfaces.RealInput C_flow[max(Medium.nC,1)]
     "Trace substance mass flow rate being added to the zone air"
     annotation (Placement(transformation(extent={{128,20},{88,60}})));
   Modelica.Blocks.Interfaces.RealOutput phi "Zone air relative humidity"
     annotation (Placement(transformation(extent={{98,-50},{118,-30}})));
+
+protected
+  parameter Modelica.SIunits.Area APar[nSurf](each fixed=false) "Surface area parameter of each surface";
+  parameter Real incPar[nSurf](each fixed=false) "Inclination angle parameter of each surface";
+  parameter Real aziPar[nSurf](each fixed=false) "Azimuth angle parameter of each surface";
+initial equation
+  APar=A;
+  incPar=inc;
+  aziPar=azi;
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>

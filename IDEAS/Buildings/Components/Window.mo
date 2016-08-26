@@ -5,12 +5,8 @@ model Window "Multipane window"
     annotation (__Dymola_choicesAllMatching=true, Dialog(group=
           "Construction details"));
 
+  parameter Boolean linConFra = sim.linIntCon "Linearise frame convective resistance";
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
-    dT_nominal_a=-3,
-    intCon_a(final A=
-           A*(1 - frac),
-           linearise=linIntCon_a or sim.linearise,
-           dT_nominal=dT_nominal_a),
     QTra_design(fixed=false),
     Qgai(y=-(propsBus_a.surfCon.Q_flow +
         propsBus_a.surfRad.Q_flow + propsBus_a.iSolDif.Q_flow + propsBus_a.iSolDir.Q_flow)),
@@ -97,7 +93,7 @@ protected
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection
     iConFra(final A=A*frac, final inc=inc,
-    linearise=linIntCon_a or sim.linearise) if
+    linearise=linConFra or sim.linearise) if
                         fraType.present
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
@@ -150,6 +146,9 @@ protected
 
 initial equation
   QTra_design = (U_value*A + briType.G) *(273.15 + 21 - Tdes.y);
+
+
+
 
 
 

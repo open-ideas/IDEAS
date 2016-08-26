@@ -19,12 +19,6 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.SIunits.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
     annotation (Dialog(group="Design power",tab="Advanced"));
-  parameter Boolean linIntCon_a=sim.linIntCon
-    "= true, if convective heat transfer should be linearised"
-    annotation (Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
-    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation (Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
@@ -32,7 +26,8 @@ partial model PartialSurface "Partial model for building envelope component"
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     numIncAndAziInBus=sim.numIncAndAziInBus,
     computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    weaBus(final outputAngles=sim.outputAngles)) "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    weaBus(final outputAngles=sim.outputAngles))
+    "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -42,13 +37,6 @@ partial model PartialSurface "Partial model for building envelope component"
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={50,20})));
-
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon_a(
-    linearise=linIntCon_a or sim.linearise,
-    dT_nominal=dT_nominal_a,
-    final inc=inc)
-    "Convective heat transfer correlation for port_a"
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
 protected
   Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design);
@@ -81,17 +69,9 @@ equation
   connect(prescribedHeatFlowQgai.port, propsBus_a.Qgai);
   connect(E.y,prescribedHeatFlowE. E);
   connect(QDesign.y, propsBus_a.QTra_design);
-  connect(propsBus_a.surfCon, intCon_a.port_b) annotation (Line(
-      points={{100.1,19.9},{46,19.9},{46,0},{40,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
 
   connect(layMul.port_a, propsBus_a.surfRad) annotation (Line(
-      points={{10,0},{16,0},{16,19.9},{100.1,19.9}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(layMul.port_a, intCon_a.port_a) annotation (Line(
-      points={{10,0},{20,0}},
+      points={{10,0},{22,0},{22,19.9},{100.1,19.9}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(layMul.iEpsSw_a, propsBus_a.epsSw) annotation (Line(
@@ -117,6 +97,8 @@ equation
       extent={{6,3},{6,3}}));
   connect(incExp.y, propsBus_a.inc);
   connect(aziExp.y, propsBus_a.azi);
+  connect(layMul.port_a, propsBus_a.surfCon) annotation (Line(points={{10,0},{24,
+          0},{24,19.9},{100.1,19.9}}, color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

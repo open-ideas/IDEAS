@@ -1,7 +1,6 @@
 within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     dT_nominal_a=-3,
      QTra_design(fixed=false));
 
   parameter Boolean linExtCon=sim.linExtCon

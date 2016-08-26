@@ -1,19 +1,11 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-  dT_nominal_a=1,
   E(y=layMul.E),
   Qgai(y=(if sim.openSystemConservationOfEnergy
          then 0 else sum(port_emb.Q_flow))),
-  final QTra_design=U_value*AWall*(TRef_a - TRef_b),
-    intCon_a);
+  final QTra_design=U_value*AWall*(TRef_a - TRef_b));
 
-  parameter Boolean linIntCon_b=sim.linIntCon
-    "= true, if convective heat transfer should be linearised"
-    annotation(Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_b=1
-    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Convection"));
   parameter Modelica.SIunits.Temperature TRef_b=291.15
     "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
      annotation (Dialog(group="Design power",tab="Advanced"));
@@ -36,14 +28,6 @@ protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
 
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection
-    intCon_b(
-    final A=AWall,
-    linearise=linIntCon_b or sim.linearise,
-    dT_nominal=dT_nominal_b,
-    final inc=inc + Modelica.Constants.pi)
-    "convective surface heat transimission on the interior side of the wall"
-    annotation (Placement(transformation(extent={{-22,-10},{-42,10}})));
   Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design);
   //Negative, because of its losses from zone side b to zone side a, oposite of calculation of QTra_design
 
@@ -62,15 +46,7 @@ protected
 
 equation
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
-      points={{-10,0},{-14,0},{-14,20.1},{-100.1,20.1}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(propsBus_b.surfCon, intCon_b.port_b) annotation (Line(
-      points={{-100.1,20.1},{-48,20.1},{-48,0},{-42,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(layMul.port_b, intCon_b.port_a) annotation (Line(
-      points={{-10,0},{-22,0}},
+      points={{-10,0},{-20,0},{-20,20.1},{-100.1,20.1}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(layMul.iEpsSw_b, propsBus_b.epsSw) annotation (Line(
@@ -94,6 +70,8 @@ equation
   connect(E_b.port, propsBus_b.E);
   connect(E_b.E, E0.y);
 
+  connect(layMul.port_b, propsBus_b.surfCon) annotation (Line(points={{-10,0},{-22,
+          0},{-22,20.1},{-100.1,20.1}}, color={191,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
