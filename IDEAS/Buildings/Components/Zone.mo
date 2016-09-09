@@ -91,8 +91,8 @@ model Zone "Building zone model"
     "Total design transmission heat losses for the zone";
 
 
-  Modelica.SIunits.Temperature TAir=airModel.TAir;
-  Modelica.SIunits.Temperature TStar=radDistr.TRad;
+  Modelica.Blocks.Interfaces.RealOutput TAir(unit="K") "Zone air temperature";
+  Modelica.Blocks.Interfaces.RealOutput TRad(unit="K") "Zone radiative temperature";
   Modelica.SIunits.Energy E = airModel.E;
 
 protected
@@ -133,7 +133,11 @@ initial equation
 
 
 
+
+
 equation
+  connect(TAir, airModel.TAir);
+  connect(TRad, radDistr.TRad);
   connect(radDistr.radGain, gainRad) annotation (Line(
       points={{-46.2,-60},{100,-60}},
       color={191,0,0},
