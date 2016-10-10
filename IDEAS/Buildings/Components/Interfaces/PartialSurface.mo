@@ -6,19 +6,20 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
 
   parameter Modelica.SIunits.Angle inc
-    "Inclination of the wall, i.e. 90deg denotes vertical";
+    "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
   parameter Modelica.SIunits.Angle azi
-    "Azimuth of the wall, i.e. 0deg denotes South";
+    "Azimuth angle of the wall, i.e. see IDEAS.Types.Azimuth";
   parameter Modelica.SIunits.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
-    annotation (Dialog(tab="Design power"));
+    annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Modelica.SIunits.Temperature T_start=293.15
-    "Start temperature for each of the layers";
+    "Start temperature for each of the layers"
+    annotation(Dialog(tab="Dynamics", group="Initial condition"));
 
   parameter Modelica.SIunits.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-    annotation (Dialog(group="Design heat loss"));
-  parameter Boolean linearise_a=sim.linIntCon
+    annotation (Dialog(group="Design power",tab="Advanced"));
+  parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
@@ -31,7 +32,7 @@ partial model PartialSurface "Partial model for building envelope component"
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     numIncAndAziInBus=sim.numIncAndAziInBus,
     computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    weaBus(final outputAngles=sim.outputAngles)) if not createOutputsOnly "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    weaBus(final outputAngles=sim.outputAngles)) "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -42,38 +43,35 @@ partial model PartialSurface "Partial model for building envelope component"
         rotation=-90,
         origin={50,20})));
 
-  BaseClasses.InteriorConvection intCon_a(
-    linearise=linearise_a,
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon_a(
+    linearise=linIntCon_a or sim.linearise,
     dT_nominal=dT_nominal_a,
-    final inc=inc) if  not createOutputsOnly
+    final inc=inc)
     "Convective heat transfer correlation for port_a"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
-  parameter Boolean createOutputsOnly = sim.createOutputs
-    "Set to true when windows is only used to generate disturbances for linearisation" annotation(Dialog(tab="Linearisation"));
 protected
-  Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design) if  not createOutputsOnly;
+  Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design);
 
-  Modelica.Blocks.Sources.RealExpression aziExp(y=azi) if  not createOutputsOnly
+  Modelica.Blocks.Sources.RealExpression aziExp(y=azi)
     "Azimuth angle expression";
-  Modelica.Blocks.Sources.RealExpression incExp(y=inc) if  not createOutputsOnly
+  Modelica.Blocks.Sources.RealExpression incExp(y=inc)
     "Inclination angle expression";
   Modelica.Blocks.Sources.RealExpression E if
-       sim.computeConservationOfEnergy and  not createOutputsOnly
+       sim.computeConservationOfEnergy
     "Model internal energy";
-  IDEAS.Buildings.Components.BaseClasses.PrescribedEnergy prescribedHeatFlowE if
-       sim.computeConservationOfEnergy and not createOutputsOnly
+  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE if
+       sim.computeConservationOfEnergy
     "Component for computing conservation of energy";
-  Modelica.Blocks.Sources.RealExpression Qgai if
-     sim.computeConservationOfEnergy and not createOutputsOnly
+  Modelica.Blocks.Sources.RealExpression Qgai if sim.computeConservationOfEnergy
     "Heat gains across model boundary";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai if
-     sim.computeConservationOfEnergy and not createOutputsOnly
+     sim.computeConservationOfEnergy
     "Component for computing conservation of energy";
 
-protected
-  IDEAS.Buildings.Components.BaseClasses.MultiLayer layMul(final inc=inc,
-      energyDynamics=energyDynamics) if not createOutputsOnly
+  IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
+    layMul(final inc=inc, energyDynamics=energyDynamics,
+    linIntCon=sim.linearise)
     "Multilayer component that allows simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
