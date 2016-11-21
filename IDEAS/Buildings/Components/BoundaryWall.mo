@@ -3,7 +3,8 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=U_value*AWall*(273.15 + 21 - TRef_a),
      dT_nominal_a=-1,
-     layMul(monLay(energyDynamics=cat(1, {(if use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}, fill(energyDynamics, layMul.nLay-1)))));
+     layMul(monLay(energyDynamics=cat(1, {(if use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}, fill(energyDynamics, layMul.nLay-1)),
+          monLayDyn(placeCapacityAtSurf_b=false))));
 
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector"
@@ -31,25 +32,37 @@ protected
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
 
 
+public
+  Modelica.Blocks.Math.Product proPreT if  use_T_in
+    annotation (Placement(transformation(extent={{-88,28},{-78,18}})));
+  Modelica.Blocks.Math.Product proPreQ if use_Q_in
+    annotation (Placement(transformation(extent={{-88,-12},{-78,-22}})));
 equation
   if use_Q_in then
-    connect(Q_flow, prescribedHeatFlow.Q_flow) annotation (Line(
-      points={{-104,-20},{-60,-20}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(Q_flow, proPreQ.u1)
+    annotation (Line(points={{-104,-20},{-89,-20}}, color={0,0,127}));
+  connect(proPreQ.y, prescribedHeatFlow.Q_flow) annotation (Line(points={{-77.5,
+          -17},{-69.75,-17},{-69.75,-20},{-60,-20}}, color={0,0,127}));
   end if;
 
   if use_T_in then
-    connect(T, prescribedTemperature.T) annotation (Line(
-      points={{-104,20},{-62,20}},
-      color={0,0,127},
-      smooth=Smooth.None));
+      connect(proPreT.y, prescribedTemperature.T) annotation (Line(points={{-77.5,23},
+          {-68.75,23},{-68.75,20},{-62,20}}, color={0,0,127}));
+  connect(proPreT.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-89,26},
+          {-92,26},{-92,40},{100.1,40},{100.1,19.9}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
+    connect(T, proPreT.u1)
+    annotation (Line(points={{-104,20},{-96,20},{-89,20}}, color={0,0,127}));
   end if;
 
   connect(layMul.port_b, prescribedHeatFlow.port) annotation (Line(points={{-10,0},
           {-10,0},{-20,0},{-20,-20},{-40,-20}},  color={191,0,0}));
   connect(prescribedTemperature.port, layMul.port_b) annotation (Line(points={{-40,20},
           {-20,20},{-20,0},{-10,0}},     color={191,0,0}));
+  connect(proPreT.u2, proPreQ.u2) annotation (Line(points={{-89,26},{-92,26},{
+          -92,-14},{-89,-14}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),

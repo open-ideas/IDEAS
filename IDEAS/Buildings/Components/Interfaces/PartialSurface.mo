@@ -68,7 +68,7 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai if
      sim.computeConservationOfEnergy
     "Component for computing conservation of energy";
-
+public
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
     layMul(final inc=inc, energyDynamics=energyDynamics,
     linIntCon=sim.linearise)

@@ -18,9 +18,10 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
 
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") = sum(T .* C);
 
-protected
-  constant Boolean placeCapacityAtSurf_b = true
+
+  parameter Boolean placeCapacityAtSurf_b = true
     "Set to true to place last capacity at the surface b of the layer.";
+protected
   final parameter Integer nRes = if placeCapacityAtSurf_b then max(nSta - 1, 1) else nSta
     "Number of thermal resistances";
   final parameter Modelica.SIunits.ThermalConductance[nRes] G=fill(
@@ -33,6 +34,7 @@ protected
       {0.5})/(nSta - 1));
   final parameter Real[nSta] Cinv(unit="K/J") = ones(nSta) ./ C
     "Dummy parameter for efficiently handling check for division by zero";
+public
   Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[nRes] Q_flow
     "Heat flow rate from state i to i-1";
