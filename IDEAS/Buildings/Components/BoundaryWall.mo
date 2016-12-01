@@ -61,8 +61,12 @@ equation
           {-10,0},{-20,0},{-20,-20},{-40,-20}},  color={191,0,0}));
   connect(prescribedTemperature.port, layMul.port_b) annotation (Line(points={{-40,20},
           {-20,20},{-20,0},{-10,0}},     color={191,0,0}));
-  connect(proPreT.u2, proPreQ.u2) annotation (Line(points={{-89,26},{-92,26},{
-          -92,-14},{-89,-14}}, color={0,0,127}));
+  connect(proPreQ.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-89,
+          -14},{-92,-14},{-92,40},{100.1,40},{100.1,19.9}}, color={0,0,127}),
+      Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),

@@ -16,8 +16,8 @@ model SlabOnGround "opaque floor on ground slab"
     "Amplitude of variation of monthly average outdoor temperature";
   parameter Modelica.SIunits.TemperatureDifference dTiAvg = 2
     "Amplitude of variation of monthly average indoor temperature";
-  parameter Boolean linearise=true
-    "= true, if convective heat transfer should be linearised"
+  parameter Boolean linearise=sim.linearise
+    "= true, if heat flow to ground should be linearized"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsLayMul[constructionType.nLay]=
     cat(1, {if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics}, fill(energyDynamics, constructionType.nLay - 1))
@@ -44,7 +44,7 @@ protected
   final parameter Real delta=sqrt(3.15*10^7*ground1.k/3.14/ground1.rho/ground1.c);
   final parameter Real Lpi=AWall*ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
-  Real m = if not sim.linearise then sim.timCal/3.1536e7*12 else 7 "time in months";
+  Real m = if not linearise then sim.timCal/3.1536e7*12 else 7 "time in months";
 
   BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
     final A=AWall,
