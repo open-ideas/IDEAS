@@ -22,7 +22,8 @@ model SlabOnGround "opaque floor on ground slab"
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsLayMul[constructionType.nLay]=
     cat(1, {if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics}, fill(energyDynamics, constructionType.nLay - 1))
     "Energy dynamics for construction layer";
-  Modelica.SIunits.HeatFlowRate Qm = UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta))
+  Modelica.SIunits.HeatFlowRate Qm = if not linearise then UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta)) else
+    sum({UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(i- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(i - 1 - beta)) for i in 1:12})/12
     "Two-dimensional correction for edge flow";
 
 //Calculation of heat loss based on ISO 13370
@@ -44,7 +45,7 @@ protected
   final parameter Real delta=sqrt(3.15*10^7*ground1.k/3.14/ground1.rho/ground1.c);
   final parameter Real Lpi=AWall*ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
-  Real m = if not linearise then sim.timCal/3.1536e7*12 else 7 "time in months";
+  Real m = sim.timCal/3.1536e7*12 "time in months";
 
   BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
     final A=AWall,
