@@ -4,7 +4,7 @@ model SlabOnGround "opaque floor on ground slab"
      QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes),
         dT_nominal_a=-3,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(monLay(energyDynamics=energyDynamicsLayMul, monLayDyn(final placeCapacityAtSurf_b=false))));
+    layMul(monLay(energyDynamics=energyDynamicsLayMul)));
 
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total floor slab perimeter";
@@ -20,7 +20,7 @@ model SlabOnGround "opaque floor on ground slab"
     "= true, if heat flow to ground should be linearized"
     annotation(Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsLayMul[constructionType.nLay]=
-    cat(1, {if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics}, fill(energyDynamics, constructionType.nLay - 1))
+    cat(1, fill(energyDynamics, constructionType.nLay - 1),{if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics})
     "Energy dynamics for construction layer";
   Modelica.SIunits.HeatFlowRate Qm = if not linearise then UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta)) else
     sum({UEqui*AWall*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(i- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(i - 1 - beta)) for i in 1:12})/12

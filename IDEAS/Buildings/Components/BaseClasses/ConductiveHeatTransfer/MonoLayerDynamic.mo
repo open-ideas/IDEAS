@@ -18,15 +18,10 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
 
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") = sum(T .* C);
 
-
-  parameter Boolean placeCapacityAtSurf_b = true
-    "Set to true to place last capacity at the surface b of the layer.";
 protected
-  final parameter Integer nRes = if placeCapacityAtSurf_b then max(nSta - 1, 1) else nSta
-    "Number of thermal resistances";
-  final parameter Modelica.SIunits.ThermalConductance[nRes] G=fill(
-     nRes*A/R, nRes);
-  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*(if nSta <= 2 or not placeCapacityAtSurf_b
+  final parameter Modelica.SIunits.ThermalConductance[nSta] G=fill(
+     nSta*A/R, nSta);
+  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*(if nSta <= 2
        then ones(nSta)/nSta else cat(
       1,
       {0.5},
@@ -36,7 +31,7 @@ protected
     "Dummy parameter for efficiently handling check for division by zero";
 public
   Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
-  Modelica.SIunits.HeatFlowRate[nRes] Q_flow
+  Modelica.SIunits.HeatFlowRate[nSta] Q_flow
     "Heat flow rate from state i to i-1";
 
 public
@@ -58,19 +53,7 @@ initial equation
 equation
   port_a.T = T[1];
 
-  if nSta > 1 and placeCapacityAtSurf_b then
-    der(T[1]) = (port_a.Q_flow - Q_flow[1])*Cinv[1];
-    der(T[nSta]) = (Q_flow[nSta - 1] + port_b.Q_flow)*Cinv[nSta];
-    port_b.T = T[nSta];
-
-    // Q_flow[i] is heat flowing from (i-1) to (i)
-    for i in 1:nSta - 1 loop
-      (T[i] - T[i + 1])*G[i] = Q_flow[i];
-    end for;
-    for i in 2:nSta - 1 loop
-      der(T[i]) = (Q_flow[i - 1] - Q_flow[i])*Cinv[i];
-    end for;
-  elseif nSta > 1 and not placeCapacityAtSurf_b then
+  if nSta > 1 then
     der(T[1]) = (port_a.Q_flow - Q_flow[1])*Cinv[1];
     // Q_flow[i] is heat flowing from (i-1) to (i)
     for i in 1:nSta - 1 loop
