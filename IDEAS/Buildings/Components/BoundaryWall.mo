@@ -3,7 +3,8 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
      QTra_design=U_value*AWall*(273.15 + 21 - TRef_a),
      dT_nominal_a=-1,
-     layMul(monLay(energyDynamics=cat(1, {(if use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}, fill(energyDynamics, layMul.nLay-1)))));
+     layMul(monLay(energyDynamics=cat(1, fill(energyDynamics, layMul.nLay-1), {(if not sim.linearise and use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}),
+          monLayDyn(placeCapacityAtSurf_b=not (sim.linearise and use_T_in)))));
 
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector"
@@ -11,7 +12,6 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   parameter Boolean use_Q_in = false
     "Get the boundary heat flux from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-
   Modelica.Blocks.Interfaces.RealInput T if use_T_in annotation (Placement(transformation(
           extent={{-114,10},{-94,30}}),iconTransformation(extent={{-114,10},{
             -94,30}})));
@@ -19,7 +19,6 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
         transformation(extent={{-114,-30},{-94,-10}}),
                                                     iconTransformation(extent={{-114,
             -30},{-94,-10}})));
-
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -42,6 +41,12 @@ equation
     annotation (Line(points={{-104,-20},{-89,-20}}, color={0,0,127}));
   connect(proPreQ.y, prescribedHeatFlow.Q_flow) annotation (Line(points={{-77.5,
           -17},{-69.75,-17},{-69.75,-20},{-60,-20}}, color={0,0,127}));
+  connect(proPreQ.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-89,
+          -14},{-92,-14},{-92,40},{100.1,40},{100.1,19.9}}, color={0,0,127}),
+      Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
   end if;
 
   if use_T_in then
@@ -60,12 +65,7 @@ equation
           {-10,0},{-20,0},{-20,-20},{-40,-20}},  color={191,0,0}));
   connect(prescribedTemperature.port, layMul.port_b) annotation (Line(points={{-40,20},
           {-20,20},{-20,0},{-10,0}},     color={191,0,0}));
-  connect(proPreQ.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-89,
-          -14},{-92,-14},{-92,40},{100.1,40},{100.1,19.9}}, color={0,0,127}),
-      Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
+
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),
@@ -118,6 +118,13 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 7, 2016, by Damien Picard:<br/>
+Set placeCapacityAtSurf_b to false for last layer of layMul when T_in is used and the sim.linearise is true.
+Having a capacity connected directly to the prescribed temperature would require to have the derivative of T_in
+when linearized.
+The dynamics of the last layer is further set to dynamicFreeInitial when T_in is used to avoid an initialization problem.
+</li>
 <li>
 March 8, 2016, by Filip Jorissen:<br/>
 Fixed energyDynamics when using fixed temperature boundary condition input.

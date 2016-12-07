@@ -4,8 +4,12 @@ model SlabOnGround "opaque floor on ground slab"
      QTra_design=UEqui*AWall*(273.15 + 21 - sim.Tdes),
         dT_nominal_a=-3,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(monLay(energyDynamics=energyDynamicsLayMul)));
+    layMul(monLay(monLayDyn(final placeCapacityAtSurf_b=false))));
 
+   //       cat(1,
+    //        fill(energyDynamics, layMul.nLay-1),
+    //        {(if not sim.linearise and use_T_in and energyDynamics ==  Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics)}
+     //       )
   parameter Modelica.SIunits.Length PWall = 4*sqrt(AWall)
     "Total floor slab perimeter";
   parameter Modelica.SIunits.Temperature TeAvg = 273.15+10.8
@@ -131,6 +135,14 @@ equation
 <p>By means of the <code>BESTEST.mo</code> examples in the <code>Validation.mo</code> package.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 7, 2016 by Damien Picard:<br/>
+Set placeCapacityAtSurf_b to false for the last layMul layer. 
+This is necessary due to the initialization which is overspecified when two capacities are
+connected to each other without resistances between. 
+Using dynamicFreeInitial for both the first layer of layGro and 
+the last one of LayMul did not solve the problem.
+</li>
 <li>
 September 27, 2016 by Filip Jorissen:<br/>
 Different initialisation for state between layMul 
