@@ -18,7 +18,10 @@ model ViewFactorVerification
 initial equation
   assert(abs(CaseVf.building.gF.radDistr.iSolDir.Q_flow + CaseVf.building.gF.radDistr.iSolDif.Q_flow + CaseVf.building.gF.radDistr.radGain.Q_flow+ sum(CaseVf.building.gF.radDistr.radSurfTot.Q_flow))<1e-4, "Energy is not conserved in zone model!");
  for i in 1:6 loop
-     assert( abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFacTot[i,:])-1) < Modelica.Constants.eps*1000, "View factors do not sum up to one for row " + String(i) +  "!: "+ String(abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFacTot[i,:])-1)));
+     assert( abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFacTot[i,:])-1) < Modelica.Constants.eps*1000, "Total view factors do not sum up to one for row " + String(i) +  "!: "+ String(abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFacTot[i,:])-1)));
+ end for;
+  for i in 1:8 loop
+     assert( abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFac[i,:])-1) < Modelica.Constants.eps*1000, "View factors do not sum up to one for row " + String(i) +  "!: "+ String(abs(sum(CaseVf.building.gF.zoneLwDistributionViewFactor.vieFac[i,:])-1)));
  end for;
 
   annotation (
@@ -38,6 +41,10 @@ initial equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 8, 2016, by Filip Jorissen:<br/>
+Added asserts that check if sum of vieFac equals 1 for each row.
+</li>
 <li>
 March, 2015, by Filip Jorissen:<br/>
 First implementation.
