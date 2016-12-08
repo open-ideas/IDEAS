@@ -103,11 +103,11 @@ initial equation
     l=(Atot[3] + Atot[5])/hZone/2);
   vieFacTot[2, 1] = vieFacTot[1, 2]*Atot[1]/Atot[2];
 
-  assert(Atot[1] > 0, "Zone contains no ceiling surfaces. This needs to be fixed or explicit view factor calculation should be disabled.");
-  assert(Atot[2] > 0, "Zone contains no floor surfaces. This needs to be fixed or explicit view factor calculation should be disabled.");
-  for i in 3:6 loop
-    assert(Atot[i] > 0, "Zone does not contain a surface for one of the walls");
-  end for;
+   assert(Atot[1] > 0, "Zone contains no ceiling surfaces. This needs to be fixed or explicit view factor calculation should be disabled.");
+   assert(Atot[2] > 0, "Zone contains no floor surfaces. This needs to be fixed or explicit view factor calculation should be disabled.");
+   for i in 3:6 loop
+     assert(Atot[i] > 0, "Zone does not contain a surface for one of the walls");
+   end for;
 
   for i in 3:numAzi + 2 loop
     vieFacTot[1, i] =
@@ -125,7 +125,7 @@ initial equation
     // walls to walls
     for j in i:numAzi + 2 loop
       if i == j then
-        //a wall does not interchange radiant heat with itself
+        //a wall does not irradiate itself
         vieFacTot[i, i] = 0;
       elseif Atot[i] == 0 or Atot[j] == 0 then
         vieFacTot[i, j] = 0;
@@ -170,7 +170,7 @@ initial equation
     end if;
   end for;
 
-  //view factors for real surfaces are calculated from the total surfaces
+  //view factors for real surfaces are computed from the total surface areas
   for i in 1:nSurf loop
     for j in 1:nSurf loop
       vieFac[i, j] = vieFacTot[indexSurf[i], indexSurf[j]]*APar[j]/Atot[
@@ -181,7 +181,7 @@ initial equation
 equation
   T4 = port_a.T .^ 4;
 
-  J = Modelica.Constants.sigma*T4 + rhoLw .* G;
+  J = Modelica.Constants.sigma*T4 + rhoLw.*G;
   G = vieFac*J;
   port_a.Q_flow = APar .* (J - G);
   floorArea = Afloor;
