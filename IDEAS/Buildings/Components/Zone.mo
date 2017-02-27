@@ -19,6 +19,8 @@ equation
       color={255,204,51},
       thickness=0.5));
 
+  connect(radDistr.gain_star, radDistrLw.port_star)
+    annotation (Line(points={{-44,-40},{-44,-40},{-44,-20}}, color={191,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),

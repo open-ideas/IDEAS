@@ -40,24 +40,7 @@ model ZoneLwGainDistribution
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={-80,100})));
-
-protected
-  final parameter Real[nSurf] weightFactorDir(each final fixed=false)
-    "weightfactor for received direct shortwave solar radiation";
-  final parameter Real[nSurf] weightFactorDif(each final fixed=false)
-    "weightfactor for received direct shortwave solar radiation";
-  final parameter Real[nSurf] weightFactorGain(each final fixed=false)
-    "weightfactor for received direct shortwave solar radiation";
-  final parameter Real[nSurf] weightFactorTRad(each final fixed=false)
-    "weightfactor for received direct shortwave solar radiation";
-  final parameter Modelica.SIunits.Area AfloorTot(fixed=false)
-    "Total floor surface area";
-  final parameter Real ASWotherSurface(fixed=false)
-    "Total absorption surface on surfaces other than the floor";
-  final parameter Real fraTotAbsFloor(fixed=false)
-    "Fraction of the bream radiation that is absorbed by the floor";
-public
-Modelica.Blocks.Interfaces.RealInput[nSurf] inc "Surface inclination angles"
+  Modelica.Blocks.Interfaces.RealInput[nSurf] inc "Surface inclination angles"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -67,38 +50,46 @@ Modelica.Blocks.Interfaces.RealInput[nSurf] inc "Surface inclination angles"
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={80,100})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gain_star
+    "Port for injecting radiative heat gains onto star node"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+
+protected
+  final parameter Real[nSurf] weightFactorDir(each final fixed=false)
+    "weightfactor for received direct shortwave solar radiation";
+  final parameter Real[nSurf] weightFactorTRad(each final fixed=false)
+    "weightfactor for received direct shortwave solar radiation";
+  final parameter Modelica.SIunits.Area AfloorTot(fixed=false)
+    "Total floor surface area";
+  final parameter Real ASWotherSurface(fixed=false)
+    "Total absorption surface on surfaces other than the floor";
+  final parameter Real fraTotAbsFloor(fixed=false)
+    "Fraction of the bream radiation that is absorbed by the floor";
+
 initial equation
   weightFactorDir = {if IDEAS.Utilities.Math.Functions.isAngle(inc[i], IDEAS.Types.Tilt.Floor)
                      then area[i]*epsSw[i]/AfloorTot
                      else (1-fraTotAbsFloor)*area[i]*epsSw[i]/ASWotherSurface for i in 1:nSurf};
-  weightFactorDif = area .* epsSw / sum(area .* epsSw);
-  weightFactorGain = area .* epsLw / sum(area .* epsLw);
   // minimum of Modelica.Constants.small to guard against division by zero
   AfloorTot = max(Modelica.Constants.small,sum({if IDEAS.Utilities.Math.Functions.isAngle(inc[i], IDEAS.Types.Tilt.Floor) then area[i] else 0 for i in 1:nSurf}));
   fraTotAbsFloor = sum({if IDEAS.Utilities.Math.Functions.isAngle(inc[i], IDEAS.Types.Tilt.Floor) then area[i]*epsSw[i] else 0 for i in 1:nSurf})/AfloorTot;
   ASWotherSurface = sum({if IDEAS.Utilities.Math.Functions.isAngle(inc[i], IDEAS.Types.Tilt.Floor) then 0 else area[i]*epsSw[i] for i in 1:nSurf});
-  weightFactorTRad = weightFactorDif;
-
+  weightFactorTRad = area .* epsSw / sum(area .* epsSw);
   assert(AfloorTot>2*Modelica.Constants.small, "WARNING: Zone does not contain a floor surface so incoming beam radiation is spread over all other surfaces! Is this intended? \n", AssertionLevel.warning);
+
   assert(AfloorTot<0.9*sum(area), "More than 90% of zone surface area is floor, this is not allowed.");
   assert(abs(1-sum(weightFactorTRad))<1e-4, "Error in computation of weightFactorTRad, please submit a bug report");
   assert(abs(1-sum(weightFactorDir))<1e-4, "Error in computation of weightFactorDir, please submit a bug report");
-  assert(abs(1-sum(weightFactorDif))<1e-4, "Error in computation of weightFactorDif, please submit a bug report");
-  assert(abs(1-sum(weightFactorGain))<1e-4, "Error in computation of weightFactorGain, please submit a bug report");
 
 equation
-  for k in 1:nSurf loop
-    radSurfTot[k].Q_flow =
-      -weightFactorDif[k]*iSolDif.Q_flow
-      -weightFactorDir[k]*iSolDir.Q_flow
-      -weightFactorGain[k]*radGain.Q_flow;
-  end for;
-
   TRad = radSurfTot.T * weightFactorTRad;
 
   iSolDir.T = TRad;
   iSolDif.T = TRad;
   radGain.T = TRad;
+
+  radSurfTot.Q_flow = -weightFactorDir*iSolDir.Q_flow;
+  gain_star.Q_flow = - iSolDif.Q_flow - radGain.Q_flow;
 
   annotation (
     Icon(graphics={

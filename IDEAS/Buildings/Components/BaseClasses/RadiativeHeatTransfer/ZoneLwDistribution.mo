@@ -28,7 +28,9 @@ model ZoneLwDistribution "internal longwave radiative heat exchange"
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={0,100})));
-
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_star
+    "Radiative star point"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
 protected
   parameter Boolean computeCarroll(fixed=false) "if false, then a simplified model is used";
   parameter Real FMax=5 "Upper bound for F";
@@ -93,12 +95,11 @@ equation
     connect(radRes[i].port_b, port_a[i]);
   end for;
 
-  for i in 1:nSurf - 1 loop
-    connect(radRes[i].port_a, radRes[i + 1].port_a);
+  for i in 1:nSurf loop
+    connect(radRes[i].port_a, port_star);
   end for;
 
   annotation (
-    Diagram(graphics),
     Icon(graphics={
         Rectangle(
           extent={{-90,80},{90,-80}},
