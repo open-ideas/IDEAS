@@ -5,7 +5,7 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
-  parameter Integer nStaMin(min=1) = 2 "Minimum number of states";
+  parameter Integer nStaMin(min=1) = 1 "Minimum number of states";
 
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
@@ -17,21 +17,18 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
     "Total heat capacity";
   // This option is for solving problems when connecting a
   // fixed temperature boundary to a state when linearising a model.
-  constant Boolean addRes_b=false
-    "Set to true to add a resistor at port b.";
+
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") = sum(T .* C);
 
 protected
-  final parameter Integer nRes=if addRes_b then nSta
-       else max(nSta - 1, 1) "Number of thermal resistances";
-  final parameter Modelica.SIunits.ThermalConductance[nRes] G=fill(nRes*A/R,
-      nRes);
-  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*(if nSta <= 2 or
-      addRes_b then ones(nSta)/nSta else cat(
+  final parameter Integer nRes=nSta+1 "Number of thermal resistances";
+  final parameter Modelica.SIunits.ThermalConductance[nRes] G=A/(R/(nRes - 1))./cat(
       1,
       {0.5},
-      ones(nSta - 2),
-      {0.5})/(nSta - 1));
+      ones(nRes - 2),
+      {0.5});
+  final parameter Modelica.SIunits.ThermalResistance[nRes] Ri = ones(nRes)./G;
+  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*ones(nSta)/nSta;
   final parameter Real[nSta] Cinv(unit="K/J") = ones(nSta) ./ C
     "Dummy parameter for efficiently handling check for division by zero";
   Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
@@ -55,30 +52,18 @@ initial equation
   assert(abs(sum(ones(size(G, 1)) ./ G) - R/A) < 1e-6, "Verification error in MonLayerDynamic");
   assert(not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState, "MonoLayerDynamic is configured to steady state, which is not the scope of this model!");
 equation
-  port_a.T = T[1];
+  Q_flow[1] = (port_a.T - T[1])/Ri[1];
+  port_a.Q_flow = Q_flow[1];
+  Q_flow[end] = (T[end] - port_b.T) /Ri[end];
+  port_b.Q_flow = -Q_flow[end];
 
-  if nSta > 1 then
-    der(T[1]) = (port_a.Q_flow - Q_flow[1])*Cinv[1];
-    // Q_flow[i] is heat flowing from (i-1) to (i)
-    for i in 1:nSta - 1 loop
-      (T[i] - T[i + 1])*G[i] = Q_flow[i];
-    end for;
-    for i in 2:nRes loop
-      der(T[i]) = (Q_flow[i - 1] - Q_flow[i])*Cinv[i];
-    end for;
+  for i in 1:nRes-2 loop
+    Q_flow[i+1] = (T[i] - T[i + 1])/Ri[i];
+  end for;
+  for i in 1:nSta loop
+    der(T[i]) = (Q_flow[i] - Q_flow[i+1])/C[i];
+  end for;
 
-    if not addRes_b then
-      der(T[nSta]) = (Q_flow[nSta - 1] + port_b.Q_flow)*Cinv[nSta];
-      port_b.T = T[nSta];
-    else
-      (T[end] - port_b.T)*G[end] = Q_flow[end];
-      port_b.Q_flow = -Q_flow[end];
-    end if;
-  else
-    der(port_a.T) = (port_a.Q_flow + port_b.Q_flow)*Cinv[1];
-    Q_flow[1] = -port_b.Q_flow;
-    Q_flow[1] = (port_a.T - port_b.T)*G[1];
-  end if;
 
   annotation (
     Diagram(graphics),

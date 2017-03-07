@@ -12,7 +12,8 @@ model Bui600 "BESTEST Building model case 600"
     azi={IDEAS.Types.Azimuth.S,IDEAS.Types.Azimuth.S},
     redeclare replaceable IDEAS.Buildings.Components.Shading.None shaType,
     redeclare final parameter IDEAS.Buildings.Data.Frames.None fraType,
-    each frac=0)
+    each frac=0,
+    each windowDynamicsType=IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.None)
     annotation (Placement(transformation(
         extent={{-5.5,-9.49999},{5.5,9.49997}},
         rotation=90,

@@ -24,10 +24,7 @@ Simulation of all so far modeled BESTEST cases in a single simulation.
   // BESTEST 900 Series
 
   annotation (
-    experiment(
-      StopTime=3.1536e+007,
-      Interval=3600,
-      Tolerance=1e-007),
+    experiment(StopTime=3.1536e+07, Interval=3600),
     __Dymola_experimentSetupOutput,
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}}), graphics={Text(

@@ -33,7 +33,7 @@ model Window "Multipane window"
     min=0,
     max=1) = 0.15 "Area fraction of the window frame";
   parameter IDEAS.Buildings.Components.Interfaces.WindowDynamicsType
-    windowDynamicsType=IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two
+    windowDynamicsType=IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.None
     "Type of dynamics for glazing and frame: using zero, one combined or two states"
     annotation (Dialog(tab="Dynamics"));
   parameter Real fraC = if windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and fraType.present then frac else 0
@@ -153,6 +153,7 @@ protected
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
+
 
 
 equation
