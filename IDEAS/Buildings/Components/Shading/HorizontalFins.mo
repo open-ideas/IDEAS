@@ -27,7 +27,7 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
     Documentation(info="<html>
 <p>Shading model of horizontal fins in function of the inclination angle of the fins.</p>
-<p><br><img src=\"modelica://Shading/../Pictures/figure_fins.PNG\"/></p>
+<p><br><img src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/HorizontalFins.png\"/></p>
 </html>", revisions="<html>
 <ul>
 <li>
