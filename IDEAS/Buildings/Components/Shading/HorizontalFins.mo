@@ -20,10 +20,10 @@ equation
     iSolDir = solDir*(l*sin(iAngInc)-(D+w*tan(iAngInc-beta))*cos(iAngInc-beta))/l*sin(iAngInc);
   end if;
 
-  angInc = iAngInc;
-
-  connect(solDif, iSolDif);
-
+  connect(solDif, iSolDif)
+    annotation (Line(points={{-60,10},{40,10},{40,10}}, color={0,0,127}));
+  connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-15,-50},{-15,-50},
+          {40,-50}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
     Documentation(info="<html>
@@ -36,8 +36,12 @@ Shading model of multiple, fixed horizontal fins in front of the window.
 </html>", revisions="<html>
 <ul>
 <li>
-April, 2017 by Iago Cupeiro:<br/>
+April 12, 2017 by Filip Jorissen:<br/>
 Cleaned up implementation and documentation.
+</li>
+<li>
+April, 2017 by Iago Cupeiro:<br/>
+First implementation.
 </li>
 </ul>
 </html>"));
