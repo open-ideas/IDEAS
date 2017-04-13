@@ -8,19 +8,21 @@ model HorizontalFins "horizontal fins shading"
   parameter Modelica.SIunits.Length D=0.175 "size of the fins, in meters";
   parameter Modelica.SIunits.Length w=0.032 "width of the fins, in meters";
 
+protected
+  final Modelica.SIunits.Angle phi = Modelica.Constants.pi/2 - angInc "phi angle";
+
 initial equation
-  assert(beta > 0 and beta < 5*Modelica.Constants.pi/12, "beta between feasible values");
+  assert(beta > 0 and beta < acos(w/l), "beta between feasible values");
   assert(l > 0 and D > 0 and w > 0, "positive parameters for fins description");
 
 equation
-  if noEvent(D*cos(beta)>(l-D*sin(beta))*tan(iAngInc)) then
+  if noEvent(D*cos(beta)>(l-D*sin(beta))*tan(phi)) then
     iSolDir = 0;
   else
-    iSolDir = solDir*(l*sin(iAngInc)-(D+w*tan(iAngInc-beta))*cos(iAngInc-beta))/l*sin(iAngInc);
+    iSolDir = solDir*(l*sin(phi)-(D+w*tan(phi-beta))*cos(phi-beta))/(l*sin(phi));
   end if;
 
   angInc = iAngInc;
-
   connect(solDif, iSolDif);
 
     annotation (
