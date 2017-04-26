@@ -42,7 +42,8 @@ model TrtComparison "Validation based on thermal response test"
     redeclare package Medium = Medium,
     T_start=273.15 + 11.28,
     redeclare Data.BorefieldData.BorefieldDataTrt2UTube bfData,
-    show_T=true)            "Borefield with 2 u tubes"
+    show_T=true,
+    dp_nominal=10000)       "Borefield with 2 u tubes"
     annotation (Placement(transformation(extent={{-20,-80},{20,-40}})));
   HeaterCooler_u heater1Utube(
     redeclare package Medium = Medium,
@@ -104,22 +105,6 @@ equation
       points={{-20,-20},{20,-20}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(pum1.port_b, senTem_in1.port_a) annotation (Line(
-      points={{-40,-20},{-78,-20},{-78,-60},{-60,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(heater1Utube.port_a, senTem_out1.port_b) annotation (Line(
-      points={{40,-20},{70,-20},{70,-60},{60,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTem_out1.port_a, borFie2U.port_b) annotation (Line(
-      points={{40,-60},{20,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTem_in1.port_b, borFie2U.port_a) annotation (Line(
-      points={{-40,-60},{-20,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(load.y, heater2Utube.u) annotation (Line(points={{79,30},{80,30},{80,44},
           {80,86},{42,86}}, color={0,0,127}));
   connect(load.y, heater1Utube.u) annotation (Line(points={{79,30},{80,30},{80,
@@ -127,8 +112,16 @@ equation
                               color={0,0,127}));
   connect(bou.ports[1], senTem_in.port_a)
     annotation (Line(points={{-80,2},{-80,40},{-60,40}}, color={0,127,255}));
-  connect(bou.ports[2], senTem_in1.port_a) annotation (Line(points={{-80,-2},{-80,
-          -60},{-60,-60}}, color={0,127,255}));
+  connect(pum1.port_b, bou.ports[2]) annotation (Line(points={{-40,-20},{-80,
+          -20},{-80,-2}}, color={0,127,255}));
+  connect(senTem_in1.port_b, borFie2U.port_a) annotation (Line(points={{-40,-60},
+          {-30,-60},{-20,-60}}, color={0,127,255}));
+  connect(borFie2U.port_b, senTem_out1.port_a)
+    annotation (Line(points={{20,-60},{40,-60}}, color={0,127,255}));
+  connect(senTem_out1.port_b, heater1Utube.port_a) annotation (Line(points={{60,
+          -60},{62,-60},{62,-20},{40,-20}}, color={0,127,255}));
+  connect(pum1.port_b, senTem_in1.port_a) annotation (Line(points={{-40,-20},{
+          -68,-20},{-80,-20},{-80,-60},{-60,-60}}, color={0,127,255}));
  annotation (experiment(StopTime=309000), __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>This model serves as a verification for the bore field model. It simulates a real thermal response test (TRT) where one bore hole was heated with a constant thermal power. The supply temperature was measured and fitted by correlation <code>T_measured</code>. </p>
