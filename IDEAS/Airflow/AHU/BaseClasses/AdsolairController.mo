@@ -86,6 +86,9 @@ model AdsolairController
     annotation (Placement(transformation(extent={{100,-10},{140,30}})));
   Utilities.Math.InverseXRegularized inverseXRegularized(delta=0.1)
     annotation (Placement(transformation(extent={{14,0},{24,10}})));
+  Modelica.Blocks.Sources.BooleanExpression onDamPid(y=on and not onChiExp.y)
+    "PI controller status"
+    annotation (Placement(transformation(extent={{-100,64},{14,82}})));
 equation
   connect(onDelAdi.u, onAdiaExp.y) annotation (Line(points={{26.4,60},{19.7,60}},
                 color={255,0,255}));
@@ -94,8 +97,6 @@ equation
                   color={0,0,127}));
   connect(TIehInSup, add.u1) annotation (Line(points={{-104,-60},{-24,-60},{-24,
           8},{-17,8}},color={0,0,127}));
-  connect(damPid.on, onChiExp.y)
-    annotation (Line(points={{33,10},{33,37},{19.7,37}},   color={255,0,255}));
   connect(revAct.y, damPid.revActIn)
     annotation (Line(points={{19.7,48},{35,48},{35,10}}, color={255,0,255}));
   connect(yBypTopExp.y, yBypTop)
@@ -128,6 +129,8 @@ equation
           5},{11.25,5},{13,5}}, color={0,0,127}));
   connect(inverseXRegularized.y, damPid.kIn) annotation (Line(points={{24.5,5},{
           27.25,5},{27.25,8},{29,8}}, color={0,0,127}));
+  connect(onDamPid.y, damPid.on)
+    annotation (Line(points={{19.7,73},{33,73},{33,10}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
