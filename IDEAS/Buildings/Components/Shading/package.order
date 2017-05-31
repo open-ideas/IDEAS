@@ -2,10 +2,12 @@ Box
 BuildingShade
 Overhang
 OverhangAndScreen
+OverhangAndHFins
 BoxAndScreen
 Screen
 ShadingControl
 SideFins
+HorizontalFins
 Shading
 None
 Interfaces
