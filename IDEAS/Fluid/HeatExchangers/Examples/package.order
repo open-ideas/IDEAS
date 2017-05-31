@@ -5,4 +5,5 @@ EmbeddedPipeDp
 IdealHeater
 WaterHeater_T
 WaterHeater_u
+HeatExchanger
 BaseClasses
