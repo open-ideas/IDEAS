@@ -11,6 +11,10 @@ partial model PartialEffectiveness
     "Heat capacity flow rate medium 2";
   Modelica.SIunits.ThermalConductance CMin_flow(min=0)
     "Minimum heat capacity flow rate";
+  Modelica.SIunits.ThermalConductance CMax_flow(min=0)
+    "Maximum heat capacity flow rate";
+  Real Cr
+    "Heat capacity ratio between the smaller heat capacity and the bigger one";
   Modelica.SIunits.HeatFlowRate QMax_flow
     "Maximum heat flow rate into medium 1";
 protected
@@ -22,6 +26,8 @@ protected
     "Specific heat capacity of medium 2 at default medium state";
   parameter Modelica.SIunits.ThermalConductance CMin_flow_small(fixed=false)
     "Small value for smoothing of minimum heat capacity flow rate";
+  parameter Modelica.SIunits.ThermalConductance CMax_flow_small(fixed=false);
+  parameter Real Cr_small(fixed=false);
   Real fra_a1(min=0, max=1)
     "Fraction of incoming state taken from port a2 (used to avoid excessive calls to regStep)";
   Real fra_b1(min=0, max=1)
@@ -40,6 +46,8 @@ initial equation
     Medium2.T_default,
     Medium2.X_default));
   CMin_flow_small = min(m1_flow_small*cp1_default, m2_flow_small*cp2_default);
+  CMax_flow_small = max(m1_flow_small*cp1_default, m2_flow_small*cp2_default);
+  Cr_small = CMin_flow_small / CMax_flow_small;
 equation
   if allowFlowReversal2 then
     fra_a2 = Modelica.Fluid.Utilities.regStep(
@@ -84,6 +92,13 @@ equation
            fra_b2 * Medium2.specificHeatCapacityCp(state_b2_inflow) else
         Medium2.specificHeatCapacityCp(state_a2_inflow));
   CMin_flow = min(C1_flow, C2_flow);
+  CMax_flow = max(C1_flow, C2_flow);
+
+  if CMax_flow == 0 then
+    Cr = 0;
+  else
+    Cr = CMin_flow/CMax_flow;
+  end if;
 
   // QMax_flow is maximum heat transfer into medium 1
   QMax_flow = CMin_flow*(T_in2 - T_in1);
