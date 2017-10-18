@@ -29,5 +29,5 @@ equation
       points={{40,-10},{40,-30}},
       color={85,170,255},
       smooth=Smooth.None));
-  annotation (Diagram(graphics));
+  annotation (Diagram(graphics), experiment(StopTime=5000000, Interval=300));
 end PVSystem;
