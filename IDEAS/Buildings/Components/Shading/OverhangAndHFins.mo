@@ -44,10 +44,6 @@ model OverhangAndHFins "Roof overhangs and horizontal fins shading"
         dep=dep,
         gap=gap));
 
-
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Documentation(info="<html>
-            <p>This model describes the transient behaviour of solar irradiance on a window below a horizontal or vertical overhang combined with horizontal fins.</p>
 </html>", revisions="<html>
 <ul>
 <li>
