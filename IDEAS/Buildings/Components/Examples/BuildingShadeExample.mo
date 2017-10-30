@@ -44,6 +44,21 @@ public
     dep=0.5,
     gap=0.3)
     annotation (Placement(transformation(extent={{-24,-100},{-14,-80}})));
+  Shading.HorizontalFins horizontalFins(azi=IDEAS.Types.Azimuth.S)
+    annotation (Placement(transformation(extent={{22,40},{32,60}})));
+  Shading.OverhangAndHFins overhangAndHFins(
+    wLeft=0.5,
+    wRight=0.5,
+    dep=0.1,
+    gap=0.3,
+    w=0.032,
+    l=0.170,
+    D=0.175,
+    hWin=1,
+    wWin=2,
+    beta=0.5235987755983,
+    azi=IDEAS.Types.Azimuth.S)
+    annotation (Placement(transformation(extent={{26,-18},{36,2}})));
 equation
   connect(sim.weaBus, weaBus) annotation (Line(
       points={{-84,0.8},{-84,34},{-54,34}},
@@ -102,6 +117,29 @@ equation
           -34,-88},{-36,-88},{-36,-48},{-24,-48}}, color={0,0,127}));
   connect(sideFins.solDir, screen.solDir) annotation (Line(points={{-24,-84},{
           -34,-84},{-38,-84},{-38,-44},{-24,-44}}, color={0,0,127}));
+  connect(horizontalFins.solDir, buildingShade.solDir) annotation (Line(points=
+          {{22,56},{-28,56},{-28,36},{-24,36}}, color={0,0,127}));
+  connect(horizontalFins.solDif, buildingShade.solDif)
+    annotation (Line(points={{22,52},{-24,52},{-24,32}}, color={0,0,127}));
+  connect(horizontalFins.angInc, buildingShade.angInc) annotation (Line(points=
+          {{22,46},{0,46},{-24,46},{-24,26}}, color={0,0,127}));
+  connect(horizontalFins.angAzi, buildingShade.angAzi) annotation (Line(points=
+          {{22,42},{2,42},{-24,42},{-24,22}}, color={0,0,127}));
+  connect(horizontalFins.angZen, buildingShade.angZen) annotation (Line(points=
+          {{22,44},{-26,44},{-26,24},{-24,24}}, color={0,0,127}));
+  connect(overhangAndHFins.solDir, buildingShade.solDir) annotation (Line(
+        points={{26,-2},{10,-2},{10,56},{-28,56},{-28,36},{-24,36}}, color={0,0,
+          127}));
+  connect(overhangAndHFins.solDif, buildingShade.solDif) annotation (Line(
+        points={{26,-6},{18,-6},{18,-4},{6,-4},{6,52},{-24,52},{-24,32}}, color
+        ={0,0,127}));
+  connect(overhangAndHFins.angInc, buildingShade.angInc) annotation (Line(
+        points={{26,-12},{-2,-12},{-2,46},{-24,46},{-24,26}}, color={0,0,127}));
+  connect(overhangAndHFins.angAzi, buildingShade.angAzi) annotation (Line(
+        points={{26,-16},{-8,-16},{-8,42},{-24,42},{-24,22}}, color={0,0,127}));
+  connect(overhangAndHFins.angZen, buildingShade.angZen) annotation (Line(
+        points={{26,-14},{-4,-14},{-4,44},{-26,44},{-26,24},{-24,24}}, color={0,
+          0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
     experiment(

@@ -44,15 +44,6 @@ model OverhangAndHFins "Roof overhangs and horizontal fins shading"
         dep=dep,
         gap=gap));
 
-initial equation
-
-    assert(dep > 0, "The depth of the overhang must be larger than zero, if this is not the case: just use Shading.Screen.");
-    assert(beta > 0 and beta < 5*Modelica.Constants.pi/12, "beta between feasible values");
-    assert(l > 0 and D > 0 and w > 0, "positive parameters for fins description");
-
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Documentation(info="<html>
-<p>This model describes the transient behaviour of solar irradiance on a window below a non-fixed horizontal or vertical overhang combined with a controllable screen.</p>
 </html>", revisions="<html>
 <ul>
 <li>

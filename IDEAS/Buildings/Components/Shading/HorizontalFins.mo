@@ -1,47 +1,60 @@
 within IDEAS.Buildings.Components.Shading;
-model HorizontalFins "Horizontal fin shading model"
+model HorizontalFins "horizontal fins shading"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
                                                              final controlled=false);
 
-  parameter Modelica.SIunits.Angle beta(min=0) = 0 "Rotation angle of shading fins with respect to horizontal.";
-  parameter Modelica.SIunits.Length l(min=0) = 0.170 "Vertical distance between fins";
-  parameter Modelica.SIunits.Length D(min=0) = 0.175 "Fin width";
-  parameter Modelica.SIunits.Length w(min=0) = 0.032 "Fin thickness";
+  parameter Modelica.SIunits.Angle beta= Modelica.Constants.pi/6 "inclination angle of shading fins";
+  parameter Modelica.SIunits.Length l=0.170 "distance between shading fins, in meters";
+  parameter Modelica.SIunits.Length D=0.175 "size of the fins, in meters";
+  parameter Modelica.SIunits.Length w=0.032 "width of the fins, in meters";
+
+  Real shaFrac "shadowing fraction over the window";
+  Real tipShadow;
+  Real headShadow;
+  Real footShadow;
+  Real totalShadow;
+
+protected
+  final Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen "altitude angle";
+  final Modelica.SIunits.Angle projectedAltitudeAngle = -atan(tan(angAlt)/cos(angAzi+azi));
 
 initial equation
-  assert(beta > 0 and beta < 5*Modelica.Constants.pi/12, "beta between feasible values");
-  assert(l > 0 and D > 0 and w > 0, "Fin parameters must be positive");
-  assert(w < l, "Fin thickness must me smaller than distance between fins");
+  assert(beta > 0 and beta < acos(w/l), "beta between feasible values");
+  assert(l > 0 and D > 0 and w > 0, "positive parameters for fins description");
 
 equation
-  if noEvent(D*cos(beta)>(l-D*sin(beta))*tan(iAngInc)) then
-    iSolDir = 0;
+  if angAlt > beta then
+    tipShadow = sqrt(D*D+w*w)*(cos(beta-atan(w/D))*tan(projectedAltitudeAngle)-sin(beta-atan(w/D)));
+    headShadow = 0;
+    footShadow = 0;
+    totalShadow = 0;
+    if tipShadow > l then
+      shaFrac = 1;
+    else
+      shaFrac = min(1, tipShadow/l);
+    end if;
   else
-    iSolDir = solDir*(l*sin(iAngInc)-(D+w*tan(iAngInc-beta))*cos(iAngInc-beta))/l*sin(iAngInc);
+    headShadow = max(0, -1 * ((D*sin(Modelica.Constants.pi/2 - beta)/tan(Modelica.Constants.pi/2 - projectedAltitudeAngle))-D*cos(Modelica.Constants.pi/2-beta)));
+    footShadow = max(0, w * (cos(beta)+ sin(beta)*tan(projectedAltitudeAngle)));
+    tipShadow = 0;
+    totalShadow = headShadow + footShadow;
+    shaFrac = min(1, totalShadow/l);
   end if;
 
-  connect(solDif, iSolDif)
-    annotation (Line(points={{-60,10},{40,10},{40,10}}, color={0,0,127}));
-  connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-15,-50},{-15,-50},
-          {40,-50}}, color={0,0,127}));
+  iSolDir = (1-shaFrac)*solDir;
+  angInc = iAngInc;
+  connect(solDif, iSolDif);
+
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
     Documentation(info="<html>
-<p>
-Shading model of multiple, fixed horizontal fins in front of the window.
-</p>
-<p>
-<img src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/HorizontalFins.png\"/>
-</p>
+<p>Shading model of horizontal fins in function of the inclination angle of the fins.</p>
+<p><br><img src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/HorizontalFins.png\"/></p>
 </html>", revisions="<html>
 <ul>
 <li>
-April 12, 2017 by Filip Jorissen:<br/>
-Cleaned up implementation and documentation.
-</li>
-<li>
 April, 2017 by Iago Cupeiro:<br/>
-First implementation.
+Cleaned up implementation and documentation.
 </li>
 </ul>
 </html>"));
