@@ -9,10 +9,10 @@ model BuildingShadeExample
     annotation (Placement(transformation(extent={{-24,20},{-14,40}})));
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-12},{-80,8}})));
-protected
+protected 
   Interfaces.WeaBus                  weaBus(numSolBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{-64,24},{-44,44}})));
-public
+public 
   Shading.None none(azi=azi.k)
     annotation (Placement(transformation(extent={{-24,60},{-14,80}})));
   Shading.Overhang overhang(
@@ -59,7 +59,7 @@ public
     beta=0.5235987755983,
     azi=IDEAS.Types.Azimuth.S)
     annotation (Placement(transformation(extent={{26,-18},{36,2}})));
-equation
+equation 
   connect(sim.weaBus, weaBus) annotation (Line(
       points={{-84,0.8},{-84,34},{-54,34}},
       color={255,204,51},
@@ -131,8 +131,8 @@ equation
         points={{26,-2},{10,-2},{10,56},{-28,56},{-28,36},{-24,36}}, color={0,0,
           127}));
   connect(overhangAndHFins.solDif, buildingShade.solDif) annotation (Line(
-        points={{26,-6},{18,-6},{18,-4},{6,-4},{6,52},{-24,52},{-24,32}}, color
-        ={0,0,127}));
+        points={{26,-6},{18,-6},{18,-4},{6,-4},{6,52},{-24,52},{-24,32}}, color=
+         {0,0,127}));
   connect(overhangAndHFins.angInc, buildingShade.angInc) annotation (Line(
         points={{26,-12},{-2,-12},{-2,46},{-24,46},{-24,26}}, color={0,0,127}));
   connect(overhangAndHFins.angAzi, buildingShade.angAzi) annotation (Line(
