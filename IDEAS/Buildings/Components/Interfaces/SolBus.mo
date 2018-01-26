@@ -1,15 +1,31 @@
 within IDEAS.Buildings.Components.Interfaces;
-expandable connector SolBus
+connector SolBus
   "Bus containing solar radiation for various incidence angles"
   extends Modelica.Icons.SignalBus;
-  parameter Boolean outputAngles = true "Set to false when linearising only";
+  parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
+  IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector HSkyDifTil(unit="W/(m2)",start=100) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector HGroDifTil(unit="W/(m2)",start=100) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector angInc(
+    final quantity="Angle",
+    final unit="rad",
+    displayUnit="deg") if outputAngles;
+  IDEAS.Buildings.Components.Interfaces.RealConnector angZen(
+    final quantity="Angle",
+    final unit="rad",
+    displayUnit="deg") if outputAngles;
+  IDEAS.Buildings.Components.Interfaces.RealConnector angAzi(
+    final quantity="Angle",
+    final unit="rad",
+    displayUnit="deg") if outputAngles;
+  IDEAS.Buildings.Components.Interfaces.RealConnector Tenv(
+    final quantity="ThermodynamicTemperature",
+    final unit="K",
+    min = 0.0,
+    start = 293.15,
+    nominal = 300,
+    displayUnit="degC") "Equivalent radiant temperature" annotation ();
 
-  Real iSolDir(start=100) annotation ();
-  Real iSolDif(start=100) annotation ();
-  Real angInc if outputAngles;
-  Real angZen if outputAngles annotation ();
-  Real angAzi if outputAngles;
-  Modelica.SIunits.Temperature Tenv(start=293.15) annotation ();
 
   annotation (Documentation(info="<html>
 <p>
@@ -17,6 +33,19 @@ Connector that contains all solar irridiation information for one inclination an
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 26, 2017 by Filip Jorissen:<br/>
+Revised implementation for renamed
+ports <code>HDirTil</code> etc.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">
+#735</a>.
+</li>
+<li>
+March 21, 2017, by Filip Jorissen:<br/>
+Changed Reals into connectors for JModelica compatibility.
+Other compatibility changes. 
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
+</li>
 <li>
 October 22, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.

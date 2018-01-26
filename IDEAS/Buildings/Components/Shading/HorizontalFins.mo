@@ -8,20 +8,40 @@ model HorizontalFins "horizontal fins shading"
   parameter Modelica.SIunits.Length D=0.175 "size of the fins, in meters";
   parameter Modelica.SIunits.Length w=0.032 "width of the fins, in meters";
 
+  Real shaFrac "shadowing fraction over the window";
+  Real tipShadow;
+  Real headShadow;
+  Real footShadow;
+  Real totalShadow;
+
 protected
-  final Modelica.SIunits.Angle phi = Modelica.Constants.pi/2 - angInc "phi angle";
+  final Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen "altitude angle";
+  final Modelica.SIunits.Angle projectedAltitudeAngle = -atan(tan(angAlt)/cos(angAzi+azi));
 
 initial equation
   assert(beta > 0 and beta < acos(w/l), "beta between feasible values");
   assert(l > 0 and D > 0 and w > 0, "positive parameters for fins description");
 
 equation
-  if noEvent(D*cos(beta)>(l-D*sin(beta))*tan(phi)) then
-    iSolDir = 0;
+  if angAlt > beta then
+    tipShadow = sqrt(D*D+w*w)*(cos(beta-atan(w/D))*tan(projectedAltitudeAngle)-sin(beta-atan(w/D)));
+    headShadow = 0;
+    footShadow = 0;
+    totalShadow = 0;
+    if tipShadow > l then
+      shaFrac = 1;
+    else
+      shaFrac = min(1, tipShadow/l);
+    end if;
   else
-    iSolDir = solDir*(l*sin(phi)-(D+w*tan(phi-beta))*cos(phi-beta))/(l*sin(phi));
+    headShadow = max(0, -1 * ((D*sin(Modelica.Constants.pi/2 - beta)/tan(Modelica.Constants.pi/2 - projectedAltitudeAngle))-D*cos(Modelica.Constants.pi/2-beta)));
+    footShadow = max(0, w * (cos(beta)+ sin(beta)*tan(projectedAltitudeAngle)));
+    tipShadow = 0;
+    totalShadow = headShadow + footShadow;
+    shaFrac = min(1, totalShadow/l);
   end if;
 
+  iSolDir = (1-shaFrac)*solDir;
   angInc = iAngInc;
   connect(solDif, iSolDif);
 
