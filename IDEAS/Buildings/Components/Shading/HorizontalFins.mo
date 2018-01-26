@@ -60,9 +60,10 @@ equation
     shaFrac = min(1, totalShadow/spacing);
   end if;
 
-  iSolDir = (1-shaFrac)*solDir;
+  HShaDirTil = (1-shaFrac)*HDirTil;
   angInc = iAngInc;
-  connect(solDif, iSolDif);
+  connect(HSkyDifTil, HShaSkyDifTil);
+  connect(HGroDifTil, HShaGroDifTil);
 
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
