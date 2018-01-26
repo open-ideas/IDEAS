@@ -1,44 +1,63 @@
 within IDEAS.Buildings.Components.Shading;
 model HorizontalFins "horizontal fins shading"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
-                                                             final controlled=false);
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final controlled=use_betaInput);
 
-  parameter Modelica.SIunits.Angle beta= Modelica.Constants.pi/6 "inclination angle of shading fins";
-  parameter Modelica.SIunits.Length l=0.170 "distance between shading fins, in meters";
-  parameter Modelica.SIunits.Length D=0.175 "size of the fins, in meters";
-  parameter Modelica.SIunits.Length w=0.032 "width of the fins, in meters";
+  parameter Boolean use_betaInput = false
+    "=true, to use input for fin inclination angle"
+    annotation(Evaluate=true);
+  parameter Modelica.SIunits.Angle beta
+    "Fin inclination angle: 0 for horizontal inclination, -Pi/2 for downward 
+    inclination of 45 degrees, Pi/2 for upward inclination of 45 degrees"
+    annotation(Dialog(enable=not use_betaInput));
+  parameter Modelica.SIunits.Length spacing(min=0)
+    "Vertical spacing between fins";
+  parameter Modelica.SIunits.Length w(min=0)
+    "Fin width";
+  parameter Modelica.SIunits.Length t(min=0)
+    "Fin thickness";
 
-  Real shaFrac "shadowing fraction over the window";
+  Real shaFrac "Shaded fraction of the glazing.";
+
+
+protected
+  Modelica.SIunits.Angle beta_internal "Internal variable for inclination angle";
+  Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen "Altitude angle";
+  Modelica.SIunits.Angle projectedAltitudeAngle = -atan(tan(angAlt)/cos(angAzi+azi));
+
   Real tipShadow;
   Real headShadow;
   Real footShadow;
   Real totalShadow;
 
-protected
-  final Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen "altitude angle";
-  final Modelica.SIunits.Angle projectedAltitudeAngle = -atan(tan(angAlt)/cos(angAzi+azi));
-
 initial equation
-  assert(beta > 0 and beta < acos(w/l), "beta between feasible values");
-  assert(l > 0 and D > 0 and w > 0, "positive parameters for fins description");
+  if not use_betaInput then
+    assert(beta > 0 and beta < acos(t/spacing), "beta between feasible values");
+  end if;
+  assert(spacing > 0 and w > 0 and t > 0,
+   "The fin spacing, width and thickness should be positive");
 
 equation
-  if angAlt > beta then
-    tipShadow = sqrt(D*D+w*w)*(cos(beta-atan(w/D))*tan(projectedAltitudeAngle)-sin(beta-atan(w/D)));
+  connect(beta_internal,Ctrl);
+  if not use_betaInput then
+    beta_internal = beta;
+  end if;
+
+  if angAlt > beta_internal then
+    tipShadow = sqrt(w*w+t*t)*(cos(beta_internal-atan(t/w))*tan(projectedAltitudeAngle)-sin(beta_internal-atan(t/w)));
     headShadow = 0;
     footShadow = 0;
     totalShadow = 0;
-    if tipShadow > l then
+    if tipShadow > spacing then
       shaFrac = 1;
     else
-      shaFrac = min(1, tipShadow/l);
+      shaFrac = min(1, tipShadow/spacing);
     end if;
   else
-    headShadow = max(0, -1 * ((D*sin(Modelica.Constants.pi/2 - beta)/tan(Modelica.Constants.pi/2 - projectedAltitudeAngle))-D*cos(Modelica.Constants.pi/2-beta)));
-    footShadow = max(0, w * (cos(beta)+ sin(beta)*tan(projectedAltitudeAngle)));
+    headShadow = max(0, -1 * ((w*sin(Modelica.Constants.pi/2 - beta_internal)/tan(Modelica.Constants.pi/2 - projectedAltitudeAngle))-w*cos(Modelica.Constants.pi/2-beta_internal)));
+    footShadow = max(0, t * (cos(beta_internal)+ sin(beta_internal)*tan(projectedAltitudeAngle)));
     tipShadow = 0;
     totalShadow = headShadow + footShadow;
-    shaFrac = min(1, totalShadow/l);
+    shaFrac = min(1, totalShadow/spacing);
   end if;
 
   iSolDir = (1-shaFrac)*solDir;
