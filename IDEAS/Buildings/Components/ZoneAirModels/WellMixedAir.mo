@@ -1,12 +1,13 @@
 within IDEAS.Buildings.Components.ZoneAirModels;
 model WellMixedAir "Zone air model assuming perfectly mixed air"
   extends IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(final nSeg=1, mSenFac=5);
-  parameter Boolean useAirLeakage = true "Set to false to disable airleakage computations";
+  parameter Boolean useAirLeakage = not sim.linearise "Set to false to disable airleakage computations";
 
 protected
-  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = 2260000
+  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = Medium.enthalpyOfCondensingGas(T=273.15+35)
     "Latent heat of evaporation water";
-
+  constant Boolean hasVap = Medium.nXi>0
+    "Medium has water vapour";
   IDEAS.Fluid.MixingVolumes.MixingVolumeMoistAir       vol(
     m_flow_nominal=m_flow_nominal,
     nPorts=5,
@@ -47,18 +48,24 @@ protected
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={64,22})));
-  IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(redeclare package Medium = Medium)
+  IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(
+    redeclare package Medium = Medium) if hasVap
     "Relative humidity of the zone air"
     annotation (Placement(transformation(extent={{20,-30},{40,-50}})));
 
 equation
-  assert(vol.ports[1].Xi_outflow[1] <= 0.1,
-         "The water content of the zone air model is very high. 
-         Possibly you are simulating occupants (that generates a latent heat load), 
-         but air is not being refreshed (for instance using ventilation or air leakage models)?",
-         level=AssertionLevel.warning);
- E=vol.U;
- QGai=preHeaFloLat.Q_flow;
+  if hasVap then
+    assert(vol.ports[1].Xi_outflow[1] <= 0.1,
+           "The water content of the zone air model is very high. 
+           Possibly you are simulating occupants (that generates a latent heat load), 
+           but air is not being refreshed (for instance using ventilation or air leakage models)?",
+           level=AssertionLevel.warning);
+  else
+    phi=0;
+  end if;
+
+  E=vol.U;
+  QGai=preHeaFloLat.Q_flow;
   connect(vol.ports[1], port_a) annotation (Line(points={{3.2,10},{3.2,10},{40,10},
           {40,100}},  color={0,127,255}));
   connect(vol.ports[2], port_b)
@@ -86,8 +93,6 @@ equation
           80},{108,80}}, color={0,0,127}));
   connect(vol.C_flow[1:Medium.nC], C_flow[1:Medium.nC]) annotation (Line(points={{12,6},{32,6},{32,40},{108,
           40}}, color={0,0,127}));
-  connect(senTem.T, vol.TWat)
-    annotation (Line(points={{80,-60},{80,-4.8},{12,-4.8}}, color={0,0,127}));
   connect(gaiLat.y, preHeaFloLat.Q_flow)
     annotation (Line(points={{64,47},{64,32}}, color={0,0,127}));
   connect(gaiLat.u, mWat_flow)
@@ -101,6 +106,10 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+August 5, 2017 by Filip Jorissen:<br/>
+Added support for dry air.
+</li>
 <li>
 November 15, 2016 by Filip Jorissen:<br/>
 Revised documentation.
@@ -130,6 +139,9 @@ The air outlet temperature equals the well mixed air temperature.
 This model is not valid for buildings where stratification occurs, 
 e.g. when using floor cooling
 or ceiling heating.
+</p>
+<p>
+When dry air is used, then the relative humidity output is set to zero.
 </p>
 <h4>Typical use and important parameters</h4>
 <p>

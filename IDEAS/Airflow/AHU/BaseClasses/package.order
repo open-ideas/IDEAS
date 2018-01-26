@@ -1,7 +1,9 @@
 AdsolairData
 Adsolair14200
 SimpleCompressorTable
+SimpleCompressorInterface
 From_m3Pers
+AdsolairControllerInterface
 AdsolairController
 AdsolairControllerHeaCoi
 LimPidAdsolair

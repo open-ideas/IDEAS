@@ -292,8 +292,7 @@ model RectangularZoneTemplate
                 Dialog(tab="Ceiling", group="Window details", enable=hasWinCei));
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if nSurfExt>0
+    each final outputAngles=sim.outputAngles) if nSurfExt>0
     "Propsbus for connecting additional external surfaces" annotation (
       Placement(transformation(
         extent={{-20,20},{20,-20}},
@@ -754,9 +753,8 @@ protected
     annotation (Placement(transformation(extent={{-176,-80},{-164,-60}})));
 public
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face A"
@@ -768,9 +766,8 @@ public
         rotation=180,
         origin={-60,90})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusB(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face B"
@@ -782,9 +779,8 @@ public
         rotation=90,
         origin={90,60})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusC(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face C"
@@ -796,9 +792,8 @@ public
         rotation=0,
         origin={0,-90})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusD(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face D"
@@ -810,9 +805,8 @@ public
         rotation=-90,
         origin={-90,0})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusFlo(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of floor"
@@ -824,9 +818,8 @@ public
         rotation=180,
         origin={0,-60})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusCei(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    each weaBus(final outputAngles=sim.outputAngles)) if
+    final numIncAndAziInBus=sim.numIncAndAziInBus,
+    final outputAngles=sim.outputAngles) if
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface of ceiling: internal walls should be modelled as the floor of the zone above"
@@ -894,15 +887,31 @@ public
     "embedded port for TABS"
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 initial equation
-  assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround, "The value for bouTypA is not supported");
-  assert(not bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround, "The value for bouTypB is not supported");
-  assert(not bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround, "The value for bouTypC is not supported");
-  assert(not bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround, "The value for bouTypD is not supported");
-  assert(not bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround, "The value for bouTypCei is not supported");
+  assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    "The value for bouTypA is not supported");
+  assert(not bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    "The value for bouTypB is not supported");
+  assert(not bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    "The value for bouTypC is not supported");
+  assert(not bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    "The value for bouTypD is not supported");
+  assert(not bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    "The value for bouTypCei is not supported");
   assert(not (bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
               "Using internal walls for the ceiling is not allowed because it is considered bad practice. 
               Use instead the 'External'  connection to connect the the floor of the surface above, 
               or use this option to connect and internal wall externally.");
+  assert(not (hasWinA and bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
+    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+  assert(not (hasWinB and bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
+    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+  assert(not (hasWinC and bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
+    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+  assert(not (hasWinD and bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
+    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+  assert(not (hasWinCei and bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
+    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+
 
 
 
@@ -1214,6 +1223,17 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2017, by Filip Jorissen:<br/>
+Added asserts that check for illegal combinations of internal wall with exterior window.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/714>#714</a>.
+</li>
+<li>
+March 21, 2017, by Filip Jorissen:<br/>
+Changed bus parameters for JModelica compatibility.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
+Also removed obsolete each.
+</li>
 <li>
 January 20, 2017 by Filip Jorissen:<br/>
 Removed propagation of <code>nLay</code> and <code>nGain</code>
