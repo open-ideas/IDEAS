@@ -46,6 +46,10 @@ model RectangularZoneTemplate
   parameter Boolean hasWinCei = false
     "Modelling window for ceiling if true"
     annotation(Dialog(tab="Ceiling", group="Window details"));
+  parameter Boolean hasTABSCei = false
+    "Activating TABS on Ceiling"
+    annotation(Dialog(tab="Ceiling", group="TABS details"));
+
   parameter Integer nSurfExt = 0
     "Number of additional connected external surfaces";
   parameter Modelica.SIunits.Angle aziA
@@ -878,6 +882,10 @@ protected
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
   final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
 
+public
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb if hasTABSCei
+    "embedded port for TABS"
+    annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     "The value for bouTypA is not supported");
@@ -903,6 +911,12 @@ initial equation
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
   assert(not (hasWinCei and bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+
+
+
+
+
+
 
 
 
@@ -1057,6 +1071,10 @@ equation
       points={{-80,40},{-82,40},{-82,54},{-82,50},{-210,50}},
       color={255,204,51},
       thickness=0.5));
+
+ if hasTABSCei then
+    connect(outCei.port_emb[1], port_emb);
+  end if;
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, initialScale=0.1),
         graphics={
         Text(
