@@ -46,6 +46,10 @@ model RectangularZoneTemplate
   parameter Boolean hasWinCei = false
     "Modelling window for ceiling if true"
     annotation(Dialog(tab="Ceiling", group="Window details"));
+  parameter Boolean hasTABSCei = false
+    "Activating TABS on Ceiling"
+    annotation(Dialog(tab="Ceiling", group="TABS details"));
+
   parameter Integer nSurfExt = 0
     "Number of additional connected external surfaces";
   parameter Modelica.SIunits.Angle aziA
@@ -348,7 +352,6 @@ protected
       g_value=glazingB.g_value),
     A=A_winB,
     frac=fraB,
-    azi=aziA + Modelica.Constants.pi/2,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_win,
@@ -370,7 +373,8 @@ protected
   dh=shaTypB.dh,
   shaCorr=shaTypB.shaCorr)),
     fraType(present=fraTypB.present, U_value=fraTypB.U_value),
-    linExtRad=linExtRadWin) if
+    linExtRad=linExtRadWin,
+    azi=aziA + IDEAS.Types.Azimuth.W) if
        hasWinB
     "Window for face B of this zone" annotation (Placement(
         transformation(
@@ -389,7 +393,6 @@ protected
       g_value=glazingC.g_value),
     A=A_winC,
     frac=fracC,
-    azi=aziA + Modelica.Constants.pi,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_win,
@@ -411,15 +414,15 @@ protected
   dh=shaTypC.dh,
   shaCorr=shaTypC.shaCorr)),
     fraType(present=fraTypC.present, U_value=fraTypC.U_value),
-    linExtRad=linExtRadWin) if
+    linExtRad=linExtRadWin,
+    azi=aziA + IDEAS.Types.Azimuth.N) if
        hasWinC
     "Window for face C of this zone" annotation (Placement(
         transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-95,-30})));
-  IDEAS.Buildings.Components.Window winD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
-        Modelica.Constants.pi/2*3,
+  IDEAS.Buildings.Components.Window winD(inc=IDEAS.Types.Tilt.Wall,
     glazing(
       nLay=glazingD.nLay,
       mats=glazingD.mats,
@@ -452,7 +455,8 @@ protected
   dh=shaTypD.dh,
   shaCorr=shaTypD.shaCorr)),
     fraType(present=fraTypD.present, U_value=fraTypD.U_value),
-    linExtRad=linExtRadWin) if
+    linExtRad=linExtRadWin,
+    azi=aziA + IDEAS.Types.Azimuth.E) if
        hasWinD
     "Window for face D of this zone" annotation (Placement(
         transformation(
@@ -596,13 +600,13 @@ protected
       locGain=conTypB.locGain,
       incLastLay=conTypB.incLastLay,
       mats=conTypB.mats),
-    azi=aziA + Modelica.Constants.pi/2,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
-    A=w*h - (if hasWinB then A_winB else 0)) if
+    A=w*h - (if hasWinB then A_winB else 0),
+    azi=aziA + IDEAS.Types.Azimuth.W) if
        hasOutB
     "Outer wall for face B of this zone"
     annotation (Placement(transformation(extent={{-140,-20},{-130,0}})));
@@ -611,18 +615,17 @@ protected
       locGain=conTypC.locGain,
       incLastLay=conTypC.incLastLay,
       mats=conTypC.mats),
-    azi=aziA + Modelica.Constants.pi,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
-    A=l*h - (if hasWinC then A_winC else 0)) if
+    A=l*h - (if hasWinC then A_winC else 0),
+    azi=aziA + IDEAS.Types.Azimuth.N) if
        hasOutC
     "Outer wall for face C of this zone"
     annotation (Placement(transformation(extent={{-140,-40},{-130,-20}})));
-  IDEAS.Buildings.Components.OuterWall outD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
-        Modelica.Constants.pi/2*3,
+  IDEAS.Buildings.Components.OuterWall outD(inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypD.locGain,
       incLastLay=conTypD.incLastLay,
@@ -632,7 +635,8 @@ protected
     dT_nominal_a=dT_nominal_out,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
-    A=w*h - (if hasWinD then A_winD else 0)) if
+    A=w*h - (if hasWinD then A_winD else 0),
+    azi=aziA + IDEAS.Types.Azimuth.E) if
        hasOutD
     "Outer wall for face D of this zone"
     annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
@@ -878,6 +882,10 @@ protected
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
   final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
 
+public
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb if hasTABSCei
+    "embedded port for TABS"
+    annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     "The value for bouTypA is not supported");
@@ -903,6 +911,12 @@ initial equation
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
   assert(not (hasWinCei and bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+
+
+
+
+
+
 
 
 
@@ -1057,6 +1071,10 @@ equation
       points={{-80,40},{-82,40},{-82,54},{-82,50},{-210,50}},
       color={255,204,51},
       thickness=0.5));
+
+ if hasTABSCei then
+    connect(outCei.port_emb[1], port_emb);
+  end if;
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, initialScale=0.1),
         graphics={
         Text(

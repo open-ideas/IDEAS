@@ -22,7 +22,6 @@ model CavityWalls
     azi=IDEAS.Types.Azimuth.S,
     redeclare parameter
       IDEAS.Buildings.Data.Constructions.CavityWallPartialFill constructionType,
-
     A=10) "Vertical wall with partially filled cavity"
     annotation (Placement(transformation(extent={{-56,-20},{-46,0}})));
 
