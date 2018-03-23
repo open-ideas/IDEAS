@@ -1,47 +1,80 @@
 within IDEAS.Buildings.Components.Shading;
-model HorizontalFins "Horizontal fin shading model"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
-                                                             final controlled=false);
+model HorizontalFins "horizontal fins shading"
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final controlled=use_betaInput);
 
-  parameter Modelica.SIunits.Angle beta(min=0) = 0 "Rotation angle of shading fins with respect to horizontal.";
-  parameter Modelica.SIunits.Length l(min=0) = 0.170 "Vertical distance between fins";
-  parameter Modelica.SIunits.Length D(min=0) = 0.175 "Fin width";
-  parameter Modelica.SIunits.Length w(min=0) = 0.032 "Fin thickness";
+  parameter Boolean use_betaInput = false
+    "=true, to use input for fin inclination angle"
+    annotation(Evaluate=true);
+  parameter Modelica.SIunits.Angle beta
+    "Fin inclination angle: 0 for horizontal inclination, -Pi/2 for downward 
+    inclination of 45 degrees, Pi/2 for upward inclination of 45 degrees"
+    annotation(Dialog(enable=not use_betaInput));
+  parameter Modelica.SIunits.Length spacing(min=0)
+    "Vertical spacing between fins";
+  parameter Modelica.SIunits.Length w(min=0)
+    "Fin width";
+  parameter Modelica.SIunits.Length t(min=0)
+    "Fin thickness";
+
+  Real shaFrac "Shaded fraction of the glazing.";
+
+
+protected
+  Modelica.SIunits.Angle beta_internal "Internal variable for inclination angle";
+  Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen "Altitude angle";
+  Modelica.SIunits.Angle projectedAltitudeAngle = -atan(tan(angAlt)/cos(angAzi+azi));
+
+  Real tipShadow;
+  Real headShadow;
+  Real footShadow;
+  Real totalShadow;
 
 initial equation
-  assert(beta > 0 and beta < 5*Modelica.Constants.pi/12, "beta between feasible values");
-  assert(l > 0 and D > 0 and w > 0, "Fin parameters must be positive");
-  assert(w < l, "Fin thickness must me smaller than distance between fins");
+  if not use_betaInput then
+    assert(beta > 0 and beta < acos(t/spacing), "beta between feasible values");
+  end if;
+  assert(spacing > 0 and w > 0 and t > 0,
+   "The fin spacing, width and thickness should be positive");
 
 equation
-  if noEvent(D*cos(beta)>(l-D*sin(beta))*tan(iAngInc)) then
-    iSolDir = 0;
-  else
-    iSolDir = solDir*(l*sin(iAngInc)-(D+w*tan(iAngInc-beta))*cos(iAngInc-beta))/l*sin(iAngInc);
+  connect(beta_internal,Ctrl);
+  if not use_betaInput then
+    beta_internal = beta;
   end if;
 
-  connect(solDif, iSolDif)
-    annotation (Line(points={{-60,10},{40,10},{40,10}}, color={0,0,127}));
-  connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-15,-50},{-15,-50},
-          {40,-50}}, color={0,0,127}));
+  if angAlt > beta_internal then
+    tipShadow = sqrt(w*w+t*t)*(cos(beta_internal-atan(t/w))*tan(projectedAltitudeAngle)-sin(beta_internal-atan(t/w)));
+    headShadow = 0;
+    footShadow = 0;
+    totalShadow = 0;
+    if tipShadow > spacing then
+      shaFrac = 1;
+    else
+      shaFrac = min(1, tipShadow/spacing);
+    end if;
+  else
+    headShadow = max(0, -1 * ((w*sin(Modelica.Constants.pi/2 - beta_internal)/tan(Modelica.Constants.pi/2 - projectedAltitudeAngle))-w*cos(Modelica.Constants.pi/2-beta_internal)));
+    footShadow = max(0, t * (cos(beta_internal)+ sin(beta_internal)*tan(projectedAltitudeAngle)));
+    tipShadow = 0;
+    totalShadow = headShadow + footShadow;
+    shaFrac = min(1, totalShadow/spacing);
+  end if;
+
+  HShaDirTil = (1-shaFrac)*HDirTil;
+  angInc = iAngInc;
+  connect(HSkyDifTil, HShaSkyDifTil);
+  connect(HGroDifTil, HShaGroDifTil);
+
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
     Documentation(info="<html>
-<p>
-Shading model of multiple, fixed horizontal fins in front of the window.
-</p>
-<p>
-<img src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/HorizontalFins.png\"/>
-</p>
+<p>Shading model of horizontal fins in function of the inclination angle of the fins.</p>
+<p><br><img src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/HorizontalFins.png\"/></p>
 </html>", revisions="<html>
 <ul>
 <li>
-April 12, 2017 by Filip Jorissen:<br/>
-Cleaned up implementation and documentation.
-</li>
-<li>
 April, 2017 by Iago Cupeiro:<br/>
-First implementation.
+Cleaned up implementation and documentation.
 </li>
 </ul>
 </html>"));
