@@ -8,7 +8,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.SIunits.Angle inc
     "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
   parameter Modelica.SIunits.Angle azi
-    "Azimuth angle of the wall, i.e. see IDEAS.Types.Azimuth";
+    "Azimuth angle of the wall, i.e. see IDEAS.Types.Azimuth, set IDEAS.Types.Azimuth.S for horizontal ceilings and floors";
   parameter Modelica.SIunits.Area A
     "Component surface area";
   parameter Modelica.SIunits.Power QTra_design
@@ -32,9 +32,8 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus,
-    computeConservationOfEnergy=sim.computeConservationOfEnergy,
-    weaBus(final outputAngles=sim.outputAngles)) "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+                                             "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -67,16 +66,13 @@ protected
     "Azimuth angle expression";
   Modelica.Blocks.Sources.RealExpression incExp(y=inc)
     "Inclination angle expression";
-  Modelica.Blocks.Sources.RealExpression E if
-       sim.computeConservationOfEnergy
+  Modelica.Blocks.Sources.RealExpression E
     "Model internal energy";
-  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE if
-       sim.computeConservationOfEnergy
+  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
     "Component for computing conservation of energy";
-  Modelica.Blocks.Sources.RealExpression Qgai if sim.computeConservationOfEnergy
+  Modelica.Blocks.Sources.RealExpression Qgai
     "Heat gains across model boundary";
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai if
-     sim.computeConservationOfEnergy
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
 
 equation
@@ -128,6 +124,15 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+January 26, 2018, by Filip Jorissen:<br/>
+Extended documentation.
+</li>
+<li>
+March 21, 2017, by Filip Jorissen:<br/>
+Changed bus declarations for JModelica compatibility.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
+</li>
+<li>
 January 10, 2017, by Filip Jorissen:<br/>
 Declared parameter <code>A</code> instead of using
 <code>AWall</code> in 
@@ -175,6 +180,13 @@ used to specify the inclination and azimuth/tilt angle of the surface.
 Variables in <a href=modelica://IDEAS.Types.Azimuth>IDEAS.Types.Azimuth</a>
 and <a href=modelica://IDEAS.Types.Tilt>IDEAS.Types.Tilt</a>
 may be used for this purpose or custom variables may be defined.
+Numerical values can be used directly. 
+Azimuth angles should be in radians relative to the south orientation, clockwise.
+Tilt angles should be in radians where an angle of 0 is the ceiling (upward) orientation
+and an angle of Pi is the floor (downward) orientation.
+Preferably the azimuth angle is set to zero for horizontal tilt angles, 
+since this leads to more efficient code, 
+although the model results will not change.
 </p>
 <h4>Options</h4>
 <p>

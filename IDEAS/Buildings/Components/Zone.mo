@@ -3,9 +3,9 @@ model Zone "Building zone model"
   extends IDEAS.Buildings.Components.Interfaces.PartialZone;
 
   //this propsbus exposes all ports to the outside of the model
-  IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBus(each final numIncAndAziInBus=sim.numIncAndAziInBus,
-      each final computeConservationOfEnergy=sim.computeConservationOfEnergy,
-      each weaBus(final outputAngles=sim.outputAngles))
+  IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBus(
+    each final numIncAndAziInBus=sim.numIncAndAziInBus,
+    each final outputAngles=sim.outputAngles)
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -54,6 +54,12 @@ Replaceable parameter <code>airModel</code> determines
 the type of air model that is used.
 </p>
 <p>
+Replaceable model <code>occNum</code> allows the user to choose a
+way to define the number of occupants that are present in the zone.
+This number of occupants is used to compute the
+internal heat gains in the model.
+</p>
+<p>
 Parameter <code>occTyp</code> determines
 occupants properties.
 These properties may be used to evaluate internal comfort,
@@ -77,6 +83,12 @@ It may be used when the initial equation that computes the view factors does not
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 26, 2018 by Filip Jorissen:<br/>
+Added replaceable block that allows to define
+the number of occupants.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/760\">#760</a>.
+</li>
 <li>
 October 22, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.
