@@ -80,7 +80,8 @@ public
     m_flow_nominal=m_flow_nominal,
     allowFlowReversal=allowFlowReversal,
     n50=n50,
-    n50toAch=n50toAch)
+    n50toAch=n50toAch,
+    mSenFac=mSenFac)
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
@@ -90,7 +91,8 @@ public
     m_flow_nominal=m_flow_nominal,
     allowFlowReversal=allowFlowReversal,
     n50=n50,
-    n50toAch=n50toAch) "Zone air model" annotation (
+    n50toAch=n50toAch,
+    mSenFac=mSenFac) "Zone air model" annotation (
     Placement(transformation(extent={{-40,20},{-20,40}})),
     choicesAllMatching=true,
     Dialog(group="Building physics"));
@@ -333,6 +335,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 29, 2018 by Filip Jorissen:<br/>
+Propagated <code>mSenFac</code> to <code>airModel</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/792\">#792</a>.
+</li>
 <li>
 March 28, 2018 by Filip Jorissen:<br/>
 Added option for introducing state for
