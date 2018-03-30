@@ -30,10 +30,10 @@ partial model ZoneInterface "Partial model for thermal building zones"
       Placement(transformation(extent={{96,-10},{116,10}}), iconTransformation(
           extent={{96,-10},{116,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
-    if useFluPor
+    if useFluPor "Port for return"
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
-    if useFluPor
+    if useFluPor "Port for supply air"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
@@ -49,6 +49,11 @@ protected
     "Dummy heat port for avoiding error by dymola translator";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort dummy2
     "Dummy emergy port for avoiding error by dymola translator";
+public
+  Modelica.Fluid.Interfaces.FluidPort_a port_inf(redeclare package Medium =
+        Medium) if
+       useFluPor "Port for difference between supply and return air"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 initial equation
   assert(nSurf>1, "A minimum of 2 surfaces should be connected to each zone!");
 
@@ -110,6 +115,11 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 30, 2018 by Filip Jorissen:<br/>
+Added third fluid port for air infiltration, etc.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/796\">#796</a>.
+</li>
 <li>
 April 28, 2016, Filip Jorissen:<br/>
 Added assert for checking nSurf larger than 1.

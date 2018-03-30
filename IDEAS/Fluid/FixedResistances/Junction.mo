@@ -4,7 +4,6 @@ model Junction
     extends IDEAS.Fluid.BaseClasses.PartialThreeWayResistance(
     mDyn_flow_nominal = sum(abs(m_flow_nominal[:])/3),
     redeclare IDEAS.Fluid.FixedResistances.PressureDrop res1(
-      final allowFlowReversal=true,
       from_dp=from_dp,
       final m_flow_nominal=m_flow_nominal[1],
       final dp_nominal=dp_nominal[1],
@@ -12,7 +11,6 @@ model Junction
       homotopyInitialization=homotopyInitialization,
       deltaM=deltaM),
     redeclare IDEAS.Fluid.FixedResistances.PressureDrop res2(
-      final allowFlowReversal=true,
       from_dp=from_dp,
       final m_flow_nominal=m_flow_nominal[2],
       final dp_nominal=dp_nominal[2],
@@ -20,7 +18,6 @@ model Junction
       homotopyInitialization=homotopyInitialization,
       deltaM=deltaM),
     redeclare IDEAS.Fluid.FixedResistances.PressureDrop res3(
-      final allowFlowReversal=true,
       from_dp=from_dp,
       final m_flow_nominal=m_flow_nominal[3],
       final dp_nominal=dp_nominal[3],

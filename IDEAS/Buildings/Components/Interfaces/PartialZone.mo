@@ -328,6 +328,8 @@ end for;
     annotation (Line(points={{58,32},{41,32}}, color={0,0,127}));
   connect(nOcc, occNum.nOccIn)
     annotation (Line(points={{108,32},{82,32}}, color={0,0,127}));
+  connect(airModel.port_inf, port_inf) annotation (Line(points={{-30,40},{-30,
+          92},{0,92},{0,100}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -347,6 +349,12 @@ radiative temperature.
 </li>
 <li>
 July 26, 2018 by Filip Jorissen:<br/>
+March 30, 2018 by Filip Jorissen:<br/>
+Added third fluid port for air infiltration, etc.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/796\">#796</a>.
+</li>
+<li>
+January 26, 2018 by Filip Jorissen:<br/>
 Added replaceable block that allows to define
 the number of occupants.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/760\">#760</a>.
