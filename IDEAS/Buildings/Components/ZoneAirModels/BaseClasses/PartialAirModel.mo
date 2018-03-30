@@ -9,7 +9,7 @@ partial model PartialAirModel "Partial for air models"
   parameter Modelica.SIunits.Volume Vtot "Total zone air volume";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=m_flow_nominal_airLea
     "Nominal mass flow rate"
-	annotation(Dialog(tab="Advanced"));
+ annotation(Dialog(tab="Advanced"));
   parameter Boolean allowFlowReversal=true
      "= false to simplify equations, assuming, but not enforcing, no flow reversal"
     annotation(Dialog(tab="Advanced"));
@@ -21,8 +21,8 @@ partial model PartialAirModel "Partial for air models"
     annotation(Dialog(tab="Advanced"));
   constant Boolean computeTSensorAsFunctionOfZoneAir = true
     "Set to false if TSensor in zone model should not take into account the value of the zone air temperature";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_airLea=Vtot*rho_default/3600*n50/n50toAch 
-  	"Nominal mass flow rate of air leakage";
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_airLea=Vtot*rho_default/3600*n50/n50toAch
+   "Nominal mass flow rate of air leakage";
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") "Model internal energy";
   Modelica.Blocks.Interfaces.RealOutput QGai(unit="J/s") "Model internal energy";
   Modelica.Blocks.Interfaces.RealOutput TAir "Zone air temperature"
@@ -65,9 +65,19 @@ protected
   final parameter Modelica.SIunits.Density rho_default = Medium.density(
     state=state_default) "Medium default density";
   final parameter Modelica.SIunits.SpecificHeatCapacity cp_default = Medium.specificHeatCapacityCp(state=state_default);
+public
+  Modelica.Fluid.Interfaces.FluidPort_a port_inf(redeclare package Medium =
+        Medium) if
+       useFluPor "Port for difference between supply and return air"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+March 30, 2018 by Filip Jorissen:<br/>
+Added third fluid port for air infiltration, etc.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/796\">#796</a>.
+</li>
 <li>
 November 15, 2016 by Filip Jorissen:<br/>
 Revised documentation.

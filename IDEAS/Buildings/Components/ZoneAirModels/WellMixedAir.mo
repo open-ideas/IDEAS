@@ -10,7 +10,7 @@ protected
     "Medium has water vapour";
   IDEAS.Fluid.MixingVolumes.MixingVolumeMoistAir       vol(
     m_flow_nominal=m_flow_nominal,
-    nPorts=5,
+    nPorts=6,
     redeclare package Medium = Medium,
     energyDynamics=energyDynamics,
     massDynamics=massDynamics,
@@ -66,10 +66,11 @@ equation
 
   E=vol.U;
   QGai=preHeaFloLat.Q_flow;
-  connect(vol.ports[1], port_a) annotation (Line(points={{3.2,10},{3.2,10},{40,10},
-          {40,100}},  color={0,127,255}));
+  connect(vol.ports[1], port_a) annotation (Line(points={{3.33333,10},{3.33333,
+          10},{40,10},{40,100}},
+                      color={0,127,255}));
   connect(vol.ports[2], port_b)
-    annotation (Line(points={{1.6,10},{-40,10},{-40,100}},
+    annotation (Line(points={{2,10},{-40,10},{-40,100}},
                                                        color={0,127,255}));
   for i in 1:nSurf loop
     connect(vol.heatPort, ports_surf[i]) annotation (Line(points={{10,-1.33227e-15},
@@ -77,9 +78,9 @@ equation
                                                color={191,0,0}));
   end for;
   connect(airLeakage.port_a, vol.ports[3]) annotation (Line(points={{-10,40},{
-          -22,40},{-22,38},{-22,10},{1.11022e-15,10}},color={0,127,255}));
+          -22,40},{-22,38},{-22,10},{0.666667,10}},   color={0,127,255}));
   connect(airLeakage.port_b, vol.ports[4]) annotation (Line(points={{10,40},{20,
-          40},{20,38},{20,10},{-1.6,10}},      color={0,127,255}));
+          40},{20,38},{20,10},{-0.666667,10}}, color={0,127,255}));
   for i in 1:nSeg loop
     connect(ports_air[i], vol.heatPort) annotation (Line(points={{100,0},{64,0},
             {64,-20},{10,-20},{10,0}},
@@ -101,11 +102,19 @@ equation
           -20},{10,-20},{10,0}}, color={191,0,0}));
   connect(senRelHum.phi, phi)
     annotation (Line(points={{41,-40},{72,-40},{108,-40}}, color={0,0,127}));
-  connect(senRelHum.port, vol.ports[5]) annotation (Line(points={{30,-30},{30,-30},
-          {30,-14},{30,10},{-3.2,10}}, color={0,127,255}));
+  connect(senRelHum.port, vol.ports[5]) annotation (Line(points={{30,-30},{30,
+          -30},{30,-14},{30,10},{-2,10}},
+                                       color={0,127,255}));
+  connect(port_inf, vol.ports[6]) annotation (Line(points={{0,100},{0,56},{0,10},
+          {-3.33333,10}}, color={0,127,255}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+March 30, 2018 by Filip Jorissen:<br/>
+Added third fluid port for air infiltration, etc.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/796\">#796</a>.
+</li>
 <li>
 August 5, 2017 by Filip Jorissen:<br/>
 Added support for dry air.
