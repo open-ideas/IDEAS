@@ -58,9 +58,27 @@ protected
   Modelica.Blocks.Sources.Constant E0(final k=0)
     "All internal energy is assigned to right side";
 
+  IDEAS.Fluid.Sources.MassFlowSource_T bouInf_b(
+    nPorts=1,
+    redeclare package Medium = Medium) if
+       use_defaultItzInfBou
+    "Default boundary for air infiltration" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-90,50})));
+  IDEAS.Fluid.Sources.MassFlowSource_T bouItz_b(
+    nPorts=1,
+    redeclare package Medium = Medium) if
+       use_defaultItzInfBou
+    "Default boundary for interzonal air flow rate" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-110,50})));
 equation
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
-      points={{-10,0},{-14,0},{-14,20.1},{-100.1,20.1}},
+      points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(propsBus_b.surfCon, intCon_b.port_b) annotation (Line(
@@ -72,11 +90,11 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(layMul.iEpsSw_b, propsBus_b.epsSw) annotation (Line(
-      points={{-10,4},{-18,4},{-18,20.1},{-100.1,20.1}},
+      points={{-10,4},{-22,4},{-22,20.1},{-100.1,20.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(layMul.iEpsLw_b, propsBus_b.epsLw) annotation (Line(
-      points={{-10,8},{-16,8},{-16,20.1},{-100.1,20.1}},
+      points={{-10,8},{-20,8},{-20,20.1},{-100.1,20.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(layMul.area, propsBus_b.area) annotation (Line(
@@ -92,6 +110,10 @@ equation
   connect(E_b.port, propsBus_b.E);
   connect(E_b.E, E0.y);
 
+  connect(bouItz_b.ports[1], propsBus_b.itz) annotation (Line(points={{-110,40},
+          {-110,30},{-110,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(bouInf_b.ports[1], propsBus_b.inf) annotation (Line(points={{-90,40},{
+          -90,20.1},{-100.1,20.1}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

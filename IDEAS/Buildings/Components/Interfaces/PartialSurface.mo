@@ -4,7 +4,7 @@ partial model PartialSurface "Partial model for building envelope component"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
-
+  replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Modelica.SIunits.Angle inc
     "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
   parameter Modelica.SIunits.Angle azi
@@ -30,6 +30,9 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+  parameter Boolean use_defaultItzInfBou = true
+    "= false, to disable the use of the default infiltration and pressure boundary"
+    annotation(Dialog(tab="Advanced", group="Interzonal air exchange"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
@@ -75,6 +78,23 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
 
+  IDEAS.Fluid.Sources.MassFlowSource_T bouItz_a(
+    nPorts=1,
+    redeclare package Medium = Medium) if use_defaultItzInfBou
+    "Default boundary for interzonal air flow rate" annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={90,50})));
+
+  IDEAS.Fluid.Sources.MassFlowSource_T bouInf_a(
+    nPorts=1,
+    redeclare package Medium = Medium) if use_defaultItzInfBou
+    "Default boundary for air infiltration" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={110,50})));
 equation
   connect(prescribedHeatFlowE.port, propsBus_a.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
@@ -117,6 +137,10 @@ equation
       extent={{6,3},{6,3}}));
   connect(incExp.y, propsBus_a.inc);
   connect(aziExp.y, propsBus_a.azi);
+  connect(bouItz_a.ports[1], propsBus_a.itz) annotation (Line(points={{90,40},{90,
+          20},{100.1,20},{100.1,19.9}}, color={0,127,255}));
+  connect(bouInf_a.ports[1], propsBus_a.inf) annotation (Line(points={{110,40},{
+          110,30},{110,19.9},{100.1,19.9}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

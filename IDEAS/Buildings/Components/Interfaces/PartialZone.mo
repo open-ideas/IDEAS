@@ -95,6 +95,7 @@ public
       redeclare package Medium = Medium,
       V=V,
       n50=n50,
+      nSurf=nSurf,
       n50toAch=n50toAch)
       "Interzonal air flow model"
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})),
@@ -338,6 +339,11 @@ end for;
           -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
   connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
           -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
+  connect(interzonalAirFlow.portsInf, propsBusInt.inf) annotation (Line(points={
+          {-40,70},{-62,70},{-62,39.9},{-80.1,39.9}}, color={0,127,255}));
+  connect(interzonalAirFlow.portsItz, propsBusInt.itz) annotation (Line(points={
+          {-20,70},{-12,70},{-12,54},{-58,54},{-58,39.9},{-80.1,39.9}}, color={0,
+          127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),

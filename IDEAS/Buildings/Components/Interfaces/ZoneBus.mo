@@ -4,6 +4,7 @@ connector ZoneBus
   parameter Integer numIncAndAziInBus
     "Number of calculated azimuth angles, set to sim.numIncAndAziInBus";
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
+  replaceable package Medium = SolarwindBES.Media.Air "Air medium package";
 
   IDEAS.Buildings.Components.Interfaces.RealConnector QTra_design(
     final quantity="Power",
@@ -21,6 +22,10 @@ connector ZoneBus
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b surfRad annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b iSolDif annotation ();
+  Modelica.Fluid.Interfaces.FluidPort_a inf(redeclare package Medium=Medium)
+    "Port for air infiltration";
+  Modelica.Fluid.Interfaces.FluidPort_a itz(redeclare package Medium=Medium)
+    "Port for interzonal air exchange";
   IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=numIncAndAziInBus, outputAngles=outputAngles)
     annotation(HideResult=true);
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b Qgai

@@ -3,21 +3,18 @@ partial model PartialInterzonalAirFlowBoundary
   "Partial interzonal air flow model that includes a boundary"
   extends
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow;
-  outer BoundaryConditions.SimInfoManager       sim
-    "Simulation information manager"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow_sim if
                                                                                   sim.computeConservationOfEnergy
     annotation (Placement(transformation(extent={{-60,60},{-80,80}})));
-  Modelica.Blocks.Sources.RealExpression Qgai(y=actualStream(bou.ports.h_outflow)
-        *bou.ports.m_flow)
+  Modelica.Blocks.Sources.RealExpression Qgai(y=actualStream(bouInf.ports.h_outflow)
+        *bouInf.ports.m_flow)
     annotation (Placement(transformation(extent={{-100,42},{-40,62}})));
   Modelica.Blocks.Routing.RealPassThrough Te annotation (Placement(
     transformation(
     extent={{-10,-10},{10,10}},
     rotation=270,
     origin={6,70})));
-  Fluid.Sources.Boundary_pT bou(
+  IDEAS.Fluid.Sources.Boundary_pT bou(
     redeclare package Medium = Medium,
     use_T_in=true,
     use_p_in=false,
@@ -57,13 +54,12 @@ equation
   connect(reaExpX_air.y, bou.X_in[2])
     annotation (Line(points={{37,52},{4,52},{4,22}}, color={0,0,127}));
   connect(bou.C_in[1], weaBus.CEnv) annotation (Line(points={{8,22},{8,92.05},
-          {-39.95,92.05}},                            color={0,0,127}));
+          {-39.95,92.05}}, color={0,0,127}));
   connect(reaPasThr.u,weaBus. X_wEnv)
     annotation (Line(points={{30,82},{30,92.05},{-39.95,92.05}},
                                                         color={0,0,127}));
   connect(reaPasThr.y, bou.X_in[1]) annotation (Line(points={{30,59},{14,59},
-          {14,22},{4,22}},
-                       color={0,0,127}));
+          {14,22},{4,22}}, color={0,0,127}));
   connect(Te.y, bou.T_in)
     annotation (Line(points={{6,59},{6,22},{-4,22}}, color={0,0,127}));
   annotation (Documentation(revisions="<html>
