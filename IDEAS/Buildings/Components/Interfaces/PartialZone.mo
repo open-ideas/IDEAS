@@ -60,6 +60,7 @@ model PartialZone "Building zone model"
   parameter Boolean useOccNumInput = occNum.useInput
     "=false, to remove icon of nOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
+  parameter Modelica.SIunits.Length hRel=0 "Zone height relative to ground floor";
 protected
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
@@ -95,6 +96,7 @@ public
       redeclare package Medium = Medium,
       V=V,
       n50=n50,
+      hRel=hRel,
       nSurf=nSurf,
       n50toAch=n50toAch)
       "Interzonal air flow model"
@@ -172,7 +174,7 @@ protected
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowV(Q_flow=V,alpha=0) if sim.computeInterzonalAirFlow
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowV(Q_flow=V*1,alpha=0) if sim.computeInterzonalAirFlow
     "Component for computing total zone volumes";
 
 initial equation

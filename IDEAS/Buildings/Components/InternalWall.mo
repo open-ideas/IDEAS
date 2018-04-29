@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+  use_defaultItzBou=not sim.computeInterzonalAirFlow,
   dT_nominal_a=1,
   E(y= if sim.computeConservationOfEnergy then layMul.E else 0),
   Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
@@ -76,6 +77,16 @@ protected
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-110,50})));
+  SolarwindBES.Fluid.FixedResistances.PressureDrop dpInterzonal(
+    redeclare package Medium = Medium,
+    dp_nominal=1,
+    deltaM=0.01,
+    linearized=true,
+    m_flow_nominal=A*sim.k_facade*10,
+    from_dp=true) if sim.computeInterzonalAirFlow                    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={0,40})));
 equation
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
       points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
@@ -114,6 +125,10 @@ equation
           {-110,30},{-110,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(bouInf_b.ports[1], propsBus_b.inf) annotation (Line(points={{-90,40},{
           -90,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(dpInterzonal.port_a, propsBus_a.itz) annotation (Line(points={{10,40},
+          {100.1,40},{100.1,19.9}}, color={0,127,255}));
+  connect(dpInterzonal.port_b, propsBus_b.itz) annotation (Line(points={{-10,40},
+          {-100.1,40},{-100.1,20.1}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

@@ -6,7 +6,8 @@ model Window "Multipane window"
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
-    prescribedHeatFlowA(Q_flow=A),
+    use_defaultInfBou=not sim.computeInterzonalAirFlow,
+    prescribedHeatFlowA(Q_flow=A*1),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),
@@ -157,6 +158,9 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-56,-50},{-50,-44}})));
+  BaseClasses.LeakageModel                            leakageModel(
+    redeclare package Medium = Medium,
+    AFac=A) if sim.computeInterzonalAirFlow annotation (Placement(transformation(extent={{40,80},{60,100}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -284,6 +288,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
+  connect(leakageModel.port_lea, propsBus_a.inf) annotation (Line(points={{60,90},
+          {100.1,90},{100.1,19.9}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

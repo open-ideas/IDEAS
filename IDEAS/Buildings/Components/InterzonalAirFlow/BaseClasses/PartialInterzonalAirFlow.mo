@@ -11,6 +11,8 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   parameter Real n50toAch = 20
     "Conversion fractor from n50 to Air Change Rate"
     annotation(Dialog(tab="Advanced"));
+  parameter Modelica.SIunits.Length hRel
+    "Zone height relative to ground floor";
   constant Boolean defaultBoundary = true
     "= false, to remove default pressure boundaries for infiltration and interzonal air exchange";
   Modelica.Fluid.Interfaces.FluidPort_b port_b_interior(
