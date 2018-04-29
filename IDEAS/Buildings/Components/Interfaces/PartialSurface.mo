@@ -30,8 +30,11 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Boolean use_defaultItzInfBou = true
-    "= false, to disable the use of the default infiltration and pressure boundary"
+  parameter Boolean use_defaultItzBou = true
+    "= false, to disable the use of the default interzonal air exchange pressure boundary"
+    annotation(Dialog(tab="Advanced", group="Interzonal air exchange"));
+  parameter Boolean use_defaultInfBou = true
+    "= false, to disable the use of the default infiltration pressure boundary"
     annotation(Dialog(tab="Advanced", group="Interzonal air exchange"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
@@ -77,10 +80,11 @@ protected
     "Heat gains across model boundary";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
-
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowA(Q_flow=0,alpha=0) if sim.computeInterzonalAirFlow
+     "Component for adding facade surface area";
   IDEAS.Fluid.Sources.MassFlowSource_T bouItz_a(
     nPorts=1,
-    redeclare package Medium = Medium) if use_defaultItzInfBou
+    redeclare package Medium = Medium) if use_defaultItzBou
     "Default boundary for interzonal air flow rate" annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -89,13 +93,14 @@ protected
 
   IDEAS.Fluid.Sources.MassFlowSource_T bouInf_a(
     nPorts=1,
-    redeclare package Medium = Medium) if use_defaultItzInfBou
+    redeclare package Medium = Medium) if use_defaultInfBou
     "Default boundary for air infiltration" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={110,50})));
 equation
+  connect(prescribedHeatFlowA.port,sim.portFacSur);
   connect(prescribedHeatFlowE.port, propsBus_a.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, propsBus_a.Qgai);

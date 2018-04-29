@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+     prescribedHeatFlowA(Q_flow=A),
      dT_nominal_a=-3,
      QTra_design(fixed=false));
 

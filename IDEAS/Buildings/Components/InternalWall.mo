@@ -61,7 +61,7 @@ protected
   IDEAS.Fluid.Sources.MassFlowSource_T bouInf_b(
     nPorts=1,
     redeclare package Medium = Medium) if
-       use_defaultItzInfBou
+       use_defaultInfBou
     "Default boundary for air infiltration" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -70,7 +70,7 @@ protected
   IDEAS.Fluid.Sources.MassFlowSource_T bouItz_b(
     nPorts=1,
     redeclare package Medium = Medium) if
-       use_defaultItzInfBou
+       use_defaultItzBou
     "Default boundary for interzonal air flow rate" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},

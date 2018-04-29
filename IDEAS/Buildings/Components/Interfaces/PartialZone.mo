@@ -172,12 +172,14 @@ protected
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowV(Q_flow=V,alpha=0) if sim.computeInterzonalAirFlow
+    "Component for computing total zone volumes";
 
 initial equation
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 
 equation
+  connect(prescribedHeatFlowV.port,sim.portVol);
   for i in 1:nSurf loop
     connect(sim.weaBus, propsBusInt[i].weaBus) annotation (Line(
         points={{-84,92.8},{-84,92},{-80,92},{-80,66},{-80.1,66},{-80.1,39.9}},
