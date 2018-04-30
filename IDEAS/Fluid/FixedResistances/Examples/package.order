@@ -3,5 +3,6 @@ HydraulicCircuit
 HydraulicDiameter
 OpenHydraulicSystem
 Pipe_HeatPortExample
+PlugFlowPipe
 PressureDrop
 PumpWithPipeHeatPorts

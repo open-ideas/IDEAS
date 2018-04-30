@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Fluid.Sources.Examples.PropertySource_T", tolerance=1e-6, stopTime=1, method="dassl", resultFile="PropertySource_T");
+
+createPlot(id=1, position={0, 0, 1250, 724}, y={"senSpeEnt.h_out", "senSpeEnt1.h_out", "senSpeEnt2.h_out"}, range={0.0, 1.0, 0.0, 300000.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1250, 360}, y={"senRelHum.phi", "senRelHum1.phi", "senRelHum2.phi"}, range={0.0, 1.0, 0.0, 7.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}});
