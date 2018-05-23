@@ -271,7 +271,6 @@ equation
         preserveAspectRatio=false,
         initialScale=0.1)),
     experiment(
-      StopTime=500000,
       __Dymola_NumberOfIntervals=5000,
       __Dymola_fixedstepsize=15,
       __Dymola_Algorithm="Euler"),
