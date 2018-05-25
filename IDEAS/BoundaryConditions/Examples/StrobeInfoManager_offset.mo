@@ -3,7 +3,7 @@ model StrobeInfoManager_offset
   "Unit test for SimInfoManager with time offset on read data"
   import IDEAS;
   extends Modelica.Icons.Example;
-  inner IDEAS.BoundaryConditions.Occupants.Extern.StrobeInfoManager strobe(
+  inner IDEAS.BoundaryConditions.Occupants.StROBe.StrobeInfoManager strobe(
     nOcc=10,
     FilNam_P="P.txt",
     FilNam_Q="Q.txt",

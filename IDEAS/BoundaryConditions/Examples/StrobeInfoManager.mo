@@ -2,7 +2,7 @@ within IDEAS.BoundaryConditions.Examples;
 model StrobeInfoManager "Unit test for SimInfoManager"
   import IDEAS;
   extends Modelica.Icons.Example;
-  inner IDEAS.BoundaryConditions.Occupants.Extern.StrobeInfoManager strobe(
+  inner IDEAS.BoundaryConditions.Occupants.StROBe.StrobeInfoManager strobe(
     nOcc=10,
     FilNam_P="P.txt",
     FilNam_Q="Q.txt",
