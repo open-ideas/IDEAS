@@ -1,7 +1,7 @@
 within IDEAS.Examples.PPD12;
 model Structure "Ppd 12 example model"
   extends Modelica.Icons.Example;
-  inner IDEAS.BoundaryConditions.SimInfoManager sim
+  inner SimInfoManagerPpd12                     sim
     annotation (Placement(transformation(extent={{400,38},{380,58}})));
   parameter Real n50=8
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";

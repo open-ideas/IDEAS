@@ -1,15 +1,15 @@
 within IDEAS.Examples.PPD12;
 model SimInfoManagerPpd12 "SimInfoManager for PPD12"
   extends BoundaryConditions.Interfaces.PartialSimInfoManager(
-    filNam="/home/parallels/Documents/Documents/Huis/Metingen/data.csv",
+    filNam="/home/parallels/Documents/Documents/Huis/Metingen/data2.csv",
     final filDir="",
     final useTmy3Reader = false);
 
 Modelica.Blocks.Sources.CombiTimeTable comTimTab(
     tableOnFile=true,
     tableName="data",
-    columns=2:32,
-    fileName=filNam)
+    fileName=filNam,
+    columns=2:35)
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
   Real okta;
   Real solGloCle =  max(0,910*Modelica.Math.cos(radSol[1].incAng.incAng)-30)
@@ -23,7 +23,7 @@ equation
   solGloHor = solGloCle*(1-0.75*(okta/8)^3.4);
   irr = 0;
 
-  Te = comTimTab.y[15]+273.15;
+  Te = comTimTab.y[1];
   TeAv = Te;
   Tground=TdesGround;
   summer = timMan.summer;
