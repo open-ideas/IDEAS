@@ -2,42 +2,77 @@ within IDEAS.Examples.PPD12;
 model SimInfoManagerPpd12 "SimInfoManager for PPD12"
   extends BoundaryConditions.Interfaces.PartialSimInfoManager(
     filNam="/home/parallels/Documents/Documents/Huis/Metingen/data2.csv",
-    final filDir="",
-    final useTmy3Reader = false);
+    weaDat(
+      totSkyCovSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      computeWetBulbTemperature=false,
+      TDryBulSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      relHumSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      winSpeSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      calTSky=IDEAS.BoundaryConditions.Types.SkyTemperatureCalculation.TemperaturesAndSkyCover,
+      winDirSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      HSou=IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor,
+      TDewPoiSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      ceiHeiSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
+      opaSkyCovSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
+      HInfHorSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
+      pAtmSou=IDEAS.BoundaryConditions.Types.DataSource.Input));
 
 Modelica.Blocks.Sources.CombiTimeTable comTimTab(
     tableOnFile=true,
-    tableName="data",
+    tableName="tab1",
     fileName=filNam,
     columns=2:35)
-    annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
-  Real okta;
-  Real solGloCle =  max(0,910*Modelica.Math.cos(radSol[1].incAng.incAng)-30)
-    "Unshaded solar irradiation";
+    annotation (Placement(transformation(extent={{-140,-40},{-120,-20}})));
+
+  Modelica.Blocks.Sources.RealExpression relHumExp(y=relHum)
+    annotation (Placement(transformation(extent={{-140,-58},{-120,-38}})));
+  Modelica.Blocks.Math.Gain deg2rad(k=Modelica.Constants.pi/180)
+    annotation (Placement(transformation(extent={{-118,-60},{-110,-52}})));
+  Utilities.Psychrometrics.pW_X       humRat(
+                         use_p_in=false)
+    annotation (Placement(transformation(extent={{-120,-90},{-100,-70}})));
+  Utilities.Psychrometrics.TDewPoi_pW       TDewPoi1
+    annotation (Placement(transformation(extent={{-80,-90},{-60,-70}})));
+  Modelica.Blocks.Routing.RealPassThrough TBlaSkyData;
+  Modelica.Blocks.Math.Gain hPa(k=100) "Hectopascal to pascal"
+    annotation (Placement(transformation(extent={{-116,-24},{-108,-16}})));
 equation
   // Kasten and Czeplak from https://www.tandfonline.com/doi/abs/10.1080/14786450701549824
-  okta = comTimTab.y[6];
-  solDirPer= solDirHor/Modelica.Math.cos(radSol[1].incAng.incAng);
-  solDirHor = solGloHor-solDirHor;
-  solDifHor = solGloHor*(0.3+0.7*(okta/8)^2);
-  solGloHor = solGloCle*(1-0.75*(okta/8)^3.4);
-  irr = 0;
-
   Te = comTimTab.y[1];
   TeAv = Te;
   Tground=TdesGround;
-  summer = timMan.summer;
   relHum = comTimTab.y[2]/100;
   TDewPoi = -1e5;
-  timLoc = timMan.timLoc;
-  timSol = timMan.timSol;
-  timCal = timMan.timCal;
-
-  Tsky = Te - (23.8 - 0.2025*(Te - 273.15)*(1 - 0.87*Fc));
-  Fc = 0.2;
+  Tsky = TBlaSkyData.y;
   Va = comTimTab.y[4];
 
-
+  connect(TBlaSkyData.u, weaBus1.TBlaSky);
+  connect(comTimTab.y[1], weaDat.TDryBul_in) annotation (Line(points={{-119,-30},
+          {-110,-30},{-110,-41},{-101,-41}}, color={0,0,127}));
+  connect(relHumExp.y, weaDat.relHum_in) annotation (Line(points={{-119,-48},{-101,
+          -48},{-101,-45}}, color={0,0,127}));
+  connect(comTimTab.y[4], weaDat.winSpe_in) annotation (Line(points={{-119,-30},
+          {-110,-30},{-110,-53.9},{-101,-53.9}}, color={0,0,127}));
+  connect(deg2rad.y, weaDat.winDir_in)
+    annotation (Line(points={{-109.6,-56},{-101,-56}}, color={0,0,127}));
+  connect(deg2rad.u, comTimTab.y[5]) annotation (Line(points={{-118.8,-56},{-119,
+          -56},{-119,-30}}, color={0,0,127}));
+  connect(weaDat.totSkyCov_in, comTimTab.y[6]) annotation (Line(points={{-101,-51.9},
+          {-119,-51.9},{-119,-30}}, color={0,0,127}));
+  connect(comTimTab.y[7], weaDat.HGloHor_in) annotation (Line(points={{-119,-30},
+          {-120,-30},{-120,-63},{-101,-63}}, color={0,0,127}));
+  connect(weaDat.HDirNor_in, comTimTab.y[8]) annotation (Line(points={{-101,-61},
+          {-119,-61},{-119,-30}}, color={0,0,127}));
+  connect(humRat.p_w, TDewPoi1.p_w)
+    annotation (Line(points={{-99,-80},{-81,-80}}, color={0,0,127}));
+  connect(XiEnv.X[1], humRat.X_w) annotation (Line(points={{1,30},{2,30},{2,-68},
+          {-121,-68},{-121,-80}}, color={0,0,127}));
+  connect(TDewPoi1.T, weaDat.TDewPoi_in) annotation (Line(points={{-59,-80},{-50,
+          -80},{-50,-24},{-101,-24},{-101,-38.8}}, color={0,0,127}));
+  connect(hPa.u, comTimTab.y[3]) annotation (Line(points={{-116.8,-20},{-118,
+          -20},{-118,-30},{-119,-30}}, color={0,0,127}));
+  connect(hPa.y, weaDat.pAtm_in) annotation (Line(points={{-107.6,-20},{-104,
+          -20},{-104,-36.3},{-101,-36.3}}, color={0,0,127}));
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
