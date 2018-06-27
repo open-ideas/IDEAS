@@ -103,6 +103,8 @@ protected
     "Model for air flow through open door or cavity"
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
 equation
+  assert(cardinality(propsBus_b) == 1,  "In " + getInstanceName() +
+    ": The connector 'propsBus_b' must be connected to exactly one zone.");
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(inc));
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
@@ -201,6 +203,11 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 27, 2018, by Filip Jorissen:<br/>
+Added cardinality check for <code>propsBus_b</code>.
+See issue <a href=\"https://github.com/open-ideas/IDEAS/issues/855\">#855</a>.
+</li>
 <li>
 May 21, 2018, by Filip Jorissen:<br/>
 Added model for air flow through cavity.

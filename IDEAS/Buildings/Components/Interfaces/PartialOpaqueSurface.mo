@@ -32,6 +32,7 @@ initial equation
     constructionType.incLastLay <= inc + Modelica.Constants.pi/3 + Modelica.Constants.eps,
     "The inclination of a wall, a floor or a ceiling does not correspond to its record.");
 
+
 equation
   connect(iSolDif.port, propsBus_a.iSolDif);
   connect(iSolDir.port, propsBus_a.iSolDir);
@@ -50,7 +51,7 @@ equation
 <li>
 March 21, 2017, by Filip Jorissen:<br/>
 Changed conservation of energy implementation for JModelica compatibility.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
+See issue <a href=\"https://github.com/open-ideas/IDEAS/issues/559\">#559</a>.
 </li>
 <li>
 January 10, 2017, by Filip Jorissen:<br/>
@@ -59,7 +60,7 @@ Removed
 <a href=modelica://IDEAS.Buildings.Components.Interfaces.PartialSurface>
 IDEAS.Buildings.Components.Interfaces.PartialSurface</a>.
 This is for 
-<a href=https://github.com/open-ideas/IDEAS/issues/609>#609</a>.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/609\">#609</a>.
 </li>
 <li>
 November 15, 2016, by Filip Jorissen:<br/>
