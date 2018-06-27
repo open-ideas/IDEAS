@@ -76,6 +76,8 @@ protected
     "Component for computing conservation of energy";
 
 equation
+  assert(cardinality(propsBus_a) ==1,  "In " + getInstanceName() +
+    ": The connector 'propsBus_a' must be connected to exactly one zone.");
   connect(prescribedHeatFlowE.port, propsBus_a.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, propsBus_a.Qgai);
@@ -124,13 +126,18 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+June 27, 2018, by Filip Jorissen:<br/>
+Added cardinality check for <code>propsBus_a</code>.
+See issue <a href=\"https://github.com/open-ideas/IDEAS/issues/855\">#855</a>.
+</li>
+<li>
 January 26, 2018, by Filip Jorissen:<br/>
 Extended documentation.
 </li>
 <li>
 March 21, 2017, by Filip Jorissen:<br/>
 Changed bus declarations for JModelica compatibility.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
+See issue <a href=\"https://github.com/open-ideas/IDEAS/issues/559\">#559</a>.
 </li>
 <li>
 January 10, 2017, by Filip Jorissen:<br/>
