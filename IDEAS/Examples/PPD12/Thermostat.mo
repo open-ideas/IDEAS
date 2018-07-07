@@ -9,7 +9,8 @@ model Thermostat
     annotation (Placement(transformation(extent={{-126,-20},{-86,20}})));
   Modelica.Blocks.Interfaces.BooleanOutput y
     annotation (Placement(transformation(extent={{96,-10},{116,10}})));
-  IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2016)
+  IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.UnixTimeStamp,
+      offset=7200)
     "Calendar time block"
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
   Modelica.Blocks.Logical.Hysteresis hysteresis(uLow=-0.5, uHigh=0.5)

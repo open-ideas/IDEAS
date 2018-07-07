@@ -1,9 +1,10 @@
 within IDEAS.Examples.PPD12;
 model Structure "Ppd 12 example model"
   extends Modelica.Icons.Example;
-  inner SimInfoManagerPpd12                     sim
+  inner SimInfoManagerPpd12                     sim(ang=
+        Modelica.SIunits.Conversions.from_deg(angDelta))
     annotation (Placement(transformation(extent={{400,38},{380,58}})));
-  parameter Real n50=8
+  parameter Real n50=1.1
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
   package MediumAir = IDEAS.Media.Air;
   package MediumWater = IDEAS.Media.Water;
@@ -29,7 +30,7 @@ model Structure "Ppd 12 example model"
   parameter Modelica.SIunits.Length lHalfBuilding = 3.75;
   parameter Modelica.SIunits.Length lBuilding = 8;
 
-  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=26;
+  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=23.6;
   parameter Modelica.SIunits.Angle north = IDEAS.Types.Azimuth.N + Modelica.SIunits.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
   parameter Modelica.SIunits.Angle south = IDEAS.Types.Azimuth.S + Modelica.SIunits.Conversions.from_deg(angDelta)
@@ -454,7 +455,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(sim.weaBus, weaBus1) annotation (Line(
-      points={{384,50.8},{380,50.8},{380,80}},
+      points={{380,52},{380,52},{380,80}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",

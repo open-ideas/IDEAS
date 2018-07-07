@@ -2,6 +2,8 @@ within IDEAS.Examples.PPD12;
 model SimInfoManagerPpd12 "SimInfoManager for PPD12"
   extends BoundaryConditions.Interfaces.PartialSimInfoManager(
     filNam="/home/parallels/Documents/Documents/Huis/Metingen/data2.csv",
+    incAndAziInBus={{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S+ang},
+                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W+ang},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N+ang},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E+ang}, {IDEAS.Types.Tilt.Floor,0}},
     weaDat(
       totSkyCovSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
       computeWetBulbTemperature=false,
@@ -10,18 +12,20 @@ model SimInfoManagerPpd12 "SimInfoManager for PPD12"
       winSpeSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
       calTSky=IDEAS.BoundaryConditions.Types.SkyTemperatureCalculation.TemperaturesAndSkyCover,
       winDirSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
-      HSou=IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor,
       TDewPoiSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
       ceiHeiSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
       opaSkyCovSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
       HInfHorSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
-      pAtmSou=IDEAS.BoundaryConditions.Types.DataSource.Input));
+      pAtmSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
+      HSou=IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HDifHor));
+  parameter Modelica.SIunits.Angle ang = 0 "Rotation angle of surfaces with respect to compass, clockwise";
 
 Modelica.Blocks.Sources.CombiTimeTable comTimTab(
     tableOnFile=true,
     tableName="tab1",
     fileName=filNam,
-    columns=2:35)
+    columns=2:35,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{-140,-40},{-120,-20}})));
 
   Modelica.Blocks.Sources.RealExpression relHumExp(y=relHum)
@@ -73,6 +77,8 @@ equation
           -20},{-118,-30},{-119,-30}}, color={0,0,127}));
   connect(hPa.y, weaDat.pAtm_in) annotation (Line(points={{-107.6,-20},{-104,
           -20},{-104,-36.3},{-101,-36.3}}, color={0,0,127}));
+  connect(weaDat.HDifHor_in, comTimTab.y[9]) annotation (Line(points={{-101,-57.6},
+          {-119,-57.6},{-119,-30}}, color={0,0,127}));
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
