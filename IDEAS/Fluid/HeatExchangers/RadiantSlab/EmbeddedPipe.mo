@@ -170,13 +170,13 @@ protected
     "Lowest value for R_w that is expected for the set mass flow rate";
   final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
     "Mass of medium";
-  Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/(A_floor/nDiscr)
+  Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/RadSlaCha.T/L_r/nParCir
     "mass flow rate per unit floor area";
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
 initial equation
    assert(m_flowMin/(A_floor/nDiscr)*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val) >= 0.5,
-     "In "+ getInstanceName() +": Model is not valid for the set nominal and minimal mass flow rate, discretisation in " +
+     "In "+ getInstanceName() +": Model is not accurate for the set nominal and minimal mass flow rate, discretisation in at least" +
      String(ceil(0.5/(m_flowMin/A_floor*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val)))) +
      " parts is required", level = AssertionLevel.warning);
   if RadSlaCha.tabs then
@@ -193,9 +193,10 @@ initial equation
 equation
   // this need not be smooth since when active, G_max is already active
   m_flowSpLimit = max(m_flowSp, 1e-8);
-  // Koschenz eq 4-59
-  R_t = 1/(m_flowSpLimit*cp_default*(1-exp(-1/((R_w_val+R_r_val+R_x_val+R_c)*m_flowSpLimit*cp_default))))-R_c;
-  G_t = abs(A_floor/nDiscr/R_t);
+  // Koschenz eq 4-70
+  //R_t = 1/(m_flowSpLimit*cp_default*(1-exp(-1/((R_w_val+R_r_val+R_x_val+R_c)*m_flowSpLimit*cp_default))))-R_c;
+  R_t = 1/(2*m_flowSpLimit*cp_default*nDiscr) + R_w_val+R_r_val+R_x_val+R_c;
+  G_t = abs(A_floor/R_t);
   // maximum thermal conductance based on second law
   G_max = abs(m_flow)*cp_default;
   // no smoothmin since this undershoots for near-zero values
