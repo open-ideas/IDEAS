@@ -29,10 +29,10 @@ model EmbeddedPipeNDiscrExample
     annotation (Placement(transformation(extent={{80,42},{60,62}})));
   Modelica.Blocks.Sources.Trapezoid trapezoid(
     rising=1000,
-    width=1000,
     falling=1000,
-    period=5000,
-    amplitude=embeddedPipe.m_flow_nominal)
+    amplitude=embeddedPipe.m_flow_nominal,
+    width=1000,
+    period=5000)
     annotation (Placement(transformation(extent={{-100,42},{-80,62}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=1,
@@ -70,13 +70,6 @@ model EmbeddedPipeNDiscrExample
   Sources.Boundary_pT             bou1(nPorts=1, redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{80,-40},{60,-20}})));
-  Modelica.Blocks.Sources.Trapezoid trapezoid1(
-    rising=1000,
-    width=1000,
-    falling=1000,
-    period=5000,
-    amplitude=embeddedPipe.m_flow_nominal)
-    annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
   Sensors.TemperatureTwoPort             senTem1(
     redeclare package Medium = Medium,
     m_flow_nominal=1,
@@ -114,13 +107,6 @@ model EmbeddedPipeNDiscrExample
   Sources.Boundary_pT             bou2(nPorts=1, redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{80,-122},{60,-102}})));
-  Modelica.Blocks.Sources.Trapezoid trapezoid2(
-    rising=1000,
-    width=1000,
-    falling=1000,
-    period=5000,
-    amplitude=embeddedPipe.m_flow_nominal)
-    annotation (Placement(transformation(extent={{-100,-122},{-80,-102}})));
   Sensors.TemperatureTwoPort             senTem2(
     redeclare package Medium = Medium,
     m_flow_nominal=1,
@@ -144,10 +130,6 @@ equation
       points={{-40,52},{-10,52}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(trapezoid.y, boundary.m_flow_in) annotation (Line(
-      points={{-79,52},{-70,52},{-70,60},{-62,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(embeddedPipe.port_b, senTem.port_a) annotation (Line(
       points={{10,52},{26,52}},
       color={0,127,255},
@@ -169,10 +151,6 @@ equation
   connect(boundary1.ports[1], embeddedPipe1.port_a) annotation (Line(
       points={{-40,-30},{-10,-30}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(trapezoid1.y, boundary1.m_flow_in) annotation (Line(
-      points={{-79,-30},{-70,-30},{-70,-22},{-62,-22}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(embeddedPipe1.port_b, senTem1.port_a) annotation (Line(
       points={{10,-30},{26,-30}},
@@ -197,10 +175,6 @@ equation
   connect(boundary2.ports[1],embeddedPipe2. port_a) annotation (Line(
       points={{-40,-112},{-10,-112}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(trapezoid2.y,boundary2. m_flow_in) annotation (Line(
-      points={{-79,-112},{-70,-112},{-70,-104},{-62,-104}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(embeddedPipe2.port_b,senTem2. port_a) annotation (Line(
       points={{10,-112},{26,-112}},
@@ -233,9 +207,15 @@ equation
 
   end for;
 
+  connect(boundary1.m_flow_in, trapezoid.y) annotation (Line(points={{-62,-22},
+          {-68,-22},{-68,52},{-79,52}}, color={0,0,127}));
+  connect(trapezoid.y, boundary.m_flow_in) annotation (Line(points={{-79,52},{
+          -68,52},{-68,60},{-62,60}}, color={0,0,127}));
+  connect(boundary2.m_flow_in, trapezoid.y) annotation (Line(points={{-62,-104},
+          {-68,-104},{-68,52},{-79,52}}, color={0,0,127}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{100,100}})),
-    experiment(StopTime=10000),
+    experiment(StopTime=100000),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
           "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeExample.mos"
