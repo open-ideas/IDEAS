@@ -44,9 +44,6 @@ annotation(Dialog(tab="Flow resistance"));
   parameter Modelica.SIunits.Length pipeEqLen = pipeBendEqLen + (L_floor-2*RadSlaCha.T)*N_pipes
     "Total pipe equivalent length, default assuming 180 dg turns starting at RadSlaCha.T from the end of the slab"
 annotation(Dialog(tab="Flow resistance"));
-  parameter Modelica.SIunits.MassFlowRate m_flowMin = m_flow_nominal*0.5
-    "Minimal flowrate when in operation - used for validity check"
-    annotation(Dialog(group="Nominal condition"));
 
   final parameter Modelica.SIunits.ThermalInsulance R_r_val=RadSlaCha.T*log(RadSlaCha.d_a
       /pipeDiaInt)/(2*Modelica.Constants.pi*RadSlaCha.lambda_r)
@@ -160,12 +157,6 @@ protected
     annotation(Evaluate=true);
   final parameter Real deltaXR = m_flow_nominal/A_floor*cp_default/1000
     "Transition threshold for regularization function";
-  final parameter Modelica.SIunits.ThermalInsulance R_w_val_min=
-    IDEAS.Utilities.Math.Functions.spliceFunction(x=m_flowMin/nParCir/A_pipe*pipeDiaInt/mu_default-(reyHi+reyLo)/2,
-      pos=RadSlaCha.T^0.13/8/Modelica.Constants.pi*abs((pipeDiaInt/(m_flow_nominal/A_floor*L_r)))^0.87,
-      neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
-      deltax=(reyHi-reyLo)/2)
-    "Lowest value for R_w that is expected for the set mass flow rate";
   final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
     "Mass of medium";
   Real m_flowSp(unit="kg/(m2.s)")=abs(port_a.m_flow)/RadSlaCha.T/L_r/nParCir
@@ -363,6 +354,7 @@ July 14, 2018, by Filip Jorissen:<br/>
 Revised the implementation: 
 1) removed assert for <code>nDiscr</code> since the heat 
 flow rate is actively limited for small mass flow rates
+and hence removed <code>m_flowMin</code>
 2) now supporting flow reversal,
 3) using dynamic implementation of Koschenz instead of 
 the static implementation.

@@ -14,7 +14,6 @@ model EmbeddedPipeVerification
       RadSlaCha,
     m_flow_nominal=1,
     computeFlowResistance=true,
-    m_flowMin=0.2,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     A_floor=2,
     R_c=embeddedPipe.A_floor*(theRes1[1].R/embeddedPipe.nDiscr),
@@ -68,8 +67,9 @@ equation
   end for;
   connect(embeddedPipe.heatPortEmb, theRes1.port_a)
     annotation (Line(points={{0,10},{0,34}}, color={191,0,0}));
-  connect(realExpression.y, sou.m_flow_in) annotation (Line(points={{-73,6},{-66,
-          6},{-66,8},{-60,8}}, color={0,0,127}));
+  connect(realExpression.y, sou.m_flow_in) annotation (Line(points={{-73,6},{
+          -66,6},{-66,8},{-62,8}},
+                               color={0,0,127}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
     experiment,

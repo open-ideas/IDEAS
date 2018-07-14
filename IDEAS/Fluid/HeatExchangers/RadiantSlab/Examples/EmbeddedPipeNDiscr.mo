@@ -15,8 +15,7 @@ model EmbeddedPipeNDiscr
     nDiscr=1,
     m_flow_nominal=ceiling.A*0.003,
     A_floor=ceiling.A,
-    nParCir=1,
-    m_flowMin=ceiling.A*0.003*0.3)
+    nParCir=1)
     annotation (Placement(transformation(extent={{-10,42},{10,62}})));
   IDEAS.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
@@ -58,7 +57,6 @@ model EmbeddedPipeNDiscr
     m_flow_nominal=embeddedPipe.m_flow_nominal,
     A_floor=embeddedPipe.A_floor,
     nParCir=embeddedPipe.nParCir,
-    m_flowMin=embeddedPipe.m_flowMin,
     nDiscr=2)
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   Sources.MassFlowSource_T             boundary1(
@@ -95,7 +93,6 @@ model EmbeddedPipeNDiscr
     m_flow_nominal=embeddedPipe.m_flow_nominal,
     A_floor=embeddedPipe.A_floor,
     nParCir=embeddedPipe.nParCir,
-    m_flowMin=embeddedPipe.m_flowMin,
     nDiscr=embeddedPipe1.nDiscr)
     annotation (Placement(transformation(extent={{-10,-122},{10,-102}})));
   Sources.MassFlowSource_T             boundary2(
@@ -229,8 +226,7 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_experimentSetupOutput,
-    __Dymola_Commands(file=
-          "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeNDiscr.mos"
+    __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeNDiscr.mos"
         "Simulate and plot"),
     Icon(coordinateSystem(extent={{-100,-140},{100,120}})));
 end EmbeddedPipeNDiscr;
