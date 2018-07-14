@@ -1,5 +1,5 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples;
-model EmbeddedPipeNDiscrExample
+model EmbeddedPipeNDiscr
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water;
 
@@ -28,11 +28,11 @@ model EmbeddedPipeNDiscrExample
   IDEAS.Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{80,42},{60,62}})));
   Modelica.Blocks.Sources.Trapezoid trapezoid(
-    rising=1000,
-    falling=1000,
     amplitude=embeddedPipe.m_flow_nominal,
-    width=1000,
-    period=5000)
+    width=5000,
+    period=25000,
+    rising=2000,
+    falling=2000)
     annotation (Placement(transformation(extent={{-100,42},{-80,62}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=1,
@@ -99,10 +99,10 @@ model EmbeddedPipeNDiscrExample
     nDiscr=embeddedPipe1.nDiscr)
     annotation (Placement(transformation(extent={{-10,-122},{10,-102}})));
   Sources.MassFlowSource_T             boundary2(
-    nPorts=1,
     redeclare package Medium = Medium,
     use_m_flow_in=true,
-    T=273.15 + 30)
+    T=273.15 + 30,
+    nPorts=1)
     annotation (Placement(transformation(extent={{-60,-122},{-40,-102}})));
   Sources.Boundary_pT             bou2(nPorts=1, redeclare package Medium =
         Medium)
@@ -121,7 +121,8 @@ model EmbeddedPipeNDiscrExample
     redeclare each Buildings.Data.Constructions.TABS constructionType,
     each inc=IDEAS.Types.Tilt.Floor,
     each azi=IDEAS.Types.Azimuth.S,
-    each A=zone.w*zone.l/3) annotation (Placement(transformation(
+    each A=zone.w*zone.l/embeddedPipe1.nDiscr)
+                            annotation (Placement(transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={30,-72})));
@@ -172,14 +173,6 @@ equation
     connect(embeddedPipe1.heatPortEmb[i], ceiling1.port_emb[1]) annotation (Line(points={{0,-20},
             {0,-12},{40,-12},{40,10}},        color={191,0,0}));
   end for;
-  connect(boundary2.ports[1],embeddedPipe2. port_a) annotation (Line(
-      points={{-40,-112},{-10,-112}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(embeddedPipe2.port_b,senTem2. port_a) annotation (Line(
-      points={{10,-112},{26,-112}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(senTem2.port_b,bou2. ports[1]) annotation (Line(
       points={{46,-112},{60,-112}},
       color={0,127,255},
@@ -213,12 +206,31 @@ equation
           -68,52},{-68,60},{-62,60}}, color={0,0,127}));
   connect(boundary2.m_flow_in, trapezoid.y) annotation (Line(points={{-62,-104},
           {-68,-104},{-68,52},{-79,52}}, color={0,0,127}));
+  connect(embeddedPipe2.port_a, boundary2.ports[1])
+    annotation (Line(points={{-10,-112},{-40,-112}}, color={0,127,255}));
+  connect(embeddedPipe2.port_b, senTem2.port_a)
+    annotation (Line(points={{10,-112},{26,-112}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -140},{100,100}})),
-    experiment(StopTime=100000),
+            -140},{100,120}}), graphics={
+        Text(
+          extent={{88,56},{130,46}},
+          lineColor={28,108,200},
+          textString="1 CCA, 1 pipe"),
+        Text(
+          extent={{88,-24},{130,-34}},
+          lineColor={28,108,200},
+          textString="1 CCA, n pipes"),
+        Text(
+          extent={{90,-106},{132,-116}},
+          lineColor={28,108,200},
+          textString="n CCA, n pipes")}),
+    experiment(
+      StopTime=100000,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Lsodar"),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
-          "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeExample.mos"
+          "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeNDiscr.mos"
         "Simulate and plot"),
-    Icon(coordinateSystem(extent={{-100,-140},{100,100}})));
-end EmbeddedPipeNDiscrExample;
+    Icon(coordinateSystem(extent={{-100,-140},{100,120}})));
+end EmbeddedPipeNDiscr;

@@ -71,7 +71,7 @@ annotation(Dialog(tab="Flow resistance"));
     "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
     annotation(Dialog(group="Thermal"));
 
-  Modelica.SIunits.Temperature[nDiscr] Tin = cat(1, {senTemIn.T}, vol[1:nDiscr-1].heatPort.T);
+  Modelica.SIunits.Temperature[nDiscr] Tin;
   Modelica.SIunits.Power[nDiscr] Q "Thermal power going into tabs";
   //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
   // for laminar flow Nu_D = 4 is assumed: correlation for heat transfer constant heat flow and constant wall temperature
@@ -108,9 +108,9 @@ annotation(Dialog(tab="Flow resistance"));
     each final prescribedHeatFlowRate=true,
     each energyDynamics=energyDynamics,
     each massDynamics=massDynamics)
-    annotation (Placement(transformation(extent={{-50,0},{-70,20}})));
+    annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
 
-  FixedResistances.ParallelPressureDrop          res(
+  IDEAS.Fluid.FixedResistances.ParallelPressureDrop res(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     final dp_nominal=dp_nominal,
@@ -124,8 +124,6 @@ annotation(Dialog(tab="Flow resistance"));
     final dh=pipeDiaInt,
     final ReC=reyHi)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  IDEAS.Fluid.Sensors.Temperature senTemIn(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-110,18},{-90,38}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater
     annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid
@@ -170,15 +168,27 @@ protected
     "Lowest value for R_w that is expected for the set mass flow rate";
   final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
     "Mass of medium";
-  Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/RadSlaCha.T/L_r/nParCir
+  Real m_flowSp(unit="kg/(m2.s)")=abs(port_a.m_flow)/RadSlaCha.T/L_r/nParCir
     "mass flow rate per unit floor area";
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
+
+  IDEAS.Fluid.Sensors.TemperatureTwoPort senTemInA(
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    tau=0,
+    allowFlowReversal=allowFlowReversal)
+           "Water inlet temperature at port a"
+    annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort senTemInB(
+    m_flow_nominal=m_flow_nominal,
+    tau=0,
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal)
+           "Water inlet temperature at port b"
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+
 initial equation
-   assert(m_flowMin/(A_floor/nDiscr)*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val) >= 0.5,
-     "In "+ getInstanceName() +": Model is not accurate for the set nominal and minimal mass flow rate, discretisation in at least" +
-     String(ceil(0.5/(m_flowMin/A_floor*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val)))) +
-     " parts is required", level = AssertionLevel.warning);
   if RadSlaCha.tabs then
     assert(RadSlaCha.S_1 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer above the tubes is smaller than 0.3 * the tube interdistance. 
     The model is not valid for this case");
@@ -191,43 +201,38 @@ initial equation
   end if;
 
 equation
+  if not allowFlowReversal then
+    assert(port_a.m_flow>-m_flow_small,
+      "In " + getInstanceName() + ": The flow reverses despite 
+      allowFlowReversal=false since m_flow="+String(port_a.m_flow)+"<-"+String(m_flow_small));
+    Tin = cat(1, {senTemInA.T}, vol[1:nDiscr-1].heatPort.T);
+  else
+    if port_a.m_flow>0 then
+      Tin = cat(1, {senTemInA.T}, vol[1:nDiscr-1].heatPort.T);
+    else
+      Tin = cat(1, vol[2:nDiscr].heatPort.T, {senTemInB.T});
+    end if;
+  end if;
+
   // this need not be smooth since when active, G_max is already active
   m_flowSpLimit = max(m_flowSp, 1e-8);
   // Koschenz eq 4-70
-  //R_t = 1/(m_flowSpLimit*cp_default*(1-exp(-1/((R_w_val+R_r_val+R_x_val+R_c)*m_flowSpLimit*cp_default))))-R_c;
-  R_t = 1/(2*m_flowSpLimit*cp_default*nDiscr) + R_w_val+R_r_val+R_x_val+R_c;
+  R_t = 1/(2*m_flowSpLimit*cp_default*nDiscr) + R_w_val+R_r_val+R_x_val;
   G_t = abs(A_floor/R_t);
   // maximum thermal conductance based on second law
   G_max = abs(m_flow)*cp_default;
   // no smoothmin since this undershoots for near-zero values
   Q = (Tin - heatPortEmb.T)*min(G_t, G_max);
 
-  connect(res.port_b, port_b) annotation (Line(
-         points={{40,0},{100,0}},
-       color={0,127,255},
-       smooth=Smooth.None));
-  connect(port_a, vol[1].ports[1]) annotation (Line(
-       points={{-100,0},{-58,0}},
-       color={0,127,255},
-              smooth=Smooth.None));
-  connect(res.port_a, vol[nDiscr].ports[2]) annotation (Line(
-       points={{20,0},{-62,0}},
-       color={0,127,255},
-       smooth=Smooth.None));
-
   for i in 2:nDiscr loop
     connect(vol[i-1].ports[2], vol[i].ports[1]) annotation (Line(
-      points={{-62,0},{-58,0}},
+      points={{-52,0},{-48,0}},
       color={0,127,255},
       smooth=Smooth.None));
   end for;
 
-  connect(senTemIn.port, port_a) annotation (Line(
-      points={{-100,18},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(heatFlowWater.port, vol.heatPort) annotation (Line(
-      points={{-20,40},{-20,10},{-50,10}},
+      points={{-20,40},{-20,10},{-40,10}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowWater.Q_flow, negate.y) annotation (Line(
@@ -247,6 +252,17 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
+  connect(senTemInA.port_a, port_a)
+    annotation (Line(points={{-90,0},{-100,0}}, color={0,127,255}));
+  connect(senTemInA.port_b, vol[1].ports[1]) annotation (Line(points={{-70,0},{-62,
+          0},{-62,0},{-48,0}}, color={0,127,255}));
+  connect(vol[nDiscr].ports[2], res.port_a) annotation (Line(points={{-52,0},{-16,
+          0},{-16,0},{20,0}},
+                           color={0,127,255}));
+  connect(senTemInB.port_a, res.port_b)
+    annotation (Line(points={{60,0},{40,0}}, color={0,127,255}));
+  connect(senTemInB.port_b, port_b)
+    annotation (Line(points={{80,0},{100,0}}, color={0,127,255}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -302,19 +318,10 @@ In addition the model provides the options to simulate the concrete
 core activation as if there were multiple parallel branches. 
 This affects the pressure drop calculation and also the thermal calculations.
 </p>
-<h4>Assumptions and limitations</h4>
-<p>
-The model has a limited validity range. 
-Its validity will be checked using assert statements. 
-Possibly the discretization needs to be 
-increased using parameter <code>nDiscr</code>.
-An alternative is to increase <code>m_flow_min</code>, 
-but this limits the validity range of the model.
-</p>
 <h4>Typical use and important parameters</h4>
 <p>
 The embeddedPipe model is to be used together with an InternalWall component. 
-Multiple InternalWalls may be required if the EmbeddedPipe is discretized (using <code>nDiscr</code>).
+Multiple InternalWalls are required if the EmbeddedPipe is discretized (using <code>nDiscr</code>).
 </p>
 <p>
 Following parameters need to be set:
@@ -327,6 +334,12 @@ Following parameters need to be set:
 <li><code>nParCir</code> can be used for calculating the pressure drops as if there were multiple EmbeddedPipes connected in parallel. The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.</li>
 <li><code>R_C</code> is the thermal resistivity from the center of the tabs to the zones. Note that the upper and lower resistivities need to be calculated as if they were in parallel. This parameter has a default value based on RadSlaCha but it may be improved if necessary. The impact of the value of this parameter on the model performance is low except in cases of very low mass flow rates.</li>
 </ul>
+<h4>Assumptions and limitations</h4>
+<p>
+The accuracy of this model can be increased by increasing
+the discretisation using the parameter <code>nDiscr</code>.
+In this case it should be connected to <code>nDiscr</code> <code>InternalWall</code>.
+</p>
 <h4>Options</h4>
 <p>
 By default pressure drops are not calculated (<code>dp = 0</code>). 
@@ -345,6 +358,15 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 14, 2018, by Filip Jorissen:<br/>
+Revised the implementation: 
+1) removed assert for <code>nDiscr</code> since the heat 
+flow rate is actively limited for small mass flow rates
+2) now supporting flow reversal,
+3) using dynamic implementation of Koschenz instead of 
+the static implementation.
+</li>
 <li>
 April 26, 2017 by Filip Jorissen:<br/>
 Removed <code>useSimplifiedRt</code> parameter
