@@ -117,7 +117,6 @@ model Structure "Ppd 12 example model"
     A_winC=2.55*1.74,
     fracC=0.1,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypC,
-    redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypB,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     redeclare IDEAS.Examples.PPD12.Data.FloorOnGround conTypFlo,
@@ -126,7 +125,8 @@ model Structure "Ppd 12 example model"
     n50=n50,
     hasCavityA=true,
     hA=2.7,
-    wA=2)
+    wA=2,
+    redeclare Data.InteriorWall18 conTypA)
     annotation (Placement(transformation(extent={{-26,56},{-46,36}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate hallway(
@@ -168,11 +168,11 @@ model Structure "Ppd 12 example model"
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Examples.PPD12.Data.Roof conTypCei,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall conTypA,
     nSurfExt=4,
     redeclare IDEAS.Examples.PPD12.Data.FloorOnGround conTypFlo,
-    n50=n50)
+    n50=n50,
+    redeclare Data.RoofHor conTypCei,
+    redeclare Data.GlassWall conTypA)
     annotation (Placement(transformation(extent={{-46,-18},{-26,-38}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate Porch(
     aziA=east,
