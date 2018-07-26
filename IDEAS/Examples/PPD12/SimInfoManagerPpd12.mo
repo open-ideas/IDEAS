@@ -17,8 +17,11 @@ model SimInfoManagerPpd12 "SimInfoManager for PPD12"
       opaSkyCovSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
       HInfHorSou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
       pAtmSou=IDEAS.BoundaryConditions.Types.DataSource.Input,
-      HSou=IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HDifHor));
+      HSou=IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HGloHor_HDifHor));
   parameter Modelica.SIunits.Angle ang = 0 "Rotation angle of surfaces with respect to compass, clockwise";
+  Real HTest = max(0,910*sin(Modelica.Constants.pi/2-angZen.y)-30);
+  Modelica.Blocks.Interfaces.RealOutput HGloHorComp = HTest*(1-weaDat.totSkyCov_in)+comTimTab.y[9];
+
 
 Modelica.Blocks.Sources.CombiTimeTable comTimTab(
     tableOnFile=true,
@@ -63,10 +66,10 @@ equation
           -56},{-119,-30}}, color={0,0,127}));
   connect(weaDat.totSkyCov_in, comTimTab.y[6]) annotation (Line(points={{-101,-51.9},
           {-119,-51.9},{-119,-30}}, color={0,0,127}));
-  connect(comTimTab.y[7], weaDat.HGloHor_in) annotation (Line(points={{-119,-30},
+  connect(HGloHorComp, weaDat.HGloHor_in) annotation (Line(points={{-119,-30},
           {-120,-30},{-120,-63},{-101,-63}}, color={0,0,127}));
   connect(weaDat.HDirNor_in, comTimTab.y[8]) annotation (Line(points={{-101,-61},
-          {-119,-61},{-119,-30}}, color={0,0,127}));
+          {-119,-61},{-119,-30}}, color={0,0,127})); //comTimTab.y[7]
   connect(humRat.p_w, TDewPoi1.p_w)
     annotation (Line(points={{-99,-80},{-81,-80}}, color={0,0,127}));
   connect(XiEnv.X[1], humRat.X_w) annotation (Line(points={{1,30},{2,30},{2,-68},
