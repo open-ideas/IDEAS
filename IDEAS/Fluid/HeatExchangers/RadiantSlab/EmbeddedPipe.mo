@@ -68,8 +68,8 @@ annotation(Dialog(tab="Flow resistance"));
     "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
     annotation(Dialog(group="Thermal"));
 
-  Modelica.SIunits.Temperature[nDiscr] Tin;
-  Modelica.SIunits.Power[nDiscr] Q "Thermal power going into tabs";
+  Modelica.SIunits.Temperature[nDiscr] Tin "Inlet temperature of tabs section";
+  Modelica.SIunits.Temperature[nDiscr] TOut "Outlet temperature of tabs section";
   //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
   // for laminar flow Nu_D = 4 is assumed: correlation for heat transfer constant heat flow and constant wall temperature
   Modelica.SIunits.ThermalInsulance R_w_val= IDEAS.Utilities.Math.Functions.spliceFunction(
@@ -92,20 +92,19 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.SIunits.ReynoldsNumber rey=
     m_flow/nParCir/A_pipe*pipeDiaInt/mu_default "Reynolds number";
 
-  IDEAS.Fluid.MixingVolumes.MixingVolume[nDiscr] vol(each nPorts=2, each m_flow_nominal = m_flow_nominal, each V=m/nDiscr/rho_default,
+  IDEAS.Fluid.HeatExchangers.PrescribedOutlet[nDiscr] preOut(
+    each m_flow_nominal = m_flow_nominal,
     redeclare each package Medium = Medium,
-    each p_start=p_start,
     each T_start=T_start,
     each X_start=X_start,
-    each C_start=C_start,
-    each C_nominal=C_nominal,
     each allowFlowReversal=allowFlowReversal,
-    each mSenFac=mSenFac,
     each m_flow_small=m_flow_small,
-    each final prescribedHeatFlowRate=true,
     each energyDynamics=energyDynamics,
-    each massDynamics=massDynamics)
-    annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
+    each massDynamics=massDynamics,
+    each final use_X_wSet=false,
+    each final dp_nominal=0)
+    "Prescribed outlet conditions of embedded pipe"
+    annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
 
   IDEAS.Fluid.FixedResistances.ParallelPressureDrop res(
     redeclare package Medium = Medium,
@@ -121,15 +120,18 @@ annotation(Dialog(tab="Flow resistance"));
     final dh=pipeDiaInt,
     final ReC=reyHi)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater
-    annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid
-    annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={0,70})));
   Modelica.Blocks.Math.Gain[nDiscr] negate(each k=-1)
-    annotation (Placement(transformation(extent={{-56,36},{-48,44}})));
-  Modelica.Blocks.Sources.RealExpression[nDiscr] Q_tabs(y=Q)
-    annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
+    annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+        rotation=90,
+        origin={0,40})));
 
+  Modelica.Blocks.Sources.RealExpression TOutExp[nDiscr](y=TOut)
+    "RealExpression for outlet temperature"
+    annotation (Placement(transformation(extent={{-80,10},{-60,30}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -196,12 +198,21 @@ equation
     assert(port_a.m_flow>-m_flow_small,
       "In " + getInstanceName() + ": The flow reverses despite 
       allowFlowReversal=false since m_flow="+String(port_a.m_flow)+"<-"+String(m_flow_small));
-    Tin = cat(1, {senTemInA.T}, vol[1:nDiscr-1].heatPort.T);
+    Tin =cat(
+      1,
+      {senTemInA.T},
+      TOut[1:nDiscr-1]);
   else
     if port_a.m_flow>0 then
-      Tin = cat(1, {senTemInA.T}, vol[1:nDiscr-1].heatPort.T);
+      Tin =cat(
+        1,
+        {senTemInA.T},
+        TOut[1:nDiscr-1]);
     else
-      Tin = cat(1, vol[2:nDiscr].heatPort.T, {senTemInB.T});
+      Tin =cat(
+        1,
+        TOut[2:nDiscr],
+        {senTemInB.T});
     end if;
   end if;
 
@@ -212,48 +223,36 @@ equation
   G_t = abs(A_floor/R_t);
   // maximum thermal conductance based on second law
   G_max = abs(m_flow)*cp_default;
-  // no smoothmin since this undershoots for near-zero values
-  Q = (Tin - heatPortEmb.T)*min(G_t, G_max);
+  // 1e-6 to avoid division by zero and to have heatPortEmb.T at the limit
+  TOut = Tin - min(G_t, G_max+1e-6)*(Tin-heatPortEmb.T)/(G_max+1e-6);
 
   for i in 2:nDiscr loop
-    connect(vol[i-1].ports[2], vol[i].ports[1]) annotation (Line(
-      points={{-52,0},{-48,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
+      connect(preOut[i-1].port_b, preOut[i].port_a) annotation (Line(points={{-20,0},{
+          -20,-20},{-40,-20},{-40,0}}, color={0,127,255}));
   end for;
 
-  connect(heatFlowWater.port, vol.heatPort) annotation (Line(
-      points={{-20,40},{-20,10},{-40,10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatFlowWater.Q_flow, negate.y) annotation (Line(
-      points={{-40,40},{-47.6,40}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(negate.u, Q_tabs.y) annotation (Line(
-      points={{-56.8,40},{-60,40},{-60,60},{-70.6,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatFlowSolid.Q_flow, Q_tabs.y) annotation (Line(
-      points={{-40,80},{-60,80},{-60,60},{-70.6,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(heatFlowSolid.port, heatPortEmb) annotation (Line(
-      points={{-20,80},{0,80},{0,100}},
+      points={{6.66134e-16,80},{0,80},{0,100}},
       color={191,0,0},
       smooth=Smooth.None));
 
   connect(senTemInA.port_a, port_a)
     annotation (Line(points={{-90,0},{-100,0}}, color={0,127,255}));
-  connect(senTemInA.port_b, vol[1].ports[1]) annotation (Line(points={{-70,0},{-62,
-          0},{-62,0},{-48,0}}, color={0,127,255}));
-  connect(vol[nDiscr].ports[2], res.port_a) annotation (Line(points={{-52,0},{-16,
-          0},{-16,0},{20,0}},
-                           color={0,127,255}));
   connect(senTemInB.port_a, res.port_b)
     annotation (Line(points={{60,0},{40,0}}, color={0,127,255}));
   connect(senTemInB.port_b, port_b)
     annotation (Line(points={{80,0},{100,0}}, color={0,127,255}));
+  connect(senTemInA.port_b, preOut[1].port_a)
+    annotation (Line(points={{-70,0},{-40,0}}, color={0,127,255}));
+  connect(preOut[1].port_b, res.port_a)
+    annotation (Line(points={{-20,0},{20,0}}, color={0,127,255}));
+  connect(negate.y, heatFlowSolid.Q_flow)
+    annotation (Line(points={{0,44.4},{0,60}}, color={0,0,127}));
+  connect(negate.u, preOut.Q_flow)
+    annotation (Line(points={{0,35.2},{0,8},{-19,8}}, color={0,0,127}));
+
+  connect(TOutExp.y, preOut.TSet) annotation (Line(points={{-59,20},{-50,20},{-50,
+          8},{-42,8}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
