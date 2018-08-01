@@ -203,7 +203,7 @@ equation
       {senTemInA.T},
       TOut[1:nDiscr-1]);
   else
-    if port_a.m_flow>0 then
+    if port_a.m_flow>=0 then
       Tin =cat(
         1,
         {senTemInA.T},
