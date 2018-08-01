@@ -228,5 +228,14 @@ equation
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/HeatExchangers/RadiantSlab/Examples/EmbeddedPipeNDiscr.mos"
         "Simulate and plot"),
-    Icon(coordinateSystem(extent={{-100,-140},{100,120}})));
+    Icon(coordinateSystem(extent={{-100,-140},{100,120}})),
+    Documentation(revisions="<html>
+<ul>
+<li>
+July 31, 2018 by Filip Jorissen:<br/>
+First implementation for
+<a href=https://github.com/open-ideas/IDEAS/issues/862>#862</a>.
+</li>
+</ul>
+</html>"));
 end EmbeddedPipeNDiscr;

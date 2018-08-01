@@ -319,7 +319,6 @@ Following parameters need to be set:
 </p>
 <ul>
 <li>RadSlaCha is a record with all the parameters of the geometry, materials and even number of discretization layers in the nakedTabs model.</li>
-<li>mFlow_min is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.</li>
 <li><code>A_floor</code> is the surface area of (one side of) the Thermally Activated Building part (TAB). </li>
 <li><code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction. This may be necessary to be in the validity range of the model.</li>
 <li><code>nParCir</code> can be used for calculating the pressure drops as if there were multiple EmbeddedPipes connected in parallel. The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.</li>
@@ -340,9 +339,18 @@ This pressure drop can be a large underestimation of the real pressure drop.
 The used pipe lengths can be changed in the Pressure drop tab.
 Parameter <code>dp_nominal</code> can be used to override the default calculation.
 </p>
+<h4>Implementation</h4>
+<p>
+We do not check the minimum number of discretisations as suggested by
+Koschenz. Instead we actively limit the heat flow rate such
+that the second law is not violated.
+</p>
 <h4>Validation </h4>
 <p>
 A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeVerification.
+The influence of <code>nDiscr</code> can be checked in
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr\">
+IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr</a>.
 </p>
 <h4>References</h4>
 <p>[Koshenz, 2000] - Koschenz, Markus, and Beat Lehmann. 2000. <i>Thermoaktive Bauteilsysteme - Tabs</i>. D&uuml;bendorf: EMPA D&uuml;bendorf. </p>
@@ -357,7 +365,12 @@ flow rate is actively limited for small mass flow rates
 and hence removed <code>m_flowMin</code>
 2) now supporting flow reversal,
 3) using dynamic implementation of Koschenz instead of 
-the static implementation.
+the static implementation,
+4) now prescribing the temperature instead of the heat flow rate. 
+This results in a correct output of the temperature at zero flow
+and requires fewer operations since <code>InverseXRegularized</code> is not used.
+See <a href=https://github.com/open-ideas/IDEAS/issues/854>#854</a>
+and <a href=https://github.com/open-ideas/IDEAS/issues/863>#863</a>.
 </li>
 <li>
 April 26, 2017 by Filip Jorissen:<br/>
