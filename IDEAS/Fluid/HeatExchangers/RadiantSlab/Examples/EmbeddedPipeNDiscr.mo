@@ -13,9 +13,9 @@ model EmbeddedPipeNDiscr
     computeFlowResistance=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nDiscr=1,
-    m_flow_nominal=ceiling.A*0.003,
     A_floor=ceiling.A,
-    nParCir=1)
+    nParCir=1,
+    m_flow_nominal=ceiling.A*0.006)
     annotation (Placement(transformation(extent={{-10,42},{10,62}})));
   IDEAS.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
