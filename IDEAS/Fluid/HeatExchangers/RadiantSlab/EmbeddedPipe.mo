@@ -12,7 +12,7 @@ model EmbeddedPipe
     "Pipe internal diameter";
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    computeFlowResistance=false,
+    computeFlowResistance=true,
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
       rho_a=rho_default,
