@@ -50,8 +50,8 @@ model EmbeddedPipeVerification
     annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
 equation
   for i in 1:embeddedPipe.nDiscr loop
-    assert(embeddedPipe.vol[i].T> fixTem.T-1e-5, "Violation of second law");
-    assert(embeddedPipe.vol[i].T< sou.T+1e-5, "Violation of second law");
+    assert(embeddedPipe.TOut[i]> fixTem.T-1e-5, "Violation of second law");
+    assert(embeddedPipe.TOut[i]< sou.T+1e-5, "Violation of second law");
   end for;
 
   connect(sou.ports[1], embeddedPipe.port_a) annotation (Line(
