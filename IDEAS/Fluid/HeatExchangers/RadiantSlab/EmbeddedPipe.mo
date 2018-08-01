@@ -82,7 +82,7 @@ annotation(Dialog(tab="Flow resistance"));
     "Total equivalent specific resistivity as defined by Koschenz in eqn 4-59";
   Modelica.SIunits.ThermalConductance G_t
     "Equivalent thermal conductance";
-  Modelica.SIunits.ThermalConductance G_max
+  Modelica.SIunits.ThermalConductance GWat
     "Maximum thermal conductance based on mass flow rate";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b[nDiscr] heatPortEmb
     "Port to the core of a floor heating/concrete activation"
@@ -120,11 +120,12 @@ annotation(Dialog(tab="Flow resistance"));
     final dh=pipeDiaInt,
     final ReC=reyHi)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid(
+    each final alpha=0)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,70})));
-  Modelica.Blocks.Math.Gain[nDiscr] negate(each k=-1)
+  Modelica.Blocks.Math.Gain[nDiscr] negate(each final k=-1)
     annotation (Placement(transformation(extent={{-4,-4},{4,4}},
         rotation=90,
         origin={0,40})));
@@ -161,10 +162,10 @@ protected
     "Transition threshold for regularization function";
   final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
     "Mass of medium";
-  Real m_flowSp(unit="kg/(m2.s)")=abs(port_a.m_flow)/RadSlaCha.T/L_r/nParCir
-    "mass flow rate per unit floor area";
-  Real m_flowSpLimit
-    "Specific mass flow rate regularized for no flow conditions";
+  Real m_flowSp(unit="kg/(m2.s)")=abs(port_a.m_flow)/(L_r*RadSlaCha.T*nParCir)
+    "Mass flow rate per unit floor area";
+  Real m_flowSpLimit = m_flowSp + 1e-8
+     "Regularisation to avoid division by zero at zero flow";
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemInA(
     redeclare package Medium = Medium,
@@ -216,15 +217,13 @@ equation
     end if;
   end if;
 
-  // this need not be smooth since when active, G_max is already active
-  m_flowSpLimit = max(m_flowSp, 1e-8);
   // Koschenz eq 4-70
   R_t = 1/(2*m_flowSpLimit*cp_default*nDiscr) + R_w_val+R_r_val+R_x_val;
-  G_t = abs(A_floor/R_t);
-  // maximum thermal conductance based on second law
-  G_max = abs(m_flow)*cp_default;
+  G_t = abs(A_floor/nDiscr/R_t);
+  // maximum thermal conductance based on the second law of thermodynamics
+  GWat = abs(m_flow)*cp_default;
   // 1e-6 to avoid division by zero and to have heatPortEmb.T at the limit
-  TOut = Tin - min(G_t, G_max+1e-6)*(Tin-heatPortEmb.T)/(G_max+1e-6);
+  TOut = Tin - min(G_t, GWat+1e-6)*(Tin-heatPortEmb.T)/(GWat+1e-6);
 
   for i in 2:nDiscr loop
       connect(preOut[i-1].port_b, preOut[i].port_a) annotation (Line(points={{-20,0},{
@@ -244,12 +243,14 @@ equation
     annotation (Line(points={{80,0},{100,0}}, color={0,127,255}));
   connect(senTemInA.port_b, preOut[1].port_a)
     annotation (Line(points={{-70,0},{-40,0}}, color={0,127,255}));
-  connect(preOut[1].port_b, res.port_a)
+  connect(preOut[nDiscr].port_b, res.port_a)
     annotation (Line(points={{-20,0},{20,0}}, color={0,127,255}));
   connect(negate.y, heatFlowSolid.Q_flow)
-    annotation (Line(points={{0,44.4},{0,60}}, color={0,0,127}));
+    annotation (Line(points={{2.22045e-16,44.4},{2.22045e-16,52},{0,52},{0,60}},
+                                               color={0,0,127}));
   connect(negate.u, preOut.Q_flow)
-    annotation (Line(points={{0,35.2},{0,8},{-19,8}}, color={0,0,127}));
+    annotation (Line(points={{-4.44089e-16,35.2},{-4.44089e-16,8},{-19,8}},
+                                                      color={0,0,127}));
 
   connect(TOutExp.y, preOut.TSet) annotation (Line(points={{-59,20},{-50,20},{-50,
           8},{-42,8}}, color={0,0,127}));
