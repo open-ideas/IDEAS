@@ -12,7 +12,6 @@ model EmbeddedPipeExample
     A_floor=100,
     nParCir=10,
     computeFlowResistance=true,
-    m_flowMin=0.2,
     nDiscr=2,
     R_c=0.05,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
@@ -57,7 +56,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(trapezoid.y, boundary.m_flow_in) annotation (Line(
-      points={{-79,0},{-70,0},{-70,8},{-60,8}},
+      points={{-79,0},{-70,0},{-70,8},{-62,8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(embeddedPipe.port_b, senTem.port_a) annotation (Line(
