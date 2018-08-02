@@ -87,11 +87,12 @@ equation
   end if;
 
   HShaDirTil = (1-shaFrac)*HDirTil;
-  HShaSkyDifTil = (1-shaDifFrac)*HSkyDifTil;
+  HShaSkyDifTil = shaDifFrac*HSkyDifTil;
+  HShaGroDifTil = shaDifFrac*HGroDifTil;
 
   angInc = iAngInc;
   //connect(HSkyDifTil, HShaSkyDifTil);
-  connect(HGroDifTil, HShaGroDifTil);
+  //connect(HGroDifTil, HShaGroDifTil);
 
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
