@@ -15,7 +15,7 @@ equation
   connect(airExfiltration.m_flow_in, airInfiltration.m_flow_in)
     annotation (Line(points={{2,-56},{-18,-56},{-18,-44}},  color={0,0,127}));
   connect(airExfiltration.port_b, bou.ports[2])
-    annotation (Line(points={{10,-40},{10,0},{2,0}},  color={0,127,255}));
+    annotation (Line(points={{10,-40},{10,0},{2,0}}, color={0,127,255}));
   connect(airExfiltration.port_a, ports[2]) annotation (Line(points={{10,-60},{10,
           -100},{22,-100},{22,-100}},
                                     color={0,127,255}));

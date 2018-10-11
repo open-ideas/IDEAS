@@ -55,6 +55,7 @@ model PartialZone "Building zone model"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
+  parameter Modelica.SIunits.Length hRel=0 "Zone height relative to ground floor";
 
   replaceable ZoneAirModels.WellMixedAir airModel(
     redeclare package Medium = Medium,
@@ -72,7 +73,9 @@ model PartialZone "Building zone model"
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
     nPorts=interzonalAirFlow.nPorts,
-    m_flow_nominal=m_flow_nominal)
+    m_flow_nominal=m_flow_nominal,
+    massDynamics=if sim.computeInterzonalAirFlow then Modelica.Fluid.Types.Dynamics.SteadyState
+         else energyDynamicsAir)
     "Zone air model"
     annotation (choicesAllMatching=true,
     Placement(transformation(extent={{-40,20},{-20,40}})),
@@ -83,6 +86,8 @@ model PartialZone "Building zone model"
       redeclare package Medium = Medium,
       V=V,
       n50=n50,
+      hRel=hRel,
+      nSurf=nSurf,
       n50toAch=n50toAch,
       m_flow_nominal_vent=m_flow_nominal)
       "Interzonal air flow model"
@@ -172,7 +177,8 @@ model PartialZone "Building zone model"
 protected
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
+    each final outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)
     "Dummy propsbus for partial" annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -205,13 +211,15 @@ protected
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowV(Q_flow=V*1,alpha=0) if sim.computeInterzonalAirFlow
+    "Component for computing total zone volumes";
 
 
 initial equation
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 
 equation
+  connect(prescribedHeatFlowV.port,sim.portVol);
   if interzonalAirFlow.verifyBothPortsConnected then
     assert(cardinality(port_a)>1 and cardinality(port_b)>1 or cardinality(port_a) == 1 and cardinality(port_b) == 1,
       "WARNING: Only one of the FluidPorts of " + getInstanceName() + " is 
@@ -379,22 +387,26 @@ end for;
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
   connect(airModel.port_a, interzonalAirFlow.port_b_interior)
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
-  connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{
-          -29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
+  connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{-30,60},
+          {-30,60},{-30,40}},           color={0,127,255}));
   connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{
           -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
   connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
           -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
-  connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{52,0},{52,16},{-8,
-          16},{-8,28},{-19,28}}, color={0,0,127}));
+  connect(interzonalAirFlow.portsInf, propsBusInt.inf) annotation (Line(points={
+          {-40,70},{-62,70},{-62,39.9},{-80.1,39.9}}, color={0,127,255}));
+  connect(interzonalAirFlow.portsItz, propsBusInt.itz) annotation (Line(points={
+          {-20,70},{-12,70},{-12,54},{-58,54},{-58,39.9},{-80.1,39.9}}, color={0,
+          127,255}));
   connect(intGaiLig.portRad, gainRad) annotation (Line(points={{20,60},{4,60},{4,
           -60},{100,-60}}, color={191,0,0}));
   connect(intGaiLig.portCon, gainCon) annotation (Line(points={{20,64},{2,64},{2,
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
- annotation (Placement(transformation(extent={{
-            140,48},{100,88}})),
+  connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{50,0},{50,6},{-8,
+          6},{-8,28},{-19,28}}, color={0,0,127}));
+  annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
     Documentation(info="<html>

@@ -5,7 +5,8 @@ model Zone "Building zone model"
   //this propsbus exposes all ports to the outside of the model
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBus(
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
+    each final outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,

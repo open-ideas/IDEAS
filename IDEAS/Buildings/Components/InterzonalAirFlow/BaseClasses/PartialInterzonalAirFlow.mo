@@ -1,12 +1,20 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses;
 partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
+  outer IDEAS.BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   replaceable package Medium = IDEAS.Media.Air "Air medium";
+
   parameter Integer nPorts "Number of ports for connection to zone air volume";
+  parameter Integer nSurf(min=2) "Number of ports for connection to zone air volume";
   parameter Modelica.SIunits.Volume V "Zone air volume for n50 computation";
   parameter Real n50 "n50 value";
   parameter Real n50toAch = 20
     "Conversion fractor from n50 to Air Change Rate"
     annotation(Dialog(tab="Advanced"));
+  parameter Modelica.SIunits.Length hRel
+    "Zone height relative to ground floor";
+  constant Boolean defaultBoundary = true
+    "= false, to remove default pressure boundaries for infiltration and interzonal air exchange";
   // = true to enable check in zone that verifies whether both FluidPorts
   //  or none of the are connected, to avoid incorrect use.
   parameter Boolean verifyBothPortsConnected = false
@@ -46,8 +54,33 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
         transformation(
         extent={{-10,40},{10,-40}},
         rotation=90,
-        origin={2,-100})));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+        origin={0,-100})));
+  Modelica.Fluid.Interfaces.FluidPorts_a[nSurf] portsInf(
+    redeclare each package Medium = Medium)
+    "Ports for air infiltration through the building facade" annotation (
+      Placement(transformation(
+        extent={{-10,40},{10,-40}},
+        rotation=180,
+        origin={-100,0})));
+  Modelica.Fluid.Interfaces.FluidPorts_b[nSurf] portsItz(
+    redeclare each package Medium = Medium)
+    "Ports for interzonal air exchange within building facade" annotation (
+      Placement(transformation(
+        extent={{-10,40},{10,-40}},
+        rotation=180,
+        origin={100,0})));
+protected
+  IDEAS.Fluid.Sources.Boundary_pT bouInf(
+    nPorts=nSurf,
+    redeclare package Medium = Medium) if defaultBoundary;
+  IDEAS.Fluid.Sources.Boundary_pT bouItz(
+    nPorts=nSurf,
+    redeclare package Medium = Medium) if defaultBoundary;
+
+equation
+  connect(portsItz, bouItz.ports);
+  connect(portsInf, bouInf.ports);
+   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(
           extent={{-15,80},{15,-80}},
           fillColor={192,192,192},

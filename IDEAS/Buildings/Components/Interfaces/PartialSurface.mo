@@ -4,7 +4,7 @@ partial model PartialSurface "Partial model for building envelope component"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
-
+  replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Modelica.SIunits.Angle inc
     "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
   parameter Modelica.SIunits.Angle azi
@@ -31,10 +31,16 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+  parameter Boolean use_defaultItzBou = true
+    "= false, to disable the use of the default interzonal air exchange pressure boundary"
+    annotation(Dialog(tab="Advanced", group="Interzonal air exchange"));
+  parameter Boolean use_defaultInfBou = true
+    "= false, to disable the use of the default infiltration pressure boundary"
+    annotation(Dialog(tab="Advanced", group="Interzonal air exchange"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
-                                             "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)       "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -75,13 +81,35 @@ protected
     "Heat gains across model boundary";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlowA(Q_flow=0,alpha=0) if sim.computeInterzonalAirFlow
+     "Component for adding facade surface area";
+  IDEAS.Fluid.Sources.MassFlowSource_T bouItz_a(
+    nPorts=1,
+    redeclare package Medium = Medium,
+    final m_flow=0) if                    use_defaultItzBou
+    "Default boundary for interzonal air flow rate" annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={50,50})));
 
-  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(k=nWin)
+  IDEAS.Fluid.Sources.MassFlowSource_T bouInf_a(
+    nPorts=1,
+    redeclare package Medium = Medium,
+    final m_flow=0) if                    use_defaultInfBou
+    "Default boundary for air infiltration" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={70,50})));
+  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(k=nWin,
+      redeclare package Medium = Medium) if not nWin==1
     "Gain for all propsBus variable to represent nWin surfaces instead of 1"
-    annotation (Placement(transformation(extent={{70,6},{88,36}})));
+    annotation (Placement(transformation(extent={{68,4},{86,34}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBusInt(
     numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles)
+    outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(
         extent={{-18,-18},{18,18}},
         rotation=-90,
@@ -90,6 +118,7 @@ protected
         rotation=-90,
         origin={50,20})));
 equation
+  connect(prescribedHeatFlowA.port,sim.portFacSur);
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, propsBusInt.Qgai);
@@ -129,16 +158,27 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
+  connect(bouItz_a.ports[1], propsBusInt.itz) annotation (Line(points={{50,40},{
+          50,20},{56.09,20},{56.09,19.91}},
+                                        color={0,127,255}));
+  connect(bouInf_a.ports[1], propsBusInt.inf) annotation (Line(points={{70,40},{
+          70,19.91},{56.09,19.91}},         color={0,127,255}));
   connect(incExp.y, propsBusInt.inc);
   connect(aziExp.y, propsBusInt.azi);
   connect(propsBus_a, gain.propsBus_b) annotation (Line(
-      points={{100,20},{94,20},{94,20.2105},{88,20.2105}},
+      points={{100,20},{94,20},{94,19.7143},{86,19.7143}},
       color={255,204,51},
       thickness=0.5));
   connect(gain.propsBus_a, propsBusInt) annotation (Line(
-      points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
+      points={{68,19.7143},{60,19.7143},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
+  if nWin ==1 then
+    connect(propsBusInt, propsBus_a) annotation (Line(
+      points={{56,20},{56,0},{100,0},{100,20}},
+      color={255,204,51},
+      thickness=0.5));
+  end if;
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

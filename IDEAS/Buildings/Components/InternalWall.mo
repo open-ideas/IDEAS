@@ -1,13 +1,14 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-    final nWin=1,
-     dT_nominal_a=1,
+  use_defaultItzBou=not sim.computeInterzonalAirFlow,
+  final nWin=1,
+  dT_nominal_a=1,
   E(y= if sim.computeConservationOfEnergy then layMul.E else 0),
   Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
          then 0 else sum(port_emb.Q_flow))),
   final QTra_design=U_value*A    *(TRef_a - TRef_b),
-    intCon_a);
+  intCon_a);
 
   parameter Boolean linIntCon_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
@@ -90,6 +91,36 @@ protected
   Modelica.Blocks.Sources.Constant E0(final k=0)
     "All internal energy is assigned to right side";
 
+  IDEAS.Fluid.Sources.MassFlowSource_T bouInf_b(
+    nPorts=1,
+    redeclare package Medium = Medium,
+    final m_flow=0) if
+       use_defaultInfBou
+    "Default boundary for air infiltration" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-90,50})));
+  IDEAS.Fluid.Sources.MassFlowSource_T bouItz_b(
+    nPorts=1,
+    redeclare package Medium = Medium,
+    final m_flow=0) if
+       use_defaultItzBou
+    "Default boundary for interzonal air flow rate" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-110,50})));
+  IDEAS.Fluid.FixedResistances.PressureDrop dpInterzonal(
+    redeclare package Medium = Medium,
+    dp_nominal=1,
+    deltaM=0.01,
+    linearized=true,
+    m_flow_nominal=A*sim.k_facade*10,
+    from_dp=true) if sim.computeInterzonalAirFlow                    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={0,40})));
   BaseClasses.ConvectiveHeatTransfer.CavityAirflow
                                         theConDoor(
     linearise=sim.linearise or linIntCon_a or linIntCon_b,
@@ -100,7 +131,7 @@ protected
     rho=rho,
     c_p=c_p,
     T=T,
-    dT=dT) if                                         hasCavity
+    dT=dT) if hasCavity
     "Model for air flow through open door or cavity"
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
 equation
@@ -138,7 +169,14 @@ equation
   connect(Qgai_b.port, propsBus_b.Qgai);
   connect(E_b.port, propsBus_b.E);
   connect(E_b.E, E0.y);
-
+  connect(bouItz_b.ports[1], propsBus_b.itz) annotation (Line(points={{-110,40},
+          {-110,30},{-110,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(bouInf_b.ports[1], propsBus_b.inf) annotation (Line(points={{-90,40},{
+          -90,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(dpInterzonal.port_a, propsBus_a.itz) annotation (Line(points={{10,40},
+          {100.1,40},{100.1,19.9}}, color={0,127,255}));
+  connect(dpInterzonal.port_b, propsBus_b.itz) annotation (Line(points={{-10,40},
+          {-100.1,40},{-100.1,20.1}}, color={0,127,255}));
   connect(theConDoor.port_a, propsBus_b.surfCon) annotation (Line(points={{-10,50},
           {-48,50},{-48,20.1},{-100.1,20.1}}, color={191,0,0}));
   connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,50},

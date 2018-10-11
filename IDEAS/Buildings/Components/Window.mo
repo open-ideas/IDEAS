@@ -6,6 +6,8 @@ model Window "Multipane window"
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
+    use_defaultInfBou=not sim.computeInterzonalAirFlow,
+    prescribedHeatFlowA(Q_flow=A*1),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),
@@ -13,8 +15,8 @@ model Window "Multipane window"
            dT_nominal=dT_nominal_a),
     QTra_design(fixed=false),
     Qgai(y=if sim.computeConservationOfEnergy then
-                                                  (gain.propsBus_a.surfCon.Q_flow +
-        gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
+                                                  -(propsBus_a.surfCon.Q_flow +
+        propsBus_a.surfRad.Q_flow + propsBus_a.iSolDif.Q_flow + propsBus_a.iSolDir.Q_flow) else 0),
     E(y=0),
     layMul(
       A=A*(1 - frac),
@@ -156,6 +158,11 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-56,-50},{-50,-44}})));
+  BaseClasses.LeakageModel                            leakageModel(
+    redeclare package Medium = Medium,
+    AFac=A,
+    azi=azi) if
+               sim.computeInterzonalAirFlow annotation (Placement(transformation(extent={{40,80},{60,100}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -285,6 +292,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
+  connect(leakageModel.port_lea, propsBusInt.inf) annotation (Line(points={{60,90},
+          {56.09,90},{56.09,19.91}},color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

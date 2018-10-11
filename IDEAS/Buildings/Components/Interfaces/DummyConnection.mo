@@ -1,5 +1,6 @@
 within IDEAS.Buildings.Components.Interfaces;
 model DummyConnection "Source generator/sink for propsbus"
+  replaceable package Medium = IDEAS.Media.Air "Air medium package";
   parameter Boolean isZone = false "Set to true when connecting to a surface";
   parameter Real A=1 "Surface area"
     annotation(Dialog(enable=not isZone));
@@ -18,7 +19,8 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus zoneBus(
     outputAngles=sim.outputAngles,
-    numIncAndAziInBus=sim.numIncAndAziInBus)
+    numIncAndAziInBus=sim.numIncAndAziInBus,
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[3](
       Q_flow={surfCon,iSolDif,iSolDir}) if
@@ -46,7 +48,24 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
   Modelica.Blocks.Sources.Constant zero(k=0) if not isZone
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
+  IDEAS.Fluid.Sources.MassFlowSource_h bouInf1(redeclare package Medium =
+        Medium, nPorts=1) if
+                 not isZone
+    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
+  IDEAS.Fluid.Sources.MassFlowSource_h bouItz1(redeclare package Medium =
+        Medium, nPorts=1) if
+                 not isZone
+    annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+  Fluid.Sources.Boundary_pT bouInf2(
+    nPorts=1,
+    redeclare package Medium = Medium) if isZone
+    annotation (Placement(transformation(extent={{-40,80},{-20,100}})));
+  Fluid.Sources.Boundary_pT bouItz2(
+    nPorts=1,
+    redeclare package Medium = Medium) if isZone
+    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
 equation
+  assert(not sim.computeInterzonalAirFlow, "Interzonal air flow not supported when using DummyConnection.");
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
       color={191,0,0},
@@ -85,7 +104,7 @@ equation
       smooth=Smooth.None));
   if isZone then
   connect(sim.weaBus, zoneBus.weaBus) annotation (Line(
-      points={{-84,32.8},{-40,32.8},{-40,-1.9},{100.1,-1.9}},
+      points={{-81,33},{-40,33},{-40,-1.9},{100.1,-1.9}},
       color={255,204,51},
       thickness=0.5));
   end if;
@@ -114,6 +133,14 @@ equation
     connect(sim.Qgai, zoneBus.Qgai) annotation (Line(points={{-90,20},{-90,20},{
             -90,-1.9},{100.1,-1.9}},    color={0,0,0}));
   end if;
+  connect(bouItz1.ports[1], zoneBus.itz) annotation (Line(points={{-20,30},{100.1,
+          30},{100.1,-1.9}}, color={0,127,255}));
+  connect(bouInf1.ports[1], zoneBus.inf) annotation (Line(points={{-20,50},{100.1,
+          50},{100.1,-1.9}}, color={0,127,255}));
+  connect(bouInf2.ports[1], zoneBus.inf) annotation (Line(points={{-20,90},{100.1,
+          90},{100.1,-1.9}}, color={0,127,255}));
+  connect(bouItz2.ports[1], zoneBus.itz) annotation (Line(points={{-20,70},{100.1,
+          70},{100.1,-1.9}}, color={0,127,255}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

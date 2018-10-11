@@ -6,13 +6,16 @@ model ZoneExample
   parameter Modelica.SIunits.Length l = 4 "Room length";
   parameter Modelica.SIunits.Length w = 4 "Room width";
   parameter Modelica.SIunits.Length h = 2.7 "Room height";
-  inner BoundaryConditions.SimInfoManager sim "Data reader"
+  inner BoundaryConditions.SimInfoManager sim(computeInterzonalAirFlow=true)
+                                              "Data reader"
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   IDEAS.Buildings.Components.Zone zone(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     nSurf=3,
-    V=l*w*h)
+    V=l*w*h,
+    redeclare Components.InterzonalAirFlow.PressureDrivenSimplified
+      interzonalAirFlow)
           "First zone"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   IDEAS.Buildings.Components.InternalWall internalWall(
@@ -51,7 +54,8 @@ model ZoneExample
     allowFlowReversal=true,
     nSurf=4,
     V=l*w*h,
-    redeclare Components.InterzonalAirFlow.n50Tight interzonalAirFlow)
+    redeclare Components.InterzonalAirFlow.PressureDrivenSimplified
+      interzonalAirFlow(setAbsolutePressure=true))
           "Second zone"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
   IDEAS.Buildings.Components.OuterWall outerWall1(

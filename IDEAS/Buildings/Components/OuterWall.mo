@@ -1,6 +1,8 @@
 within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+     use_defaultInfBou=not sim.computeInterzonalAirFlow,
+     prescribedHeatFlowA(Q_flow=A*1),
      final nWin=1,
      dT_nominal_a=-3,
      QTra_design(fixed=false));
@@ -63,6 +65,13 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-54,0},{-46,8}})));
+
+  IDEAS.Buildings.Components.BaseClasses.LeakageModel leakageModel(
+    redeclare package Medium = Medium,
+    AFac=A,
+    azi=azi) if
+               sim.computeInterzonalAirFlow annotation (Placement(transformation(extent={{20,80},
+            {40,100}})));
 initial equation
   QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
 
@@ -120,6 +129,8 @@ equation
       points={{-79.4,0},{-76,0},{-76,-2},{-72,-2}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(leakageModel.port_lea, propsBusInt.inf) annotation (Line(points={{40,90},
+          {56.09,90},{56.09,19.91}},color={0,127,255}));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
       points={{-79.4,-4},{-78,-4},{-78,-6},{-72,-6}},
       color={0,0,127},

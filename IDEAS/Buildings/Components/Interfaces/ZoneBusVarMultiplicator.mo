@@ -3,13 +3,15 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   parameter Real k = 1 "Scaling factor";
 
   ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)
     "Unscaled port"                                                         annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-100,0})));
   ZoneBus propsBus_b(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    redeclare package Medium = Medium)
     "Scaled port"                                                           annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -17,6 +19,15 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   outer BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
+  Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplierInf(redeclare
+      package Medium = Medium, k=k)
+    "Mass flow rate multiplier for zone infiltration"
+    annotation (Placement(transformation(extent={{-10,-220},{10,-200}})));
+  Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplierItz(redeclare
+      package Medium = Medium, k=k)
+    "Mass flow rate multiplier for interzonal air flow"
+    annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
+  replaceable package Medium = Media.Air;
 protected
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
@@ -116,8 +127,18 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
-            {100,200}}), graphics={
+  connect(massFlowRateMultiplierItz.port_a, propsBus_a.itz) annotation (Line(
+        points={{-10,-190},{-100.1,-190},{-100.1,0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplierItz.port_b, propsBus_b.itz) annotation (Line(
+        points={{10,-190},{100.1,-190},{100.1,-0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplierInf.port_b, propsBus_b.inf) annotation (Line(
+        points={{10,-210},{100.1,-210},{100.1,-0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplierInf.port_a, propsBus_a.inf) annotation (Line(
+        points={{-10,-210},{-100,-210},{-100,-206},{-100.1,-206},{-100.1,0.1}},
+        color={0,127,255}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -220},{100,200}}),
+                         graphics={
         Polygon(
           points={{-100,120},{102,-2},{-100,-120},{-100,120}},
           lineColor={255,215,136},
@@ -136,7 +157,8 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="%name")}),                                 Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-220},{100,
+            200}})),
     Documentation(revisions="<html>
 <ul>
 <li>

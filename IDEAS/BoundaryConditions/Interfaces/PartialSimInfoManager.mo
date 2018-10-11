@@ -69,6 +69,23 @@ partial model PartialSimInfoManager
   parameter Real ppmCO2 = 400
     "Default CO2 concentration in [ppm] when using air medium containing CO2"
     annotation(Dialog(tab="Advanced", group="CO2"));
+  parameter Boolean computeInterzonalAirFlow=false
+    annotation(Dialog(tab="Interzonal airflow"));
+
+  parameter Modelica.SIunits.Temperature TZone = 273.15+22
+    "Nominal zone air temperature for stack effect computations"
+    annotation (Dialog(tab="Interzonal airflow"),enable=computeInterzonalAirFlow);
+  parameter Modelica.SIunits.Pressure pAbs = 101300
+    "Nominal absolute pressure for stack effect computations"
+    annotation (Dialog(tab="Interzonal airflow"),enable=computeInterzonalAirFlow);
+  parameter Real n50=0.4
+    "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
+    annotation (Dialog(tab="Interzonal airflow"),enable=computeInterzonalAirFlow);
+  parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate"
+   annotation(Dialog(tab="Interzonal airflow"));
+  parameter Real k_facade(fixed=false)
+    "Air leakage coefficient per unit of facade surface area";
+
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
   final parameter Modelica.SIunits.Temperature Tdes=-8 + 273.15
@@ -160,9 +177,23 @@ partial model PartialSimInfoManager
         extent={{-20,-19},{20,19}},
         rotation=270,
         origin={99,3.55271e-015})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portFacSur if computeInterzonalAirFlow
+    "Port for computing total facade surface area"
+    annotation (Placement(transformation(extent={{56,-110},{76,-90}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portVol if    computeInterzonalAirFlow
+    "Port for computing total volume of building"
+    annotation (Placement(transformation(extent={{86,-110},{106,-90}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portVent if   computeInterzonalAirFlow
+    "Port for computing pressure"
+    annotation (Placement(transformation(extent={{26,-110},{46,-90}})));
 
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
+  Modelica.Blocks.Interfaces.RealOutput AFacTot
+    "Total facade surface area";
+  Modelica.Blocks.Interfaces.RealOutput VTot
+    "Total facade surface area";
+
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
     filNam=filNam)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
@@ -202,10 +233,49 @@ protected
   Modelica.Blocks.Routing.RealPassThrough HDifHor
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
-
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixTem(T=273.15) if computeInterzonalAirFlow
+    "Dummy sink for computing total surface area of building facade"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={66,-58})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixTem1(
+                                                                T=273.15) if computeInterzonalAirFlow
+    "Dummy sink for computing total volume of building"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={96,-58})));
+  Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor ATotSensor if    computeInterzonalAirFlow annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={66,-82})));
+  Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor VTotSensor if    computeInterzonalAirFlow annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={96,-82})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow fixedHeatFlow(Q_flow=0,
+      alpha=0) if   computeInterzonalAirFlow annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={36,-72})));
 initial equation
   Etot = 0;
+   if computeInterzonalAirFlow then
+     k_facade=n50*VTot/3600/AFacTot/sqrt(50);
+   else
+     k_facade=0;
+   end if;
+
 equation
+  connect(AFacTot, ATotSensor.Q_flow);
+  connect(VTot, VTotSensor.Q_flow);
+  if not computeInterzonalAirFlow then
+    AFacTot=1 "To avoid division by zero";
+    VTot=1;
+  end if;
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
   end if;
@@ -217,7 +287,18 @@ equation
   end if;
   Etot = Qint - E.E;
   E.Etot = Etot;
-
+  connect(VTotSensor.port_b,fixTem1. port)
+    annotation (Line(points={{96,-72},{96,-68}},   color={191,0,0}));
+  connect(VTotSensor.port_a,portVol)
+    annotation (Line(points={{96,-92},{96,-100}},   color={191,0,0}));
+  connect(ATotSensor.port_b,ATotSensor. port_b)
+    annotation (Line(points={{66,-72},{66,-72}}, color={191,0,0}));
+  connect(portFacSur,ATotSensor. port_a)
+    annotation (Line(points={{66,-100},{66,-92}}, color={191,0,0}));
+  connect(ATotSensor.port_b,fixTem. port)
+    annotation (Line(points={{66,-72},{66,-68}}, color={191,0,0}));
+  connect(fixedHeatFlow.port,portVent)
+    annotation (Line(points={{36,-82},{36,-100}}, color={191,0,0}));
   connect(skyClearness.skyCle, skyBrightnessCoefficients.skyCle) annotation (
       Line(
       points={{-39,110},{-36,110},{-36,96},{-2,96}},

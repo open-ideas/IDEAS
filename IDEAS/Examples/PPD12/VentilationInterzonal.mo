@@ -1,19 +1,43 @@
 within IDEAS.Examples.PPD12;
-model Ventilation "Ppd 12 example model"
-  extends IDEAS.Examples.PPD12.PartialVentilation(bouAir(nPorts=3));
-
+model VentilationInterzonal "Ppd 12 example model"
+  extends IDEAS.Examples.PPD12.PartialVentilation(
+    living(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    Diner(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    stairWay(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    bathRoom(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    bedRoom1(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    bedRoom2(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    bedRoom3(
+      redeclare Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    hallway(redeclare
+        Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    Porch(redeclare
+        Buildings.Components.InterzonalAirFlow.PressureDriven
+        interzonalAirFlow),
+    sim(computeInterzonalAirFlow=true),
+    pump(allowFlowReversal=true),
+    hea(allowFlowReversal=true));
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature hack(T=274.15)
+    "to aovid singularity"
+    annotation (Placement(transformation(extent={{364,2},{384,22}})));
 equation
-  connect(stairWay.port_b, bedRoom3.port_b) annotation (Line(points=
-         {{78,6},{80,6},{80,0},{80,8},{272,8},{272,20}}, color={0,127,255}));
-  connect(stairWay.port_a, bathRoom.port_a) annotation (Line(points={{
-          74,6},{74,6},{74,-6},{74,-4},{128,-4},{128,6}}, color={0,127,255}));
-  connect(bedRoom1.port_a, stairWay.port_b) annotation (Line(points={
-          {128,60},{122,60},{122,56},{78,56},{78,6}}, color={0,127,255}));
-  connect(living.port_b, Diner.port_a) annotation (Line(points={{-34,
-          36},{-34,-38},{-34,-38}}, color={0,127,255}));
-  connect(Diner.port_a, bouAir.ports[3]) annotation (Line(points={{-34,-38},{30,
-          -38},{30,202},{360,202},{360,170}},         color={0,127,255}));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+  connect(hack.port, sim.portVent) annotation (Line(points={{384,12},{394,12},{
+          394,14},{386.4,14},{386.4,38}}, color={191,0,0}));
+   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -200},{400,240}},
         initialScale=0.1), graphics={
         Line(points={{-72,-100},{-100,-100},{-100,100},{-68,100},{-68,-10},{0,-10},
@@ -43,8 +67,7 @@ equation
         preserveAspectRatio=false,
         initialScale=0.1)),
     experiment(
-      StartTime=1526425717,
-      StopTime=1529480797,
+      StopTime=500000,
       __Dymola_NumberOfIntervals=5000,
       __Dymola_fixedstepsize=15,
       __Dymola_Algorithm="Euler"),
@@ -64,4 +87,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end Ventilation;
+end VentilationInterzonal;
