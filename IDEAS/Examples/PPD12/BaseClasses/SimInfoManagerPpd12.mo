@@ -1,4 +1,4 @@
-within IDEAS.Examples.PPD12;
+within IDEAS.Examples.PPD12.BaseClasses;
 model SimInfoManagerPpd12 "SimInfoManager for PPD12"
   extends BoundaryConditions.Interfaces.PartialSimInfoManager(
     filNam="/home/parallels/Documents/Documents/Huis/Metingen/data2.csv",
@@ -21,7 +21,6 @@ model SimInfoManagerPpd12 "SimInfoManager for PPD12"
   parameter Modelica.SIunits.Angle ang = 0 "Rotation angle of surfaces with respect to compass, clockwise";
   Real HTest = max(0,910*sin(Modelica.Constants.pi/2-angZen.y)-30);
   Modelica.Blocks.Interfaces.RealOutput HGloHorComp = HTest*(1-weaDat.totSkyCov_in)+comTimTab.y[9];
-
 
 Modelica.Blocks.Sources.CombiTimeTable comTimTab(
     tableOnFile=true,

@@ -1,7 +1,7 @@
 within IDEAS.Examples.PPD12;
 model Structure "Ppd 12 example model"
   extends Modelica.Icons.Example;
-  inner SimInfoManagerPpd12                     sim(ang=
+  inner BaseClasses.SimInfoManagerPpd12 sim(ang=
         Modelica.SIunits.Conversions.from_deg(angDelta))
     annotation (Placement(transformation(extent={{400,38},{380,58}})));
   parameter Real n50=1.1
