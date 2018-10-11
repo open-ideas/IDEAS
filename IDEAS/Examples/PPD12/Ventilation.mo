@@ -91,16 +91,18 @@ model Ventilation "Ppd 12 example model"
     dp1_nominal=65,
     dp2_nominal=225) "Heat recovery unit"
     annotation (Placement(transformation(extent={{290,150},{310,170}})));
+  Modelica.Blocks.Sources.RealExpression Te(y=sim.Te) "Ambient air"
+    annotation (Placement(transformation(extent={{374,130},{394,150}})));
 equation
-  connect(hallway.proBusD, living.proBusB) annotation (Line(
-      points={{-73,50},{-45,50},{-45,40}},
+  connect(hallway.proBusD[1], living.proBusB[1]) annotation (Line(
+      points={{-72.4,57},{-45,57},{-45,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(Diner.proBusC, living.proBusA) annotation (Line(
-      points={{-36,-19},{-30,-19},{-30,37}},
+  connect(Diner.proBusC[1], living.proBusA[1]) annotation (Line(
+      points={{-29.2,-18.2},{-30,-18.2},{-30,37}},
       color={255,204,51},
       thickness=0.5));
-  connect(Diner.proBusExt[1], hallway.proBusA) annotation (Line(
+  connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
       points={{-48,-36.5},{-76,-36.5},{-76,41}},
       color={255,204,51},
       thickness=0.5));
@@ -112,19 +114,19 @@ equation
       points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
       color={255,204,51},
       thickness=0.5));
-  connect(Porch.proBusC, Diner.proBusA) annotation (Line(
-      points={{-34,-67},{-34,-48},{-42,-48},{-42,-37}},
+  connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
+      points={{-27.2,-66.2},{-27.2,-48},{-42,-48},{-42,-37}},
       color={255,204,51},
       thickness=0.5));
-  connect(Porch.proBusD, Diner.proBusExt[4]) annotation (Line(
-      points={{-43,-76},{-88,-76},{-88,-38},{-48,-38},{-48,-39.5}},
+  connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom1.proBusFlo, cei2.propsBus_a) annotation (Line(
+  connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
       points={{130,76},{120,76},{120,60},{103.167,60}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei2.propsBus_b, living.proBusCei) annotation (Line(
+  connect(cei2.propsBus_b, living.proBusCei[1]) annotation (Line(
       points={{94.8333,60},{-35.8,60},{-35.8,40}},
       color={255,204,51},
       thickness=0.5));
@@ -132,43 +134,43 @@ equation
       points={{142,61},{144,61},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei1.propsBus_b, hallway.proBusCei) annotation (Line(
+  connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
       points={{70.8333,80},{-81.8,80},{-81.8,44}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom1.proBusA, bathRoom.proBusC) annotation (Line(
-      points={{136,61},{136,52},{136,25},{130,25}},
+  connect(bedRoom1.proBusA[1], bathRoom.proBusC[1]) annotation (Line(
+      points={{136,61},{136,52},{136,25.8},{123.2,25.8}},
       color={255,204,51},
       thickness=0.5));
-  connect(bathRoom.proBusFlo, living.proBusExt[1]) annotation (Line(
+  connect(bathRoom.proBusFlo[1], living.proBusExt[1]) annotation (Line(
       points={{130,22},{96,22},{96,32},{96,38},{-24,38},{-24,36}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusC, bedRoom1.proBusExt[2]) annotation (Line(
-      points={{76,25},{76,25},{76,50},{76,52},{142,52},{142,59}},
+  connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusFlo, hallway.proBusExt[1]) annotation (Line(
+  connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
       points={{76,22},{46,22},{-70,22},{-70,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusD, bathRoom.proBusB) annotation (Line(
-      points={{85,16},{121,16},{121,10}},
+  connect(stairWay.proBusD[1], bathRoom.proBusB[1]) annotation (Line(
+      points={{85.6,23},{121,23},{121,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom2.proBusFlo, bedRoom1.proBusCei) annotation (Line(
+  connect(bedRoom2.proBusFlo[1], bedRoom1.proBusCei[1]) annotation (Line(
       points={{266,78},{266,90},{192,90},{192,64},{130.2,64}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom3.proBusC, bedRoom2.proBusA) annotation (Line(
-      points={{270,39},{264,39},{264,63},{272,63}},
+  connect(bedRoom3.proBusC[1], bedRoom2.proBusA[1]) annotation (Line(
+      points={{263.2,39.8},{264,39.8},{264,63},{272,63}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom3.proBusFlo, bathRoom.proBusCei) annotation (Line(
+  connect(bedRoom3.proBusFlo[1], bathRoom.proBusCei[1]) annotation (Line(
       points={{270,36},{202,36},{202,10},{130.2,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(out2.propsBus_a, bedRoom3.proBusA) annotation (Line(
+  connect(out2.propsBus_a, bedRoom3.proBusA[1]) annotation (Line(
       points={{233,2.16667},{233,14},{276,14},{276,21}},
       color={255,204,51},
       thickness=0.5));
@@ -180,7 +182,7 @@ equation
       points={{281,2.16667},{281,11.5},{282,11.5},{282,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(Roof2.propsBus_a, bedRoom3.proBusCei) annotation (Line(
+  connect(Roof2.propsBus_a, bedRoom3.proBusCei[1]) annotation (Line(
       points={{261,2.16667},{261,24},{270.2,24}},
       color={255,204,51},
       thickness=0.5));
@@ -188,19 +190,10 @@ equation
       points={{191.167,-10},{282,-10},{282,18.6667}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei3.propsBus_b, stairWay.proBusCei) annotation (Line(
+  connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
       points={{182.833,-10},{76.2,-10},{76.2,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(sim.weaBus, weaBus1) annotation (Line(
-      points={{380,52},{380,52},{380,80}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(bouAir.T_in, weaBus1.Te) annotation (Line(points={{382,174},{404,174},
-          {404,80.05},{380.05,80.05}}, color={0,0,127}));
   connect(fanSup.port_a, bouAir.ports[1]) annotation (Line(points={{340,140},{
           360,140},{360,172.667}},
                            color={0,127,255}));
@@ -243,6 +236,8 @@ equation
           {150,180}}, color={0,127,255}));
   connect(Diner.port_a, bouAir.ports[3]) annotation (Line(points={{-34,-38},{30,
           -38},{30,202},{360,202},{360,167.333}},     color={0,127,255}));
+  connect(Te.y, bouAir.T_in) annotation (Line(points={{395,140},{400,140},{400,
+          174},{382,174}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -200},{400,240}},
         initialScale=0.1), graphics={

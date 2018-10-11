@@ -53,7 +53,7 @@ equation
   Tsky = TBlaSkyData.y;
   Va = comTimTab.y[4];
 
-  connect(TBlaSkyData.u, weaBus1.TBlaSky);
+  connect(TBlaSkyData.u, weaDatBus.TBlaSky);
   connect(comTimTab.y[1], weaDat.TDryBul_in) annotation (Line(points={{-119,-30},
           {-110,-30},{-110,-41},{-101,-41}}, color={0,0,127}));
   connect(relHumExp.y, weaDat.relHum_in) annotation (Line(points={{-119,-48},{-101,

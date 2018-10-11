@@ -2,15 +2,15 @@ within IDEAS.Buildings.Components.Interfaces;
 model PartialZone "Building zone model"
   extends IDEAS.Buildings.Components.Interfaces.ZoneInterface(
     Qgai(y=(if not sim.computeConservationOfEnergy then 0 elseif sim.openSystemConservationOfEnergy
-            then airModel.QGai
-            else gainCon.Q_flow + gainRad.Q_flow + airModel.QGai)),
-    Eexpr(y=if sim.computeConservationOfEnergy then E else 0));
+           then airModel.QGai else gainCon.Q_flow + gainRad.Q_flow + airModel.QGai)),
+    Eexpr(y=if sim.computeConservationOfEnergy then E else 0),
+    useOccNumInput=occNum.useInput,
+    useLigCtrInput=ligCtr.useCtrInput);
+
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
 
-  parameter Modelica.SIunits.Volume V "Total zone air volume"
-    annotation(Dialog(group="Building physics"));
   parameter Modelica.SIunits.Length hZone = 2.8
     "Zone height: distance between floor and ceiling"
     annotation(Dialog(group="Building physics"));
@@ -38,7 +38,6 @@ model PartialZone "Building zone model"
   final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/n50toAch*(273.15
        + 21 - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
-  final parameter Modelica.SIunits.MassFlowRate m_flow_nominal = 0.1*1.224*V/3600;
   final parameter Modelica.SIunits.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";
   final parameter Modelica.SIunits.Power Q_design(fixed=false)
@@ -56,22 +55,7 @@ model PartialZone "Building zone model"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  parameter Boolean useOccNumInput = occNum.useInput
-    "=false, to remove icon of nOcc"
-    annotation(Dialog(tab="Advanced",group="Occupants"));
-protected
-  IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
-    "Dummy propsbus for partial" annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-80,40}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-80,40})));
 
-public
   replaceable ZoneAirModels.WellMixedAir airModel(
     redeclare package Medium = Medium,
     nSurf=nSurf,
@@ -87,7 +71,8 @@ public
     final T_start=T_start,
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
-    nPorts=interzonalAirFlow.nPorts)
+    nPorts=interzonalAirFlow.nPorts,
+    m_flow_nominal=m_flow_nominal)
     "Zone air model"
     annotation (choicesAllMatching=true,
     Placement(transformation(extent={{-40,20},{-20,40}})),
@@ -98,14 +83,16 @@ public
       redeclare package Medium = Medium,
       V=V,
       n50=n50,
-      n50toAch=n50toAch)
+      n50toAch=n50toAch,
+      m_flow_nominal_vent=m_flow_nominal)
       "Interzonal air flow model"
     annotation (choicesAllMatching = true,Dialog(tab="Advanced", group="Air model"),
       Placement(transformation(extent={{-40,60},{-20,80}})),
     choicesAllMatching=true,
     Dialog(group="Building physics"));
   replaceable IDEAS.Buildings.Components.Occupants.Fixed occNum
-    constrainedby Occupants.BaseClasses.PartialOccupants
+    constrainedby Occupants.BaseClasses.PartialOccupants(
+      final linearise = sim.lineariseDymola)
     "Number of occupants that are present" annotation (
     choicesAllMatching=true,
     Dialog(group="Occupants (optional)"),
@@ -119,6 +106,20 @@ public
     choicesAllMatching=true,
     Dialog(group="Occupants (optional)"),
     Placement(transformation(extent={{80,82},{100,102}})));
+  replaceable parameter IDEAS.Buildings.Components.RoomType.Generic rooTyp
+    constrainedby
+    IDEAS.Buildings.Components.RoomType.BaseClasses.PartialRoomType
+    "Room type or function, currently only determines the desired lighting intensity"
+    annotation (choicesAllMatching=true,
+    Dialog(group="Lighting (optional)"),
+    Placement(transformation(extent={{32,82},{52,102}})));
+  replaceable parameter IDEAS.Buildings.Components.LightingType.None ligTyp
+    constrainedby
+    IDEAS.Buildings.Components.LightingType.BaseClasses.PartialLighting
+    "Lighting type, determines the lighting efficacy/efficiency" annotation (
+    choicesAllMatching=true,
+    Dialog(group="Lighting (optional)"),
+    Placement(transformation(extent={{56,82},{76,102}})));
   replaceable Comfort.None comfort
     constrainedby Comfort.BaseClasses.PartialComfort(occupancyType=occTyp) "Comfort model" annotation (
     choicesAllMatching=true,
@@ -126,30 +127,60 @@ public
     Placement(transformation(extent={{20,-20},{40,0}})));
   replaceable IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwGainDistribution
     radDistr(nSurf=nSurf, lineariseJModelica=sim.lineariseJModelica)
-                          "Distribution of radiative internal gains"
+    "Distribution of radiative internal gains"
     annotation (choicesAllMatching=true,Dialog(tab="Advanced",group="Building physics"),Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=-90,
         origin={-50,-50})));
-  replaceable IDEAS.Buildings.Components.InternalGains.Simple intGai
+  replaceable IDEAS.Buildings.Components.InternalGains.Occupants intGaiOcc
     constrainedby
     IDEAS.Buildings.Components.InternalGains.BaseClasses.PartialOccupancyGains(
-    occupancyType=occTyp,
-    redeclare final package Medium = Medium) "Internal gains model" annotation (
+      occupancyType=occTyp,
+      redeclare final package Medium = Medium)
+    "Internal gains model" annotation (
     choicesAllMatching=true,
-    Dialog(tab="Advanced",group="Occupants"),
+    Dialog(tab="Advanced", group="Occupants"),
     Placement(transformation(extent={{40,22},{20,42}})));
+
+  replaceable IDEAS.Buildings.Components.InternalGains.Lighting intGaiLig
+    constrainedby
+    IDEAS.Buildings.Components.InternalGains.BaseClasses.PartialLightingGains(
+      A=A,
+      ligTyp=ligTyp,
+      rooTyp=rooTyp) "Lighting model" annotation (
+    choicesAllMatching=true,
+    Dialog(tab="Advanced", group="Lighting"),
+    Placement(transformation(extent={{40,52},{20,72}})));
 
   Modelica.SIunits.Power QTra_design=sum(propsBusInt.QTra_design)
     "Total design transmission heat losses for the zone";
   Modelica.Blocks.Interfaces.RealOutput TAir(unit="K") = airModel.TAir;
   Modelica.Blocks.Interfaces.RealOutput TRad(unit="K") = radDistr.TRad;
   Modelica.SIunits.Energy E = airModel.E;
-  Modelica.Blocks.Interfaces.RealInput nOcc if useOccNumInput
-    "Number of occupants (optional, see occNum)"
-    annotation (Placement(transformation(extent={{128,12},{88,52}})));
+
+  replaceable IDEAS.Buildings.Components.LightingControl.Fixed ligCtr
+    constrainedby
+    IDEAS.Buildings.Components.LightingControl.BaseClasses.PartialLightingControl(
+      final linearise = sim.lineariseDymola)
+    "Lighting control type" annotation (
+    choicesAllMatching=true,
+    Dialog(group="Lighting (optional)"),
+    Placement(transformation(extent={{80,52},{60,72}})));
+
+
 
 protected
+  IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
+    each final numIncAndAziInBus=sim.numIncAndAziInBus,
+    each final outputAngles=sim.outputAngles)
+    "Dummy propsbus for partial" annotation (Placement(transformation(
+        extent={{-20,20},{20,-20}},
+        rotation=-90,
+        origin={-80,40}), iconTransformation(
+        extent={{-20,20},{20,-20}},
+        rotation=-90,
+        origin={-80,40})));
+
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
     radDistrLw(nSurf=nSurf, final linearise=linIntRad or sim.linearise,
     Tzone_nom=Tzone_nom,
@@ -160,9 +191,8 @@ protected
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-50,-10})));
-  Modelica.Blocks.Math.Sum add(nin=2, k=if airModel.computeTSensorAsFunctionOfZoneAir
-         then {0.5,0.5} else {1,0})                "Operative temperature"
-    annotation (Placement(transformation(extent={{24,4},{36,16}})));
+  Modelica.Blocks.Math.Sum add(nin=2, k={0.5,0.5}) "Operative temperature"
+    annotation (Placement(transformation(extent={{84,14},{96,26}})));
 
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistributionViewFactor
     zoneLwDistributionViewFactor(
@@ -175,6 +205,7 @@ protected
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
+
 
 
 initial equation
@@ -191,7 +222,7 @@ equation
   end if;
   for i in 1:nSurf loop
     connect(sim.weaBus, propsBusInt[i].weaBus) annotation (Line(
-        points={{-84,92.8},{-84,92},{-80,92},{-80,66},{-80.1,66},{-80.1,39.9}},
+        points={{-81,93},{-81,92},{-80,92},{-80,66},{-80.1,66},{-80.1,39.9}},
         color={255,204,51},
         thickness=0.5,
         smooth=Smooth.None));
@@ -203,7 +234,7 @@ end for;
       color={191,0,0},
       smooth=Smooth.None));
   connect(radDistr.TRad, add.u[1]) annotation (Line(
-      points={{-40,-50},{-6,-50},{-6,9.4},{22.8,9.4}},
+      points={{-40,-50},{-6,-50},{-6,19.4},{82.8,19.4}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(propsBusInt[1:nSurf].area, radDistr.area[1:nSurf]) annotation (Line(
@@ -287,8 +318,7 @@ end for;
       points={{-30,-20},{-30,-30},{-50,-30},{-50,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(add.y, TSensor) annotation (Line(points={{36.6,10},{36.6,10},{54,10},{
-          80,10},{80,0},{106,0}},
+  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{110,20}},
                    color={0,0,127}));
   connect(radDistr.radSurfTot[1:nSurf], propsBusInt[1:nSurf].surfRad)
     annotation (Line(points={{-50,-40},{-50,-30},{-80,-30},{-80,39.9},{-80.1,
@@ -307,9 +337,8 @@ end for;
           0,127}));
   connect(airModel.ports_air[1], gainCon) annotation (Line(points={{-20,30},{2,30},
           {2,-30},{100,-30}}, color={191,0,0}));
-  connect(airModel.TAir, add.u[2]) annotation (Line(points={{-19.2,24},{-10,24},
-          {-10,10.6},{22.8,10.6}},
-                               color={0,0,127}));
+  connect(airModel.TAir, add.u[2]) annotation (Line(points={{-19,24},{-10,24},{-10,
+          20.6},{82.8,20.6}},  color={0,0,127}));
   connect(radDistr.azi[1:nSurf], propsBusInt[1:nSurf].azi) annotation (Line(
         points={{-60,-42},{-70,-42},{-80,-42},{-80,39.9},{-80.1,39.9}}, color={
           0,0,127}), Text(
@@ -322,24 +351,30 @@ end for;
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(intGai.portCon, airModel.ports_air[1]) annotation (Line(points={{20,30},
-          {-20,30}},                 color={191,0,0}));
-  connect(intGai.portRad, radDistr.radGain) annotation (Line(points={{20,26},{4,
-          26},{4,-60},{-46.2,-60}}, color={191,0,0}));
-  connect(intGai.mWat_flow, airModel.mWat_flow) annotation (Line(points={{19.4,38},
-          {-19.2,38}},           color={0,0,127}));
-  connect(intGai.C_flow, airModel.C_flow)
+  connect(intGaiOcc.portCon, airModel.ports_air[1])
+    annotation (Line(points={{20,30},{-20,30}}, color={191,0,0}));
+  connect(intGaiOcc.portRad, radDistr.radGain) annotation (Line(points={{20,26},
+          {4,26},{4,-60},{-46.2,-60}}, color={191,0,0}));
+  connect(intGaiOcc.mWat_flow, airModel.mWat_flow)
+    annotation (Line(points={{19.4,38},{-19.2,38}}, color={0,0,127}));
+  connect(intGaiOcc.C_flow, airModel.C_flow)
     annotation (Line(points={{19.4,34},{-19.2,34}}, color={0,0,127}));
   connect(comfort.TAir, airModel.TAir) annotation (Line(points={{19,0},{-10,0},{
-          -10,24},{-19.2,24}}, color={0,0,127}));
+          -10,24},{-19,24}},   color={0,0,127}));
   connect(comfort.TRad, radDistr.TRad) annotation (Line(points={{19,-4},{-6,-4},
           {-6,-50},{-40,-50}}, color={0,0,127}));
   connect(comfort.phi, airModel.phi) annotation (Line(points={{19,-8},{-12,-8},{
-          -12,26},{-19.2,26}}, color={0,0,127}));
-  connect(occNum.nOcc, intGai.nOcc)
+          -12,26},{-19,26}},   color={0,0,127}));
+  connect(occNum.nOcc, intGaiOcc.nOcc)
     annotation (Line(points={{58,32},{41,32}}, color={0,0,127}));
   connect(nOcc, occNum.nOccIn)
-    annotation (Line(points={{108,32},{82,32}}, color={0,0,127}));
+    annotation (Line(points={{120,40},{96,40},{96,32},{82,32}},
+                                                color={0,0,127}));
+  connect(uLig, ligCtr.ligCtr) annotation (Line(points={{120,70},{96,70},{96,60},
+          {82,60}},color={0,0,127}));
+  connect(occNum.nOcc, ligCtr.nOcc) annotation (Line(points={{58,32},{96,32},{96,
+          64},{82,64}},
+                   color={0,0,127}));
   connect(airModel.port_b, interzonalAirFlow.port_a_interior)
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
   connect(airModel.port_a, interzonalAirFlow.port_b_interior)
@@ -350,13 +385,44 @@ end for;
           -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
   connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
           -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
-  annotation (
+  connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{52,0},{52,16},{-8,
+          16},{-8,28},{-19,28}}, color={0,0,127}));
+  connect(intGaiLig.portRad, gainRad) annotation (Line(points={{20,60},{4,60},{4,
+          -60},{100,-60}}, color={191,0,0}));
+  connect(intGaiLig.portCon, gainCon) annotation (Line(points={{20,64},{2,64},{2,
+          -30},{100,-30}}, color={191,0,0}));
+  connect(ligCtr.ctrl, intGaiLig.ctrl)
+    annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
+ annotation (Placement(transformation(extent={{
+            140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
     Documentation(info="<html>
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 26, 2018 by Iago Cupeiro:<br/>
+Implementation of the lighting model
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/879\">#879</a>.
+</li>
+<li>
+September 24, 2018 by Filip Jorissen:<br/>
+Fixed duplicate declaration of <code>V</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/917\">#917</a>.
+</li>
+<li>
+July 27, 2018 by Filip Jorissen:<br/>
+Added output for the CO2 concentration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/868\">#868</a>.
+</li>
+<li>
+July 11, 2018, Filip Jorissen:<br/>
+Propagated <code>m_flow_nominal</code> for setting nominal values 
+of <code>h_outflow</code> and <code>m_flow</code>
+in <code>FluidPorts</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/859\">#859</a>.
+</li>
 <li>
 May 29, 2018, Filip Jorissen:<br/>
 Removed conditional fluid ports for JModelica compatibility.

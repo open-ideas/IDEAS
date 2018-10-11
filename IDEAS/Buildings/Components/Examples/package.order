@@ -1,7 +1,14 @@
 BeamRadiationOnFloor
 BuildingShadeExample
 CavityWalls
+FacadeShadeExample
+LightingControl
 NumberOccupants
+RectangularZone
+RectangularZoneEmbedded
+RectangularZoneExternalSurfaces
+RectangularZoneRedeclarationWindows
+ScalingWindow
 WallUnitTest
 WindowDynamics
 WindowLinearisation
