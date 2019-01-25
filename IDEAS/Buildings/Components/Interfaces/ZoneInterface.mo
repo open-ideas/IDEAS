@@ -70,6 +70,10 @@ protected
     "Dummy heat port for avoiding error by dymola translator";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort dummy2
     "Dummy emergy port for avoiding error by dymola translator";
+public
+  Modelica.Blocks.Interfaces.RealOutput phi(unit="1")
+    "Relative humidity in the zone" annotation (Placement(transformation(extent
+          ={{100,-30},{120,-10}}), iconTransformation(extent={{100,10},{120,30}})));
 initial equation
   assert(nSurf>1, "In " + getInstanceName() +
     ": A minimum of 2 surfaces must be connected to the zone.");
