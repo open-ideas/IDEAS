@@ -394,6 +394,8 @@ end for;
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
+  connect(phi, airModel.phi) annotation (Line(points={{110,-20},{46,-20},{46,8},
+          {-12,8},{-12,26},{-19,26}}, color={0,0,127}));
  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
