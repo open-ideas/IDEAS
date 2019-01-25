@@ -11,8 +11,8 @@ model Zone "Building zone model"
         rotation=-90,
         origin={-100,40}), iconTransformation(
         extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-100,40})));
+        rotation=270,
+        origin={-90,0})));
 equation
   connect(propsBus, propsBusInt) annotation (Line(
       points={{-100,40},{-90,40},{-80,40}},
@@ -20,8 +20,7 @@ equation
       thickness=0.5));
 
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
     Documentation(info="<html>
 <p>
 This model is the main zone model. 

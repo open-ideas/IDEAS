@@ -32,11 +32,15 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a gainCon
     "Internal zone node for convective heat gains"
-    annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={100,-30})));
   Modelica.Blocks.Interfaces.RealOutput TSensor(unit="K", displayUnit="degC")
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
-      Placement(transformation(extent={{100,10},{120,30}}), iconTransformation(
-          extent={{100,10},{120,30}})));
+      Placement(transformation(extent={{96,10},{116,30}}),  iconTransformation(
+          extent={{94,72},{110,88}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
@@ -49,13 +53,21 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
   Modelica.Blocks.Interfaces.RealInput nOcc if useOccNumInput
     "Number of occupants, only used when using Occupants.Input"
-    annotation (Placement(transformation(extent={{140,20},{100,60}})));
+    annotation (Placement(transformation(extent={{116,50},{96,70}}),
+        iconTransformation(
+        extent={{8,-8},{-8,8}},
+        rotation=180,
+        origin={-100,40})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
-    annotation (Placement(transformation(extent={{140,50},{100,90}})));
+    annotation (Placement(transformation(extent={{116,70},{96,90}}),
+        iconTransformation(
+        extent={{8,-8},{-8,8}},
+        rotation=180,
+        origin={-100,60})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
-    "CO2 concentration in the zone" annotation (Placement(transformation(extent=
-           {{100,-10},{120,10}}), iconTransformation(extent={{100,10},{120,30}})));
+    "CO2 concentration in the zone" annotation (Placement(transformation(extent={{96,-10},
+            {116,10}}),           iconTransformation(extent={{94,12},{110,28}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE

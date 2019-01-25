@@ -105,21 +105,21 @@ model PartialZone "Building zone model"
     annotation (
     choicesAllMatching=true,
     Dialog(group="Occupants (optional)"),
-    Placement(transformation(extent={{80,82},{100,102}})));
+    Placement(transformation(extent={{72,82},{88,98}})));
   replaceable parameter IDEAS.Buildings.Components.RoomType.Generic rooTyp
     constrainedby
     IDEAS.Buildings.Components.RoomType.BaseClasses.PartialRoomType
     "Room type or function, currently only determines the desired lighting intensity"
     annotation (choicesAllMatching=true,
     Dialog(group="Lighting (optional)"),
-    Placement(transformation(extent={{32,82},{52,102}})));
+    Placement(transformation(extent={{32,82},{48,98}})));
   replaceable parameter IDEAS.Buildings.Components.LightingType.None ligTyp
     constrainedby
     IDEAS.Buildings.Components.LightingType.BaseClasses.PartialLighting
     "Lighting type, determines the lighting efficacy/efficiency" annotation (
     choicesAllMatching=true,
     Dialog(group="Lighting (optional)"),
-    Placement(transformation(extent={{56,82},{76,102}})));
+    Placement(transformation(extent={{52,82},{68,98}})));
   replaceable Comfort.None comfort
     constrainedby Comfort.BaseClasses.PartialComfort(occupancyType=occTyp) "Comfort model" annotation (
     choicesAllMatching=true,
@@ -193,7 +193,7 @@ protected
         rotation=90,
         origin={-50,-10})));
   Modelica.Blocks.Math.Sum add(nin=2, k={0.5,0.5}) "Operative temperature"
-    annotation (Placement(transformation(extent={{84,14},{96,26}})));
+    annotation (Placement(transformation(extent={{64,4},{76,16}})));
 
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistributionViewFactor
     zoneLwDistributionViewFactor(
@@ -235,7 +235,7 @@ end for;
       color={191,0,0},
       smooth=Smooth.None));
   connect(radDistr.TRad, add.u[1]) annotation (Line(
-      points={{-40,-50},{-6,-50},{-6,19.4},{82.8,19.4}},
+      points={{-40,-50},{-6,-50},{-6,9.4},{62.8,9.4}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(propsBusInt[1:nSurf].area, radDistr.area[1:nSurf]) annotation (Line(
@@ -319,8 +319,8 @@ end for;
       points={{-30,-20},{-30,-30},{-50,-30},{-50,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{110,20}},
-                   color={0,0,127}));
+  connect(add.y, TSensor) annotation (Line(points={{76.6,10},{92,10},{92,20},{
+          106,20}},color={0,0,127}));
   connect(radDistr.radSurfTot[1:nSurf], propsBusInt[1:nSurf].surfRad)
     annotation (Line(points={{-50,-40},{-50,-30},{-80,-30},{-80,39.9},{-80.1,
           39.9}}, color={191,0,0}));
@@ -338,8 +338,9 @@ end for;
           0,127}));
   connect(airModel.ports_air[1], gainCon) annotation (Line(points={{-20,30},{2,30},
           {2,-30},{100,-30}}, color={191,0,0}));
-  connect(airModel.TAir, add.u[2]) annotation (Line(points={{-19,24},{-10,24},{-10,
-          20.6},{82.8,20.6}},  color={0,0,127}));
+  connect(airModel.TAir, add.u[2]) annotation (Line(points={{-19,24},{-10,24},{
+          -10,10.6},{62.8,10.6}},
+                               color={0,0,127}));
   connect(radDistr.azi[1:nSurf], propsBusInt[1:nSurf].azi) annotation (Line(
         points={{-60,-42},{-70,-42},{-80,-42},{-80,39.9},{-80.1,39.9}}, color={
           0,0,127}), Text(
@@ -369,12 +370,12 @@ end for;
   connect(occNum.nOcc, intGaiOcc.nOcc)
     annotation (Line(points={{58,32},{41,32}}, color={0,0,127}));
   connect(nOcc, occNum.nOccIn)
-    annotation (Line(points={{120,40},{96,40},{96,32},{82,32}},
+    annotation (Line(points={{106,60},{92,60},{92,32},{82,32}},
                                                 color={0,0,127}));
-  connect(uLig, ligCtr.ligCtr) annotation (Line(points={{120,70},{96,70},{96,60},
+  connect(uLig, ligCtr.ligCtr) annotation (Line(points={{106,80},{92,80},{92,60},
           {82,60}},color={0,0,127}));
-  connect(occNum.nOcc, ligCtr.nOcc) annotation (Line(points={{58,32},{96,32},{96,
-          64},{82,64}},
+  connect(occNum.nOcc, ligCtr.nOcc) annotation (Line(points={{58,32},{86,32},{
+          86,64},{82,64}},
                    color={0,0,127}));
   connect(airModel.port_b, interzonalAirFlow.port_a_interior)
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
@@ -386,18 +387,20 @@ end for;
           -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
   connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
           -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
-  connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{52,0},{52,16},{-8,
-          16},{-8,28},{-19,28}}, color={0,0,127}));
+  connect(ppm, airModel.ppm) annotation (Line(points={{106,0},{52,0},{52,16},{
+          -8,16},{-8,28},{-19,28}},
+                                 color={0,0,127}));
   connect(intGaiLig.portRad, gainRad) annotation (Line(points={{20,60},{4,60},{4,
           -60},{100,-60}}, color={191,0,0}));
   connect(intGaiLig.portCon, gainCon) annotation (Line(points={{20,64},{2,64},{2,
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
+  connect(ppm, ppm) annotation (Line(points={{106,0},{106,0},{106,0},{106,0}},
+        color={0,0,127}));
  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
     Documentation(info="<html>
 <p>See extending models.</p>
 </html>", revisions="<html>
