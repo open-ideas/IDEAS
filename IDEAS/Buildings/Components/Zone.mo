@@ -12,7 +12,7 @@ model Zone "Building zone model"
         origin={-100,40}), iconTransformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
-        origin={-100,40})));
+        origin={-100,2})));
 equation
   connect(propsBus, propsBusInt) annotation (Line(
       points={{-100,40},{-90,40},{-80,40}},

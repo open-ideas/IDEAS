@@ -49,13 +49,15 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
   Modelica.Blocks.Interfaces.RealInput nOcc if useOccNumInput
     "Number of occupants, only used when using Occupants.Input"
-    annotation (Placement(transformation(extent={{140,20},{100,60}})));
+    annotation (Placement(transformation(extent={{120,50},{100,70}}),
+        iconTransformation(extent={{-108,32},{-92,48}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
-    annotation (Placement(transformation(extent={{140,50},{100,90}})));
+    annotation (Placement(transformation(extent={{120,70},{100,90}}),
+        iconTransformation(extent={{-108,52},{-92,68}})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
     "CO2 concentration in the zone" annotation (Placement(transformation(extent=
-           {{100,-10},{120,10}}), iconTransformation(extent={{100,10},{120,30}})));
+           {{100,-10},{120,10}}), iconTransformation(extent={{94,12},{110,28}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
