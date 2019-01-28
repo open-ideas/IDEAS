@@ -32,11 +32,17 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a gainCon
     "Internal zone node for convective heat gains"
-    annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={100,-30})));
   Modelica.Blocks.Interfaces.RealOutput TSensor(unit="K", displayUnit="degC")
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
-      Placement(transformation(extent={{100,10},{120,30}}), iconTransformation(
-          extent={{100,10},{120,30}})));
+      Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={110,20}),                                   iconTransformation(
+          extent={{94,32},{110,48}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
