@@ -6,6 +6,7 @@ IndirectEvaporativeHex
 PrescribedOutlet
 SensibleCooler_T
 ActiveBeams
+FanCoilUnits
 RadiantSlab
 Radiators
 Examples
