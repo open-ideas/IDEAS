@@ -1,0 +1,9 @@
+simulateModel("IDEAS.Fluid.HeatExchangers.FanCoilUnits.Validation.HeaCoil", stopTime=50000, numberOfIntervals=5000, tolerance=1e-06, fixedstepsize=10, resultFile="HeaCoil");
+createPlot(id=1, position={10, 14, 946, 629},
+ y={"manData.y[2]","manData.y[3]","manData.y[4]","fcu80.prescribedHeatFlow.Q_flow","fcu55.prescribedHeatFlow.Q_flow","fcu35.prescribedHeatFlow.Q_flow"}, 
+grid=true, filename="HeaCoil.mat", leftTitleType=1, bottomTitleType=1, 
+colors={{28,108,200},{238,46,47},{0,140,72}, {28,108,200},{238,46,47},{0,140,72}},
+patterns={LinePattern.Solid,LinePattern.Solid,LinePattern.Solid,LinePattern.Dash,LinePattern.Dash,LinePattern.Dash});
+createPlot(id=1, position={10, 14, 946, 311},
+ y={"err80","err55","err35"},
+grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1, colors={{28,108,200},{238,46,47},{0,140,72}});
