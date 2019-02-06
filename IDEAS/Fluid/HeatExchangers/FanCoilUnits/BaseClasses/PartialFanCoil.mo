@@ -1,34 +1,25 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses;
 partial model PartialFanCoil
-  import Buildings;
-  import IDEAS;
 
   package MediumAir = IDEAS.Media.Air;
 
-  final parameter Modelica.SIunits.AbsolutePressure p = 101325 "pressure of the zone";
+  final parameter Modelica.SIunits.AbsolutePressure p = 101325 "Pressure of the zone";
 
-  final parameter MediumAir.ThermodynamicState staAir_default = MediumAir.setState_pTX(
-     T=MediumAir.T_default,
-     p=MediumAir.p_default,
-     X=MediumAir.X_default[1:MediumAir.nXi]) "Default state for medium 2";
-
-  final parameter Modelica.SIunits.HeatCapacity cpAir_nominal = MediumAir.specificHeatCapacityCp(staAir_default);
-
-  parameter IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations configFCU;
+  parameter IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations configFCU "Configuration of the fan coil unit";
   final parameter Boolean humidity = if configFCU == IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea then false else true "parameter to know if compute humidity (only 2-pipe cooling and 4-pipe)";
 
   parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal
   "Nominal mass flow of the air stream";
 
 
-  Sources.Boundary_pT bou(
+  IDEAS.Fluid.Sources.Boundary_pT bou(
     nPorts=1,
     redeclare package Medium = MediumAir,
     use_T_in=true,
     use_Xi_in=humidity,
-    p=100000)
-    annotation (Placement(transformation(extent={{-88,-10},{-68,10}})));
-  Movers.FlowControlled_m_flow fan(
+    p=p)
+    "Boundary conditions of the zone" annotation (Placement(transformation(extent={{-88,-10},{-68,10}})));
+  IDEAS.Fluid.Movers.FlowControlled_m_flow fan(
     redeclare package Medium = MediumAir,
     addPowerToMedium=false,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -38,16 +29,16 @@ partial model PartialFanCoil
     m_flow_nominal=mAir_flow_nominal,
     inputType=inputType,
     tau=0)
-    annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
-  Sources.Boundary_pT sink(nPorts=1, redeclare package Medium = MediumAir)
-    annotation (Placement(transformation(
+    "Fan recirculating the air in the zone through the fan coil unit"  annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
+  IDEAS.Fluid.Sources.Boundary_pT sink(nPorts=1, redeclare package Medium = MediumAir)
+   "Ideal sink" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={80,50})));
 
 
 
-    Modelica.Blocks.Interfaces.IntegerInput stage if
+  Modelica.Blocks.Interfaces.IntegerInput stage if
        fan.inputType == IDEAS.Fluid.Types.InputType.Stages
     "Stage input signal for the pressure head"
     annotation (Placement(
@@ -87,8 +78,8 @@ partial model PartialFanCoil
         rotation=-90,
         origin={-78,80})));
 
-    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_heat
-    annotation (Placement(transformation(extent={{-110,-90},{-90,-70}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_heat
+  "Heat port, to be connected on the convective port of the coupled zone"  annotation (Placement(transformation(extent={{-110,-90},{-90,-70}})));
 
   parameter IDEAS.Fluid.Types.InputType inputType=IDEAS.Fluid.Types.InputType.Continuous
     "Fan control input type" annotation (Dialog(group="Fan parameters"));
@@ -97,21 +88,33 @@ partial model PartialFanCoil
     annotation (Dialog(tab="Assumptions"));
   IDEAS.Utilities.Psychrometrics.X_pTphi
                                    x_pTphi(use_p_in=false) if humidity == true
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+  "Mass fraction of the zone based on its temperature and humidity"  annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-78,38})));
   IDEAS.Utilities.Psychrometrics.pW_X pWat(use_p_in=false) if humidity == true
-    annotation (Placement(transformation(extent={{-88,-46},{-68,-26}})));
+  "Water vapour pressure of the zone, needed to compute the dew point"  annotation (Placement(transformation(extent={{-88,-46},{-68,-26}})));
   IDEAS.Utilities.Psychrometrics.TDewPoi_pW dewPoi if humidity == true
-    annotation (Placement(transformation(extent={{-62,-46},{-42,-26}})));
+  "Dew point of the coupled zone"  annotation (Placement(transformation(extent={{-62,-46},{-42,-26}})));
   IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulPhi wetBul(
-    redeclare package Medium = MediumAir) if humidity == true annotation (Placement(transformation(extent={{-40,58},{-20,78}})));
+    redeclare package Medium = MediumAir) if humidity == true
+      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model" annotation (Placement(transformation(extent={{-40,58},{-20,78}})));
+
   Modelica.Blocks.Sources.Constant p_atm(k=p)
-    annotation (Placement(transformation(extent={{-98,68},{-88,78}})));
+  "Constant pressure needed for the wetBulb model"  annotation (Placement(transformation(extent={{-98,68},{-88,78}})));
   IDEAS.Utilities.Psychrometrics.X_pTphi x_pTphiSat(use_p_in=false) if humidity == true
-    annotation (Placement(transformation(extent={{20,60},{40,80}})));
+  "Mass fraction for saturation conditions, needed to compute the saturation enthalpy used in the Braun-Lebrun model"  annotation (Placement(transformation(extent={{20,60},{40,80}})));
   Modelica.Blocks.Sources.Constant sat(k=1) if humidity == true
-    annotation (Placement(transformation(extent={{-4,54},{6,64}})));
+  "Saturation conditions (humidity = 100%)"  annotation (Placement(transformation(extent={{-4,54},{6,64}})));
+
+protected
+  final parameter MediumAir.ThermodynamicState staAir_default = MediumAir.setState_pTX(
+     T=MediumAir.T_default,
+     p=MediumAir.p_default,
+     X=MediumAir.X_default[1:MediumAir.nXi]) "Default state for air medium";
+
+  final parameter Modelica.SIunits.HeatCapacity cpAir_nominal = MediumAir.specificHeatCapacityCp(staAir_default) "Nominal heat capacity on the air side";
+
+
 equation
   connect(bou.ports[1], fan.port_a)
     annotation (Line(points={{-68,0},{-50,0}}, color={0,127,255}));

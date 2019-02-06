@@ -1,7 +1,5 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses;
 model CooCoil "Cooling coil taking into account condensation"
-  import Buildings;
-  import IDEAS;
 
   package MediumAir = IDEAS.Media.Air;
   package MediumWater = IDEAS.Media.Water;
@@ -10,20 +8,46 @@ model CooCoil "Cooling coil taking into account condensation"
         MediumAir)
     "Fluid connector a1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumAir)
-    "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
-    annotation (Placement(transformation(extent={{110,50},{90,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
-        MediumWater)
-    "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
-        MediumWater)
-    "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{-90,-70},{-110,-50}})));
-  Buildings.Fluid.HeatExchangers.DryCoilEffectivenessNTU wcond(
-    configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
+
+  IDEAS.Fluid.Sources.Boundary_pT bouAir(nPorts=1, redeclare package Medium =
+        MediumAir) "Air sink" annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={60,30})));
+  IDEAS.Fluid.Sources.Boundary_pT bouWat(          redeclare package Medium =
+        MediumWater, nPorts=1) "Water sink"
+                     annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-50,-30})));
+  parameter Real r_nominal
+    "Ratio between air-side and water-side convective heat transfer (hA-value) at nominal condition" annotation (Dialog(group="Nominal conditions"));
+  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal
+    "Nominal mass flow rate" annotation (Dialog(group="Nominal conditions"));
+  parameter Modelica.SIunits.MassFlowRate mWat_flow_nominal
+    "Nominal mass flow rate" annotation (Dialog(group="Nominal conditions"));
+  parameter Modelica.SIunits.PressureDifference dpAir_nominal=100000 "Pressure difference" annotation (Dialog(group="Nominal conditions"));
+  parameter Modelica.SIunits.PressureDifference dpWat_nominal=dpWat_nominal
+    "Pressure difference" annotation (Dialog(group="Nominal conditions"));
+  parameter Boolean use_Q_flow_nominal
+    "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness" annotation (Dialog(group="Nominal thermal performance"));
+  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal
+    "Nominal heat transfer" annotation (Dialog(group="Nominal thermal performance"));
+  parameter Modelica.SIunits.Temperature T_a1_nominal
+    "Nominal temperature at port a1" annotation (Dialog(group="Nominal thermal performance"));
+  parameter Modelica.SIunits.Temperature T_a2_nominal
+    "Nominal temperature at port a2" annotation (Dialog(group="Nominal thermal performance"));
+  parameter Real eps_nominal "Nominal heat transfer effectiveness" annotation (Dialog(group="Nominal thermal performance"), enable=not use_Q_flow_nominal);
+
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier waterMultiplier(k=2,
+      redeclare package Medium = MediumWater) "Water multiplier, used to distribute the same actual flow between each heat exchanger"
+    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier airMultiplier(k=2, redeclare
+      package Medium = MediumAir) "Air multiplier, used to distribute the same actual flow between each heat exchanger"
+    annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
+
+  IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU wcond(
+    configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     m1_flow_nominal=mAir_flow_nominal,
     m2_flow_nominal=mWat_flow_nominal,
     dp2_nominal=dpWat_nominal,
@@ -42,8 +66,8 @@ model CooCoil "Cooling coil taking into account condensation"
                          "Cooling coil taking into account condensation"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
 
-  Buildings.Fluid.HeatExchangers.DryCoilEffectivenessNTU wocond(
-    configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
+  IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU wocond(
+    configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     m1_flow_nominal=mAir_flow_nominal,
     m2_flow_nominal=mWat_flow_nominal,
     dp2_nominal=dpWat_nominal,
@@ -62,47 +86,23 @@ model CooCoil "Cooling coil taking into account condensation"
                          "Cooling coil not taking into account condensation"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
-  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier waterMultiplier(k=2,
-      redeclare package Medium = MediumWater)
-    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
-  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier airMultiplier(k=2, redeclare
-      package Medium = MediumAir)
-    annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
-  IDEAS.Fluid.Sources.Boundary_pT bouAir(nPorts=1, redeclare package Medium =
-        MediumAir) annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={60,30})));
-  IDEAS.Fluid.Sources.Boundary_pT bouWat(          redeclare package Medium =
-        MediumWater, nPorts=1)
-                     annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-50,-30})));
-  parameter Real r_nominal
-    "Ratio between air-side and water-side convective heat transfer (hA-value) at nominal condition" annotation (Dialog(group="Nominal conditions"));
-  parameter SI.MassFlowRate mAir_flow_nominal
-    "Nominal mass flow rate" annotation (Dialog(group="Nominal conditions"));
-  parameter SI.MassFlowRate mWat_flow_nominal
-    "Nominal mass flow rate" annotation (Dialog(group="Nominal conditions"));
-  parameter SI.PressureDifference dpAir_nominal=100000 "Pressure difference" annotation (Dialog(group="Nominal conditions"));
-  parameter SI.PressureDifference dpWat_nominal=dpWat_nominal
-    "Pressure difference" annotation (Dialog(group="Nominal conditions"));
-  parameter Boolean use_Q_flow_nominal
-    "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness" annotation (Dialog(group="Nominal thermal performance"));
-  parameter SI.HeatFlowRate Q_flow_nominal
-    "Nominal heat transfer" annotation (Dialog(group="Nominal thermal performance"));
-  parameter SI.Temperature T_a1_nominal
-    "Nominal temperature at port a1" annotation (Dialog(group="Nominal thermal performance"));
-  parameter SI.Temperature T_a2_nominal
-    "Nominal temperature at port a2" annotation (Dialog(group="Nominal thermal performance"));
-  parameter Real eps_nominal "Nominal heat transfer effectiveness" annotation (Dialog(group="Nominal thermal performance"), enable=not use_Q_flow_nominal);
-
   parameter Boolean allowFlowReversal1=false
     "= false to simplify equations, assuming, but not enforcing, no flow reversal for medium 1";
   parameter Boolean allowFlowReversal2=false
     "= false to simplify equations, assuming, but not enforcing, no flow reversal for medium 2";
 
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumAir)
+    "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
+    annotation (Placement(transformation(extent={{110,50},{90,70}})));
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+        MediumWater)
+    "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumWater)
+    "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
+    annotation (Placement(transformation(extent={{-90,-70},{-110,-50}})));
 
 equation
   connect(port_a1, airMultiplier.port_a)

@@ -2,8 +2,61 @@ within IDEAS.Fluid.HeatExchangers.FanCoilUnits.Validation;
 model CooCoil
   extends Modelica.Icons.Example;
   package MediumWater = IDEAS.Media.Water;
+  //MANUFACTURER DATA
+  Modelica.Blocks.Sources.CombiTimeTable manData(smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments, table=[0,
+        485,1176,2176,2934; 10000,420,1053,1948,2657; 20000,330,865,1600,2209;
+        30000,236,626,1158,1618; 40000,123,389,720,1018; 50000,0,0.001,0.001,
+        0.001])
+    "manufacturers data - 1.flow 2.power at 16 degC 3.sensible power at 7 degC 4.total power at 7degC"
+    annotation (Placement(transformation(extent={{-100,74},{-80,94}})));
+  Modelica.Blocks.Math.Gain gain(k=1/3600) "Conversion factor from l/h to kg/s"
+    annotation (Placement(transformation(extent={{-60,74},{-40,94}})));
+  //AIR
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
+    prescribedTemperature "Prescribes air temperature"
+    annotation (Placement(transformation(extent={{-60,24},{-40,44}})));
+  Modelica.Blocks.Sources.Constant Tset(k=273.15 + 27)
+    "air temperature is at 27degC in test conditions"
+    annotation (Placement(transformation(extent={{-100,44},{-80,64}})));
+  Modelica.Blocks.Sources.Constant RH(k=0.47) "Wet bulb temperature is 19degC in test conditions => RH = 47%"
+    annotation (Placement(transformation(extent={{-100,12},{-80,32}})));
 
-  TwoPipeCoo fcu16(
+
+
+
+//WATER SOURCES
+  IDEAS.Fluid.Sources.Boundary_pT sink(
+    use_T_in=false,
+    use_Xi_in=false,
+    redeclare package Medium = MediumWater,
+    nPorts=2) "Water sink" annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-90,-90})));
+  IDEAS.Fluid.Sources.Boundary_pT       water_deg16(
+    nPorts=1,
+    use_T_in=false,
+    use_Xi_in=false,
+    redeclare package Medium = MediumWater,
+    p=200000,
+    T=289.15) "Water source at 16degC"
+              annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=180,
+        origin={90,10})));
+  IDEAS.Fluid.Sources.Boundary_pT water_deg7(
+    nPorts=1,
+    use_T_in=false,
+    use_Xi_in=false,
+    redeclare package Medium = MediumWater,
+    p=200000,
+    T=280.15) "Water source at 7degC" annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=180,
+        origin={90,-30})));
+
+//FAN-COIL UNITS
+  IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeCoo fcu16(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     mAir_flow_nominal=485/3600,
     eps_nominal=1,
@@ -15,61 +68,8 @@ model CooCoil
     T_a1_nominal=300.15,
     T_a2_nominal=289.15)
     annotation (Placement(transformation(extent={{-2,12},{24,40}})));
-  Modelica.Blocks.Sources.CombiTimeTable manData(smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments, table=[0,
-        485,1176,2176,2934; 10000,420,1053,1948,2657; 20000,330,865,1600,2209;
-        30000,236,626,1158,1618; 40000,123,389,720,1018; 50000,0,0,0,0])
-    "manufacturers data - flow, power at 16 and 7 degC"
-    annotation (Placement(transformation(extent={{-100,74},{-80,94}})));
-  Modelica.Blocks.Math.Gain gain(k=1/3600)
-    annotation (Placement(transformation(extent={{-60,74},{-40,94}})));
-  Sources.Boundary_pT sink(
-    use_T_in=false,
-    use_Xi_in=false,
-    redeclare package Medium = MediumWater,
-    nPorts=2) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-90,-90})));
-  Sources.Boundary_pT       water_deg16(
-    nPorts=1,
-    use_T_in=false,
-    use_Xi_in=false,
-    redeclare package Medium = MediumWater,
-    p=200000,
-    T=289.15) "water source at 80degC"
-              annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={90,10})));
-  Movers.FlowControlled_m_flow pum(
-    addPowerToMedium=false,
-    redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
-    m_flow_nominal=fcu16.mWat_flow_nominal) annotation (Placement(
-        transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={50,10})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
-    prescribedTemperature
-    annotation (Placement(transformation(extent={{-60,24},{-40,44}})));
-  Modelica.Blocks.Sources.Constant Tset(k=273.15 + 27)
-    "air temperature is at 20degC"
-    annotation (Placement(transformation(extent={{-100,44},{-80,64}})));
-  Sources.Boundary_pT water_deg7(
-    nPorts=1,
-    use_T_in=false,
-    use_Xi_in=false,
-    redeclare package Medium = MediumWater,
-    p=200000,
-    T=280.15) annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={90,-30})));
-  TwoPipeCoo fcu7(
+
+  IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeCoo fcu7(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     mAir_flow_nominal=485/3600,
     eps_nominal=1,
@@ -82,33 +82,47 @@ model CooCoil
     T_a1_nominal=300.15,
     T_a2_nominal=280.15)
     annotation (Placement(transformation(extent={{-2,-28},{24,0}})));
-  Movers.FlowControlled_m_flow pum1(
+
+//PUMPS
+ IDEAS.Fluid.Movers.FlowControlled_m_flow pum(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu7.mWat_flow_nominal) annotation (Placement(transformation(
+    m_flow_nominal=fcu16.mWat_flow_nominal) "Pump for water at 16degC" annotation (Placement(
+        transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=180,
+        origin={50,10})));
+ IDEAS.Fluid.Movers.FlowControlled_m_flow pum1(
+    addPowerToMedium=false,
+    redeclare package Medium = MediumWater,
+    inputType=IDEAS.Fluid.Types.InputType.Constant,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_inputFilter=false,
+    m_flow_nominal=fcu7.mWat_flow_nominal) "Pump for water at 7degC" annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={50,-30})));
-  Modelica.Blocks.Sources.Constant RH(k=0.47) "relative humidity conditions"
-    annotation (Placement(transformation(extent={{-100,12},{-80,32}})));
+
+  //ERRORS
   Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.wocond.Q1_flow
-         - manData.y[2])/manData.y[2])
+         - manData.y[2])/manData.y[2])  "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.wocond.Q1_flow
-         - manData.y[3])/manData.y[3])
+         - manData.y[3])/manData.y[3]) "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
-  Modelica.Blocks.Interfaces.RealOutput err16
+  Modelica.Blocks.Interfaces.RealOutput err16 "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Modelica.Blocks.Interfaces.RealOutput err7_sen
+  Modelica.Blocks.Interfaces.RealOutput err7_sen "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=(-fcu7.coil.wcond.Q1_flow
-         - manData.y[4])/manData.y[4])
+         - manData.y[4])/manData.y[4]) "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{60,30},{80,50}})));
-  Modelica.Blocks.Interfaces.RealOutput err7_tot
+  Modelica.Blocks.Interfaces.RealOutput err7_tot "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
 equation
   connect(manData.y[1], gain.u)
@@ -150,5 +164,7 @@ equation
   connect(realExpression2.y, err7_tot)
     annotation (Line(points={{81,40},{110,40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Validation/CooCoi.mos"));
 end CooCoil;
