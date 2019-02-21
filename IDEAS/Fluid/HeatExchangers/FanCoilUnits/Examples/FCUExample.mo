@@ -114,4 +114,6 @@ equation
           40},{82,-28},{10,-28}}, color={255,127,0}));
   connect(TSet.y, hea.TSet) annotation (Line(points={{-69,10},{-54,10},{-54,-32},
           {-42,-32}}, color={0,0,127}));
+  annotation (__Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Examples/FCUExample.mos"));
 end FCUExample;
