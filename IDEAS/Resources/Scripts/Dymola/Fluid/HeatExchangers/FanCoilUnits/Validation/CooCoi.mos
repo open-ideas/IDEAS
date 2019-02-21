@@ -1,4 +1,4 @@
-simulateModel("IDEAS.Fluid.HeatExchangers.FanCoilUnits.Validation.CooCoil", stopTime=50000, numberOfIntervals=5000, tolerance=1e-06, fixedstepsize=10, resultFile="HeaCoil");
+simulateModel("IDEAS.Fluid.HeatExchangers.FanCoilUnits.Validation.CooCoil", stopTime=50000, numberOfIntervals=5000, tolerance=1e-06, fixedstepsize=10, resultFile="CooCoil");
 createPlot(id=1, position={10, 14, 946, 629},
  y={"manData.y[2]","manData.y[3]","manData.y[4]","fcu16.coil.wocond.Q2_flow","fcu7.coil.wocond.Q2_flow","fcu7.coil.wcond.Q2_flow"}, 
 grid=true, filename="CooCoil.mat", leftTitleType=1, bottomTitleType=1, 
