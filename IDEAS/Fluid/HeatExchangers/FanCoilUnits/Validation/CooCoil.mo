@@ -166,5 +166,20 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Validation/CooCoi.mos"));
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Validation/CooCoi.mos"),
+    experiment(
+      StopTime=50000,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
+      __Dymola_fixedstepsize=10,
+      __Dymola_Algorithm="Dassl"),
+    __Dymola_experimentSetupOutput,
+    __Dymola_experimentFlags(
+      Advanced(
+        EvaluateAlsoTop=false,
+        GenerateVariableDependencies=false,
+        OutputModelicaCode=false),
+      Evaluate=true,
+      OutputCPUtime=true,
+      OutputFlatModelica=false));
 end CooCoil;
