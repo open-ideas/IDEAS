@@ -1,7 +1,9 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits;
 model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
-  final configFCU = IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeCoo,
+    QZon(y=coil.wcond.Q1_flow),
+    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeCoo,
+
     fan(dp_nominal=0),
     bou(p=120000));
 
@@ -25,10 +27,6 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
   parameter Boolean use_Q_flow_nominal=true
     "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness"
     annotation (Dialog(group="Coil parameters"));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
-    annotation (Placement(transformation(extent={{-60,-90},{-80,-70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=coil.wcond.Q1_flow) "Convective heat flow transferred to the zone's air"
-    annotation (Placement(transformation(extent={{-30,-90},{-50,-70}})));
   parameter Real eps_nominal "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
@@ -46,7 +44,7 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
     dpWat_nominal=dpWat_nominal,
     wocond(C1_flow=coil.port_a1.m_flow*cp1),
     wcond(C1_flow=coil.port_a1.m_flow*cp_effective),
-    dpAir_nominal=100000)
+    dpAir_nominal=100000) "Cooling coil"
     annotation (Placement(transformation(extent={{-10,-16},{10,4}})));
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort supWat(
@@ -56,7 +54,7 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
     tau=0) "Water sensor to check if condensation occurs" annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
-        origin={20,-54})));
+        origin={20,-50})));
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare final package Medium = MediumWater)
@@ -103,16 +101,12 @@ equation
     annotation (Line(points={{-30,0},{-10,0}}, color={0,127,255}));
   connect(coil.port_b1, sink.ports[1])
     annotation (Line(points={{10,0},{80,0},{80,40}}, color={0,127,255}));
-  connect(prescribedHeatFlow.port, port_heat)
-    annotation (Line(points={{-80,-80},{-100,-80}}, color={191,0,0}));
-  connect(realExpression.y, prescribedHeatFlow.Q_flow)
-    annotation (Line(points={{-51,-80},{-60,-80}}, color={0,0,127}));
   connect(port_b, coil.port_b2) annotation (Line(points={{-20,-100},{-20,-12},{-10,
           -12}}, color={0,127,255}));
   connect(port_a, supWat.port_a)
-    annotation (Line(points={{20,-100},{20,-64}}, color={0,127,255}));
+    annotation (Line(points={{20,-100},{20,-60}}, color={0,127,255}));
   connect(supWat.port_b, coil.port_a2)
-    annotation (Line(points={{20,-44},{20,-12},{10,-12}}, color={0,127,255}));
+    annotation (Line(points={{20,-40},{20,-12},{10,-12}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end TwoPipeCoo;

@@ -1,7 +1,9 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits;
 model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
-  final configFCU = IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea,
+    QZon(y=coil.Q1_flow),
+    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea,
+
     fan(dp_nominal=0),
     bou(p=120000),
     sink(nPorts=1));
@@ -26,10 +28,6 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   parameter Boolean use_Q_flow_nominal=true
     "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness"
     annotation (Dialog(group="Coil parameters"));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
-    annotation (Placement(transformation(extent={{-60,-90},{-80,-70}})));
-  Modelica.Blocks.Sources.RealExpression heatFlow(y=coil.Q1_flow) "Convective heat flow transferred to the zone's air"
-    annotation (Placement(transformation(extent={{-30,-90},{-50,-70}})));
   parameter Real eps_nominal "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
@@ -72,10 +70,6 @@ protected
 
 
 equation
-  connect(prescribedHeatFlow.port, port_heat)
-    annotation (Line(points={{-80,-80},{-100,-80}}, color={191,0,0}));
-  connect(heatFlow.y, prescribedHeatFlow.Q_flow)
-    annotation (Line(points={{-51,-80},{-60,-80}}, color={0,0,127}));
   connect(port_a, coil.port_a2)
     annotation (Line(points={{20,-100},{20,-12},{10,-12}}, color={0,127,255}));
   connect(coil.port_b2, port_b) annotation (Line(points={{-10,-12},{-20,-12},{
