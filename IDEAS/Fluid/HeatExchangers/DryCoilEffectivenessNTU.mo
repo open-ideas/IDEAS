@@ -1,9 +1,8 @@
 within IDEAS.Fluid.HeatExchangers;
 model DryCoilEffectivenessNTU
   "Heat exchanger with effectiveness - NTU relation and no moisture condensation"
-  import Buildings;
-  extends Buildings.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(UA
-      =1/(1/hA.hA_1 + 1/hA.hA_2));
+  extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(UA=
+       1/(1/hA.hA_1 + 1/hA.hA_2));
 
   parameter Real r_nominal(
     min=0,

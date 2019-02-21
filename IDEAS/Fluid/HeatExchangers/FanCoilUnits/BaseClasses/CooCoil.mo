@@ -46,7 +46,7 @@ model CooCoil "Cooling coil taking into account condensation"
       package Medium = MediumAir) "Air multiplier, used to distribute the same actual flow between each heat exchanger"
     annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
 
-  IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU wcond(
+  IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU wcond(
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     m1_flow_nominal=mAir_flow_nominal,
     m2_flow_nominal=mWat_flow_nominal,
@@ -66,7 +66,7 @@ model CooCoil "Cooling coil taking into account condensation"
                          "Cooling coil taking into account condensation"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
 
-  IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU wocond(
+  IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU wocond(
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     m1_flow_nominal=mAir_flow_nominal,
     m2_flow_nominal=mWat_flow_nominal,

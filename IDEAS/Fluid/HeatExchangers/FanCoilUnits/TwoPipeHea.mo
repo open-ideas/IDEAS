@@ -33,7 +33,7 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   parameter Real eps_nominal "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
-  IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU coil(redeclare package
+  IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU coil(redeclare package
       Medium1 = MediumAir, configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     redeclare package Medium2 = MediumWater,
     m1_flow_nominal=mAir_flow_nominal,
