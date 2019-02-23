@@ -2,11 +2,11 @@ HACoilInside
 HANaturalCylinder
 Internal
 PartialEffectiveness
-PartialEffectivenessWet
 PartialEffectivenessNTU
-PartialEffectivenessNTUWet
 PartialPrescribedOutlet
+HADryCoil
 dynamicViscosityWater
+epsilon_C
 epsilon_ntuZ
 isobaricExpansionCoefficientWater
 ntu_epsilonZ

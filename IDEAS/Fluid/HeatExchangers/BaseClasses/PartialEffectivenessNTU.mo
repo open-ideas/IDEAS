@@ -8,8 +8,8 @@ model PartialEffectivenessNTU
     Q2_flow=-Q1_flow,
     mWat1_flow=0,
     mWat2_flow=0);
-  import con = Buildings.Fluid.Types.HeatExchangerConfiguration;
-  import flo = Buildings.Fluid.Types.HeatExchangerFlowRegime;
+  import con = IDEAS.Fluid.Types.HeatExchangerConfiguration;
+  import flo = IDEAS.Fluid.Types.HeatExchangerFlowRegime;
 
   parameter con configuration "Heat exchanger configuration"
     annotation (Evaluate=true);
@@ -141,7 +141,7 @@ initial equation
   // function call on the next line. Thus, we add the test on eps_nominal to avoid an error in ntu_epsilonZ
   // for invalid input arguments
   NTU_nominal = if (eps_nominal > 0 and eps_nominal < 1) then
-    Buildings.Fluid.HeatExchangers.BaseClasses.ntu_epsilonZ(
+    IDEAS.Fluid.HeatExchangers.BaseClasses.ntu_epsilonZ(
     eps=eps_nominal,
     Z=Z_nominal,
     flowRegime=Integer(flowRegime_nominal)) else 0;
@@ -164,7 +164,7 @@ equation
   end if;
 
   // Effectiveness
-  eps = Buildings.Fluid.HeatExchangers.BaseClasses.epsilon_C(
+  eps = IDEAS.Fluid.HeatExchangers.BaseClasses.epsilon_C(
     UA=UA,
     C1_flow=C1_flow,
     C2_flow=C2_flow,
@@ -214,6 +214,10 @@ for <code>UA</code>.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 22, by Iago Cupeiro:<br/>
+Imported into IDEAS from Buildings.
+</li>
 <li>
 January 10, 2018 by Michael Wetter:<br/>
 Removed variable <code>Z</code> that is not used.
