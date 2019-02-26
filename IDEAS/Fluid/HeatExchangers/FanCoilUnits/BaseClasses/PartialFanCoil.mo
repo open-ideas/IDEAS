@@ -186,5 +186,19 @@ equation
           points={{-84,-44},{84,-44}},
           color={0,0,0},
           thickness=0.5)}),                                      Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(revisions="<html>
+<ul>
+<li>
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
+</li>
+</ul>
+</html>", info="<html>
+<p>
+Partial model of a fan-coil unit detached from the zone
+model. The FCU has a heat port to be connected into the
+zone convective port.
+</p>
+</html>"));
 end PartialFanCoil;

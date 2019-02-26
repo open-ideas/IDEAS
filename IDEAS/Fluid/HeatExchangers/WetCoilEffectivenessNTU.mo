@@ -1,4 +1,4 @@
-﻿within IDEAS.Fluid.HeatExchangers;
+within IDEAS.Fluid.HeatExchangers;
 model WetCoilEffectivenessNTU
   "Heat exchanger with effectiveness - NTU relation and no moisture condensation"
   extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTUWet(UA=
@@ -24,7 +24,6 @@ equation
   hA.m2_flow = m2_flow;
   hA.T_1 = T_in1;
   hA.T_2 = T_in2;
-
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics={Rectangle(
@@ -36,20 +35,22 @@ equation
     preferredView="info",
 defaultComponentName="hex",
     Documentation(info="<html>
-<p>Model of a coil with humidity condensation. This model transfers heat in the amount of </p>
-<p align=\"center\"><i>Q̇ = Q̇<sub>max</sub> &epsilon;</p><p align=\"center\">&epsilon; = f(NTU, Z, flowRegime), </i></p>
-<p>where <i>Q̇<sub>max</i></sub> is the maximum heat that can be transferred, <i>&epsilon;</i> is the heat transfer effectiveness, <i>NTU</i> is the Number of Transfer Units, <i>Z</i> is the ratio of minimum to maximum capacity flow rate and <i>flowRegime</i> is the heat exchanger flow regime. such as parallel flow, cross flow or counter flow. </p>
-<p>The flow regimes depend on the heat exchanger configuration. All configurations defined in <a href=\"modelica://IDEAS.Fluid.Types.HeatExchangerConfiguration\">IDEAS.Fluid.Types.HeatExchangerConfiguration</a> are supported. </p>
-<p>The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where <i>ṁ</i> is the mass flow rate, <i>ṁ<sub>0</i></sub> is the nominal mass flow rate, and <i>n=0.8</i> on the air-side and <i>n=0.85</i> on the water side. </p>
-<p>For a plate exchanger, use <a href=\"modelica://IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU\">IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU</a>. </p>
-<p>For a heat and moisture exchanger, use <a href=\"modelica://IDEAS.Fluid.MassExchangers.ConstantEffectiveness\">IDEAS.Fluid.MassExchangers.ConstantEffectiveness</a>. </p>
+<p>
+This model is analog to 
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU\">
+IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU</a> 
+but includes humidity condensation by using the Braun-Lebrun model.
+</p>
+<p>
+More detailed information in 
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTUWet\">
+IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTUWet</a>.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
-September 25, 2018, by Michael Wetter:<br/>
-Refactored model to use a common base class with
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.PlateHeatExchangerEffectivenessNTU\">
-Buildings.Fluid.HeatExchangers.PlateHeatExchangerEffectivenessNTU</a>.
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
 </li>
 </ul>
 </html>"));

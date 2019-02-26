@@ -182,5 +182,18 @@ equation
         OutputModelicaCode=false),
       Evaluate=true,
       OutputCPUtime=true,
-      OutputFlatModelica=false));
+      OutputFlatModelica=false),
+    Documentation(revisions="<html>
+<ul>
+<li>
+February 25, 2019, by Iago Cupeiro:<br/>
+First implementation.
+</li>
+</ul>
+</html>", info="<html>
+<p>
+Validation of the two-pipe heating fan coil unit
+model against manufacturer data from JAGA.
+</p>
+</html>"));
 end CooCoil;

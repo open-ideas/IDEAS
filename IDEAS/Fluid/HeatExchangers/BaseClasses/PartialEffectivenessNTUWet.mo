@@ -153,4 +153,47 @@ equation
                                                 color={0,0,127}));
 
 
+  annotation (Documentation(info="<html>
+<p>
+This model extends from
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.PartialEffectivenessNTU\">
+IDEAS.Fluid.HeatExchangers.PartialEffectivenessNTU</a> 
+but includes humidity condensation by using the Braun-Lebrun model.
+</p>
+<p>
+This model does not account for moisture mass exchange.
+</p>
+<p>
+The Braun-Lebrun model assumes that, under condensation conditions,
+a ficticious perfect gas replaces the air whose enthalpy is defined
+by the actual wet bulb temperature.
+</p>
+<p>
+The specific heat capacity of the ficticious perfect gas is given by
+the following relationship:
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  c<sub>p</sub> = (h<sub>sup</sub> - h<sub>sat</sub>) &frasl; 
+  (T<sub>wb</sub> - T<sub>dp</sub>)<br/>
+</p>
+<p>
+where
+<i>h<sub>sup</sub></i> is the enthalpy of the supply air,
+<i>h<sub>sat</sub></i> is the enthalpy of the air under saturation
+conditions,
+<i>T<sub>wb</sub></i> is the wet bulb temperature of the supply air,
+<i>T<sub>dp</sub></i> is the dew point of the supply air.
+</p>
+<p>
+The model includes all the psychometric components needed to compute the
+necessary inputs to the Braun-Lebrun model.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
+</li>
+</ul>
+</html>"));
 end PartialEffectivenessNTUWet;

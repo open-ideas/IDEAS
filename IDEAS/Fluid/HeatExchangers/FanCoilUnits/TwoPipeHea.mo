@@ -75,5 +75,20 @@ equation
   connect(fan.port_b, coil.port_a1)
     annotation (Line(points={{-30,0},{-10,0}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(revisions="<html>
+<ul>
+<li>
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
+</li>
+</ul>
+</html>", info="<html>
+<p>
+Model of a two-pipe fan-coil unit for cooling
+detached from the zone model. The FCU has a 
+heat port to be connected into the zone
+convective port.
+</p>
+</html>"));
 end TwoPipeHea;
