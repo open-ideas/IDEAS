@@ -115,7 +115,7 @@ equation
   connect(TSet.y, hea.TSet) annotation (Line(points={{-69,10},{-54,10},{-54,-32},
           {-42,-32}}, color={0,0,127}));
   annotation (__Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Examples/FCUExample.mos"),
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Examples/TwoPipeExample.mos"),
     experiment(
       StopTime=50000,
       __Dymola_NumberOfIntervals=5000,
@@ -130,5 +130,15 @@ equation
         OutputModelicaCode=false),
       Evaluate=true,
       OutputCPUtime=true,
-      OutputFlatModelica=false));
+      OutputFlatModelica=false),
+    Documentation(revisions="<html>
+<ul>
+<li>
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
+</li>
+</ul>
+</html>", info="<html>
+<p>Example model of a two-pipe fan-coil unit (heating)</p>
+</html>"));
 end TwoPipeExample;

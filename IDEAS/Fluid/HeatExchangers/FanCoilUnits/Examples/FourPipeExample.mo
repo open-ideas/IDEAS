@@ -179,7 +179,7 @@ equation
   connect(bou2.ports[1], coo.port_a) annotation (Line(points={{-74,-90},{-70,
           -90},{-70,-76},{-40,-76}}, color={0,127,255}));
   annotation (__Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Examples/FCUExample.mos"),
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/FanCoilUnits/Examples/FourPipeExample.mos"),
     experiment(
       StartTime=2500000,
       StopTime=3000000,
@@ -198,5 +198,15 @@ equation
         InlineFixedStep=0.001),
       Evaluate=true,
       OutputCPUtime=true,
-      OutputFlatModelica=false));
+      OutputFlatModelica=false),
+    Documentation(revisions="<html>
+<ul>
+<li>
+February 25, 2019 by Iago Cupeiro:<br/>
+First implementation
+</li>
+</ul>
+</html>", info="<html>
+<p>Example model of a four-pipe fan-coil unit</p>
+</html>"));
 end FourPipeExample;
