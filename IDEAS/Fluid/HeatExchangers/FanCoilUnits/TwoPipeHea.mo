@@ -2,32 +2,35 @@ within IDEAS.Fluid.HeatExchangers.FanCoilUnits;
 model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
     QZon(y=coil.Q1_flow),
-    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea,
-    fan(dp_nominal=0),
-    bou(p=120000),
-    sink(nPorts=1));
+    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea);
 
-  package MediumWater = IDEAS.Media.Water "Media in the water-side";
+  package MediumWater = IDEAS.Media.Water
+  "Media in the water-side";
 
   parameter Modelica.SIunits.MassFlowRate mWat_flow_nominal = coil.Q_flow_nominal/cpWat_nominal/deltaTHea_nominal
   "Nominal mass flow of the coil";
 
-  parameter Modelica.SIunits.TemperatureDifference deltaTHea_nominal = 10 "Nominal temperature difference in water side"
+  parameter Modelica.SIunits.TemperatureDifference deltaTHea_nominal = 10
+  "Nominal temperature difference in water side"
   annotation (Dialog(group="Coil parameters"));
 
- parameter Modelica.SIunits.PressureDifference dpWat_nominal
+  parameter Modelica.SIunits.PressureDifference dpWat_nominal
     "Pressure difference on water side"
     annotation (Dialog(group="Coil parameters"));
-  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal "Nominal heat transfer"
+  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal
+  "Nominal heat transfer"
     annotation (Dialog(group="Coil parameters"));
-  parameter Modelica.SIunits.Temperature T_a1_nominal "Nominal temperature of inlet air"
+  parameter Modelica.SIunits.Temperature T_a1_nominal
+  "Nominal temperature of inlet air"
     annotation (Dialog(group="Coil parameters"));
-  parameter Modelica.SIunits.Temperature T_a2_nominal "Nominal temperature of inlet water"
+  parameter Modelica.SIunits.Temperature T_a2_nominal
+  "Nominal temperature of inlet water"
     annotation (Dialog(group="Coil parameters"));
   parameter Boolean use_Q_flow_nominal=true
     "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness"
     annotation (Dialog(group="Coil parameters"));
-  parameter Real eps_nominal "Nominal heat transfer effectiveness"
+  parameter Real eps_nominal
+  "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
  IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU coil(redeclare package
@@ -58,7 +61,7 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
 
 protected
     final parameter MediumWater.ThermodynamicState staWat_default = MediumWater.setState_pTX(
-     T=MediumWater.T_default,
+     T=coil.T_a2_nominal,
      p=MediumWater.p_default,
      X=MediumWater.X_default[1:MediumWater.nXi]) "Default state for water-side";
 

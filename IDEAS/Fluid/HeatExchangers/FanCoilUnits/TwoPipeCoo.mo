@@ -2,9 +2,7 @@ within IDEAS.Fluid.HeatExchangers.FanCoilUnits;
 model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
     QZon(y=coil.Q1_flow),
-    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeCoo,
-    fan(dp_nominal=0),
-    bou(p=120000));
+    final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeCoo);
 
   package MediumWater = IDEAS.Media.Water "Media in the water-side";
 
@@ -66,8 +64,8 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
 
 protected
-   final parameter MediumWater.ThermodynamicState staWat_default = MediumWater.setState_pTX(
-     T=MediumWater.T_default,
+   final parameter MediumWater.ThermodynamicState staWat_nominal = MediumWater.setState_pTX(
+     T=coil.T_a2_nominal,
      p=MediumWater.p_default,
      X=MediumWater.X_default[1:MediumWater.nXi]) "Default state for water-side";
 

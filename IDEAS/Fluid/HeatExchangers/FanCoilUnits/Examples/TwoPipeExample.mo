@@ -1,5 +1,5 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits.Examples;
-model FCUExample
+model TwoPipeExample
   extends Modelica.Icons.Example
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
@@ -109,7 +109,7 @@ equation
   connect(not1.y, booleanToInteger.u)
     annotation (Line(points={{49,40},{56,40}}, color={255,0,255}));
   connect(booleanToInteger.y, twoPipeHea.stage) annotation (Line(points={{79,40},
-          {82,40},{82,4},{50,4},{50,0}}, color={255,127,0}));
+          {82,40},{82,4},{50,4},{50,2}}, color={255,127,0}));
   connect(booleanToInteger.y, pump.stage) annotation (Line(points={{79,40},{82,
           40},{82,-28},{10,-28}}, color={255,127,0}));
   connect(TSet.y, hea.TSet) annotation (Line(points={{-69,10},{-54,10},{-54,-32},
@@ -131,4 +131,4 @@ equation
       Evaluate=true,
       OutputCPUtime=true,
       OutputFlatModelica=false));
-end FCUExample;
+end TwoPipeExample;
