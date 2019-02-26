@@ -3,6 +3,7 @@ HANaturalCylinder
 Internal
 PartialEffectiveness
 PartialEffectivenessNTU
+PartialEffectivenessNTUWet
 PartialPrescribedOutlet
 HADryCoil
 dynamicViscosityWater

@@ -1,9 +1,8 @@
 within IDEAS.Fluid.HeatExchangers.FanCoilUnits;
 model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
-    QZon(y=coil.wcond.Q1_flow),
+    QZon(y=coil.Q1_flow),
     final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeCoo,
-
     fan(dp_nominal=0),
     bou(p=120000));
 
@@ -30,21 +29,22 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
   parameter Real eps_nominal "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
-    IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.CooCoil coil(
+    IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU coil(
     use_Q_flow_nominal=use_Q_flow_nominal,
     Q_flow_nominal=Q_flow_nominal,
     T_a1_nominal=T_a1_nominal,
     T_a2_nominal=T_a2_nominal,
     r_nominal=cpAir_nominal/cpWat_nominal,
     eps_nominal=1,
-    mAir_flow_nominal=mAir_flow_nominal,
-    mWat_flow_nominal=mWat_flow_nominal,
     allowFlowReversal1=false,
     allowFlowReversal2=false,
-    dpWat_nominal=dpWat_nominal,
-    wocond(C1_flow=coil.port_a1.m_flow*cp1),
-    wcond(C1_flow=coil.port_a1.m_flow*cp_effective),
-    dpAir_nominal=100000) "Cooling coil"
+    configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
+    redeclare package Medium1 = MediumAir,
+    redeclare package Medium2 = MediumWater,
+    m1_flow_nominal=mAir_flow_nominal,
+    m2_flow_nominal=mWat_flow_nominal,
+    dp2_nominal=dpWat_nominal,
+    dp1_nominal=0)        "Cooling coil"
     annotation (Placement(transformation(extent={{-10,-16},{10,4}})));
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort supWat(
@@ -66,28 +66,6 @@ model TwoPipeCoo "FanCoil with 2-pipe configuration for cooling"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
 
 protected
-   final MediumAir.ThermodynamicState sta_dewPoint = MediumAir.setState_pTX(
-      T= dewPoi.T,
-      p=MediumAir.p_default,
-      X= x_pTphi.X) "State for dew point conditions";
-
-
-   final Modelica.SIunits.SpecificEnthalpy h_coil = IDEAS.Media.Air.specificEnthalpy_pTX(
-      T= TAir,
-      p=MediumAir.p_default,
-      X= x_pTphi.X) "Supply air enthalpy to the coil";
-
-   final Modelica.SIunits.SpecificEnthalpy h_saturation = IDEAS.Media.Air.specificEnthalpy_pTX(
-      T= wetBul.TWetBul,
-      p=MediumAir.p_default,
-      X= x_pTphiSat.X) "Enthalpy of the ficticious fluid from Braun-Lebrun model";
-
-   final Modelica.SIunits.SpecificHeatCapacity cp_saturation = (h_coil - h_saturation) / (wetBul.TWetBul - dewPoi.T) "Heat capacity used in the ficticious fluid when condensation occurs, according to Braun-Lebrun model";
-
-   final Modelica.SIunits.SpecificHeatCapacity cp1 = MediumAir.specificHeatCapacityCp(coil.wocond.state_a1_inflow) "Heat capacity used when no condensation occurs";
-
-   final Modelica.SIunits.SpecificHeatCapacity cp_effective = if supWat.T <= dewPoi.T then cp_saturation else cp1 "Heat capacity used in the coil that computes condensation (air-side)";
-
    final parameter MediumWater.ThermodynamicState staWat_default = MediumWater.setState_pTX(
      T=MediumWater.T_default,
      p=MediumWater.p_default,

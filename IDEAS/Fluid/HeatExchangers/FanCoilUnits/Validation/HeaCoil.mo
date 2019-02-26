@@ -156,7 +156,8 @@ equation
   connect(manData.y[1], gain.u)
     annotation (Line(points={{-79,80},{-62,80}}, color={0,0,127}));
   connect(gain.y, fcu80.m_flow_in)
-    annotation (Line(points={{-39,80},{18.8,80},{18.8,40}}, color={0,0,127}));
+    annotation (Line(points={{-39,80},{18.8,80},{18.8,42.8}},
+                                                            color={0,0,127}));
   connect(pum.port_b, fcu80.port_a) annotation (Line(points={{40,10},{14,10},{
           14,12},{13.6,12}}, color={0,127,255}));
   connect(pum.port_a, water_deg80.ports[1]) annotation (Line(points={{60,10},{80,
@@ -186,9 +187,10 @@ equation
   connect(fcu55.port_heat, prescribedTemperature.port) annotation (Line(points=
           {{-2,-25.2},{-24,-25.2},{-24,30},{-40,30}}, color={191,0,0}));
   connect(gain.y, fcu55.m_flow_in) annotation (Line(points={{-39,80},{32,80},{
-          32,3.55271e-15},{18.8,3.55271e-15}}, color={0,0,127}));
+          32,2.8},{18.8,2.8}},                 color={0,0,127}));
   connect(gain.y, fcu35.m_flow_in) annotation (Line(points={{-39,80},{32,80},{
-          32,-40},{18.8,-40}}, color={0,0,127}));
+          32,-37.2},{18.8,-37.2}},
+                               color={0,0,127}));
   connect(Tset.y, fcu55.TAir) annotation (Line(points={{-79,50},{-12,50},{-12,2},
           {6.84,2},{6.84,-2.8}}, color={0,0,127}));
   connect(Tset.y, fcu35.TAir) annotation (Line(points={{-79,50},{-12,50},{-12,-36},

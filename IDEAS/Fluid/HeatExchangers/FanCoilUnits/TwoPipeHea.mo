@@ -3,7 +3,6 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   extends IDEAS.Fluid.HeatExchangers.FanCoilUnits.BaseClasses.PartialFanCoil(
     QZon(y=coil.Q1_flow),
     final configFCU=IDEAS.Fluid.HeatExchangers.FanCoilUnits.Types.FCUConfigurations.TwoPipeHea,
-
     fan(dp_nominal=0),
     bou(p=120000),
     sink(nPorts=1));
@@ -31,7 +30,7 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
   parameter Real eps_nominal "Nominal heat transfer effectiveness"
     annotation (Dialog(group="Coil parameters", enable=not use_Q_flow_nominal));
 
-  IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU coil(redeclare package
+ IDEAS.Fluid.HeatExchangers.WetCoilEffectivenessNTU coil(redeclare package
       Medium1 = MediumAir, configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
     redeclare package Medium2 = MediumWater,
     m1_flow_nominal=mAir_flow_nominal,
@@ -42,11 +41,10 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
     T_a1_nominal=T_a1_nominal,
     T_a2_nominal=T_a2_nominal,
     r_nominal=cpAir_nominal/cpWat_nominal,
-    dp1_nominal=100000,
     show_T=true,
-    C1_flow = coil.port_a1.m_flow*cp1,
     allowFlowReversal1=false,
-    allowFlowReversal2=false)
+    allowFlowReversal2=false,
+    dp1_nominal=0)
     annotation (Placement(transformation(extent={{-10,-16},{10,4}})));
 
  Modelica.Fluid.Interfaces.FluidPort_a port_a(
@@ -59,8 +57,6 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
 
 protected
-    final Modelica.SIunits.SpecificHeatCapacity cp1 = MediumAir.specificHeatCapacityCp(coil.state_a1_inflow) "Heat capacity flowing into the water side of the coil";
-
     final parameter MediumWater.ThermodynamicState staWat_default = MediumWater.setState_pTX(
      T=MediumWater.T_default,
      p=MediumWater.p_default,

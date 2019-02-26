@@ -76,11 +76,11 @@ model CooCoil
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
-    mWat_flow_nominal=505/3600,
     deltaTCoo_nominal=5,
     Q_flow_nominal=2176,
     T_a1_nominal=300.15,
-    T_a2_nominal=280.15)
+    T_a2_nominal=280.15,
+    coil(pWat1(x_w(start=0.0103))))
     annotation (Placement(transformation(extent={{-2,-28},{24,0}})));
 
 //PUMPS
@@ -109,17 +109,17 @@ model CooCoil
         origin={50,-30})));
 
   //ERRORS
-  Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.wocond.Q1_flow
+  Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.Q1_flow
          - manData.y[2])/manData.y[2])  "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.wocond.Q1_flow
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.Q1_flow
          - manData.y[3])/manData.y[3]) "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Modelica.Blocks.Interfaces.RealOutput err16 "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Interfaces.RealOutput err7_sen "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=(-fcu7.coil.wcond.Q1_flow
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=(fcu7.coil.Q2_flow
          - manData.y[4])/manData.y[4]) "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{60,30},{80,50}})));
   Modelica.Blocks.Interfaces.RealOutput err7_tot "Error at 7degC conditions, total (to water)"
@@ -128,7 +128,8 @@ equation
   connect(manData.y[1], gain.u)
     annotation (Line(points={{-79,84},{-62,84}}, color={0,0,127}));
   connect(gain.y, fcu16.m_flow_in)
-    annotation (Line(points={{-39,84},{18.8,84},{18.8,40}}, color={0,0,127}));
+    annotation (Line(points={{-39,84},{18.8,84},{18.8,42.8}},
+                                                            color={0,0,127}));
   connect(pum.port_b, fcu16.port_a) annotation (Line(points={{40,10},{14,10},{
           14,12},{13.6,12}}, color={0,127,255}));
   connect(pum.port_a,water_deg16. ports[1]) annotation (Line(points={{60,10},{80,
@@ -150,7 +151,7 @@ equation
   connect(fcu7.port_heat, prescribedTemperature.port) annotation (Line(points={
           {-2,-25.2},{-24,-25.2},{-24,34},{-40,34}}, color={191,0,0}));
   connect(gain.y, fcu7.m_flow_in) annotation (Line(points={{-39,84},{32,84},{32,
-          3.55271e-15},{18.8,3.55271e-15}}, color={0,0,127}));
+          2.8},{18.8,2.8}},                 color={0,0,127}));
   connect(Tset.y, fcu7.TAir) annotation (Line(points={{-79,54},{-12,54},{-12,2},
           {6.84,2},{6.84,-2.8}}, color={0,0,127}));
   connect(RH.y, fcu7.phi) annotation (Line(points={{-79,22},{-64,22},{-64,-2.8},

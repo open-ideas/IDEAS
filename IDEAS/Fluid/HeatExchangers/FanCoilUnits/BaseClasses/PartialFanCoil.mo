@@ -92,22 +92,6 @@ partial model PartialFanCoil
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-78,38})));
-  IDEAS.Utilities.Psychrometrics.pW_X pWat(use_p_in=false) if humidity == true
-  "Water vapour pressure of the zone, needed to compute the dew point"  annotation (Placement(transformation(extent={{-80,-40},
-            {-60,-20}})));
-  IDEAS.Utilities.Psychrometrics.TDewPoi_pW dewPoi if humidity == true
-    "Dew point of the zone"        annotation (Placement(transformation(extent={{-40,-40},
-            {-20,-20}})));
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulPhi wetBul(
-    redeclare package Medium = MediumAir) if humidity == true
-      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model" annotation (Placement(transformation(extent={{-40,58},{-20,78}})));
-  Modelica.Blocks.Sources.Constant p_atm(k=p)
-  "Constant pressure needed for the wetBulb model"  annotation (Placement(transformation(extent={{-98,68},{-88,78}})));
-  IDEAS.Utilities.Psychrometrics.X_pTphi x_pTphiSat(use_p_in=false) if humidity == true
-  "Mass fraction for saturation conditions, needed to compute the saturation enthalpy used in the Braun-Lebrun model"  annotation (Placement(transformation(extent={{20,60},{40,80}})));
-  Modelica.Blocks.Sources.Constant sat(k=1) if humidity == true
-  "Saturation conditions (humidity = 100%)"  annotation (Placement(transformation(extent={{0,60},{
-            8,68}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFlo(
     final alpha=0)
     "Prescribed heat flow rate"
@@ -131,26 +115,12 @@ equation
   connect(m_flow_in, fan.m_flow_in) annotation (Line(points={{60,120},{60,40},{-40,
           40},{-40,12}}, color={0,0,127}));
   connect(stage, fan.stage);
-  connect(x_pTphi.X, bou.Xi_in) annotation (Line(points={{-78,27},{-78,18},{-96,
+  connect(x_pTphi.X[1], bou.Xi_in[1]) annotation (Line(points={{-78,27},{-78,18},{-96,
           18},{-96,-4},{-90,-4}}, color={0,0,127}));
   connect(x_pTphi.phi, phi) annotation (Line(points={{-84,50},{-84,62},{-80,62},
           {-80,120}}, color={0,0,127}));
   connect(TAir, x_pTphi.T) annotation (Line(points={{-50,120},{-50,56},{-78,56},
           {-78,50}}, color={0,0,127}));
-  connect(pWat.p_w, dewPoi.p_w)
-    annotation (Line(points={{-59,-30},{-41,-30}}, color={0,0,127}));
-  connect(bou.Xi_in[1], pWat.X_w) annotation (Line(points={{-90,-4},{-96,-4},{-96,
-          -30},{-81,-30}}, color={0,0,127}));
-  connect(TAir, wetBul.TDryBul)
-    annotation (Line(points={{-50,120},{-50,76},{-41,76}}, color={0,0,127}));
-  connect(phi, wetBul.phi)
-    annotation (Line(points={{-80,120},{-80,68},{-41,68}}, color={0,0,127}));
-  connect(p_atm.y, wetBul.p) annotation (Line(points={{-87.5,73},{-60,73},{-60,60},
-          {-41,60}}, color={0,0,127}));
-  connect(sat.y, x_pTphiSat.phi) annotation (Line(points={{8.4,64},{18,64}},
-                        color={0,0,127}));
-  connect(dewPoi.T, x_pTphiSat.T) annotation (Line(points={{-19,-30},{-14,-30},{
-          -14,70},{18,70}},                                       color={0,0,127}));
   connect(preHeaFlo.port, port_heat)
     annotation (Line(points={{-80,-80},{-100,-80}}, color={191,0,0}));
   connect(QZon.y, preHeaFlo.Q_flow)
