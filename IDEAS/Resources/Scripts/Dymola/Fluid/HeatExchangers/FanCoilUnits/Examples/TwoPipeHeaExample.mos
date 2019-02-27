@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Fluid.HeatExchangers.FanCoilUnits.Examples.TwoPipeHeaExample", stopTime=50000, numberOfIntervals=5000, method="Euler", tolerance=1e-06, fixedstepsize=10, resultFile="TwoPipeHeaExample");
+createPlot(id=1, position={0, 0, 1612, 612}, y={"prescribedTemperature.port.Q_flow"}, range={0.0, 50000.0, -1000.0, 3000.0}, grid=true, colors={{28,108,200}});
+createPlot(id=1, position={0, 0, 1612, 301}, y={"TSet.y"}, range={0.0, 50000.0, 300.0, 360.0}, grid=true, subPlot=2, colors={{28,108,200}});

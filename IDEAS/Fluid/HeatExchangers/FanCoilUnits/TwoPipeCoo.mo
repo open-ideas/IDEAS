@@ -69,7 +69,7 @@ protected
      p=MediumWater.p_default,
      X=MediumWater.X_default[1:MediumWater.nXi]) "Default state for water-side";
 
-   final parameter Modelica.SIunits.SpecificHeatCapacity cpWat_nominal = MediumWater.specificHeatCapacityCp(staWat_default) "Nominal heat capacity of the water side";
+   final parameter Modelica.SIunits.SpecificHeatCapacity cpWat_nominal = MediumWater.specificHeatCapacityCp(staWat_nominal) "Nominal heat capacity of the water side";
 
 
 equation

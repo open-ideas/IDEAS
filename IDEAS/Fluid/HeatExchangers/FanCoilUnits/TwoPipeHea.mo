@@ -60,12 +60,12 @@ model TwoPipeHea "FanCoil with 2-pipe configuration for heating"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
 
 protected
-    final parameter MediumWater.ThermodynamicState staWat_default = MediumWater.setState_pTX(
+    final parameter MediumWater.ThermodynamicState staWat_nominal = MediumWater.setState_pTX(
      T=coil.T_a2_nominal,
      p=MediumWater.p_default,
      X=MediumWater.X_default[1:MediumWater.nXi]) "Default state for water-side";
 
-    final parameter Modelica.SIunits.SpecificHeatCapacity cpWat_nominal = MediumWater.specificHeatCapacityCp(staWat_default) "Nominal heat capacity of the water-side";
+    final parameter Modelica.SIunits.SpecificHeatCapacity cpWat_nominal = MediumWater.specificHeatCapacityCp(staWat_nominal) "Nominal heat capacity of the water-side";
 
 
 equation

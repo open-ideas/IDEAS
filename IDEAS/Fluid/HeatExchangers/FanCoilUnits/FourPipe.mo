@@ -52,14 +52,14 @@ model FourPipe
   parameter Boolean use_QHea_flow_nominal=true
   "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness"
     annotation (Dialog(group="Heating coil parameters"));
-  parameter Real epsHea_nominal
+  parameter Real epsHea_nominal = 1
   "Nominal heat transfer effectiveness in the heating coil"
     annotation (Dialog(group="Heating coil parameters", enable=not use_QHea_flow_nominal));
 
   parameter Boolean use_QCoo_flow_nominal=true
   "Set to true to specify Q_flow_nominal and temperatures, or to false to specify effectiveness"
     annotation (Dialog(group="Cooling coil parameters"));
-  parameter Real epsCoo_nominal
+  parameter Real epsCoo_nominal = 1
   "Nominal heat transfer effectiveness in the cooling coil"
     annotation (Dialog(group="Cooling coil parameters", enable=not use_QCoo_flow_nominal));
 
