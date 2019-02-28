@@ -1,4 +1,4 @@
-﻿within IDEAS.Fluid.HeatExchangers;
+within IDEAS.Fluid.HeatExchangers;
 model DryCoilEffectivenessNTU
   "Heat exchanger with effectiveness - NTU relation and no moisture condensation"
   extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(UA=
@@ -24,7 +24,6 @@ equation
   hA.m2_flow = m2_flow;
   hA.T_1 = T_in1;
   hA.T_2 = T_in2;
-
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics={Rectangle(
@@ -36,13 +35,48 @@ equation
     preferredView="info",
 defaultComponentName="hex",
     Documentation(info="<html>
-<p>Model of a coil without humidity condensation. This model transfers heat in the amount of </p>
-<p align=\"center\"><i>Q̇ = Q̇<sub>max</sub> &epsilon;</p><p align=\"center\">&epsilon; = f(NTU, Z, flowRegime), </i></p>
-<p>where <i>Q̇<sub>max</i></sub> is the maximum heat that can be transferred, <i>&epsilon;</i> is the heat transfer effectiveness, <i>NTU</i> is the Number of Transfer Units, <i>Z</i> is the ratio of minimum to maximum capacity flow rate and <i>flowRegime</i> is the heat exchanger flow regime. such as parallel flow, cross flow or counter flow. </p>
-<p>The flow regimes depend on the heat exchanger configuration. All configurations defined in <a href=\"modelica://IDEAS.Fluid.Types.HeatExchangerConfiguration\">IDEAS.Fluid.Types.HeatExchangerConfiguration</a> are supported. </p>
-<p>The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where <i>ṁ</i> is the mass flow rate, <i>ṁ<sub>0</i></sub> is the nominal mass flow rate, and <i>n=0.8</i> on the air-side and <i>n=0.85</i> on the water side. </p>
-<p>For a plate exchanger, use <a href=\"modelica://IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU\">IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU</a>. </p>
-<p>For a heat and moisture exchanger, use <a href=\"modelica://IDEAS.Fluid.MassExchangers.ConstantEffectiveness\">IDEAS.Fluid.MassExchangers.ConstantEffectiveness</a>. </p>
+<p>
+Model of a coil without humidity condensation.
+This model transfers heat in the amount of
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  Q&#775; = Q&#775;<sub>max</sub>  &epsilon;<br/>
+  &epsilon; = f(NTU, Z, flowRegime),
+</p>
+<p>
+where
+<i>Q&#775;<sub>max</sub></i> is the maximum heat that can be transferred,
+<i>&epsilon;</i> is the heat transfer effectiveness,
+<i>NTU</i> is the Number of Transfer Units,
+<i>Z</i> is the ratio of minimum to maximum capacity flow rate and
+<i>flowRegime</i> is the heat exchanger flow regime.
+such as
+parallel flow, cross flow or counter flow.
+</p>
+<p>
+The flow regimes depend on the heat exchanger configuration. All configurations
+defined in
+<a href=\"modelica://IDEAS.Fluid.Types.HeatExchangerConfiguration\">
+IDEAS.Fluid.Types.HeatExchangerConfiguration</a>
+are supported.
+</p>
+<p>
+The convective heat transfer coefficients scale proportional to
+<i>(m&#775;/m&#775;<sub>0</sub>)<sup>n</sup></i>, where
+<i>m&#775;</i> is the mass flow rate,
+<i>m&#775;<sub>0</sub></i> is the nominal mass flow rate, and
+<i>n=0.8</i> on the air-side and <i>n=0.85</i> on the water side.
+</p>
+<p>
+For a plate exchanger, use
+<a href=\"modelica://IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU\">
+IDEAS.Fluid.MassExchangers.PlateHeatExchangerEffectivenessNTU</a>.
+</p>
+<p>
+For a heat and moisture exchanger, use
+<a href=\"modelica://IDEAS.Fluid.MassExchangers.ConstantEffectiveness\">
+IDEAS.Fluid.MassExchangers.ConstantEffectiveness</a>.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
