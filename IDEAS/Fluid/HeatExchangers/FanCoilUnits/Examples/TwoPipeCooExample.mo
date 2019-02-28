@@ -35,7 +35,9 @@ model TwoPipeCooExample
     tau=60,
     use_inputFilter=false,
     m_flow_nominal=twoPipeCoo.mWat_flow_nominal,
-    inputType=IDEAS.Fluid.Types.InputType.Constant) "Water mover component"
+    inputType=IDEAS.Fluid.Types.InputType.Constant,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                                                    "Water mover component"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Sources.Ramp     TSet(
     duration=3600*12,
