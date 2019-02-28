@@ -139,6 +139,22 @@ equation
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             100}})),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Fluid/HeatExchangers/Validation/NTUWetInDryRegime.mos"));
+          "Resources/Scripts/Dymola/Fluid/HeatExchangers/Validation/NTUWetInDryRegime.mos"),
+
+    experiment(
+      StopTime=12000,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
+      __Dymola_fixedstepsize=10,
+      __Dymola_Algorithm="Euler"),
+    __Dymola_experimentSetupOutput,
+    __Dymola_experimentFlags(
+      Advanced(
+        EvaluateAlsoTop=false,
+        GenerateVariableDependencies=false,
+        OutputModelicaCode=false),
+      Evaluate=true,
+      OutputCPUtime=true,
+      OutputFlatModelica=false));
 
 end NTUWetInDryRegime;

@@ -210,13 +210,16 @@ equation
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_fixedstepsize=10,
-      __Dymola_Algorithm="Dassl"),
+      __Dymola_Algorithm="Euler"),
     __Dymola_experimentSetupOutput,
     __Dymola_experimentFlags(
       Advanced(
         EvaluateAlsoTop=false,
         GenerateVariableDependencies=false,
-        OutputModelicaCode=false),
+        OutputModelicaCode=false,
+        InlineMethod=0,
+        InlineOrder=2,
+        InlineFixedStep=0.001),
       Evaluate=true,
       OutputCPUtime=true,
       OutputFlatModelica=false),
