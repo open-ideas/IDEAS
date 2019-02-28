@@ -79,8 +79,7 @@ model CooCoil
     deltaTCoo_nominal=5,
     Q_flow_nominal=2176,
     T_a1_nominal=300.15,
-    T_a2_nominal=280.15,
-    coil(pWat1(x_w(start=0.0103))))
+    T_a2_nominal=280.15)
     annotation (Placement(transformation(extent={{-2,-28},{24,0}})));
 
 //PUMPS
@@ -109,18 +108,18 @@ model CooCoil
         origin={50,-30})));
 
   //ERRORS
-  Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.Q1_flow
-         - manData.y[2])/manData.y[2])  "Error at 16degC conditions"
+  Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.Q1_flow -
+        manData.y[2])/manData.y[2])     "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.Q1_flow
-         - manData.y[3])/manData.y[3]) "Error at 7degC conditions, sensible (to air)"
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.Q1_flow -
+        manData.y[3])/manData.y[3])    "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Modelica.Blocks.Interfaces.RealOutput err16 "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Interfaces.RealOutput err7_sen "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=(fcu7.coil.Q2_flow
-         - manData.y[4])/manData.y[4]) "Error at 7degC conditions, total (to water)"
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=(fcu7.coil.Q2_flow -
+        manData.y[4])/manData.y[4])    "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{60,30},{80,50}})));
   Modelica.Blocks.Interfaces.RealOutput err7_tot "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
