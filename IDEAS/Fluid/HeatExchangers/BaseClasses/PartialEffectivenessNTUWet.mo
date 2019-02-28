@@ -1,4 +1,4 @@
-within IDEAS.Fluid.HeatExchangers.BaseClasses;
+﻿within IDEAS.Fluid.HeatExchangers.BaseClasses;
 model PartialEffectivenessNTUWet
   extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(
     C1_flow = abs(m1_flow)*cpEff1_internal,
@@ -26,48 +26,52 @@ model PartialEffectivenessNTUWet
     "Maximum heat flow rate into medium 1";
 
   //Psychometric analysis for Medium1
-  Utilities.Psychrometrics.pW_X pWat1(
-   p_in = port_a1.p,
-   X_w = port_a1.Xi_outflow[1]) if hum1
-  "Water vapour pressure of the zone, needed to compute the dew point"  annotation (Placement(transformation(extent={{-40,58},
-            {-20,78}})));
-  Utilities.Psychrometrics.TDewPoi_pW dewPoi1 if hum1
-    "Dew point of the zone" annotation (Placement(transformation(extent={{-10,58},
-            {10,78}})));
-  Utilities.Psychrometrics.TWetBul_TDryBulXi wetBul1(
+  Modelica.SIunits.Pressure pWat1=
+    IDEAS.Utilities.Psychrometrics.Functions.pW_X(
+    X_w=port_a1.Xi_outflow[1], p=port_a1.p) if hum1
+    "Water vapour pressure of Medium1, needed to compute the dew point";
+
+  Modelica.Blocks.Interfaces.RealInput dewPoi1(final unit="K")=
+     IDEAS.Utilities.Psychrometrics.Functions.TDewPoi_pW(p_w=pWat1) if hum1
+     "Dew point of Medium1";
+
+
+   Modelica.SIunits.MassFraction xSat1 =  IDEAS.Utilities.Psychrometrics.Functions.X_pSatpphi(
+     pSat=IDEAS.Media.Air.saturationPressure(dewPoi1),
+     p=port_a1.p,
+     phi=1) if hum1
+      "Mass fraction for saturation conditions for Medium1, needed to compute the saturation enthalpy used in the Braun-Lebrun model";
+
+
+  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi wetBul1(
     redeclare package Medium = Medium1,
     TDryBul = T_in1,
     Xi = port_a1.Xi_outflow,
-    p = port_a1.p) if                 hum1
-      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model" annotation (Placement(transformation(extent={{20,28},
-            {40,48}})));
-  Utilities.Psychrometrics.X_pTphi x_pTphiSat1(
-   p_in = port_a1.p,
-   phi = 1) if                 hum1
-    "Mass fraction for saturation conditions for Medium1, needed to compute the saturation enthalpy used in the Braun-Lebrun model"
-     annotation (Placement(transformation(extent={{20,58},{40,78}})));
+    p = port_a1.p) if hum1
+      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model";
 
-  //Psychometric analysis for Medium2
-  Utilities.Psychrometrics.pW_X pWat2(
-   p_in = port_a2.p,
-   X_w = port_a2.Xi_outflow) if hum2
-  "Water vapour pressure of the zone, needed to compute the dew point"  annotation (Placement(transformation(extent={{-40,-50},
-            {-20,-30}})));
-  Utilities.Psychrometrics.TDewPoi_pW dewPoi2 if hum2
-    "Dew point of the zone"        annotation (Placement(transformation(extent={{-12,-50},
-            {8,-30}})));
-  Utilities.Psychrometrics.TWetBul_TDryBulXi wetBul2(
+ //Psychometric analysis for Medium2
+  Modelica.SIunits.Pressure pWat2=
+    IDEAS.Utilities.Psychrometrics.Functions.pW_X(
+    X_w=port_a2.Xi_outflow[1], p=port_a2.p) if hum2
+    "Water vapour pressure of Medium2, needed to compute the dew point";
+
+  Modelica.Blocks.Interfaces.RealInput dewPoi2(final unit="K")=
+     IDEAS.Utilities.Psychrometrics.Functions.TDewPoi_pW(p_w=pWat2) if hum2
+     "Dew point of Medium2";
+
+  Modelica.SIunits.MassFraction xSat2 =  IDEAS.Utilities.Psychrometrics.Functions.X_pSatpphi(
+     pSat=IDEAS.Media.Air.saturationPressure(dewPoi2),
+     p=port_a2.p,
+     phi=1) if hum2
+      "Mass fraction for saturation conditions for Medium2, needed to compute the saturation enthalpy used in the Braun-Lebrun model";
+
+  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi wetBul2(
    redeclare package Medium = Medium2,
    TDryBul = T_in2,
    Xi = port_a2.Xi_outflow[1],
    p = port_a2.p) if hum2
-      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model" annotation (Placement(transformation(extent={{20,-80},
-            {40,-60}})));
-  Utilities.Psychrometrics.X_pTphi x_pTphiSat2(
-   p_in = port_a2.p,
-   phi = 1) if hum2
-    "Mass fraction for saturation conditions for Medium2, needed to compute the saturation enthalpy used in the Braun-Lebrun model"
-  annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
+      "Wet bulb temperature of the zone, needed to compute the heat capacity of the saturated ficticious fluid according to Braun-Lebrun model";
 
     //Check if condensation is possible in Mediums
 protected
@@ -77,13 +81,13 @@ protected
      final Modelica.SIunits.SpecificEnthalpy hSat1 = IDEAS.Media.Air.specificEnthalpy_pTX(
       T= wetBul1.TWetBul,
       p=port_a1.p,
-      X= x_pTphiSat1.X) if hum1
+      X= {xSat1}) if hum1
       "Enthalpy of the ficticious fluid from Braun-Lebrun model for Medium1";
 
      final Modelica.SIunits.SpecificEnthalpy hSat2 = IDEAS.Media.Air.specificEnthalpy_pTX(
       T= wetBul2.TWetBul,
       p=port_a2.p,
-      X= x_pTphiSat2.X) if hum2
+      X= {xSat2}) if hum2
       "Enthalpy of the ficticious fluid from Braun-Lebrun model for Medium2";
 
      final Modelica.SIunits.SpecificEnthalpy hCoi1 = IDEAS.Media.Air.specificEnthalpy_pTX(
@@ -96,16 +100,16 @@ protected
       p=port_a2.p,
       X= port_a2.Xi_outflow) if hum2 "Supply air enthalpy of Medium1";
 
-     final Modelica.SIunits.SpecificHeatCapacity cpSat1 = (hCoi1 - hSat1) / (wetBul1.TWetBul - dewPoi1.T) if hum1
+     final Modelica.SIunits.SpecificHeatCapacity cpSat1 = (hCoi1 - hSat1) / (wetBul1.TWetBul - dewPoi1) if hum1
       "Heat capacity used in the ficticious fluid when condensation occurs in Medium1, according to Braun-Lebrun model";
 
-     final Modelica.SIunits.SpecificHeatCapacity cpSat2 = (hCoi2 - hSat2) / (wetBul2.TWetBul - dewPoi2.T) if hum2
+     final Modelica.SIunits.SpecificHeatCapacity cpSat2 = (hCoi2 - hSat2) / (wetBul2.TWetBul - dewPoi2) if hum2
       "Heat capacity used in the ficticious fluid when condensation occurs in Medium1, according to Braun-Lebrun model";
 
-     final Modelica.Blocks.Interfaces.RealInput cpEff1 = if T_in2 <= dewPoi1.T then cpSat1 else Medium1.specificHeatCapacityCp(state_a1_inflow) if hum1
+     final Modelica.Blocks.Interfaces.RealInput cpEff1 = if T_in2 <= dewPoi1 then cpSat1 else Medium1.specificHeatCapacityCp(state_a1_inflow) if hum1
       "Heat capacity for Medium1 that accounts for condensation";
 
-     final Modelica.Blocks.Interfaces.RealInput cpEff2 = if T_in1 <= dewPoi2.T then cpSat2 else Medium2.specificHeatCapacityCp(state_a2_inflow) if hum2
+     final Modelica.Blocks.Interfaces.RealInput cpEff2 = if T_in1 <= dewPoi2 then cpSat2 else Medium2.specificHeatCapacityCp(state_a2_inflow) if hum2
       "Heat capacity for Medium1 that accounts for condensation";
 
      final Modelica.Blocks.Interfaces.RealInput cpEff1_internal(final unit="J/(kg.K)")
@@ -114,10 +118,10 @@ protected
      final Modelica.Blocks.Interfaces.RealInput cpEff2_internal(final unit="J/(kg.K)")
       "Internal connector for effective heat capacity 1";
 
-     final Modelica.Blocks.Interfaces.RealInput dewPoi1_internal(final unit="K")
-       "Internal connector for dew point in Medium1";
-     final Modelica.Blocks.Interfaces.RealInput dewPoi2_internal(final unit="K")
-       "Internal connector for dew point in Medium2";
+      final Modelica.Blocks.Interfaces.RealInput dewPoi1_internal(final unit="K")
+        "Internal connector for dew point in Medium1";
+      final Modelica.Blocks.Interfaces.RealInput dewPoi2_internal(final unit="K")
+        "Internal connector for dew point in Medium2";
 equation
 
   // Conditional connectors
@@ -131,26 +135,15 @@ equation
     cpEff2_internal = Medium2.specificHeatCapacityCp(state_a2_inflow);
   end if;
 
-  connect(dewPoi1_internal, dewPoi1.T);
-  if not hum1 then
-    dewPoi1_internal = -273.15;
-  end if;
+  connect(dewPoi1_internal, dewPoi1);
+   if  not hum1 then
+     dewPoi1_internal = 0;
+   end if;
 
-  connect(dewPoi2_internal, dewPoi2.T);
-  if not hum2 then
-    dewPoi2_internal = -273.15;
-  end if;
-
-   // Psychometric connections
-  connect(dewPoi1.T,x_pTphiSat1.T) annotation (Line(points={{11,68},{18,68}},
-                        color={0,0,127}));
-  connect(pWat1.p_w,dewPoi1. p_w)
-    annotation (Line(points={{-19,68},{-11,68}},   color={0,0,127}));
-  connect(dewPoi2.T, x_pTphiSat2.T)
-    annotation (Line(points={{9,-40},{18,-40}},  color={0,0,127}));
-  connect(pWat2.p_w, dewPoi2.p_w)
-    annotation (Line(points={{-19,-40},{-13,-40}},
-                                                color={0,0,127}));
+ connect(dewPoi2_internal, dewPoi2);
+   if not hum2 then
+     dewPoi2_internal = 0;
+   end if;
 
 
   annotation (Documentation(info="<html>
@@ -187,6 +180,14 @@ conditions,
 <p>
 The model includes all the psychometric components needed to compute the
 necessary inputs to the Braun-Lebrun model.
+</p>
+<p>
+SOURCE:
+<i>
+Lebrun, J., X. Ding, J.-P. Eppe, and M.Wasac. 1990. Cooling Coil Models to be used in
+Transient and/or Wet Regimes. Theoritical Analysis and Experimental Validation. Proceedings
+of SSB 1990. Liège:405-411
+</i>
 </p>
 </html>", revisions="<html>
 <ul>
