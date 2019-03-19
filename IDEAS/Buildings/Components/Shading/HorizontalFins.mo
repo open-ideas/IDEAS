@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Shading;
-model HorizontalFins "horizontal fins shading"
+model HorizontalFins "Horizontal fin shading with 2 control input options"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final controlled=use_betaInput or use_displacementInput);
 
   parameter Modelica.SIunits.Length s(min=0)

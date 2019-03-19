@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Shading;
-model Screen "Exterior screen"
+model Screen "Controllable exterior screen"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
                                                              final controlled=true);
 
