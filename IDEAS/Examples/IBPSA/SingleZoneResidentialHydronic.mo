@@ -10,7 +10,8 @@ model SingleZoneResidentialHydronic
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
-    mSenFac=1)
+    mSenFac=1,
+    n50=10)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
@@ -96,58 +97,73 @@ equation
     Documentation(info="<html>
 This is a single zone hydronic system model 
 for WP 1.2 of IBPSA project 1. 
-Documentation has to be completed.
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-xxx
+This building envelope model corresponds to the BESTEST case 900 test case. 
+It consists of a single zone with a rectangular floor plan
+of 6 by 8 meters and a height of 2.7 m. 
+The zone further consists of two south-oriented windows of 6 m2 each, 
+which are modelled using a single window of 12 m2.
 </p>
 <h4>Constructions</h4>
 <p>
-xxx
+The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
+For more details see <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
+The floor consists of 8 cm of concrete and 1 m of insulation,
+representing a perfectly insulated floor.
+The roof consists of a light construction and 11 cm of fibreglass.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-xxx
+The zone is occupied by one person between 7 am and 8 pm of each day.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
-xxx
+There are no internal loads other than the occupants.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-xxx
+The model only has a primary heating system that
+heats the zone using a single radiator.
+The radiator nominal thermal power is 2 kW, 
+while the heater maximum thermal pwoer is 3 kW.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-xxx
+The heating system circulation pump has the default efficiency
+of the pump model, which is 49 % at the time of writing.
+No efficiency is computed for the heater.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-xxx
+No local-loop controllers are included.
 </p>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
-xxx
+No lighting model is included.
 </p>
 <h4>Shading</h4>
 <p>
-xxx
+No shading model is included.
 </p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-xxx
+The model uses moist air despite that
+no condensation is modelled in any of the used components.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-xxx
+A simple, single circulation loop is used to model the heating system.
 </p>
 <h4>Infiltration models</h4>
 <p>
-xxx
+Fixed air infiltration corresponding to an n50 value of 10
+is modelled.
 </p>
 </html>", revisions="<html>
 <ul>
