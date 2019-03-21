@@ -94,9 +94,60 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-<p>
 This is a single zone hydronic system model 
-for WP 1.2 of IBPSA project 1.
+for WP 1.2 of IBPSA project 1. 
+Documentation has to be completed.
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+xxx
+</p>
+<h4>Constructions</h4>
+<p>
+xxx
+</p>
+<h4>Occupancy schedules</h4>
+<p>
+xxx
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+xxx
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+xxx
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+xxx
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+xxx
+</p>
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+xxx
+</p>
+<h4>Shading</h4>
+<p>
+xxx
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+xxx
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+xxx
+</p>
+<h4>Infiltration models</h4>
+<p>
+xxx
 </p>
 </html>", revisions="<html>
 <ul>
