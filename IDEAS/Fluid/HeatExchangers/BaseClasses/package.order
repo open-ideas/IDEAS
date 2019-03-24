@@ -13,3 +13,5 @@ isobaricExpansionCoefficientWater
 ntu_epsilonZ
 prandtlNumberWater
 Examples
+PartialEffectivenessNTUWet2
+PartialEffectivenessNTUWet3

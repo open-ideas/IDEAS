@@ -1,7 +1,7 @@
 within IDEAS.Fluid.HeatExchangers;
 model WetCoilEffectivenessNTU
   "Heat exchanger with effectiveness - NTU relation and no moisture condensation"
-  extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTUWet(UA=
+  extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTUWet3(UA=
        1/(1/hA.hA_1 + 1/hA.hA_2));
 
   parameter Real r_nominal(
@@ -18,12 +18,14 @@ model WetCoilEffectivenessNTU
     airSideTemperatureDependent=false)
     "Model for convective heat transfer coefficient";
 
+
 equation
   // Convective heat transfer coefficient
   hA.m1_flow = m1_flow;
   hA.m2_flow = m2_flow;
   hA.T_1 = T_in1;
   hA.T_2 = T_in2;
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics={Rectangle(

@@ -14,11 +14,11 @@ model NTUWetInDryRegime
     dp1_nominal=0,
     dp2_nominal=0,
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
-
     Q_flow_nominal=2000,
     T_a1_nominal=296.15,
     T_a2_nominal=323.15) "Dry NTU H-Ex"
     annotation (Placement(transformation(extent={{0,34},{20,54}})));
+
   Sources.Boundary_pT souAir(
     redeclare package Medium = MediumAir,
     use_T_in=true,
@@ -94,11 +94,11 @@ model NTUWetInDryRegime
     dp1_nominal=0,
     dp2_nominal=0,
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CrossFlowUnmixed,
-
     Q_flow_nominal=2000,
     T_a1_nominal=296.15,
     T_a2_nominal=323.15) "Wet NTU H-Ex"
     annotation (Placement(transformation(extent={{0,-14},{20,6}})));
+
   Modelica.Blocks.Sources.Ramp rampWat(
     duration=10000,
     startTime=1000,
@@ -140,7 +140,6 @@ equation
             100}})),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Fluid/HeatExchangers/Validation/NTUWetInDryRegime.mos"),
-
     experiment(
       StopTime=12000,
       __Dymola_NumberOfIntervals=5000,
@@ -156,5 +155,4 @@ equation
       Evaluate=true,
       OutputCPUtime=true,
       OutputFlatModelica=false));
-
 end NTUWetInDryRegime;

@@ -12,6 +12,7 @@ model TwoPipeCooExample
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     deltaTCoo_nominal=5,
     Q_flow_nominal=2000,
+    allowFlowReversal=false,
     T_a1_nominal=300.15,
     T_a2_nominal=280.15) "Fan coil unit model"
     annotation (Placement(transformation(extent={{50,-6},{74,18}})));
@@ -35,7 +36,9 @@ model TwoPipeCooExample
     tau=60,
     use_inputFilter=false,
     m_flow_nominal=twoPipeCoo.mWat_flow_nominal,
-    inputType=IDEAS.Fluid.Types.InputType.Constant) "Water mover component"
+    inputType=IDEAS.Fluid.Types.InputType.Constant,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    "Water mover component"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Sources.Ramp     TSet(
     duration=3600*12,
