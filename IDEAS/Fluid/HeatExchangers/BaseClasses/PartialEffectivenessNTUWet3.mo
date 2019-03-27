@@ -45,10 +45,10 @@ model PartialEffectivenessNTUWet3
    CMin_flow_Wet*(T_in2 - T_in1) if (hum1 or hum2)
     "Maximum heat flow rate with condensation";
 
-  Modelica.Blocks.Interfaces.RealInput cp1Real = if T_in2 <= dewPoi1 then cp1Wet else Medium1.specificHeatCapacityCp(state_a1_inflow) if hum1
+  Modelica.Blocks.Interfaces.RealInput cp1Real = max(cp1Wet, Medium1.specificHeatCapacityCp(state_a1_inflow)) if hum1
        "Heat capacity for Medium1 that accounts for condensation";
 
-  Modelica.Blocks.Interfaces.RealInput cp2Real = if T_in2 <= dewPoi2 then cp2Wet else Medium2.specificHeatCapacityCp(state_a2_inflow) if hum2
+  Modelica.Blocks.Interfaces.RealInput cp2Real = max(cp2Wet, Medium2.specificHeatCapacityCp(state_a2_inflow)) if hum2
        "Heat capacity for Medium1 that accounts for condensation";
 
   Modelica.SIunits.SpecificHeatCapacity cp1Wet = (hCoi_in1 - hCoi_out1) / (T_in1 - T_out1) if  hum1
