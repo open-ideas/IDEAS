@@ -47,8 +47,8 @@ partial model ZoneInterface "Partial model for thermal building zones"
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
-  Modelica.Blocks.Interfaces.RealInput nOcc if useOccNumInput
-    "Number of occupants, only used when using Occupants.Input"
+  Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
+    "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
@@ -132,6 +132,11 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 28, 2019 by Filip Jorissen:<br/>
+Renamed <code>nOcc</code> to <code>yOcc</code>
+for <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+</li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>
 Added uLig input for controlling lighting
