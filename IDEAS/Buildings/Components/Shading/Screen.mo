@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Shading;
-model Screen "Exterior screen"
+model Screen "Controllable exterior screen"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
                                                              final controlled=true);
 
@@ -9,26 +9,24 @@ protected
   Modelica.Blocks.Nonlinear.Limiter limiter(
     uMax=1,
     uMin=0,
-    limitsAtInit=true) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-10,-60})));
+    limitsAtInit=true);
 
 equation
   HShaDirTil = HDirTil*(1 - limiter.y);
   HShaSkyDifTil = HSkyDifTil*(1 - limiter.y) + HSkyDifTil*limiter.y*shaCorr + HDirTil*limiter.y*shaCorr;
   HShaGroDifTil = HGroDifTil*(1 - limiter.y) + HGroDifTil*limiter.y*shaCorr;
 
-  connect(limiter.u, Ctrl) annotation (Line(
-      points={{-10,-72},{-10,-110}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(limiter.u, Ctrl);
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,
           -50},{40,-50}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
     Documentation(info="<html>
-<p>Shading model of a controllable screen. The transmitted direct solar irradiance varies linearly between [0, 1] with the control input. A fraction shaCorr is converted into diffuse light that enters the building.</p>
+<p>
+Shading model of a controllable screen. 
+The transmitted direct solar irradiance varies linearly between [0, 1] with the control input. 
+A fraction <code>shaCorr</code> is converted into diffuse light that enters the building.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
