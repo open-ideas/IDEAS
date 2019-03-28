@@ -2,7 +2,8 @@
 model PartialEffectivenessNTUWet3
   extends IDEAS.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(
     Q1_flow = if not hum1 then eps_internal*QMax_flow_Wet_internal else eps*QMax_flow,
-    Q2_flow = if not hum2 then -eps_internal*QMax_flow_Wet_internal else -eps*QMax_flow);
+    Q2_flow = -Q1_flow,
+    mWat1_flow=QLat1/2260000);
 
   //Effectiveness in condensation conditions
   Modelica.Blocks.Interfaces.RealInput epsWet(min=0, max=1, final unit="1")=
@@ -15,6 +16,8 @@ model PartialEffectivenessNTUWet3
     CMax_flow_nominal=CMax_flow_nominal,
     delta=delta) if (hum1 or hum2)
    "Heat exchanger effectiveness for condensation conditions";
+  Real fraLat = (cp1Real_internal-Medium1.specificHeatCapacityCp(state_a1_inflow))/cp1Real_internal;
+  Real QLat1 = Q1_flow*fraLat "Latent heat load";
 
   Modelica.SIunits.ThermalConductance CMin_flow_Wet(min=0)=
    min(abs(m1_flow)*cp1Real_internal, abs(m2_flow)*cp2Real_internal) if  (hum1 or hum2)

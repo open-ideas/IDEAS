@@ -7,9 +7,10 @@ model CooCoil
         485,1176,2176,2934; 10000,420,1053,1948,2657; 20000,330,865,1600,2209;
         30000,236,626,1158,1618; 40000,123,389,720,1018; 50000,0,0.001,0.001,
         0.001])
-    "manufacturers data - 1.flow 2.power at 16 degC 3.sensible power at 7 degC 4.total power at 7degC"
+    "manufacturers data - 1. air flow rate 2.power at 16 degC 3.sensible power at 7 degC 4.total power at 7degC"
     annotation (Placement(transformation(extent={{-100,74},{-80,94}})));
-  Modelica.Blocks.Math.Gain gain(k=1/3600) "Conversion factor from l/h to kg/s"
+  Modelica.Blocks.Math.Gain gain(k=1.2/3600)
+    "Conversion factor from l/h to kg/s"
     annotation (Placement(transformation(extent={{-60,74},{-40,94}})));
   //AIR
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
@@ -18,7 +19,8 @@ model CooCoil
   Modelica.Blocks.Sources.Constant Tset(k=273.15 + 27)
     "air temperature is at 27degC in test conditions"
     annotation (Placement(transformation(extent={{-100,44},{-80,64}})));
-  Modelica.Blocks.Sources.Constant RH(k=0.47) "Wet bulb temperature is 19degC in test conditions => RH = 47%"
+  Modelica.Blocks.Sources.Constant RH(k=0.463)
+    "Wet bulb temperature is 19degC in EN1397 => RH = 46%"
     annotation (Placement(transformation(extent={{-100,12},{-80,32}})));
 
 
@@ -58,26 +60,26 @@ model CooCoil
 //FAN-COIL UNITS
   IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeCoo fcu16(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
-    mAir_flow_nominal=485/3600,
     eps_nominal=1,
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
     Q_flow_nominal=1176,
     deltaTCoo_nominal=2,
+    mAir_flow_nominal=1.2*485/3600,
     T_a1_nominal=300.15,
     T_a2_nominal=289.15)
     annotation (Placement(transformation(extent={{-2,12},{24,40}})));
 
   IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeCoo fcu7(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
-    mAir_flow_nominal=485/3600,
     eps_nominal=1,
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
     deltaTCoo_nominal=5,
     Q_flow_nominal=2176,
+    mAir_flow_nominal=1.2*485/3600,
     T_a1_nominal=300.15,
     T_a2_nominal=280.15)
     annotation (Placement(transformation(extent={{-2,-28},{24,0}})));
@@ -86,11 +88,12 @@ model CooCoil
  IDEAS.Fluid.Movers.FlowControlled_m_flow pum(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu16.mWat_flow_nominal) "Pump for water at 16degC" annotation (Placement(
+    m_flow_nominal=fcu16.mWat_flow_nominal,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous)
+                                            "Pump for water at 16degC" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -98,11 +101,12 @@ model CooCoil
  IDEAS.Fluid.Movers.FlowControlled_m_flow pum1(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu7.mWat_flow_nominal) "Pump for water at 7degC" annotation (Placement(transformation(
+    m_flow_nominal=fcu7.mWat_flow_nominal,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous)
+                                           "Pump for water at 7degC" annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={50,-30})));
@@ -111,18 +115,25 @@ model CooCoil
   Modelica.Blocks.Sources.RealExpression realExpression(y=(-fcu16.coil.Q1_flow -
         manData.y[2])/manData.y[2])     "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.Q1_flow -
-        manData.y[3])/manData.y[3])    "Error at 7degC conditions, sensible (to air)"
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=(-fcu7.coil.Q1_flow
+         + fcu7.coil.QLat1 - manData.y[3])/manData.y[3])
+                                       "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Modelica.Blocks.Interfaces.RealOutput err16 "Error at 16degC conditions"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Interfaces.RealOutput err7_sen "Error at 7degC conditions, sensible (to air)"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=(fcu7.coil.Q2_flow -
-        manData.y[4])/manData.y[4])    "Error at 7degC conditions, total (to water)"
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=(fcu7.coil.Q2_flow
+         - manData.y[4])/manData.y[4]) "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{60,30},{80,50}})));
   Modelica.Blocks.Interfaces.RealOutput err7_tot "Error at 7degC conditions, total (to water)"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
+  Modelica.Blocks.Math.Gain gainFloFcu16(k=1/4180/2)
+    "Conversion factor from power to kg/s water "
+    annotation (Placement(transformation(extent={{4,86},{16,98}})));
+  Modelica.Blocks.Math.Gain gainFloFcu5(k=1/4180/5)
+    "Conversion factor from power to kg/s water "
+    annotation (Placement(transformation(extent={{4,64},{16,76}})));
 equation
   connect(manData.y[1], gain.u)
     annotation (Line(points={{-79,84},{-62,84}}, color={0,0,127}));
@@ -163,6 +174,14 @@ equation
     annotation (Line(points={{81,80},{110,80}}, color={0,0,127}));
   connect(realExpression2.y, err7_tot)
     annotation (Line(points={{81,40},{110,40}}, color={0,0,127}));
+  connect(pum.m_flow_in, gainFloFcu16.y)
+    annotation (Line(points={{50,22},{50,92},{16.6,92}}, color={0,0,127}));
+  connect(gainFloFcu5.u, manData.y[4])
+    annotation (Line(points={{2.8,70},{-79,70},{-79,84}}, color={0,0,127}));
+  connect(pum1.m_flow_in, gainFloFcu5.y) annotation (Line(points={{50,-18},{48,
+          -18},{48,70},{16.6,70}}, color={0,0,127}));
+  connect(gainFloFcu16.u, manData.y[2])
+    annotation (Line(points={{2.8,92},{-79,92},{-79,84}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     __Dymola_Commands(file=
