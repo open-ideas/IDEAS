@@ -27,7 +27,7 @@ model InternalGainExample
     annotation (Placement(transformation(extent={{-4,-54},{16,-34}})));
 equation
   // equation for setting number of zone occupants
-  case900_gains.building.gF.nOcc =occ.y;
+  case900_gains.building.gF.yOcc =occ.y;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
