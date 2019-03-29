@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components.ZoneAirModels;
 model WellMixedAir "Zone air model assuming perfectly mixed air"
   extends IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
+    C_start=400*s*44/29/1e6,
     final nSeg=1,
     mSenFac(min=0)=5);
 
@@ -12,7 +13,7 @@ protected
     "Latent heat of evaporation water";
   constant Boolean hasVap = Medium.nXi>0
     "Medium has water vapour";
-  constant Boolean hasPpm = Medium.nC>0
+  constant Boolean hasPpm = sum(s)>0
     "Medium has trace substance";
   MixingVolumeNominal       vol(
     redeclare package Medium = Medium,
@@ -51,6 +52,13 @@ protected
         rotation=270,
         origin={64,22})));
 protected
+  constant Real s[:]= {
+    if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
+                                            string2="CO2",
+                                            caseSensitive=false))
+    then 1 else 0 for i in 1:Medium.nC}
+    "Vector with zero everywhere except where species is";
+
   IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(
     redeclare package Medium = Medium) if hasVap
     "Relative humidity of the zone air"
@@ -73,6 +81,7 @@ protected
     redeclare package Medium = Medium) if hasPpm
     "CO2 sensor"
     annotation (Placement(transformation(extent={{50,-10},{70,-30}})));
+
 equation
   if hasVap then
     assert(vol.ports[1].Xi_outflow[1] <= 0.1,
@@ -137,6 +146,11 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+February 14, 2019 by Filip Jorissen:<br/>
+Added start value for CO2 concentration for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1004\">#1004</a>.
+</li>
 <li>
 February 14, 2019 by Filip Jorissen:<br/>
 Changed default value of <code>stateSelectTVol</code>.
