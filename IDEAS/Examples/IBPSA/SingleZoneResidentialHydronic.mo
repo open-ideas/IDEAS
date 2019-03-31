@@ -40,7 +40,7 @@ model SingleZoneResidentialHydronic
     redeclare package Medium = Medium,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    constantMassFlowRate=0.05)
+    constantMassFlowRate=rad.m_flow_nominal)
     "Hydronic pump"
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(
@@ -65,7 +65,7 @@ model SingleZoneResidentialHydronic
   Modelica.Blocks.Sources.RealExpression nOcc(y=if calTim.hour > 7 and calTim.hour
          < 20 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
-    annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
+    annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -86,7 +86,7 @@ equation
   connect(case900Template.TSensor, TZone) annotation (Line(points={{-60,13},{80,
           13},{80,0},{110,0}}, color={0,0,127}));
   connect(case900Template.nOcc, nOcc.y)
-    annotation (Line(points={{-81,4},{-81,70},{-41,70}}, color={0,0,127}));
+    annotation (Line(points={{-81,4},{-81,50},{-41,50}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -123,13 +123,19 @@ The zone is occupied by one person between 7 am and 8 pm of each day.
 <p>
 There are no internal loads other than the occupants.
 </p>
+<h4>Climate data</h4>
+<p>
+The model uses a climate file containing one year
+of weather data for Uccle, Belgium.
+</p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
 The model only has a primary heating system that
-heats the zone using a single radiator.
+heats the zone using a single radiator,
+a circulation pump and a water heater.
 The radiator nominal thermal power is 2 kW, 
-while the heater maximum thermal pwoer is 3 kW.
+while the heater maximum thermal power is 3 kW.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -139,8 +145,26 @@ No efficiency is computed for the heater.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-No local-loop controllers are included.
+The model assumes a pump with a constant flow rate.
 </p>
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+The model inputs are:
+<ul>
+<li>
+<code>TSup</code> [K]: The supply water temperature of the heater.
+</li>
+</ul>
+<h4>Outputs</h4>
+The model outputs are:
+<ul>
+<li>
+<code>Q</code> [W]: The thermal heating power of the heater.
+</li>
+<li>
+<code>TZone</code> [K]: The zone operative temperature.
+</li>
+</ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
