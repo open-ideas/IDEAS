@@ -10,7 +10,8 @@ model HeaCoil
         0.001])
     "Manufacturers data - 1.flow  2. power at 80 degC 3. power at 55 degC 4. power at 35 degC"
     annotation (Placement(transformation(extent={{-100,70},{-80,90}})));
-  Modelica.Blocks.Math.Gain gain(k=1/3600) "Converts from l/h to kg/s"
+  Modelica.Blocks.Math.Gain gain(k=1.2/3600)
+                                           "Converts from l/h to kg/s"
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
 
 //AIR
@@ -64,37 +65,37 @@ model HeaCoil
 //FAN-COILS
   IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeHea fcu80(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
-    mAir_flow_nominal=485/3600,
     Q_flow_nominal=6915,
     eps_nominal=1,
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
-    deltaTHea_nominal=10,
+    mAir_flow_nominal=1.2*485/3600,
+    deltaTHea_nominal=20,
     T_a1_nominal=293.15,
     T_a2_nominal=353.15)
     annotation (Placement(transformation(extent={{-2,12},{24,40}})));
   IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeHea fcu55(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
-    mAir_flow_nominal=485/3600,
     eps_nominal=1,
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
     deltaTHea_nominal=10,
     Q_flow_nominal=4149,
+    mAir_flow_nominal=1.2*485/3600,
     T_a1_nominal=293.15,
     T_a2_nominal=328.15)
     annotation (Placement(transformation(extent={{-2,-28},{24,0}})));
   IDEAS.Fluid.HeatExchangers.FanCoilUnits.TwoPipeHea fcu35(
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
-    mAir_flow_nominal=485/3600,
     eps_nominal=1,
     allowFlowReversal=false,
     use_Q_flow_nominal=true,
     dpWat_nominal(displayUnit="Pa") = 100000,
     deltaTHea_nominal=5,
     Q_flow_nominal=1729,
+    mAir_flow_nominal=1.2*485/3600,
     T_a1_nominal=293.15,
     T_a2_nominal=308.15)
     annotation (Placement(transformation(extent={{-2,-68},{24,-40}})));
@@ -102,11 +103,12 @@ model HeaCoil
   IDEAS.Fluid.Movers.FlowControlled_m_flow pum(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu80.mWat_flow_nominal) "Pump for media at 80degC" annotation (Placement(
+    m_flow_nominal=fcu80.mWat_flow_nominal,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous)
+                                            "Pump for media at 80degC" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -114,11 +116,12 @@ model HeaCoil
   IDEAS.Fluid.Movers.FlowControlled_m_flow pum1(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu55.mWat_flow_nominal) "Pump for media at 55degC" annotation (Placement(
+    m_flow_nominal=fcu55.mWat_flow_nominal,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous)
+                                            "Pump for media at 55degC" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -126,11 +129,12 @@ model HeaCoil
   IDEAS.Fluid.Movers.FlowControlled_m_flow pum2(
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
-    m_flow_nominal=fcu35.mWat_flow_nominal) "Pump for media at 35degC" annotation (Placement(
+    m_flow_nominal=fcu35.mWat_flow_nominal,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous)
+                                            "Pump for media at 35degC" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -152,6 +156,15 @@ model HeaCoil
   Modelica.Blocks.Interfaces.RealOutput err35 "Error at 80degC conditions"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
 
+  Modelica.Blocks.Math.Gain gainFloFcu80(k=1/4180/20)
+    "Conversion factor from power to kg/s water "
+    annotation (Placement(transformation(extent={{4,86},{16,98}})));
+  Modelica.Blocks.Math.Gain gainFloFcu55(k=1/4180/10)
+    "Conversion factor from power to kg/s water "
+    annotation (Placement(transformation(extent={{4,76},{16,88}})));
+  Modelica.Blocks.Math.Gain gainFloFcu35(k=1/4180/5)
+    "Conversion factor from power to kg/s water "
+    annotation (Placement(transformation(extent={{4,66},{16,78}})));
 equation
   connect(manData.y[1], gain.u)
     annotation (Line(points={{-79,80},{-62,80}}, color={0,0,127}));
@@ -201,6 +214,18 @@ equation
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(realExpression.y, err80)
     annotation (Line(points={{81,80},{110,80}}, color={0,0,127}));
+  connect(gainFloFcu80.u, manData.y[2])
+    annotation (Line(points={{2.8,92},{-79,92},{-79,80}}, color={0,0,127}));
+  connect(gainFloFcu80.y, pum.m_flow_in)
+    annotation (Line(points={{16.6,92},{50,92},{50,22}}, color={0,0,127}));
+  connect(gainFloFcu55.u, manData.y[3])
+    annotation (Line(points={{2.8,82},{-79,82},{-79,80}}, color={0,0,127}));
+  connect(gainFloFcu35.u, manData.y[4])
+    annotation (Line(points={{2.8,72},{-79,72},{-79,80}}, color={0,0,127}));
+  connect(pum1.m_flow_in, gainFloFcu55.y)
+    annotation (Line(points={{50,-18},{50,82},{16.6,82}}, color={0,0,127}));
+  connect(pum2.m_flow_in, gainFloFcu35.y)
+    annotation (Line(points={{50,-58},{50,72},{16.6,72}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     __Dymola_Commands(file=

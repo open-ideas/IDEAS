@@ -5,7 +5,8 @@ model PartialEffectivenessNTUWet3
     sensibleOnly2=false,
     Q1_flow = if hum1 then eps_internal*QMax_flow_Wet_internal else eps*QMax_flow,
     Q2_flow = -Q1_flow,
-    mWat1_flow=min(0,(xOut1-inStream(port_a1.Xi_outflow[1]))*port_a1.m_flow));
+    mWat1_flow=Q1_flow*(cp1Real-Medium1.specificHeatCapacityCp(state_a1_inflow))/cp1Real/lambda);
+
 
   //Effectiveness in condensation conditions
   Modelica.Blocks.Interfaces.RealInput epsWet(min=0, max=1, final unit="1")=
@@ -54,6 +55,8 @@ model PartialEffectivenessNTUWet3
   Modelica.SIunits.MassFraction xOut2(start=0.01);
 
 protected
+  constant Modelica.SIunits.SpecificEnthalpy lambda = 2453500
+    "Heat of evaporation of water at 20 degrees Celsius, source: Engineering Toolbox";
     parameter Boolean hum1 = Medium1.nX > 1  "Check if condensation is possible in Medium1";
     parameter Boolean hum2 = Medium2.nX > 1  "Check if condensation is possible in Medium2";
 
@@ -66,7 +69,7 @@ protected
     Real hCoi_outMax = IDEAS.Media.Air.specificEnthalpy_pTX(
       T= T_in2,
       p=port_b1.p,
-      X={xSat}) if hum1 "Outlet air enthalpy of Medium1";
+      X={min(xSat,inStream(port_a1.Xi_outflow[1]))}) if hum1 "Outlet air enthalpy of Medium1";
 
     Modelica.SIunits.SpecificEnthalpy hCoi_out2 = port_b2.h_outflow if hum2 "Outlet air enthalpy of Medium2";
 
