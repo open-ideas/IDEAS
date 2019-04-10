@@ -1,14 +1,27 @@
 within IDEAS.Buildings.Components.ZoneAirModels;
 model WellMixedAir "Zone air model assuming perfectly mixed air"
+  // We assume an initial CO2 concentration of 400 ppm, if the medium contains CO2
   extends IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
-    C_start=400*s*44/29/1e6,
+    C_start=400*s*MMFraction/1e6,
     final nSeg=1,
     mSenFac(min=0)=5);
 
     parameter StateSelect stateSelectTVol = if sim.linearise then StateSelect.prefer else StateSelect.default
       "Set to .prefer to use temperature as a state in mixing volume";
 
+
 protected
+  final parameter Modelica.SIunits.MolarMass MM=
+    Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+    "Molar mass of the trace substance";
+  final parameter Modelica.SIunits.MolarMass MMBul=Medium.molarMass(
+    Medium.setState_phX(
+      p=Medium.p_default,
+      h=Medium.h_default,
+      X=Medium.X_default)) "Molar mass of bulk medium";
+  final parameter Real MMFraction=MM/MMBul
+    "Molar mass of CO2 divided by the molar mass of the medium";
+
   constant Modelica.SIunits.SpecificEnthalpy lambdaWater = Medium.enthalpyOfCondensingGas(T=273.15+35)
     "Latent heat of evaporation water";
   constant Boolean hasVap = Medium.nXi>0
