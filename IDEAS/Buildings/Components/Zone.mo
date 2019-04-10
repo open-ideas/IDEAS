@@ -62,6 +62,9 @@ Replaceable model <code>occNum</code> allows the user to choose a
 way to define the number of occupants that are present in the zone.
 This number of occupants is used to compute the
 internal heat gains in the model.
+Depending on the chosen model, 
+an external input <code>yOcc</code> may be exposed
+by the zone model.
 </p>
 <p>
 Parameter <code>occTyp</code> determines
@@ -109,6 +112,11 @@ IDEAS.Buildings.Components.LightingControl</a> for the available options.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 28, 2019 by Filip Jorissen:<br/>
+Revised documentation
+for <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+</li>
 <li>
 July 26, 2018 by Filip Jorissen:<br/>
 Added replaceable block that allows to define

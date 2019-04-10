@@ -95,6 +95,7 @@ model PartialZone "Building zone model"
     Dialog(group="Building physics"));
   replaceable IDEAS.Buildings.Components.Occupants.Fixed occNum
     constrainedby Occupants.BaseClasses.PartialOccupants(
+      final A=A,
       final linearise = sim.lineariseDymola)
     "Number of occupants that are present" annotation (
     choicesAllMatching=true,
@@ -371,9 +372,8 @@ end for;
           -12,26},{-19,26}},   color={0,0,127}));
   connect(occNum.nOcc, intGaiOcc.nOcc)
     annotation (Line(points={{58,32},{41,32}}, color={0,0,127}));
-  connect(nOcc, occNum.nOccIn)
-    annotation (Line(points={{120,40},{96,40},{96,32},{82,32}},
-                                                color={0,0,127}));
+  connect(yOcc, occNum.yOcc) annotation (Line(points={{120,40},{96,40},{96,32},{
+          82,32}}, color={0,0,127}));
   connect(uLig, ligCtr.ligCtr) annotation (Line(points={{120,70},{96,70},{96,60},
           {82,60}},color={0,0,127}));
   connect(occNum.nOcc, ligCtr.nOcc) annotation (Line(points={{58,32},{96,32},{96,
