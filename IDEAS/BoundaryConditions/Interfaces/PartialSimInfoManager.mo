@@ -475,7 +475,7 @@ Corrected molar mass fraction for consistency.
 See <a href=https://github.com/open-ideas/IDEAS/issues/1004>#1004</a>.
 </li>
 <li>
-January 25, 2019 by Filip Jorissen:<br/>
+April 10, 2019 by Filip Jorissen:<br/>
 Avoided redundant consistent initial equation for <code>Etot</code>.
 See <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
 </li>
