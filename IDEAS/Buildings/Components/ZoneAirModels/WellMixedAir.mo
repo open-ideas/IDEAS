@@ -1,18 +1,32 @@
 within IDEAS.Buildings.Components.ZoneAirModels;
 model WellMixedAir "Zone air model assuming perfectly mixed air"
+  // We assume an initial CO2 concentration of 400 ppm, if the medium contains CO2
   extends IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
+    C_start=400*s*MMFraction/1e6,
     final nSeg=1,
     mSenFac(min=0)=5);
 
     parameter StateSelect stateSelectTVol = if sim.linearise then StateSelect.prefer else StateSelect.default
       "Set to .prefer to use temperature as a state in mixing volume";
 
+
 protected
+  final parameter Modelica.SIunits.MolarMass MM=
+    Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+    "Molar mass of the trace substance";
+  final parameter Modelica.SIunits.MolarMass MMBul=Medium.molarMass(
+    Medium.setState_phX(
+      p=Medium.p_default,
+      h=Medium.h_default,
+      X=Medium.X_default)) "Molar mass of bulk medium";
+  final parameter Real MMFraction=MM/MMBul
+    "Molar mass of CO2 divided by the molar mass of the medium";
+
   constant Modelica.SIunits.SpecificEnthalpy lambdaWater = Medium.enthalpyOfCondensingGas(T=273.15+35)
     "Latent heat of evaporation water";
   constant Boolean hasVap = Medium.nXi>0
     "Medium has water vapour";
-  constant Boolean hasPpm = Medium.nC>0
+  constant Boolean hasPpm = sum(s)>0
     "Medium has trace substance";
   MixingVolumeNominal       vol(
     redeclare package Medium = Medium,
@@ -51,6 +65,13 @@ protected
         rotation=270,
         origin={64,22})));
 protected
+  constant Real s[:]= {
+    if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
+                                            string2="CO2",
+                                            caseSensitive=false))
+    then 1 else 0 for i in 1:Medium.nC}
+    "Vector with zero everywhere except where species is";
+
   IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(
     redeclare package Medium = Medium) if hasVap
     "Relative humidity of the zone air"
@@ -73,6 +94,7 @@ protected
     redeclare package Medium = Medium) if hasPpm
     "CO2 sensor"
     annotation (Placement(transformation(extent={{50,-10},{70,-30}})));
+
 equation
   if hasVap then
     assert(vol.ports[1].Xi_outflow[1] <= 0.1,
@@ -137,6 +159,11 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+March 29, 2019 by Filip Jorissen:<br/>
+Added start value for CO2 concentration for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1004\">#1004</a>.
+</li>
 <li>
 February 14, 2019 by Filip Jorissen:<br/>
 Changed default value of <code>stateSelectTVol</code>.

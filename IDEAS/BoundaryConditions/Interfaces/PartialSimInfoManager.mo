@@ -143,7 +143,7 @@ partial model PartialSimInfoManager
     "Model internal energy"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
-  Modelica.Blocks.Sources.RealExpression CEnv(y=ppmCO2*44/29/1e6)
+  Modelica.Blocks.Sources.RealExpression CEnv(y=ppmCO2*MMFraction/1e6)
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
 
@@ -163,6 +163,9 @@ partial model PartialSimInfoManager
 
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
+
+  final constant Real MMFraction=1.528635
+    "Molar mass of CO2 divided by the molar mass of moist air";
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
     filNam=filNam)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
@@ -468,6 +471,11 @@ equation
 <ul>
 <li>
 January 25, 2019 by Filip Jorissen:<br/>
+Corrected molar mass fraction for consistency.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1004>#1004</a>.
+</li>
+<li>
+April 10, 2019 by Filip Jorissen:<br/>
 Avoided redundant consistent initial equation for <code>Etot</code>.
 See <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
 </li>
