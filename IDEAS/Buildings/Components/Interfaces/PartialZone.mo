@@ -72,7 +72,7 @@ model PartialZone "Building zone model"
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
     massDynamics=if interzonalAirFlow.prescribesPressure
-                 then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
+                 then Modelica.Fluid.Types.Dynamics.SteadyState
                  else energyDynamicsAir,
     nPorts=interzonalAirFlow.nPorts,
     m_flow_nominal=m_flow_nominal)
@@ -407,6 +407,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2019 by Filip Jorissen:<br/>
+Set <code>massDynamics=if interzonalAirFlow.prescribesPressure then Modelica.Fluid.Types.Dynamics.SteadyState</code>
+such that the state is removed when the pressure is prescribed.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1021>#1021</a>.
+</li>
 <li>
 April 11, 2019 by Filip Jorissen:<br/>
 Revised implementation such that default value of relative humidity is
