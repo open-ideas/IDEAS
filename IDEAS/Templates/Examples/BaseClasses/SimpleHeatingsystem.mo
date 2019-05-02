@@ -7,7 +7,7 @@ partial model SimpleHeatingsystem
 
   final parameter Integer nZones=structure.nZones "Number of zones";
   replaceable IDEAS.Templates.Heating.BaseClasses.HysteresisHeating heating
-    constrainedby IDEAS.Templates.Heating.BaseClasses.HysteresisHeating(
+    constrainedby IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
     final nZones=nZones,
     QNom={2000 for i in 1:nZones},
     Q_design=structure.Q_design) annotation (choicesAllMatching=true, Placement(
@@ -43,6 +43,11 @@ IDEAS.Templates.Heating.IdealRadiatorHeating</a>.
 </p>
 </html>",     revisions="<html>
 <ul>
+<li>
+May 2, 2019 by Filip Jorissen:<br/>
+Revised <code>constrainedby</code> for OpenModelica compatibility.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1024\">#1024</a>.
+</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for
