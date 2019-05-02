@@ -21,7 +21,7 @@ model Partial3WayValve "Partial for 3-way valves"
         Medium) "Fluid outlet"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=2,
+  IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=3,
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=energyDynamics,
@@ -48,19 +48,19 @@ model Partial3WayValve "Partial for 3-way valves"
         origin={0,-44})));
 equation
   connect(port_a1, vol.ports[1]) annotation (Line(
-      points={{-100,0},{-2,0}},
+      points={{-100,0},{-2.66667,0}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(port_b, vol.ports[2]) annotation (Line(
-      points={{100,0},{2,0}},
+      points={{100,0},{2.22045e-16,0}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(idealSource.port_a, port_a2) annotation (Line(
       points={{0,-54},{4.44089e-16,-54},{4.44089e-16,-100}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(idealSource.port_b, vol.ports[1]) annotation (Line(
-      points={{0,-34},{0,-4.44089e-16},{-2,-4.44089e-16}},
+  connect(idealSource.port_b, vol.ports[3]) annotation (Line(
+      points={{0,-34},{0,-4.44089e-16},{2.66667,-4.44089e-16}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
@@ -137,6 +137,11 @@ equation
 <p>Examples of this model can be found in<a href=\"modelica://IDEAS.Thermal.Components.Examples.TempMixingTester\"> IDEAS.Thermal.Components.Examples.TempMixingTester</a> and<a href=\"modelica://IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve\"> IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve</a></p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 23, 2019 by Filip Jorissen:<br/> 
+Using separate port for each connection to avoid algebraic loops.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1019\">#1019</a>.
+</li>
 <li>
 March 26, 2018 by Filip Jorissen:<br/> 
 Implemented valve leakage,
