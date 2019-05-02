@@ -54,8 +54,8 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
     annotation (Placement(transformation(extent={{140,50},{100,90}})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
-    "CO2 concentration in the zone" annotation (Placement(transformation(extent=
-           {{100,-10},{120,10}}), iconTransformation(extent={{100,10},{120,30}})));
+    "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
+            {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
@@ -133,9 +133,15 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+May 2, 2019 by Filip Jorissen:<br/>
+Moved location of <code>ppm</code> in the icon layer such that it
+does not overlap with <code>TSensor</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
+</li>
+<li>
 March 28, 2019 by Filip Jorissen:<br/>
 Renamed <code>nOcc</code> to <code>yOcc</code>
-for <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
 </li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>
