@@ -1,7 +1,6 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab;
 model EmbeddedPipe
   "Embedded pipe model based on prEN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
-  extends IDEAS.Fluid.HeatExchangers.Interfaces.EmissionTwoPort;
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   replaceable parameter
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha constrainedby
@@ -10,7 +9,7 @@ model EmbeddedPipe
     annotation (choicesAllMatching=true);
   final parameter Modelica.SIunits.Length pipeDiaInt = RadSlaCha.d_a - 2*RadSlaCha.s_r
     "Pipe internal diameter";
-  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(allowFlowReversal=false);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
@@ -191,6 +190,8 @@ initial equation
   end if;
 
 equation
+  assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
+  assert(not allowFlowReversal, "In " +getInstanceName() + ": parameter allowFlowReversal=true, but the EmbeddedPipe model does not support it.", AssertionLevel.warning);
   // this need not be smooth since when active, G_max is already active
   m_flowSpLimit = max(m_flowSp, 1e-8);
   // Koschenz eq 4-59
@@ -344,6 +345,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 16, 2019 by Filip Jorissen:<br/>
+Added checks for flow reversal.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1006>#1006</a>.
+</li>
 <li>
 April 16, 2019 by Filip Jorissen:<br/>
 Removed <code>computeFlowResistance=false</code> 
