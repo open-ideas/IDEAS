@@ -124,8 +124,10 @@ model PartialZone "Building zone model"
     choicesAllMatching=true,
     Dialog(group="Lighting (optional)"),
     Placement(transformation(extent={{56,82},{76,102}})));
-  replaceable Comfort.None comfort
-    constrainedby Comfort.BaseClasses.PartialComfort(occupancyType=occTyp) "Comfort model" annotation (
+  replaceable IDEAS.Buildings.Components.Comfort.None comfort
+    constrainedby IDEAS.Buildings.Components.Comfort.BaseClasses.PartialComfort(
+      occupancyType=occTyp,
+      use_phi_in=Medium.nX > 1) "Comfort model" annotation (
     choicesAllMatching=true,
     Dialog(group="Occupants (optional)"),
     Placement(transformation(extent={{20,-20},{40,0}})));
@@ -368,7 +370,7 @@ end for;
           -10,24},{-19,24}},   color={0,0,127}));
   connect(comfort.TRad, radDistr.TRad) annotation (Line(points={{19,-4},{-6,-4},
           {-6,-50},{-40,-50}}, color={0,0,127}));
-  connect(comfort.phi, airModel.phi) annotation (Line(points={{19,-8},{-12,-8},{
+  connect(comfort.phi_in, airModel.phi) annotation (Line(points={{19,-8},{-12,-8},{
           -12,26},{-19,26}},   color={0,0,127}));
   connect(occNum.nOcc, intGaiOcc.nOcc)
     annotation (Line(points={{58,32},{41,32}}, color={0,0,127}));
@@ -410,6 +412,12 @@ April 26, 2019 by Filip Jorissen:<br/>
 Set <code>massDynamics=if interzonalAirFlow.prescribesPressure then Modelica.Fluid.Types.Dynamics.SteadyState</code>
 such that the state is removed when the pressure is prescribed.
 See <a href=https://github.com/open-ideas/IDEAS/issues/1021>#1021</a>.
+</li>
+<li>
+April 11, 2019 by Filip Jorissen:<br/>
+Revised implementation such that default value of relative humidity is
+used when using a dry air medium.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1011\">#1011</a>.
 </li>
 <li>
 January 25, 2019 by Filip Jorissen:<br/>

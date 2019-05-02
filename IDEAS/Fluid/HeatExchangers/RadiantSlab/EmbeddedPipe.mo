@@ -12,7 +12,6 @@ model EmbeddedPipe
     "Pipe internal diameter";
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    computeFlowResistance=false,
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
       rho_a=rho_default,
@@ -346,7 +345,14 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 </html>", revisions="<html>
 <ul>
 <li>
-Juni 21, 2018 by Filip Jorissen:<br/>
+April 16, 2019 by Filip Jorissen:<br/>
+Removed <code>computeFlowResistance=false</code> 
+since this parameter was hidden in the advanced tab
+and this setting can easily lead to singularities.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1014>#1014</a>.
+</li>
+<li>
+June 21, 2018 by Filip Jorissen:<br/>
 Set <code>final alpha=0</code> in <code>prescribedHeatFlow</code>
 to avoid large algebraic loops in specific cases.
 See <a href=https://github.com/open-ideas/IDEAS/issues/852>#852</a>.
