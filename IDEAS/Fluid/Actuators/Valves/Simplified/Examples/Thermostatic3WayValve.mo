@@ -4,7 +4,9 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
   IDEAS.Fluid.Actuators.Valves.Simplified.Thermostatic3WayValve thermostatic3WayValve(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
-    dynamicValve=false) annotation (Placement(transformation(extent={{8,8},{28,28}})));
+    dynamicValve=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+                        annotation (Placement(transformation(extent={{8,8},{28,28}})));
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
 
   parameter SI.MassFlowRate m_flow_nominal=2 "Nominal mass flow rate";
@@ -14,7 +16,8 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
     m_flow_nominal=m_flow_nominal,
     tau=1,
     use_inputFilter=false,
-    dp_nominal = 0)
+    dp_nominal = 0,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{38,8},{58,28}})));
   Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
@@ -87,6 +90,10 @@ equation
             -100},{100,100}})),     Documentation(revisions="<html>
 <ul>
 <li>
+May 15, 2018, by Filip Jorissen:<br/>
+Changes for setting unique initial conditions.
+</li>
+<li>
 March 2014 by Filip Jorissen:<br/>
 First implementation.
 </li>
@@ -96,7 +103,7 @@ Changed implementation for more flexible 3wayvalve
 </li>
 </ul>
 </html>"),
-    experiment(StopTime=15),
+    experiment(StopTime=15, Tolerance=1e-06),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
           "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/Actuators/Valves/Simplified/Examples/Thermostatic3WayValve.mos"

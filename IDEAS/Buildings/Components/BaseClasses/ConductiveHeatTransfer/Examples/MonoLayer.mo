@@ -1,6 +1,5 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples;
 model MonoLayer "Unit test for mono layer model"
-  import IDEAS;
   extends Modelica.Icons.Example;
   parameter Modelica.SIunits.Area A=10 "total multilayer area";
   parameter IDEAS.Buildings.Data.Constructions.CavityWallPartialFill cavityWallData
@@ -25,7 +24,7 @@ model MonoLayer "Unit test for mono layer model"
     inc=IDEAS.Types.Tilt.Wall,
     epsLw_a=0.9,
     epsLw_b=0.9,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Mono layer of solid material"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer monoLayerAir(
@@ -73,11 +72,22 @@ equation
           {20,-50},{20,0},{40,0}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(StopTime=86400),
+    experiment(
+      StopTime=86400,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Lsodar"),
     __Dymola_Commands(file="Resources/Scripts/Dymola/Buildings/Components/BaseClasses/ConductiveHeatTransfer/Examples/MonoLayer.mos"
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+January 30, 2019 by Filip Jorissen:<br/>
+Revised initial conditions according to new implementation of <code>MultiLayer</code>.
+</li>
+<li>
+May 15, 2018 by Filip Jorissen:<br/>
+Fixed initial conditions.
+</li>
 <li>
 January 18, 2017 by Filip Jorissen:<br/>
 First implementation

@@ -1,10 +1,19 @@
 average
+besselJ0
+besselJ1
+besselY0
+besselY1
 bicubic
+binomial
 biquadratic
 booleanReplicator
 cubicHermiteLinearExtrapolation
+exponentialIntegralE1
+factorial
+fallingFactorial
 integerReplicator
 inverseXRegularized
+isAngle
 isMonotonic
 polynomial
 powerLinearized
@@ -23,4 +32,3 @@ splineDerivatives
 trapezoidalIntegration
 Examples
 BaseClasses
-isAngle

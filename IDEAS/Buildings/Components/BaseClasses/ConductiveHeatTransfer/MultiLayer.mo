@@ -10,17 +10,24 @@ model MultiLayer "multiple material layers in series"
   parameter Integer nGain = 0 "Number of gains";
   parameter Boolean linIntCon=false
     "Linearise interior convection inside air layers / cavities in walls";
-
-  parameter Modelica.SIunits.Temperature T_start[nLay]=ones(nLay)*293.15
-    "Start temperature from port_b to port_a";
   final parameter Modelica.SIunits.ThermalInsulance R=sum(monLay.R)
     "total specific thermal resistance";
   final parameter Modelica.SIunits.HeatCapacity C = sum(mats.d.*mats.rho.*mats.c*A)
     "Total heat capacity of the layers"
     annotation(Evaluate=true);
+
+  parameter Modelica.SIunits.Temperature T_start[nLay]=ones(nLay)*293.15
+    "Start temperature from port_b to port_a"
+    annotation(Evaluate=true, Dialog(group="Dynamics"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
-    annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+    annotation(Evaluate=true, Dialog(group="Dynamics"));
+  parameter Boolean disableInitPortA= false
+    "Remove initial equation at port a"
+    annotation(Evaluate=true, Dialog(group="Dynamics"));
+  parameter Boolean disableInitPortB= false
+    "Remove initial equation at port b"
+    annotation(Evaluate=true, Dialog(group="Dynamics"));
   parameter SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number"
     annotation(Dialog(enable=linIntCon));
@@ -71,6 +78,24 @@ model MultiLayer "multiple material layers in series"
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={0,100})));
+initial equation
+  // This code sets initial equations for the outer states of each monolayer.
+  // These initial equations are not added at the monoLayer level
+  // since then two adjacent monolayers may set an initial equation for the
+  // same port, which causes warnings when the initial equations are consistent
+  // and errors otherwise.
+  // Moreover, multiple multiLayers may be connected to each other, such as in
+  // the SlabOnGround model. For this case the parameter disableInitPortB is added.
+  for i in 1:nLay loop
+    if monLay[i].isDynamic then
+      if i>1 or not disableInitPortB then
+        monLay[i].port_b.T=T_start[i];
+      end if;
+    end if;
+    if monLay[i].isDynamic and (if i==nLay then not disableInitPortA else not monLay[i+1].isDynamic) then
+      monLay[i].port_a.T=T_start[i];
+    end if;
+  end for;
 
 equation
   // Last layer of monLay is connected to port_a
@@ -135,11 +160,13 @@ equation
           rotation=90,
           textString="S")}),
     Documentation(info="<html>
-<p>For the purpose of dynamic building simulation, the partial differential equation of the continuous time and space model of heat transport through a solid is most often simplified into ordinary differential equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
-<p align=\"center\"><img src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
-<p>where <img src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to<img src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and <img src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and <img src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where <img src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and <img src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where <img src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 25, 2019, by Filip Jorissen:<br/>
+Revised initial equation implementation.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
+</li>
 <li>
 March 8, 2016, by Filip Jorissen:<br/>
 Fixed bug in output of iEpsLw and iEpsSw for issue 464.

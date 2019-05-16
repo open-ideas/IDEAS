@@ -135,7 +135,7 @@ equation
   // partial pressure of steam
   connect(steRat.p_in, pAir_in_internal);
   connect(steRat.T, TAir);
-  connect(steRat.phi, phi);
+  connect(steRat.phi, phi_in_internal);
   pSte = IDEAS.Utilities.Psychrometrics.Functions.pW_X(X_w=steRat.X[1], p=
     pAir_in_internal);
 
@@ -352,6 +352,12 @@ http://me.hku.hk/msc-courses/MEBS6006/index.html</a>
 </ul>
 </html>", revisions="<html>
 <ul>
+<li>
+April 11, 2019 by Filip Jorissen:<br/>
+Revised implementation such that default value of relative humidity is
+used when using a dry air medium.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1011\">#1011</a>.
+</li>
 <li>
 Jul 18, 2016, by Filip Jorissen:<br/>
 Copied and changed implementation from Buildings library.

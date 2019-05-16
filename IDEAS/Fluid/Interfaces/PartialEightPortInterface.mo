@@ -32,22 +32,22 @@ partial model PartialEightPortInterface
   parameter Boolean show_T = false
     "= true, if actual temperature at port is computed"
     annotation(Dialog(tab="Advanced",group="Diagnostics"));
-  Medium1.MassFlowRate m1_flow(start=0) = port_a1.m_flow
+  Medium1.MassFlowRate m1_flow = port_a1.m_flow
     "Mass flow rate from port_a1 to port_b1 (m1_flow > 0 is design flow direction)";
-  Modelica.SIunits.Pressure dp1(start=0, displayUnit="Pa")
+  Modelica.SIunits.Pressure dp1(displayUnit="Pa")
     "Pressure difference between port_a1 and port_b1";
-  Medium2.MassFlowRate m2_flow(start=0) = port_a2.m_flow
+  Medium2.MassFlowRate m2_flow = port_a2.m_flow
     "Mass flow rate from port_a2 to port_b2 (m2_flow > 0 is design flow direction)";
-  Modelica.SIunits.Pressure dp2(start=0, displayUnit="Pa")
+  Modelica.SIunits.Pressure dp2(displayUnit="Pa")
     "Pressure difference between port_a2 and port_b2";
 
-  Medium3.MassFlowRate m3_flow(start=0) = port_a3.m_flow
+  Medium3.MassFlowRate m3_flow = port_a3.m_flow
     "Mass flow rate from port_a3 to port_b3 (m3_flow > 0 is design flow direction)";
-  Modelica.SIunits.Pressure dp3(start=0, displayUnit="Pa")
+  Modelica.SIunits.Pressure dp3(displayUnit="Pa")
     "Pressure difference between port_a3 and port_b3";
-  Medium2.MassFlowRate m4_flow(start=0) = port_a4.m_flow
+  Medium2.MassFlowRate m4_flow = port_a4.m_flow
     "Mass flow rate from port_a4 to port_b4 (m4_flow > 0 is design flow direction)";
-  Modelica.SIunits.Pressure dp4(start=0, displayUnit="Pa")
+  Modelica.SIunits.Pressure dp4(displayUnit="Pa")
     "Pressure difference between port_a4 and port_b4";
 
   Medium1.ThermodynamicState sta_a1=
@@ -124,11 +124,17 @@ equation
   annotation (
   preferredView="info",
     Documentation(info="<html>
-<p>This component defines the interface for models that transport four fluid streams between eight ports. It is similar to <a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">IDEAS.Fluid.Interfaces.PartialTwoPortInterface</a>, but it has eight ports instead of two. </p>
-<p>The model is used by other models in this package that add heat transfer, mass transfer and pressure drop equations. </p>
+<p>
+This component defines the interface for models that transport four fluid streams between eight ports. 
+It is similar to <a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">IDEAS.Fluid.Interfaces.PartialTwoPortInterface</a>, 
+but it has eight ports instead of two. </p>
+<p>
+The model is used by other models in this package that add heat transfer, 
+mass transfer and pressure drop equations. 
+</p>
 </html>", revisions="<html>
 <ul>
-<li>July 2014, by Damien Picard:<br>First implementation. </li>
+<li>July 2014, by Damien Picard:<br/>First implementation. </li>
 </ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{

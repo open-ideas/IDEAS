@@ -7,9 +7,9 @@ model EmbeddedPipe "Testing the floorheating according to Koschenz, par. 4.5.1"
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature prescribedTemperature(
       T=293.15) annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-
         rotation=270,
         origin={30,90})));
+
   Modelica.Thermal.HeatTransfer.Components.Convection convection annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -93,10 +93,10 @@ equation
   connect(boundary.ports[1], TSen_emb_sup.port_a)
     annotation (Line(points={{-20,0},{8,0},{0,0}}, color={0,127,255}));
   connect(ramp.y, boundary.m_flow_in) annotation (Line(points={{-79,0},{-60,0},
-          {-60,8},{-40,8}}, color={0,0,127}));
+          {-60,8},{-42,8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{140,100}})),
-    experiment(StopTime=10000),
+    experiment(StopTime=10000, Tolerance=1e-06),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(extent={{-100,-100},{140,100}})),
     __Dymola_Commands(file=

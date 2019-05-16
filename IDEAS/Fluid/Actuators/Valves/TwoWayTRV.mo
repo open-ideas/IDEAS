@@ -13,7 +13,7 @@ model TwoWayTRV "Two way thermostatic radiator valve"
     rhoStd=Medium.density_pTX(101325, 273.15+4, Medium.X_default));
 
   parameter Modelica.SIunits.Temperature TSet = 294.15 "Temperature set point";
-  parameter Modelica.SIunits.Temperature P = 2 "Proportional band of valve";
+  parameter Modelica.SIunits.Temperature P(displayUnit="K") = 2 "Proportional band of valve";
 
   parameter Boolean use_inputFilter=true
     "= true, if opening is filtered with a 2nd order CriticalDamping filter"
@@ -74,8 +74,12 @@ model TwoWayTRV "Two way thermostatic radiator valve"
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={0,106})));
-  Modelica.Blocks.Sources.RealExpression yExp(y=min(max(0, (TSet - T)/P), 1))
-                     "Control signal"
+  Modelica.Blocks.Sources.RealExpression yExp(y=
+        IDEAS.Utilities.Math.Functions.smoothLimit(
+        (TSet - T)/P,
+        0,
+        1,
+        0.001))        "Control signal"
     annotation (Placement(transformation(extent={{-46,36},{-8,54}})));
   Modelica.Blocks.Interfaces.RealOutput y "Valve set point"
     annotation (Placement(transformation(extent={{40,60},{60,80}}),
@@ -114,6 +118,16 @@ to reflect the typical delay of radiator knobs.
 </html>",
 revisions="<html>
 <ul>
+<li>
+October 26, 2018 by Filip Jorissen:<br/>
+Using <code>smoothLimit</code> for P controller.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/948\">#948</a>.
+</li>
+<li>
+September 24, 2018 by Filip Jorissen:<br/>
+Modified displayUnit of proportional band P to Kelvin to avoid displaying -271.15C.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/919\">#919</a>.
+</li>
 <li>
 November 15, 2016 by Filip Jorissen:<br/>
 First implementation.

@@ -34,7 +34,7 @@ protected
       {0.5})/(nSta - 1));
   final parameter Real[nSta] Cinv(unit="K/J") = ones(nSta) ./ C
     "Dummy parameter for efficiently handling check for division by zero";
-  Modelica.SIunits.Temperature[nSta] T "Temperature at the states";
+  Modelica.SIunits.Temperature[nSta] T(each start=T_start) "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[nRes] Q_flow
     "Heat flow rate from state i to i-1";
 
@@ -45,10 +45,23 @@ public
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 initial equation
+  // We define initial conditions only for the inner states to avoid
+  // redundant initial equations.
+  // Initial equations for the outer states are defined at the MultiLayer level.
   if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then
-    T = ones(nSta)*T_start;
+    if addRes_b then
+      T[nSta]=T_start;
+    end if;
+    for i in 2:nSta-1 loop
+      T[i] = T_start;
+    end for;
   elseif energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyStateInitial then
-    der(T) = zeros(nSta);
+    if addRes_b then
+      der(T[nSta])=0;
+    end if;
+    for i in 2:nSta-1 loop
+      der(T[i]) = 0;
+    end for;
   end if;
   assert(nSta >= 1, "Number of states needs to be higher than zero.");
   assert(abs(sum(C) - A*mat.rho*mat.c*mat.d) < 1e-6, "Verification error in MonLayerDynamic");
@@ -105,11 +118,37 @@ equation
           rotation=90,
           textString="S")}),
     Documentation(info="<html>
-<p>For the purpose of dynamic building simulation, the partial differential equation of the continuous time and space model of heat transport through a solid is most often simplified into ordinary differential equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
-<p align=\"center\"><img src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
-<p>where <img src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to<img src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and <img src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and <img src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where <img src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and <img src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where <img src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.</p>
+<p>For the purpose of dynamic building simulation, the partial differential equation of the continuous 
+time and space model of heat transport through a solid is most often simplified into ordinary differential 
+equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. 
+Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat 
+fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. 
+The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.
+</p>
+<p align=\"center\"><img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
+<p>where 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where 
+<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.
+</p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 25, 2019, by Filip Jorissen:<br/>
+Revised initial equation implementation.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
+</li>
+<li>
+January 25, 2018, by Filip Jorissen:<br/>
+Propagated <code>T_start</code> in the declaration of <code>T</code>.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/692>#692</a>.
+</li>
 <li>
 December 8, 2016, by Filip Jorissen and Damien Picard:<br/>
 Revised implementation of placeCapacityAtSurf_b, which has been renamed to addRes_b.

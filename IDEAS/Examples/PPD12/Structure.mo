@@ -1,12 +1,12 @@
 within IDEAS.Examples.PPD12;
 model Structure "Ppd 12 example model"
   extends Modelica.Icons.Example;
-  inner IDEAS.BoundaryConditions.SimInfoManager sim
+  inner replaceable IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{400,38},{380,58}})));
-  parameter Real n50=8
+  parameter Real n50=1.1
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa";
-  package MediumAir = IDEAS.Media.Air;
-  package MediumWater = IDEAS.Media.Water;
+  replaceable package MediumAir = IDEAS.Media.Air;
+  replaceable package MediumWater = IDEAS.Media.Water;
 
   // GEOMETRY
   parameter Modelica.SIunits.Length hFloor0=2.9 "Height of ground floor";
@@ -29,7 +29,7 @@ model Structure "Ppd 12 example model"
   parameter Modelica.SIunits.Length lHalfBuilding = 3.75;
   parameter Modelica.SIunits.Length lBuilding = 8;
 
-  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=26;
+  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=23.6;
   parameter Modelica.SIunits.Angle north = IDEAS.Types.Azimuth.N + Modelica.SIunits.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
   parameter Modelica.SIunits.Angle south = IDEAS.Types.Azimuth.S + Modelica.SIunits.Conversions.from_deg(angDelta)
@@ -116,13 +116,17 @@ model Structure "Ppd 12 example model"
     A_winC=2.55*1.74,
     fracC=0.1,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypC,
-    redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypB,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     redeclare IDEAS.Examples.PPD12.Data.FloorOnGround conTypFlo,
     nSurfExt=1,
     redeclare Data.Ppd12WestShadingGnd shaTypC,
-    n50=n50)
+    n50=n50,
+    hasCavityA=true,
+    hA=2.7,
+    wA=2,
+    redeclare Data.InteriorWall18 conTypA,
+    mSenFac=1)
     annotation (Placement(transformation(extent={{-26,56},{-46,36}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate hallway(
@@ -145,7 +149,8 @@ model Structure "Ppd 12 example model"
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall30 conTypA,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
     nSurfExt=1,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     annotation (Placement(transformation(extent={{-72,60},{-92,40}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate Diner(
     h=hFloor0,
@@ -164,11 +169,12 @@ model Structure "Ppd 12 example model"
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Examples.PPD12.Data.Roof conTypCei,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall conTypA,
     nSurfExt=4,
     redeclare IDEAS.Examples.PPD12.Data.FloorOnGround conTypFlo,
-    n50=n50)
+    n50=n50,
+    redeclare Data.RoofHor conTypCei,
+    redeclare Data.GlassWall conTypA,
+    mSenFac=1)
     annotation (Placement(transformation(extent={{-46,-18},{-26,-38}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate Porch(
     aziA=east,
@@ -198,7 +204,8 @@ model Structure "Ppd 12 example model"
     A_winCei=wPorch*lPorch*0.9,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall
       conTypA,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     annotation (Placement(transformation(extent={{-44,-66},{-24,-86}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom1(
@@ -222,7 +229,9 @@ model Structure "Ppd 12 example model"
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     nSurfExt=2,
     redeclare Data.Ppd12WestShadingFirst shaTypC,
-    n50=n50) "Master bedroom"
+    n50=n50,
+    mSenFac=1)
+             "Master bedroom"
     annotation (Placement(transformation(extent={{140,80},{120,60}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bathRoom(
@@ -246,7 +255,8 @@ model Structure "Ppd 12 example model"
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall18 conTypC,
     nSurfExt=0,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     "Bathroom"
     annotation (Placement(transformation(extent={{140,26},{120,6}})));
 
@@ -272,7 +282,8 @@ model Structure "Ppd 12 example model"
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypC,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     "Stairway"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
@@ -299,7 +310,8 @@ model Structure "Ppd 12 example model"
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.FloorAttic conTypCei,
     redeclare Data.Ppd12WestShadingSecond shaTypC,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     "Master bedroom"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
@@ -325,7 +337,8 @@ model Structure "Ppd 12 example model"
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
     nSurfExt=3,
     calculateViewFactor=false,
-    n50=n50)
+    n50=n50,
+    mSenFac=1)
     "Master bedroom"
     annotation (Placement(transformation(extent={{280,40},{260,20}})));
 
@@ -346,19 +359,16 @@ model Structure "Ppd 12 example model"
     inc=IDEAS.Types.Tilt.Floor)
     "Dummy for representing stairway connection between floors"
     annotation (Placement(transformation(extent={{182,-22},{192,-2}})));
-  Buildings.Components.Interfaces.WeaBus weaBus1(numSolBus=sim.numIncAndAziInBus,
-      outputAngles=sim.outputAngles)
-    annotation (Placement(transformation(extent={{370,70},{390,90}})));
 equation
-  connect(hallway.proBusD, living.proBusB) annotation (Line(
-      points={{-73,50},{-45,50},{-45,40}},
+  connect(hallway.proBusD[1], living.proBusB[1]) annotation (Line(
+      points={{-72.4,57},{-45,57},{-45,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(Diner.proBusC, living.proBusA) annotation (Line(
-      points={{-36,-19},{-30,-19},{-30,37}},
+  connect(Diner.proBusC[1], living.proBusA[1]) annotation (Line(
+      points={{-29.2,-18.2},{-30,-18.2},{-30,37}},
       color={255,204,51},
       thickness=0.5));
-  connect(Diner.proBusExt[1], hallway.proBusA) annotation (Line(
+  connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
       points={{-48,-36.5},{-76,-36.5},{-76,41}},
       color={255,204,51},
       thickness=0.5));
@@ -370,19 +380,19 @@ equation
       points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
       color={255,204,51},
       thickness=0.5));
-  connect(Porch.proBusC, Diner.proBusA) annotation (Line(
-      points={{-34,-67},{-34,-48},{-42,-48},{-42,-37}},
+  connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
+      points={{-27.2,-66.2},{-27.2,-48},{-42,-48},{-42,-37}},
       color={255,204,51},
       thickness=0.5));
-  connect(Porch.proBusD, Diner.proBusExt[4]) annotation (Line(
-      points={{-43,-76},{-88,-76},{-88,-38},{-48,-38},{-48,-39.5}},
+  connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom1.proBusFlo, cei2.propsBus_a) annotation (Line(
+  connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
       points={{130,76},{120,76},{120,60},{103.167,60}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei2.propsBus_b, living.proBusCei) annotation (Line(
+  connect(cei2.propsBus_b, living.proBusCei[1]) annotation (Line(
       points={{94.8333,60},{-35.8,60},{-35.8,40}},
       color={255,204,51},
       thickness=0.5));
@@ -390,43 +400,43 @@ equation
       points={{142,61},{144,61},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei1.propsBus_b, hallway.proBusCei) annotation (Line(
+  connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
       points={{70.8333,80},{-81.8,80},{-81.8,44}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom1.proBusA, bathRoom.proBusC) annotation (Line(
-      points={{136,61},{136,52},{136,25},{130,25}},
+  connect(bedRoom1.proBusA[1], bathRoom.proBusC[1]) annotation (Line(
+      points={{136,61},{136,52},{136,25.8},{123.2,25.8}},
       color={255,204,51},
       thickness=0.5));
-  connect(bathRoom.proBusFlo, living.proBusExt[1]) annotation (Line(
+  connect(bathRoom.proBusFlo[1], living.proBusExt[1]) annotation (Line(
       points={{130,22},{96,22},{96,32},{96,38},{-24,38},{-24,36}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusC, bedRoom1.proBusExt[2]) annotation (Line(
-      points={{76,25},{76,25},{76,50},{76,52},{142,52},{142,59}},
+  connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusFlo, hallway.proBusExt[1]) annotation (Line(
+  connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
       points={{76,22},{46,22},{-70,22},{-70,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(stairWay.proBusD, bathRoom.proBusB) annotation (Line(
-      points={{85,16},{121,16},{121,10}},
+  connect(stairWay.proBusD[1], bathRoom.proBusB[1]) annotation (Line(
+      points={{85.6,23},{121,23},{121,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom2.proBusFlo, bedRoom1.proBusCei) annotation (Line(
+  connect(bedRoom2.proBusFlo[1], bedRoom1.proBusCei[1]) annotation (Line(
       points={{266,78},{266,90},{192,90},{192,64},{130.2,64}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom3.proBusC, bedRoom2.proBusA) annotation (Line(
-      points={{270,39},{264,39},{264,63},{272,63}},
+  connect(bedRoom3.proBusC[1], bedRoom2.proBusA[1]) annotation (Line(
+      points={{263.2,39.8},{264,39.8},{264,63},{272,63}},
       color={255,204,51},
       thickness=0.5));
-  connect(bedRoom3.proBusFlo, bathRoom.proBusCei) annotation (Line(
+  connect(bedRoom3.proBusFlo[1], bathRoom.proBusCei[1]) annotation (Line(
       points={{270,36},{202,36},{202,10},{130.2,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(out2.propsBus_a, bedRoom3.proBusA) annotation (Line(
+  connect(out2.propsBus_a, bedRoom3.proBusA[1]) annotation (Line(
       points={{233,2.16667},{233,14},{276,14},{276,21}},
       color={255,204,51},
       thickness=0.5));
@@ -438,7 +448,7 @@ equation
       points={{281,2.16667},{281,11.5},{282,11.5},{282,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(Roof2.propsBus_a, bedRoom3.proBusCei) annotation (Line(
+  connect(Roof2.propsBus_a, bedRoom3.proBusCei[1]) annotation (Line(
       points={{261,2.16667},{261,24},{270.2,24}},
       color={255,204,51},
       thickness=0.5));
@@ -446,17 +456,10 @@ equation
       points={{191.167,-10},{282,-10},{282,18.6667}},
       color={255,204,51},
       thickness=0.5));
-  connect(cei3.propsBus_b, stairWay.proBusCei) annotation (Line(
+  connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
       points={{182.833,-10},{76.2,-10},{76.2,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(sim.weaBus, weaBus1) annotation (Line(
-      points={{384,50.8},{380,50.8},{380,80}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -200},{400,240}},
         initialScale=0.1), graphics={
@@ -499,6 +502,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 21, 2018, by Filip Jorissen:<br/>
+Using model for air flow through vertical cavity.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/822\">#822</a>.
+</li>
 <li>
 December 20, 2016 by Filip Jorissen:<br/>
 First implementation.

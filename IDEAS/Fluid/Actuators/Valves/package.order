@@ -1,12 +1,15 @@
-Simplified
 ThreeWayEqualPercentageLinear
+ThreeWayEqualPercentageMixedLinear
 ThreeWayLinear
 TwoWayEqualPercentage
+TwoWayEqualPercentageLinear
 TwoWayLinear
+TwoWayPolynomial
 TwoWayPressureIndependent
 TwoWayQuickOpening
-TwoWayTable
 TwoWayTRV
+TwoWayTable
+Simplified
 Data
 Examples
 Validation

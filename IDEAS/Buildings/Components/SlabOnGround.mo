@@ -1,12 +1,13 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+     final nWin=1,
      QTra_design=UEqui*A    *(273.15 + 21 - sim.Tdes),
         dT_nominal_a=-3,
         inc=IDEAS.Types.Tilt.Floor,
         azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(monLay(each monLayDyn(final addRes_b=true))));
+    layMul(disableInitPortB=true));
 
   parameter Modelica.SIunits.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";
@@ -27,9 +28,6 @@ model SlabOnGround "opaque floor on ground slab"
 
 //Calculation of heat loss based on ISO 13370
 protected
-  final parameter Modelica.Fluid.Types.Dynamics energyDynamicsLayGro[3]=
-    cat(1, fill(energyDynamics, 2), {if energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial else energyDynamics})
- "Energy dynamics for construction layer";
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground2(final d=0.33);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground3(final d=0.17);
@@ -47,14 +45,14 @@ protected
   final parameter Real delta=sqrt(3.15*10^7*ground1.k/3.14/ground1.rho/ground1.c);
   final parameter Real Lpi=A    *ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
-  Real m = sim.timCal/3.1536e7*12 "time in months";
+  Real m = sim.solTim.y/3.1536e7*12 "time in months";
 
   BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
     final inc=inc,
     final nLay=3,
     final mats={ground1,ground2,ground3},
     final T_start={TeAvg,TeAvg,TeAvg},
-    monLay(energyDynamics=energyDynamicsLayGro),
+    monLay(each energyDynamics=energyDynamics),
     final A=A)
     "Declaration of array of resistances and capacitances for ground simulation"
     annotation (Placement(transformation(extent={{-20,-10},{-40,10}})));
@@ -81,8 +79,9 @@ equation
     annotation (Line(points={{-40,0},{-45,0},{-50,0}}, color={191,0,0}));
   connect(Qm_val.y, product.u1) annotation (Line(points={{-21,60},{-26,60},{-26,
           42.4},{-29.2,42.4}}, color={0,0,127}));
-  connect(product.u2, propsBus_a.weaBus.dummy) annotation (Line(points={{-29.2,37.6},
-          {100.1,37.6},{100.1,19.9}}, color={0,0,127}));
+  connect(product.u2, propsBusInt.weaBus.dummy) annotation (Line(points={{-29.2,
+          37.6},{56.09,37.6},{56.09,19.91}},
+                                      color={0,0,127}));
   connect(product.y, periodicFlow.Q_flow) annotation (Line(points={{-38.4,40},{-50,
           40},{-50,22},{-40,22}}, color={0,0,127}));
   annotation (
@@ -143,6 +142,23 @@ zone that is surrounded by air at the ambient temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 25, 2019, by Filip Jorissen:<br/>
+Revised initial equation implementation.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
+</li>
+<li>
+August 10, 2018 by Damien Picard:<br/>
+Set nWin final to 1 as this should only be used for windows.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/888\">
+#888</a>. 
+</li>
+<li>
+May 14, 2018, by Filip Jorissen:<br/>
+Revised value of <code>energyDynamics</code>
+for ground layers such that unique initial conditions
+can be defined.
+</li>
 <li>
 January 2, 2017, by Filip Jorissen:<br/>
 Added default values for parameters <code>inc</code> and 

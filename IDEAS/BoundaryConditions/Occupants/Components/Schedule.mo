@@ -2,6 +2,7 @@ within IDEAS.BoundaryConditions.Occupants.Components;
 model Schedule "Single schedule with look-ahead"
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim;
+  extends Modelica.Icons.ObsoleteModel;
 
   parameter Real occupancy[:]=3600*{7,19}
     "Occupancy table, each entry switching occupancy on or off";
@@ -37,8 +38,8 @@ protected
   output Modelica.SIunits.Time tNonOcc "Time when next non-occupancy starts";
 
 initial algorithm
-  tOcc := if firstEntryOccupied then occupancy[1] else sim.timLoc;
-  tNonOcc := if firstEntryOccupied then sim.timLoc else occupancy[1];
+  tOcc := if firstEntryOccupied then occupancy[1] else  time;
+  tNonOcc := if firstEntryOccupied then  time else occupancy[1];
 
   iPerSta := 0;
   iPerSto := 0;
@@ -50,10 +51,10 @@ initial algorithm
 
 algorithm
   tMax := endTime;
-  schTim := startTime + mod(sim.timLoc - startTime, period);
+  schTim := startTime + mod( time - startTime, period);
 
   // Changed the index that computes the time until the next occupancy
-  when time >= pre(occupancy[nexStaInd]) + iPerSta*period then
+  when time >= occupancy[nexStaInd] + iPerSta*period then
     nexStaInd := nexStaInd + 2;
     occupied := not occupied;
     // Wrap index around
@@ -65,7 +66,7 @@ algorithm
   end when;
 
   // Changed the index that computes the time until the next non-occupancy
-  when time >= pre(occupancy[nexStoInd]) + iPerSto*period then
+  when time >= occupancy[nexStoInd] + iPerSto*period then
     nexStoInd := nexStoInd + 2;
     occupied := not occupied;
     // Wrap index around
@@ -76,8 +77,8 @@ algorithm
     tNonOcc := occupancy[nexStoInd] + iPerSto*(period);
   end when;
 
-  tNexOcc := tOcc - sim.timLoc;
-  tNexNonOcc := tNonOcc - sim.timLoc;
+  tNexOcc := tOcc -  time;
+  tNexNonOcc := tNonOcc -  time;
 
   annotation (Icon(graphics={Ellipse(
           extent={{-70,70},{70,-70}},
@@ -103,5 +104,23 @@ algorithm
           lineColor={127,0,0},
           smooth=Smooth.None,
           fillColor={127,0,0},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid)}), Documentation(revisions="<html>
+<ul>
+<li>
+Revised implementation since timLoc was removed from the SimInfoManger.
+Moreover, this seems to be the wrong variable to use, since this
+relative time is a function of the building position, 
+which should not be the case.
+</li>
+</ul>
+</html>", info="<html>
+<p>
+This block implements a schedule. 
+The Modelica built-in variable 'time' is used to compute the hour, 
+assuming that time=0 corresponds to midnight on the first of january.
+</p>
+<p>
+It may be removed in the future since its implementation is not very efficient.
+</p>
+</html>"));
 end Schedule;

@@ -3,11 +3,12 @@ partial model ZoneInterface "Partial model for thermal building zones"
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
+  outer IDEAS.BoundaryConditions.SimInfoManager sim
+    "Simulation information manager for climate data"
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+
   parameter Integer nSurf(min=2)
     "Number of surfaces adjacent to and heat exchangeing with the zone";
-  parameter Boolean useFluPor = true
-    "Set to false to disable the use of fluid ports"
-    annotation(Dialog(tab="Advanced", group="Air model"));
   parameter Modelica.SIunits.Volume V "Total zone air volume"
     annotation(Dialog(group="Building physics"));
   parameter Modelica.SIunits.Length hZone = 2.8
@@ -15,10 +16,17 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation(Dialog(group="Building physics"));
   parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
     annotation(Dialog(group="Building physics"));
+  parameter Boolean useOccNumInput
+    "=false, to remove icon of nOcc"
+    annotation(Dialog(tab="Advanced",group="Occupants"));
+  parameter Boolean useLigCtrInput
+    "=false, to remove icon of lightCtrl"
+    annotation(Dialog(tab="Advanced",group="Lighting"));
+  //default ACH=2 for ventilation
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal = V * 1.2*2/3600
+    "Nominal flow rate of the air flow system fluid ports"
+    annotation(Dialog(tab="Advanced",group="Air model"));
 
-  outer IDEAS.BoundaryConditions.SimInfoManager sim
-    "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
     "Internal zone node for radiative heat gains"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
@@ -27,14 +35,27 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
   Modelica.Blocks.Interfaces.RealOutput TSensor(unit="K", displayUnit="degC")
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
-      Placement(transformation(extent={{96,-10},{116,10}}), iconTransformation(
-          extent={{96,-10},{116,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
-    if useFluPor
+      Placement(transformation(extent={{100,10},{120,30}}), iconTransformation(
+          extent={{100,10},{120,30}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(
+    redeclare package Medium = Medium,
+    m_flow(nominal=m_flow_nominal),
+    h_outflow(nominal=Medium.h_default))
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
-    if useFluPor
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(
+    redeclare package Medium = Medium,
+    m_flow(nominal=m_flow_nominal),
+    h_outflow(nominal=Medium.h_default))
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
+  Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
+    "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
+    annotation (Placement(transformation(extent={{140,20},{100,60}})));
+  Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
+    "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
+    annotation (Placement(transformation(extent={{140,50},{100,90}})));
+  Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
+    "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
+            {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
@@ -50,7 +71,8 @@ protected
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort dummy2
     "Dummy emergy port for avoiding error by dymola translator";
 initial equation
-  assert(nSurf>1, "A minimum of 2 surfaces should be connected to each zone!");
+  assert(nSurf>1, "In " + getInstanceName() +
+    ": A minimum of 2 surfaces must be connected to the zone.");
 
 equation
   connect(sim.Qgai, dummy1);
@@ -110,6 +132,38 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 2, 2019 by Filip Jorissen:<br/>
+Moved location of <code>ppm</code> in the icon layer such that it
+does not overlap with <code>TSensor</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
+</li>
+<li>
+March 28, 2019 by Filip Jorissen:<br/>
+Renamed <code>nOcc</code> to <code>yOcc</code>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+</li>
+<li>
+September 5, 2018 by Iago Cupeiro:<br/>
+Added uLig input for controlling lighting
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/879\">#879</a>.
+</li>
+<li>
+July 27, 2018 by Filip Jorissen:<br/>
+Added output for the CO2 concentration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/868\">#868</a>.
+</li>
+<li>
+July 11, 2018, Filip Jorissen:<br/>
+Added nominal values for <code>h_outflow</code> and <code>m_flow</code>
+in <code>FluidPorts</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/859\">#859</a>.
+</li>
+<li>
+May 29, 2018, Filip Jorissen:<br/>
+Removed conditional fluid ports for JModelica compatibility.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/834\">#834</a>.
+</li>
 <li>
 April 28, 2016, Filip Jorissen:<br/>
 Added assert for checking nSurf larger than 1.

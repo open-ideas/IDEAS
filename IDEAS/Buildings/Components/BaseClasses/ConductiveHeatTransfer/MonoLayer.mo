@@ -20,6 +20,7 @@ model MonoLayer "single material layer"
     "Start temperature for each of the states";
   final parameter Modelica.SIunits.ThermalInsulance R = mat.R
     "Total specific thermal resistance";
+  final parameter Boolean isDynamic = dynamicLayer and realLayer and not airLayer;
 
   Modelica.SIunits.Energy E = E_internal;
 
@@ -37,10 +38,10 @@ model MonoLayer "single material layer"
     A=A,
     mat=mat,
     T_start=T_start,
-    energyDynamics=energyDynamics) if
-                            dynamicLayer and realLayer and not airLayer
+    energyDynamics=energyDynamics) if isDynamic
     "Dynamic monolayer for solid"
     annotation (Placement(transformation(extent={{-10,-42},{10,-22}})));
+
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.MonoLayerAir
     monLayAir(
     A=A,
@@ -144,11 +145,13 @@ equation
           rotation=90,
           textString="S")}),
     Documentation(info="<html>
-<p>For the purpose of dynamic building simulation, the partial differential equation of the continuous time and space model of heat transport through a solid is most often simplified into ordinary differential equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
-<p align=\"center\"><img src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
-<p>where <img src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, <img src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to<img src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and <img src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and <img src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where <img src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and <img src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where <img src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 25, 2019, by Filip Jorissen:<br/>
+Revised initial equation implementation.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
+</li>
 <li>
 March 8, 2016, by Filip Jorissen:<br/>
 Fixed bug in connection of internal gains. 

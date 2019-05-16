@@ -32,7 +32,7 @@ model DHW_example
     TDHWSet=318.15,
     m_flow_nominal=1,
     table(fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/")
-           + "Inputs/DHWProfile_2d.txt"))
+           + "Resources/weatherdata/DHWProfile_2d.txt"))
     annotation (Placement(transformation(extent={{4,-54},{28,-40}})));
   Sources.Boundary_pT bou2(
     redeclare package Medium = Medium,
@@ -69,7 +69,7 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics),
-    experiment(StopTime=172800),
+    experiment(StopTime=172800, Tolerance=1e-06),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Fluid/Taps/Examples/DHW_example.mos"

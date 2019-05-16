@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples;
 model MultiLayer "Unit test for multi layer model"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Area A=10 "total multilayer area";
+  parameter Modelica.SIunits.Area A = 10 "total multilayer area";
   parameter IDEAS.Buildings.Data.Constructions.CavityWallPartialFill cavityWallData
     "Record containing data for cavity wall"
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
@@ -9,18 +9,19 @@ model MultiLayer "Unit test for multi layer model"
     "Record containing tabs construction data"
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
 
-  IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
-    cavityWall(
+  IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer cavityWall(
     A=A,
     nLay=cavityWallData.nLay,
     mats=cavityWallData.mats,
     nGain=cavityWallData.nGain,
     inc=IDEAS.Types.Tilt.Wall,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
-                               "Test model containing an air layer"
+    disableInitPortA=true,
+    disableInitPortB=true,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Test model containing an air layer"
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
 
-   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixTem(T=283.15)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixTem(T=283.15)
     "Temperature boundary condition"
     annotation (Placement(transformation(extent={{60,-10},{40,10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
@@ -37,8 +38,10 @@ model MultiLayer "Unit test for multi layer model"
     nLay=tabsData.nLay,
     mats=tabsData.mats,
     nGain=tabsData.nGain,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
-                          "Test model containing only solid layers"
+    disableInitPortA=true,
+    disableInitPortB=true,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Test model containing only solid layers"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
 equation
@@ -54,12 +57,23 @@ equation
     annotation (Line(points={{10,0},{40,0}},        color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(StopTime=86400),
+    experiment(
+      StopTime=86400,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Lsodar"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Buildings/Components/BaseClasses/ConductiveHeatTransfer/Examples/MultiLayer.mos"
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+January 30, 2019 by Filip Jorissen:<br/>
+Revised initial conditions according to new implementation of <code>MultiLayer</code>.
+</li>
+<li>
+May 15, 2018 by Filip Jorissen:<br/>
+Fixed initial conditions.
+</li>
 <li>
 January 18, 2017 by Filip Jorissen:<br/>
 First implementation

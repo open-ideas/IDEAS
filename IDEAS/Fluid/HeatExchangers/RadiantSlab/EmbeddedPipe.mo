@@ -1,7 +1,6 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab;
 model EmbeddedPipe
   "Embedded pipe model based on prEN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
-  extends IDEAS.Fluid.HeatExchangers.Interfaces.EmissionTwoPort;
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   replaceable parameter
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha constrainedby
@@ -10,9 +9,8 @@ model EmbeddedPipe
     annotation (choicesAllMatching=true);
   final parameter Modelica.SIunits.Length pipeDiaInt = RadSlaCha.d_a - 2*RadSlaCha.s_r
     "Pipe internal diameter";
-  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(allowFlowReversal=false);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    computeFlowResistance=false,
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
       rho_a=rho_default,
@@ -126,9 +124,12 @@ annotation(Dialog(tab="Flow resistance"));
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   IDEAS.Fluid.Sensors.Temperature senTemIn(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-110,18},{-90,38}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater(
+    each final alpha=0) "Heat flow rate that is extracted from the fluid"
     annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid(
+    each final alpha=0)
+    "Heat flow rate that is injected in the solid material"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
   Modelica.Blocks.Math.Gain[nDiscr] negate(each k=-1)
     annotation (Placement(transformation(extent={{-56,36},{-48,44}})));
@@ -189,6 +190,8 @@ initial equation
   end if;
 
 equation
+  assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
+  assert(not allowFlowReversal, "In " +getInstanceName() + ": parameter allowFlowReversal=true, but the EmbeddedPipe model does not support it.", AssertionLevel.warning);
   // this need not be smooth since when active, G_max is already active
   m_flowSpLimit = max(m_flowSp, 1e-8);
   // Koschenz eq 4-59
@@ -341,7 +344,25 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[Koshenz, 2000] - Koschenz, Markus, and Beat Lehmann. 2000. <i>Thermoaktive Bauteilsysteme - Tabs</i>. D&uuml;bendorf: EMPA D&uuml;bendorf. </p>
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
-<p><ul>
+<ul>
+<li>
+April 16, 2019 by Filip Jorissen:<br/>
+Added checks for flow reversal.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1006>#1006</a>.
+</li>
+<li>
+April 16, 2019 by Filip Jorissen:<br/>
+Removed <code>computeFlowResistance=false</code> 
+since this parameter was hidden in the advanced tab
+and this setting can easily lead to singularities.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1014>#1014</a>.
+</li>
+<li>
+June 21, 2018 by Filip Jorissen:<br/>
+Set <code>final alpha=0</code> in <code>prescribedHeatFlow</code>
+to avoid large algebraic loops in specific cases.
+See <a href=https://github.com/open-ideas/IDEAS/issues/852>#852</a>.
+</li>
 <li>
 April 26, 2017 by Filip Jorissen:<br/>
 Removed <code>useSimplifiedRt</code> parameter
@@ -357,6 +378,6 @@ See <a href=https://github.com/open-ideas/IDEAS/issues/717>#717</a>.
 <li>2013 May, Roel De Coninck: documentation</li>
 <li>2012 April, Roel De Coninck: rebasing on common Partial_Emission</li>
 <li>2011, Roel De Coninck: first version and validation</li>
-</ul></p>
+</ul>
 </html>"));
 end EmbeddedPipe;

@@ -1,303 +1,58 @@
 within IDEAS.Buildings.Components;
 model RectangularZoneTemplate
   "Rectangular zone including walls, floor and ceiling"
-  extends IDEAS.Buildings.Components.Interfaces.PartialZone(
-    redeclare replaceable IDEAS.Buildings.Components.ZoneAirModels.WellMixedAir airModel
-    constrainedby
-      IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
-      mSenFac=mSenFac),
-    calculateViewFactor=false,
-    final nSurf=indWinCei+nSurfExt,
-    final V=l*w*h,
-    final hZone=h,
-    final A=l*w,
-    final fRH=11);
+  extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface;
 
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypA
-    "Modelled boundary for face A of the zone"
-    annotation(Dialog(tab="Face A", group="Construction details"));
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypB
-    "Modelled boundary for face B of the zone"
-    annotation(Dialog(tab="Face B", group="Construction details"));
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypC
-    "Modelled boundary for face C of the zone"
-    annotation(Dialog(tab="Face C", group="Construction details"));
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypD
-    "Modelled boundary for face D of the zone"
-    annotation(Dialog(tab="Face D", group="Construction details"));
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypFlo
-    "Modelled boundary for the zone floor"
-    annotation(Dialog(tab="Floor", group="Construction details"));
-  parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypCei
-    "Modelled boundary for the zone ceiling"
-    annotation(Dialog(tab="Ceiling", group="Construction details"));
-  parameter Boolean hasWinA = false
-    "Modelling window for face A if true"
-    annotation(Dialog(tab="Face A", group="Window details"));
-  parameter Boolean hasWinB = false
-    "Modelling window for face B if true"
-    annotation(Dialog(tab="Face B", group="Window details"));
-  parameter Boolean hasWinC = false
-    "Modelling window for face C if true"
-    annotation(Dialog(tab="Face C", group="Window details"));
-  parameter Boolean hasWinD = false
-    "Modelling window for face D if true"
-    annotation(Dialog(tab="Face D", group="Window details"));
-  parameter Boolean hasWinCei = false
-    "Modelling window for ceiling if true"
-    annotation(Dialog(tab="Ceiling", group="Window details"));
-  parameter Integer nSurfExt = 0
-    "Number of additional connected external surfaces";
-  parameter Modelica.SIunits.Angle aziA
-    "Azimuth angle of face A";
-  parameter Modelica.SIunits.Length l
-    "Horizontal length of faces A and C";
-  parameter Modelica.SIunits.Length w
-    "Horizontal length of face B and D";
-  parameter Modelica.SIunits.Length h
-    "Height between top of floor and bottom of ceiling";
-  parameter Modelica.SIunits.Area A_winA=0
-    "Surface area of window of face A"
-    annotation(Dialog(tab="Face A", group="Window details",
-    enable=hasWinA));
-  parameter Modelica.SIunits.Area A_winB=0
-    "Surface area of window of face B"
-    annotation(Dialog(tab="Face B", group="Window details",
-    enable=hasWinB));
-  parameter Modelica.SIunits.Area A_winC=0
-    "Surface area of window of face C"
-    annotation(Dialog(tab="Face C", group="Window details",
-    enable=hasWinC));
-  parameter Modelica.SIunits.Area A_winD=0
-    "Surface area of window of face D"
-    annotation(Dialog(tab="Face D", group="Window details",
-    enable=hasWinD));
-  parameter Modelica.SIunits.Area A_winCei=0
-    "Surface area of window of ceiling"
-    annotation(Dialog(tab="Ceiling", group="Window details",
-    enable=hasWinCei));
-
-  parameter Real fracA=0.15
-    "Area fraction of the window frame of face A"
-    annotation(Dialog(tab="Face A", group="Window details",
-    enable=hasWinA));
-  parameter Real fracB=0.15
-    "Area fraction of the window frame of face B"
-    annotation(Dialog(tab="Face B", group="Window details",
-    enable=hasWinB));
-  parameter Real fracC=0.15
-    "Area fraction of the window frame of face C"
-    annotation(Dialog(tab="Face C", group="Window details",
-    enable=hasWinC));
-  parameter Real fracD=0.15
-    "Area fraction of the window frame of face D"
-    annotation(Dialog(tab="Face D", group="Window details",
-    enable=hasWinD));
-  parameter Real fracCei=0.15
-    "Area fraction of the window frame of the ceiling"
-    annotation(Dialog(tab="Ceiling", group="Window details",
-    enable=hasWinCei));
-  parameter Boolean linIntCon=sim.linIntCon
-    "= true, if convective heat transfer should be linearised"
-    annotation(Dialog(tab="Advanced", group="Convective heat exchange"));
-  parameter Interfaces.WindowDynamicsType windowDynamicsType=IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two
-    "Type of dynamics for glazings and frames: using zero, one combined or two states"
-    annotation(Dialog(group="Windows", tab="Advanced"));
-  parameter SI.TemperatureDifference dT_nominal_win=-3
-    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(group="Convective heat transfer", tab="Advanced"));
-  parameter Boolean linExtCon=sim.linExtCon
-    "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
-    annotation(Dialog(tab="Advanced", group="Convective heat exchange"));
-  parameter Boolean linExtRad=sim.linExtRad
-    "= true, if exterior radiative heat transfer for walls should be linearised"
-    annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  parameter Boolean linExtRadWin=sim.linExtRadWin
-    "= true, if exterior radiative heat transfer for windows should be linearised"
-    annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-
-  parameter Real mSenFac(min=0.1)=5
-    "Factor for scaling the sensible thermal mass of the zone air"
-    annotation(Dialog(tab="Advanced",group="Air model"));
-  parameter SI.TemperatureDifference dT_nominal_bou=-1
-    "Nominal temperature difference for boundary walls, used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_out=-3
-    "Nominal temperature difference for outer walls, used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_sla=-3
-    "Nominal temperature difference of slab on ground, used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.Temperature TeAvg=273.15 + 10.8
-    "Annual average outdoor temperature"
-    annotation(Dialog(tab="Floor", group="Slab on ground", enable=bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround));
-  parameter SI.Temperature TiAvg=273.15 + 22
-    "Annual average indoor temperature"
-    annotation(Dialog(tab="Floor", group="Slab on ground", enable=bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround));
-  parameter SI.TemperatureDifference dTeAvg=4
-    "Amplitude of variation of monthly average outdoor temperature"
-    annotation(Dialog(tab="Floor", group="Slab on ground", enable=bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround));
-  parameter SI.TemperatureDifference dTiAvg=2
-    "Amplitude of variation of monthly average indoor temperature"
-    annotation(Dialog(tab="Floor", group="Slab on ground", enable=bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround));
-  parameter SI.TemperatureDifference dT_nominal_intA=1
-    "Nominal temperature difference between zone air and interior walls, used for linearisation"
-    annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_intB=1
-    "Nominal temperature difference between interior walls exterior connection, used for linearisation"
-    annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypA
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of face A" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,8},{-224,12}})),
-    Dialog(tab="Face A",group="Construction details",
-           enable=not
-                 (bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypB
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of face B" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,-12},{-224,-8}})),
-    Dialog(tab="Face B",group="Construction details",
-           enable=not
-                 (bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypC
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of face C" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,-32},{-224,-28}})),
-    Dialog(tab="Face C",group="Construction details",
-           enable=not
-                 (bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypD
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of face D" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,-52},{-224,-48}})),
-    Dialog(tab="Face D",group="Construction details",
-           enable=not
-                 (bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypCei
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of ceiling" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,-92},{-224,-88}})),
-    Dialog(tab="Ceiling",group="Construction details",
-           enable=not
-                 (bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypFlo
-    constrainedby IDEAS.Buildings.Data.Interfaces.Construction
-    "Material structure of floor" annotation (
-    choicesAllMatching=true,
-    Placement(transformation(extent={{-228,-72},{-224,-68}})),
-    Dialog(tab="Floor",group="Construction details",
-           enable=not
-                 (bouTypFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.External)));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingA
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face A"
-    annotation (choicesAllMatching=true,
-    Dialog(tab="Face A", group="Window details",
-           enable = hasWinA));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingB
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face B"
-    annotation (choicesAllMatching=true,
-    Dialog(tab="Face B", group="Window details",
-           enable = hasWinB));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingC
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face C"
-    annotation (choicesAllMatching=true,
-    Dialog(tab="Face C", group="Window details",
-           enable = hasWinC));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingD
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face D"
-    annotation (choicesAllMatching=true,
-    Dialog(tab="Face D", group="Window details",
-           enable = hasWinD));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingCei
-    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of ceiling"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Ceiling", group="Window details",
-           enable = hasWinCei));
-
-  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypA
-    constrainedby
-    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
-    "Shading type and properties of window of face A"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Face A", group="Window details",
-           enable = hasWinA));
-  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypB
-    constrainedby
-    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
-    "Shading type and properties of window of face B"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Face B", group="Window details",
-           enable = hasWinB));
-  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypC
-    constrainedby
-    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
-    "Shading type and properties of window of face C"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Face C", group="Window details",
-           enable = hasWinC));
-  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypD
-    constrainedby
-    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
-    "Shading type and properties of window of face D"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Face D", group="Window details",
-           enable = hasWinD));
-  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypCei
-    constrainedby
-    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
-    "Shading type and properties of window of ceiling"
-    annotation (
-           choicesAllMatching=true,
-           Dialog(tab="Ceiling", group="Window details",
-           enable = hasWinCei));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypA
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
-    "Window frame type for surface A"
-    annotation (choicesAllMatching=true,
-                Dialog(tab="Face A", group="Window details", enable=hasWinA));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypB
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
-    "Window frame type for surface B"
-    annotation (choicesAllMatching=true,
-                Dialog(tab="Face B", group="Window details", enable=hasWinB));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypC
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
-    "Window frame type for surface C"
-    annotation (choicesAllMatching=true,
-                Dialog(tab="Face C", group="Window details", enable=hasWinC));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypD
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
-    "Window frame type for surface D"
-    annotation (choicesAllMatching=true,
-                Dialog(tab="Face D", group="Window details", enable=hasWinD));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypCei
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
-    "Window frame type for surface Cei"
-    annotation (choicesAllMatching=true,
-                Dialog(tab="Ceiling", group="Window details", enable=hasWinCei));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
-    each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if nSurfExt>0
-    "Propsbus for connecting additional external surfaces" annotation (
-      Placement(transformation(
-        extent={{-20,20},{20,-20}},
+  Modelica.Blocks.Interfaces.RealInput ctrlA if
+                                               shaTypA.controlled
+    "Control input for windows in face A, if controlled"
+    annotation (Placement(transformation(extent={{11,-11},{-11,11}},
         rotation=-90,
-        origin={-210,50}), iconTransformation(
-        extent={{-20,20},{20,-20}},
+        origin={-171,-111}), iconTransformation(
+        extent={{-11,-11},{11,11}},
+        rotation=-90,
+        origin={84,112})));
+  Modelica.Blocks.Interfaces.RealInput ctrlB if
+                                               shaTypB.controlled
+    "Control input for windows in face B, if controlled" annotation (Placement(
+        transformation(
+        extent={{11,-11},{-11,11}},
+        rotation=-90,
+        origin={-155,-111}), iconTransformation(extent={{123,-99},{101,-77}},
+          rotation=0)));
+  Modelica.Blocks.Interfaces.RealInput ctrlC if
+                                               shaTypC.controlled
+    "Control input for windows in face C, if controlled" annotation (Placement(
+        transformation(
+        extent={{11,-11},{-11,11}},
+        rotation=-90,
+        origin={-139,-111}), iconTransformation(
+        extent={{11,-11},{-11,11}},
+        rotation=-90,
+        origin={-88,-112})));
+  Modelica.Blocks.Interfaces.RealInput ctrlD if
+                                               shaTypD.controlled
+    "Control input for windows in face D, if controlled" annotation (Placement(
+        transformation(
+        extent={{11,-11},{-11,11}},
+        rotation=-90,
+        origin={-123,-111}), iconTransformation(
+        extent={{11,-11},{-11,11}},
         rotation=180,
-        origin={-120,100})));
-protected
+        origin={-112,72})));
+  Modelica.Blocks.Interfaces.RealInput ctrlCei if
+                                               shaTypCei.controlled
+    "Control input for windows in ceiling, if controlled" annotation (Placement(
+        transformation(
+        extent={{11,-11},{-11,11}},
+        rotation=-90,
+        origin={-107,-111}), iconTransformation(
+        extent={{-11,-11},{11,11}},
+        rotation=-90,
+        origin={50,82})));
+
+
+replaceable
   IDEAS.Buildings.Components.Window winA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
     glazing(
       nLay=glazingA.nLay,
@@ -332,9 +87,24 @@ protected
   shaCorr=shaTypA.shaCorr)),
     fraType(present=fraTypA.present,
             U_value=fraTypA.U_value),
-    linExtRad=linExtRadWin) if
-       hasWinA
-    "Window for face A of this zone" annotation (Placement(transformation(extent={{-100,0},{-90,20}})));
+    linExtRad=linExtRadWin,
+    nWin=nWinA) if
+       hasWinA constrainedby Window(
+       azi=aziA,
+       inc=IDEAS.Types.Tilt.Wall,
+       T_start=T_start,
+       linIntCon_a=linIntCon,
+       dT_nominal_a=dT_nominal_win,
+       linExtCon=linExtCon,
+       windowDynamicsType=windowDynamicsType,
+       linExtRad=linExtRadWin,
+       nWin=nWinA)
+    "Window for face A of this zone"
+    annotation (Dialog(tab="Advanced",group="Windows"),
+      enable=hasWinA,
+      choicesAllMatching=true,
+      Placement(transformation(extent={{-100,0},{-90,20}})));
+  replaceable
   IDEAS.Buildings.Components.Window winB(
       inc=IDEAS.Types.Tilt.Wall,
     glazing(
@@ -347,7 +117,7 @@ protected
       U_value=glazingB.U_value,
       g_value=glazingB.g_value),
     A=A_winB,
-    frac=fraB,
+    frac=fracB,
     azi=aziA + Modelica.Constants.pi/2,
     T_start=T_start,
     linIntCon_a=linIntCon,
@@ -370,13 +140,27 @@ protected
   dh=shaTypB.dh,
   shaCorr=shaTypB.shaCorr)),
     fraType(present=fraTypB.present, U_value=fraTypB.U_value),
-    linExtRad=linExtRadWin) if
-       hasWinB
-    "Window for face B of this zone" annotation (Placement(
+    linExtRad=linExtRadWin,
+    nWin=nWinB) if
+       hasWinB constrainedby Window(
+       azi=aziB,
+       inc=IDEAS.Types.Tilt.Wall,
+       T_start=T_start,
+       linIntCon_a=linIntCon,
+       dT_nominal_a=dT_nominal_win,
+       linExtCon=linExtCon,
+       windowDynamicsType=windowDynamicsType,
+       linExtRad=linExtRadWin,
+       nWin=nWinB)
+    "Window for face B of this zone" annotation (Dialog(tab="Advanced",group="Windows"),
+      enable=hasWinB,
+      choicesAllMatching=true,
+      Placement(
         transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-95,-10})));
+  replaceable
   IDEAS.Buildings.Components.Window winC(inc=IDEAS.Types.Tilt.Wall,
     glazing(
       nLay=glazingC.nLay,
@@ -411,13 +195,27 @@ protected
   dh=shaTypC.dh,
   shaCorr=shaTypC.shaCorr)),
     fraType(present=fraTypC.present, U_value=fraTypC.U_value),
-    linExtRad=linExtRadWin) if
-       hasWinC
-    "Window for face C of this zone" annotation (Placement(
+    linExtRad=linExtRadWin,
+    nWin=nWinC) if
+       hasWinC constrainedby Window(
+       azi=aziC,
+       inc=IDEAS.Types.Tilt.Wall,
+       T_start=T_start,
+       linIntCon_a=linIntCon,
+       dT_nominal_a=dT_nominal_win,
+       linExtCon=linExtCon,
+       windowDynamicsType=windowDynamicsType,
+       linExtRad=linExtRadWin,
+       nWin=nWinC)
+    "Window for face C of this zone" annotation (Dialog(tab="Advanced",group="Windows"),
+      enable=hasWinC,
+      choicesAllMatching=true,
+      Placement(
         transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-95,-30})));
+  replaceable
   IDEAS.Buildings.Components.Window winD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
         Modelica.Constants.pi/2*3,
     glazing(
@@ -452,13 +250,27 @@ protected
   dh=shaTypD.dh,
   shaCorr=shaTypD.shaCorr)),
     fraType(present=fraTypD.present, U_value=fraTypD.U_value),
-    linExtRad=linExtRadWin) if
-       hasWinD
-    "Window for face D of this zone" annotation (Placement(
+    linExtRad=linExtRadWin,
+    nWin=nWinD) if
+       hasWinD constrainedby Window(
+       azi=aziD,
+       inc=IDEAS.Types.Tilt.Wall,
+       T_start=T_start,
+       linIntCon_a=linIntCon,
+       dT_nominal_a=dT_nominal_win,
+       linExtCon=linExtCon,
+       windowDynamicsType=windowDynamicsType,
+       linExtRad=linExtRadWin,
+       nWin=nWinD)
+    "Window for face D of this zone" annotation (Dialog(tab="Advanced",group="Windows"),
+      enable=hasWinD,
+      choicesAllMatching=true,
+      Placement(
         transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-95,-50})));
+  replaceable
   IDEAS.Buildings.Components.Window winCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziA,
     glazing(
       nLay=glazingCei.nLay,
@@ -492,490 +304,27 @@ protected
   dh=shaTypCei.dh,
   shaCorr=shaTypCei.shaCorr)),
     fraType(present=fraTypCei.present, U_value=fraTypCei.U_value),
-    linExtRad=linExtRadWin) if
-       hasWinCei
-    "Window for ceiling of this zone" annotation (Placement(
+    linExtRad=linExtRadWin,
+    nWin=nWinCei) if
+       hasWinCei constrainedby Window(
+       azi=aziA,
+       inc=IDEAS.Types.Tilt.Wall,
+       T_start=T_start,
+       linIntCon_a=linIntCon,
+       dT_nominal_a=dT_nominal_win,
+       linExtCon=linExtCon,
+       windowDynamicsType=windowDynamicsType,
+       linExtRad=linExtRadWin,
+       nWin=nWinCei)
+    "Window for ceiling of this zone" annotation (Dialog(tab="Advanced",group="Windows"),
+      enable=hasWinCei,
+      choicesAllMatching=true,
+      Placement(
         transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-95,-90})));
-
-  IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypA.locGain,
-      incLastLay=conTypA.incLastLay,
-      mats=conTypA.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou,
-    A=l*h - (if hasWinA then A_winA else 0)) if
-       hasBouA
-    "Boundary wall for face A of this zone"
-    annotation (Placement(transformation(extent={{-120,0},{-110,20}})));
-  IDEAS.Buildings.Components.BoundaryWall bouB(
-           inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypB.locGain,
-      incLastLay=conTypB.incLastLay,
-      mats=conTypB.mats),
-    azi=aziA + Modelica.Constants.pi/2,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou,
-    A=w*h - (if hasWinB then A_winB else 0)) if
-       hasBouB
-    "Boundary wall for face A of this zone"
-    annotation (Placement(transformation(extent={{-120,-20},{-110,0}})));
-  IDEAS.Buildings.Components.BoundaryWall bouC(inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypC.locGain,
-      incLastLay=conTypC.incLastLay,
-      mats=conTypC.mats),
-    azi=aziA + Modelica.Constants.pi,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou,
-    A=l*h - (if hasWinC then A_winC else 0)) if
-       hasBouC
-    "Boundary wall for face C of this zone"
-    annotation (Placement(transformation(extent={{-120,-40},{-110,-20}})));
-  IDEAS.Buildings.Components.BoundaryWall bouD(inc=IDEAS.Types.Tilt.Wall, azi=aziA
-         + Modelica.Constants.pi/2*3,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypD.locGain,
-      incLastLay=conTypD.incLastLay,
-      mats=conTypD.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou,
-    A=w*h - (if hasWinD then A_winD else 0)) if
-       hasBouD
-    "Boundary wall for face D of this zone"
-    annotation (Placement(transformation(extent={{-120,-60},{-110,-40}})));
-  IDEAS.Buildings.Components.BoundaryWall bouFlo(inc=IDEAS.Types.Tilt.Floor, azi=aziA,
-    A=A,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypFlo.locGain,
-      incLastLay=conTypFlo.incLastLay,
-      mats=conTypFlo.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou) if
-       hasBouFlo
-    "Boundary wall for zone floor"
-    annotation (Placement(transformation(extent={{-120,-80},{-110,-60}})));
-  IDEAS.Buildings.Components.BoundaryWall bouCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziA,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypCei.locGain,
-      incLastLay=conTypCei.incLastLay,
-      mats=conTypCei.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou,
-    A=A - (if hasWinCei then A_winCei else 0)) if
-       hasBouCei
-    "Boundary wall for zone ceiling"
-    annotation (Placement(transformation(extent={{-120,-100},{-110,-80}})));
-  IDEAS.Buildings.Components.OuterWall outA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypA.locGain,
-      incLastLay=conTypA.incLastLay,
-      mats=conTypA.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_out,
-    linExtCon=linExtCon,
-    linExtRad=linExtRad,
-    A=l*h - (if hasWinA then A_winA else 0)) if
-       hasOutA
-    "Outer wall for face A of this zone"
-    annotation (Placement(transformation(extent={{-140,0},{-130,20}})));
-  IDEAS.Buildings.Components.OuterWall outB(
-      inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypB.locGain,
-      incLastLay=conTypB.incLastLay,
-      mats=conTypB.mats),
-    azi=aziA + Modelica.Constants.pi/2,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_out,
-    linExtCon=linExtCon,
-    linExtRad=linExtRad,
-    A=w*h - (if hasWinB then A_winB else 0)) if
-       hasOutB
-    "Outer wall for face B of this zone"
-    annotation (Placement(transformation(extent={{-140,-20},{-130,0}})));
-  IDEAS.Buildings.Components.OuterWall outC(inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypC.locGain,
-      incLastLay=conTypC.incLastLay,
-      mats=conTypC.mats),
-    azi=aziA + Modelica.Constants.pi,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_out,
-    linExtCon=linExtCon,
-    linExtRad=linExtRad,
-    A=l*h - (if hasWinC then A_winC else 0)) if
-       hasOutC
-    "Outer wall for face C of this zone"
-    annotation (Placement(transformation(extent={{-140,-40},{-130,-20}})));
-  IDEAS.Buildings.Components.OuterWall outD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
-        Modelica.Constants.pi/2*3,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypD.locGain,
-      incLastLay=conTypD.incLastLay,
-      mats=conTypD.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_out,
-    linExtCon=linExtCon,
-    linExtRad=linExtRad,
-    A=w*h - (if hasWinD then A_winD else 0)) if
-       hasOutD
-    "Outer wall for face D of this zone"
-    annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
-  IDEAS.Buildings.Components.OuterWall outCei(
-    inc=IDEAS.Types.Tilt.Ceiling,
-    azi=aziA,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypCei.locGain,
-      incLastLay=conTypCei.incLastLay,
-      mats=conTypCei.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_out,
-    linExtCon=linExtCon,
-    linExtRad=linExtRad,
-    A=A - (if hasWinCei then A_winCei else 0)) if
-       hasOutCei
-    "Outer wall for zone ceiling"
-    annotation (Placement(transformation(extent={{-140,-100},{-130,-80}})));
-  IDEAS.Buildings.Components.SlabOnGround slaOnGro(
-    inc=IDEAS.Types.Tilt.Floor,
-    azi=aziA,
-    A=A,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypFlo.locGain,
-      incLastLay=conTypFlo.incLastLay,
-      mats=conTypFlo.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    PWall=2*(l + w),
-    TeAvg=TeAvg,
-    TiAvg=TiAvg,
-    dTeAvg=dTeAvg,
-    dTiAvg=dTiAvg,
-    dT_nominal_a=dT_nominal_sla) if
-     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
-    "Slab on ground model for zone floor"
-    annotation (Placement(transformation(extent={{-160,-80},{-150,-60}})));
-  IDEAS.Buildings.Components.InternalWall intA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypA.locGain,
-      mats=conTypA.mats,
-      incLastLay=conTypA.incLastLay),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_intA,
-    linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB,
-    A=l*h - (if hasWinA then A_winA else 0)) if
-    hasIntA
-    "Internal wall for face A of this zone"
-    annotation (Placement(transformation(extent={{-176,0},{-164,20}})));
-  IDEAS.Buildings.Components.InternalWall intB(
-           inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypB.locGain,
-      incLastLay=conTypB.incLastLay,
-      mats=conTypB.mats),
-    azi=aziA + Modelica.Constants.pi/2,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_intA,
-    linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB,
-    A=w*h - (if hasWinB then A_winB else 0)) if
-    hasIntB
-    "Internal wall for face B of this zone"
-    annotation (Placement(transformation(extent={{-176,-20},{-164,0}})));
-  IDEAS.Buildings.Components.InternalWall intC(inc=IDEAS.Types.Tilt.Wall,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypC.locGain,
-      incLastLay=conTypC.incLastLay,
-      mats=conTypC.mats),
-    azi=aziA + Modelica.Constants.pi,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_intA,
-    linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB,
-    A=l*h - (if hasWinC then A_winC else 0)) if
-    hasIntC
-    "Internal wall for face C of this zone"
-    annotation (Placement(transformation(extent={{-176,-40},{-164,-20}})));
-  IDEAS.Buildings.Components.InternalWall intD(inc=IDEAS.Types.Tilt.Wall, azi=aziA
-         + Modelica.Constants.pi/2*3,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypD.locGain,
-      incLastLay=conTypD.incLastLay,
-      mats=conTypD.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_intA,
-    linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB,
-    A=w*h - (if hasWinD then A_winD else 0)) if
-    hasIntD
-    "Internal wall for face D of this zone"
-    annotation (Placement(transformation(extent={{-176,-60},{-164,-40}})));
-  IDEAS.Buildings.Components.InternalWall intFlo(
-    inc=IDEAS.Types.Tilt.Floor,
-    azi=aziA,
-    A=A,
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
-      locGain=conTypFlo.locGain,
-      incLastLay=conTypFlo.incLastLay,
-      mats=conTypFlo.mats),
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_intA,
-    linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB) if
-    hasIntFlo
-    "Internal wall for zone floor"
-    annotation (Placement(transformation(extent={{-176,-80},{-164,-60}})));
-public
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface or internalWall of face A"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,10}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=180,
-        origin={-60,90})));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusB(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface or internalWall of face B"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,-10}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=90,
-        origin={90,60})));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusC(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface or internalWall of face C"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,-30}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=0,
-        origin={0,-90})));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusD(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface or internalWall of face D"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,-50}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-90,0})));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusFlo(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface or internalWall of floor"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,-70}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=180,
-        origin={0,-60})));
-  IDEAS.Buildings.Components.Interfaces.ZoneBus proBusCei(
-    final numIncAndAziInBus=sim.numIncAndAziInBus,
-    final outputAngles=sim.outputAngles) if
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
-    "Propsbus connector for connecting to external surface of ceiling: internal walls should be modelled as the floor of the zone above"
-    annotation (Placement(transformation(
-        extent={{-20,20},{20,-20}},
-        rotation=-90,
-        origin={-188,-90}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=180,
-        origin={-2,60})));
-protected
-  final parameter Boolean hasBouA=
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasBouB=
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasBouC=
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasBouD=
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasBouFlo=
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasBouCei=
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
-  final parameter Boolean hasOutA=
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
-  final parameter Boolean hasOutB=
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
-  final parameter Boolean hasOutC=
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
-  final parameter Boolean hasOutD=
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
-  final parameter Boolean hasOutCei=
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
-  final parameter Boolean hasIntA=
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall;
-  final parameter Boolean hasIntB=
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall;
-  final parameter Boolean hasIntC=
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall;
-  final parameter Boolean hasIntD=
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall;
-  final parameter Boolean hasIntFlo=
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall;
-  final parameter Boolean hasExtA=
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-  final parameter Boolean hasExtB=
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-  final parameter Boolean hasExtC=
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-  final parameter Boolean hasExtD=
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-  final parameter Boolean hasExtFlo=
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-  final parameter Boolean hasExtCei=
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External;
-
-  final parameter Integer indWinA = 6 + (if hasWinA then 1 else 0);
-  final parameter Integer indWinB = indWinA + (if hasWinB then 1 else 0);
-  final parameter Integer indWinC = indWinB + (if hasWinC then 1 else 0);
-  final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
-  final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
-
-initial equation
-  assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    "The value for bouTypA is not supported");
-  assert(not bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    "The value for bouTypB is not supported");
-  assert(not bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    "The value for bouTypC is not supported");
-  assert(not bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    "The value for bouTypD is not supported");
-  assert(not bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    "The value for bouTypCei is not supported");
-  assert(not (bouTypCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-              "Using internal walls for the ceiling is not allowed because it is considered bad practice. 
-              Use instead the 'External'  connection to connect the the floor of the surface above, 
-              or use this option to connect and internal wall externally.");
-  assert(not (hasWinA and bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
-  assert(not (hasWinB and bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
-  assert(not (hasWinC and bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
-  assert(not (hasWinD and bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
-  assert(not (hasWinCei and bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
-    "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
-
-
-
-
 equation
-  connect(intA.propsBus_a, propsBusInt[1]) annotation (Line(
-      points={{-165,12},{-152,12},{-152,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intB.propsBus_a, propsBusInt[2]) annotation (Line(
-      points={{-165,-8},{-152,-8},{-152,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intC.propsBus_a, propsBusInt[3]) annotation (Line(
-      points={{-165,-28},{-152,-28},{-152,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intD.propsBus_a, propsBusInt[4]) annotation (Line(
-      points={{-165,-48},{-152,-48},{-152,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intFlo.propsBus_a, propsBusInt[5]) annotation (Line(
-      points={{-165,-68},{-152,-68},{-152,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(slaOnGro.propsBus_a, propsBusInt[5]) annotation (Line(
-      points={{-150.833,-68},{-150.833,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(outA.propsBus_a, propsBusInt[1]) annotation (Line(
-      points={{-130.833,12},{-130.833,12},{-124,12},{-124,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(outB.propsBus_a, propsBusInt[2]) annotation (Line(
-      points={{-130.833,-8},{-124,-8},{-124,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(outC.propsBus_a, propsBusInt[3]) annotation (Line(
-      points={{-130.833,-28},{-124,-28},{-124,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(outD.propsBus_a, propsBusInt[4]) annotation (Line(
-      points={{-130.833,-48},{-124,-48},{-124,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(outCei.propsBus_a, propsBusInt[6]) annotation (Line(
-      points={{-130.833,-88},{-124,-88},{-124,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouA.propsBus_a, propsBusInt[1]) annotation (Line(
-      points={{-110.833,12},{-110.833,12},{-106,12},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouB.propsBus_a, propsBusInt[2]) annotation (Line(
-      points={{-110.833,-8},{-106,-8},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouC.propsBus_a, propsBusInt[3]) annotation (Line(
-      points={{-110.833,-28},{-106,-28},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouD.propsBus_a, propsBusInt[4]) annotation (Line(
-      points={{-110.833,-48},{-106,-48},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouFlo.propsBus_a, propsBusInt[5]) annotation (Line(
-      points={{-110.833,-68},{-106,-68},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(bouCei.propsBus_a, propsBusInt[6]) annotation (Line(
-      points={{-110.833,-88},{-106,-88},{-106,-76},{-106,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
   connect(winA.propsBus_a, propsBusInt[indWinA]) annotation (Line(
       points={{-90.8333,12},{-88,12},{-88,40},{-80,40}},
       color={255,204,51},
@@ -996,67 +345,24 @@ equation
       points={{-90.8333,-88},{-88,-88},{-88,40},{-80,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(intA.propsBus_b, proBusA) annotation (Line(
-      points={{-175,12},{-188,12},{-188,10}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intB.propsBus_b, proBusB) annotation (Line(
-      points={{-175,-8},{-188,-8},{-188,-10}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intC.propsBus_b, proBusC) annotation (Line(
-      points={{-175,-28},{-188,-28},{-188,-30}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intD.propsBus_b, proBusD) annotation (Line(
-      points={{-175,-48},{-188,-48},{-188,-50}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(intFlo.propsBus_b, proBusFlo) annotation (Line(
-      points={{-175,-68},{-188,-68},{-188,-70}},
-      color={255,204,51},
-      thickness=0.5));
-  if hasExtA then
-    connect(proBusA, propsBusInt[1]) annotation (Line(
-      points={{-188,10},{-188,10},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
-  if hasExtB then
-    connect(proBusB, propsBusInt[2]) annotation (Line(
-      points={{-188,-10},{-188,-10},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
-  if hasExtC then
-    connect(proBusC, propsBusInt[3]) annotation (Line(
-      points={{-188,-30},{-188,-30},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
-  if hasExtD then
-    connect(proBusD, propsBusInt[4]) annotation (Line(
-      points={{-188,-50},{-188,-50},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
-  if hasExtFlo then
-    connect(proBusFlo, propsBusInt[5]) annotation (Line(
-      points={{-188,-70},{-188,-70},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
-  if hasExtCei then
-    connect(proBusCei, propsBusInt[6]) annotation (Line(
-      points={{-188,-90},{-188,-90},{-188,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
-  end if;
 
-  connect(propsBusInt[(indWinCei+1):(indWinCei+nSurfExt)], proBusExt[1:nSurfExt]) annotation (Line(
-      points={{-80,40},{-82,40},{-82,54},{-82,50},{-210,50}},
-      color={255,204,51},
-      thickness=0.5));
+  connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-107,-111},{-106.5,
+          -111},{-106.5,-100},{-98.3333,-100}},
+                                          color={0,0,127}));
+  connect(ctrlD, winD.Ctrl) annotation (Line(points={{-123,-111},{-123,-106},{
+          -124,-106},{-124,-100},{-98.3333,-100},{-98.3333,-60}},
+                                                             color={0,0,127}));
+  connect(ctrlC, winC.Ctrl) annotation (Line(points={{-139,-111},{-139,-104},{
+          -140,-104},{-140,-100},{-98,-100},{-98,-40},{-98.3333,-40}},
+                                                                  color={0,0,127}));
+  connect(ctrlB, winB.Ctrl) annotation (Line(points={{-155,-111},{-155,-100},{
+          -156,-100},{-98,-100},{-98,-20},{-98.3333,-20}},        color={0,0,127}));
+  connect(ctrlA, winA.Ctrl) annotation (Line(points={{-171,-111},{-171,-106},{
+          -172,-106},{-172,-100},{-98.3333,-100},{-98.3333,0}},
+                                                           color={0,0,127}));
+
+
+
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, initialScale=0.1),
         graphics={
         Text(
@@ -1116,6 +422,8 @@ zones with a rectangular geometry more quickly.
 This template consists of a zone, four walls, a horizontal roof and a floor
 and five optional windows.
 Additional surfaces may also be connected through external bus connector.
+For the documentation of the regular zone parameters, see the documentation of 
+<a href=\"modelica://IDEAS.Buildings.Components.Zone\">IDEAS.Buildings.Components.Zone</a>.
 </p>
 <h4>Main equations</h4>
 <p>
@@ -1130,8 +438,21 @@ the use of this template.
 This model assumes that the zone has a rectangular
 geometry with width <code>w</code>, length <code>l</code>
 and height <code>h</code>.
-All walls are vertical and both the roof and
+All walls are vertical and perpendicular to each other and both the roof and
 the floor are horizontal.
+</p>
+<p>
+The surface area of each wall is calculated by default using
+the parameters <code>w</code> and <code>l</code>. If you want to split a wall
+and add external walls using the external bus connector, use the overwrite
+length parameters <code>lA, lB, lC, lD</code> from the <code>Face</code> tabs
+such that the surface area of the wall is correct. 
+Be also aware that the model
+<code>slabOnGround</code> has a parameter <code>PWall</code> which specifies the
+perimeter of slab on ground. The model cannot detect external walls connected
+using the external bus connector. When splitting outer walls by using the external bus connector
+you should update this parameter
+manually using the parameter <code>PWall</code> from the <code>Advanced</code> tab.
 </p>
 <h4>Typical use and important parameters</h4>
 <p>
@@ -1147,8 +468,10 @@ When doing this, you may need to change the surface areas of
 the surfaces in the template as these are not updated automatically.
 </p>
 <p>
-Six parameter tabs allow to specify further parameters
-that are specific for each of the six surfaces.
+Seven parameter tabs allow to specify further parameters
+that are specific for each of the seven surfaces: six surfaces 
+for the walls, floor and ceiling and one for an internal wall 
+contained within the zone.
 For each surface the surface type may be specified
 using parameters <code>bouTyp*</code>.
 The construction type should be defined
@@ -1170,6 +493,33 @@ parameter tab.
 The model may also be adapted further by
 overriding the default parameter assignments in the template.
 </p>
+<p>
+You can also use this model for non-rectangular zones by, for example,
+using the <code>None</code> type for a wall and by adding additional walls
+corresponding to a different geometry through
+the external bus connector. 
+This model however then does not guarantee that all parameters are consistent.
+Therefore, some internal parameters of this model will need to be
+updated manually.
+</p>
+<p>
+In the parameter group <code>Windows</code>, you can redeclare the window. 
+This is useful when using a window model that has a pre-configured surface area,
+glazing type, frame fraction and shading. 
+The parameters 
+<code>azi=aziA</code>,
+<code>inc=IDEAS.Types.Tilt.Wall</code>,
+<code>T_start=T_start</code>,
+<code>linIntCon_a=linIntCon</code>,
+<code>dT_nominal_a=dT_nominal_win</code>,
+<code>linExtCon=linExtCon</code>,
+<code>windowDynamicsType=windowDynamicsType</code>,
+<code>linExtRad=linExtRadWin</code>,
+<code>nWin=nWinA</code>,
+are still computed from the zone model parameters but, the
+other windows parameters are those configured in the
+used window model, including the window surface area.
+</p>
 <h4>Dynamics</h4>
 <p>
 This model contains wall dynamics
@@ -1182,6 +532,17 @@ may be set to steady state by overriding the default parameter
 assignment in the <code>airModel</code> submodel.
 This removes small time constants
 when the zone model is connected to an air flow circuit. 
+</p>
+<h4>Shading</h4>
+<p>
+In order to choose the shading of the glazing,
+instead of selecting one shading type from the
+dropdown menu, click on the
+button right of the dropdown menu (edit). 
+A menu will appear where the type of 
+shading and corresponding parameters
+have to be defined.
+Alternatively, the shading template can be extended.
 </p>
 <h4>Validation</h4>
 <p>
@@ -1205,6 +566,60 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 5, 2019, by Damien Picard:<br/>
+Correct typo in winB declaration (fraB should be fracB). 
+</li>
+<li>
+October 26, 2018, by Filip Jorissen:<br/>
+Removed use of non-existent parameter <code>aziCei</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/946\">#946</a>. 
+</li>
+<li>
+August 26, 2018, by Damien Picard:<br/>
+Move all equations except those of windows to 
+<code>RectangularZoneTemplateInterface</code>
+for LIDEAS.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/891\">#891</a>.
+</li>
+<li>
+August 16, 2018, by Damien Picard:<br/>
+Make windows replaceable.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/891\">#891</a>.
+And correct wall surface computation.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/890\">#890</a>. 
+</li>
+<li>
+August 10, 2018, by Damien Picard:<br/>
+Added parameters for scaling factors for windows.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/888\">#888</a>.
+</li>
+<li>
+Adapted model to make it possible to remove walls from the template.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/880\">#880</a>.
+</li>
+<li>
+June 13, 2018, by Filip Jorissen:<br/>
+Added parameters for shade cast by external building.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/576\">#576</a>.
+</li>
+<li>
+May 21, 2018, by Filip Jorissen:<br/>
+Added parameters for air flow through cavity.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/822\">#822</a>.
+</li>
+<li>
+April 30, 2018 by Iago Cupeiro:<br/>
+Propagated boolean input connections for controlled shading.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/809\">#809</a>.
+Shading documentation added.
+</li>
+<li>
+July 26, 2017 by Filip Jorissen:<br/>
+Added replaceable block that allows to define
+the number of occupants.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/760\">#760</a>.
+</li>
 <li>
 April 26, 2017, by Filip Jorissen:<br/>
 Added asserts that check for illegal combinations of internal wall with exterior window.
