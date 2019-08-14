@@ -136,6 +136,10 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.Blocks.Sources.RealExpression[nDiscr] Q_tabs(y=Q)
     annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
 
+  Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
+    annotation (Placement(transformation(extent={{18,50},{38,70}})));
+  Modelica.Blocks.Interfaces.RealOutput QEmb
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -247,6 +251,10 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
+  connect(Q_tabs.y, sumQTabs.u)
+    annotation (Line(points={{-70.6,60},{16,60}}, color={0,0,127}));
+  connect(sumQTabs.y, QEmb)
+    annotation (Line(points={{39,60},{110,60}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -345,6 +353,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 14, 2019 by Iago Cupeiro:<br/>
+Added output to compute total TABS heat flow of the circuit
+See <a href=https://github.com/open-ideas/IDEAS/issues/1006>#1006</a>.
+</li>
 <li>
 April 16, 2019 by Filip Jorissen:<br/>
 Added checks for flow reversal.
