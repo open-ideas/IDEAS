@@ -138,8 +138,8 @@ annotation(Dialog(tab="Flow resistance"));
 
   Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
   "Block that sums the volume heat flow rates"
-    annotation (Placement(transformation(extent={{18,50},{38,70}})));
-  Modelica.Blocks.Interfaces.RealOutput QEmbTotal 
+    annotation (Placement(transformation(extent={{20,50},{40,70}})));
+  Modelica.Blocks.Interfaces.RealOutput QTot
     "Total thermal power going into the heat port"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
@@ -254,9 +254,9 @@ equation
       smooth=Smooth.None));
 
   connect(Q_tabs.y, sumQTabs.u)
-    annotation (Line(points={{-70.6,60},{16,60}}, color={0,0,127}));
-  connect(sumQTabs.y, QEmbTotal)
-    annotation (Line(points={{39,60},{110,60}}, color={0,0,127}));
+    annotation (Line(points={{-70.6,60},{18,60}}, color={0,0,127}));
+  connect(sumQTabs.y, QTot)
+    annotation (Line(points={{41,60},{110,60}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
