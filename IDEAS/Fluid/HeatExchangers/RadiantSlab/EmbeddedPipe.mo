@@ -137,8 +137,9 @@ annotation(Dialog(tab="Flow resistance"));
     annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
 
   Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
+  "Block to sum all the discretizations heat flows"
     annotation (Placement(transformation(extent={{18,50},{38,70}})));
-  Modelica.Blocks.Interfaces.RealOutput QEmb
+  Modelica.Blocks.Interfaces.RealOutput QEmbTotal "Total thermal power of the component going into tabs"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
@@ -253,7 +254,7 @@ equation
 
   connect(Q_tabs.y, sumQTabs.u)
     annotation (Line(points={{-70.6,60},{16,60}}, color={0,0,127}));
-  connect(sumQTabs.y, QEmb)
+  connect(sumQTabs.y, QEmbTotal)
     annotation (Line(points={{39,60},{110,60}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
@@ -355,8 +356,7 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <ul>
 <li>
 August 14, 2019 by Iago Cupeiro:<br/>
-Added output to compute total TABS heat flow of the circuit
-See <a href=https://github.com/open-ideas/IDEAS/issues/1006>#1006</a>.
+Added output that computes the total TABS heat flow of the <code>EmbeddedPipe</code>,
 </li>
 <li>
 April 16, 2019 by Filip Jorissen:<br/>
