@@ -139,7 +139,8 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
   "Block that sums the volume heat flow rates"
     annotation (Placement(transformation(extent={{18,50},{38,70}})));
-  Modelica.Blocks.Interfaces.RealOutput QEmbTotal "Total thermal power of the component going into tabs"
+  Modelica.Blocks.Interfaces.RealOutput QEmbTotal 
+    "Total thermal power going into the heat port"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
