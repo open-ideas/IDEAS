@@ -136,6 +136,12 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.Blocks.Sources.RealExpression[nDiscr] Q_tabs(y=Q)
     annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
 
+  Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
+  "Block that sums the volume heat flow rates"
+    annotation (Placement(transformation(extent={{20,50},{40,70}})));
+  Modelica.Blocks.Interfaces.RealOutput QTot
+    "Total thermal power going into the heat port"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -247,6 +253,10 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
+  connect(Q_tabs.y, sumQTabs.u)
+    annotation (Line(points={{-70.6,60},{18,60}}, color={0,0,127}));
+  connect(sumQTabs.y, QTot)
+    annotation (Line(points={{41,60},{110,60}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -345,6 +355,10 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 14, 2019 by Iago Cupeiro:<br/>
+Added output that computes the total TABS heat flow of the <code>EmbeddedPipe</code>,
+</li>
 <li>
 April 16, 2019 by Filip Jorissen:<br/>
 Added checks for flow reversal.
