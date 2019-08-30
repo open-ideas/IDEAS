@@ -47,3 +47,6 @@ install:
 # Execute tests
 script:
   - (cd IDEAS/Resources/Scripts/travis && travis_wait 70 $TEST_ARG)
+
+after_script:
+  - cat simulator-dymola.log
