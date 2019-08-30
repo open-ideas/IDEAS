@@ -49,4 +49,4 @@ script:
   - (cd IDEAS/Resources/Scripts/travis && travis_wait 70 $TEST_ARG)
 
 after_script:
-  - ls && pwd && cat simulator-dymola.log
+  - ls IDEAS/Resources/Scripts/travis && pwd && cat IDEAS/Resources/Scripts/travis/simulator-dymola.log
