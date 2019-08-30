@@ -1,9 +1,0 @@
-// Conversion script for IDEAS library
-//  from: Version 3.0
-//  to:   Version 4.0
-clear
-
-convertClear();
-
-convertClass("IDEAS.Fluid.Sources.FixedBoundary",
-             "IDEAS.Obsolete.Fluid.Sources.FixedBoundary");
