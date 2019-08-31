@@ -4,7 +4,7 @@ model ConstantEffectiveness
   extends Modelica.Icons.Example;
 
  package Medium1 = IDEAS.Media.Water "Medium model";
- package Medium2 = IDEAS.Media.Ar "Medium model";
+ package Medium2 = IDEAS.Media.Air "Medium model";
 
   IDEAS.Fluid.Sources.Boundary_pT sin_2(
     redeclare package Medium = Medium2,
