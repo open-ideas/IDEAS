@@ -64,8 +64,7 @@ model PartialZone "Building zone model"
     nSurf=nSurf,
     Vtot=V,
     energyDynamics=energyDynamicsAir,
-    allowFlowReversal=allowFlowReversal,
-    p_start=p_start)
+    allowFlowReversal=allowFlowReversal)
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
