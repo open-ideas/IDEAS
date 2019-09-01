@@ -9,14 +9,15 @@ model Bui "Base model"
   constant Modelica.SIunits.Angle aO = 0 "Angle offset for detailed experiments";
 
   IDEAS.Buildings.Components.Zone gF(
-    mSenFac=0.822,
     V=129.6,
     n50=0.822*0.5*20,
     redeclare package Medium = Medium,
     nSurf=6,
     hZone=2.7,
-    T_start=293.15)
-                annotation (Placement(transformation(extent={{40,0},{80,40}})));
+    mSenFac=1,
+    T_start=293.15,
+    p_start=0.822*Medium.p_default)
+                annotation (Placement(transformation(extent={{40,2},{80,42}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
   IDEAS.Buildings.Components.OuterWall[4] wall(
@@ -53,39 +54,39 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(gF.gainCon, temperatureSensor.port) annotation (Line(
-      points={{80,14},{100,14},{100,-60},{120,-60}},
+      points={{80,16},{100,16},{100,-60},{120,-60}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(gF.gainCon, heatPortCon[1]) annotation (Line(
-      points={{80,14},{120,14},{120,20},{150,20}},
+      points={{80,16},{120,16},{120,20},{150,20}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(gF.gainRad, heatPortRad[1]) annotation (Line(
-      points={{80,8},{120,8},{120,-20},{150,-20}},
+      points={{80,10},{120,10},{120,-20},{150,-20}},
       color={191,0,0},
       smooth=Smooth.None));
 
   connect(roof.propsBus_a, gF.propsBus[1]) annotation (Line(
-      points={{-81.4,-9.91667},{-81.4,31.3333},{40,31.3333}},
+      points={{-81.4,-9.91667},{-81.4,33.3333},{40,33.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_a, gF.propsBus[2:5]) annotation (Line(
-      points={{-51.4,-9.91667},{-51.4,26},{40,26}},
+      points={{-51.4,-9.91667},{-51.4,28},{40,28}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(floor.propsBus_a, gF.propsBus[6]) annotation (Line(
-      points={{-21.4,-9.91667},{-21.4,24.6667},{40,24.6667}},
+      points={{-21.4,-9.91667},{-21.4,26.6667},{40,26.6667}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(port_b[1], gF.port_b) annotation (Line(
-      points={{-20,100},{-20,60},{56,60},{56,40}},
+      points={{-20,100},{-20,60},{56,60},{56,42}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(port_a[1], gF.port_a) annotation (Line(
-      points={{20,100},{20,62},{64,62},{64,40}},
+      points={{20,100},{20,62},{64,62},{64,42}},
       color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
@@ -96,6 +97,11 @@ To be extended in other models.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 1, 2019 by Filip Jorissen:<br/>
+Revised start pressure for avoiding mSenFac smaller than 1.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1043\">#1043</a>.
+</li>
 <li>
 March 8, 2017 by Filip Jorissen:<br/>
 Added angle for offsetting building rotation.
