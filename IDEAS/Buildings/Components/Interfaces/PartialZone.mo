@@ -45,6 +45,9 @@ model PartialZone "Building zone model"
   parameter Medium.Temperature T_start=Medium.T_default
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
+  parameter Modelica.Media.Interfaces.Types.AbsolutePressure p_start=Medium.p_default
+    "Start value of pressure"
+    annotation(Dialog(tab = "Initialization"));
   parameter Real fRH=11
     "Reheat factor for calculation of design heat load, (EN 12831, table D.10 Annex D)" annotation(Dialog(tab="Advanced",group="Design heat load"));
   parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
@@ -61,7 +64,8 @@ model PartialZone "Building zone model"
     nSurf=nSurf,
     Vtot=V,
     energyDynamics=energyDynamicsAir,
-    allowFlowReversal=allowFlowReversal)
+    allowFlowReversal=allowFlowReversal,
+    p_start=p_start)
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
@@ -173,6 +177,7 @@ model PartialZone "Building zone model"
     choicesAllMatching=true,
     Dialog(group="Lighting (optional)"),
     Placement(transformation(extent={{80,52},{60,72}})));
+
 
 
 
@@ -407,6 +412,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 1, 2019 by Filip Jorissen:<br/>
+Revised start pressure for avoiding mSenFac smaller than 1.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1043\">#1043</a>.
+</li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>
 Set <code>massDynamics=if interzonalAirFlow.prescribesPressure then Modelica.Fluid.Types.Dynamics.SteadyState</code>
