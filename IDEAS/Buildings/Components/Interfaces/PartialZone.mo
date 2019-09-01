@@ -73,6 +73,7 @@ model PartialZone "Building zone model"
     nSurf=nSurf,
     Vtot=V,
     final T_start=T_start,
+    final p_start=p_start,
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
     massDynamics=if interzonalAirFlow.prescribesPressure
