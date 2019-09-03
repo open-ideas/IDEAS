@@ -98,11 +98,13 @@ The example
 IDEAS.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZone</a>
 shows how a simple thermal zone can be implemented and exported as
 an FMU.
+<!-- @include_Buildings
 The example
 <a href=\"modelica://IDEAS.Fluid.FMI.ExportContainers.Validation.RoomHVAC\">
 IDEAS.Fluid.FMI.ExportContainers.Validation.RoomHVAC</a>
 shows how such an FMU can be connected
 to an HVAC system that has signal flow.
+-->
 </p>
 
 <p>
@@ -138,10 +140,13 @@ the port <code>fluPor</code> (which is negative if it is an exhaust),
 <i>T<sub>air,zon</sub></i> is the zone air temperature.
 Note that without the <i>max(&middot;, &middot;)</i>, the energy
 balance would be wrong.
-Models in the package
+For example,
+<!-- @include_Buildings
+models in the package
 <a href=\"modelica://IDEAS.ThermalZones.Detailed\">
-IDEAS.ThermalZones.Detailed</a>
-as well as the control volumes in
+IDEAS.ThermalZones.Detailed</a> as well as
+-->
+the control volumes in
 <a href=\"modelica://IDEAS.Fluid.MixingVolumes\">
 IDEAS.Fluid.MixingVolumes</a>
 implement such a <i>max(&middot;, &middot;)</i> function.
@@ -167,11 +172,13 @@ All <code>nPorts</code>
 IDEAS.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZone</a>.
 </p>
 <p>
+<!-- @include_Buildings
 The example
 <a href=\"modelica://IDEAS.Fluid.FMI.ExportContainers.Validation.RoomHVAC\">
 IDEAS.Fluid.FMI.ExportContainers.Validation.RoomHVAC</a>
 shows conceptually how such an FMU can then be connected to a HVAC system
 that has signal flow.
+-->
 </p>
 </html>", revisions="<html>
 <ul>

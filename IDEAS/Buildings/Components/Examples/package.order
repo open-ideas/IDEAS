@@ -2,6 +2,7 @@ BeamRadiationOnFloor
 BuildingShadeExample
 CavityWalls
 FacadeShadeExample
+HorizontalFinExample
 LightingControl
 NumberOccupants
 RectangularZone
@@ -16,4 +17,3 @@ WindowThermalBridge
 ZoneDynamic
 ZoneStatic
 BaseClasses
-HorizontalFinExample
