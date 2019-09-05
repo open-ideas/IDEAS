@@ -17,7 +17,7 @@ partial model ZoneInterface "Partial model for thermal building zones"
   parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
     annotation(Dialog(group="Building physics"));
   parameter Boolean useOccNumInput
-    "=false, to remove icon of nOcc"
+    "=false, to remove icon of yOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
   parameter Boolean useLigCtrInput
     "=false, to remove icon of lightCtrl"

@@ -48,12 +48,6 @@ model SingleZoneResidentialHydronic
     redeclare package Medium = Medium)
     "Absolute pressure boundary"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
-  Modelica.Blocks.Interfaces.RealInput TSup(unit="K",start=320)
-    "Temperature set point of heater"
-    annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={40,120})));
   Modelica.Blocks.Interfaces.RealOutput Q(unit="W")
     "Thermal power use of heater"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
@@ -62,10 +56,22 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
-  Modelica.Blocks.Sources.RealExpression nOcc(y=if calTim.hour > 7 and calTim.hour
+  Modelica.Blocks.Sources.RealExpression yOcc(y=if calTim.hour > 7 and calTim.hour
          < 20 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
+  IDEAS.Utilities.IO.SignalExchange.Read readBlock(description="Operative temperature of the zone",
+      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
+    "Block for reading the zone temperature"
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+  IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(description="Supply temperature set point of the heater")
+    "Block for overwriting control signal" annotation (Placement(transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={10,80})));
+  Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
+    "Constant supply temperature set point"
+    annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -79,14 +85,18 @@ equation
           30},{20,30}}, color={0,127,255}));
   connect(bou.ports[1], pump.port_a)
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
-  connect(hea.TSet,TSup)
-    annotation (Line(points={{22,38},{40,38},{40,120}}, color={0,0,127}));
   connect(hea.Q_flow, Q) annotation (Line(points={{-1,38},{0,38},{0,60},{110,60}},
         color={0,0,127}));
-  connect(case900Template.TSensor, TZone) annotation (Line(points={{-60,13},{80,
-          13},{80,0},{110,0}}, color={0,0,127}));
-  connect(case900Template.nOcc, nOcc.y)
-    annotation (Line(points={{-81,4},{-81,50},{-41,50}}, color={0,0,127}));
+  connect(case900Template.yOcc, yOcc.y)
+    annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
+  connect(hea.TSet, TSetExt.y)
+    annotation (Line(points={{22,38},{21,38},{21,80}}, color={0,0,127}));
+  connect(case900Template.TSensor, readBlock.u) annotation (Line(points={{-60,13},
+          {46,13},{46,0},{58,0}},   color={0,0,127}));
+  connect(readBlock.y, TZone) annotation (Line(points={{81,0},{110,0}},
+               color={0,0,127}));
+  connect(TSetConst.y, TSetExt.u)
+    annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
