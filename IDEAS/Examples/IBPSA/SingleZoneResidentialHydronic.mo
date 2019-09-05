@@ -60,8 +60,8 @@ model SingleZoneResidentialHydronic
          < 20 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
-  IDEAS.Utilities.IO.SignalExchange.Read readBlock(description="Operative temperature of the zone",
-      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
+  IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
+        "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(description="Supply temperature set point of the heater")
@@ -72,6 +72,10 @@ model SingleZoneResidentialHydronic
   Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
     "Constant supply temperature set point"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
+  Utilities.IO.SignalExchange.Read outputQ(description="Thermal power", KPIs=
+        IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+    "Block for outputting the thermal power"
+    annotation (Placement(transformation(extent={{60,50},{80,70}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -85,18 +89,20 @@ equation
           30},{20,30}}, color={0,127,255}));
   connect(bou.ports[1], pump.port_a)
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
-  connect(hea.Q_flow, Q) annotation (Line(points={{-1,38},{0,38},{0,60},{110,60}},
-        color={0,0,127}));
   connect(case900Template.yOcc, yOcc.y)
     annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
   connect(hea.TSet, TSetExt.y)
     annotation (Line(points={{22,38},{21,38},{21,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, readBlock.u) annotation (Line(points={{-60,13},
-          {46,13},{46,0},{58,0}},   color={0,0,127}));
-  connect(readBlock.y, TZone) annotation (Line(points={{81,0},{110,0}},
-               color={0,0,127}));
+  connect(case900Template.TSensor, outputT.u) annotation (Line(points={{-60,13},
+          {46,13},{46,0},{58,0}}, color={0,0,127}));
+  connect(outputT.y, TZone)
+    annotation (Line(points={{81,0},{110,0}}, color={0,0,127}));
   connect(TSetConst.y, TSetExt.u)
     annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
+  connect(hea.Q_flow, outputQ.u)
+    annotation (Line(points={{-1,38},{0,38},{0,60},{58,60}}, color={0,0,127}));
+  connect(outputQ.y, Q)
+    annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -146,6 +152,8 @@ heats the zone using a single radiator,
 a circulation pump and a water heater.
 The radiator nominal thermal power is 2 kW, 
 while the heater maximum thermal power is 3 kW.
+The gas heater efficiency is assumed to be 100 % and by default it uses
+a fixed supply temperature set point of 60 degrees centigrade.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -162,7 +170,8 @@ The model assumes a pump with a constant flow rate.
 The model inputs are, through the signal exchange block:
 <ul>
 <li>
-<code>TSup</code> [K]: The supply water temperature of the heater.
+<code>TSup</code> [K]: The supply water temperature of the heater. 
+By default a fixed temperature of 60 degrees centigrade is assumed.
 </li>
 </ul>
 <h4>Outputs</h4>
