@@ -21,19 +21,23 @@ model InternalGainExample
     period=3600*24,
     startTime=6*3600) "Occupancy: outut used in code"
     annotation (Placement(transformation(extent={{80,0},{60,20}})));
-  Modelica.Blocks.Sources.RealExpression ppms[2](y=
-    {case900_gains.building.gF.airModel.port_a.C_outflow[1]*29/44*1e6,
-     case900_default.building.gF.airModel.port_a.C_outflow[1]*29/44*1e6})
+  Modelica.Blocks.Sources.RealExpression ppms[2](y={case900_gains.building.gF.ppm,
+        case900_default.building.gF.ppm})
     annotation (Placement(transformation(extent={{-4,-54},{16,-34}})));
 equation
   // equation for setting number of zone occupants
-  case900_gains.building.gF.nOcc =occ.y;
+  case900_gains.building.gF.yOcc =occ.y;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
 <p>Model demonstrating the use of the comfort evaluation model and CO2 modelling.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 10, 2019 by Filip Jorissen:<br/>
+Corrected molar mass fraction for consistency.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1004>#1004</a>.
+</li>
 <li>
 July 26, 2018 by Filip Jorissen:<br/>
 Updated example for <a href=\"https://github.com/open-ideas/IDEAS/issues/760\">#760</a>.

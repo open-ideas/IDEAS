@@ -1,7 +1,6 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab;
 model EmbeddedPipe
   "Embedded pipe model based on prEN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
-  extends IDEAS.Fluid.HeatExchangers.Interfaces.EmissionTwoPort;
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   replaceable parameter
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha constrainedby
@@ -10,9 +9,8 @@ model EmbeddedPipe
     annotation (choicesAllMatching=true);
   final parameter Modelica.SIunits.Length pipeDiaInt = RadSlaCha.d_a - 2*RadSlaCha.s_r
     "Pipe internal diameter";
-  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(allowFlowReversal=false);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    computeFlowResistance=false,
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
       rho_a=rho_default,
@@ -138,6 +136,12 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.Blocks.Sources.RealExpression[nDiscr] Q_tabs(y=Q)
     annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
 
+  Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
+  "Block that sums the volume heat flow rates"
+    annotation (Placement(transformation(extent={{20,50},{40,70}})));
+  Modelica.Blocks.Interfaces.RealOutput QTot
+    "Total thermal power going into the heat port"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -192,6 +196,8 @@ initial equation
   end if;
 
 equation
+  assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
+  assert(not allowFlowReversal, "In " +getInstanceName() + ": parameter allowFlowReversal=true, but the EmbeddedPipe model does not support it.", AssertionLevel.warning);
   // this need not be smooth since when active, G_max is already active
   m_flowSpLimit = max(m_flowSp, 1e-8);
   // Koschenz eq 4-59
@@ -247,6 +253,10 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
+  connect(Q_tabs.y, sumQTabs.u)
+    annotation (Line(points={{-70.6,60},{18,60}}, color={0,0,127}));
+  connect(sumQTabs.y, QTot)
+    annotation (Line(points={{41,60},{110,60}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -346,7 +356,23 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 </html>", revisions="<html>
 <ul>
 <li>
-Juni 21, 2018 by Filip Jorissen:<br/>
+August 14, 2019 by Iago Cupeiro:<br/>
+Added output that computes the total TABS heat flow of the <code>EmbeddedPipe</code>,
+</li>
+<li>
+April 16, 2019 by Filip Jorissen:<br/>
+Added checks for flow reversal.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1006>#1006</a>.
+</li>
+<li>
+April 16, 2019 by Filip Jorissen:<br/>
+Removed <code>computeFlowResistance=false</code> 
+since this parameter was hidden in the advanced tab
+and this setting can easily lead to singularities.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1014>#1014</a>.
+</li>
+<li>
+June 21, 2018 by Filip Jorissen:<br/>
 Set <code>final alpha=0</code> in <code>prescribedHeatFlow</code>
 to avoid large algebraic loops in specific cases.
 See <a href=https://github.com/open-ideas/IDEAS/issues/852>#852</a>.

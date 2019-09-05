@@ -47,17 +47,16 @@ partial model ZoneInterface "Partial model for thermal building zones"
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
-  Modelica.Blocks.Interfaces.RealInput nOcc if useOccNumInput
-    "Number of occupants, only used when using Occupants.Input"
-    annotation (Placement(transformation(extent={{140,20},{100,60}}),
-        iconTransformation(extent={{-130,-80},{-90,-40}})));
+  Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
+    "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
+    annotation (Placement(transformation(extent={{140,20},{100,60}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
     annotation (Placement(transformation(extent={{140,50},{100,90}}),
         iconTransformation(extent={{-130,-40},{-90,0}})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
-    "CO2 concentration in the zone" annotation (Placement(transformation(extent={{90,0},{
-            110,20}}),            iconTransformation(extent={{90,0},{110,20}})));
+    "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
+            {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
@@ -139,6 +138,18 @@ March 21, 2019 by Filip Jorissen:<br/>
 Revised implementation of icon for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
 and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
+</li>
+<li>
+May 2, 2019 by Filip Jorissen:<br/>
+Moved location of <code>ppm</code> in the icon layer such that it
+does not overlap with <code>TSensor</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
+</li>
+<li>
+March 28, 2019 by Filip Jorissen:<br/>
+Renamed <code>nOcc</code> to <code>yOcc</code>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+>>>>>>> master
 </li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>

@@ -16,7 +16,7 @@ model EnergyConservationValidation
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{82,-68},{62,-48}})));
 equation
-  connect(const.y,zone1.nOcc);
+  connect(const.y,zone1.yOcc);
 
   annotation (
     experiment(

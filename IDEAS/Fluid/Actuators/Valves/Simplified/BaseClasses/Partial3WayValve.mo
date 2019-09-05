@@ -3,25 +3,27 @@ model Partial3WayValve "Partial for 3-way valves"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   parameter Real tau = 1 "Thermal time constant"
     annotation(Dialog(tab="Dynamics", group="Filter"));
-  parameter Real l = 0.001 "Valve leakage, minimum fraction of flow rate passing through ports a";
-  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
-    "Fluid content of the mixing valve";
+  parameter Real l = 0.001
+    "Valve leakage, minimum fraction of flow rate passing through ports 
+    a";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal
     "Nominal mass flow rate";
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal";
+  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
+    "Fluid content of the mixing valve";
 
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        Medium) "Hot fluid inlet"
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(
+    redeclare package Medium = Medium) "First fluid inlet"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
-        Medium) "Cold fluid inlet"
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(
+    redeclare package Medium = Medium) "Second fluid inlet"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-        Medium) "Fluid outlet"
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(
+    redeclare package Medium = Medium) "Fluid outlet"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=2,
+  IDEAS.Fluid.MixingVolumes.MixingVolume vol(nPorts=3,
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=energyDynamics,
@@ -35,7 +37,8 @@ model Partial3WayValve "Partial for 3-way valves"
         Medium.p_default,
         Medium.T_default,
         Medium.X_default)),
-    allowFlowReversal=allowFlowReversal)
+    allowFlowReversal=allowFlowReversal,
+    mSenFac=mSenFac)
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
 
   IDEAS.Fluid.Interfaces.IdealSource idealSource(
@@ -48,19 +51,19 @@ model Partial3WayValve "Partial for 3-way valves"
         origin={0,-44})));
 equation
   connect(port_a1, vol.ports[1]) annotation (Line(
-      points={{-100,0},{-2,0}},
+      points={{-100,0},{-2.66667,0}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(port_b, vol.ports[2]) annotation (Line(
-      points={{100,0},{2,0}},
+      points={{100,0},{2.22045e-16,0}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(idealSource.port_a, port_a2) annotation (Line(
       points={{0,-54},{4.44089e-16,-54},{4.44089e-16,-100}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(idealSource.port_b, vol.ports[1]) annotation (Line(
-      points={{0,-34},{0,-4.44089e-16},{-2,-4.44089e-16}},
+  connect(idealSource.port_b, vol.ports[3]) annotation (Line(
+      points={{0,-34},{0,-4.44089e-16},{2.66667,-4.44089e-16}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
@@ -137,6 +140,16 @@ equation
 <p>Examples of this model can be found in<a href=\"modelica://IDEAS.Thermal.Components.Examples.TempMixingTester\"> IDEAS.Thermal.Components.Examples.TempMixingTester</a> and<a href=\"modelica://IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve\"> IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve</a></p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 3, 2019 by Filip Jorissen:<br/> 
+Propagated <code>mSenFac</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1018\">#1018</a>.
+</li>
+<li>
+April 23, 2019 by Filip Jorissen:<br/> 
+Using separate port for each connection to avoid algebraic loops.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1019\">#1019</a>.
+</li>
 <li>
 March 26, 2018 by Filip Jorissen:<br/> 
 Implemented valve leakage,

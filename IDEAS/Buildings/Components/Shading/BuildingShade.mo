@@ -21,8 +21,10 @@ model BuildingShade
   Real fraSunDir(final min=0,final max=1, final unit="1")
     "Fraction of window area exposed to direct sun light";
 
+  // Computation assumes that window base is at ground level.
+  // Viewing angle computed from center of glazing.
 protected
-  parameter Modelica.SIunits.Angle vieAngObj = atan(hWin/L) + atan(dh/L) "Viewing angle of opposite object";
+  parameter Modelica.SIunits.Angle vieAngObj = atan((hWin/2+dh)/L) "Viewing angle of opposite object";
   final parameter Modelica.SIunits.Angle rot = 0
     "Rotation angle of opposite building. Zero when parallel, positive when rotated clockwise"
     annotation(Evaluate=true);
@@ -86,6 +88,13 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 10, 2019 by Filip Jorissen:<br/>
+Revised computation of <code>fraSunDifSky</code> to avoid
+negative shading fractions.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1007\">
+#1007</a>.
+</li>
 <li>
 February 21, 2019 by Filip Jorissen:<br/>
 Added parameter <code>shaFra</code> for lowering shading

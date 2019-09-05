@@ -60,7 +60,7 @@ protected
                                              then 1 else 0 for i in 1:max(Medium.nC,1)};
 
 equation
-  connect(pulse.y, zone.nOcc) annotation (Line(points={{19,10},{0,10},{0,14},{-18,
+  connect(pulse.y, zone.yOcc) annotation (Line(points={{19,10},{0,10},{0,14},{-18,
           14}}, color={0,0,127}));
   connect(bou.ports[1], zone.port_b)
     annotation (Line(points={{-60,50},{-32,50},{-32,20}}, color={0,127,255}));

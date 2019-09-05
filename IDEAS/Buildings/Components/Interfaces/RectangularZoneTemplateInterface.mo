@@ -2,10 +2,6 @@ within IDEAS.Buildings.Components.Interfaces;
 partial model RectangularZoneTemplateInterface
   "Rectangular zone including walls, floor and ceiling"
   extends IDEAS.Buildings.Components.Interfaces.PartialZone(
-    redeclare replaceable IDEAS.Buildings.Components.ZoneAirModels.WellMixedAir airModel
-    constrainedby
-      IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
-      mSenFac=mSenFac),
     calculateViewFactor=false,
     final nSurf=indWinCei+nSurfExt,
     final V=A*h,
@@ -1409,6 +1405,11 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 10, 2019, by Filip Jorissen:<br/>
+Removed obsolete redeclaration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1009\">#1009</a>.
+</li>
 <li>
 August 29, 2018, by Damien Picard:<br/>
 Add embedded heat port for floor heating or CCA.
