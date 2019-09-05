@@ -159,7 +159,7 @@ The model assumes a pump with a constant flow rate.
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-The model inputs are:
+The model inputs are, through the signal exchange block:
 <ul>
 <li>
 <code>TSup</code> [K]: The supply water temperature of the heater.
