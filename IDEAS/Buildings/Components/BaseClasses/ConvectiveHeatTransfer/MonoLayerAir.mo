@@ -67,9 +67,15 @@ protected
   Real Ra = max(1,(if linearise then abs(dT_nominal) else abs(port_a.T-port_b.T))*coeffRa);
   Modelica.SIunits.CoefficientOfHeatTransfer h = Nu*k/d;
 
+  IDEAS.Buildings.Data.Interfaces.Material defaultMaterial(c = 1, k = 1, rho = 1);
 public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb "Internal port"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
+
+initial equation
+
+  assert((epsLw_a <> defaultMaterial.epsLw) or (epsLw_b <> defaultMaterial.epsLw),  "Default emissivities used in " + getInstanceName(), level=AssertionLevel.warning);
+
 equation
   if not (ceiling or floor or vertical) then
     assert(false, "Could not find suitable correlation for air cavity! Please change the inclination to wall, ceiling or floor or remove the air layer.",
