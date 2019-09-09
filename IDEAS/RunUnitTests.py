@@ -29,7 +29,6 @@ import buildingspy.development.regressiontest as rt
 tester=r.Tester()
 
 """ number of parallel processes started."""
-tester.setSinglePackage("IDEAS.Buildings")
 #tester.setSinglePackage("IDEAS.Airflow.AHU")
 #tester.setNumberOfThreads(4)
 #tester._showGUI=True

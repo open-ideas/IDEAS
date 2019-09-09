@@ -31,8 +31,6 @@ model MultiLayer "multiple material layers in series"
   parameter SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number"
     annotation(Dialog(enable=linIntCon));
-  parameter Boolean errorLowPerformance = true
-    "Throw error on low performance glazing";
 
   Modelica.SIunits.Energy E = sum(monLay.E);
 
@@ -53,7 +51,7 @@ model MultiLayer "multiple material layers in series"
         mats[1:nLay - 1].epsLw_a),
     each energyDynamics=energyDynamics,
     each dT_nom_air=dT_nom_air,
-    each errorLowPerformance = errorLowPerformance) "Individual layers"
+    each errorLowPerformance = glazing.errorLowPerformance) "Individual layers"
     annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain[nLay]
