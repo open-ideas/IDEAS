@@ -55,10 +55,11 @@ or <code>epsLw_a</code> fields of the glazing layers are adjusted
 to reflect the effect of the glazing coating, assuming it exists.
 This makes the difference of a U value of about 3 W/mK or 1 W/mK for double glazing!
 See <a href=\"modelica://IDEAS.Buildings.Data.Glazing.Ins2Ar\">IDEAS.Buildings.Data.Glazing.Ins2Ar</a>
-for an example with double glazing that has 1 glazed sheet with a coating on the inside.</p>
+for an example with double glazing that has 1 glazed sheet with a coating on the inside.
+</p>
 <p> When no coatings are detected, ie. when the emissivities are default, an error is thrown to inform 
 the user that he/she is probably unintentionally simulating low performance glazing. The error can be 
-disabled with the parameter <code>errorLowPerformance</code>.
+disabled with the parameter <code>checkLowPerformanceGlazing</code>.
 </p> 
 </html>", revisions="<html>
 <ul>
