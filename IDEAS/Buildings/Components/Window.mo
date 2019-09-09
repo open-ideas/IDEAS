@@ -22,7 +22,8 @@ model Window "Multipane window"
       mats=glazing.mats,
       energyDynamics=if windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Normal then energyDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
       dT_nom_air=5,
-      linIntCon=true));
+      linIntCon=true),
+      errorLowPerformance = errorLowPerformance);
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));

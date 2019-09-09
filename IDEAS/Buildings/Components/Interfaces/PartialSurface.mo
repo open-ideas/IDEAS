@@ -32,6 +32,9 @@ partial model PartialSurface "Partial model for building envelope component"
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
+  parameter Boolean errorLowPerformance = true
+    "Throw error on low performance glazing";
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
                                              "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
@@ -56,7 +59,8 @@ partial model PartialSurface "Partial model for building envelope component"
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
     layMul(final inc=inc, energyDynamics=energyDynamics,
     linIntCon=linIntCon_a or sim.linearise,
-    A=A)
+    A=A,
+    errorLowPerformance = errorLowPerformance)
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
@@ -145,6 +149,11 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+September 9, 2019, by Kristoff Six:<br/>
+Updated with <code>errorLowPerformance</code> for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 Add scaling to propsBus_a to allow simulation of nWin windows instead of 1
