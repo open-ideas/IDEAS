@@ -55,6 +55,7 @@ model RectangularZoneTemplate
 replaceable
   IDEAS.Buildings.Components.Window winA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingA.checkLowPerformanceGlazing,
       nLay=glazingA.nLay,
       mats=glazingA.mats,
       SwAbs=glazingA.SwAbs,
@@ -108,6 +109,7 @@ replaceable
   IDEAS.Buildings.Components.Window winB(
       inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingB.checkLowPerformanceGlazing,
       nLay=glazingB.nLay,
       mats=glazingB.mats,
       SwAbs=glazingB.SwAbs,
@@ -163,6 +165,7 @@ replaceable
   replaceable
   IDEAS.Buildings.Components.Window winC(inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingC.checkLowPerformanceGlazing,
       nLay=glazingC.nLay,
       mats=glazingC.mats,
       SwAbs=glazingC.SwAbs,
@@ -219,6 +222,7 @@ replaceable
   IDEAS.Buildings.Components.Window winD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
         Modelica.Constants.pi/2*3,
     glazing(
+      checkLowPerformanceGlazing=glazingD.checkLowPerformanceGlazing,
       nLay=glazingD.nLay,
       mats=glazingD.mats,
       SwAbs=glazingD.SwAbs,
@@ -273,6 +277,7 @@ replaceable
   replaceable
   IDEAS.Buildings.Components.Window winCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziA,
     glazing(
+      checkLowPerformanceGlazing=glazingCei.checkLowPerformanceGlazing,
       nLay=glazingCei.nLay,
       mats=glazingCei.mats,
       SwAbs=glazingCei.SwAbs,

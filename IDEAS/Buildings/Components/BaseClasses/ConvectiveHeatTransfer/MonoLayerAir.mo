@@ -30,7 +30,7 @@ model MonoLayerAir
     "Linearise Grashoff number around expected nominal temperature difference"
     annotation(Evaluate=true);
   parameter Boolean checkCoating = true
-    "Throw if the cavity does not have a coating";
+    "Throws an error if the cavity does not have a coating";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
