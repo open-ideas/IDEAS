@@ -31,7 +31,8 @@ model MultiLayer "multiple material layers in series"
   parameter SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number"
     annotation(Dialog(enable=linIntCon));
-
+  parameter Boolean checkCoatings = false
+    "Check whether air layers have a coating";
   Modelica.SIunits.Energy E = sum(monLay.E);
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer[nLay]
@@ -50,8 +51,8 @@ model MultiLayer "multiple material layers in series"
         {0.85},
         mats[1:nLay - 1].epsLw_a),
     each energyDynamics=energyDynamics,
-    each dT_nom_air=dT_nom_air,
-    each errorLowPerformance = glazing.errorLowPerformance) "Individual layers"
+    each checkCoating = checkCoatings,
+    each dT_nom_air=dT_nom_air) "Individual layers"
     annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain[nLay]
@@ -165,7 +166,7 @@ equation
 <ul>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
-Updated with <code>errorLowPerformance</code> for issue
+Updated with <code>checkCoatings</code> for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
 </li>
 <li>

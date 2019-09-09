@@ -29,8 +29,8 @@ model MonoLayerAir
   parameter Boolean linearise = true
     "Linearise Grashoff number around expected nominal temperature difference"
     annotation(Evaluate=true);
-  parameter Boolean errorLowPerformance = true
-    "Throw error on low performance glazing";
+  parameter Boolean checkCoating = true
+    "Throw if the cavity does not have a coating";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
@@ -89,12 +89,13 @@ public
 
 initial equation
 
-  if errorLowPerformance then
+  if checkLowPerformanceGlazing then
     assert((epsLw_a <> IDEAS.Buildings.Data.Constants.epsLw_default)
       or (epsLw_b <> IDEAS.Buildings.Data.Constants.epsLw_default),
-      "In " + getInstanceName() + ": probably unintentionally simulating low 
-      performance glazing without coating, this error can be disabled using 
-      parameter errorLowPerformance",
+      "In " + getInstanceName() + ": You are probably unintentionally simulating low 
+      performance glazing by not including a coating in the glazing record, 
+      to correct it, modify the longwave emissivity within the glazing system.
+      This check can be disabled using the parameter checkLowPerformanceGlazing.",
       level=AssertionLevel.error);
   end if;
 
@@ -158,7 +159,8 @@ equation
 Model for computing convective/radiative heat transfer inside air cavities.
 </p>
 <p>
-Optional error which can be enabled/disabled with parameter <code>errorLowPerformance</code> checks if the user unintentionally is simulating low performance glazing with default emissivities.
+Optional error which can be enabled/disabled with parameter <code>checkLowPerformanceGlazing</code> checks 
+if the user unintentionally is simulating low performance glazing with default emissivities.
 </p>
 <h4>Assumption and limitations</h4>
 <p>
@@ -175,7 +177,7 @@ Only valid for horizontal or vertical surfaces.
 <ul>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
-Updated with <code>errorLowPerformance</code> for issue
+Updated with <code>checkLowPerformanceGlazing</code> for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
 </li>
 <li>

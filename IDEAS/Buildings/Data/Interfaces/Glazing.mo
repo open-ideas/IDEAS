@@ -19,8 +19,8 @@ record Glazing
   parameter Real U_value "Design U-value. (Only used for calculation Qdesign)";
   parameter Real g_value
     "Design g-value. (Not used in calculation, only informative)";
-  parameter Boolean errorLowPerformance = true
-    "Throw error on low performance glazing";
+  parameter Boolean checkLowPerformanceGlazing = true
+    "Throw error when the glazing does not have a coating in the cavity";
   annotation (Documentation(info="<html>
   <p>
   The <code>Glazing.mo</code> partial describes the material data 

@@ -18,8 +18,8 @@ model MonoLayer "single material layer"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
-  parameter Boolean errorLowPerformance = true
-    "Throw error on low performance glazing";
+  parameter Boolean checkCoating = false
+    "Throw if an air cavity does not have a coating";
   final parameter Modelica.SIunits.ThermalInsulance R = mat.R
     "Total specific thermal resistance";
   final parameter Boolean isDynamic = dynamicLayer and realLayer and not airLayer;
@@ -54,7 +54,7 @@ model MonoLayer "single material layer"
     epsLw_b=epsLw_b,
     linearise=linIntCon,
     dT_nominal=dT_nom_air,
-    errorLowPerformance = errorLowPerformance) if realLayer and airLayer
+    checkCoating=checkCoating) if                 realLayer and airLayer
     annotation (Placement(transformation(extent={{-20,30},{0,50}})));
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayerStatic
     monLaySta(R=R/A) if
@@ -151,7 +151,7 @@ equation
 <ul>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
-Updated with <code>errorLowPerformance</code> for issue
+Updated with <code>checkCoating</code> for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
 </li>
 <li>
