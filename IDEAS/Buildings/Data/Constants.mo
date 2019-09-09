@@ -1,8 +1,8 @@
 within IDEAS.Buildings.Data;
 package Constants "Package of constants for building models"
 
-  final constant Real epsLw_default = 0.85 "Default long wave emissivity";
-  final constant Real epsSw_default = 0.85 "Default short wave emissivity";
+  final constant Real epsLw_glass = 0.84 "Default long wave emissivity";
+  final constant Real epsSw_glass = 0.67 "Default short wave emissivity";
 
   annotation (Documentation(info="<html>
 <p>

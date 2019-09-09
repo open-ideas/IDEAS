@@ -87,23 +87,21 @@ public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb "Internal port"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 
-initial equation
-
-  if checkLowPerformanceGlazing then
-    assert((epsLw_a <> IDEAS.Buildings.Data.Constants.epsLw_default)
-      or (epsLw_b <> IDEAS.Buildings.Data.Constants.epsLw_default),
-      "In " + getInstanceName() + ": You are probably unintentionally simulating low 
-      performance glazing by not including a coating in the glazing record, 
-      to correct it, modify the longwave emissivity within the glazing system.
-      This check can be disabled using the parameter checkLowPerformanceGlazing.",
-      level=AssertionLevel.error);
-  end if;
-
 equation
   if not (ceiling or floor or vertical) then
     assert(false, "Could not find suitable correlation for air cavity! Please 
       change the inclination to wall, ceiling or floor or remove the air layer.",
       level=AssertionLevel.warning);
+  end if;
+
+  if checkCoating then
+    assert((epsLw_a <> IDEAS.Buildings.Data.Constants.epsLw_glass)
+      or (epsLw_b <> IDEAS.Buildings.Data.Constants.epsLw_glass),
+      "In " + getInstanceName() + ": You are probably unintentionally simulating low 
+      performance glazing by not including a coating in the glazing record, 
+      to correct it, modify the longwave emissivity within the glazing system.
+      This check can be disabled using the parameter checkLowPerformanceGlazing.",
+      level=AssertionLevel.error);
   end if;
 
   port_a.Q_flow + port_b.Q_flow + port_emb.Q_flow=0;
@@ -177,7 +175,7 @@ Only valid for horizontal or vertical surfaces.
 <ul>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
-Updated with <code>checkLowPerformanceGlazing</code> for issue
+Updated with <code>checkCoating</code> for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
 </li>
 <li>
