@@ -2,7 +2,7 @@ within IDEAS.Examples.PPD12.Data;
 record TripleGlazing =
     IDEAS.Buildings.Data.Interfaces.Glazing (
 final nLay=5,
-final mats={ IDEAS.Buildings.Data.Materials.Glass(d=0.006, epsLw_b=0.037),
+final mats={ IDEAS.Buildings.Data.Materials.Glass(d=0.006, epsLw_a=0.037),
  IDEAS.Buildings.Data.Materials.Argon(d=0.016),
  IDEAS.Buildings.Data.Materials.Glass(d=0.004),
  IDEAS.Buildings.Data.Materials.Argon(d=0.016),

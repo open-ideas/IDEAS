@@ -18,6 +18,8 @@ model MonoLayer "single material layer"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
   parameter Modelica.SIunits.Temperature T_start=293.15
     "Start temperature for each of the states";
+  parameter Boolean checkCoating = false
+    "Throw if an air cavity does not have a coating";
   final parameter Modelica.SIunits.ThermalInsulance R = mat.R
     "Total specific thermal resistance";
   final parameter Boolean isDynamic = dynamicLayer and realLayer and not airLayer;
@@ -51,8 +53,8 @@ model MonoLayer "single material layer"
     epsLw_a=epsLw_a,
     epsLw_b=epsLw_b,
     linearise=linIntCon,
-    dT_nominal=dT_nom_air) if
-                            realLayer and airLayer
+    dT_nominal=dT_nom_air,
+    checkCoating=checkCoating) if                 realLayer and airLayer
     annotation (Placement(transformation(extent={{-20,30},{0,50}})));
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayerStatic
     monLaySta(R=R/A) if
@@ -147,6 +149,11 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+September 9, 2019, by Kristoff Six:<br/>
+Updated with <code>checkCoating</code> for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
+</li>
 <li>
 January 25, 2019, by Filip Jorissen:<br/>
 Revised initial equation implementation.

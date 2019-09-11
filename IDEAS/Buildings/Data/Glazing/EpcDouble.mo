@@ -2,6 +2,7 @@ within IDEAS.Buildings.Data.Glazing;
 record EpcDouble =
               IDEAS.Buildings.Data.Interfaces.Glazing (
     final nLay=3,
+    final checkLowPerformanceGlazing=false,
     final mats={
       Materials.Glass(d=0.0038),
       Materials.Air(d=0.012),
