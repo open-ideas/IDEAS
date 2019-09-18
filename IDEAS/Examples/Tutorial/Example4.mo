@@ -37,5 +37,6 @@ custom occupancy model that uses an occupancy schedule.
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
 end Example4;
