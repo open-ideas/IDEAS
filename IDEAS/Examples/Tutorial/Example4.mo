@@ -16,4 +16,26 @@ model Example4 "Including custom occupant schedule"
     connect(occ.y, nOcc)
       annotation (Line(points={{1,0},{120,0}}, color={0,0,127}));
   end OccSched;
+  annotation (
+    Documentation(revisions="<html>
+<ul>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
+</html>", info="<html>
+<p>
+This example extends the third example by adding a
+custom occupancy model that uses an occupancy schedule.
+</p>
+</html>"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
+        "Simulate and plot"),
+    experiment(
+      StartTime=10000000,
+      StopTime=11000000,
+      __Dymola_NumberOfIntervals=5000,
+      __Dymola_Algorithm="Lsodar"));
 end Example4;

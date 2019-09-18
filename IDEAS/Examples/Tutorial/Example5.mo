@@ -68,4 +68,23 @@ equation
       points={{-0.2,-24},{28,-24},{28,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
+  annotation (Documentation(revisions="<html>
+<ul>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
+</html>", info="<html>
+<p>
+This example demonstrates the use of the RectangularZoneTemplate.
+The one-zone implementation with one window of example 1 is repeated here as 
+a two-zone implementation with two windows that are north and south oriented.
+Note the different temperature responses of the zones. 
+</p>
+</html>"), experiment(
+      StartTime=10000000,
+      StopTime=11000000,
+      __Dymola_NumberOfIntervals=5000,
+      __Dymola_Algorithm="Lsodar"));
 end Example5;

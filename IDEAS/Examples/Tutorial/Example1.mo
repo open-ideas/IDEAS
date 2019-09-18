@@ -109,5 +109,21 @@ equation
     experiment(
       StartTime=10000000,
       StopTime=11000000,
-      __Dymola_NumberOfIntervals=5000));
+      __Dymola_NumberOfIntervals=5000,
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/Example1.mos"
+        "Simulate and plot"),
+    Documentation(info="<html>
+<p>
+This first example file instantiates a simple building model.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
+</html>"));
 end Example1;
