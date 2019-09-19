@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial;
 model Example5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
-  package Medium = IDEAS.Media.Air "Air medium";
+  replaceable package Medium = IDEAS.Media.Air "Air medium";
 
   parameter Modelica.SIunits.Length l = 8 "Zone length";
   parameter Modelica.SIunits.Length w = 4 "Zone width";
@@ -23,12 +23,12 @@ model Example5 "New model with 2 coupled zones"
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    redeclare Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo,
     l=w,
     w=l/2,
     hasWinA=true,
     A_winA=2*1.3,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingA)
+    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingA,
+    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo)
     "North part of the zone"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate rectangularZoneTemplate1(

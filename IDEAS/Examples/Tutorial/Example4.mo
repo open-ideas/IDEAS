@@ -2,6 +2,7 @@ within IDEAS.Examples.Tutorial;
 model Example4 "Including custom occupant schedule"
   extends Example3(zone(redeclare OccSched occNum(k=2)));
 
+protected
   model OccSched "Simple occupancy schedule"
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
 
@@ -30,8 +31,7 @@ This example extends the third example by adding a
 custom occupancy model that uses an occupancy schedule.
 </p>
 </html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
+    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
         "Simulate and plot"),
     experiment(
       StartTime=10000000,
