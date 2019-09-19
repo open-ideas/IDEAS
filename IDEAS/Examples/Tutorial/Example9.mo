@@ -43,13 +43,15 @@ model Example9 "Adding CO2-controlled ventilation"
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     redeclare package Medium = Medium,
     dp_nominal=200,
-    m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal) "Supply fan"
+    m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Supply fan"
     annotation (Placement(transformation(extent={{-220,10},{-200,30}})));
   Fluid.Movers.FlowControlled_dp fanRet(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     redeclare package Medium = Medium,
     dp_nominal=200,
-    m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal) "Return fan"
+    m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Return fan"
     annotation (Placement(transformation(extent={{-200,-30},{-220,-10}})));
   Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = Medium,

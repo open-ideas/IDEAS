@@ -14,7 +14,9 @@ model Example6 "Extension of example 5 that adds a heating system"
 
     scaling_factor=0.025,
     dp1_nominal=10000,
-    dp2_nominal=10000) "Heat pump model, rescaled for low thermal powers"
+    dp2_nominal=10000,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Heat pump model, rescaled for low thermal powers"
                                             annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -24,7 +26,9 @@ model Example6 "Extension of example 5 that adds a heating system"
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
-    T_b_nominal=308.15) "Radiator for zone 1" annotation (Placement(
+    T_b_nominal=308.15,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+                        "Radiator for zone 1" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -33,7 +37,9 @@ model Example6 "Extension of example 5 that adds a heating system"
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
-    T_b_nominal=308.15) "Radiator for zone 2" annotation (Placement(
+    T_b_nominal=308.15,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+                        "Radiator for zone 2" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -50,7 +56,8 @@ model Example6 "Extension of example 5 that adds a heating system"
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
-    redeclare package Medium = MediumWater)
+    redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Circulation pump at secondary side"
     annotation (Placement(transformation(extent={{130,50},{110,70}})));
   Fluid.Sources.Boundary_pT bou(
@@ -86,7 +93,9 @@ model Example6 "Extension of example 5 that adds a heating system"
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal=10000,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
-    redeclare package Medium = MediumWater) "Circulation pump at primary side"
+    redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Circulation pump at primary side"
     annotation (Placement(transformation(extent={{220,50},{200,70}})));
   Modelica.Blocks.Sources.IntegerConstant HPOn(k=1) "Heat pump is on"
     annotation (Placement(transformation(extent={{140,-62},{160,-42}})));
