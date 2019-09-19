@@ -22,7 +22,8 @@ equation
           -48},{42,-70},{58,-70}}, color={0,0,127}));
   connect(booToRea.y, heaPum.y)
     annotation (Line(points={{121,-70},{167,-70},{167,-2}}, color={0,0,127}));
-  annotation (Documentation(revisions="<html>
+  annotation (
+    Documentation(revisions="<html>
 <ul>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
@@ -33,7 +34,15 @@ First implementation for the IDEAS crash course.
 <p>
 The simple controller has a large impact on the heat pump COP.
 </p>
-</html>"), __Dymola_Commands(file=
+</html>"),
+    __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example7.mos"
-        "Simulate and plot"));
+        "Simulate and plot"),
+    experiment(
+      StartTime=10000000,
+      StopTime=11000000,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
+      __Dymola_fixedstepsize=20,
+      __Dymola_Algorithm="Lsodar"));
 end Example7;

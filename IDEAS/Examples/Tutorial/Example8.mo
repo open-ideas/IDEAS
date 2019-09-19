@@ -21,5 +21,11 @@ First implementation for the IDEAS crash course.
 <p>
 This model outputs the main model result to a json file.
 </p>
-</html>"));
+</html>"), experiment(
+      StartTime=10000000,
+      StopTime=11000000,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
+      __Dymola_fixedstepsize=20,
+      __Dymola_Algorithm="Lsodar"));
 end Example8;
