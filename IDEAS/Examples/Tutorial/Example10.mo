@@ -41,7 +41,9 @@ model Example10 "Speeding up the code"
       redeclare HeavyWall conTypFlo),
     rad(nEle=2),
     rad1(nEle=2),
-    heaPum(from_dp1=true, from_dp2=true));
+    heaPum(from_dp1=true, from_dp2=true),
+    senTemSup(tau=0),
+    tan(tau=60));
 protected
 record HeavyWall "BESTEST heavy wall with idealized wood layer"
   extends IDEAS.Buildings.Data.Interfaces.Construction(

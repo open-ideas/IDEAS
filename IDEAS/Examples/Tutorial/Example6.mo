@@ -21,7 +21,7 @@ model Example6 "Extension of example 5 that adds a heating system"
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={170,10})));
+        origin={190,10})));
   Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,
@@ -59,21 +59,15 @@ model Example6 "Extension of example 5 that adds a heating system"
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Circulation pump at secondary side"
-    annotation (Placement(transformation(extent={{130,50},{110,70}})));
+    annotation (Placement(transformation(extent={{120,50},{100,70}})));
   Fluid.Sources.Boundary_pT bou(
-    nPorts=3,
+    nPorts=2,
     redeclare package Medium = MediumWater,
     T=283.15) "Cold water source for heat pump"
               annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={250,10})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem
-    "Temperature sensor for zone air temperature" annotation (Placement(
-        transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=90,
-        origin={34,6})));
+        origin={270,10})));
   Fluid.Actuators.Valves.TwoWayTRV val1(
     dpValve_nominal=20000,
     m_flow_nominal=rad1.m_flow_nominal,
@@ -83,12 +77,6 @@ model Example6 "Extension of example 5 that adds a heating system"
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={90,30})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem1
-    "Temperature sensor for zone air temperature" annotation (Placement(
-        transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=90,
-        origin={72,6})));
   Fluid.Movers.FlowControlled_dp pumpPrim(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal=10000,
@@ -96,41 +84,46 @@ model Example6 "Extension of example 5 that adds a heating system"
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Circulation pump at primary side"
-    annotation (Placement(transformation(extent={{220,50},{200,70}})));
+    annotation (Placement(transformation(extent={{240,50},{220,70}})));
   Modelica.Blocks.Sources.IntegerConstant HPOn(k=1) "Heat pump is on"
-    annotation (Placement(transformation(extent={{140,-62},{160,-42}})));
+    annotation (Placement(transformation(extent={{160,-62},{180,-42}})));
   Modelica.Blocks.Continuous.Integrator EEl(k=1/3600000)
     "Electrical energy meter with conversion to kWh"
-    annotation (Placement(transformation(extent={{260,40},{280,60}})));
+    annotation (Placement(transformation(extent={{280,40},{300,60}})));
+  Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
+        MediumWater, m_flow_nominal=pumpSec.m_flow_nominal)
+    "Supply water temperature sensor"
+    annotation (Placement(transformation(extent={{146,70},{126,50}})));
+  Fluid.Sources.Boundary_pT bou1(
+    nPorts=1,
+    redeclare package Medium = MediumWater,
+    T=283.15) "Cold water source for heat pump"
+              annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=270,
+        origin={110,90})));
+  Fluid.Storage.Stratified tan(
+    redeclare package Medium = MediumWater,
+    m_flow_nominal=pumpSec.m_flow_nominal,
+    VTan=0.1,
+    hTan=0.5,
+    dIns=0.1) "Buffer tank for avoiding excessive heat pump on/off switches"
+    annotation (Placement(transformation(extent={{178,50},{158,70}})));
 equation
   connect(val.port_b, rad.port_a)
     annotation (Line(points={{50,20},{50,0}}, color={0,127,255}));
   connect(val1.port_b, rad1.port_a)
     annotation (Line(points={{90,20},{90,0}}, color={0,127,255}));
-  connect(rad.heatPortCon, senTem.port)
-    annotation (Line(points={{42.8,-8},{34,-8},{34,0}}, color={191,0,0}));
-  connect(senTem.T, val.T)
-    annotation (Line(points={{34,12},{34,30},{39.4,30}}, color={0,0,127}));
-  connect(senTem1.T, val1.T)
-    annotation (Line(points={{72,12},{72,30},{79.4,30}}, color={0,0,127}));
-  connect(rad1.heatPortCon, senTem1.port)
-    annotation (Line(points={{82.8,-8},{72,-8},{72,0}}, color={191,0,0}));
   connect(val.port_a, pumpSec.port_b)
-    annotation (Line(points={{50,40},{50,60},{110,60}}, color={0,127,255}));
+    annotation (Line(points={{50,40},{50,60},{100,60}}, color={0,127,255}));
   connect(val1.port_a, pumpSec.port_b)
-    annotation (Line(points={{90,40},{90,60},{110,60}}, color={0,127,255}));
-  connect(rad1.port_b, heaPum.port_a1) annotation (Line(points={{90,-20},{90,-30},
-          {164,-30},{164,0}}, color={0,127,255}));
-  connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
-          {164,-30},{164,0}}, color={0,127,255}));
-  connect(pumpSec.port_a, heaPum.port_b1)
-    annotation (Line(points={{130,60},{164,60},{164,20}}, color={0,127,255}));
+    annotation (Line(points={{90,40},{90,60},{100,60}}, color={0,127,255}));
   connect(heaPum.port_a2, pumpPrim.port_b)
-    annotation (Line(points={{176,20},{176,60},{200,60}}, color={0,127,255}));
-  connect(heaPum.port_b2, bou.ports[1]) annotation (Line(points={{176,0},{176,-30},
-          {228,-30},{228,7.33333},{240,7.33333}}, color={0,127,255}));
-  connect(pumpPrim.port_a, bou.ports[2]) annotation (Line(points={{220,60},{228,
-          60},{228,10},{240,10}}, color={0,127,255}));
+    annotation (Line(points={{196,20},{196,60},{220,60}}, color={0,127,255}));
+  connect(heaPum.port_b2, bou.ports[1]) annotation (Line(points={{196,0},{196,
+          -30},{248,-30},{248,8},{260,8}},        color={0,127,255}));
+  connect(pumpPrim.port_a, bou.ports[2]) annotation (Line(points={{240,60},{248,
+          60},{248,12},{260,12}}, color={0,127,255}));
   connect(rad.heatPortCon, rectangularZoneTemplate.gainCon) annotation (Line(
         points={{42.8,-8},{20,-8},{20,27},{10,27}}, color={191,0,0}));
   connect(rad.heatPortRad, rectangularZoneTemplate.gainRad) annotation (Line(
@@ -139,20 +132,34 @@ equation
         points={{82.8,-8},{66,-8},{66,-33},{10,-33}}, color={191,0,0}));
   connect(rad1.heatPortRad, rectangularZoneTemplate1.gainRad) annotation (Line(
         points={{82.8,-12},{70,-12},{70,-36},{10,-36}}, color={191,0,0}));
-  connect(heaPum.port_b1, bou.ports[3]) annotation (Line(points={{164,20},{166,
-          20},{166,86},{240,86},{240,12.6667}},
-                                            color={0,127,255}));
-  connect(HPOn.y, heaPum.stage) annotation (Line(points={{161,-52},{167,-52},{167,
-          -2}}, color={255,127,0}));
+  connect(HPOn.y, heaPum.stage) annotation (Line(points={{181,-52},{187,-52},{
+          187,-2}},
+                color={255,127,0}));
   connect(heaPum.P, EEl.u)
-    annotation (Line(points={{170,21},{170,50},{258,50}}, color={0,0,127}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
+    annotation (Line(points={{190,21},{190,50},{278,50}}, color={0,0,127}));
+  connect(rectangularZoneTemplate.TSensor, val.T) annotation (Line(points={{11,
+          32},{26,32},{26,30},{39.4,30}}, color={0,0,127}));
+  connect(rectangularZoneTemplate1.TSensor, val1.T) annotation (Line(points={{
+          11,-28},{32,-28},{32,12},{79.4,12},{79.4,30}}, color={0,0,127}));
+  connect(bou1.ports[1], pumpSec.port_b)
+    annotation (Line(points={{110,80},{100,80},{100,60}}, color={0,127,255}));
+  connect(senTemSup.port_b, pumpSec.port_a)
+    annotation (Line(points={{126,60},{120,60}}, color={0,127,255}));
+  connect(senTemSup.port_a, tan.port_b)
+    annotation (Line(points={{146,60},{158,60}}, color={0,127,255}));
+  connect(tan.port_a, heaPum.port_b1)
+    annotation (Line(points={{178,60},{184,60},{184,20}}, color={0,127,255}));
+  connect(rad1.port_b, heaPum.port_a1) annotation (Line(points={{90,-20},{90,
+          -30},{184,-30},{184,0}}, color={0,127,255}));
+  connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
+          {184,-30},{184,0}}, color={0,127,255}));
+  annotation (Diagram(coordinateSystem(extent={{-100,-100},{300,100}},
           initialScale=0.1), graphics={Text(
-          extent={{130,100},{216,92}},
+          extent={{138,98},{224,90}},
           lineColor={28,108,200},
-          textString="This sets the absolute pressure only"), Line(points={{156,
-              92},{164,86}}, color={28,108,200})}), Icon(coordinateSystem(
-          extent={{-100,-100},{280,100}}, initialScale=0.1)),
+          textString="This sets the absolute pressure only"), Line(points={{126,
+              86},{134,92}}, color={28,108,200})}), Icon(coordinateSystem(
+          extent={{-100,-100},{300,100}}, initialScale=0.1)),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
