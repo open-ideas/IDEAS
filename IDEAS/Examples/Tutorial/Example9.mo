@@ -146,6 +146,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+September 21, 2019 by Filip Jorissen:<br/>
+Using OutsideIDEAS.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
+</li>
+<li>
 September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.
 </li>
