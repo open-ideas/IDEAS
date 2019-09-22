@@ -38,7 +38,9 @@ equation
   connect(bus,sim.weaDatBus);
 
   connect(p_in_internal, bus.pAtm);
-  T_in_internal = sim.Te;
+
+  // must use sim.weaBus.Te for linearisation
+  T_in_internal = sim.weaBus.Te;
 
   C_in_internal = {if i==1 then sim.CEnv.y  else 0 for i in s};
 
