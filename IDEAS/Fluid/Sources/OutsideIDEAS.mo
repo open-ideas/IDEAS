@@ -50,7 +50,7 @@ equation
   // Connections to compute species concentration
   connect(p_in_internal, x_pTphi.p_in);
   connect(T_in_internal, x_pTphi.T);
-  connect(bus.phi, x_pTphi.phi);
+  connect(bus.relHum, x_pTphi.phi);
 
   connect(X_in_internal, x_pTphi.X);
   if singleSubstance then
