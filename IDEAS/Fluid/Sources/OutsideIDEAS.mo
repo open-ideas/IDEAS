@@ -13,10 +13,6 @@ protected
                                             caseSensitive=false))
     then 1 else 0 for i in 1:Medium.nC}
     "Vector with zero everywhere except where species is";
-  final parameter Boolean singleSubstance = (Medium.nX == 1)
-    "True if single substance medium";
-  IDEAS.Utilities.Psychrometrics.X_pTphi x_pTphi if
-       not singleSubstance "Block to compute water vapor concentration";
 
   Modelica.Blocks.Interfaces.RealInput X_in_internal[Medium.nX](
     each final unit="kg/kg",
@@ -35,6 +31,9 @@ protected
 
   IDEAS.BoundaryConditions.WeatherData.Bus bus;
 
+  Modelica.Blocks.Interfaces.RealInput X_wEnv
+    "Connector for X_wEnv";
+
 equation
   connect(bus,sim.weaDatBus);
 
@@ -47,16 +46,14 @@ equation
   Modelica.Fluid.Utilities.checkBoundary(Medium.mediumName, Medium.substanceNames,
     Medium.singleState, true, X_in_internal, "Boundary_pT");
 
-  // Connections to compute species concentration
-  connect(p_in_internal, x_pTphi.p_in);
-  connect(T_in_internal, x_pTphi.T);
-  connect(bus.relHum, x_pTphi.phi);
 
-  connect(X_in_internal, x_pTphi.X);
-  if singleSubstance then
+  if Medium.nX == 1 then
     X_in_internal = ones(Medium.nX);
+  else
+    X_in_internal = {X_wEnv, 1-X_wEnv};
   end if;
 
+  connect(X_wEnv, bus.X_wEnv);
   connect(X_in_internal[1:Medium.nXi], Xi_in_internal);
 
   ports.C_outflow = fill(C_in_internal, nPorts);
