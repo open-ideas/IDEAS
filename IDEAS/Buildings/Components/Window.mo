@@ -357,6 +357,12 @@ The parameter <code>n</code> may be used to scale the window to <code>n</code> i
 For example, if a wall has 10 identical windows with identical shading, this parameter
 can be used to simulate 10 windows by scaling the model of a single window.
 </p>
+<h4>Validation</h4>
+<p>
+To verify the U-value of your glazing system implementation,
+see <a href=\"modelica://IDEAS.Buildings.Components.Validations.WindowEN673>
+IDEAS.Buildings.Components.Validations.WindowEN673</a>
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
