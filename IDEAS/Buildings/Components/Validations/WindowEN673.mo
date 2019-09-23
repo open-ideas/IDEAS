@@ -33,8 +33,8 @@ model WindowEN673 "Verifies U value of a glazing record"
       linearise=true,
       heaRad(dT_nom=0)),
     intCon_a(dT_nominal=3.759),
-    redeclare Data.Glazing.EpcDouble glazing,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    redeclare Data.Glazing.EpcDouble glazing)
     "Window model with modifications to be better in line with EN673"
     annotation (Placement(transformation(extent={{-16,-20},{-4,0}})));
 
@@ -108,7 +108,10 @@ protected
     parameter SI.Temperature TDryBulFixed=293.15
       "Dry bulb temperature (used if TDryBul=Parameter)";
   end SimInfoManagerFixedBC;
-
+initial equation
+  // custom initial equation since fixed temperature boundary equation
+  // requires DynamicFreeInitial
+  zone.port_b.Xi_outflow[1]=0;
 equation
 
   connect(windowEN673.propsBus_a, zone.propsBus[1]) annotation (Line(
