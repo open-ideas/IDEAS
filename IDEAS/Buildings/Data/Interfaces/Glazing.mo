@@ -6,7 +6,7 @@ record Glazing
   parameter Integer nLay(min=1)
     "Number of layers of the glazing, including gaps";
   parameter IDEAS.Buildings.Data.Interfaces.Material[nLay] mats
-    "Array of materials. mats[1] is the material in contact with the exterior. If coating, adapt epsLw_a of mats[1]";
+    "Array of materials, ordered from outside to inside. Add coatings to glass by setting epsLw_a for inward facing sides of the glass, epsLw_b for outward.
   parameter Real[:, nLay + 1] SwAbs
     "Absorbed solar radiation for each layer as function of angle of incidence";
   parameter Real[:, 2] SwTrans
