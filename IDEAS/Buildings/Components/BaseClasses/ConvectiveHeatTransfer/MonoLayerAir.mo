@@ -95,8 +95,8 @@ equation
   end if;
 
   if checkCoating then
-    assert((epsLw_a <> IDEAS.Buildings.Data.Constants.epsLw_glass)
-      or (epsLw_b <> IDEAS.Buildings.Data.Constants.epsLw_glass),
+    assert(abs(epsLw_a - IDEAS.Buildings.Data.Constants.epsLw_glass) > 1e-5
+      or abs(epsLw_b - IDEAS.Buildings.Data.Constants.epsLw_glass) > 1e-5,
       "In " + getInstanceName() + ": You are probably unintentionally simulating low 
       performance glazing by not including a coating in the glazing record, 
       to correct it, modify the longwave emissivity within the glazing system.
