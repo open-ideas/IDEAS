@@ -6,7 +6,7 @@ record Glazing
   parameter Integer nLay(min=1)
     "Number of layers of the glazing, including gaps";
   parameter IDEAS.Buildings.Data.Interfaces.Material[nLay] mats
-    "Array of materials";
+    "Array of materials, ordered from outside to inside. Add coatings to glass by setting epsLw_a for inward facing sides of the glass, epsLw_b for outward.
   parameter Real[:, nLay + 1] SwAbs
     "Absorbed solar radiation for each layer as function of angle of incidence";
   parameter Real[:, 2] SwTrans
@@ -16,7 +16,7 @@ record Glazing
   parameter Real SwTransDif
     "Transmitted solar radiation as function of angle of incidence";
 
-  parameter Real U_value "Design U-value. (Only used for calculation Qdesign)";
+  parameter Modelica.SIunits.CoefficientOfHeatTransfer U_value "Design U-value. (Only used for calculation Qdesign)";
   parameter Real g_value
     "Design g-value. (Not used in calculation, only informative)";
   parameter Boolean checkLowPerformanceGlazing = true
