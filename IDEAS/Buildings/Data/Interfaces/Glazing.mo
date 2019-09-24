@@ -64,7 +64,7 @@ disabled with the parameter <code>checkLowPerformanceGlazing</code>.
 <h4>Validation</h4>
 <p>
 To verify the U-value of your glazing system implementation,
-see <a href=\"modelica://IDEAS.Buildings.Components.Validations.WindowEN673>
+see <a href=\"modelica://IDEAS.Buildings.Components.Validations.WindowEN673\">
 IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
