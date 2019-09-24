@@ -36,8 +36,13 @@ protected
   Modelica.SIunits.Angle alt = (Modelica.Constants.pi/2) - angZen;
   Modelica.SIunits.Angle verAzi
     "Angle between downward projection of sun's rays and normal to vertical surface";
+initial equation
+  assert(fraSunDifSky>=0 and fraSunDifSky<=1, "In " + getInstanceName() +
+    ": The parameter fraSunDifSky has the value " +String(fraSunDifSky) + " and 
+    should be within [0,1]. Please contact the IDEAS developers.");
 
 equation
+
   verAzi = Modelica.Math.acos(cos(angInc)/cos(alt));
   L1 = max(0,L/cos(verAzi));
   L2 = L1*tan(alt);
@@ -88,6 +93,12 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 22, 2019 by Filip Jorissen:<br/>
+Added assert that checks validity of parameter <code>fraSunDifSky</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/843\">
+#843</a>.
+</li>
 <li>
 April 10, 2019 by Filip Jorissen:<br/>
 Revised computation of <code>fraSunDifSky</code> to avoid
