@@ -38,7 +38,7 @@ model Partial3WayValve "Partial for 3-way valves"
         Medium.T_default,
         Medium.X_default)),
     allowFlowReversal=allowFlowReversal,
-    mSenFac=mSenFac)
+    mSenFac=mSenFac) if have_controlVolume
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
 
   IDEAS.Fluid.Interfaces.IdealSource idealSource(
@@ -49,6 +49,15 @@ model Partial3WayValve "Partial for 3-way valves"
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={0,-44})));
+protected
+  parameter Boolean have_controlVolume=
+      energyDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState or
+       massDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState
+    "Boolean flag used to remove conditional components";
+  Modelica.Fluid.Interfaces.FluidPort_a port_internal(
+    redeclare package Medium = Medium) if not have_controlVolume
+    "Internal dummy port for easier connection of conditional connections"
+    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
 equation
   connect(port_a1, vol.ports[1]) annotation (Line(
       points={{-100,0},{-2.66667,0}},
@@ -66,10 +75,15 @@ equation
       points={{0,-34},{0,-4.44089e-16},{2.66667,-4.44089e-16}},
       color={0,127,255},
       smooth=Smooth.None));
+  connect(port_a1, port_internal) annotation (Line(points={{-100,0},{-100,32},{0,
+          32},{0,60}}, color={0,127,255}));
+  connect(idealSource.port_b, port_internal) annotation (Line(points={{4.44089e-16,
+          -34},{0,-34},{0,60}}, color={0,127,255}));
+  connect(port_b, port_internal) annotation (Line(points={{100,0},{100,32},{0,32},
+          {0,60}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}),
-            graphics),
+            100,100}})),
     Icon(graphics={
         Polygon(
           points={{-60,30},{-60,-30},{0,0},{-60,30}},
@@ -140,6 +154,11 @@ equation
 <p>Examples of this model can be found in<a href=\"modelica://IDEAS.Thermal.Components.Examples.TempMixingTester\"> IDEAS.Thermal.Components.Examples.TempMixingTester</a> and<a href=\"modelica://IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve\"> IDEAS.Thermal.Components.Examples.RadiatorWithMixingValve</a></p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 2, 2019 by Filip Jorissen:<br/> 
+Avoiding division by zero for zero flow rates when <code>SteadyState</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1063\">#1063</a>.
+</li>
 <li>
 May 3, 2019 by Filip Jorissen:<br/> 
 Propagated <code>mSenFac</code>.
