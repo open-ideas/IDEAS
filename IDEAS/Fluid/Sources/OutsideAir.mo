@@ -1,10 +1,9 @@
 within IDEAS.Fluid.Sources;
-model OutsideIDEAS
+model OutsideAir
   "Outside boundary that takes temperature, pressure, humidity and CO2 from the SimInfoManager"
   extends IDEAS.Fluid.Sources.BaseClasses.PartialSource(final verifyInputs=true);
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
-
 
 protected
   constant Real s[:]= {
@@ -47,7 +46,6 @@ equation
   // Check medium properties
   Modelica.Fluid.Utilities.checkBoundary(Medium.mediumName, Medium.substanceNames,
     Medium.singleState, true, X_in_internal, "Boundary_pT");
-
 
   if Medium.nX == 1 then
     X_in_internal = ones(Medium.nX);
@@ -92,7 +90,7 @@ equation
           textString="%name",
           lineColor={0,0,255}),
         Text(
-          extent={{0,-96},{74,-18}},
+          extent={{-60,-66},{78,72}},
           lineColor={238,46,47},
           textString="Sim.")}),
     Documentation(info="<html>
@@ -119,4 +117,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end OutsideIDEAS;
+end OutsideAir;

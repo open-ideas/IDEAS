@@ -70,8 +70,8 @@ model Example9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  Fluid.Sources.OutsideIDEAS outsideIDEAS(redeclare package Medium = Medium,
-      nPorts=2) "Source model that takes properties from SimInfoManager"
+  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium, nPorts
+      =2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
 protected
   model OccSched "Simple occupancy schedule"
@@ -128,10 +128,10 @@ equation
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(outsideIDEAS.ports[1], hex.port_b2) annotation (Line(points={{-260,-2},
+  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,-2},
           {-250,-2},{-250,-6}}, color={0,127,255}));
-  connect(outsideIDEAS.ports[2], hex.port_a1) annotation (Line(points={{-260,2},
-          {-252,2},{-252,6},{-250,6}}, color={0,127,255}));
+  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,2},{
+          -252,2},{-252,6},{-250,6}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-280,-100},{280,100}})),
     experiment(
@@ -147,7 +147,7 @@ equation
 <ul>
 <li>
 September 21, 2019 by Filip Jorissen:<br/>
-Using OutsideIDEAS.
+Using OutsideAir.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
 </li>
 <li>
