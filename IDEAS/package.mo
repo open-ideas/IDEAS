@@ -1,12 +1,12 @@
 within ;
 package IDEAS "Integrated District Energy Assessment Simulation"
 
-extends Modelica.Icons.Library;
+extends Modelica.Icons.Package;
 
 import SI = Modelica.SIunits;
 
 annotation (
-  uses(Modelica(version="3.2.2")),
+  uses(Modelica(version="3.2.3")),
   Icon(graphics),
   version="2.1.0",
   versionDate="2019-02-28",
