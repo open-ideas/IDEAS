@@ -162,7 +162,7 @@ protected
   Real C_bot "Heat capacity rate of bottom stream";
   Real C_min = min(C_top,C_bot);
   Real C_max = max(C_top,C_bot);
-  Real C_star = C_min*IDEAS.Utilities.Math.Functions.inverseXRegularized(C_max,1);
+  Real C_star = min(C_min*IDEAS.Utilities.Math.Functions.inverseXRegularized(C_max,1),0.9999999); //avoids division by zero
   Real NTU=(if adiabaticOn then UA_adia_on else UA_adia_off) /max(1,C_min);
   Real eps_NTU_half = 1-exp((exp(-C_star*(NTU/2)^0.78)-1)*IDEAS.Utilities.Math.Functions.inverseXRegularized(C_star*(NTU/2)^(-0.22),0.01));
   Real eps_NTU = (((1-eps_NTU_half*C_star)/max(0.01,1-eps_NTU_half))^2-1)/(((1-eps_NTU_half*C_star)/max(0.01,1-eps_NTU_half))^2-C_star);
@@ -453,6 +453,11 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 1, 2019, by Filip Jorissen:<br/>
+Revised computation of <code>C_star</code>
+to avoid division by zero for balanced flow.
+</li>
 <li>
 May 15, 2018, by Filip Jorissen:<br/>
 Changes for setting unique initial conditions.
