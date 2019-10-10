@@ -17,5 +17,6 @@ docker run \
 	  ${DOCKER_USERNAME}/private:unittests /bin/bash -c \
 	  "Xvfb :77  -extension RANDR -extension GLX & \
 	  export DISPLAY=:77.0 && \
+          ls -la /mnt/shared && ls -la /mnt/shared/IDEAS
 	  cd /mnt/shared/${bas_nam} && \
 	  dymola ${arg_lis}"
