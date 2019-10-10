@@ -12,43 +12,37 @@ model RadiationConvertor
   final parameter Modelica.SIunits.Angle vertical=IDEAS.Types.Tilt.Wall;
   final parameter Modelica.SIunits.Angle horizontal = Modelica.SIunits.Conversions.from_deg(0);
   parameter Real lon "Longitude";
-  Modelica.Blocks.Interfaces.RealInput cloTim "One-based day number in seconds"
+  Modelica.Blocks.Interfaces.RealInput decAng "Declination angle"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}}),
         iconTransformation(extent={{-140,-60},{-100,-20}})));
-  Modelica.Blocks.Interfaces.RealInput H_east
+  Modelica.Blocks.Interfaces.RealInput HEast
     "Total radiation on a plane facing east"
     annotation (Placement(transformation(extent={{-140,70},{-100,110}}),
         iconTransformation(extent={{-140,70},{-100,110}})));
-  Modelica.Blocks.Interfaces.RealInput H_south
+  Modelica.Blocks.Interfaces.RealInput HSouth
     "Total radiation on a plane facing south"
     annotation (Placement(transformation(extent={{-140,30},{-100,70}}),
         iconTransformation(extent={{-140,30},{-100,70}})));
-  Modelica.Blocks.Interfaces.RealInput H_west
+  Modelica.Blocks.Interfaces.RealInput HWest
     "Total radiation on a plane facing east"
     annotation (Placement(transformation(extent={{-140,-10},{-100,30}}),
         iconTransformation(extent={{-140,-10},{-100,30}})));
   IDEAS.Utilities.Math.Min Hmin(nin=3, u(each start=0))
     "Minimum radiation on surfaces: everything except direct solar radiation"
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
-  IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.Declination decAng
-    "Declination angle"
-    annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
-  IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.SolarHourAngle solHouAng
-    "Solar hour angle"
-    annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
-  Modelica.Blocks.Interfaces.RealOutput solDirHor
-    "Radiation on horizontal surface"
-    annotation (Placement(transformation(extent={{100,50},{120,70}}),
-        iconTransformation(extent={{100,50},{120,70}})));
-  Modelica.Blocks.Interfaces.RealOutput solDirPer
-    "Direct radiation normal to zenith"
-    annotation (Placement(transformation(extent={{100,30},{120,50}}),
-        iconTransformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.RealOutput solDifHor
-    "Diffuse radiation on a horizontal surface"
-    annotation (Placement(transformation(extent={{100,70},{120,90}}),
-        iconTransformation(extent={{100,70},{120,90}})));
-  Modelica.Blocks.Interfaces.RealInput solTim "Solar time"
+  Modelica.Blocks.Interfaces.RealOutput HDirHor
+    "Radiation on horizontal surface" annotation (Placement(transformation(
+          extent={{100,50},{120,70}}), iconTransformation(extent={{100,50},{120,
+            70}})));
+  Modelica.Blocks.Interfaces.RealOutput HDirNor
+    "Direct radiation normal to zenith" annotation (Placement(transformation(
+          extent={{100,30},{120,50}}), iconTransformation(extent={{100,30},{120,
+            50}})));
+  Modelica.Blocks.Interfaces.RealOutput HDifHor
+    "Diffuse radiation on a horizontal surface" annotation (Placement(
+        transformation(extent={{100,70},{120,90}}), iconTransformation(extent={{
+            100,70},{120,90}})));
+  Modelica.Blocks.Interfaces.RealInput solHouAng "Solar hour angle"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}}),
         iconTransformation(extent={{-140,-100},{-100,-60}})));
   Modelica.Blocks.Interfaces.RealOutput solZen "Solar zenith angle"
@@ -79,23 +73,23 @@ protected
     azi=south,
     final til=horizontal) "Incidence angle on horizontal surface"
     annotation (Placement(transformation(extent={{0,-4},{20,-24}})));
-  Modelica.Blocks.Sources.RealExpression HDirSouthGuess(y=(H_south -
+  Modelica.Blocks.Sources.RealExpression HDirSouthGuess(y=(HSouth -
         solDifHorGuess.y/2 - rhoGain[2].y/2)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incSouth.incAng),
         0.01)) "Solar radiation measured from south faced surface"
     annotation (Placement(transformation(extent={{-100,0},{-20,22}})));
-  Modelica.Blocks.Sources.RealExpression HDirEastGuess(y=(H_east -
+  Modelica.Blocks.Sources.RealExpression HDirEastGuess(y=(HEast -
         solDifHorGuess.y/2 - rhoGain[1].y/2)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incEast.incAng),
         0.01)) "Solar radiation measured from east faced surface"
     annotation (Placement(transformation(extent={{-100,18},{-20,40}})));
-  Modelica.Blocks.Sources.RealExpression HDirWestGuess(y=(H_west -
+  Modelica.Blocks.Sources.RealExpression HDirWestGuess(y=(HWest -
         solDifHorGuess.y/2 - rhoGain[3].y/2)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incWest.incAng),
         0.01)) "Solar radiation measured from west faced surface"
     annotation (Placement(transformation(extent={{-100,-14},{-20,6}})));
   Modelica.Blocks.Sources.RealExpression HDirHorVal(y=cos(incHor.incAng)*
-        solDirPer)      "Solar radiation on a horizontal surface"
+        HDirNor) "Solar radiation on a horizontal surface"
     annotation (Placement(transformation(extent={{40,50},{80,70}})));
   Modelica.Blocks.Sources.RealExpression HDirMaxGuess(y=
         if zenAng.zen > Modelica.Constants.pi/2 then 0 else
@@ -115,7 +109,7 @@ protected
   Modelica.Blocks.Math.Add add[3](each k2=-0.5)
     "Remove ground reflecting light"
     annotation (Placement(transformation(extent={{-90,70},{-70,90}})));
-  Modelica.Blocks.Math.Gain rhoGain[3](k=rhos) "Ground reflectance factors"
+  Modelica.Blocks.Math.Gain rhoGain[3](k=rho) "Ground reflectance factors"
     annotation (Placement(transformation(extent={{-60,66},{-80,46}})));
   Modelica.Blocks.Sources.RealExpression HGloHorGuess(y=cos(incHor.incAng)*
         HDirMaxGuess.y + solDifHorGuess.y)
@@ -133,15 +127,15 @@ protected
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
   Modelica.Blocks.Routing.RealPassThrough solDifHorGuess
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  Modelica.Blocks.Sources.RealExpression HDirWest(y=(H_west - HDifTot[3].y)*
+  Modelica.Blocks.Sources.RealExpression HDirWest(y=(HWest - HDifTot[3].y)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incWest.incAng),
         0.01)) "Solar radiation measured from west faced surface"
     annotation (Placement(transformation(extent={{40,-14},{80,6}})));
-  Modelica.Blocks.Sources.RealExpression HDirSouth(y=(H_south - HDifTot[2].y)*
+  Modelica.Blocks.Sources.RealExpression HDirSouth(y=(HSouth - HDifTot[2].y)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incSouth.incAng),
         0.01)) "Solar radiation measured from south faced surface"
     annotation (Placement(transformation(extent={{40,0},{80,20}})));
-  Modelica.Blocks.Sources.RealExpression HDirEast(y=(H_east - HDifTot[1].y)*
+  Modelica.Blocks.Sources.RealExpression HDirEast(y=(HEast - HDifTot[1].y)*
         IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(incEast.incAng),
         0.01)) "Solar radiation measured from east faced surface"
     annotation (Placement(transformation(extent={{40,16},{80,36}})));
@@ -164,8 +158,8 @@ protected
           deltax=0.3))
     "Direct solar radiation measured from direction that faces sun the most"
     annotation (Placement(transformation(extent={{40,30},{80,50}})));
-  Modelica.Blocks.Sources.RealExpression HGloHor(y=solDirHor + solDifHor)
-                          "Global horizontal radiation without reflectance"
+  Modelica.Blocks.Sources.RealExpression HGloHor(y=HDirHor + HDifHor)
+    "Global horizontal radiation without reflectance"
     annotation (Placement(transformation(extent={{40,-52},{80,-32}})));
   IDEAS.Utilities.Math.Min Hmin1(      nin=3, u(each start=0))
     "Minimum radiation on surfaces: everything except direct solar radiation"
@@ -191,56 +185,48 @@ protected
   </html>"));
   end DiffusePerezPublic;
 equation
-  connect(zenAng.solHouAng, solHouAng.solHouAng) annotation (Line(
-      points={{-2,14.8},{-8,14.8},{-8,-80},{-19,-80}},
+  connect(zenAng.solHouAng, solHouAng) annotation (Line(
+      points={{-2,14.8},{-8,14.8},{-8,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(zenAng.decAng, decAng.decAng) annotation (Line(
-      points={{-2,4.6},{-10,4.6},{-10,-40},{-19,-40}},
+  connect(zenAng.decAng, decAng) annotation (Line(
+      points={{-2,4.6},{-10,4.6},{-10,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(decAng.nDay,cloTim)  annotation (Line(
-      points={{-42,-40},{-120,-40}},
+  connect(incSouth.decAng, decAng) annotation (Line(
+      points={{-2.2,-45.4},{-10,-45.4},{-10,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incSouth.decAng, decAng.decAng) annotation (Line(
-      points={{-2.2,-45.4},{-10,-45.4},{-10,-40},{-19,-40}},
+  connect(incSouth.solHouAng, solHouAng) annotation (Line(
+      points={{-2,-35.2},{-8,-35.2},{-8,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incSouth.solHouAng, solHouAng.solHouAng) annotation (Line(
-      points={{-2,-35.2},{-8,-35.2},{-8,-80},{-19,-80}},
+  connect(incWest.decAng, decAng) annotation (Line(
+      points={{-2.2,-69.4},{-10,-69.4},{-10,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incWest.decAng, decAng.decAng) annotation (Line(
-      points={{-2.2,-69.4},{-10,-69.4},{-10,-40},{-19,-40}},
+  connect(incWest.solHouAng, solHouAng) annotation (Line(
+      points={{-2,-59.2},{-8,-59.2},{-8,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incWest.solHouAng, solHouAng.solHouAng) annotation (Line(
-      points={{-2,-59.2},{-8,-59.2},{-8,-80},{-19,-80}},
+  connect(incEast.decAng, decAng) annotation (Line(
+      points={{-2.2,-95.4},{-2.2,-96},{-10,-96},{-10,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incEast.decAng, decAng.decAng) annotation (Line(
-      points={{-2.2,-95.4},{-2.2,-96},{-10,-96},{-10,-40},{-19,-40}},
+  connect(incEast.solHouAng, solHouAng) annotation (Line(
+      points={{-2,-85.2},{-8,-85.2},{-8,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incEast.solHouAng, solHouAng.solHouAng) annotation (Line(
-      points={{-2,-85.2},{-8,-85.2},{-8,-80},{-19,-80}},
+  connect(incHor.solHouAng, solHouAng) annotation (Line(
+      points={{-2,-9.2},{-8,-9.2},{-8,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incHor.solHouAng, solHouAng.solHouAng) annotation (Line(
-      points={{-2,-9.2},{-8,-9.2},{-8,-80},{-19,-80}},
+  connect(incHor.decAng, decAng) annotation (Line(
+      points={{-2.2,-19.4},{-10,-19.4},{-10,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(incHor.decAng, decAng.decAng) annotation (Line(
-      points={{-2.2,-19.4},{-10,-19.4},{-10,-40},{-19,-40}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(HDirHorVal.y, solDirHor) annotation (Line(
+  connect(HDirHorVal.y, HDirHor) annotation (Line(
       points={{82,60},{110,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solHouAng.solTim, solTim) annotation (Line(
-      points={{-42,-80},{-120,-80}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(zenAng.zen, solZen) annotation (Line(
@@ -249,11 +235,11 @@ equation
       smooth=Smooth.None));
   connect(add.y, Hmin.u)
     annotation (Line(points={{-69,80},{-62,80}},            color={0,0,127}));
-  connect(add[1].u1, H_east) annotation (Line(points={{-92,86},{-120,86},{-120,90}},
+  connect(add[1].u1, HEast) annotation (Line(points={{-92,86},{-120,86},{-120,90}},
                       color={0,0,127}));
-  connect(add[2].u1, H_south)
+  connect(add[2].u1, HSouth)
     annotation (Line(points={{-92,86},{-120,86},{-120,50}}, color={0,0,127}));
-  connect(add[3].u1, H_west)
+  connect(add[3].u1, HWest)
     annotation (Line(points={{-92,86},{-120,86},{-120,10}},color={0,0,127}));
   connect(Hmin.y, gainDif.u)
     annotation (Line(points={{-39,80},{-32,80}},      color={0,0,127}));
@@ -279,9 +265,8 @@ equation
             {126,-94},{126,-68},{92,-68},{92,-51},{98,-51}}, color={0,0,127}));
     connect(HDifTil[i].HGloHor, HGloHor.y) annotation (Line(points={{98,-42},{82,
             -42}},                           color={0,0,127}));
-    connect(HDifTil[i].HDifHor, solDifHor) annotation (Line(points={{98,-45},{94,
-            -45},{88,-45},{88,-46},{88,-44},{88,80},{110,80}},
-                                               color={0,0,127}));
+    connect(HDifTil[i].HDifHor, HDifHor) annotation (Line(points={{98,-45},{94,-45},
+            {88,-45},{88,-46},{88,-44},{88,80},{110,80}}, color={0,0,127}));
 
   end for;
   connect(HDifTot.u2, HDifTil.HGroDifTil) annotation (Line(points={{126.8,-53.6},
@@ -311,20 +296,20 @@ equation
         points={{58.8,-92},{62,-92},{62,-87.8},{64.6,-87.8}}, color={0,0,127}));
   connect(skyBrightness.HDifHor, skyClearness.HDifHor) annotation (Line(points={{64.6,
           -82.2},{34,-82.2},{34,-70},{40.4,-70}},             color={0,0,127}));
-  connect(subGro[1].u1, H_east) annotation (Line(
+  connect(subGro[1].u1, HEast) annotation (Line(
       points={{118,16},{118,66},{-6,66},{-6,90},{-120,90}},
       color={0,0,127},
       visible=false));
-  connect(subGro[2].u1, H_south) annotation (Line(
+  connect(subGro[2].u1, HSouth) annotation (Line(
       points={{118,16},{-120,16},{-120,50}},
       color={0,0,127},
       visible=false));
-  connect(subGro[3].u1, H_west) annotation (Line(
+  connect(subGro[3].u1, HWest) annotation (Line(
       points={{118,16},{-120,16},{-120,10}},
       color={0,0,127},
       visible=false));
-  connect(HDirMax.y, solDirPer) annotation (Line(points={{82,40},{110,40}},
-                    color={0,0,127}));
+  connect(HDirMax.y, HDirNor)
+    annotation (Line(points={{82,40},{110,40}}, color={0,0,127}));
   connect(incWest.incAng, HDifTil[3].incAng) annotation (Line(points={{21,-64},{
           26,-64},{26,-57},{98,-57}}, color={0,0,127}));
   connect(incSouth.incAng, HDifTil[2].incAng) annotation (Line(points={{21,-40},
@@ -333,9 +318,8 @@ equation
           -54},{124,-34},{114,-34},{114,4},{118,4}}, color={0,0,127}));
   connect(Hmin1.u, invPerez.y)
     annotation (Line(points={{90.6,-19},{82,-19}},  color={0,0,127}));
-  connect(Hmin1.y, solDifHor) annotation (Line(points={{106.7,-19},{108,-19},{
-          108,-18},{110,-18},{110,80},{110,80}},
-                              color={0,0,127}));
+  connect(Hmin1.y, HDifHor) annotation (Line(points={{106.7,-19},{108,-19},{108,
+          -18},{110,-18},{110,80},{110,80}}, color={0,0,127}));
   connect(relativeAirMass.zen, skyClearness.zen) annotation (Line(points={{40.4,
           -92},{30,-92},{30,-65.2},{40.4,-65.2}}, color={0,0,127}));
   connect(skyBriCoe.skyBri, skyBrightness.skyBri) annotation (Line(points={{98,-90},

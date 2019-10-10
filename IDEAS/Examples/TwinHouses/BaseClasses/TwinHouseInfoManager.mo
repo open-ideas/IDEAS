@@ -31,9 +31,9 @@ model TwinHouseInfoManager
     columns= (if exp== 1 then 37:42 else {55,56,58,59,60,61}))
     "input for solGloHor and solDifHor measured at TTH"
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
-  RadiationConvertor radCon(final lat=lat, final lon=lon,
+  IDEAS.BoundaryConditions.SolarIrradiation.RadiationConvertor radCon(final lat=lat, final lon=lon,
     rho={radSol[1].rho,radSol[1].rho,radSol[1].rho})
-    annotation (Placement(transformation(extent={{-30,-82},{-10,-62}})));
+    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 protected
   final parameter String filNam2 = (if exp == 1  then "WeatherTwinHouseExp1.txt" else "WeatherTwinHouseExp2.txt")
     annotation(Evaluate=true);
@@ -44,16 +44,18 @@ equation
   connect(weaDat.HDirNor_in, radCon.HDirNor);
   connect(weaDat.HDifHor_in, radCon.HDifHor);
 
-  connect(inputSolTTH.y[4], radCon.HEast) annotation (Line(points={{-79,-30},{-36,
-          -30},{-36,-64},{-30.4,-64}}, color={0,0,127}));
+  connect(inputSolTTH.y[4], radCon.HEast) annotation (Line(points={{-79,-30},{
+          -36,-30},{-36,-61},{-22,-61}},
+                                       color={0,0,127}));
   connect(inputSolTTH.y[5], radCon.HSouth) annotation (Line(points={{-79,-30},{
-          -38,-30},{-38,-68},{-30.4,-68}}, color={0,0,127}));
-  connect(inputSolTTH.y[6], radCon.HWest) annotation (Line(points={{-79,-30},{-40,
-          -30},{-40,-72},{-30.4,-72}}, color={0,0,127}));
-  connect(radCon.decAng, solDec.y) annotation (Line(points={{-30.4,-76},{-42,
-          -76},{-42,56},{-77.6,56}}, color={0,0,127}));
-  connect(radCon.solHouAng, solHouAng.y) annotation (Line(points={{-30.4,-78.6},
-          {-44,-78.6},{-44,70},{-77.6,70}}, color={0,0,127}));
+          -38,-30},{-38,-65},{-22,-65}},   color={0,0,127}));
+  connect(inputSolTTH.y[6], radCon.HWest) annotation (Line(points={{-79,-30},{
+          -40,-30},{-40,-69},{-22,-69}},
+                                       color={0,0,127}));
+  connect(radCon.decAng, solDec.y) annotation (Line(points={{-22,-74},{-42,-74},
+          {-42,56},{-77.6,56}}, color={0,0,127}));
+  connect(radCon.solHouAng, solHouAng.y) annotation (Line(points={{-22,-78},{
+          -44,-78},{-44,70},{-77.6,70}},    color={0,0,127}));
   annotation (
       defaultComponentName="sim",
     defaultComponentPrefixes="inner",
@@ -61,6 +63,10 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 10, 2019, by Filip Jorissen:<br/>
+Revised implementation by using new <code>RadiationConverter</code>.
+</li>
 <li>
 January 17, 2017, by Filip Jorissen:<br/>
 First implementation.
