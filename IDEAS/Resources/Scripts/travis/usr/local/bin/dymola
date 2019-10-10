@@ -12,7 +12,6 @@ docker run \
 	  --mac-address=${MAC_ADDRESS} \
 	  --detach=false \
 	  --rm \
-	  --user=developer \
 	  -v ${sha_dir}:/mnt/shared \
 	  ${DOCKER_USERNAME}/private:unittests /bin/bash -c \
 	  "Xvfb :77  -extension RANDR -extension GLX & \
