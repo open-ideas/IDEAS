@@ -9,7 +9,7 @@ sha_dir=`dirname ${cur_dir}`
 echo ${sha_dir}
 echo ${UID}
 ls -la
-chmod a+rwx ${bas_nam}
+chmod a+rwx ../${bas_nam}
 arg_lis=`echo $@ | sed -e "s|${cur_dir}|.|g"`
 docker run \
           --user=${UID} \
@@ -21,6 +21,6 @@ docker run \
 	  ${DOCKER_USERNAME}/private:unittests /bin/bash -c \
 	  "Xvfb :77  -extension RANDR -extension GLX & \
 	  export DISPLAY=:77.0 && \
-          ls -la /mnt/shared && ls -la /mnt/shared/IDEAS && echo ${UID} \
+          ls -la /mnt/shared ; ls -la /mnt/shared/IDEAS ; echo ${UID} \
 	  cd /mnt/shared/${bas_nam} && \
 	  dymola ${arg_lis}"
