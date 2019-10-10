@@ -6,10 +6,6 @@ bas_nam=`basename ${cur_dir}`
 sha_dir=`dirname ${cur_dir}`
 # If the current directory is part of the argument list,
 # replace it with . as the docker may have a different file structure
-echo ${sha_dir}
-echo ${UID}
-ls -la
-chmod a+rwx ../${bas_nam}
 arg_lis=`echo $@ | sed -e "s|${cur_dir}|.|g"`
 docker run \
           --user=${UID} \
