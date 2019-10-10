@@ -15,7 +15,7 @@ docker run \
 	  --detach=false \
 	  --rm \
 	  --user=developer \
-	  -v ${sha_dir}:/mnt/shared \
+	  -v ${sha_dir}:/mnt/shared:Z \
 	  ${DOCKER_USERNAME}/private:unittests /bin/bash -c \
 	  "Xvfb :77  -extension RANDR -extension GLX & \
 	  export DISPLAY=:77.0 && \
