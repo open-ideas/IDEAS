@@ -7,6 +7,7 @@ sha_dir=`dirname ${cur_dir}`
 # If the current directory is part of the argument list,
 # replace it with . as the docker may have a different file structure
 echo ${sha_dir}
+echo ${UID}
 ls -la
 chmod a+rwx ${bas_nam}
 arg_lis=`echo $@ | sed -e "s|${cur_dir}|.|g"`
@@ -20,6 +21,6 @@ docker run \
 	  ${DOCKER_USERNAME}/private:unittests /bin/bash -c \
 	  "Xvfb :77  -extension RANDR -extension GLX & \
 	  export DISPLAY=:77.0 && \
-          ls -la /mnt/shared && ls -la /mnt/shared/IDEAS
+          ls -la /mnt/shared && ls -la /mnt/shared/IDEAS && echo ${UID} \
 	  cd /mnt/shared/${bas_nam} && \
 	  dymola ${arg_lis}"
