@@ -470,6 +470,10 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+October 9, 2019 by Josué Borrajo Bastero:<br/>
+Added button to select the weather file graphically.
+</li>
+<li>
 January 25, 2019 by Filip Jorissen:<br/>
 Corrected molar mass fraction for consistency.
 See <a href=https://github.com/open-ideas/IDEAS/issues/1004>#1004</a>.

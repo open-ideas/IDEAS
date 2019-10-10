@@ -103,7 +103,6 @@ IDEAS uses TMY3 input files. For detailed documentation see
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 </html>", revisions="<html>
 <ul>
-<li>October 9, 2019 by Josué Borrajo Bastero:<br>Added button to select the weather file graphically.</li>
 <li>
 January 21, 2019 by Filip Jorissen:<br/>
 Improved documentation by adding weather data reader
