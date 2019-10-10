@@ -11,6 +11,7 @@ ls -la
 chmod a+rwx ${bas_nam}
 arg_lis=`echo $@ | sed -e "s|${cur_dir}|.|g"`
 docker run \
+          --user=${UID} \
 	  --mac-address=${MAC_ADDRESS} \
 	  --detach=false \
 	  --rm \
