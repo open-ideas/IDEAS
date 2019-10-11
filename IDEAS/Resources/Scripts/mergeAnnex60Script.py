@@ -20,4 +20,4 @@ else:
 
 mer = m.IBPSA(annex60_dir, dest_dir) 
 mer.set_excluded_packages(["Experimental", "Obsolete"])
-mer.merge(force_reffile_merge=True)
+mer.merge(overwrite_reference_results=True)

@@ -22,7 +22,8 @@ model Window "Multipane window"
       mats=glazing.mats,
       energyDynamics=if windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Normal then energyDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
       dT_nom_air=5,
-      linIntCon=true));
+      linIntCon=true,
+      checkCoatings=glazing.checkLowPerformanceGlazing));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -358,6 +359,11 @@ can be used to simulate 10 windows by scaling the model of a single window.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 9, 2019, by Filip Jorissen:<br/>
+Added <code>checkCoatings</code> for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 Add scaling to propsBus_a to allow simulation of n windows instead of 1

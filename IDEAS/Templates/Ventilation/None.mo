@@ -3,10 +3,11 @@ model None "No ventilation"
   extends IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(
                                                          nLoads=0);
 
-  Fluid.Sources.FixedBoundary sink[nZones](
-                         each final nPorts=1, redeclare each package Medium = Medium)
+  IDEAS.Fluid.Sources.Boundary_pT[nZones] sink(
+    each final nPorts=1,
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-160,10},{-180,30}})));
-  Fluid.Sources.MassFlowSource_T sou[nZones](
+  IDEAS.Fluid.Sources.MassFlowSource_T[nZones] sou(
     each use_m_flow_in=true,
     each final nPorts=1,
     redeclare each package Medium = Medium,
@@ -26,7 +27,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(sou.m_flow_in,m_flow_val. y) annotation (Line(
-      points={{-160,-12},{-146,-12},{-146,6},{-141,6}},
+      points={{-158,-12},{-146,-12},{-146,6},{-141,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TSet_val.y,sou. T_in) annotation (Line(

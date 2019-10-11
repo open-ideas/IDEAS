@@ -121,10 +121,10 @@ dimensions in order to derive information about the fluid propagation.
 <p>
 The component calculates the delay time at both in/outlet ports of the pipe
 and therefore has two outlets. During forward flow, only the forward
-<a href=\"modelica://IDEAS.Fluid.PlugFlowPipes.BaseClasses.HeatLossPipeDelay\">
-IDEAS.Fluid.PlugFlowPipes.BaseClasses.HeatLossPipeDelay</a> component in
-<a href=\"modelica://IDEAS.Fluid.PlugFlowPipes.BaseClasses.PipeCore\">
-IDEAS.Fluid.PlugFlowPipes.BaseClasses.PipeCore</a>
+<a href=\"modelica://IDEAS.Fluid.FixedResistances.BaseClasses.PlugFlowTransportDelay\">
+IDEAS.Fluid.FixedResistances.BaseClasses.PlugFlowTransportDelay</a> component in
+<a href=\"modelica://IDEAS.Fluid.FixedResistances.BaseClasses.PlugFlowCore\">
+IDEAS.Fluid.FixedResistances.BaseClasses.PlugFlowCore</a>
 will be active and uses the forward output of PlugFlowTransportDelay.
 During reverse, the opposite is true and only the reverse output is used.
 </p>

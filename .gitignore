@@ -9,9 +9,7 @@
 *.dll
 *.lib
 *.fmu
-*.c
 *.xml
-*.h
 *.txt
 *.mat
 *.exe

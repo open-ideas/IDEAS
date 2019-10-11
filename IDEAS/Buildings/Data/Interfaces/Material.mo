@@ -4,8 +4,8 @@ record Material "Template record for properties of building materials"
   extends IDEAS.Buildings.Data.Interfaces.BasicMaterial;
 
   parameter Modelica.SIunits.Length d=0 "Layer thickness";
-  parameter Modelica.SIunits.Emissivity epsLw = 0.85 "Longwave emisivity";
-  parameter Modelica.SIunits.Emissivity epsSw = 0.85 "Shortwave emissivity";
+  parameter Modelica.SIunits.Emissivity epsLw=0.85 "Longwave emisivity";
+  parameter Modelica.SIunits.Emissivity epsSw=0.85 "Shortwave emissivity";
   parameter Boolean gas=false "Boolean whether the material is a gas"
     annotation(Evaluate=true);
   parameter Boolean glass=false "Boolean whether the material is made of glass"

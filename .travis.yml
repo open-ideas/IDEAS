@@ -27,6 +27,7 @@ env:
   - TEST_ARG="make test-dymola    PACKAGE=\"IDEAS.{Airflow,BoundaryConditions,Controls}\""
   - TEST_ARG="make test-dymola    PACKAGE=\"IDEAS.{Media,Utilities,Templates}\""
   - TEST_ARG="make test-dymola    PACKAGE=\"IDEAS.Examples.{PPD12,IBPSA}\""   
+  - TEST_ARG="make test-dymola    PACKAGE=\"IDEAS.Examples.Tutorial\""   
   - TEST_ARG="make test-dymola    PACKAGE=\"IDEAS.Examples.TwinHouses\""   
 
 before_install:
@@ -47,3 +48,6 @@ install:
 # Execute tests
 script:
   - (cd IDEAS/Resources/Scripts/travis && travis_wait 70 $TEST_ARG)
+
+after_script:
+  - cat IDEAS/failed-simulator-dymola.log

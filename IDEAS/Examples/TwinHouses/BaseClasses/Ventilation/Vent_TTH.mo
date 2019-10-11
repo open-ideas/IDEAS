@@ -25,7 +25,7 @@ model Vent_TTH
     each final nPorts=1,
     each use_T_in=true)
     annotation (Placement(transformation(extent={{-80,-56},{-100,-36}})));
-  Fluid.FixedResistances.Junction                         spl(
+  IDEAS.Fluid.FixedResistances.Junction                         spl(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     tau=300,
     from_dp=false,
@@ -38,9 +38,9 @@ model Vent_TTH
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     annotation (Placement(transformation(extent={{-144,12},{-124,32}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou[5](each final nPorts=1,  redeclare
-      package Medium =
-        Medium)
+  IDEAS.Fluid.Sources.Boundary_pT bou[5](
+    each final nPorts=1,
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-120,48},{-142,66}})));
   Modelica.Blocks.Math.Gain massflowInput(k=1.205/3600)
     annotation (Placement(transformation(extent={{-44,-46},{-60,-30}})));
@@ -48,7 +48,7 @@ model Vent_TTH
     annotation (Placement(transformation(extent={{-38,-76},{-54,-60}})));
   IDEAS.Fluid.Sources.MassFlowSource_T source1[3](
     redeclare package Medium = Medium,
-     each final nPorts=1,
+    each final nPorts=1,
     each m_flow=0)
     annotation (Placement(transformation(extent={{-120,-92},{-140,-72}})));
 equation

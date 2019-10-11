@@ -26,7 +26,7 @@ model ConstantAirFlowRecup
     min=0,
     max=1) = 0.80 "Motor efficiency";
 
-  Fluid.HeatExchangers.ConstantEffectiveness hex(
+  IDEAS.Fluid.HeatExchangers.ConstantEffectiveness hex(
     m1_flow_nominal=m_flow_nominal,
     m2_flow_nominal=m_flow_nominal,
     dp1_nominal=0,
@@ -35,15 +35,16 @@ model ConstantAirFlowRecup
     redeclare package Medium2 = Medium,
     eps=recupEff) "Heat exchanger for the recuperator"
     annotation (Placement(transformation(extent={{-140,4},{-120,24}})));
-  Fluid.Sources.FixedBoundary sink(final nPorts=1, redeclare package Medium =
-               Medium)
+  IDEAS.Fluid.Sources.Boundary_pT sink(
+    final nPorts=1,
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-80,10},{-100,30}})));
-  Fluid.Sources.Boundary_pT sou(
+  IDEAS.Fluid.Sources.Boundary_pT sou(
     final nPorts=1,
     redeclare package Medium = Medium,
     use_T_in=true) "Ambient air"
     annotation (Placement(transformation(extent={{-80,-30},{-100,-10}})));
-  Fluid.Movers.FlowControlled_m_flow fan[nZones](
+  IDEAS.Fluid.Movers.FlowControlled_m_flow fan[nZones](
     m_flow_nominal=n ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,

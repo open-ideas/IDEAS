@@ -2,20 +2,14 @@ within IDEAS.Buildings.Validation.BaseClasses.VentilationSystem;
 model NightVentilation "BESTEST nightventilation system"
   extends IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(final nLoads=1);
 
-protected
-  IDEAS.BoundaryConditions.Occupants.Components.Schedule occ(occupancy=3600*{7,18},
-      firstEntryOccupied=true) "Occupancy shedule";
-  final parameter Real mSenFac=0.822
-    "Air density correction for BESTEST at high altitude";
-
-public
-  Fluid.Sources.MassFlowSource_T boundary(redeclare package Medium =
-        IDEAS.Media.Air,
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary(
+    redeclare package Medium = IDEAS.Media.Air,
     use_m_flow_in=true, final nPorts=nZones,
     use_T_in=true)
     annotation (Placement(transformation(extent={{-68,10},{-88,30}})));
-  Fluid.Sources.FixedBoundary bou(redeclare package Medium =
-        IDEAS.Media.Air, final nPorts=nZones)
+  IDEAS.Fluid.Sources.Boundary_pT bou(
+    redeclare package Medium = IDEAS.Media.Air,
+    final nPorts=nZones)
     annotation (Placement(transformation(extent={{-68,-30},{-88,-10}})));
   Modelica.Blocks.Sources.RealExpression m_flow_in(y=if ventilate then m_flow else 0)
     annotation (Placement(transformation(extent={{-12,38},{-32,58}})));
@@ -31,6 +25,12 @@ protected
 
   Boolean ventilate = not occ.occupied;
 
+  IDEAS.BoundaryConditions.Occupants.Components.Schedule occ(occupancy=3600*{7,18},
+      firstEntryOccupied=true) "Occupancy shedule";
+  final parameter Real mSenFac=0.822
+    "Air density correction for BESTEST at high altitude";
+
+
 equation
   for i in 1:nZones loop
     connect(port_b[i], boundary.ports[i]);
@@ -42,7 +42,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(boundary.m_flow_in, m_flow_in.y) annotation (Line(
-      points={{-68,28},{-50,28},{-50,48},{-33,48}},
+      points={{-66,28},{-50,28},{-50,48},{-33,48}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
