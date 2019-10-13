@@ -117,7 +117,7 @@ annotation(Dialog(tab="Flow resistance"));
     homotopyInitialization=homotopyInitialization,
     linearized=linearized,
     dp(nominal=L_r*10),
-    computeFlowResistance=computeFlowResistance,
+    computeFlowResistance=abs(dp_nominal)> 1e-5 and computeFlowResistance,
     final nParCir=nParCir,
     final dh=pipeDiaInt,
     final ReC=reyHi)
@@ -356,8 +356,13 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 </html>", revisions="<html>
 <ul>
 <li>
+October 13, 2019 by Filip Jorissen:<br/>
+Bugfix for division by zero when <code>dp_nominal=0</code>,
+See <a href=https://github.com/open-ideas/IDEAS/issues/1031>#1031</a>.
+</li>
+<li>
 August 14, 2019 by Iago Cupeiro:<br/>
-Added output that computes the total TABS heat flow of the <code>EmbeddedPipe</code>,
+Added output that computes the total TABS heat flow of the <code>EmbeddedPipe</code>.
 </li>
 <li>
 April 16, 2019 by Filip Jorissen:<br/>
