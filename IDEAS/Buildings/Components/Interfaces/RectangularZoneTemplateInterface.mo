@@ -66,8 +66,12 @@ partial model RectangularZoneTemplateInterface
     annotation(Dialog(tab="Internal wall"));
   parameter Integer nSurfExt = 0
     "Number of additional connected external surfaces";
-  parameter Modelica.SIunits.Angle aziA
-    "Azimuth angle of face A";
+  parameter Integer aziOpt = 5
+    "Azimuth angle option from simInfoManager, or custom using aziA"
+    annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
+  parameter Modelica.SIunits.Angle aziA=sim.aziOpts[aziOpt]
+    "Azimuth angle of face A"
+    annotation(Dialog(enable=aziOpt==5));
   parameter Modelica.SIunits.Length l
     "Horizontal length of faces A and C. This parameter can be overwritten per surface";
   parameter Modelica.SIunits.Length w
@@ -449,11 +453,11 @@ partial model RectangularZoneTemplateInterface
             enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
                     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
                     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  final parameter Modelica.SIunits.Angle aziB = aziA + Modelica.Constants.pi/2
+  final parameter Modelica.SIunits.Angle aziB = aziAInt + Modelica.Constants.pi/2
     "Azimuth angle of face B";
-  final parameter Modelica.SIunits.Angle aziC = aziA + Modelica.Constants.pi
+  final parameter Modelica.SIunits.Angle aziC = aziAInt + Modelica.Constants.pi
     "Azimuth angle of face C";
-  final parameter Modelica.SIunits.Angle aziD = aziA + 3*Modelica.Constants.pi/2
+  final parameter Modelica.SIunits.Angle aziD = aziAInt + 3*Modelica.Constants.pi/2
     "Azimuth angle of face D";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
@@ -470,9 +474,14 @@ partial model RectangularZoneTemplateInterface
 
 protected
   constant Real r = 287 "Gas constant";
-final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
+  final parameter Modelica.SIunits.Angle aziAInt=
+     if aziOpt==5
+     then aziA
+     else sim.aziOpts[aziOpt]
+     "Internal azimuth angle";
+  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
     annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
-  IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
+  IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
       incLastLay=conTypA.incLastLay,
@@ -523,7 +532,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
        hasBouD
     "Boundary wall for face D of this zone"
     annotation (Placement(transformation(extent={{-120,-60},{-110,-40}})));
-  IDEAS.Buildings.Components.BoundaryWall bouFlo(inc=IDEAS.Types.Tilt.Floor, azi=aziA,
+  IDEAS.Buildings.Components.BoundaryWall bouFlo(inc=IDEAS.Types.Tilt.Floor, azi=aziAInt,
     A=A,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypFlo.locGain,
@@ -535,7 +544,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
        hasBouFlo
     "Boundary wall for zone floor"
     annotation (Placement(transformation(extent={{-120,-80},{-110,-60}})));
-  IDEAS.Buildings.Components.BoundaryWall bouCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziA,
+  IDEAS.Buildings.Components.BoundaryWall bouCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziAInt,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypCei.locGain,
       incLastLay=conTypCei.incLastLay,
@@ -547,7 +556,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
        hasBouCei
     "Boundary wall for zone ceiling"
     annotation (Placement(transformation(extent={{-120,-100},{-110,-80}})));
-  IDEAS.Buildings.Components.OuterWall outA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
+  IDEAS.Buildings.Components.OuterWall outA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
       incLastLay=conTypA.incLastLay,
@@ -624,7 +633,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
     annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
   IDEAS.Buildings.Components.OuterWall outCei(
     inc=IDEAS.Types.Tilt.Ceiling,
-    azi=aziA,
+    azi=aziAInt,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypCei.locGain,
       incLastLay=conTypCei.incLastLay,
@@ -640,7 +649,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
     annotation (Placement(transformation(extent={{-140,-100},{-130,-80}})));
   IDEAS.Buildings.Components.SlabOnGround slaOnGro(
     inc=IDEAS.Types.Tilt.Floor,
-    azi=aziA,
+    azi=aziAInt,
     A=A,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypFlo.locGain,
@@ -657,7 +666,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
      bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
     "Slab on ground model for zone floor."
     annotation (Placement(transformation(extent={{-160,-80},{-150,-60}})));
-  IDEAS.Buildings.Components.InternalWall intA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
+  IDEAS.Buildings.Components.InternalWall intA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
       mats=conTypA.mats,
@@ -754,7 +763,7 @@ final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CC
     annotation (Placement(transformation(extent={{-176,-60},{-164,-40}})));
   IDEAS.Buildings.Components.InternalWall intFlo(
     inc=IDEAS.Types.Tilt.Floor,
-    azi=aziA,
+    azi=aziAInt,
     A=A,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypFlo.locGain,
@@ -1405,6 +1414,13 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 April 10, 2019, by Filip Jorissen:<br/>
 Removed obsolete redeclaration.

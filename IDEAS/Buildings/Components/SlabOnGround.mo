@@ -48,7 +48,7 @@ protected
   Real m = sim.solTim.y/3.1536e7*12 "time in months";
 
   BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
-    final inc=inc,
+    final inc=incInt,
     final nLay=3,
     final mats={ground1,ground2,ground3},
     final T_start={TeAvg,TeAvg,TeAvg},
@@ -142,6 +142,13 @@ zone that is surrounded by air at the ambient temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 January 25, 2019, by Filip Jorissen:<br/>
 Revised initial equation implementation.
