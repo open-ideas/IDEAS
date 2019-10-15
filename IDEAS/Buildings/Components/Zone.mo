@@ -21,7 +21,10 @@ equation
 
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics),
+         graphics={Text(
+          extent={{-64,68},{-28,18}},
+          lineColor={255,215,136},
+          textString="%nSurf")}),
     Documentation(info="<html>
 <p>
 This model is the main zone model. 
@@ -112,6 +115,11 @@ IDEAS.Buildings.Components.LightingControl</a> for the available options.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019 by Filip Jorissen:<br/>
+Added number of surfaces in the zone icon.
+for <a href=\"https://github.com/open-ideas/IDEAS/issues/1068\">#1068</a>.
+</li>
 <li>
 March 28, 2019 by Filip Jorissen:<br/>
 Revised documentation
