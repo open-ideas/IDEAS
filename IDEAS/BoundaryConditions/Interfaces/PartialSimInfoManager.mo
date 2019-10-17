@@ -14,9 +14,26 @@ partial model PartialSimInfoManager
     "Time zone for which the simulation time t=0 corresponds to midnight, january 1st";
 
 
-  parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S},
-                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E}, {IDEAS.Types.Tilt.Floor,0}}
+  parameter Modelica.SIunits.Angle incS = IDEAS.Types.Azimuth.S
+    "South inclination"
+    annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incW = incS +Modelica.Constants.pi/2
+    "West inclination"
+      annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incN = incS +Modelica.Constants.pi
+    "North inclination"
+      annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incE = incS +3*Modelica.Constants.pi/2
+    "East inclination"
+      annotation(Dialog(tab="Incidence angles"));
+
+  parameter Modelica.SIunits.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,incS},
+                         {IDEAS.Types.Tilt.Wall,incW},{IDEAS.Types.Tilt.Wall,incN},{IDEAS.Types.Tilt.Wall,incE}, {IDEAS.Types.Tilt.Floor,0}}
                         "Combination of inclination and azimuth which are pre-computed and added to solBus." annotation(Dialog(tab="Incidence angles"));
+  final parameter Modelica.SIunits.Angle aziOpts[5]={incS, incW, incN, incE, incS}
+    "Inclination options, default south";
+  final parameter Modelica.SIunits.Angle incOpts[4]={IDEAS.Types.Tilt.Wall, IDEAS.Types.Tilt.Floor, IDEAS.Types.Tilt.Ceiling, IDEAS.Types.Tilt.Wall}
+    "Azimuth options, default wall";
 
   parameter Boolean computeConservationOfEnergy=false
     "Add equations for verifying conservation of energy"

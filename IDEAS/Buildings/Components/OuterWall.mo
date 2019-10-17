@@ -30,7 +30,7 @@ model OuterWall "Opaque building envelope construction"
     final dh=dh,
     final hWin=hWal) if hasBuildingShade
   constrainedby IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
-    final azi=azi)
+    final azi=aziInt)
     "Building shade model"
     annotation (Placement(transformation(extent={{-72,-8},{-62,12}})),
       __Dymola_choicesAllMatching=true,
@@ -51,8 +51,8 @@ protected
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
-    inc=inc,
-    azi=azi,
+    inc=incInt,
+    azi=aziInt,
     lat=sim.lat,
     final outputAngles=sim.outputAngles,
     incAndAziInBus=sim.incAndAziInBus,
@@ -242,6 +242,13 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 Set nWin final to 1 as this should only be used for windows.

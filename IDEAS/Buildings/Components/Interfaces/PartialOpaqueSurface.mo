@@ -31,8 +31,8 @@ initial equation
     "In " + getInstanceName() + ": Using SteadyState energyDynamics for a wall
     is not allowed since this causes large algebraic loops, which significantly affects computation time.");
   assert(IDEAS.Utilities.Math.Functions.isAngle(constructionType.incLastLay, IDEAS.Types.Tilt.Other) or
-    constructionType.incLastLay >= inc - Modelica.Constants.pi/3 - Modelica.Constants.eps and
-    constructionType.incLastLay <= inc + Modelica.Constants.pi/3 + Modelica.Constants.eps,
+    constructionType.incLastLay >= incInt - Modelica.Constants.pi/3 - Modelica.Constants.eps and
+    constructionType.incLastLay <= incInt + Modelica.Constants.pi/3 + Modelica.Constants.eps,
     "The inclination of a wall, a floor or a ceiling does not correspond to its record.");
 
 equation
