@@ -5,10 +5,18 @@ partial model PartialSurface "Partial model for building envelope component"
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
 
-  parameter Modelica.SIunits.Angle inc
-    "Inclination (tilt) angle of the wall, see IDEAS.Types.Tilt";
-  parameter Modelica.SIunits.Angle azi
-    "Azimuth angle of the wall, i.e. see IDEAS.Types.Azimuth, set IDEAS.Types.Azimuth.S for horizontal ceilings and floors";
+  parameter Integer incOpt = 4
+    "Tilt angle option from simInfoManager, or custom using inc"
+    annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
+  parameter Modelica.SIunits.Angle inc = sim.incOpts[incOpt]
+    "Custom inclination (tilt) angle of the wall, default wall"
+    annotation(Dialog(enable=incOpt==4));
+  parameter Integer aziOpt = 5
+    "Azimuth angle option from simInfoManager, or custom using azi"
+    annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
+  parameter Modelica.SIunits.Angle azi=sim.aziOpts[aziOpt]
+    "Custom azimuth angle of the wall, default south"
+    annotation(Dialog(enable=aziOpt==5));
   parameter Modelica.SIunits.Area A
     "Component surface area";
   parameter Real nWin = 1 "Use this factor to scale the component to nWin identical components";
@@ -48,24 +56,36 @@ partial model PartialSurface "Partial model for building envelope component"
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon_a(
     linearise=linIntCon_a or sim.linearise,
     dT_nominal=dT_nominal_a,
-    final inc=inc,
+    final inc=incInt,
     A=A)
     "Convective heat transfer correlation for port_a"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MultiLayer
-    layMul(final inc=inc, energyDynamics=energyDynamics,
+    layMul(
+    energyDynamics=energyDynamics,
     linIntCon=linIntCon_a or sim.linearise,
-    A=A)
+    A=A,
+    final inc=incInt)
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
 protected
+  final parameter Modelica.SIunits.Angle aziInt=
+    if aziOpt==5
+    then azi
+    else sim.aziOpts[aziOpt]
+      "Azimuth angle";
+  final parameter Modelica.SIunits.Angle incInt=
+    if incOpt==4
+    then inc
+    else sim.incOpts[incOpt]
+      "Inclination angle";
   Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design);
 
-  Modelica.Blocks.Sources.RealExpression aziExp(y=azi)
+  Modelica.Blocks.Sources.RealExpression aziExp(y=aziInt)
     "Azimuth angle expression";
-  Modelica.Blocks.Sources.RealExpression incExp(y=inc)
+  Modelica.Blocks.Sources.RealExpression incExp(y=incInt)
     "Inclination angle expression";
   Modelica.Blocks.Sources.RealExpression E
     "Model internal energy";
@@ -145,6 +165,13 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 Add scaling to propsBus_a to allow simulation of nWin windows instead of 1

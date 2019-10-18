@@ -64,7 +64,7 @@ model ZoneExample
     azi=0,
     A=10,
     redeclare Validation.Data.Constructions.LightRoof constructionType,
-    inc=IDEAS.Types.Tilt.Ceiling) "Roof model"
+    incOpt=3)                     "Roof model"
     annotation (Placement(transformation(extent={{-56,60},{-44,80}})));
 equation
   connect(internalWall.propsBus_a, zone.propsBus[1]) annotation (Line(
