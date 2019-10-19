@@ -154,11 +154,20 @@ First implementation.
 <p>
 This model modifies the default implementation of the window to be more in line with EN673. 
 E.g. the exterior and interior total convective heat transfer coefficients are changed. 
+The resulting U-value is computed as <code>U_EN673</code> and can be compared to
+the default implementation <code>U_default</code>.
 The interior air cavity heat transfer coefficient computations are unchanged, 
-which explains the different results with the standard.</p>
-<p>
-Furthermore, this model can be used to compare the EN673 U 
-value with a dynamic value that uses less simplifications.
+which explains the different results with the standard.
 </p>
-</html>"));
+<p>
+This model can be used to verify that <code>U_EN673</code> is sufficiently close to the
+expect U value of the glazing system. When this is not the case, you likely made an implementation
+error with the coating (= long wave emissivity) implementation.
+Furthermore, this model can be used to check what the wind speed and 
+temperature-dependent U-value is. 
+</p>
+</html>"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Buildings/Components/Validations/WindowEN673.mos"
+        "Simulate and plot"));
 end WindowEN673;
