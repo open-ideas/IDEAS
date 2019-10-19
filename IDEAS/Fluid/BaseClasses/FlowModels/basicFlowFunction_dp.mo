@@ -19,9 +19,9 @@ protected
     "Square of normalised pressure difference";
 algorithm
    m_flow :=  if noEvent(abs(dp)>dp_turbulent)
-              then sign(dp)*k*sqrt(abs(dp))
+              then sign(dp)*k*sqrt(max(abs(dp),dp_turbulent))
               else (1.40625  + (0.15625*dpNormSq - 0.5625)*dpNormSq)*m_flow_turbulent*dpNorm;
-  annotation(Inline=false,
+  annotation(Inline=true,
            smoothOrder=2,
            derivative(order=1, zeroDerivative=k, zeroDerivative=m_flow_turbulent)=
              IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp_der,
