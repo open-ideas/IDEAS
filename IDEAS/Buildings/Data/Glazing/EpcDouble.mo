@@ -30,9 +30,13 @@ record EpcDouble =
     final SwTransDif=0.619,
     final SwAbsDif={0.093, 0,  0.063},
     final U_value=2.9,
-    final g_value=0.78) "EPC dubbel glas / double glazing, uncoated"
+    final g_value=0.78) "Uncoated double glazing 4/12/4 (U = 2.9)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+September 22, 2019, by Filip Jorissen:<br/>
+Revised documentation.
+</li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
 Moved epsLw definition to solid layer to be consistent 

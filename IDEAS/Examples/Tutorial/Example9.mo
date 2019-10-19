@@ -16,11 +16,6 @@ model Example9 "Adding CO2-controlled ventilation"
     dp_nominal=50,
     dpFixed_nominal=50) "Supply VAV for first zone"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
-  Fluid.Sources.Outside out(
-    nPorts=2,
-    redeclare package Medium = Medium,
-    use_C_in=true)
-    annotation (Placement(transformation(extent={{-280,-10},{-260,10}})));
   Fluid.Actuators.Dampers.PressureIndependent vavSup1(
     redeclare package Medium = Medium,
     m_flow_nominal=100*1.2/3600,
@@ -75,8 +70,9 @@ model Example9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  BoundaryConditions.WeatherData.Bus weaBus1      "Bus with weather data"
-    annotation (Placement(transformation(extent={{-310,-10},{-290,10}})));
+  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium, nPorts
+      =2) "Source model that takes properties from SimInfoManager"
+    annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
 protected
   model OccSched "Simple occupancy schedule"
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
@@ -95,10 +91,6 @@ protected
 
 
 equation
-  connect(out.weaBus, sim.weaDatBus) annotation (Line(
-      points={{-280,0.2},{-280,90},{-80.1,90}},
-      color={255,204,51},
-      thickness=0.5));
   connect(vavSup.port_b, rectangularZoneTemplate.port_a)
     annotation (Line(points={{-100,60},{2,60},{2,40}}, color={0,127,255}));
   connect(vavSup1.port_b, rectangularZoneTemplate1.port_a)
@@ -120,10 +112,6 @@ equation
           {-220,20}}, color={0,127,255}));
   connect(hex.port_a2, fanRet.port_b) annotation (Line(points={{-230,-6},{-230,-20},
           {-220,-20}}, color={0,127,255}));
-  connect(hex.port_a1, out.ports[1]) annotation (Line(points={{-250,6},{-254,6},
-          {-254,2},{-260,2}}, color={0,127,255}));
-  connect(hex.port_b2, out.ports[2]) annotation (Line(points={{-250,-6},{-254,-6},
-          {-254,-2},{-260,-2}}, color={0,127,255}));
   connect(conPID.y, vavSup.y)
     annotation (Line(points={{-61,90},{-110,90},{-110,72}}, color={0,0,127}));
   connect(vavRet.y, vavSup.y)
@@ -140,12 +128,10 @@ equation
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(out.weaBus, weaBus1) annotation (Line(
-      points={{-280,0.2},{-300,0.2},{-300,0}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(out.C_in[1], weaBus1.CEnv)
-    annotation (Line(points={{-282,-8},{-300,-8},{-300,0}}, color={0,0,127}));
+  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,-2},
+          {-250,-2},{-250,-6}}, color={0,127,255}));
+  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,2},{
+          -252,2},{-252,6},{-250,6}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-280,-100},{280,100}})),
     experiment(
@@ -159,6 +145,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+September 21, 2019 by Filip Jorissen:<br/>
+Using OutsideAir.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
+</li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.

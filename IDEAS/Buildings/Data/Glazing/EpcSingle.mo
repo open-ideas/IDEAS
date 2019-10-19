@@ -27,9 +27,13 @@ record EpcSingle =
     final SwTransDif=0.765,
     final SwAbsDif={0.085},
     final U_value=5.8,
-    final g_value=0.88) "EPC enkel glas / single glazing"
+    final g_value=0.88) "Uncoated single glazing (U = 5.8)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+September 22, 2019, by Filip Jorissen:<br/>
+Revised documentation.
+</li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
 Moved epsLw definition to solid layer to be consistent 
