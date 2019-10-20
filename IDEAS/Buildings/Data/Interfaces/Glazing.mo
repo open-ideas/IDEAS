@@ -61,6 +61,12 @@ for an example with double glazing that has 1 glazed sheet with a coating on the
 the user that he/she is probably unintentionally simulating low performance glazing. The error can be 
 disabled with the parameter <code>checkLowPerformanceGlazing</code>.
 </p> 
+<h4>Validation</h4>
+<p>
+To verify the U-value of your glazing system implementation,
+see <a href=\"modelica://IDEAS.Buildings.Components.Validations.WindowEN673\">
+IDEAS.Buildings.Components.Validations.WindowEN673</a>
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
