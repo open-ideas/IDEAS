@@ -122,8 +122,6 @@ annotation(Dialog(tab="Flow resistance"));
     final dh=pipeDiaInt,
     final ReC=reyHi)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  IDEAS.Fluid.Sensors.Temperature senTemIn(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-110,18},{-90,38}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater(
     each final alpha=0) "Heat flow rate that is extracted from the fluid"
     annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
@@ -142,6 +140,11 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.Blocks.Interfaces.RealOutput QTot
     "Total thermal power going into the heat port"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
+  Sensors.TemperatureTwoPort senTemIn(
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    tau=0) "Sensor for inlet temperature"
+           annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -212,8 +215,8 @@ equation
          points={{40,0},{100,0}},
        color={0,127,255},
        smooth=Smooth.None));
-  connect(port_a, vol[1].ports[1]) annotation (Line(
-       points={{-100,0},{-58,0}},
+  connect(senTemIn.port_b, vol[1].ports[1]) annotation (Line(
+       points={{-70,0},{-58,0}},
        color={0,127,255},
               smooth=Smooth.None));
   connect(res.port_a, vol[nDiscr].ports[2]) annotation (Line(
@@ -228,10 +231,6 @@ equation
       smooth=Smooth.None));
   end for;
 
-  connect(senTemIn.port, port_a) annotation (Line(
-      points={{-100,18},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(heatFlowWater.port, vol.heatPort) annotation (Line(
       points={{-20,40},{-20,10},{-50,10}},
       color={191,0,0},
@@ -257,6 +256,8 @@ equation
     annotation (Line(points={{-70.6,60},{18,60}}, color={0,0,127}));
   connect(sumQTabs.y, QTot)
     annotation (Line(points={{41,60},{110,60}}, color={0,0,127}));
+  connect(port_a, senTemIn.port_a)
+    annotation (Line(points={{-100,0},{-90,0}}, color={0,127,255}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -355,6 +356,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 18, 2019 by Filip Jorissen:<br/>
+Using <code>TemperatureTwoPort</code> sensor. 
+See <a href=https://github.com/open-ideas/IDEAS/issues/1081>#1081</a>.
+</li>
 <li>
 October 13, 2019 by Filip Jorissen:<br/>
 Bugfix for division by zero when <code>dp_nominal=0</code>,
