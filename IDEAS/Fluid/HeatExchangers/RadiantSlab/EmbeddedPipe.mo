@@ -185,8 +185,6 @@ protected
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
 initial equation
-   assert(m_flowMin/(A_floor/nDiscr)*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val) >= 0.5,
-     "Model is not valid for the set nominal and minimal mass flow rate, discretisation in multiple parts is required", level = AssertionLevel.warning);
   if RadSlaCha.tabs then
     assert(RadSlaCha.S_1 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer above the tubes is smaller than 0.3 * the tube interdistance. 
     The model is not valid for this case");
@@ -197,7 +195,6 @@ initial equation
     assert(RadSlaCha.d_a/2 < RadSlaCha.S_2, "In order to use the floor heating model, RadSlaCha.alp2RadSlaCha.d_a/2 < RadSlaCha.S_2 needs to be true");
     assert(RadSlaCha.S_1/RadSlaCha.T <0.3, "In order to use the floor heating model, RadSlaCha.S_1/RadSlaCha.T <0.3 needs to be true");
   end if;
-
 equation
   assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
   assert(not allowFlowReversal, "In " +getInstanceName() + ": parameter allowFlowReversal=true, but the EmbeddedPipe model does not support it.", AssertionLevel.warning);
@@ -356,6 +353,12 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 19, 2019 by Filip Jorissen:<br/>
+Removed discretization assert since we limit the heat flow rate to physically
+realistic values already using a limit on <code>G_t</code>. 
+See <a href=https://github.com/open-ideas/IDEAS/issues/863>#863</a>.
+</li>
 <li>
 October 18, 2019 by Filip Jorissen:<br/>
 Using <code>TemperatureTwoPort</code> sensor. 
