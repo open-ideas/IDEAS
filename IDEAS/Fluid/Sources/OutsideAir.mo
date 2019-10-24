@@ -44,9 +44,10 @@ equation
   C_in_internal = {if i==1 then sim.CEnv.y  else 0 for i in s};
 
   // Check medium properties
-  Modelica.Fluid.Utilities.checkBoundary(Medium.mediumName, Medium.substanceNames,
-    Medium.singleState, true, X_in_internal, "Boundary_pT");
-
+  if Medium.nX>1 then
+    Modelica.Fluid.Utilities.checkBoundary(Medium.mediumName, Medium.substanceNames,
+      Medium.singleState, true, X_in_internal, "Boundary_pT");
+  end if;
   if Medium.nX == 1 then
     X_in_internal = ones(Medium.nX);
   else

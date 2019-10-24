@@ -150,7 +150,8 @@ model Structure "Ppd 12 example model"
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
     nSurfExt=1,
     n50=n50,
-    mSenFac=1)
+    mSenFac=1,
+    redeclare Data.FloorOnGround conTypFlo)
     annotation (Placement(transformation(extent={{-72,60},{-92,40}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate Diner(
     h=hFloor0,
@@ -502,6 +503,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Fixed floor type in hallway.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1017\">#1017</a>.
+</li>
 <li>
 May 21, 2018, by Filip Jorissen:<br/>
 Using model for air flow through vertical cavity.
