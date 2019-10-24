@@ -185,8 +185,6 @@ protected
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
 initial equation
-   assert(m_flowMin/(A_floor/nDiscr)*Medium.specificHeatCapacityCp(sta_default)*(R_w_val_min + R_r_val + R_x_val) >= 0.5,
-     "Model is not valid for the set nominal and minimal mass flow rate, discretisation in multiple parts is required", level = AssertionLevel.warning);
   if RadSlaCha.tabs then
     assert(RadSlaCha.S_1 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer above the tubes is smaller than 0.3 * the tube interdistance. 
     The model is not valid for this case");
@@ -197,7 +195,6 @@ initial equation
     assert(RadSlaCha.d_a/2 < RadSlaCha.S_2, "In order to use the floor heating model, RadSlaCha.alp2RadSlaCha.d_a/2 < RadSlaCha.S_2 needs to be true");
     assert(RadSlaCha.S_1/RadSlaCha.T <0.3, "In order to use the floor heating model, RadSlaCha.S_1/RadSlaCha.T <0.3 needs to be true");
   end if;
-
 equation
   assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
   assert(not allowFlowReversal, "In " +getInstanceName() + ": parameter allowFlowReversal=true, but the EmbeddedPipe model does not support it.", AssertionLevel.warning);
@@ -315,18 +312,27 @@ This affects the pressure drop calculation and also the thermal calculations.
 </p>
 <h4>Assumptions and limitations</h4>
 <p>
-The model has a limited validity range. 
-Its validity will be checked using assert statements. 
-Possibly the discretization needs to be 
-increased using parameter <code>nDiscr</code>.
-An alternative is to increase <code>m_flow_min</code>, 
-but this limits the validity range of the model.
+The implementation of Koschenz mentions that a minimum
+discretization (i.e. using <code>nDiscr</code>) is required to avoid violation of the
+second law of thermodynamics. The model explicitly
+enforces the second law even for <code>nDiscr=1</code> by upper bounding
+the heat flow rate such that this minimum discretization does not apply to our implementation.
+The parameter <code>nDiscr</code> thus
+only affects the results at larger flow rates.
+The example <a href=\"IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr\">
+IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr</a> provides an indication
+of the sensitivity of the results to the value of <code>nDiscr</code>.
+</p>
+<p>
+The embeddedPipe model is designed to be used together with an 
+<a href=\"IDEAS.Buildings.Components.InternalWall\">IDEAS.Buildings.Components.InternalWall</a>. 
+When <code>nDiscr>1</code>, the wall/floor should also be discretized to be physically correct,
+although the discretizations can also be connected to the same wall/floor, which gives a reasonable
+approximation as illustrated by the example 
+<a href=\"IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr\">
+IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr</a>.
 </p>
 <h4>Typical use and important parameters</h4>
-<p>
-The embeddedPipe model is to be used together with an InternalWall component. 
-Multiple InternalWalls may be required if the EmbeddedPipe is discretized (using <code>nDiscr</code>).
-</p>
 <p>
 Following parameters need to be set:
 </p>
@@ -334,16 +340,14 @@ Following parameters need to be set:
 <li>RadSlaCha is a record with all the parameters of the geometry, materials and even number of discretization layers in the nakedTabs model.</li>
 <li>mFlow_min is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.</li>
 <li><code>A_floor</code> is the surface area of (one side of) the Thermally Activated Building part (TAB). </li>
-<li><code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction. This may be necessary to be in the validity range of the model.</li>
+<li><code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction. See above for a more detailed discussion.</li>
 <li><code>nParCir</code> can be used for calculating the pressure drops as if there were multiple EmbeddedPipes connected in parallel. The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.</li>
 <li><code>R_C</code> is the thermal resistivity from the center of the tabs to the zones. Note that the upper and lower resistivities need to be calculated as if they were in parallel. This parameter has a default value based on RadSlaCha but it may be improved if necessary. The impact of the value of this parameter on the model performance is low except in cases of very low mass flow rates.</li>
 </ul>
 <h4>Options</h4>
 <p>
-By default pressure drops are not calculated (<code>dp = 0</code>). 
-These can be enabled by setting parameter <code>computeFlowResistance = true</code>. 
-Pressure drops are then calculated by default by making an estimate of the total pipe length. 
-This pressure drop can be a large underestimation of the real pressure drop. 
+By default <code>dp_nominal</code> is calculated by making an estimate of the total pipe length. 
+This pressure drop can be an underestimation of the real pressure drop. 
 The used pipe lengths can be changed in the Pressure drop tab.
 Parameter <code>dp_nominal</code> can be used to override the default calculation.
 </p>
@@ -356,6 +360,13 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 19, 2019 by Filip Jorissen:<br/>
+Removed discretization assert since we limit the heat flow rate to physically
+realistic values already using a limit on <code>G_t</code>. 
+Revised documentation.
+See <a href=https://github.com/open-ideas/IDEAS/issues/863>#863</a>.
+</li>
 <li>
 October 18, 2019 by Filip Jorissen:<br/>
 Using <code>TemperatureTwoPort</code> sensor. 
