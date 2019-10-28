@@ -209,7 +209,7 @@ equation
   // maximum thermal conductance based on second law
   G_max = abs(m_flow)*cp_default;
   // no smoothmin since this undershoots for near-zero values
-  Q = (Tin - heatPortEmb.T)*min(G_t, G_max);
+  Q = (Tin - heatPortEmb.T)*UnitTests.Confidential.smoothMin(G_t, G_max, m_flow_nominal*cp_default);
 
   connect(res.port_b, port_b) annotation (Line(
          points={{40,0},{100,0}},
