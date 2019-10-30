@@ -6,7 +6,7 @@ model OutsideAir
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
 
 protected
-  constant Real s[:]= {
+  constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
                                             caseSensitive=false))
