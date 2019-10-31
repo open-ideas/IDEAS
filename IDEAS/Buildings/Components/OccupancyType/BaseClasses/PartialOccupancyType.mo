@@ -4,15 +4,19 @@ partial record PartialOccupancyType
   extends Modelica.Icons.Record;
 
   parameter Modelica.SIunits.Power QlatPp(min=0)
-    "Sensible heat production per person";
-  parameter Modelica.SIunits.Power QsenPp(min=0)
     "Latent heat production per person";
+  parameter Modelica.SIunits.Power QsenPp(min=0)
+    "Sensible heat production per person";
   parameter Real radFra(min=0,max=1) = 0.6
     "Radiant fraction of sensible heat exchange, default based on Ashrae fundamentals chap 18.4 for low air velocity, used for computing radiative and convective sensible heat flow rate fractions";
   parameter Real ICl(min=0) = 0.7
     "Fixed value for clothing insulation in units of clo (summer=0.5; winter=0.9), used to compute thermal comfort";
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 15, 2019 by Iago Cupeiro:<br/>
+Corrected typo in description.
+</li>
 <li>
 January 26, 2018 by Filip Jorissen:<br/>
 Revised default values. 

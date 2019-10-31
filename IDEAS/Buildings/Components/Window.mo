@@ -51,7 +51,7 @@ model Window "Multipane window"
           "Construction details"));
   replaceable IDEAS.Buildings.Components.Shading.None shaType constrainedby
     Shading.Interfaces.PartialShading(
-                            final azi=azi) "First shading type"  annotation (Placement(transformation(extent={{-70,-60},
+                            final azi=aziInt) "First shading type"  annotation (Placement(transformation(extent={{-70,-60},
             {-60,-40}})),
       __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
 
@@ -99,7 +99,7 @@ protected
     annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection
-    iConFra(final A=A*frac, final inc=inc,
+    iConFra(final A=A*frac, final inc=incInt,
     linearise=linIntCon_a or sim.linearise) if
                         fraType.present
     "convective surface heat transimission on the interior side of the wall"
@@ -121,8 +121,8 @@ protected
             {-10,80}})));
 
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
-    inc=inc,
-    azi=azi,
+    inc=incInt,
+    azi=aziInt,
     lat=sim.lat,
     outputAngles=sim.outputAngles,
     incAndAziInBus=sim.incAndAziInBus,
@@ -357,8 +357,21 @@ The parameter <code>n</code> may be used to scale the window to <code>n</code> i
 For example, if a wall has 10 identical windows with identical shading, this parameter
 can be used to simulate 10 windows by scaling the model of a single window.
 </p>
+<h4>Validation</h4>
+<p>
+To verify the U-value of your glazing system implementation,
+see <a href=\"modelica://IDEAS.Buildings.Components.Validations.WindowEN673\">
+IDEAS.Buildings.Components.Validations.WindowEN673</a>
+</p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 September 9, 2019, by Filip Jorissen:<br/>
 Added <code>checkCoatings</code> for issue
