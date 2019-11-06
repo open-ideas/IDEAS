@@ -6,24 +6,15 @@ model OutsideAir
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
 
 protected
-  constant Real s[:]= {
+  constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
                                             caseSensitive=false))
     then 1 else 0 for i in 1:Medium.nC}
     "Vector with zero everywhere except where species is";
 
-  Modelica.Blocks.Interfaces.RealInput X_in_internal[Medium.nX](
-    each final unit="kg/kg",
-    final quantity=Medium.substanceNames)
-    "Needed to connect to conditional connector";
   Modelica.Blocks.Interfaces.RealInput T_in_internal(final unit="K",
                                                      displayUnit="degC")
-    "Needed to connect to conditional connector";
-  Modelica.Blocks.Interfaces.RealInput p_in_internal(final unit="Pa")
-    "Needed to connect to conditional connector";
-  Modelica.Blocks.Interfaces.RealInput C_in_internal[Medium.nC](
-       quantity=Medium.extraPropertiesNames)
     "Needed to connect to conditional connector";
   Modelica.Blocks.Interfaces.RealInput h_internal = Medium.specificEnthalpy(
     Medium.setState_pTX(p_in_internal, T_in_internal, X_in_internal));
@@ -32,11 +23,13 @@ protected
 
   Modelica.Blocks.Interfaces.RealInput X_wEnv
     "Connector for X_wEnv";
+  Modelica.Blocks.Routing.RealPassThrough p_link;
 
 equation
   connect(bus,sim.weaDatBus);
 
-  connect(p_in_internal, bus.pAtm);
+  connect(p_link.u, bus.pAtm);
+  connect(p_link.y,p_in_internal);
 
   // must use sim.weaBus.Te for linearisation
   T_in_internal = sim.weaBus.Te;
