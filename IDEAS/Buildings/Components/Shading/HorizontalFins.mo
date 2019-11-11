@@ -103,7 +103,7 @@ next to the window.
 <h4>Assumption and limitations</h4>
 <p>
 We assume that the fins fully cover the window unless the horizontal
-displacment optin is used.
+displacement option is used.
 The fin angle <code>beta</code> should be positive.
 We compute the shaded fraction of the direct solar irradiation and assume
 that indirect reflect effects are negligible.
