@@ -7,6 +7,8 @@ model ExteriorConvection "exterior surface convection"
   parameter Modelica.SIunits.CoefficientOfHeatTransfer hConExtLin = 18.3
     "Fixed exterior convection coefficient used when linearising equations"
      annotation(Dialog(enable=linearize));
+  parameter Modelica.SIunits.CoefficientOfHeatTransfer HTC=10;
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 
@@ -20,7 +22,8 @@ equation
   if linearise then
     port_a.Q_flow = A*hConExtLin *(port_a.T - Te);
   else
-    port_a.Q_flow = A*hConExt*(port_a.T - Te);
+    //port_a.Q_flow = A*hConExt*(port_a.T - Te);
+    port_a.Q_flow = A*(port_a.T - Te)*HTC;
   end if;
 
   annotation (Icon(graphics={

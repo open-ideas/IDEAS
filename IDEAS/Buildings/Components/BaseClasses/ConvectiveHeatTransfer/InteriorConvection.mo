@@ -19,6 +19,7 @@ model InteriorConvection "interior surface convection"
   parameter Modelica.SIunits.Length DhFloor = sqrt(A)
     "Hydraulic diameter for ceiling/floor"
     annotation(Dialog(tab="Advanced"));
+  parameter Modelica.SIunits.CoefficientOfHeatTransfer HTC=3;
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
@@ -49,17 +50,19 @@ equation
               else
               dT*coeffFloor*abs(dT_nominal)^0.308;
       else
-        port_a.Q_flow = IDEAS.Utilities.Math.Functions.spliceFunction(
-              x=ceilingSign*dT,
-              pos=sign(dT)*coeffCeiling*abs(dT)^1.133,
-              neg=sign(dT)*coeffFloor*abs(dT)^1.308,
-              deltax = 0.1);
+        //port_a.Q_flow = IDEAS.Utilities.Math.Functions.spliceFunction(
+        //      x=ceilingSign*dT,
+        //      pos=sign(dT)*coeffCeiling*abs(dT)^1.133,
+        //      neg=sign(dT)*coeffFloor*abs(dT)^1.308,
+        //      deltax = 0.1);
+        port_a.Q_flow = A*dT*HTC;
       end if;
     else
       if linearise then
         port_a.Q_flow = dT*coeffWall*abs(dT_nominal)^0.293;
       else
-        port_a.Q_flow = sign(dT)*coeffWall*abs(dT)^1.293;
+        //port_a.Q_flow = sign(dT)*coeffWall*abs(dT)^1.293;
+        port_a.Q_flow = A*dT*HTC;
       end if;
     end if;
 
