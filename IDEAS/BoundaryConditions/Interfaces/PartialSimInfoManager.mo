@@ -1,4 +1,4 @@
-within IDEAS.BoundaryConditions.Interfaces;
+﻿within IDEAS.BoundaryConditions.Interfaces;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
   parameter String filNam=
@@ -102,7 +102,8 @@ partial model PartialSimInfoManager
   Modelica.SIunits.Temperature TeAv
     "running average of ambient outdoor temperature of the last 5 days, not yet implemented";
   Modelica.SIunits.Temperature Tground "ground temperature";
-  Modelica.SIunits.Velocity Va "air velocity";
+  Modelica.SIunits.Velocity Va "wind speed";
+  Modelica.SIunits.Angle Vdir "wind direction";
 
   Real relHum(final unit="1") "Relative humidity";
   Modelica.SIunits.Temperature TDewPoi "Dewpoint";
@@ -486,6 +487,10 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+November 21, 2019 by Ian Beausoleil-Morrison:<br/>
+Make wind direction available on weather bus.
+</li>
 <li>
 October 9, 2019 by Josué Borrajo Bastero:<br/>
 Added button to select the weather file graphically.
