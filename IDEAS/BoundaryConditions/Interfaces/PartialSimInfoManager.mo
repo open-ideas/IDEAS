@@ -224,6 +224,10 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
+  Modelica.Blocks.Routing.RealPassThrough WindSpeed "Wind speed"
+    annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
+  Modelica.Blocks.Routing.RealPassThrough WindDirection "Wind direction"
+    annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
@@ -347,6 +351,7 @@ equation
       points={{1,116},{100.05,116},{100.05,40.05}},
       color={0,0,127},
       smooth=Smooth.None));
+
     for i in 1:numIncAndAziInBus loop
       connect(radSol[i].solBus, weaBus.solBus[i]) annotation (Line(
       points={{60,70},{100.05,70},{100.05,40.05}},
@@ -406,12 +411,33 @@ equation
       thickness=0.5));
   connect(CEnv.y, weaDatBus.CEnv) annotation (Line(points={{81,-20},{82,-20},{
           82,-10},{40,-10},{40,-10},{-100,-10}}, color={0,0,127}));
+  connect(weaDatBus.winSpe, WindSpeed.u) annotation (Line(
+      points={{-100,-10},{-94,-10},{-94,126},{-86.8,126}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(WindSpeed.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},
+          {10,40.05},{100.05,40.05}}, color={0,0,127}));
+  connect(weaDatBus.winDir, WindDirection.u) annotation (Line(
+      points={{-100,-10},{-94,-10},{-94,140},{-86.8,140}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(WindDirection.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,
+          140},{10,40.05},{100.05,40.05}}, color={0,0,127}));
     annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
     missingInnerMessage=
         "Your model is using an outer \"sim\" component. An inner \"sim\" component is not defined. For simulation drag IDEAS.BoundaryConditions.SimInfoManager into your model.",
-    Icon(graphics={
+    Icon(coordinateSystem(extent={{-100,-100},{100,160}}),
+         graphics={
         Line(points={{-80,-30},{88,-30}}, color={0,0,0}),
         Line(points={{-76,-68},{-46,-30}}, color={0,0,0}),
         Line(points={{-42,-68},{-12,-30}}, color={0,0,0}),
@@ -483,7 +509,7 @@ equation
           fontName="Bookman Old Style",
           textString="i")}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            120}})),
+            160}})),
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>

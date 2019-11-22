@@ -32,6 +32,9 @@ connector WeaBus "Data bus that stores weather data"
     displayUnit="degC")
     "Design ground temperature" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector hConExt(unit="W/(m2.K)", start = 18.3) "Exterior convective heat transfer coefficient" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector Va(unit="m/s", start=0) "Wind speed" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector Vdir(unit="rad", start=0) "Wind direction" annotation ();
+
   IDEAS.Buildings.Components.Interfaces.RealConnector X_wEnv(start=0.01) "Environment air water mass fraction"
                                 annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector CEnv(start=1e-6) "Environment air trace substance mass fraction"

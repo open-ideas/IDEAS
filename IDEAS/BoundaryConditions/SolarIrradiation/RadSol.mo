@@ -48,6 +48,10 @@ model RadSol "Block that computes surface-dependent environment data"
     "Computation of diffuse solar irradiation on tilted surface"
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
 
+  Modelica.Blocks.Interfaces.RealInput Va "Wind speed"
+    annotation (Placement(transformation(extent={{-124,-148},{-84,-108}})));
+  Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction"
+    annotation (Placement(transformation(extent={{-124,-176},{-84,-136}})));
 protected
   SolarIrradiation.BaseClasses.DirectTiltedSurface
                         solDirTil
@@ -104,8 +108,13 @@ equation
           100.1,30},{100.1,0.1}}, color={0,0,127}));
   connect(extConvCoeff.hConExt, solBus.hConExt) annotation (Line(points={{21,72},
           {60,72},{60,0.1},{100.1,0.1}}, color={0,0,127}));
+  connect(Vdir, extConvCoeff.Vdir) annotation (Line(points={{-104,-156},{-26,
+          -156},{-26,71.3},{-1.3,71.3}}, color={0,0,127}));
+  connect(Va, extConvCoeff.Va) annotation (Line(points={{-104,-128},{-30,-128},
+          {-30,75.1},{-1.3,75.1}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Icon(graphics={
+            -160},{100,100}})),  Icon(coordinateSystem(extent={{-100,-160},{100,
+            100}}),                   graphics={
         Polygon(
           points={{-90,-80},{-40,-40},{40,-40},{90,-80},{-90,-80}},
           lineColor={95,95,95},

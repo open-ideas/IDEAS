@@ -10,6 +10,10 @@ model ExtConvCoeff
   //  annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   // Remove reference to weaBus as I will use connections to push wind speed and direction into here.
 
+  Modelica.Blocks.Interfaces.RealInput Va "Wind speed"
+    annotation (Placement(transformation(extent={{-126,18},{-100,44}})));
+  Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction"
+    annotation (Placement(transformation(extent={{-126,-20},{-100,6}})));
 equation
   hConExt = 10;
 
