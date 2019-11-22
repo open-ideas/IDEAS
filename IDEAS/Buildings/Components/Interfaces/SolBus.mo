@@ -1,11 +1,12 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector SolBus
-  "Bus containing solar radiation for various incidence angles"
+  "Bus containing solar radiation for various incidence angles as well as external convection coefficients"
   extends Modelica.Icons.SignalBus;
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
   IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HSkyDifTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HGroDifTil(unit="W/(m2)",start=100) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector hConExt(unit="W/(m2.K)",start=10) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector angInc(
     final quantity="Angle",
     final unit="rad",
@@ -36,6 +37,10 @@ Connector that contains all solar irridiation information for one inclination an
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 22, 2019 by Ian Beausoleil-Morrison:<br/>
+Add exterior surface convection coefficient to bus.
+<\\li>
 <li>
 August 24, 2018, by Damien Picard:<br/>
 Add start value for linearisation.

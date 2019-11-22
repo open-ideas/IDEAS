@@ -33,6 +33,9 @@ model RadSolData "Selects or generates correct solar data for this surface"
     annotation (Placement(transformation(extent={{96,-110},{116,-90}})));
   Modelica.Blocks.Interfaces.RealOutput Tenv "Environment temperature"
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput hConExt
+    "Convection coefficient at an external surface"
+    annotation (Placement(transformation(extent={{96,-132},{116,-112}})));
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,1],inc)
@@ -153,11 +156,17 @@ equation
   connect(radSol.solTim, weaBus.solTim) annotation (Line(points={{-80.4,33},{-86,
           33},{-86,64},{100.05,64},{100.05,80.05}},
                                                 color={0,0,127}));
+  connect(hConExt, solBusDummy.hConExt) annotation (Line(points={{106,-122},{
+          -39.9,-122},{-39.9,30.1}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),           Documentation(info="<html>
+            -140},{120,100}})),           Documentation(info="<html>
 <p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 22, 2019 by Ian Beausoleil-Morrison:</br>
+Get exterior surface convection coefficient from solBus and provide as an output.
+</li>
 <li>
 August 9, 2018 by Filip Jorissen:<br/>
 Revised implementation for checking solData index and added
@@ -192,5 +201,6 @@ February 10, 2015 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent={{-100,-140},{120,100}})));
 end RadSolData;

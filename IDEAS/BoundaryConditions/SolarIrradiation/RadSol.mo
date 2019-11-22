@@ -53,6 +53,9 @@ protected
                         solDirTil
     "Computation of direct solar irradiation on tilted surface"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
+  IDEAS.BoundaryConditions.ExtConvCoeff extConvCoeff "Calculate convection coefficient for exterior surface"
+    annotation (Placement(transformation(extent={{0,62},{20,82}})));
+
   Modelica.Blocks.Sources.Constant dummyValAzi(k=0) if not remDefVals
     "angAzi dummy value when not needed"
     annotation (Placement(transformation(extent={{-20,-98},{-8,-86}})));
@@ -99,6 +102,8 @@ equation
           -14},{36,-14},{100.1,-14},{100.1,0.1}}, color={0,0,127}));
   connect(solDirTil.HDirTil, solBus.HDirTil) annotation (Line(points={{21,30},{
           100.1,30},{100.1,0.1}}, color={0,0,127}));
+  connect(extConvCoeff.hConExt, solBus.hConExt) annotation (Line(points={{21,72},
+          {60,72},{60,0.1},{100.1,0.1}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),  Icon(graphics={
         Polygon(
@@ -118,6 +123,10 @@ equation
           fillPattern=FillPattern.Solid)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 22, 2019, by Ian Beausoleil-Morrison:<br/>
+Instantiates extConvCoeff.mo and places resulting convection coefficient on solBus.
+<\\li>
 <li>
 January 21, 2018 by Filip Jorissen:<br/>
 Added input <code>solTim</code> for azimuth computations.
