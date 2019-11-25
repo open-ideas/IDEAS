@@ -283,6 +283,10 @@ equation
             {48,104},{48,80.6}}, color={0,0,127}));
     connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{1,116},{54,
             116},{54,80.6}},               color={0,0,127}));
+    connect(WindSpeed.y, radSol[i].Va) annotation (Line(points={{-77.6,126},{39.6,
+            126},{39.6,57.2}},             color={0,0,127}));
+    connect(WindDirection.y, radSol[i].Vdir) annotation (Line(points={{-77.6,140},
+            {39.6,140},{39.6,54.4}},       color={0,0,127}));
   end for;
   if not lineariseDymola then
     connect(solTim.y, weaBus.solTim) annotation (Line(points={{-77.6,2},{18,2},{
