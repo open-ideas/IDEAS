@@ -20,6 +20,8 @@ model ShadedRadSol "Block that computes surface-dependent environment data"
     annotation (Placement(transformation(extent={{-20,-54},{-8,-42}})));
 
 
+  Modelica.Blocks.Sources.Constant surfTilt(k=inc) "Surface tilt angle"
+    annotation (Placement(transformation(extent={{4,-64},{16,-52}})));
 protected
   final parameter Real Fssky=(1 + cos(inc))/2
     "radiant-interchange configuration factor between surface and sky";
@@ -33,12 +35,12 @@ protected
   Modelica.Blocks.Sources.RealExpression TenvExpr(
     y=(coeffSky*TskyPow4 + coeffEnv*TePow4)^0.25)
     "Environment temperature"
-    annotation (Placement(transformation(extent={{0,70},{60,90}})));
+    annotation (Placement(transformation(extent={{32,74},{92,94}})));
 
 
 equation
   connect(TenvExpr.y, solBus.Tenv) annotation (Line(
-      points={{63,80},{100.1,80},{100.1,0.1}},
+      points={{95,84},{100.1,84},{100.1,0.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solDirTil.incAng, incAng.incAng) annotation (Line(points={{-2,24},{
@@ -55,6 +57,11 @@ equation
           {100.1,0.1}}, color={0,0,127}));
   connect(solAzi.decAng, angDec) annotation (Line(points={{34,-28},{-62,-28},{-62,
           0},{-104,0}}, color={0,0,127}));
+  connect(extConvCoeff.azi, surfAzi.y) annotation (Line(points={{-1.3,74.9},{
+          -1.3,14.65},{-7.4,14.65},{-7.4,-48}}, color={0,0,127}));
+  connect(surfTilt.y, extConvCoeff.tilt) annotation (Line(points={{16.6,-58},{
+          24,-58},{24,72},{14,72},{14,78},{6,78},{6,77.3},{-1.3,77.3}}, color={
+          0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),  Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}),
