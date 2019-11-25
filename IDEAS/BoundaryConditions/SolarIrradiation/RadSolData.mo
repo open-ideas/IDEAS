@@ -139,7 +139,6 @@ equation
   connect(radSol.F2, weaBus.F2) annotation (Line(points={{-80.4,20},{-96,20},{-96,
           74},{100.05,74},{100.05,80.05}},
                                   color={0,0,127}));
-
     connect(constAngLin.y, angInc) annotation (Line(points={{-79,-60},{-78,-60},{-78,
           -40},{106,-40}}, color={0,0,127}));
   connect(constAngLin.y, angZen)
@@ -158,6 +157,11 @@ equation
                                                 color={0,0,127}));
   connect(hConExt, solBusDummy.hConExt) annotation (Line(points={{106,-122},{
           -39.9,-122},{-39.9,30.1}}, color={0,0,127}));
+  connect(radSol.Vdir, weaBus.Vdir) annotation (Line(points={{-80.4,14.4},{-90,
+          14.4},{-90,14},{-100,14},{-100,80.05},{100.05,80.05}}, color={0,0,127}));
+  connect(radSol.Va, weaBus.Va) annotation (Line(points={{-80.4,17.2},{-90,17.2},
+          {-90,18},{-98,18},{-98,78},{88,78},{88,80.05},{100.05,80.05}}, color=
+          {0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{120,100}})),           Documentation(info="<html>
 <p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>
