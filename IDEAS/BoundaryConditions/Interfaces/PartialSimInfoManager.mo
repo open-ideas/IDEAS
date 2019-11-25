@@ -112,16 +112,6 @@ partial model PartialSimInfoManager
   Modelica.SIunits.Energy Etot "Total internal energy";
   Modelica.SIunits.Energy Qint "Total energy from boundary";
 
-
-  Real hCon=IDEAS.Utilities.Math.Functions.spliceFunction(
-      x=Va - 5,
-      pos=7.1*abs(Va)^(0.78),
-      neg=4.0*Va + 5.6,
-      deltax=0.5)
-    "Convection coefficient due to wind speed";
-  IDEAS.Utilities.Psychrometrics.X_pTphi XiEnv(use_p_in=false)
-    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-
   // Icon of weaBus is made very small as it is not intended that a user would use it.
   // weaBus is still directly connected in the zone model and the connector should
   // therefore not be protected.
@@ -145,9 +135,9 @@ partial model PartialSimInfoManager
   Modelica.Blocks.Sources.RealExpression TePow4Expr(y=Te^4)
     "Power 4 of ambient temperature"
     annotation (Placement(transformation(extent={{-20,106},{0,126}})));
-  Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
-    "Exterior convective heat transfer coefficient"
-    annotation (Placement(transformation(extent={{60,-14},{80,6}})));
+//  Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
+//    "Exterior convective heat transfer coefficient"
+//    annotation (Placement(transformation(extent={{60,-14},{80,6}})));
   Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
     "Expression for design temperature"
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
@@ -333,10 +323,6 @@ equation
             {100.05,40.05}},          color={0,0,127}));
     connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{81,-34},{100.05,
             -34},{100.05,40.05}},    color={0,0,127}));
-    connect(hConExpr.y, weaBus.hConExt) annotation (Line(
-      points={{81,-4},{100.05,-4},{100.05,40.05}},
-      color={0,0,127},
-      smooth=Smooth.None));
     connect(XiEnv.X[1], weaDatBus.X_wEnv) annotation (Line(points={{1,30},{-100,
             30},{-100,-10}},                             color={0,0,127}));
     connect(skyBrightnessCoefficients.F1, weaBus.F1) annotation (Line(

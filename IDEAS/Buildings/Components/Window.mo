@@ -210,24 +210,24 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,-54},{-70,-54}},
+      points={{-81.2727,-51.6667},{-76,-51.6667},{-76,-54},{-70,-54}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-58},{-70,-58}},
+      points={{-81.2727,-55},{-76,-55},{-76,-58},{-70,-58}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-56},{-70,-56}},
+      points={{-81.2727,-53.3333},{-76,-53.3333},{-76,-56},{-70,-56}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.weaBus, propsBusInt.weaBus) annotation (Line(
-      points={{-80,-42},{-80,20},{0,20},{0,19.91},{56.09,19.91}},
+      points={{-81.8182,-41.6667},{-81.8182,20},{0,20},{0,19.91},{56.09,19.91}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(radSolData.Tenv, skyRad.Tenv) annotation (Line(
-      points={{-79.4,-52},{-72,-52},{-72,10},{-20,10},{-20,6}},
+      points={{-81.2727,-50},{-72,-50},{-72,10},{-20,10},{-20,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(skyRadFra.Tenv, skyRad.Tenv) annotation (Line(
@@ -244,10 +244,6 @@ equation
       smooth=Smooth.None));
   connect(eCon.Te, propsBusInt.weaBus.Te) annotation (Line(
       points={{-20,-32.8},{56.09,-32.8},{56.09,19.91}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(eCon.hConExt, propsBusInt.weaBus.hConExt) annotation (Line(
-      points={{-20,-37},{56.09,-37},{56.09,19.91}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u, propsBusInt.weaBus.Tdes);
@@ -268,12 +264,15 @@ equation
     annotation (Line(points={{-37.8,-44},{-10,-44}}, color={0,0,127}));
   connect(gainDif.y, solWin.solDif) annotation (Line(points={{-31.8,-48},{-22,
           -48},{-10,-48}}, color={0,0,127}));
-  connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,
-          -46},{-78,-46},{-78,-44},{-70,-44}}, color={0,0,127}));
+  connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{
+          -81.2727,-45},{-78,-45},{-78,-44},{-70,-44}},
+                                               color={0,0,127}));
   connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{
-          -79.4,-48},{-76,-48},{-76,-46},{-70,-46}}, color={0,0,127}));
+          -81.2727,-46.6667},{-76,-46.6667},{-76,-46},{-70,-46}},
+                                                     color={0,0,127}));
   connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{
-          -79.4,-50},{-74,-50},{-74,-48},{-70,-48}}, color={0,0,127}));
+          -81.2727,-48.3333},{-74,-48.3333},{-74,-48},{-70,-48}},
+                                                     color={0,0,127}));
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-60,-48},
           {-56.6,-48},{-56.6,-48.8}}, color={0,0,127}));
   connect(solDif.u1, shaType.HShaSkyDifTil) annotation (Line(points={{-56.6,
@@ -286,6 +285,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
+  connect(eCon.hConExt, radSolData.hConExt) annotation (Line(points={{-20,-37},
+          {-50,-37},{-50,-58.5},{-81.2727,-58.5}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

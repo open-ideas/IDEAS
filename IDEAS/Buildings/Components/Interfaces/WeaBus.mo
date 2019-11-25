@@ -31,7 +31,6 @@ connector WeaBus "Data bus that stores weather data"
     nominal = 300,
     displayUnit="degC")
     "Design ground temperature" annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hConExt(unit="W/(m2.K)", start = 18.3) "Exterior convective heat transfer coefficient" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector Va(unit="m/s", start=0) "Wind speed" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector Vdir(unit="rad", start=0) "Wind direction" annotation ();
 
