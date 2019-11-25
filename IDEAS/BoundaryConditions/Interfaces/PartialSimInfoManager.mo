@@ -112,6 +112,9 @@ partial model PartialSimInfoManager
   Modelica.SIunits.Energy Etot "Total internal energy";
   Modelica.SIunits.Energy Qint "Total energy from boundary";
 
+  IDEAS.Utilities.Psychrometrics.X_pTphi XiEnv(use_p_in=false)
+    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+
   // Icon of weaBus is made very small as it is not intended that a user would use it.
   // weaBus is still directly connected in the zone model and the connector should
   // therefore not be protected.
@@ -135,9 +138,6 @@ partial model PartialSimInfoManager
   Modelica.Blocks.Sources.RealExpression TePow4Expr(y=Te^4)
     "Power 4 of ambient temperature"
     annotation (Placement(transformation(extent={{-20,106},{0,126}})));
-//  Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
-//    "Exterior convective heat transfer coefficient"
-//    annotation (Placement(transformation(extent={{60,-14},{80,6}})));
   Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
     "Expression for design temperature"
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
