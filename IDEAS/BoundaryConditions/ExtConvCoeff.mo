@@ -11,6 +11,7 @@ model ExtConvCoeff
   Modelica.Blocks.Interfaces.RealInput azi "Surface azimuth angle" annotation (Placement(transformation(extent={{-126,16},{-100,42}})));
   Modelica.Blocks.Interfaces.RealInput inc "surface tilt angle" annotation (Placement(transformation(extent={{-126,40},{-100,66}})));
 
+  // Convection coefficients for natural and forced convection situations.
 protected
   Real hNatConExt;
   Real hForcedConExt;
@@ -20,12 +21,6 @@ protected
   parameter Real ceiling=1;
   parameter Real floor=2;
   parameter Real vertical=3;
-//   parameter Real SurfType=
-//       if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then ceiling
-//       elseif IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then floor
-//       else vertical
-//   "" annotation (Evaluate=true);
-
 
   // Only used if simulation to be performed with fixed conv coeffs.
   parameter Boolean UseFixedHTC=true "Set to true to use fixed conv coeffs";
@@ -37,6 +32,13 @@ protected
   constant Real b_windward=0.89;
   constant Real a_leeward=3.55;
   constant Real b_leeward=0.617;
+
+  // Natural convection correlation coefficients based on TARP algorithm.
+  // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
+  constant Real C_vertical=1.31;
+  constant Real C_horz_buoyant=1.509;
+  constant Real C_horz_stable=0.76;
+  constant Real n=1/3;  // Question: Add annotate(Evaluate=true) ?
 
 equation
 
