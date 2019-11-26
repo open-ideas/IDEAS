@@ -57,10 +57,11 @@ equation
           {100.1,0.1}}, color={0,0,127}));
   connect(solAzi.decAng, angDec) annotation (Line(points={{34,-28},{-62,-28},{-62,
           0},{-104,0}}, color={0,0,127}));
-  connect(extConvCoeff.azi, surfAzi.y) annotation (Line(points={{-1.3,74.9},{-1.3,
-          14.65},{-7.4,14.65},{-7.4,-48}}, color={0,0,127}));
+  connect(extConvCoeff.azi, surfAzi.y) annotation (Line(points={{-1.3,73.1},{
+          -1.3,14.65},{-7.4,14.65},{-7.4,-48}},
+                                           color={0,0,127}));
   connect(surfTilt.y, extConvCoeff.inc) annotation (Line(points={{16.6,-58},{24,
-          -58},{24,72},{14,72},{14,78},{6,78},{6,77.3},{-1.3,77.3}}, color={0,0,
+          -58},{24,72},{14,72},{14,78},{6,78},{6,75.7},{-1.3,75.7}}, color={0,0,
           127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),  Icon(coordinateSystem(preserveAspectRatio=false,

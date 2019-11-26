@@ -277,6 +277,7 @@ equation
             126},{39.6,57.2}},             color={0,0,127}));
     connect(WindDirection.y, radSol[i].Vdir) annotation (Line(points={{-77.6,140},
             {39.6,140},{39.6,54.4}},       color={0,0,127}));
+    connect(TDryBul.y, radSol[i].Te) annotation ();
   end for;
   if not lineariseDymola then
     connect(solTim.y, weaBus.solTim) annotation (Line(points={{-77.6,2},{18,2},{
