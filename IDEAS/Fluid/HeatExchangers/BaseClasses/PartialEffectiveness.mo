@@ -26,7 +26,7 @@ partial model PartialEffectiveness
            fra_b2 * Medium2.specificHeatCapacityCp(state_b2_inflow) else
         Medium2.specificHeatCapacityCp(state_a2_inflow))
     "Heat capacity flow rate medium 2";
-  Modelica.SIunits.ThermalConductance CMin_flow(min=0) = min(C1_flow, C2_flow)
+  Modelica.SIunits.ThermalConductance CMin_flow(min=0) = C1_flow + C2_flow - ((C1_flow/CMin_flow_small)^6 + (C2_flow/CMin_flow_small)^6)^(1/6) *  CMin_flow_small
     "Minimum heat capacity flow rate";
   Modelica.SIunits.HeatFlowRate QMax_flow = CMin_flow*(T_in2 - T_in1)
     "Maximum heat flow rate into medium 1";
