@@ -8,21 +8,13 @@ model ExtConvCoeff
             10}})));
   Modelica.Blocks.Interfaces.RealInput Va "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
   Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
-  Modelica.Blocks.Interfaces.RealInput azi "Surface azimuth angle" annotation (Placement(transformation(extent={{-126,-2},
-            {-100,24}})));
-  Modelica.Blocks.Interfaces.RealInput inc "surface tilt angle" annotation (Placement(transformation(extent={{-126,24},
-            {-100,50}})));
-  Modelica.Blocks.Interfaces.RealInput Te "Ambient (outdoor) air temperature"
-    annotation (Placement(transformation(extent={{-126,48},{-100,74}})));
-//  Modelica.Blocks.Interfaces.RealInput Tsurf "Temperature of exterior surface"
-//    annotation (Placement(transformation(extent={{-126,68},{-100,94}})));
+  Modelica.Blocks.Interfaces.RealInput azi "Surface azimuth angle" annotation (Placement(transformation(extent={{-126,16},{-100,42}})));
+  Modelica.Blocks.Interfaces.RealInput inc "surface tilt angle" annotation (Placement(transformation(extent={{-126,40},{-100,66}})));
 
   // Convection coefficients for natural and forced convection situations.
 protected
   Real hNatConExt;
   Real hForcedConExt;
-
-  Real TestVar;
 
   // Surfaces will be treated as ceilings or floors if they are horizontal; otherwise they will be treated as vertical.
   Real SurfType;
@@ -49,8 +41,6 @@ protected
   constant Real n=1/3;  // Question: Add annotate(Evaluate=true) ?
 
 equation
-
-  TestVar = Te;
 
   // Determine how to treat the surface. If it is not close to horizontal then treat it as vertical.
   if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then
