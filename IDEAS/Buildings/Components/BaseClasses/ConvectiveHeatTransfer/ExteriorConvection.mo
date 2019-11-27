@@ -22,18 +22,67 @@ model ExteriorConvection "exterior surface convection"
     annotation (Placement(transformation(extent={{-120,-110},{-80,-70}})));
 
 protected
+  Modelica.SIunits.CoefficientOfHeatTransfer hNatConvExt
+    "Heat transfer coefficient for natural convection" annotation ();
   Modelica.SIunits.CoefficientOfHeatTransfer hConExt
-  "Heat transfer coefficient for forced and natural convection" annotation ();
+  "Heat transfer coefficient for combined forced and natural convection" annotation ();
+
+  // Only used to simulate with fixed conv coeffs: applies to all surfaces. ToDo: Move to Exterior Convection.
+  parameter Boolean UseFixedHTC=false "Set to true to use fixed conv coeffs";
+  parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
+
+  final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
+    "true if ceiling" annotation (Evaluate=true);
+  final parameter Boolean isFloor=abs(sin(inc)) < 10E-5 and cos(inc) < 0
+    "true if floor" annotation (Evaluate=true);
+
+  // Natural convection correlation coefficients based on TARP algorithm.
+  // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
+  Real C;
+  constant Real C_vertical=1.31 "TARP coeff";
+  constant Real C_horz_buoyant=1.509 "TARP coeff";
+  constant Real C_horz_stable=0.76 "TARP coeff";
+  constant Real n=1/3 "TARP coeff";
+
+  Modelica.SIunits.TemperatureDifference dT "Surface temperature minus outdoor air temperature" annotation ();
 
 equation
-  hConExt = hForcedConExt; // ToDo
-  if linearise then
-    port_a.Q_flow = A*hConExtLin *(port_a.T - Te);
+
+  // Assign empirical coefficient according to flow regime.
+  if isCeiling then
+    if dT > 0 then
+      C = C_horz_buoyant;
+    else
+      C = C_horz_stable;
+    end if;
+  elseif isFloor then
+    if dT < 0 then
+      C = C_horz_buoyant;
+    else
+      C = C_horz_stable;
+    end if;
   else
-    port_a.Q_flow = A*hConExt*(port_a.T - Te);
+    C = C_vertical;
   end if;
 
-  annotation (Icon(graphics={
+  // Calculate coefficient for natural convection.
+  hNatConvExt = C * abs(dT)^n;
+
+  // Evaluate combined coefficient for natural and forced convection, or use fixed values.
+  if UseFixedHTC then
+    hConExt = fixedHTC;
+  elseif linearise then
+    hConExt = hConExtLin;
+  else
+    hConExt = (hNatConvExt^2 + hForcedConExt^2)^0.5;
+  end if;
+
+  // Apply Newton's law at exterior surface.
+  dT = port_a.T - Te;
+  port_a.Q_flow = A * hConExt * dT;
+
+  annotation (
+    Icon(graphics={
         Rectangle(
           extent={{-90,80},{-60,-80}},
           fillColor={192,192,192},
@@ -64,7 +113,8 @@ equation
         Line(
           points={{-60,80},{-60,-80}},
           color={0,0,0},
-          thickness=0.5)}), Documentation(info="<html>
+          thickness=0.5)}),
+    Documentation(info="<html>
 <p>
 The exterior convective heat flow is computed as 
 <img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-dlroqBUD.png\"/>where 
@@ -89,5 +139,11 @@ Revised documentation for IDEAS 1.0.
 </ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})));
+            100}})),
+    experiment(
+      StartTime=2678400,
+      StopTime=3283200,
+      Interval=299.99988,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Lsodar"));
 end ExteriorConvection;

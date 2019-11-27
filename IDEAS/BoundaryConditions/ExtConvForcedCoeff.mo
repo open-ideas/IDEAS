@@ -22,10 +22,6 @@ protected
     "true if floor"
     annotation(Evaluate=true);
 
-  // Only used to simulate with fixed conv coeffs: applies to all surfaces. ToDo: Move to Exterior Convection.
-  //parameter Boolean UseFixedHTC=false "Set to true to use fixed conv coeffs";
-  //parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
-
   // Forced convection correlation coefficients based on MoWiTT test facility.
   // Taken from Table 3.9 of EnergyPlus Engineering Reference (p95).
   Real a;
@@ -40,12 +36,6 @@ protected
   constant Real cosWindwardVsLeeward=Modelica.Math.cos(WindwardVsLeeward)
     "Cosine of transition angle";
 
-//   // Natural convection correlation coefficients based on TARP algorithm.
-//   // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
-//   constant Real C_vertical=1.31;
-//   constant Real C_horz_buoyant=1.509;
-//   constant Real C_horz_stable=0.76;
-//   constant Real n=1/3;  // Question: Add annotate(Evaluate=true) ?
 
 equation
 
