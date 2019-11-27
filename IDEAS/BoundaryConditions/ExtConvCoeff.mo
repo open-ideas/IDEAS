@@ -1,17 +1,17 @@
 within IDEAS.BoundaryConditions;
 model ExtConvCoeff
   "Calculates convection coefficient at an exterior surface as a function of wind speed and direction"
-    extends Modelica.Blocks.Icons.Block;
+  extends Modelica.Blocks.Icons.Block;
+
+  parameter Modelica.SIunits.Angle inc "Surface inclination";
+  parameter Modelica.SIunits.Angle azi "Surface azimith";
 
   Modelica.Blocks.Interfaces.RealOutput hConExt "Convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
           extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,
             10}})));
   Modelica.Blocks.Interfaces.RealInput Va "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
   Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
-  Modelica.Blocks.Interfaces.RealInput azi "Surface azimuth angle" annotation (Placement(transformation(extent={{-126,16},{-100,42}})));
-  Modelica.Blocks.Interfaces.RealInput inc "surface tilt angle" annotation (Placement(transformation(extent={{-126,40},{-100,66}})));
 
-  // Convection coefficients for natural and forced convection situations.
 protected
   Real hNatConExt;
   Real hForcedConExt;
