@@ -13,63 +13,73 @@ model ExtConvCoeff
   Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
 
 protected
-  Real hNatConExt;
   Real hForcedConExt;
 
-  // Surfaces will be treated as ceilings or floors if they are horizontal; otherwise they will be treated as vertical.
-  Real SurfType;
-  parameter Real ceiling=1;
-  parameter Real floor=2;
-  parameter Real vertical=3;
+  // If surface is horizontal then treat it as a ceiling or a floor.
+  // If not horizontal, then treat the surface as vertical.
+  final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
+    "true if ceiling"
+    annotation(Evaluate=true);
+  final parameter Boolean isFloor=abs(sin(inc)) < 10E-5 and cos(inc) < 0
+    "true if floor"
+    annotation(Evaluate=true);
 
-  // Only used if simulation to be performed with fixed conv coeffs.
-  parameter Boolean UseFixedHTC=true "Set to true to use fixed conv coeffs";
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
+  // Only used to simulate with fixed conv coeffs: applies to all surfaces. ToDo: Move to Exterior Convection.
+  //parameter Boolean UseFixedHTC=false "Set to true to use fixed conv coeffs";
+  //parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
 
   // Forced convection correlation coefficients based on MoWiTT test facility.
   // Taken from Table 3.9 of EnergyPlus Engineering Reference (p95).
-  constant Real a_windward=3.26;
-  constant Real b_windward=0.89;
-  constant Real a_leeward=3.55;
-  constant Real b_leeward=0.617;
+  Real a;
+  Real b;
+  constant Real a_windward=3.26 "MoWiTT coeff";
+  constant Real b_windward=0.89 "MoWiTT coeff";
+  constant Real a_leeward=3.55 "MoWiTT coeff";
+  constant Real b_leeward=0.617 "MoWiTT coeff";
 
-  // Natural convection correlation coefficients based on TARP algorithm.
-  // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
-  constant Real C_vertical=1.31;
-  constant Real C_horz_buoyant=1.509;
-  constant Real C_horz_stable=0.76;
-  constant Real n=1/3;  // Question: Add annotate(Evaluate=true) ?
+  constant Modelica.SIunits.Angle WindwardVsLeeward=Modelica.SIunits.Conversions.from_deg(100)
+    "Angle at which windward vs leeward transition occurs in MoWiTT model";
+  constant Real cosWindwardVsLeeward=Modelica.Math.cos(WindwardVsLeeward)
+    "Cosine of transition angle";
+
+
+//   // Natural convection correlation coefficients based on TARP algorithm.
+//   // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
+//   constant Real C_vertical=1.31;
+//   constant Real C_horz_buoyant=1.509;
+//   constant Real C_horz_stable=0.76;
+//   constant Real n=1/3;  // Question: Add annotate(Evaluate=true) ?
 
 equation
 
-  // Determine how to treat the surface. If it is not close to horizontal then treat it as vertical.
-  if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then
-    SurfType = ceiling;
-  elseif IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then
-    SurfType = floor;
-  else
-    SurfType = vertical;
+  // Assign MoWiTT empirical coefficients according to whether surface is windward or leeward.
+  // In this model a vertical surface is considered leeward if the wind angle is more than
+  // 100 degrees from normal incidennce. Always treat ceilings as windward, and floors as leeward.
+  // ToDo: What is EnergyPlus doing?
+  if isCeiling then
+    a = a_windward;
+    b = b_windward;
+  elseif isFloor then
+    a = a_leeward;
+    b = b_leeward;
+  else // Treat as a vertical surface
+    a = IDEAS.Utilities.Math.Functions.spliceFunction(
+      pos=a_leeward,
+      neg=a_windward,
+      x=cosWindwardVsLeeward - Modelica.Math.cos(azi + Modelica.Constants.pi -
+        Vdir),
+      deltax=0.05);
+    b = IDEAS.Utilities.Math.Functions.spliceFunction(
+      pos=b_leeward,
+      neg=b_windward,
+      x=cosWindwardVsLeeward - Modelica.Math.cos(azi + Modelica.Constants.pi -
+        Vdir),
+      deltax=0.05);
   end if;
 
 
-
-  // Natural convection coefficient.
-  if UseFixedHTC then
-    hNatConExt = 0;
-  else
-    hNatConExt = 0;
-//     if SurfType==ceiling then
-//       hNatConExt = 99;
-//     elseif SurfType==floor then
-//       hNatConExt = 99;
-//     else
-//       hNatConExt = 99;
-//     end if;
-  end if;
-
-
-  hForcedConExt = 10.; // Temporary for testing
-  hConExt = ( hNatConExt^2 + hForcedConExt^2)^0.5;
+  hForcedConExt = a * Va^b;
+  hConExt = hForcedConExt; // ToDo
 
 
   annotation (Documentation(revisions="<html>
