@@ -1,5 +1,5 @@
 within IDEAS.BoundaryConditions;
-model ExtConvCoeff
+model ExtConvForcedCoeff
   "Calculates convection coefficient for forced flow at an exterior surface as a function of wind speed and direction"
   extends Modelica.Blocks.Icons.Block;
 
@@ -40,7 +40,6 @@ protected
   constant Real cosWindwardVsLeeward=Modelica.Math.cos(WindwardVsLeeward)
     "Cosine of transition angle";
 
-
 //   // Natural convection correlation coefficients based on TARP algorithm.
 //   // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
 //   constant Real C_vertical=1.31;
@@ -75,9 +74,7 @@ equation
       deltax=0.05);
   end if;
 
-
   hForcedConExt = a * Va^b;
-
 
   annotation (Documentation(revisions="<html>
 <ul>
@@ -87,4 +84,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end ExtConvCoeff;
+end ExtConvForcedCoeff;
