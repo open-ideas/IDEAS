@@ -1,22 +1,20 @@
 within IDEAS.BoundaryConditions;
 model ExtConvCoeff
-  "Calculates convection coefficient at an exterior surface as a function of wind speed and direction"
+  "Calculates convection coefficient for forced flow at an exterior surface as a function of wind speed and direction"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Modelica.SIunits.Angle inc "Surface inclination";
   parameter Modelica.SIunits.Angle azi "Surface azimith";
 
-  Modelica.Blocks.Interfaces.RealOutput hConExt "Convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealOutput hForcedConExt "Forced flow convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
           extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,
             10}})));
   Modelica.Blocks.Interfaces.RealInput Va "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
   Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
 
-protected
-  Real hForcedConExt;
-
   // If surface is horizontal then treat it as a ceiling or a floor.
   // If not horizontal, then treat the surface as vertical.
+protected
   final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
     "true if ceiling"
     annotation(Evaluate=true);
@@ -79,7 +77,6 @@ equation
 
 
   hForcedConExt = a * Va^b;
-  hConExt = hForcedConExt; // ToDo
 
 
   annotation (Documentation(revisions="<html>

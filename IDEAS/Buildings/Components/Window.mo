@@ -238,7 +238,7 @@ equation
       points={{-20,65.2},{-20,66},{-16,66},{-16,-32.8},{-20,-32.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eCon.hConExt, eConFra.hConExt) annotation (Line(
+  connect(eCon.hForcedConExt, eConFra.hForcedConExt) annotation (Line(
       points={{-20,-37},{-20,-36},{-14,-36},{-14,61},{-20,61}},
       color={0,0,127},
       smooth=Smooth.None));
@@ -285,8 +285,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
-  connect(eCon.hConExt, radSolData.hConExt) annotation (Line(points={{-20,-37},
-          {-50,-37},{-50,-58.5},{-81.2727,-58.5}}, color={0,0,127}));
+  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points={{-20,-37},{
+          -50,-37},{-50,-58.5},{-81.2727,-58.5}},  color={0,0,127}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

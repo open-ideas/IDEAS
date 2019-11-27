@@ -149,9 +149,8 @@ equation
           -54.8,6},{-54.8,6.4}},   color={0,0,127}));
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-62,4},{
           -56,4},{-56,1.6},{-54.8,1.6}},   color={0,0,127}));
-  connect(radSolData.hConExt, extCon.hConExt) annotation (Line(points={{
-          -81.2727,-4.5},{-50.6364,-4.5},{-50.6364,-27},{-22,-27}},
-                                                           color={0,0,127}));
+  connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-81.2727,
+          -4.5},{-50.6364,-4.5},{-50.6364,-27},{-22,-27}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

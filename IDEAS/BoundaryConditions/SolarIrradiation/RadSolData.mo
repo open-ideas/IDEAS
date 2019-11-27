@@ -33,8 +33,8 @@ model RadSolData "Selects or generates correct solar data for this surface"
     annotation (Placement(transformation(extent={{96,-110},{116,-90}})));
   Modelica.Blocks.Interfaces.RealOutput Tenv "Environment temperature"
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
-  Modelica.Blocks.Interfaces.RealOutput hConExt
-    "Convection coefficient at an external surface"
+  Modelica.Blocks.Interfaces.RealOutput hForcedConExt
+    "Forced flow convection coefficient at an external surface"
     annotation (Placement(transformation(extent={{96,-132},{116,-112}})));
 protected
   final parameter Integer numMatches=
@@ -155,8 +155,8 @@ equation
   connect(radSol.solTim, weaBus.solTim) annotation (Line(points={{-80.4,33},{-86,
           33},{-86,64},{100.05,64},{100.05,80.05}},
                                                 color={0,0,127}));
-  connect(hConExt, solBusDummy.hConExt) annotation (Line(points={{106,-122},{
-          -39.9,-122},{-39.9,30.1}}, color={0,0,127}));
+  connect(hForcedConExt, solBusDummy.hForcedConExt) annotation (Line(points={{106,
+          -122},{-40,-122},{-40,30}},color={0,0,127}));
   connect(radSol.Vdir, weaBus.Vdir) annotation (Line(points={{-80.4,14.4},{-90,
           14.4},{-90,14},{-100,14},{-100,80.05},{100.05,80.05}}, color={0,0,127}));
   connect(radSol.Va, weaBus.Va) annotation (Line(points={{-80.4,17.2},{-90,17.2},

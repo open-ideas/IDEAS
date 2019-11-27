@@ -12,11 +12,16 @@ model ExteriorConvection "exterior surface convection"
 
   Modelica.Blocks.Interfaces.RealInput Te(unit="K",displayUnit="degC")
     annotation (Placement(transformation(extent={{-120,-68},{-80,-28}})));
-  Modelica.Blocks.Interfaces.RealInput hConExt(unit="W/(m2.K)")
+  Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit="W/(m2.K)")
     "Exterior convective heat transfer coefficient"
     annotation (Placement(transformation(extent={{-120,-110},{-80,-70}})));
 
+protected
+  Modelica.SIunits.CoefficientOfHeatTransfer hConExt
+  "Heat transfer coefficient for forced and natural convection" annotation ();
+
 equation
+  hConExt = hForcedConExt; // ToDo
   if linearise then
     port_a.Q_flow = A*hConExtLin *(port_a.T - Te);
   else

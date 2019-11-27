@@ -109,12 +109,12 @@ equation
           -14},{36,-14},{100.1,-14},{100.1,0.1}}, color={0,0,127}));
   connect(solDirTil.HDirTil, solBus.HDirTil) annotation (Line(points={{21,30},{
           100.1,30},{100.1,0.1}}, color={0,0,127}));
-  connect(extConvCoeff.hConExt, solBus.hConExt) annotation (Line(points={{21,72},
-          {60,72},{60,0.1},{100.1,0.1}}, color={0,0,127}));
   connect(Vdir, extConvCoeff.Vdir) annotation (Line(points={{-104,-156},{-26,-156},
           {-26,67.5},{-1.3,67.5}},       color={0,0,127}));
   connect(Va, extConvCoeff.Va) annotation (Line(points={{-104,-128},{-30,-128},{
           -30,70.3},{-1.3,70.3}},  color={0,0,127}));
+  connect(extConvCoeff.hForcedConExt, solBus.hForcedConExt) annotation (Line(points={{21,72},
+          {58,72},{58,0},{100,0}},              color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -160},{100,100}})),  Icon(coordinateSystem(extent={{-100,-160},{100,
             100}}),                   graphics={

@@ -6,7 +6,7 @@ connector SolBus
   IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HSkyDifTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HGroDifTil(unit="W/(m2)",start=100) annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hConExt(unit="W/(m2.K)",start=10) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector hForcedConExt(unit="W/(m2.K)",start=10) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector angInc(
     final quantity="Angle",
     final unit="rad",
