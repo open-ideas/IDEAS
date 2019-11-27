@@ -78,8 +78,11 @@ protected
   final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
 
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
-    eCon(final A=A*(1 - frac), linearise=linExtCon or sim.linearise)
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection eCon(
+    final A=A*(1 - frac),
+    linearise=linExtCon or sim.linearise,
+    final inc=incInt,
+    final azi=aziInt)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-38},{-40,-18}})));
 
@@ -285,8 +288,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
-  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points={{-20,-37},{
-          -50,-37},{-50,-58.5},{-81.2727,-58.5}},  color={0,0,127}));
+  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points={{-20,-37},
+          {-50,-37},{-50,-58.5},{-81.2727,-58.5}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
