@@ -78,7 +78,7 @@ protected
   final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
 
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection eCon(
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection extCon(
     final A=A*(1 - frac),
     linearise=linExtCon or sim.linearise,
     final inc=incInt,
@@ -168,7 +168,7 @@ initial equation
 
 
 equation
-  connect(eCon.port_a, layMul.port_b) annotation (Line(
+  connect(extCon.port_a, layMul.port_b) annotation (Line(
       points={{-20,-28},{-14,-28},{-14,0},{-10,0}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -237,15 +237,15 @@ equation
       points={{-20,96},{-12,96},{-12,6},{-20,6}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eConFra.Te, eCon.Te) annotation (Line(
+  connect(eConFra.Te, extCon.Te) annotation (Line(
       points={{-20,65.2},{-20,66},{-16,66},{-16,-32.8},{-20,-32.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eCon.hForcedConExt, eConFra.hForcedConExt) annotation (Line(
+  connect(extCon.hForcedConExt, eConFra.hForcedConExt) annotation (Line(
       points={{-20,-37},{-20,-36},{-14,-36},{-14,61},{-20,61}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eCon.Te, propsBusInt.weaBus.Te) annotation (Line(
+  connect(extCon.Te, propsBusInt.weaBus.Te) annotation (Line(
       points={{-20,-32.8},{56.09,-32.8},{56.09,19.91}},
       color={0,0,127},
       smooth=Smooth.None));
@@ -288,7 +288,7 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
-  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points={{-20,-37},
+  connect(extCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points={{-20,-37},
           {-50,-37},{-50,-58.5},{-81.2727,-58.5}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
