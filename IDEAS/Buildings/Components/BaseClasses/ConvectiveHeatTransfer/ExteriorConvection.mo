@@ -24,10 +24,13 @@ model ExteriorConvection "exterior surface convection"
 protected
   Modelica.SIunits.CoefficientOfHeatTransfer hNatConvExt
     "Heat transfer coefficient for natural convection" annotation ();
+  Modelica.SIunits.CoefficientOfHeatTransfer hSmooth
+    "Heat transfer coefficient for a smooth (glass) surface" annotation ();
   Modelica.SIunits.CoefficientOfHeatTransfer hConExt
-  "Heat transfer coefficient for combined forced and natural convection" annotation ();
+    "Heat transfer coefficient for combined forced and natural convection"
+    annotation ();
 
-  // Only used to simulate with fixed conv coeffs: applies to all surfaces. ToDo: Move to Exterior Convection.
+  // Only used to simulate with fixed conv coeffs: applies to all surfaces.
   parameter Boolean UseFixedHTC=false "Set to true to use fixed conv coeffs";
   parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
 
@@ -45,6 +48,8 @@ protected
   constant Real n=1/3 "TARP coeff";
 
   Modelica.SIunits.TemperatureDifference dT "Surface temperature minus outdoor air temperature" annotation ();
+
+  constant Real R=1 "Roughness factor (for testing)";
 
 equation
 
@@ -70,11 +75,14 @@ equation
 
   // Evaluate combined coefficient for natural and forced convection, or use fixed values.
   if UseFixedHTC then
+    hSmooth = 0;
     hConExt = fixedHTC;
   elseif linearise then
+    hSmooth = 0;
     hConExt = hConExtLin;
   else
-    hConExt = (hNatConvExt^2 + hForcedConExt^2)^0.5;
+    hSmooth = (hNatConvExt^2 + hForcedConExt^2)^0.5;
+    hConExt = (1-R)*hNatConvExt + R*hSmooth;
   end if;
 
   // Apply Newton's law at exterior surface.
