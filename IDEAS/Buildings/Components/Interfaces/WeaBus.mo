@@ -62,6 +62,8 @@ Connector that contains all environment information for many inclinations and ti
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Removed hConExt from weather bus because it is not calculated in ExtConvForcedCoeff.mo and ExteriorConvection.mo.<br/>
 Added wind speed and direction to weather bus.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
 <li>
 March 27, 2018, by Filip Jorissen:<br/>
 Added relative humidity to weather bus.

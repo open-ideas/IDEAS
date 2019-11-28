@@ -121,6 +121,8 @@ equation
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Major rewrite.  Convection coefficients now calculated by surface to consider combined natural and forced effects, and wind direction.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
 <li>
 November 15, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.

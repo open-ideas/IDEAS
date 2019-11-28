@@ -109,6 +109,8 @@ IDEAS uses TMY3 input files. For detailed documentation see
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Make wind direction available on WeaBus.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
 </li>
 <li>
 January 21, 2019 by Filip Jorissen:<br/>

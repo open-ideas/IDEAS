@@ -62,6 +62,8 @@ equation
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 First implementation.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
 </li>
 </ul>
 </html>", info="<html>
