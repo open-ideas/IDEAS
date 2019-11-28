@@ -156,7 +156,8 @@ equation
           33},{-86,64},{100.05,64},{100.05,80.05}},
                                                 color={0,0,127}));
   connect(hForcedConExt, solBusDummy.hForcedConExt) annotation (Line(points={{106,
-          -122},{-40,-122},{-40,30}},color={0,0,127}));
+          -122},{-39.9,-122},{-39.9,30.1}},
+                                     color={0,0,127}));
   connect(radSol.Vdir, weaBus.Vdir) annotation (Line(points={{-80.4,14.4},{-90,
           14.4},{-90,14},{-100,14},{-100,80.05},{100.05,80.05}}, color={0,0,127}));
   connect(radSol.Va, weaBus.Va) annotation (Line(points={{-80.4,17.2},{-90,17.2},
@@ -167,43 +168,14 @@ equation
 <p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>
 </html>", revisions="<html>
 <ul>
-<li>
-November 22, 2019 by Ian Beausoleil-Morrison:</br>
-Get exterior surface convection coefficient from solBus and provide as an output.
-</li>
-<li>
-August 9, 2018 by Filip Jorissen:<br/>
-Revised implementation for checking solData index and added
-assert to avoid duplicate entries in <code>incAndAziInBus</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/881\">
-#881</a>.
-</li>
-<li>
-March 26, 2018 by Iago Cupeiro &amp; Damien Picard:<br/>
-Solved bug in linearisation
-</li>
-<li>
-January 21, 2018 by Filip Jorissen:<br/>
-Added <code>solTim</code> connection for revised azimuth computations.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">
-#753</a>.
-</li>
-<li>
-May 26, 2017 by Filip Jorissen:<br/>
-Revised implementation for renamed
-ports <code>HDirTil</code> etc.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">
-#735</a>.
-</li>
-<li>
-March 25, 2016 by Filip Jorissen:<br/>
-Reworked radSol implementation to use RealInputs instead of weaBus.
-This simplifies translation and interpretation.
-</li>
-<li>
-February 10, 2015 by Filip Jorissen:<br/>
-First implementation.
-</li>
+<li>November 28, 2019 by Ian Beausoleil-Morrison:<br>
+Add RealOutput for coefficient for forced convection and get this from SolBus.</li>
+<li>August 9, 2018 by Filip Jorissen:<br>Revised implementation for checking solData index and added assert to avoid duplicate entries in <span style=\"font-family: monospace;\">incAndAziInBus</span>. See <a href=\"https://github.com/open-ideas/IDEAS/issues/881\">#881</a>. </li>
+<li>March 26, 2018 by Iago Cupeiro &amp; Damien Picard:<br>Solved bug in linearisation </li>
+<li>January 21, 2018 by Filip Jorissen:<br>Added <span style=\"font-family: monospace;\">solTim</span> connection for revised azimuth computations. See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">#753</a>. </li>
+<li>May 26, 2017 by Filip Jorissen:<br>Revised implementation for renamed ports <span style=\"font-family: monospace;\">HDirTil</span> etc. See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">#735</a>. </li>
+<li>March 25, 2016 by Filip Jorissen:<br>Reworked radSol implementation to use RealInputs instead of weaBus. This simplifies translation and interpretation. </li>
+<li>February 10, 2015 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
     Icon(coordinateSystem(extent={{-100,-140},{120,100}})));

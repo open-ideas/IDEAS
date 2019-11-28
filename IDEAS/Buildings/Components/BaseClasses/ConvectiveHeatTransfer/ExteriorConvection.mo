@@ -10,8 +10,6 @@ model ExteriorConvection "exterior surface convection"
   parameter Modelica.SIunits.Angle inc "Surface inclination";
   parameter Modelica.SIunits.Angle azi "Surface azimith";
 
-
-
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 
@@ -30,18 +28,12 @@ protected
     "Heat transfer coefficient for combined forced and natural convection"
     annotation ();
 
-  // Only used to simulate with fixed conv coeffs: applies to all surfaces.
-  parameter Boolean UseFixedHTC=false "Set to true to use fixed conv coeffs";
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer fixedHTC=10 "Only used if UseFixedHTC=true";
-
   final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
     "true if ceiling" annotation (Evaluate=true);
   final parameter Boolean isFloor=abs(sin(inc)) < 10E-5 and cos(inc) < 0
     "true if floor" annotation (Evaluate=true);
 
-  // Natural convection correlation coefficients based on TARP algorithm.
-  // Taken from Equations 3.75 to 3.77 of EnergyPlus Engineering Reference (p94).
-  Real C;
+  Real C "TARP coeff";
   constant Real C_vertical=1.31 "TARP coeff";
   constant Real C_horz_buoyant=1.509 "TARP coeff";
   constant Real C_horz_stable=0.76 "TARP coeff";
@@ -49,7 +41,7 @@ protected
 
   Modelica.SIunits.TemperatureDifference dT "Surface temperature minus outdoor air temperature" annotation ();
 
-  constant Real R=1 "Roughness factor (for testing)";
+  constant Real R=1 "Roughness factor (value of 1 recommended)";
 
 equation
 
@@ -74,10 +66,7 @@ equation
   hNatConvExt = C * abs(dT)^n;
 
   // Evaluate combined coefficient for natural and forced convection, or use fixed values.
-  if UseFixedHTC then
-    hSmooth = 0;
-    hConExt = fixedHTC;
-  elseif linearise then
+  if linearise then
     hSmooth = 0;
     hConExt = hConExtLin;
   else
@@ -123,23 +112,15 @@ equation
           color={0,0,0},
           thickness=0.5)}),
     Documentation(info="<html>
-<p>
-The exterior convective heat flow is computed as 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-dlroqBUD.png\"/>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-pvb42RGk.png\"/> is the surface area, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-EFr6uClx.png\"/> is the dry-bulb exterior air temperature, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-9BU57cj4.png\"/> is the surface temperature and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-HvwkeunV.png\"/> is the wind speed in the undisturbed flow at 
-10 meter above the ground and where the stated correlation is valid for a 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-HvwkeunV.png\"/> range of [0.15,7.5] meter per second 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[Defraeye 2011]</a>.
- The <img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-HvwkeunV.png\"/>-dependent term denoting the exterior 
-convective heat transfer coefficient <img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-W7Ft8vaa.png\"/> is 
-determined as <img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-aZcbMNkz.png\"/> in order to take into 
-account buoyancy effects at low wind speeds <a href=\"IDEAS.Buildings.UsersGuide.References\">[Jurges 1924]</a>.
-</p>
+<p>The exterior convective heat transfer is computed using Newton&apos;s Law of Cooling. The convection coefficient considers the combined effects of natural (buoyancy driven) and forced (wind-driven) flow.</p>
+<p>The coefficient for forced convection is calculated in ExtConvForcedCoeff.mo, whereas the current model calculates the coefficient for natural convection and combines the two together to determine the coefficient used in Newton&apos;s Law of Cooling.</p>
+<p>The &quot;TARP&quot; correlation is used to calculate the coefficient for natural convection. The parameters for the correlation at sourced from the EnergyPlus Engineering manual (Equations 3.75 to 3.77, Page 94). Horizontal surfaces are treated as either a ceiling or a floor, and can be either stably stratified or buoyant, depending upon the surface-to-air temperature difference. Any non-horizontal surface is treated as vertical.</p>
+<p>This implementation includes a &quot;roughness factor&quot; that can be used to augment the combined convection coefficient calculated by the correlations.  This is used in the so-called &quot;DOE-2 model&quot; that is EnergyPlus&apos; default approach.  However, the use of roughness factors other than 1 are discouraged as there appears to be little physical basis for this factor.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 28, 2019, by Ian Beausoleil-Morrison:<br/>
+Major rewrite.  Convection coefficients now calculated by surface to consider combined natural and forced effects, and wind direction.
 <li>
 November 15, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.

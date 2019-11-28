@@ -136,8 +136,9 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-November 22, 2019, by Ian Beausoleil-Morrison:<br/>
-Instantiates extConvCoeff.mo and places resulting convection coefficient on solBus.
+November 28, 2019, by Ian Beausoleil-Morrison:<br/>
+Add RealInput's for wind speed and wind direction.<br/>
+Instantiate extConvForcedCoeff.mo and place resulting coefficient for forced convection on SolBus.
 <\\li>
 <li>
 January 21, 2018 by Filip Jorissen:<br/>

@@ -6,7 +6,7 @@ connector SolBus
   IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HSkyDifTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HGroDifTil(unit="W/(m2)",start=100) annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hForcedConExt(unit="W/(m2.K)",start=10) annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector hForcedConExt(unit="W/(m2.K)",start=10) "Coefficient for forced convection at exterior surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector angInc(
     final quantity="Angle",
     final unit="rad",
@@ -38,8 +38,8 @@ Connector that contains all solar irridiation information for one inclination an
 </html>", revisions="<html>
 <ul>
 <li>
-November 22, 2019 by Ian Beausoleil-Morrison:<br/>
-Add exterior surface convection coefficient to bus.
+November 28, 2019 by Ian Beausoleil-Morrison:<br/>
+Add RealConnector for coefficient for forced convection at exterior surface.
 <\\li>
 <li>
 August 24, 2018, by Damien Picard:<br/>

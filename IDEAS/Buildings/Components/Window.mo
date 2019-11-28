@@ -370,6 +370,9 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </html>", revisions="<html>
 <ul>
 <li>
+November 28, 2019, by Ian Beausoleil-Morrison:<br/>
+<code>inc</code> and <code>azi</code> of surface now passed as parameters to ExteriorConvection.
+<li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
 and <code>azi</code> by adding the option to use radio buttons.

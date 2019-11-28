@@ -107,8 +107,8 @@ IDEAS uses TMY3 input files. For detailed documentation see
 </html>", revisions="<html>
 <ul>
 <li>
-November 21, 2019 by Ian Beausoleil-Morrison:<br/>
-Make wind direction available on weather bus.
+November 28, 2019 by Ian Beausoleil-Morrison:<br/>
+Make wind direction available on WeaBus.
 </li>
 <li>
 January 21, 2019 by Filip Jorissen:<br/>
