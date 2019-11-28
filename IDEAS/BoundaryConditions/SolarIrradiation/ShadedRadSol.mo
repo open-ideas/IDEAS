@@ -19,6 +19,7 @@ model ShadedRadSol "Block that computes surface-dependent environment data"
   Modelica.Blocks.Sources.Constant surfAzi(k=azi) "Surface azimuth angle"
     annotation (Placement(transformation(extent={{-20,-54},{-8,-42}})));
 
+
 protected
   final parameter Real Fssky=(1 + cos(inc))/2
     "radiant-interchange configuration factor between surface and sky";
@@ -32,12 +33,12 @@ protected
   Modelica.Blocks.Sources.RealExpression TenvExpr(
     y=(coeffSky*TskyPow4 + coeffEnv*TePow4)^0.25)
     "Environment temperature"
-    annotation (Placement(transformation(extent={{32,74},{92,94}})));
+    annotation (Placement(transformation(extent={{0,70},{60,90}})));
 
 
 equation
   connect(TenvExpr.y, solBus.Tenv) annotation (Line(
-      points={{95,84},{100.1,84},{100.1,0.1}},
+      points={{63,80},{100.1,80},{100.1,0.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solDirTil.incAng, incAng.incAng) annotation (Line(points={{-2,24},{
