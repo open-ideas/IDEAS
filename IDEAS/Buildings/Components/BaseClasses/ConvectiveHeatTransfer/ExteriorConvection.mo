@@ -130,11 +130,5 @@ Revised documentation for IDEAS 1.0.
 </ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
-    experiment(
-      StartTime=2678400,
-      StopTime=3283200,
-      Interval=299.99988,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+            100}})));
 end ExteriorConvection;

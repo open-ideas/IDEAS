@@ -192,7 +192,7 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">
 </li>
 <li>
 May 26, 2017 by Filip Jorissen:<br>
-Revised implementation for renamed ports <span style=\"font-family: monospace;\">HDirTil</span> etc.
+Revised implementation for renamed ports <code>HDirTil</code> etc.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">
 #735</a>.
 </li>
