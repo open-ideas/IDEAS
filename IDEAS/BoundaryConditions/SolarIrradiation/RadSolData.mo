@@ -192,7 +192,8 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">
 </li>
 <li>
 May 26, 2017 by Filip Jorissen:<br>
-Revised implementation for renamed ports <code>HDirTil</code> etc.
+Revised implementation for renamed
+ports <code>HDirTil</code> etc.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">
 #735</a>.
 </li>
@@ -206,6 +207,5 @@ February 10, 2015 by Filip Jorissen:<br>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Icon(coordinateSystem(extent={{-100,-140},{120,100}})));
+</html>"));
 end RadSolData;
