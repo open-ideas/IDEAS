@@ -136,14 +136,16 @@ protected
     annotation (Placement(transformation(extent={{-36,-50},{-32,-46}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes
     "Design temperature passthrough since propsBus variables cannot be addressed directly";
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGla(
-     C=Cgla, T(fixed= energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial, start=T_start)) if addCapGla
-    "Heat capacitor for glazing"
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaInt(C=Cgla/2,
+      T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
+        start=T_start)) if                                                                             addCapGla
+    "Heat capacitor for glazing at interior"
     annotation (Placement(transformation(extent={{6,-12},{26,-32}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapFra(
-     C=Cfra, T(fixed= energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial, start=T_start)) if addCapFra
-    "Heat capacitor for frame"
-    annotation (Placement(transformation(extent={{6,88},{26,108}})));
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapFraIn(C=Cfra/2,
+      T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
+        start=T_start)) if                                                                             addCapFra
+    "Heat capacitor for frame at interior"
+    annotation (Placement(transformation(extent={{4,100},{24,120}})));
   Modelica.Blocks.Sources.Constant constEpsSwFra(final k=fraType.mat.epsSw)
     "Shortwave emissivity of frame"
     annotation (Placement(transformation(extent={{4,46},{-6,56}})));
@@ -157,6 +159,16 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-56,-50},{-50,-44}})));
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapFraExt(C=Cfra/2,
+      T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
+        start=T_start)) if                                                                             addCapFra
+    "Heat capacitor for frame at exterior"
+    annotation (Placement(transformation(extent={{-20,100},{0,120}})));
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaExt(C=Cgla/2,
+      T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
+        start=T_start)) if                                                                             addCapGla
+    "Heat capacitor for glazing at exterior"
+    annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -253,10 +265,10 @@ equation
   connect(Tdes.u, propsBusInt.weaBus.Tdes);
   connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-60,-54},{
           -60,-54},{-10,-54}},           color={0,0,127}));
-  connect(heaCapGla.port, layMul.port_a)
-    annotation (Line(points={{16,-12},{16,0},{10,0}},     color={191,0,0}));
-  connect(heaCapFra.port, layFra.port_a)
-    annotation (Line(points={{16,88},{16,70},{10,70}}, color={191,0,0}));
+  connect(heaCapGlaInt.port, layMul.port_a)
+    annotation (Line(points={{16,-12},{16,0},{10,0}}, color={191,0,0}));
+  connect(heaCapFraIn.port, layFra.port_a)
+    annotation (Line(points={{14,100},{14,70},{10,70}}, color={191,0,0}));
   connect(skyRadFra.epsLw, constEpsLwFra.y) annotation (Line(points={{-20,93.4},
           {-14,93.4},{-14,91},{-6.5,91}}, color={0,0,127}));
   connect(solAbs.port_a, layFra.port_b) annotation (Line(points={{-20,50},{-16,
@@ -286,6 +298,10 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
+  connect(layFra.port_b, heaCapFraExt.port)
+    annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
+  connect(heaCapGlaExt.port, layMul.port_b)
+    annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -365,6 +381,12 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 2, 2019, by Filip Jorissen:<br/>
+Split heat capacitor to interior and exterior part 
+to avoid non-linear algebraic loops.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1092\">#1092</a>.
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
