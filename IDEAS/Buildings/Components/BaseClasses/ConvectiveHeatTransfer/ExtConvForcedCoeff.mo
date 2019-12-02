@@ -1,27 +1,29 @@
 within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model ExtConvForcedCoeff
-  "Calculates convection coefficient for forced flow at an exterior surface as a function of wind speed and direction"
+  "Calculates convection coefficient for forced flow at an 
+  exterior surface as a function of wind speed and direction"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Modelica.SIunits.Angle inc "Surface inclination";
-  parameter Modelica.SIunits.Angle azi "Surface azimith";
+  parameter Modelica.SIunits.Angle azi "Surface azimuth";
 
-  Modelica.Blocks.Interfaces.RealOutput hForcedConExt "Forced flow convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealOutput hForcedConExt
+    "Forced flow convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
           extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,
             10}})));
-  Modelica.Blocks.Interfaces.RealInput Va "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
-  Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
+  Modelica.Blocks.Interfaces.RealInput Va(unit="m/s")
+    "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
+  Modelica.Blocks.Interfaces.RealInput Vdir(unit="rad")
+    "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
 
 protected
   final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
-    "true if ceiling"
+    "=true, if ceiling"
     annotation(Evaluate=true);
   final parameter Boolean isFloor=abs(sin(inc)) < 10E-5 and cos(inc) < 0
-    "true if floor"
+    "=true, if floor"
     annotation(Evaluate=true);
 
-  Real a "MoWiTT coeff used for current wind direction";
-  Real b "MoWiTT coeff used for current wind direction";
   constant Real a_windward=3.26 "MoWiTT coeff for windward conditions";
   constant Real b_windward=0.89 "MoWiTT coeff for windward conditions";
   constant Real a_leeward=3.55 "MoWiTT coeff for leeward conditions";
@@ -32,6 +34,8 @@ protected
   constant Real cosWindwardVsLeeward=Modelica.Math.cos(WindwardVsLeeward)
     "Cosine of transition angle";
 
+  Real a "MoWiTT coeff used for current wind direction";
+  Real b "MoWiTT coeff used for current wind direction";
 equation
 
   if isCeiling then
@@ -68,7 +72,8 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 </ul>
 </html>", info="<html>
 <p>
-This model calculates the convection coefficient at an exterior surface for pure forced flow conditions. 
+This model calculates the convection coefficient at an exterior surface for pure forced flow conditions
+for low-rise buildings. 
 The forced flow coefficient resulting from this model is combined in 
 <a href=\"IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection\">
 IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection</a> 
@@ -79,7 +84,7 @@ for purely natural convection conditions to produce a coefficient for combined n
 It applies the &quot;MoWitt&quot; correlation for forced flow, 
 which is empirically derived from a Window test facility. 
 The correlation&apos;s coefficients are taken from the 
-EnergyPlus Engineering manual (Table 3.9, Page 95). 
+EnergyPlus v8.9 Engineering manual (Table 3.9, Page 95). 
 Different coefficients are used in the correlation depending 
 on whether the surface is &quot;windward&quot; or &quot;leeward&quot;. 
 In this implementation a vertical surface is considered leeward if the 
@@ -93,6 +98,8 @@ Any non-horizontal surface is treated as vertical.
 <p>
 The wind speed from the weather file is used in the MoWiTT correlation: 
 no adjustments are made for building height or local wind sheltering.
+The MoWiTT correlation assumes that the wind speed is measured at the weather
+station.
 </p>
 </html>"));
 end ExtConvForcedCoeff;
