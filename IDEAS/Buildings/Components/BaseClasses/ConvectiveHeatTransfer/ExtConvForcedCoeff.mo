@@ -1,4 +1,4 @@
-within IDEAS.BoundaryConditions;
+within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model ExtConvForcedCoeff
   "Calculates convection coefficient for forced flow at an exterior surface as a function of wind speed and direction"
   extends Modelica.Blocks.Icons.Block;
@@ -67,9 +67,32 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 </li>
 </ul>
 </html>", info="<html>
-<p>This model calculates the convection coefficient at an exterior surface for pure forced flow conditions. The forced flow coefficient resulting from this model will be later combined in ExteriorConvection.mo with a coefficient for purely natural convection conditions to produce a coefficient for combined natural and forced flow.</p>
-<p>It applies the &quot;MoWitt&quot; correlation for forced flow, which is empircally derived from a window test facility. The correlation&apos;s coefficients are taken from the EnergyPlus Engineering manual (Table 3.9, Page 95). Different coefficients are used in the correlation depending on whether the surface is &quot;windward&quot; or &quot;leeward&quot;. In this implementation a vertical surface is considered leeward if the wind angle is more than 100 degrees from normal incidence. Ceilings are always treated as windward, while floors are always treated as leeward.</p>
-<p>Horizontal&nbsp;surfaces are treated as either a ceiling or a floor. Any non-horizontal surface is treated as vertical.</p>
-<p>The wind speed from the weather file is used in the MoWiTT correlation: no adjustments are made for building height or local wind sheltering.</p>
+<p>
+This model calculates the convection coefficient at an exterior surface for pure forced flow conditions. 
+The forced flow coefficient resulting from this model is combined in 
+<a href=\"IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection\">
+IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection</a> 
+with a coefficient 
+for purely natural convection conditions to produce a coefficient for combined natural and forced flow.
+</p>
+<p>
+It applies the &quot;MoWitt&quot; correlation for forced flow, 
+which is empirically derived from a Window test facility. 
+The correlation&apos;s coefficients are taken from the 
+EnergyPlus Engineering manual (Table 3.9, Page 95). 
+Different coefficients are used in the correlation depending 
+on whether the surface is &quot;windward&quot; or &quot;leeward&quot;. 
+In this implementation a vertical surface is considered leeward if the 
+wind angle is more than 100 degrees from normal incidence. 
+Ceilings are always treated as windward, while floors are always treated as leeward.
+</p>
+<p>
+Horizontal&nbsp;surfaces are treated as either a ceiling or a floor. 
+Any non-horizontal surface is treated as vertical.
+</p>
+<p>
+The wind speed from the weather file is used in the MoWiTT correlation: 
+no adjustments are made for building height or local wind sheltering.
+</p>
 </html>"));
 end ExtConvForcedCoeff;

@@ -57,10 +57,9 @@ protected
                         solDirTil
     "Computation of direct solar irradiation on tilted surface"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
-  IDEAS.BoundaryConditions.ExtConvForcedCoeff extConvCoeff(
-      final inc=inc,
-      final azi=azi)
-      "Calculate coefficient for forced convection for exterior surface"
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExtConvForcedCoeff
+    extConvCoeff(final inc=inc, final azi=azi)
+    "Calculate coefficient for forced convection for exterior surface"
     annotation (Placement(transformation(extent={{0,62},{20,82}})));
 
   Modelica.Blocks.Sources.Constant dummyValAzi(k=0) if not remDefVals
