@@ -11,10 +11,12 @@ model ExtConvForcedCoeff
     "Forced flow convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
           extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,
             10}})));
-  Modelica.Blocks.Interfaces.RealInput Va(unit="m/s")
-    "Wind speed" annotation (Placement(transformation(extent={{-126,-30},{-100,-4}})));
-  Modelica.Blocks.Interfaces.RealInput Vdir(unit="rad")
-    "Wind direction" annotation (Placement(transformation(extent={{-126,-58},{-100,-32}})));
+  Modelica.Blocks.Interfaces.RealInput winSpe(unit="m/s")
+    "Wind speed" annotation (Placement(transformation(extent={{-140,20},{-100,
+            60}})));
+  Modelica.Blocks.Interfaces.RealInput winDir(unit="rad")
+    "Wind direction" annotation (Placement(transformation(extent={{-140,-60},{
+            -100,-20}})));
 
 protected
   final parameter Boolean isCeiling=abs(sin(inc)) < 10E-5 and cos(inc) > 0
@@ -49,17 +51,17 @@ equation
       pos=a_leeward,
       neg=a_windward,
       x=cosWindwardVsLeeward - Modelica.Math.cos(azi + Modelica.Constants.pi -
-        Vdir),
+        winDir),
       deltax=0.05);
     b = IDEAS.Utilities.Math.Functions.spliceFunction(
       pos=b_leeward,
       neg=b_windward,
       x=cosWindwardVsLeeward - Modelica.Math.cos(azi + Modelica.Constants.pi -
-        Vdir),
+        winDir),
       deltax=0.05);
   end if;
 
-  hForcedConExt = a * Va^b;
+  hForcedConExt = a * winSpe^b;
 
   annotation (Documentation(revisions="<html>
 <ul>

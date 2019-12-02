@@ -48,10 +48,16 @@ model RadSol "Block that computes surface-dependent environment data"
     "Computation of diffuse solar irradiation on tilted surface"
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
 
-  Modelica.Blocks.Interfaces.RealInput Va "Wind speed"
-    annotation (Placement(transformation(extent={{-124,-148},{-84,-108}})));
-  Modelica.Blocks.Interfaces.RealInput Vdir "Wind direction"
-    annotation (Placement(transformation(extent={{-124,-176},{-84,-136}})));
+  Modelica.Blocks.Interfaces.RealInput winSpe "Wind speed" annotation (
+      Placement(transformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-60,120})));
+  Modelica.Blocks.Interfaces.RealInput winDir "Wind direction" annotation (
+      Placement(transformation(
+        extent={{20,-20},{-20,20}},
+        rotation=90,
+        origin={-20,120})));
 protected
   SolarIrradiation.BaseClasses.DirectTiltedSurface
                         solDirTil
@@ -60,26 +66,26 @@ protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExtConvForcedCoeff
     extConvCoeff(final inc=inc, final azi=azi)
     "Calculate coefficient for forced convection for exterior surface"
-    annotation (Placement(transformation(extent={{0,62},{20,82}})));
+    annotation (Placement(transformation(extent={{20,60},{40,80}})));
 
   Modelica.Blocks.Sources.Constant dummyValAzi(k=0) if not remDefVals
     "angAzi dummy value when not needed"
-    annotation (Placement(transformation(extent={{-20,-98},{-8,-86}})));
+    annotation (Placement(transformation(extent={{48,-98},{60,-86}})));
   Modelica.Blocks.Sources.Constant dummyValTenv(k=Modelica.Constants.inf) if
                                                      not remDefVals
     "Tenv dummy value when not needed"
-    annotation (Placement(transformation(extent={{-20,-76},{-8,-64}})));
+    annotation (Placement(transformation(extent={{48,-76},{60,-64}})));
 
 
 equation
   connect(angZen, solBus.angZen) annotation (Line(points={{-104,-40},{100.1,-40},
           {100.1,0.1}}, color={0,0,127}));
   connect(dummyValAzi.y, solBus.angAzi) annotation (Line(
-      points={{-7.4,-92},{100.1,-92},{100.1,0.1}},
+      points={{60.6,-92},{100.1,-92},{100.1,0.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(dummyValTenv.y, solBus.Tenv) annotation (Line(
-      points={{-7.4,-70},{100.1,-70},{100.1,0.1}},
+      points={{60.6,-70},{100.1,-70},{100.1,0.1}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(solDirTil.HDirNor, solDirPer) annotation (Line(points={{-2,36},{-8,36},
@@ -108,14 +114,14 @@ equation
           -14},{36,-14},{100.1,-14},{100.1,0.1}}, color={0,0,127}));
   connect(solDirTil.HDirTil, solBus.HDirTil) annotation (Line(points={{21,30},{
           100.1,30},{100.1,0.1}}, color={0,0,127}));
-  connect(Vdir, extConvCoeff.Vdir) annotation (Line(points={{-104,-156},{-26,-156},
-          {-26,67.5},{-1.3,67.5}},       color={0,0,127}));
-  connect(Va, extConvCoeff.Va) annotation (Line(points={{-104,-128},{-30,-128},{
-          -30,70.3},{-1.3,70.3}},  color={0,0,127}));
-  connect(extConvCoeff.hForcedConExt, solBus.hForcedConExt) annotation (Line(points={{21,72},
-          {58,72},{58,0.1},{100.1,0.1}},        color={0,0,127}));
+  connect(extConvCoeff.hForcedConExt, solBus.hForcedConExt) annotation (Line(points={{41,70},
+          {60,70},{60,0.1},{100.1,0.1}},        color={0,0,127}));
+  connect(extConvCoeff.winSpe, winSpe)
+    annotation (Line(points={{18,74},{-60,74},{-60,120}}, color={0,0,127}));
+  connect(extConvCoeff.winDir, winDir)
+    annotation (Line(points={{18,66},{-20,66},{-20,120}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -160},{100,100}})),  Icon(coordinateSystem(extent={{-100,-160},{100,
+            -100},{100,100}})),  Icon(coordinateSystem(extent={{-100,-120},{100,
             100}}),                   graphics={
         Polygon(
           points={{-90,-80},{-40,-40},{40,-40},{90,-80},{-90,-80}},

@@ -41,8 +41,8 @@ equation
         "Your model is using an outer \"sim\" component. An inner \"sim\" component is not defined. For simulation drag IDEAS.BoundaryConditions.SimInfoManager into your model.",
     Icon(graphics={
         Bitmap(extent={{22,-8},{20,-8}}, fileName="")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,140}})),
     Documentation(info="<html>
 <p>
 The SimInfoManager manages all simulation information. 

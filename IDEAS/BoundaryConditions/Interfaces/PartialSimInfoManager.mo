@@ -214,9 +214,9 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
-  Modelica.Blocks.Routing.RealPassThrough WindSpeed "Wind speed"
+  Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
     annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
-  Modelica.Blocks.Routing.RealPassThrough WindDirection "Wind direction"
+  Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   if not linearise and computeConservationOfEnergy then
@@ -270,13 +270,13 @@ equation
     connect(radSol[i].F1, skyBrightnessCoefficients.F1) annotation (Line(points={{39.6,62},
             {26,62},{26,94},{21,94}},         color={0,0,127}));
     connect(TskyPow4Expr.y, radSol[i].TskyPow4) annotation (Line(points={{1,104},
-            {48,104},{48,80.6}}, color={0,0,127}));
-    connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{1,116},{54,
-            116},{54,80.6}},               color={0,0,127}));
-    connect(WindSpeed.y, radSol[i].Va) annotation (Line(points={{-77.6,126},{39.6,
-            126},{39.6,57.2}},             color={0,0,127}));
-    connect(WindDirection.y, radSol[i].Vdir) annotation (Line(points={{-77.6,140},
-            {39.6,140},{39.6,54.4}},       color={0,0,127}));
+            {52,104},{52,82}},   color={0,0,127}));
+    connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{1,116},{
+            56,116},{56,81.8}},            color={0,0,127}));
+    connect(winSpe.y, radSol[i].winSpe) annotation (Line(points={{-77.6,126},{
+            44,126},{44,82}}, color={0,0,127}));
+    connect(winDir.y, radSol[i].winDir) annotation (Line(points={{-77.6,140},{
+            48,140},{48,82}}, color={0,0,127}));
   end for;
   if not lineariseDymola then
     connect(solTim.y, weaBus.solTim) annotation (Line(points={{-77.6,2},{18,2},{
@@ -401,26 +401,22 @@ equation
       thickness=0.5));
   connect(CEnv.y, weaDatBus.CEnv) annotation (Line(points={{81,-20},{82,-20},{
           82,-10},{40,-10},{40,-10},{-100,-10}}, color={0,0,127}));
-  connect(weaDatBus.winSpe, WindSpeed.u) annotation (Line(
-      points={{-100,-10},{-94,-10},{-94,126},{-86.8,126}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(WindSpeed.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},
+  connect(winSpe.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},{
+          10,40.05},{100.05,40.05}}, color={0,0,127}));
+  connect(winDir.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,140},
           {10,40.05},{100.05,40.05}}, color={0,0,127}));
-  connect(weaDatBus.winDir, WindDirection.u) annotation (Line(
-      points={{-100,-10},{-94,-10},{-94,140},{-86.8,140}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
+  connect(winDir.u, weaDatBus.winDir) annotation (Line(points={{-86.8,140},{
+          -100,140},{-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(WindDirection.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,
-          140},{10,40.05},{100.05,40.05}}, color={0,0,127}));
+  connect(winSpe.u, weaDatBus.winSpe) annotation (Line(points={{-86.8,126},{
+          -100,126},{-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
     annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
@@ -498,8 +494,8 @@ equation
           textStyle={TextStyle.Italic},
           fontName="Bookman Old Style",
           textString="i")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            160}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,120}})),
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
