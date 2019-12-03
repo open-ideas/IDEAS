@@ -1,5 +1,6 @@
 linRecZon.airModel.vol.T
-linRecZon.winA.heaCapGla.T
+linRecZon.winA.heaCapGlaInt.T
+linRecZon.winA.heaCapGlaExt.T
 linRecZon.bouFlo.layMul.monLay[1].monLayDyn.T[1]
 linRecZon.bouFlo.layMul.monLay[1].monLayDyn.T[2]
 linRecZon.bouFlo.layMul.monLay[2].monLayDyn.T[1]
