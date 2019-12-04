@@ -9,7 +9,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
   parameter Modelica.SIunits.Length t(min=0)
     "Fin thickness";
   parameter Boolean use_displacementInput = false
-    "=true, to use input for controlling the horizontal fin displacement"
+    "=true, to use input for controlling the horizontal fin displacement. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Boolean use_betaInput = false
     "=true, to use input for fin inclination angle"
@@ -18,7 +18,8 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
     annotation(Dialog(enable=not use_betaInput));
 
-  Real shaFrac "Shaded fraction of the glazing";
+  Real shaFrac "Shaded fraction of the glazing for direct solar irradiation";
+  Real shaFracDif "Shaded fraction of the glazing for diffuse solar irradiation";
 
 
 protected
@@ -35,6 +36,13 @@ protected
     "Internal variable for displacement fraction";
   Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen
     "Altitude angle";
+
+  // assuming diffuse radiation impedes perpendicular in azimuth direction
+  // and under 30 degrees with the horizontal plane
+  parameter Modelica.SIunits.Angle angAltDif = Modelica.Constants.pi/2/3
+    "Assumed average altitude angle of diffuse shading";
+  Modelica.SIunits.Length dy3Dif = max(0,min(dzDif*tan(angAltDif),s));
+  Modelica.SIunits.Length dzDif = dx/cos(angAltDif);
 
 initial equation
   if not use_betaInput then
@@ -68,9 +76,17 @@ equation
     shaFrac = dispLim*(1 - (dy1-min(dy1,dy3))/s);
   end if;
 
+  // same reasoning as for direct solar irradiation
+  if dy3Dif > dy1 then
+    shaFracDif = dispLim;
+  else
+    shaFracDif = dispLim*(1 - (dy1-min(dy1,dy3Dif))/s);
+  end if;
+
   HShaDirTil = (1-shaFrac)*HDirTil;
+  HShaSkyDifTil = (1-shaFracDif)*HSkyDifTil;
+
   angInc = iAngInc;
-  connect(HSkyDifTil, HShaSkyDifTil);
   connect(HGroDifTil, HShaGroDifTil);
 
     annotation (
@@ -78,14 +94,23 @@ equation
     Documentation(info="<html>
 <p>
 Shading model for exterior horizontal fins in front of a window,
-in function of the fin angle.
+in function of the fin angle. The control input <code>Ctrl</code>
+can either be used for controlling the fin angle, or its horizontal displacement.
+The horizontal displacement option assumes that the fins can be displaced
+horizontally at the exterior of the window such that they are either in front or
+next to the window.
 </p>
 <h4>Assumption and limitations</h4>
 <p>
-We assume that the fins fully cover the window at all times.
-The fin angle should be positive.
-The diffuse solar irradiation is not modified, i.e. only the direct
-solar irradiation is influenced.
+We assume that the fins fully cover the window unless the horizontal
+displacement option is used.
+The fin angle <code>beta</code> should be positive.
+We compute the shaded fraction of the direct solar irradiation and assume
+that indirect reflect effects are negligible.
+The diffuse solar irradiation is correct by assuming that the diffuse
+solar irradation originates from a solar altitude angle of 30 degrees,
+which is an approximation to reality.
+The ground diffuse solar irradation is not modified.
 </p>
 <h4>Typical use and important parameters</h4>
 <p>
@@ -117,6 +142,11 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 10, 2019 by Filip Jorissen:<br/>
+Added simplified computation for diffuse solar shading.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/874\">#874</a>.
+</li>
 <li>
 March 18, 2019 by Filip Jorissen:<br/>
 Added control option for horizontal displacement.

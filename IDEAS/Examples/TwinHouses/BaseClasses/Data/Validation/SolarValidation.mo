@@ -3,7 +3,7 @@ model SolarValidation
   extends Modelica.Icons.Example;
   ValidationDataN2Exp1 validationDataN2Exp1
     "Measurement data for validation purposes"
-    annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
   IDEAS.Examples.TwinHouses.BaseClasses.TwinHouseInfoManager sim(
     exp=1,
     bui=1,
@@ -22,6 +22,19 @@ model SolarValidation
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   Modelica.Blocks.Math.Add3 HGloE
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+  Modelica.Blocks.Sources.RealExpression errHEast(y=abs(HGloE.y - sim.radCon.HEast))
+    "Error on HEast computation"
+    annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
+  Modelica.Blocks.Sources.RealExpression errHSouth(y=abs(HGloS.y - sim.radCon.HSouth))
+    "Error on HSouth computation"
+    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
+  Modelica.Blocks.Sources.RealExpression errHWest(y=abs(HGloW.y - sim.radCon.HWest))
+    "Error on HWest computation"
+    annotation (Placement(transformation(extent={{-20,-100},{0,-80}})));
+  Modelica.Blocks.Math.Add3 add3_1
+    annotation (Placement(transformation(extent={{20,-80},{40,-60}})));
+  Modelica.Blocks.Continuous.Integrator errTot(k=1) "Total error"
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
 equation
   connect(sim.weaBus, weaBus1) annotation (Line(
       points={{-61,93},{-40,93},{-40,92},{-40,10},{-30,10}},
@@ -67,6 +80,14 @@ equation
                                       color={0,0,127}));
 
 
+  connect(errHWest.y, add3_1.u3)
+    annotation (Line(points={{1,-90},{18,-90},{18,-78}}, color={0,0,127}));
+  connect(errHSouth.y, add3_1.u2)
+    annotation (Line(points={{1,-70},{18,-70}}, color={0,0,127}));
+  connect(add3_1.u1, errHEast.y)
+    annotation (Line(points={{18,-62},{18,-50},{1,-50}}, color={0,0,127}));
+  connect(errTot.u, add3_1.y)
+    annotation (Line(points={{58,-70},{41,-70}}, color={0,0,127}));
     annotation (experiment(
       StartTime=20000000,
       StopTime=23587200,
@@ -74,5 +95,13 @@ equation
       Tolerance=1e-06),
                      __Dymola_Commands(file=
           "modelica://IDEAS/Resources/Scripts/Dymola/Examples/TwinHouses/BaseClasses/Data/Validation/SolarValidation.mos"
-        "Simulate and plot"));
+        "Simulate and plot"),
+    Documentation(revisions="<html>
+<ul>
+<li>
+October 10, 2019, by Filip Jorissen:<br/>
+Extended implementation such that it computes total errors.
+</li>
+</ul>
+</html>"));
 end SolarValidation;

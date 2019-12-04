@@ -1,6 +1,6 @@
-within IDEAS.Examples.TwinHouses.BaseClasses;
-model RadiationConvertor
-  "Converts east-south-west radiation into diffuse and direct component"
+within IDEAS.BoundaryConditions.SolarIrradiation;
+model RadiationConvertorSimplified
+  "Converts east-south-west radiation into diffuse and direct component, without complex algebraic loop"
   extends Modelica.Blocks.Interfaces.BlockIcon;
   parameter Modelica.SIunits.Angle lat "Latitude";
 
@@ -166,4 +166,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end RadiationConvertor;
+end RadiationConvertorSimplified;
