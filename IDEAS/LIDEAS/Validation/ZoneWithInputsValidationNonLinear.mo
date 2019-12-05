@@ -137,9 +137,12 @@ public
     "Difference between the temperature of the zone models and the state space model outputs"
     annotation (Placement(transformation(extent={{40,100},{60,120}})));
 initial equation
-  stateSpace.x =  {groFlo.airModel.vol.T,
-window.heaCapGla.T,
-window.heaCapFra.T,
+  stateSpace.x =  {
+groFlo.airModel.vol.T,
+window.heaCapGlaInt.T,
+window.heaCapFraIn.T,
+window.heaCapFraExt.T,
+window.heaCapGlaExt.T,
 firFlo.airModel.vol.T,
 commonWall.layMul.monLay[1].monLayDyn.T[1],
 commonWall.layMul.monLay[1].monLayDyn.T[2],

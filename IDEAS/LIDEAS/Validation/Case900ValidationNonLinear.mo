@@ -91,7 +91,8 @@ public
     annotation (Placement(transformation(extent={{80,-50},{100,-30}})));
 initial algorithm
   x_start :={linRecZon.airModel.vol.T,
-linRecZon.winA.heaCapGla.T,
+linRecZon.winA.heaCapGlaInt.T,
+linRecZon.winA.heaCapGlaExt.T,
 linRecZon.bouFlo.layMul.monLay[1].monLayDyn.T[1],
 linRecZon.bouFlo.layMul.monLay[1].monLayDyn.T[2],
 linRecZon.bouFlo.layMul.monLay[2].monLayDyn.T[1],
