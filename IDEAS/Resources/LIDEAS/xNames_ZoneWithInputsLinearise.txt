@@ -1,6 +1,8 @@
 groFlo.airModel.vol.T
-window.heaCapGla.T
-window.heaCapFra.T
+window.heaCapGlaInt.T
+window.heaCapFraIn.T
+window.heaCapFraExt.T
+window.heaCapGlaExt.T
 firFlo.airModel.vol.T
 commonWall.layMul.monLay[1].monLayDyn.T[1]
 commonWall.layMul.monLay[1].monLayDyn.T[2]

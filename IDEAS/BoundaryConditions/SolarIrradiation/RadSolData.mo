@@ -158,10 +158,10 @@ equation
   connect(hForcedConExt, solBusDummy.hForcedConExt) annotation (Line(points={{106,
           -122},{-39.9,-122},{-39.9,30.1}},
                                      color={0,0,127}));
-  connect(radSol.winDir, weaBus.Vdir) annotation (Line(points={{-72,42},{-90,42},
-          {-90,14},{-100,14},{-100,80.05},{100.05,80.05}}, color={0,0,127}));
-  connect(radSol.winSpe, weaBus.Va) annotation (Line(points={{-76,42},{-90,42},
-          {-90,18},{-98,18},{-98,78},{88,78},{88,80.05},{100.05,80.05}}, color=
+  connect(radSol.winDir, weaBus.Vdir) annotation (Line(points={{-72,42},{-72,
+          80.05},{100.05,80.05}},                          color={0,0,127}));
+  connect(radSol.winSpe, weaBus.Va) annotation (Line(points={{-76,42},{-76,76},
+          {100,76},{100,80.05},{100.05,80.05}},                          color=
           {0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{120,100}})),           Documentation(info="<html>

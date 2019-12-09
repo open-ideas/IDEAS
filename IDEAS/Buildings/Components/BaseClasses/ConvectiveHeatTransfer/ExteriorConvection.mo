@@ -8,12 +8,14 @@ model ExteriorConvection "exterior surface convection"
     "Fixed exterior convection coefficient used when linearising equations"
      annotation(Dialog(enable=linearize));
   parameter Modelica.SIunits.Angle inc "Surface inclination";
-  parameter Modelica.SIunits.Angle azi "Surface azimith";
+  parameter Modelica.SIunits.Angle azi "Surface azimuth";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
+    "Connector for solid part"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 
   Modelica.Blocks.Interfaces.RealInput Te(unit="K",displayUnit="degC")
+    "Ambient temperature"
     annotation (Placement(transformation(extent={{-120,-68},{-80,-28}})));
   Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit="W/(m2.K)")
     "Exterior convective heat transfer coefficient"
@@ -33,15 +35,18 @@ protected
   final parameter Boolean isFloor=abs(sin(inc)) < 10E-5 and cos(inc) < 0
     "true if floor" annotation (Evaluate=true);
 
-  Real C "TARP coeff";
+
   constant Real C_vertical=1.31 "TARP coeff";
   constant Real C_horz_buoyant=1.509 "TARP coeff";
   constant Real C_horz_stable=0.76 "TARP coeff";
   constant Real n=1/3 "TARP coeff";
-
-  Modelica.SIunits.TemperatureDifference dT "Surface temperature minus outdoor air temperature" annotation ();
-
   constant Real R=1 "Roughness factor (value of 1 recommended)";
+
+  Real C "TARP coeff";
+  Modelica.SIunits.TemperatureDifference dT
+    "Surface temperature minus outdoor air temperature" annotation ();
+
+
 
 equation
 
