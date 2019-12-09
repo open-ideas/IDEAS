@@ -323,8 +323,6 @@ equation
             {100.05,40.05}},          color={0,0,127}));
     connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{81,-34},{100.05,
             -34},{100.05,40.05}},    color={0,0,127}));
-    connect(XiEnv.X[1], weaDatBus.X_wEnv) annotation (Line(points={{1,30},{-100,
-            30},{-100,-10}},                             color={0,0,127}));
     connect(skyBrightnessCoefficients.F1, weaBus.F1) annotation (Line(
       points={{21,94},{26,94},{26,38},{100.05,38},{100.05,40.05}},
       color={0,0,127},
@@ -341,7 +339,10 @@ equation
       points={{1,116},{100.05,116},{100.05,40.05}},
       color={0,0,127},
       smooth=Smooth.None));
-
+    connect(winSpe.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},{
+          10,40.05},{100.05,40.05}}, color={0,0,127}));
+    connect(winDir.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,140},
+          {10,40.05},{100.05,40.05}}, color={0,0,127}));
     for i in 1:numIncAndAziInBus loop
       connect(radSol[i].solBus, weaBus.solBus[i]) annotation (Line(
       points={{60,70},{100.05,70},{100.05,40.05}},
@@ -352,7 +353,8 @@ equation
    end if;
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{0,-92},{0,-100}},          color={191,0,0}));
-
+  connect(XiEnv.X[1], weaDatBus.X_wEnv) annotation (Line(points={{1,30},{-100,
+            30},{-100,-10}},                             color={0,0,127}));
   connect(TDryBul.y, XiEnv.T) annotation (Line(
       points={{-77.6,30},{-22,30}},
       color={0,0,127},
@@ -401,10 +403,7 @@ equation
       thickness=0.5));
   connect(CEnv.y, weaDatBus.CEnv) annotation (Line(points={{81,-20},{82,-20},{
           82,-10},{40,-10},{40,-10},{-100,-10}}, color={0,0,127}));
-  connect(winSpe.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},{
-          10,40.05},{100.05,40.05}}, color={0,0,127}));
-  connect(winDir.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,140},
-          {10,40.05},{100.05,40.05}}, color={0,0,127}));
+
   connect(winDir.u, weaDatBus.winDir) annotation (Line(points={{-86.8,140},{
           -100,140},{-100,-10}}, color={0,0,127}), Text(
       string="%second",
