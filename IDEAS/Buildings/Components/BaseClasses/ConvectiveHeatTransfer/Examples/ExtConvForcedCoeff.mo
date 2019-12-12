@@ -23,15 +23,15 @@ model ExtConvForcedCoeff "Test for ExtConvForcedCoeff"
 equation
   connect(extConvForcedCoeffWall.Vdir, winDir.y) annotation (Line(points={{-21.3,
           45.5},{-59,45.5},{-59,10}}, color={0,0,127}));
-  connect(winSpe.y, extConvForcedCoeffWall.Va) annotation (Line(points={{-59,50},
-          {-40,50},{-40,48.3},{-21.3,48.3}}, color={0,0,127}));
-  connect(extConvForcedCoeffCeiling.Va, winSpe.y) annotation (Line(points={{-21.3,
-          8.3},{-40,8.3},{-40,50},{-59,50}}, color={0,0,127}));
-  connect(extConvForcedCoeffFloor.Va, winSpe.y) annotation (Line(points={{-21.3,
-          -31.7},{-40,-31.7},{-40,50},{-59,50}}, color={0,0,127}));
   connect(extConvForcedCoeffCeiling.Vdir, winDir.y) annotation (Line(points={{-21.3,
           5.5},{-59,5.5},{-59,10}}, color={0,0,127}));
   connect(extConvForcedCoeffFloor.Vdir, winDir.y) annotation (Line(points={{-21.3,
           -34.5},{-59,-34.5},{-59,10}}, color={0,0,127}));
+  connect(extConvForcedCoeffWall.winSpe, winSpe.y) annotation (Line(points={{
+          -22,54},{-40,54},{-40,50},{-59,50}}, color={0,0,127}));
+  connect(extConvForcedCoeffCeiling.winSpe, winSpe.y) annotation (Line(points={
+          {-22,14},{-40,14},{-40,50},{-59,50}}, color={0,0,127}));
+  connect(extConvForcedCoeffFloor.winSpe, winSpe.y) annotation (Line(points={{
+          -22,-26},{-40,-26},{-40,50},{-59,50}}, color={0,0,127}));
   annotation (experiment(StopTime=1,Tolerance=1e-06, __Dymola_Algorithm="Lsodar"));
 end ExtConvForcedCoeff;
