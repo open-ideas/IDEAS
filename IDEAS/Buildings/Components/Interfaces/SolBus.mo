@@ -42,7 +42,7 @@ November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Add RealConnector for coefficient for forced convection at exterior surface.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
-<\\li>
+<\li>
 <li>
 August 24, 2018, by Damien Picard:<br/>
 Add start value for linearisation.
