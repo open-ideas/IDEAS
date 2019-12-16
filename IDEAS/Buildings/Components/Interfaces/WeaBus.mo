@@ -64,6 +64,7 @@ Removed hConExt from weather bus because it is not calculated in ExtConvForcedCo
 Added wind speed and direction to weather bus.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
+</li>
 <li>
 March 27, 2018, by Filip Jorissen:<br/>
 Added relative humidity to weather bus.
