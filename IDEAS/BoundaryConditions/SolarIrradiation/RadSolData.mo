@@ -190,7 +190,7 @@ Solved bug in linearisation
 </li>
 <li>
 January 21, 2018 by Filip Jorissen:<br/>
-Added <span style=\"font-family: monospace;\">solTim</span> connection for revised azimuth computations.
+Added <code>solTim</code> connection for revised azimuth computations.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">
 #753</a>.
 </li>

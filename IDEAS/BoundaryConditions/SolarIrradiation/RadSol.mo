@@ -146,7 +146,7 @@ Add RealInput's for wind speed and wind direction.<br/>
 Instantiate extConvForcedCoeff.mo and place resulting coefficient for forced convection on SolBus.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
-<\\li>
+<\li>
 <li>
 January 21, 2018 by Filip Jorissen:<br/>
 Added input <code>solTim</code> for azimuth computations.

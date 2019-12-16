@@ -117,17 +117,42 @@ equation
           color={0,0,0},
           thickness=0.5)}),
     Documentation(info="<html>
-<p>The exterior convective heat transfer is computed using Newton&apos;s Law of Cooling. The convection coefficient considers the combined effects of natural (buoyancy driven) and forced (wind-driven) flow.</p>
-<p>The coefficient for forced convection is calculated in ExtConvForcedCoeff.mo, whereas the current model calculates the coefficient for natural convection and combines the two together to determine the coefficient used in Newton&apos;s Law of Cooling.</p>
-<p>The &quot;TARP&quot; correlation is used to calculate the coefficient for natural convection. The parameters for the correlation at sourced from the EnergyPlus Engineering manual (Equations 3.75 to 3.77, Page 94). Horizontal surfaces are treated as either a ceiling or a floor, and can be either stably stratified or buoyant, depending upon the surface-to-air temperature difference. Any non-horizontal surface is treated as vertical.</p>
-<p>This implementation includes a &quot;roughness factor&quot; that can be used to augment the combined convection coefficient calculated by the correlations.  This is used in the so-called &quot;DOE-2 model&quot; that is EnergyPlus&apos; default approach.  However, the use of roughness factors other than 1 are discouraged as there appears to be little physical basis for this factor.</p>
+<p>
+The exterior convective heat transfer is computed using 
+Newton's Law of Cooling. The convection coefficient considers the combined 
+effects of natural (buoyancy driven) and forced (wind-driven) flow.
+</p>
+<p>
+The coefficient for forced convection is calculated in ExtConvForcedCoeff.mo, 
+whereas the current model calculates the coefficient for natural 
+convection and combines the two together to determine the 
+coefficient used in Newton&apos;s Law of Cooling.
+</p>
+<p>
+The "TARP" correlation is used to calculate the coefficient for natural convection. 
+The parameters for the correlation at sourced from the EnergyPlus Engineering 
+manual (Equations 3.75 to 3.77, Page 94). 
+Horizontal surfaces are treated as either a ceiling or a floor, 
+and can be either stably stratified or buoyant, depending 
+upon the surface-to-air temperature difference. 
+Any non-horizontal surface is treated as vertical.
+</p>
+<p>
+This implementation includes a "roughness factor" that can be used to 
+augment the combined convection coefficient calculated by the correlations.  
+This is used in the so-called "DOE-2 model" that is EnergyPlus'; 
+default approach.  However, the use of roughness factors other 
+than 1 are discouraged as there appears to be little physical basis for this factor.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
-Major rewrite.  Convection coefficients now calculated by surface to consider combined natural and forced effects, and wind direction.
+Major rewrite.  Convection coefficients now calculated by surface to consider 
+combined natural and forced effects, and wind direction.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
+</li>
 <li>
 November 15, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.
