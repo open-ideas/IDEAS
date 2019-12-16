@@ -500,7 +500,9 @@ equation
 <ul>
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
-Remove calculation of convection coefficient at exterior surfaces as this has been moved to a new model. Also, removed this coefficient from WeaBus as it is not surface-dependent.<br/>
+Remove calculation of convection coefficient at exterior surfaces 
+as this has been moved to a new model. 
+Also, removed this coefficient from WeaBus as it is not surface-dependent.<br/>
 Make wind direction available on weather bus as this is required for new convection model.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
