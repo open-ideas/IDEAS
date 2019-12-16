@@ -21,17 +21,17 @@ model ExtConvForcedCoeff "Test for ExtConvForcedCoeff"
     "Exterior forced convection for floor orientation"
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
 equation
-  connect(extConvForcedCoeffWall.Vdir, winDir.y) annotation (Line(points={{-21.3,
-          45.5},{-59,45.5},{-59,10}}, color={0,0,127}));
-  connect(extConvForcedCoeffCeiling.Vdir, winDir.y) annotation (Line(points={{-21.3,
-          5.5},{-59,5.5},{-59,10}}, color={0,0,127}));
-  connect(extConvForcedCoeffFloor.Vdir, winDir.y) annotation (Line(points={{-21.3,
-          -34.5},{-59,-34.5},{-59,10}}, color={0,0,127}));
-  connect(extConvForcedCoeffWall.winSpe, winSpe.y) annotation (Line(points={{
-          -22,54},{-40,54},{-40,50},{-59,50}}, color={0,0,127}));
+  connect(extConvForcedCoeffWall.winSpe, winSpe.y) annotation (Line(points={{-22,54},
+          {-40,54},{-40,50},{-59,50}},         color={0,0,127}));
   connect(extConvForcedCoeffCeiling.winSpe, winSpe.y) annotation (Line(points={
           {-22,14},{-40,14},{-40,50},{-59,50}}, color={0,0,127}));
   connect(extConvForcedCoeffFloor.winSpe, winSpe.y) annotation (Line(points={{
           -22,-26},{-40,-26},{-40,50},{-59,50}}, color={0,0,127}));
+  connect(extConvForcedCoeffFloor.winDir, winDir.y)
+    annotation (Line(points={{-22,-34},{-59,-34},{-59,10}}, color={0,0,127}));
+  connect(extConvForcedCoeffCeiling.winDir, winDir.y)
+    annotation (Line(points={{-22,6},{-59,6},{-59,10}}, color={0,0,127}));
+  connect(extConvForcedCoeffWall.winDir, winDir.y)
+    annotation (Line(points={{-22,46},{-59,46},{-59,10}}, color={0,0,127}));
   annotation (experiment(StopTime=1,Tolerance=1e-06, __Dymola_Algorithm="Lsodar"));
 end ExtConvForcedCoeff;
