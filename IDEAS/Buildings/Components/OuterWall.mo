@@ -255,7 +255,6 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
 #1089</a>
 </li>
 <li>
-</li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
 and <code>azi</code> by adding the option to use radio buttons.
