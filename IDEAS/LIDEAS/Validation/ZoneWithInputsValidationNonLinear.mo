@@ -19,7 +19,7 @@ model ZoneWithInputsValidationNonLinear "Model to validate the linearization met
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={100,-120})));
-  Modelica.Blocks.Sources.RealExpression preInp[57](y={winBusOut[1].AbsQFlow[1],
+  Modelica.Blocks.Sources.RealExpression preInp[64](y={winBusOut[1].AbsQFlow[1],
 winBusOut[1].AbsQFlow[2],
 winBusOut[1].AbsQFlow[3],
 winBusOut[1].iSolDir,
@@ -28,31 +28,38 @@ weaBusOut.solTim,
 weaBusOut.solBus[1].HDirTil,
 weaBusOut.solBus[1].HSkyDifTil,
 weaBusOut.solBus[1].HGroDifTil,
+weaBusOut.solBus[1].hForcedConExt,
 weaBusOut.solBus[1].Tenv,
 weaBusOut.solBus[2].HDirTil,
 weaBusOut.solBus[2].HSkyDifTil,
 weaBusOut.solBus[2].HGroDifTil,
+weaBusOut.solBus[2].hForcedConExt,
 weaBusOut.solBus[2].Tenv,
 weaBusOut.solBus[3].HDirTil,
 weaBusOut.solBus[3].HSkyDifTil,
 weaBusOut.solBus[3].HGroDifTil,
+weaBusOut.solBus[3].hForcedConExt,
 weaBusOut.solBus[3].Tenv,
 weaBusOut.solBus[4].HDirTil,
 weaBusOut.solBus[4].HSkyDifTil,
 weaBusOut.solBus[4].HGroDifTil,
+weaBusOut.solBus[4].hForcedConExt,
 weaBusOut.solBus[4].Tenv,
 weaBusOut.solBus[5].HDirTil,
 weaBusOut.solBus[5].HSkyDifTil,
 weaBusOut.solBus[5].HGroDifTil,
+weaBusOut.solBus[5].hForcedConExt,
 weaBusOut.solBus[5].Tenv,
 weaBusOut.solBus[6].HDirTil,
 weaBusOut.solBus[6].HSkyDifTil,
 weaBusOut.solBus[6].HGroDifTil,
+weaBusOut.solBus[6].hForcedConExt,
 weaBusOut.solBus[6].Tenv,
 weaBusOut.Te,
 weaBusOut.Tdes,
 weaBusOut.TGroundDes,
-weaBusOut.hConExt,
+weaBusOut.Va,
+weaBusOut.Vdir,
 weaBusOut.X_wEnv,
 weaBusOut.CEnv,
 weaBusOut.dummy,
@@ -196,8 +203,6 @@ Roof.layMul.monLay[3].monLayDyn.T[1]};
 
 
 
-
-
 equation
   connect(occQCon.y, prescribedOut.QCon) annotation (Line(points={{61,-104},{61,
           -104},{100.1,-104},{100.1,-120.1}}, color={0,0,127}), Text(
@@ -247,6 +252,11 @@ equation
         "Linearize, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 11, 2019, by Filip Jorissen:<br/>
+Revised input list for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1089>#1089</a>.
+</li>
 <li>August 21, 2018 by Damien Picard: <br/>Adapt the name of the states which have 
 changed due to the change of medium to <code>IDEAS.Media.Specialized.DryAir</code>.</li>
 <li>May 15, 2018 by Damien Picard: <br/>First implementation<\\br></li>

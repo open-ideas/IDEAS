@@ -79,8 +79,12 @@ protected
     "Heat capacity of frame state";
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
-    eCon(final A=A*(1 - frac), linearise=linExtCon or sim.linearise)
-    "convective surface heat transimission on the exterior side of the wall"
+    eCon(
+    final A=A*(1 - frac),
+    linearise=linExtCon or sim.linearise,
+    final inc=incInt,
+    final azi=aziInt)
+    "Convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,-38},{-40,-18}})));
 
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
@@ -111,7 +115,9 @@ protected
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,80},{-40,100}})));
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
-    eConFra(final A=A*frac, linearise=linExtCon or sim.linearise) if
+    eConFra(final A=A*frac, linearise=linExtCon or sim.linearise,
+    inc=incInt,
+    azi=aziInt) if
                  fraType.present
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
@@ -222,15 +228,15 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,-54},{-70,-54}},
+      points={{-79.4,-54},{-76,-54},{-76,-54},{-70,-54}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-58},{-70,-58}},
+      points={{-79.4,-58},{-76,-58},{-76,-58},{-70,-58}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-56},{-70,-56}},
+      points={{-79.4,-56},{-76,-56},{-76,-56},{-70,-56}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.weaBus, propsBusInt.weaBus) annotation (Line(
@@ -250,16 +256,12 @@ equation
       points={{-20,65.2},{-20,66},{-16,66},{-16,-32.8},{-20,-32.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eCon.hConExt, eConFra.hConExt) annotation (Line(
+  connect(eCon.hForcedConExt, eConFra.hForcedConExt) annotation (Line(
       points={{-20,-37},{-20,-36},{-14,-36},{-14,61},{-20,61}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(eCon.Te, propsBusInt.weaBus.Te) annotation (Line(
       points={{-20,-32.8},{56.09,-32.8},{56.09,19.91}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(eCon.hConExt, propsBusInt.weaBus.hConExt) annotation (Line(
-      points={{-20,-37},{56.09,-37},{56.09,19.91}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u, propsBusInt.weaBus.Tdes);
@@ -282,10 +284,10 @@ equation
           -48},{-10,-48}}, color={0,0,127}));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,
           -46},{-78,-46},{-78,-44},{-70,-44}}, color={0,0,127}));
-  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{
-          -79.4,-48},{-76,-48},{-76,-46},{-70,-46}}, color={0,0,127}));
-  connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{
-          -79.4,-50},{-74,-50},{-74,-48},{-70,-48}}, color={0,0,127}));
+  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{-79.4,
+          -48},{-76,-48},{-76,-46},{-70,-46}},       color={0,0,127}));
+  connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{-79.4,
+          -50},{-74,-50},{-74,-48},{-70,-48}},       color={0,0,127}));
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-60,-48},
           {-56.6,-48},{-56.6,-48.8}}, color={0,0,127}));
   connect(solDif.u1, shaType.HShaSkyDifTil) annotation (Line(points={{-56.6,
@@ -298,6 +300,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
+  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points
+        ={{-20,-37},{-50,-37},{-50,-62.2},{-79.4,-62.2}}, color={0,0,127}));
   connect(layFra.port_b, heaCapFraExt.port)
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
@@ -381,6 +385,12 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 28, 2019, by Ian Beausoleil-Morrison:<br/>
+<code>inc</code> and <code>azi</code> of surface now passed as parameters to ExteriorConvection.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
+</li>
 <li>
 December 2, 2019, by Filip Jorissen:<br/>
 Split heat capacitor to interior and exterior part 

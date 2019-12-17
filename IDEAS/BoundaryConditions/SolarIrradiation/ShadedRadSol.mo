@@ -6,11 +6,11 @@ model ShadedRadSol "Block that computes surface-dependent environment data"
   Modelica.Blocks.Interfaces.RealInput TskyPow4
     annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={-20,106})));
+        origin={20,120})));
   Modelica.Blocks.Interfaces.RealInput TePow4
     annotation (Placement(transformation(extent={{-18,-18},{18,18}},
         rotation=270,
-        origin={40,106})));
+        origin={60,118})));
   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.SolarAzimuth solAzi(lat=lat) "Solar azimuth angle"
     annotation (Placement(transformation(extent={{36,-18},{56,-38}})));
   Modelica.Blocks.Math.Add relAzi(k2=-1)
@@ -43,18 +43,20 @@ equation
       smooth=Smooth.None));
   connect(solDirTil.incAng, incAng.incAng) annotation (Line(points={{-2,24},{
           -14,24},{-14,50},{-19,50}}, color={0,0,127}));
-  connect(solAzi.zen, angZen) annotation (Line(points={{34,-34},{34,-40},{-104,-40}},
-                       color={0,0,127}));
+  connect(solAzi.zen, angZen) annotation (Line(points={{34,-34},{34,-40},{-104,
+          -40}},       color={0,0,127}));
   connect(surfAzi.y, relAzi.u2)
     annotation (Line(points={{-7.4,-48},{66,-48}}, color={0,0,127}));
-  connect(relAzi.u1, solAzi.solAzi) annotation (Line(points={{66,-36},{60,-36},{
-          60,-28},{57,-28}}, color={0,0,127}));
-  connect(solAzi.solTim, solTim) annotation (Line(points={{34,-22},{-64,-22},{-64,
-          30},{-104,30}}, color={0,0,127}));
+  connect(relAzi.u1, solAzi.solAzi) annotation (Line(points={{66,-36},{60,-36},
+          {60,-28},{57,-28}},color={0,0,127}));
+  connect(solAzi.solTim, solTim) annotation (Line(points={{34,-22},{-64,-22},{
+          -64,30},{-104,30}},
+                          color={0,0,127}));
   connect(relAzi.y, solBus.angAzi) annotation (Line(points={{89,-42},{100.1,-42},
           {100.1,0.1}}, color={0,0,127}));
-  connect(solAzi.decAng, angDec) annotation (Line(points={{34,-28},{-62,-28},{-62,
-          0},{-104,0}}, color={0,0,127}));
+  connect(solAzi.decAng, angDec) annotation (Line(points={{34,-28},{-62,-28},{
+          -62,0},{-104,0}},
+                        color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),  Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}),
