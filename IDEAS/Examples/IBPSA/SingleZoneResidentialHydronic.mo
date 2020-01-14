@@ -64,7 +64,9 @@ model SingleZoneResidentialHydronic
         "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
-  IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(description="Supply temperature set point of the heater")
+  IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
+    u(min=273.15+20, max=273.15+80, unit="K"),
+    description="Supply temperature set point of the heater")
     "Block for overwriting control signal" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
@@ -172,6 +174,7 @@ The model inputs are, through the signal exchange block:
 <li>
 <code>TSup</code> [K]: The supply water temperature of the heater. 
 By default a fixed temperature of 60 degrees centigrade is assumed.
+The minimum and maximum values of the input are 20 and 80 degrees centigrade.
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -207,6 +210,15 @@ A simple, single circulation loop is used to model the heating system.
 <p>
 Fixed air infiltration corresponding to an n50 value of 10
 is modelled.
+</p>
+<h3>Scenario Information</h3>
+<h4>Energy Pricing</h4>
+<p>
+We assume a constant heating (gas) price of 0.04 EUR/kWh (or 0.04 USD/kWh).
+</p>
+<h4>Emission Factors</h4>
+<p>
+We assume a constant emission factor for gas of 200 g CO2/kWh.
 </p>
 </html>", revisions="<html>
 <ul>
