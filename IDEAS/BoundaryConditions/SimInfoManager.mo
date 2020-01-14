@@ -12,6 +12,7 @@ protected
   Modelica.Blocks.Routing.RealPassThrough TDewPoiData;
   Modelica.Blocks.Routing.RealPassThrough nOpaData;
   Modelica.Blocks.Routing.RealPassThrough winSpeData;
+  Modelica.Blocks.Routing.RealPassThrough winDirData;
   Modelica.Blocks.Routing.RealPassThrough TBlaSkyData;
 equation
   Te = TDryBul.y;
@@ -21,6 +22,7 @@ equation
   TDewPoi = TDewPoiData.y;
   Tsky = TBlaSkyData.y;
   Va = winSpeData.y;
+  Vdir = winDirData.y;
 
   connect(HDirNorData.u, weaDatBus.HDirNor);
   connect(HGloHorData.u, weaDatBus.HGloHor);
@@ -30,16 +32,18 @@ equation
   connect(TDewPoiData.u, weaDatBus.TDewPoi);
   connect(nOpaData.u, weaDatBus.nOpa);
   connect(winSpeData.u, weaDatBus.winSpe);
+  connect(winDirData.u, weaDatBus.winDir);
   connect(TBlaSkyData.u, weaDatBus.TBlaSky);
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
     missingInnerMessage=
         "Your model is using an outer \"sim\" component. An inner \"sim\" component is not defined. For simulation drag IDEAS.BoundaryConditions.SimInfoManager into your model.",
-    Icon(graphics={
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}}),
+         graphics={
         Bitmap(extent={{22,-8},{20,-8}}, fileName="")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,160}})),
     Documentation(info="<html>
 <p>
 The SimInfoManager manages all simulation information. 
@@ -103,6 +107,12 @@ IDEAS uses TMY3 input files. For detailed documentation see
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 </html>", revisions="<html>
 <ul>
+<li>
+November 28, 2019 by Ian Beausoleil-Morrison:<br/>
+Make wind direction available on WeaBus.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
+</li>
 <li>
 January 21, 2019 by Filip Jorissen:<br/>
 Improved documentation by adding weather data reader

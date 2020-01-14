@@ -22,7 +22,7 @@ protected
   final parameter Real MMFraction=MM/MMBul
     "Molar mass of CO2 divided by the molar mass of the medium";
 
-  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = Medium.enthalpyOfCondensingGas(T=273.15+35)
+  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = IDEAS.Media.Air.enthalpyOfCondensingGas(T=273.15+35)
     "Latent heat of evaporation water";
   constant Boolean hasVap = Medium.nXi>0
     "Medium has water vapour";
@@ -159,6 +159,12 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+December 13, 2019 by Filip Jorissen:<br/>
+Directly referencing <code>IDEAS.Media.Air</code> instead of <code>Medium</code>
+to avoid warnings in Dymola and errors in OpenModelica.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1097\">#1097</a>.
+</li>
 <li>
 March 29, 2019 by Filip Jorissen:<br/>
 Added start value for CO2 concentration for

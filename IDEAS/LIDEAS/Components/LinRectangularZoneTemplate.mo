@@ -73,8 +73,9 @@ model LinRectangularZoneTemplate
 
 
 replaceable
-  IDEAS.LIDEAS.Components.LinWindow winA(azi=aziA, inc=IDEAS.Types.Tilt.Wall,
+  IDEAS.LIDEAS.Components.LinWindow winA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingA.checkLowPerformanceGlazing,
       nLay=glazingA.nLay,
       mats=glazingA.mats,
       SwAbs=glazingA.SwAbs,
@@ -111,7 +112,7 @@ replaceable
     nWin=nWinA,
     indexWindow=indexWinA) if
        hasWinA constrainedby IDEAS.LIDEAS.Components.LinWindow(
-       azi=aziA,
+       azi=aziAInt,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
        linIntCon_a=linIntCon,
@@ -130,6 +131,7 @@ replaceable
   IDEAS.LIDEAS.Components.LinWindow winB(
       inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingB.checkLowPerformanceGlazing,
       nLay=glazingB.nLay,
       mats=glazingB.mats,
       SwAbs=glazingB.SwAbs,
@@ -140,7 +142,7 @@ replaceable
       g_value=glazingB.g_value),
     A=A_winB,
     frac=fraB,
-    azi=aziA + Modelica.Constants.pi/2,
+    azi=aziB,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_win,
@@ -187,6 +189,7 @@ replaceable
   replaceable
   IDEAS.LIDEAS.Components.LinWindow winC(inc=IDEAS.Types.Tilt.Wall,
     glazing(
+      checkLowPerformanceGlazing=glazingC.checkLowPerformanceGlazing,
       nLay=glazingC.nLay,
       mats=glazingC.mats,
       SwAbs=glazingC.SwAbs,
@@ -197,7 +200,7 @@ replaceable
       g_value=glazingC.g_value),
     A=A_winC,
     frac=fracC,
-    azi=aziA + Modelica.Constants.pi,
+    azi=aziC,
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_win,
@@ -242,9 +245,9 @@ replaceable
         rotation=0,
         origin={-95,-30})));
   replaceable
-  IDEAS.LIDEAS.Components.LinWindow winD(inc=IDEAS.Types.Tilt.Wall, azi=aziA +
-        Modelica.Constants.pi/2*3,
+  IDEAS.LIDEAS.Components.LinWindow winD(inc=IDEAS.Types.Tilt.Wall, azi=aziD,
     glazing(
+      checkLowPerformanceGlazing=glazingD.checkLowPerformanceGlazing,
       nLay=glazingD.nLay,
       mats=glazingD.mats,
       SwAbs=glazingD.SwAbs,
@@ -299,8 +302,9 @@ replaceable
         rotation=0,
         origin={-95,-50})));
   replaceable
-  IDEAS.LIDEAS.Components.LinWindow winCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziA,
+  IDEAS.LIDEAS.Components.LinWindow winCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziAInt,
     glazing(
+      checkLowPerformanceGlazing=glazingCei.checkLowPerformanceGlazing,
       nLay=glazingCei.nLay,
       mats=glazingCei.mats,
       SwAbs=glazingCei.SwAbs,
@@ -411,6 +415,13 @@ the linearization does not support other type of media.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 August 30, 2018, by Damien Picard:<br/>
 Computing window indices automatically

@@ -71,16 +71,16 @@ protected
     intCon_b(
     linearise=linIntCon_b or sim.linearise,
     dT_nominal=dT_nominal_b,
-    final inc=inc + Modelica.Constants.pi,
+    final inc=incInt + Modelica.Constants.pi,
     final A=A)
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{-22,-10},{-42,10}})));
   Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design);
   //Negative, because of its losses from zone side b to zone side a, oposite of calculation of QTra_design
 
-  Modelica.Blocks.Sources.RealExpression incExp1(y=inc + Modelica.Constants.pi)
+  Modelica.Blocks.Sources.RealExpression incExp1(y=incInt + Modelica.Constants.pi)
     "Inclination angle";
-  Modelica.Blocks.Sources.RealExpression aziExp1(y=azi + Modelica.Constants.pi)
+  Modelica.Blocks.Sources.RealExpression aziExp1(y=aziInt + Modelica.Constants.pi)
     "Azimuth angle expression";
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow iSolDif1(final Q_flow=0);
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow iSolDir1(final Q_flow=0);
@@ -104,8 +104,8 @@ protected
     "Model for air flow through open door or cavity"
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
 equation
-  assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Wall),
-    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(inc));
+  assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
+    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
       points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
       color={191,0,0},
@@ -203,6 +203,13 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 13, 2019, by Filip Jorissen:<br/>
+Refactored the parameter definition of <code>inc</code> 
+and <code>azi</code> by adding the option to use radio buttons.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1067\">
+#1067</a>
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 Set nWin final to 1 as this should only be used for windows.

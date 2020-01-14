@@ -31,7 +31,9 @@ connector WeaBus "Data bus that stores weather data"
     nominal = 300,
     displayUnit="degC")
     "Design ground temperature" annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hConExt(unit="W/(m2.K)", start = 18.3) "Exterior convective heat transfer coefficient" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector Va(unit="m/s", start=0) "Wind speed" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector Vdir(unit="rad", start=0) "Wind direction" annotation ();
+
   IDEAS.Buildings.Components.Interfaces.RealConnector X_wEnv(start=0.01) "Environment air water mass fraction"
                                 annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector CEnv(start=1e-6) "Environment air trace substance mass fraction"
@@ -56,6 +58,13 @@ Connector that contains all environment information for many inclinations and ti
 </html>",
    revisions="<html>
 <ul>
+<li>
+November 28, 2019, by Ian Beausoleil-Morrison:<br/>
+Removed hConExt from weather bus because it is not calculated in ExtConvForcedCoeff.mo and ExteriorConvection.mo.<br/>
+Added wind speed and direction to weather bus.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
+</li>
 <li>
 March 27, 2018, by Filip Jorissen:<br/>
 Added relative humidity to weather bus.

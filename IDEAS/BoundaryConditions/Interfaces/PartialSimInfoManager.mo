@@ -1,9 +1,9 @@
-within IDEAS.BoundaryConditions.Interfaces;
+﻿within IDEAS.BoundaryConditions.Interfaces;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
   parameter String filNam=
     Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY")
-    "File name of TMY3 weather file";
+    "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="TMY-files (*.TMY);;Text files (*.txt);;All files (*.*)", caption="Select the weather file")));
   parameter Modelica.SIunits.Angle lat(displayUnit="deg") = weaDat.lat
     "Latitude of the location"
     annotation(Dialog(tab="Advanced"));
@@ -14,9 +14,26 @@ partial model PartialSimInfoManager
     "Time zone for which the simulation time t=0 corresponds to midnight, january 1st";
 
 
-  parameter SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.S},
-                         {IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.W},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.N},{IDEAS.Types.Tilt.Wall,IDEAS.Types.Azimuth.E}, {IDEAS.Types.Tilt.Floor,0}}
+  parameter Modelica.SIunits.Angle incS = IDEAS.Types.Azimuth.S
+    "South inclination"
+    annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incW = incS +Modelica.Constants.pi/2
+    "West inclination"
+      annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incN = incS +Modelica.Constants.pi
+    "North inclination"
+      annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.SIunits.Angle incE = incS +3*Modelica.Constants.pi/2
+    "East inclination"
+      annotation(Dialog(tab="Incidence angles"));
+
+  parameter Modelica.SIunits.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,incS},
+                         {IDEAS.Types.Tilt.Wall,incW},{IDEAS.Types.Tilt.Wall,incN},{IDEAS.Types.Tilt.Wall,incE}, {IDEAS.Types.Tilt.Floor,0}}
                         "Combination of inclination and azimuth which are pre-computed and added to solBus." annotation(Dialog(tab="Incidence angles"));
+  final parameter Modelica.SIunits.Angle aziOpts[5]={incS, incW, incN, incE, incS}
+    "Inclination options, default south";
+  final parameter Modelica.SIunits.Angle incOpts[4]={IDEAS.Types.Tilt.Wall, IDEAS.Types.Tilt.Floor, IDEAS.Types.Tilt.Ceiling, IDEAS.Types.Tilt.Wall}
+    "Azimuth options, default wall";
 
   parameter Boolean computeConservationOfEnergy=false
     "Add equations for verifying conservation of energy"
@@ -85,7 +102,8 @@ partial model PartialSimInfoManager
   Modelica.SIunits.Temperature TeAv
     "running average of ambient outdoor temperature of the last 5 days, not yet implemented";
   Modelica.SIunits.Temperature Tground "ground temperature";
-  Modelica.SIunits.Velocity Va "air velocity";
+  Modelica.SIunits.Velocity Va "wind speed";
+  Modelica.SIunits.Angle Vdir "wind direction";
 
   Real relHum(final unit="1") "Relative humidity";
   Modelica.SIunits.Temperature TDewPoi "Dewpoint";
@@ -94,13 +112,6 @@ partial model PartialSimInfoManager
   Modelica.SIunits.Energy Etot "Total internal energy";
   Modelica.SIunits.Energy Qint "Total energy from boundary";
 
-
-  Real hCon=IDEAS.Utilities.Math.Functions.spliceFunction(
-      x=Va - 5,
-      pos=7.1*abs(Va)^(0.78),
-      neg=4.0*Va + 5.6,
-      deltax=0.5)
-    "Convection coefficient due to wind speed";
   IDEAS.Utilities.Psychrometrics.X_pTphi XiEnv(use_p_in=false)
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
 
@@ -127,9 +138,6 @@ partial model PartialSimInfoManager
   Modelica.Blocks.Sources.RealExpression TePow4Expr(y=Te^4)
     "Power 4 of ambient temperature"
     annotation (Placement(transformation(extent={{-20,106},{0,126}})));
-  Modelica.Blocks.Sources.RealExpression hConExpr(y=hCon)
-    "Exterior convective heat transfer coefficient"
-    annotation (Placement(transformation(extent={{60,-14},{80,6}})));
   Modelica.Blocks.Sources.RealExpression TdesExpr(y=Tdes)
     "Expression for design temperature"
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
@@ -206,6 +214,10 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
+  Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
+    annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
+  Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
+    annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
@@ -258,9 +270,13 @@ equation
     connect(radSol[i].F1, skyBrightnessCoefficients.F1) annotation (Line(points={{39.6,62},
             {26,62},{26,94},{21,94}},         color={0,0,127}));
     connect(TskyPow4Expr.y, radSol[i].TskyPow4) annotation (Line(points={{1,104},
-            {48,104},{48,80.6}}, color={0,0,127}));
-    connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{1,116},{54,
-            116},{54,80.6}},               color={0,0,127}));
+            {52,104},{52,82}},   color={0,0,127}));
+    connect(TePow4Expr.y, radSol[i].TePow4) annotation (Line(points={{1,116},{
+            56,116},{56,81.8}},            color={0,0,127}));
+    connect(winSpe.y, radSol[i].winSpe) annotation (Line(points={{-77.6,126},{
+            44,126},{44,82}}, color={0,0,127}));
+    connect(winDir.y, radSol[i].winDir) annotation (Line(points={{-77.6,140},{
+            48,140},{48,82}}, color={0,0,127}));
   end for;
   if not lineariseDymola then
     connect(solTim.y, weaBus.solTim) annotation (Line(points={{-77.6,2},{18,2},{
@@ -307,12 +323,6 @@ equation
             {100.05,40.05}},          color={0,0,127}));
     connect(TGround.y, weaBus.TGroundDes) annotation (Line(points={{81,-34},{100.05,
             -34},{100.05,40.05}},    color={0,0,127}));
-    connect(hConExpr.y, weaBus.hConExt) annotation (Line(
-      points={{81,-4},{100.05,-4},{100.05,40.05}},
-      color={0,0,127},
-      smooth=Smooth.None));
-    connect(XiEnv.X[1], weaDatBus.X_wEnv) annotation (Line(points={{1,30},{-100,
-            30},{-100,-10}},                             color={0,0,127}));
     connect(skyBrightnessCoefficients.F1, weaBus.F1) annotation (Line(
       points={{21,94},{26,94},{26,38},{100.05,38},{100.05,40.05}},
       color={0,0,127},
@@ -329,6 +339,10 @@ equation
       points={{1,116},{100.05,116},{100.05,40.05}},
       color={0,0,127},
       smooth=Smooth.None));
+    connect(winSpe.y, weaBus.Va) annotation (Line(points={{-77.6,126},{10,126},{
+          10,40.05},{100.05,40.05}}, color={0,0,127}));
+    connect(winDir.y, weaBus.Vdir) annotation (Line(points={{-77.6,140},{10,140},
+          {10,40.05},{100.05,40.05}}, color={0,0,127}));
     for i in 1:numIncAndAziInBus loop
       connect(radSol[i].solBus, weaBus.solBus[i]) annotation (Line(
       points={{60,70},{100.05,70},{100.05,40.05}},
@@ -339,7 +353,8 @@ equation
    end if;
   connect(fixedTemperature.port, Qgai)
     annotation (Line(points={{0,-92},{0,-100}},          color={191,0,0}));
-
+  connect(XiEnv.X[1], weaDatBus.X_wEnv) annotation (Line(points={{1,30},{-100,
+            30},{-100,-10}},                             color={0,0,127}));
   connect(TDryBul.y, XiEnv.T) annotation (Line(
       points={{-77.6,30},{-22,30}},
       color={0,0,127},
@@ -388,12 +403,26 @@ equation
       thickness=0.5));
   connect(CEnv.y, weaDatBus.CEnv) annotation (Line(points={{81,-20},{82,-20},{
           82,-10},{40,-10},{40,-10},{-100,-10}}, color={0,0,127}));
+
+  connect(winDir.u, weaDatBus.winDir) annotation (Line(points={{-86.8,140},{
+          -100,140},{-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(winSpe.u, weaDatBus.winSpe) annotation (Line(points={{-86.8,126},{
+          -100,126},{-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
     annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
     missingInnerMessage=
         "Your model is using an outer \"sim\" component. An inner \"sim\" component is not defined. For simulation drag IDEAS.BoundaryConditions.SimInfoManager into your model.",
-    Icon(graphics={
+    Icon(coordinateSystem(extent={{-100,-100},{100,160}}),
+         graphics={
         Line(points={{-80,-30},{88,-30}}, color={0,0,0}),
         Line(points={{-76,-68},{-46,-30}}, color={0,0,0}),
         Line(points={{-42,-68},{-12,-30}}, color={0,0,0}),
@@ -464,11 +493,24 @@ equation
           textStyle={TextStyle.Italic},
           fontName="Bookman Old Style",
           textString="i")}),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            120}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,120}})),
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+November 28, 2019 by Ian Beausoleil-Morrison:<br/>
+Remove calculation of convection coefficient at exterior surfaces 
+as this has been moved to a new model. 
+Also, removed this coefficient from WeaBus as it is not surface-dependent.<br/>
+Make wind direction available on weather bus as this is required for new convection model.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
+</li>
+<li>
+October 9, 2019 by Josué Borrajo Bastero:<br/>
+Added button to select the weather file graphically.
+</li>
 <li>
 January 25, 2019 by Filip Jorissen:<br/>
 Corrected molar mass fraction for consistency.

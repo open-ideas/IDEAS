@@ -6,6 +6,11 @@ partial model PartialInterzonalAirFlowBoundary
   outer BoundaryConditions.SimInfoManager sim "Simulation information manager"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
+  Fluid.Sources.OutsideAir bou(redeclare package Medium = Medium)
+    "Boundary model" annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={0,10})));
 protected
   final parameter Real s_co2[max(Medium.nC,1)] = {if Modelica.Utilities.Strings.isEqual(string1=if Medium.nC>0 then Medium.extraPropertiesNames[i] else "",
                                              string2="CO2",
@@ -23,23 +28,7 @@ protected
   Modelica.Blocks.Sources.RealExpression QGai(y=-actualStream(bou.ports.h_outflow)
         *bou.ports.m_flow) "Net heat gain through n50 air leakage "
     annotation (Placement(transformation(extent={{-22,30},{-82,50}})));
-  Fluid.Sources.Boundary_pT bou(
-    redeclare package Medium = Medium,
-    use_T_in=true,
-    use_p_in=false,
-    use_C_in=Medium.nC > 0,
-    use_Xi_in=Medium.nX == 2) annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={0,10})));
 
-  Modelica.Blocks.Sources.RealExpression Te(y=weaBus.Te)
-                                                      "Ambient temperature"
-    annotation (Placement(transformation(extent={{-44,52},{-26,68}})));
-  Modelica.Blocks.Sources.RealExpression Xi(y=weaBus.X_wEnv)
-    annotation (Placement(transformation(extent={{-44,64},{-26,80}})));
-  Modelica.Blocks.Sources.RealExpression CEnv[max(Medium.nC,1)](y=weaBus.CEnv*s_co2)
-    annotation (Placement(transformation(extent={{-44,74},{-26,90}})));
 equation
   connect( sim.weaBus,weaBus);
   connect(port_a_interior, port_b_exterior) annotation (Line(points={{-60,-100},
@@ -53,19 +42,18 @@ equation
 
 
   if Medium.nX == 2 then
-    connect(bou.Xi_in[1], Xi.y) annotation (Line(points={{4,22},{4,72},{-25.1,
-            72}},            color={0,0,127}));
   end if;
   if Medium.nC > 0 then
-    connect(CEnv.y, bou.C_in)
-      annotation (Line(points={{-25.1,82},{8,82},{8,22}}, color={0,0,127}));
   end if;
-  connect(bou.T_in, Te.y) annotation (Line(points={{-4,22},{-4,60},{-25.1,60}},
-                   color={0,0,127}));
 
 
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+September 21, 2019 by Filip Jorissen:<br/>
+Using OutsideAir.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
+</li>
 <li>
 September 24, 2018 by Filip Jorissen:<br/>
 Fix for supporting multiple trace substances.
