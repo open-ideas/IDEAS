@@ -9,7 +9,8 @@ model EmbeddedPipe
     annotation (choicesAllMatching=true);
   final parameter Modelica.SIunits.Length pipeDiaInt = RadSlaCha.d_a - 2*RadSlaCha.s_r
     "Pipe internal diameter";
-  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(allowFlowReversal=false);
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(
+    final allowFlowReversal=false);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal/nParCir,
@@ -93,6 +94,10 @@ annotation(Dialog(tab="Flow resistance"));
   Modelica.SIunits.ReynoldsNumber rey=
     m_flow/nParCir/A_pipe*pipeDiaInt/mu_default "Reynolds number";
 
+  // just to be sure; m_flow_small is very small to avoid violations of conservation of energy
+  // for SteadyState mixingvolumes:
+  // Q_flow is computed explicitly below (i.e. without considering vol.steBal.m_flowInv) and
+  // energy is not conserved in the regularization region of the mixing volume
   IDEAS.Fluid.MixingVolumes.MixingVolume[nDiscr] vol(each nPorts=2, each m_flow_nominal = m_flow_nominal, each V=m/nDiscr/rho_default,
     redeclare each package Medium = Medium,
     each p_start=p_start,
@@ -102,7 +107,7 @@ annotation(Dialog(tab="Flow resistance"));
     each C_nominal=C_nominal,
     each allowFlowReversal=allowFlowReversal,
     each mSenFac=mSenFac,
-    each m_flow_small=m_flow_small,
+    each m_flow_small=m_flow_small/10000,
     each final prescribedHeatFlowRate=true,
     each energyDynamics=energyDynamics,
     each massDynamics=massDynamics)
@@ -142,6 +147,7 @@ annotation(Dialog(tab="Flow resistance"));
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
   Sensors.TemperatureTwoPort senTemIn(
     redeclare package Medium = Medium,
+    final allowFlowReversal=allowFlowReversal,
     m_flow_nominal=m_flow_nominal,
     tau=0) "Sensor for inlet temperature"
            annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
