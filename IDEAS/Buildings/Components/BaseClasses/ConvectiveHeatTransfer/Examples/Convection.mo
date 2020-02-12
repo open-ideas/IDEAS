@@ -12,7 +12,9 @@ model Convection "Convection model tests"
   InteriorConvection intConVer(A=10, inc=IDEAS.Types.Tilt.Wall)
     "Interior convection block for vertical inclination"
     annotation (Placement(transformation(extent={{-20,82},{0,102}})));
-  ExteriorConvection extCon(A=10) "Exterior convection block"
+  ExteriorConvection extCon(A=10,
+    inc=IDEAS.Types.Tilt.Wall,
+    azi=IDEAS.Types.Azimuth.S)    "Exterior convection block"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
   inner BoundaryConditions.SimInfoManager sim "Data reader"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -43,7 +45,9 @@ model Convection "Convection model tests"
   InteriorConvection intConFlo(A=10, inc=IDEAS.Types.Tilt.Floor)
     "Interior convection block for floor inclination"
     annotation (Placement(transformation(extent={{-20,42},{0,62}})));
-  ExteriorConvection extConLin(A=10, linearise=true)
+  ExteriorConvection extConLin(A=10, linearise=true,
+    inc=IDEAS.Types.Tilt.Wall,
+    azi=IDEAS.Types.Azimuth.S)
     "Linearised exterior convection block"
     annotation (Placement(transformation(extent={{-20,-100},{0,-80}})));
   MonoLayerAir monLayAirHorLin(
@@ -57,7 +61,7 @@ model Convection "Convection model tests"
     annotation (Placement(transformation(extent={{-20,-30},{0,-10}})));
   Modelica.Blocks.Sources.RealExpression Te(y=sim.Te) "Ambient temperature"
     annotation (Placement(transformation(extent={{-62,-84},{-42,-64}})));
-  Modelica.Blocks.Sources.RealExpression hConExt(y=sim.hCon)
+  Modelica.Blocks.Sources.RealExpression hConExt(y=10)
     "Exterior convection"
     annotation (Placement(transformation(extent={{-62,-98},{-42,-78}})));
 equation
@@ -95,10 +99,10 @@ equation
           -74.8}}, color={0,0,127}));
   connect(Te.y, extConLin.Te) annotation (Line(points={{-41,-74},{-34,-74},{-34,
           -94.8},{-20,-94.8}}, color={0,0,127}));
-  connect(hConExt.y, extCon.hConExt) annotation (Line(points={{-41,-88},{-34,
-          -88},{-26,-88},{-26,-79},{-20,-79}}, color={0,0,127}));
-  connect(hConExt.y, extConLin.hConExt) annotation (Line(points={{-41,-88},{-26,
-          -88},{-26,-99},{-20,-99}}, color={0,0,127}));
+  connect(extCon.hForcedConExt, hConExt.y) annotation (Line(points={{-20,-79},{
+          -30,-79},{-30,-88},{-41,-88}}, color={0,0,127}));
+  connect(extConLin.hForcedConExt, hConExt.y) annotation (Line(points={{-20,-99},
+          {-30,-99},{-30,-88},{-41,-88}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -110,6 +114,12 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 9, 2019 by Filip Jorissen:<br/>
+Revised implementation for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>.
+</li>
 <li>
 January 19, 2017 by Filip Jorissen:<br/>
 First implementation
