@@ -1,22 +1,24 @@
 within IDEAS.LIDEAS.Validation;
 model Case900ValidationNonLinearInputs "Model to validate the linearization method by simulating both the original model and the obtained state space model."
-  extends Case900ValidationNonLinear(preInp(y={winBusOut[1].AbsQFlow[1],
-          winBusOut[1].AbsQFlow[2],winBusOut[1].AbsQFlow[3],winBusOut[1].iSolDir,
-          winBusOut[1].iSolDif,weaBusOut.solTim,weaBusOut.solBus[1].HDirTil,
-          weaBusOut.solBus[1].HSkyDifTil,weaBusOut.solBus[1].HGroDifTil,
-          weaBusOut.solBus[1].Tenv,weaBusOut.solBus[2].HDirTil,weaBusOut.solBus[
-          2].HSkyDifTil,weaBusOut.solBus[2].HGroDifTil,weaBusOut.solBus[2].Tenv,
-          weaBusOut.solBus[3].HDirTil,weaBusOut.solBus[3].HSkyDifTil,weaBusOut.solBus[
-          3].HGroDifTil,weaBusOut.solBus[3].Tenv,weaBusOut.solBus[4].HDirTil,
-          weaBusOut.solBus[4].HSkyDifTil,weaBusOut.solBus[4].HGroDifTil,
-          weaBusOut.solBus[4].Tenv,weaBusOut.solBus[5].HDirTil,weaBusOut.solBus[
-          5].HSkyDifTil,weaBusOut.solBus[5].HGroDifTil,weaBusOut.solBus[5].Tenv,
-          weaBusOut.solBus[6].HDirTil,weaBusOut.solBus[6].HSkyDifTil,weaBusOut.solBus[
-          6].HGroDifTil,weaBusOut.solBus[6].Tenv,weaBusOut.Te,weaBusOut.Tdes,
-          weaBusOut.TGroundDes,weaBusOut.hConExt,weaBusOut.X_wEnv,weaBusOut.CEnv,
-          weaBusOut.dummy,weaBusOut.TskyPow4,weaBusOut.TePow4,weaBusOut.solGloHor,
-          weaBusOut.solDifHor,weaBusOut.F1,weaBusOut.F2,weaBusOut.angZen,
-          weaBusOut.angHou,weaBusOut.angDec,weaBusOut.solDirPer,weaBusOut.phi,
+  extends Case900ValidationNonLinear(preInp(y={winBusOut[1].AbsQFlow[1], winBusOut[1].AbsQFlow[2], winBusOut[1].AbsQFlow[3],
+   winBusOut[1].iSolDir, winBusOut[1].iSolDif, weaBusOut.solTim,
+  weaBusOut.solBus[1].HDirTil, weaBusOut.solBus[1].HSkyDifTil, weaBusOut.solBus[1].HGroDifTil,
+   weaBusOut.solBus[1].hForcedConExt, weaBusOut.solBus[1].Tenv, weaBusOut.solBus[2].HDirTil,
+   weaBusOut.solBus[2].HSkyDifTil, weaBusOut.solBus[2].HGroDifTil,
+  weaBusOut.solBus[2].hForcedConExt, weaBusOut.solBus[2].Tenv, weaBusOut.solBus[3].HDirTil,
+   weaBusOut.solBus[3].HSkyDifTil, weaBusOut.solBus[3].HGroDifTil,
+  weaBusOut.solBus[3].hForcedConExt, weaBusOut.solBus[3].Tenv, weaBusOut.solBus[4].HDirTil,
+   weaBusOut.solBus[4].HSkyDifTil, weaBusOut.solBus[4].HGroDifTil,
+  weaBusOut.solBus[4].hForcedConExt, weaBusOut.solBus[4].Tenv, weaBusOut.solBus[5].HDirTil,
+   weaBusOut.solBus[5].HSkyDifTil, weaBusOut.solBus[5].HGroDifTil,
+  weaBusOut.solBus[5].hForcedConExt, weaBusOut.solBus[5].Tenv, weaBusOut.solBus[6].HDirTil,
+   weaBusOut.solBus[6].HSkyDifTil, weaBusOut.solBus[6].HGroDifTil,
+  weaBusOut.solBus[6].hForcedConExt, weaBusOut.solBus[6].Tenv, weaBusOut.Te,
+  weaBusOut.Tdes, weaBusOut.TGroundDes, weaBusOut.Va, weaBusOut.Vdir,
+  weaBusOut.X_wEnv, weaBusOut.CEnv, weaBusOut.dummy, weaBusOut.TskyPow4,
+  weaBusOut.TePow4, weaBusOut.solGloHor, weaBusOut.solDifHor, weaBusOut.F1,
+  weaBusOut.F2, weaBusOut.angZen, weaBusOut.angHou, weaBusOut.angDec,
+  weaBusOut.solDirPer, weaBusOut.phi,
           gainCon.y,gainRad.y}),
       fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/LIDEAS/ssm_Case900LineariseInputs.mat"));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedQCon "Prescribed convective heat flow for linRect zone"
@@ -73,6 +75,11 @@ equation
         "Linearise, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 11, 2019, by Filip Jorissen:<br/>
+Revised input list for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1089>#1089</a>.
+</li>
 <li>May 15, 2018 by Damien Picard: <br/>First implementation</li>
 </ul>
 </html>", info="<html>

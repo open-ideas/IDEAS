@@ -206,7 +206,7 @@ equation
     Documentation(info="<html>
 <p>
 BESTEST implementation of IDEAS. 
-This model generates the results in the figures below. 
+This model generates the results in the figures below, which has last been updated on December 16, 2019 for IDEAS 2.1. 
 Reference results are from the 
 <a href=https://energyplus.net/sites/all/modules/custom/nrel_custom/eplus_files/current_testing_reports/ASHRAE140-Envelope-8.3.0-b45b06b780.pdf>
 EnergyPlus website</a>.
@@ -222,6 +222,11 @@ For free float cases, normalised minimum, average and maximum temperatures are r
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 16, 2019 by Filip Jorissen:<br/>
+Updated results after having updated convection implementation
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1099\">#1099</a>.
+</li>
 <li>
 June 7, 2018 by Filip Jorissen:<br/>
 Revised implementation using dedicated SimInfoManger for 
