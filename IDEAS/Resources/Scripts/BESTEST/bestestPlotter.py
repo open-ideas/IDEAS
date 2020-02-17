@@ -28,9 +28,8 @@ def plot_results(ax, avgRes, minRes, maxRes, epRes, ideasRes, N, offset=0, marke
     if offset > 7:
         norm=avgRes*0+20
         
-
-    ax.errorbar(np.array(range(N)) + offset, (avgRes[0:N]-avgRes)/norm, yerr=[[(avgRes[i]-minRes[i])/norm[i] for i in range(N)], [(maxRes[i]-avgRes[i])/norm[i] for i in range(N)]], fmt='o', color="#4C74AB", label="min, avg, max")
-    ax.scatter([i + offset for i in range(N)], (ideasRes-avgRes)/norm, color="#C64E54", marker='$\circ$', label = "IDEAS 1.0", zorder=10)
+    ax.errorbar(np.array(range(N)) + offset, (avgRes[0:N]-avgRes)/norm, yerr=[[(avgRes[i]-minRes[i])/norm[i] for i in range(N)], [(maxRes[i]-avgRes[i])/norm[i] for i in range(N)]], fmt='o', color="#4C74AB", label="min, avg, max", capsize=2)
+    ax.scatter([i + offset for i in range(N)], (ideasRes-avgRes)/norm, color="#C64E54", marker='$\circ$', label = "IDEAS 2.1", zorder=10)
     ax.scatter([i + offset for i in range(N)], (epRes[0:N]-avgRes)/norm, color="#4CB391", marker='x', label = "EnergyPlus 8.3", zorder=9)
     ax.scatter([(offset-round(offset))*1.25+round(offset)], -0.4, color='k', marker=marker, linewidth=0.01, s=60*(1 if offset>7 else 1.5))
 

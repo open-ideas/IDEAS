@@ -33,6 +33,9 @@ model RadSolData "Selects or generates correct solar data for this surface"
     annotation (Placement(transformation(extent={{96,-110},{116,-90}})));
   Modelica.Blocks.Interfaces.RealOutput Tenv "Environment temperature"
     annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput hForcedConExt
+    "Forced flow convection coefficient at an external surface"
+    annotation (Placement(transformation(extent={{96,-132},{116,-112}})));
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,1],inc)
@@ -107,11 +110,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   end if;
-  connect(radSol.TePow4, weaBus.TePow4) annotation (Line(points={{-66,40.6},{-66,
-          54},{100.05,54},{100.05,80.05}},
+  connect(radSol.TePow4, weaBus.TePow4) annotation (Line(points={{-64,41.8},{
+          -64,54},{100.05,54},{100.05,80.05}},
                                   color={0,0,127}));
-  connect(radSol.TskyPow4, weaBus.TskyPow4) annotation (Line(points={{-72,40.6},
-          {-72,56},{100.05,56},{100.05,80.05}},
+  connect(radSol.TskyPow4, weaBus.TskyPow4) annotation (Line(points={{-68,42},{
+          -68,56},{100.05,56},{100.05,80.05}},
                                        color={0,0,127}));
   connect(radSol.solDirPer, weaBus.solDirPer) annotation (Line(points={{-80.4,40},
           {-80.4,58},{100.05,58},{100.05,80.05}},
@@ -136,7 +139,6 @@ equation
   connect(radSol.F2, weaBus.F2) annotation (Line(points={{-80.4,20},{-96,20},{-96,
           74},{100.05,74},{100.05,80.05}},
                                   color={0,0,127}));
-
     connect(constAngLin.y, angInc) annotation (Line(points={{-79,-60},{-78,-60},{-78,
           -40},{106,-40}}, color={0,0,127}));
   connect(constAngLin.y, angZen)
@@ -153,14 +155,31 @@ equation
   connect(radSol.solTim, weaBus.solTim) annotation (Line(points={{-80.4,33},{-86,
           33},{-86,64},{100.05,64},{100.05,80.05}},
                                                 color={0,0,127}));
+  connect(hForcedConExt, solBusDummy.hForcedConExt) annotation (Line(points={{106,
+          -122},{-39.9,-122},{-39.9,30.1}},
+                                     color={0,0,127}));
+  connect(radSol.winDir, weaBus.Vdir) annotation (Line(points={{-72,42},{-72,
+          80.05},{100.05,80.05}},                          color={0,0,127}));
+  connect(radSol.winSpe, weaBus.Va) annotation (Line(points={{-76,42},{-76,76},
+          {100,76},{100,80.05},{100.05,80.05}},                          color=
+          {0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),           Documentation(info="<html>
-<p>This model usually takes the appropriate solar data from the bus. If the correct data is not contained by the bus, custom solar data is calculated.</p>
+            -140},{120,100}})),           Documentation(info="<html>
+<p>
+This model usually takes the appropriate solar data from the bus. 
+If the correct data is not contained by the bus, custom solar data is calculated.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
+November 28, 2019 by Ian Beausoleil-Morrison:<br/>
+Add RealOutput for coefficient for forced convection and get this from SolBus.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
+#1089</a>
+</li>
+<li>
 August 9, 2018 by Filip Jorissen:<br/>
-Revised implementation for checking solData index and added
+Revised implementation for checking solData index and added 
 assert to avoid duplicate entries in <code>incAndAziInBus</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/881\">
 #881</a>.

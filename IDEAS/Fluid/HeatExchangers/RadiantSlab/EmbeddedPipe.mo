@@ -142,6 +142,7 @@ annotation(Dialog(tab="Flow resistance"));
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
   Sensors.TemperatureTwoPort senTemIn(
     redeclare package Medium = Medium,
+    final allowFlowReversal=allowFlowReversal,
     m_flow_nominal=m_flow_nominal,
     tau=0) "Sensor for inlet temperature"
            annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
@@ -360,6 +361,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 31, 2020 by Filip Jorissen:<br/>
+Propagated <code>allowFlowReversal</code> in <code>TemperatureTwoPort</code> sensor. 
+See <a href=https://github.com/open-ideas/IDEAS/issues/1105>#1105</a>.
+</li>
 <li>
 October 19, 2019 by Filip Jorissen:<br/>
 Removed discretization assert since we limit the heat flow rate to physically
