@@ -3,7 +3,7 @@ package DryAir "Package with dry air model that decouples pressure and temperatu
   extends IDEAS.Media.Specialized.BaseClasses.PartialSimpleMedium(
      mediumName="Air",
      cp_const=1005,
-     cv_const=cp_const/1.4,
+     cv_const=1005,
      d_const=1.2,
      eta_const=1.82e-5,
      lambda_const=0.026,
