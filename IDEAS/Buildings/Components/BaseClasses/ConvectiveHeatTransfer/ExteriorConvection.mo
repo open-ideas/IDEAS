@@ -129,7 +129,7 @@ convection and combines the two together to determine the
 coefficient used in Newton&apos;s Law of Cooling.
 </p>
 <p>
-The "TARP" correlation is used to calculate the coefficient for natural convection. 
+The &quot;TARP&quot; correlation is used to calculate the coefficient for natural convection. 
 The parameters for the correlation at sourced from the EnergyPlus Engineering 
 manual (Equations 3.75 to 3.77, Page 94). 
 Horizontal surfaces are treated as either a ceiling or a floor, 
@@ -138,9 +138,9 @@ upon the surface-to-air temperature difference.
 Any non-horizontal surface is treated as vertical.
 </p>
 <p>
-This implementation includes a "roughness factor" that can be used to 
+This implementation includes a &quot;roughness factor&quot; that can be used to 
 augment the combined convection coefficient calculated by the correlations.  
-This is used in the so-called "DOE-2 model" that is EnergyPlus'; 
+This is used in the so-called &quot;DOE-2 model&quot; that is EnergyPlus'; 
 default approach.  However, the use of roughness factors other 
 than 1 are discouraged as there appears to be little physical basis for this factor.
 </p>
