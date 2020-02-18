@@ -82,9 +82,10 @@ initial equation
 
   // Throw a warning when the simplified approach is used.
   assert(max(F1)<FMax*0.9 and computeCarroll or simVieFac,
-          "WARNING: The view factor computed in ZoneLwDistribution could not properly converge. 
+          "WARNING: In " +getInstanceName() + ": The computed view factor returned unexpected results. 
           A simplified method is used. 
-          This may be caused by trying to model a non-physical geometry.\n",
+          This may be caused by trying to model a non-physical geometry. 
+          Avoid this warning by setting simVieFac=true in the respective zone model.\n",
           AssertionLevel.warning);
 
 
@@ -189,6 +190,12 @@ Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in ro
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 18, 2020 by Filip Jorissen:<br/>
+Improved warning when view factor computation returns odd results.
+See issue 
+<a href=https://github.com/open-ideas/IDEAS/issues/1109>#1109</a>.
+</li>
 <li>
 February 1, 2017 by Filip Jorissen:<br/>
 Added option for disabling new view factor computation.
