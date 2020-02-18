@@ -21,7 +21,7 @@ model SingleZoneResidentialHydronic
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     Q_flow_nominal=2000,
-    dp_nominal=100000)
+    dp_nominal=0)
     "Radiator"               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -32,15 +32,15 @@ model SingleZoneResidentialHydronic
     dp_nominal=0,
     QMax_flow=3000) "Ideal heater - pressure drop merged into radiator"
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
-  IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
+  Fluid.Movers.FlowControlled_dp           pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    addPowerToMedium=false,
     use_inputFilter=false,
-    massFlowRates={0,0.05},
     redeclare package Medium = Medium,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    constantMassFlowRate=rad.m_flow_nominal)
+    dp_nominal=100000)
     "Hydronic pump"
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(
@@ -78,13 +78,22 @@ model SingleZoneResidentialHydronic
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
     "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
+  Utilities.IO.SignalExchange.Read outputP(description="Pump electrical power",
+      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+    "Block for reading the pump electrical power"
+    annotation (Placement(transformation(extent={{60,20},{80,40}})));
+  Fluid.Actuators.Valves.TwoWayTRV val(
+    redeclare package Medium = Medium,
+    m_flow_nominal=rad.m_flow_nominal,
+    dpValve_nominal=20000,
+    dpFixed_nominal=80000,
+    from_dp=true)
+    annotation (Placement(transformation(extent={{-8,20},{-28,40}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
   connect(rad.heatPortRad, case900Template.gainRad) annotation (Line(points={{-37.2,
           8},{-46,8},{-46,4},{-60,4}}, color={191,0,0}));
-  connect(hea.port_b, rad.port_a)
-    annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
   connect(pump.port_a, rad.port_b)
     annotation (Line(points={{0,-10},{-30,-10},{-30,0}}, color={0,127,255}));
   connect(pump.port_b, hea.port_a) annotation (Line(points={{20,-10},{40,-10},{40,
@@ -105,6 +114,14 @@ equation
     annotation (Line(points={{-1,38},{0,38},{0,60},{58,60}}, color={0,0,127}));
   connect(outputQ.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
+  connect(outputP.u, pump.P) annotation (Line(points={{58,30},{46,30},{46,20},{
+          26,20},{26,-1},{21,-1}}, color={0,0,127}));
+  connect(hea.port_b, val.port_a)
+    annotation (Line(points={{0,30},{-8,30}}, color={0,127,255}));
+  connect(val.port_b, rad.port_a)
+    annotation (Line(points={{-28,30},{-30,30},{-30,20}}, color={0,127,255}));
+  connect(case900Template.TSensor, val.T) annotation (Line(points={{-60,13},{
+          -50,13},{-50,42},{-18,42},{-18,40.6}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -150,10 +167,14 @@ of weather data for Uccle, Belgium.
 <h4>Primary and secondary system designs</h4>
 <p>
 The model only has a primary heating system that
-heats the zone using a single radiator,
+heats the zone using a single radiator
+with thermostatic valve,
 a circulation pump and a water heater.
 The radiator nominal thermal power is 2 kW, 
 while the heater maximum thermal power is 3 kW.
+The thermostatic valve is fully closed when the operative
+temperature reaches 21 degrees centigrade
+and fully opened at 19 degrees centigrade.
 The gas heater efficiency is assumed to be 100 % and by default it uses
 a fixed supply temperature set point of 60 degrees centigrade.
 </p>
@@ -165,7 +186,9 @@ No efficiency is computed for the heater.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-The model assumes a pump with a constant flow rate.
+The model assumes a pump with a constant head.
+The resulting flow rate depends on the thermostatic valve
+position.
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
@@ -185,6 +208,9 @@ The model outputs are:
 </li>
 <li>
 <code>TZone</code> [K]: The zone operative temperature.
+</li>
+<li>
+<code>P</code> [W]: The pump electrical power.
 </li>
 </ul>
 <h3>Additional System Design</h3>
