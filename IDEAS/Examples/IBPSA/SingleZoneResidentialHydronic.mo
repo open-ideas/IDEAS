@@ -152,7 +152,7 @@ The roof consists of a light construction and 11 cm of fibreglass.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-The zone is occupied by one person between 7 am and 8 pm of each day.
+The zone is occupied by one person before 7 am and after 8 pm each day.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
@@ -170,8 +170,8 @@ The model only has a primary heating system that
 heats the zone using a single radiator
 with thermostatic valve,
 a circulation pump and a water heater.
-The radiator nominal thermal power is 2 kW, 
-while the heater maximum thermal power is 3 kW.
+The radiator nominal thermal power and heater maximum thermal 
+power is 3 kW.
 The thermostatic valve is fully closed when the operative
 temperature reaches 21 degrees centigrade
 and fully opened at 19 degrees centigrade.
