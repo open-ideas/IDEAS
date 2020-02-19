@@ -56,8 +56,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
-  Modelica.Blocks.Sources.RealExpression yOcc(y=if calTim.hour > 7 and calTim.hour
-         < 20 then 1 else 0)
+  Modelica.Blocks.Sources.RealExpression yOcc(y=if calTim.hour < 7 or calTim.hour
+         > 19 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
