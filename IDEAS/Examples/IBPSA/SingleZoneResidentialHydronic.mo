@@ -20,7 +20,7 @@ model SingleZoneResidentialHydronic
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    Q_flow_nominal=2000,
+    Q_flow_nominal=3000,
     dp_nominal=0)
     "Radiator"               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
