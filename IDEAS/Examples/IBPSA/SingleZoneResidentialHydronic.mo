@@ -56,8 +56,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
-  Modelica.Blocks.Sources.RealExpression yOcc(y=if calTim.hour < 7 or calTim.hour
-         > 19 then 1 else 0)
+  Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
+         > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
@@ -152,7 +152,8 @@ The roof consists of a light construction and 11 cm of fibreglass.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-The zone is occupied by one person before 7 am and after 8 pm each day.
+The zone is occupied by one person before 7 am and after 8 pm each weekday
+and full time during weekends.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
