@@ -128,17 +128,7 @@ to reflect the typical delay of radiator knobs.
 revisions="<html>
 <ul>
 <li>
-October 26, 2018 by Filip Jorissen:<br/>
-Using <code>smoothLimit</code> for P controller.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/948\">#948</a>.
-</li>
-<li>
-September 24, 2018 by Filip Jorissen:<br/>
-Modified displayUnit of proportional band P to Kelvin to avoid displaying -271.15C.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/919\">#919</a>.
-</li>
-<li>
-November 15, 2016 by Filip Jorissen:<br/>
+February 20, 2020 by Javier Arroyo:<br/>
 First implementation.
 </li>
 </ul>
