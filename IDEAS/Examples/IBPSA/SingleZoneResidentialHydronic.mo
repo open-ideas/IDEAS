@@ -61,7 +61,8 @@ model SingleZoneResidentialHydronic
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
-        "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
+        "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
+    y(unit="K"))
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
@@ -75,11 +76,13 @@ model SingleZoneResidentialHydronic
     "Constant supply temperature set point"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
   Utilities.IO.SignalExchange.Read outputQ(description="Thermal power", KPIs=
-        IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+        IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    y(unit="W"))
     "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Utilities.IO.SignalExchange.Read outputP(description="Pump electrical power",
-      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    y(unit="W"))
     "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
   Fluid.Actuators.Valves.TwoWayTRV val(
