@@ -60,8 +60,9 @@ model SingleZoneResidentialHydronic
          > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
-  IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
-        "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
+  IDEAS.Utilities.IO.SignalExchange.Read outputT(
+    description="Zone temperature",
+    KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"))
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
