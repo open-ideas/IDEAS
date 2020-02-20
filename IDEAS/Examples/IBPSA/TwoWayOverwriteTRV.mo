@@ -1,7 +1,6 @@
 within IDEAS.Examples.IBPSA;
 model TwoWayOverwriteTRV
   "Two way thermostatic radiator valve with BOPTEST functionality to overwrite the actuator signal"
-  import IBPSA;
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(
      show_T=false,
      dp(start=0,
@@ -87,8 +86,7 @@ model TwoWayOverwriteTRV
     annotation (Placement(transformation(extent={{40,60},{60,80}}),
         iconTransformation(extent={{40,60},{60,80}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveVal(description=
-        "Opening valve signal. 0 means completely closed, 1 means completely open",
+  IDEAS.Utilities.IO.SignalExchange.Overwrite oveVal(description="Opening valve signal. 0 means completely closed, 1 means completely open",
       u(
       min=0,
       max=1,
