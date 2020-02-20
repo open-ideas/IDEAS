@@ -85,7 +85,7 @@ model SingleZoneResidentialHydronic
     y(unit="W"))
     "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  Fluid.Actuators.Valves.TwoWayTRV val(
+  TwoWayOverwriteTRV               val(
     redeclare package Medium = Medium,
     m_flow_nominal=rad.m_flow_nominal,
     dpValve_nominal=20000,
