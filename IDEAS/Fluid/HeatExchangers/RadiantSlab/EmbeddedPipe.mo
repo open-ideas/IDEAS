@@ -69,7 +69,8 @@ annotation(Dialog(tab="Flow resistance"));
   parameter Modelica.SIunits.ThermalInsulance R_c = 1/(RadSlaCha.lambda_b/RadSlaCha.S_1 + RadSlaCha.lambda_b/RadSlaCha.S_2)
     "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
     annotation(Dialog(group="Thermal"));
-
+  Modelica.Blocks.Interfaces.RealOutput TSet_internal[nDiscr]
+    "For dealing with conditional variables";
   Modelica.SIunits.ThermalConductance G_smooth "Smooth minimum of G";
   Modelica.SIunits.Temperature[nDiscr] Tin = cat(1, {senTemIn.T}, TSet_internal[1:nDiscr-1]);
   //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
@@ -232,7 +233,7 @@ equation
             {-10,0},{-10,-20},{-50,-20},{-50,0},{-40,0}},
                                                    color={0,127,255}));
   end for;
-
+  connect(TSet_internal, preOut.TSet);
   connect(heatFlowSolid.port, heatPortEmb) annotation (Line(
       points={{-20,80},{0,80},{0,100}},
       color={191,0,0},
