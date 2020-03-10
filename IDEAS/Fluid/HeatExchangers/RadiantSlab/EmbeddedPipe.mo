@@ -70,8 +70,8 @@ annotation(Dialog(tab="Flow resistance"));
     "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
     annotation(Dialog(group="Thermal"));
 
-  Modelica.SIunits.Temperature[nDiscr] Tin = cat(1, {senTemIn.T}, vol[1:nDiscr-1].heatPort.T);
-  Modelica.SIunits.Power[nDiscr] Q "Thermal power going into tabs";
+  Modelica.SIunits.ThermalConductance G_smooth "Smooth minimum of G";
+  Modelica.SIunits.Temperature[nDiscr] Tin = cat(1, {senTemIn.T}, TSet_internal[1:nDiscr-1]);
   //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
   // for laminar flow Nu_D = 4 is assumed: correlation for heat transfer constant heat flow and constant wall temperature
   Modelica.SIunits.ThermalInsulance R_w_val= IDEAS.Utilities.Math.Functions.spliceFunction(
@@ -98,20 +98,6 @@ annotation(Dialog(tab="Flow resistance"));
   // for SteadyState mixingvolumes:
   // Q_flow is computed explicitly below (i.e. without considering vol.steBal.m_flowInv) and
   // energy is not conserved in the regularization region of the mixing volume
-  IDEAS.Fluid.MixingVolumes.MixingVolume[nDiscr] vol(each nPorts=2, each m_flow_nominal = m_flow_nominal, each V=m/nDiscr/rho_default,
-    redeclare each package Medium = Medium,
-    each p_start=p_start,
-    each T_start=T_start,
-    each X_start=X_start,
-    each C_start=C_start,
-    each C_nominal=C_nominal,
-    each allowFlowReversal=allowFlowReversal,
-    each mSenFac=mSenFac,
-    each m_flow_small=m_flow_small/10000,
-    each final prescribedHeatFlowRate=true,
-    each energyDynamics=energyDynamics,
-    each massDynamics=massDynamics)
-    annotation (Placement(transformation(extent={{-50,0},{-70,20}})));
 
   FixedResistances.ParallelPressureDrop          res(
     redeclare package Medium = Medium,
@@ -127,16 +113,12 @@ annotation(Dialog(tab="Flow resistance"));
     final dh=pipeDiaInt,
     final ReC=reyHi)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowWater(
-    each final alpha=0) "Heat flow rate that is extracted from the fluid"
-    annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nDiscr] heatFlowSolid(
     each final alpha=0)
     "Heat flow rate that is injected in the solid material"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
-  Modelica.Blocks.Math.Gain[nDiscr] negate(each k=-1)
-    annotation (Placement(transformation(extent={{-56,36},{-48,44}})));
-  Modelica.Blocks.Sources.RealExpression[nDiscr] Q_tabs(y=Q)
+  Modelica.Blocks.Sources.RealExpression[nDiscr] TSet(y=TOut)
+    "Outlet temperature set point"
     annotation (Placement(transformation(extent={{-100,50},{-72,70}})));
 
   Modelica.Blocks.Math.Sum sumQTabs(nin=nDiscr, k=ones(nDiscr))
@@ -151,6 +133,22 @@ annotation(Dialog(tab="Flow resistance"));
     m_flow_nominal=m_flow_nominal,
     tau=0) "Sensor for inlet temperature"
            annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
+  IDEAS.Fluid.HeatExchangers.PrescribedOutlet preOut[nDiscr](
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=0,
+    tau=m_flow_nominal/(m/nDiscr/rho_default)/mSenFac,
+    energyDynamics=energyDynamics,
+    use_TSet=true,
+    use_X_wSet=false)
+    "Component for prescribing the outlet temperature"
+    annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
+  Modelica.Blocks.Math.Gain neg[nDiscr](k=-1) "Conservation of energy"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-8,36})));
 protected
   final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
@@ -186,10 +184,15 @@ protected
     "Lowest value for R_w that is expected for the set mass flow rate";
   final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
     "Mass of medium";
+  final parameter Modelica.SIunits.MassFlowRate m_flow_min=
+    A_floor/nDiscr/2/(cp_default*(R_w_val_min+R_r_val+R_x_val))
+    "Mass flow rate where G_t ~= G_max, see Koschenz eq. 4.68";
   Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/(A_floor/nDiscr)
     "mass flow rate per unit floor area";
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
+  Real TOut[nDiscr] "Outlet temperature set point";
+
 initial equation
   if RadSlaCha.tabs then
     assert(RadSlaCha.S_1 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer above the tubes is smaller than 0.3 * the tube interdistance. 
@@ -211,56 +214,47 @@ equation
   G_t = abs(A_floor/nDiscr/R_t);
   // maximum thermal conductance based on second law
   G_max = abs(m_flow)*cp_default;
-  // no smoothmin since this undershoots for near-zero values
-  Q = (Tin - heatPortEmb.T)*UnitTests.Confidential.smoothMin(G_t, G_max, m_flow_nominal*cp_default);
+  // smooth version of min(G_t, G_max)
+  G_smooth = G_t + G_max - (G_t^10 + G_max^10)^0.1;
+  // outlet temperature
+  // this formulation and the regularization using m_flow_min ensure
+  // that TOut approaches heatPortEmb.T for small mass flow rates
+  // in a way that is twice continuously differentiable
+  TOut = heatPortEmb.T + (Tin - heatPortEmb.T)*(1 - (G_smooth + m_flow_min*cp_default)/(G_max + m_flow_min*cp_default));
 
   connect(res.port_b, port_b) annotation (Line(
          points={{40,0},{100,0}},
        color={0,127,255},
        smooth=Smooth.None));
-  connect(senTemIn.port_b, vol[1].ports[1]) annotation (Line(
-       points={{-70,0},{-58,0}},
-       color={0,127,255},
-              smooth=Smooth.None));
-  connect(res.port_a, vol[nDiscr].ports[2]) annotation (Line(
-       points={{20,0},{-62,0}},
-       color={0,127,255},
-       smooth=Smooth.None));
 
   for i in 2:nDiscr loop
-    connect(vol[i-1].ports[2], vol[i].ports[1]) annotation (Line(
-      points={{-62,0},{-58,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
+    connect(preOut[i-1].port_b, preOut[i].port_a) annotation (Line(points={{-20,0},
+            {-10,0},{-10,-20},{-50,-20},{-50,0},{-40,0}},
+                                                   color={0,127,255}));
   end for;
 
-  connect(heatFlowWater.port, vol.heatPort) annotation (Line(
-      points={{-20,40},{-20,10},{-50,10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatFlowWater.Q_flow, negate.y) annotation (Line(
-      points={{-40,40},{-47.6,40}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(negate.u, Q_tabs.y) annotation (Line(
-      points={{-56.8,40},{-60,40},{-60,60},{-70.6,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatFlowSolid.Q_flow, Q_tabs.y) annotation (Line(
-      points={{-40,80},{-60,80},{-60,60},{-70.6,60}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(heatFlowSolid.port, heatPortEmb) annotation (Line(
       points={{-20,80},{0,80},{0,100}},
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(Q_tabs.y, sumQTabs.u)
-    annotation (Line(points={{-70.6,60},{18,60}}, color={0,0,127}));
   connect(sumQTabs.y, QTot)
     annotation (Line(points={{41,60},{110,60}}, color={0,0,127}));
   connect(port_a, senTemIn.port_a)
     annotation (Line(points={{-100,0},{-90,0}}, color={0,127,255}));
+  connect(preOut[1].port_a, senTemIn.port_b)
+    annotation (Line(points={{-40,0},{-70,0}}, color={0,127,255}));
+
+  connect(preOut[nDiscr].port_b, res.port_a)
+    annotation (Line(points={{-20,0},{20,0}}, color={0,127,255}));
+  connect(preOut.Q_flow, neg.u)
+    annotation (Line(points={{-19,8},{-8,8},{-8,24}}, color={0,0,127}));
+  connect(neg.y, sumQTabs.u) annotation (Line(points={{-8,47},{-8,58},{18,58},{18,
+          60}}, color={0,0,127}));
+  connect(neg.y, heatFlowSolid.Q_flow)
+    annotation (Line(points={{-8,47},{-40,47},{-40,80}}, color={0,0,127}));
+  connect(TSet.y, preOut.TSet) annotation (Line(points={{-70.6,60},{-56,60},{-56,
+          8},{-42,8}}, color={0,0,127}));
    annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -366,6 +360,10 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 9, 2020 by Filip Jorissen:<br/>
+Twice continuously differentiable implementation.
+</li>
 <li>
 January 31, 2020 by Filip Jorissen:<br/>
 Propagated <code>allowFlowReversal</code> in <code>TemperatureTwoPort</code> sensor. 

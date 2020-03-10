@@ -187,10 +187,10 @@ equation
   if (use_TSet and energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) or
      (use_X_wSet and massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState) then
     mNor_flow = port_a.m_flow/m_flow_nominal;
-    k = Modelica.Fluid.Utilities.regStep(x=port_a.m_flow,
+    k = if allowFlowReversal then Modelica.Fluid.Utilities.regStep(x=port_a.m_flow,
                                          y1= mNor_flow,
                                          y2=-mNor_flow,
-                                         x_small=m_flow_small);
+                                         x_small=m_flow_small) else port_a.m_flow;
   else
     mNor_flow = 1;
     k = 1;
@@ -218,10 +218,12 @@ equation
       X = Xi_instream + fill(dXiAct, Medium.nXi)))
         else Medium.h_default;
 
-  m_flow_pos = IDEAS.Utilities.Math.Functions.smoothMax(
-    x1=m_flow,
-    x2=0,
-    deltaX=m_flow_small);
+  m_flow_pos = if allowFlowReversal
+    then IDEAS.Utilities.Math.Functions.smoothMax(
+      x1=m_flow,
+      x2=0,
+      deltaX=m_flow_small)
+    else m_flow;
 
    if not restrictHeat and not restrictCool and
       not restrictHumi and not restrictDehu then
@@ -467,6 +469,10 @@ properties as the fluid that enters <code>port_b</code>.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 10, 2020, by Filip Jorissen:<br/>
+Modifications for differentiability when <code>allowFlowReversal=false</code>.
+</li>
 <li>
 March 19, 2018, by Michael Wetter:<br/>
 Added bugfix as the old model did not track <code>TSet</code> and <code>X_wSet</code>
