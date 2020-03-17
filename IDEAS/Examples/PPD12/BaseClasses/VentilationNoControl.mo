@@ -2,12 +2,15 @@ within IDEAS.Examples.PPD12.BaseClasses;
 partial model VentilationNoControl "Ppd 12 example model"
   extends IDEAS.Examples.PPD12.BaseClasses.HeatingNoControl(
     living(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    Diner(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    stairWay(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
+    Diner(nPorts=3,
+          airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
+    stairWay(nPorts=3,
+             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
     bathRoom(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
     bedRoom1(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
     bedRoom2(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    bedRoom3(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
+    bedRoom3(nPorts=3,
+             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
     radGnd(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBed1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBat2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
@@ -234,8 +237,8 @@ equation
           58},{272,58},{272,62}},                color={0,127,255}));
   connect(bedRoom2.ports[1], bedRoom3.ports[1]) annotation (Line(points={{266,62},
           {266,62},{250,62},{250,20},{270,20}},         color={0,127,255}));
-  connect(spl6.port_3, bedRoom3.ports[2]) annotation (Line(points={{190,120},{
-          190,20},{270,20}},             color={0,127,255}));
+  connect(spl6.port_3, bedRoom3.ports[2]) annotation (Line(points={{190,120},{190,
+          20},{270,20}},                 color={0,127,255}));
   connect(stairWay.ports[2], bedRoom3.ports[3]) annotation (Line(points={{76,6},{
           80,6},{80,0},{80,8},{270,8},{270,20}},         color={0,127,255}));
   connect(stairWay.ports[1], bathRoom.ports[1]) annotation (Line(points={{76,6},{
@@ -248,15 +251,15 @@ equation
                       color={0,127,255}));
   connect(spl8.port_1, spl6.port_2)
     annotation (Line(points={{142,130},{180,130}}, color={0,127,255}));
-  connect(spl8.port_3, bedRoom1.ports[2]) annotation (Line(points={{132,120},{
-          132,90},{132,60},{130,60}},    color={0,127,255}));
+  connect(spl8.port_3, bedRoom1.ports[2]) annotation (Line(points={{132,120},{132,
+          90},{132,60},{130,60}},        color={0,127,255}));
   connect(spl8.port_2, living.ports[1]) annotation (Line(points={{122,130},{-36,
           130},{-36,36}}, color={0,127,255}));
-  connect(living.ports[2], Diner.ports[1]) annotation (Line(points={{-36,36},{
-          -36,-38},{-36,-38}},      color={0,127,255}));
-  connect(Diner.ports[2], spl7.port_1) annotation (Line(points={{-36,-38},{-56,
-          -38},{-56,190},{140,190}},                   color={0,127,255}));
-  connect(Diner.port_a, bouAir.ports[3]) annotation (Line(points={{-30,-38},{
+  connect(living.ports[2], Diner.ports[1]) annotation (Line(points={{-36,36},{-36,
+          -38},{-36,-38}},          color={0,127,255}));
+  connect(Diner.ports[2], spl7.port_1) annotation (Line(points={{-36,-38},{-56,-38},
+          {-56,190},{140,190}},                        color={0,127,255}));
+  connect(Diner.ports[3], bouAir.ports[3]) annotation (Line(points={{-36,-38},{
           -16,-38},{-16,212},{380,212},{380,167.333}},color={0,127,255}));
   connect(Te.y, bouAir.T_in) annotation (Line(points={{381,90},{400,90},{400,
           174},{402,174}}, color={0,0,127}));
