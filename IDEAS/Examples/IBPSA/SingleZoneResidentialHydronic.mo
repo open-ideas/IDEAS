@@ -87,13 +87,6 @@ model SingleZoneResidentialHydronic
     y(unit="W"))
     "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  TwoWayOverwriteTRV               val(
-    redeclare package Medium = Medium,
-    m_flow_nominal=rad.m_flow_nominal,
-    dpValve_nominal=20000,
-    dpFixed_nominal=80000,
-    from_dp=true)
-    annotation (Placement(transformation(extent={{-8,20},{-28,40}})));
 
 protected
   model TwoWayOverwriteTRV
@@ -335,12 +328,8 @@ equation
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(outputP.u, pump.P) annotation (Line(points={{58,30},{46,30},{46,20},{
           26,20},{26,-1},{21,-1}}, color={0,0,127}));
-  connect(hea.port_b, val.port_a)
-    annotation (Line(points={{0,30},{-8,30}}, color={0,127,255}));
-  connect(val.port_b, rad.port_a)
-    annotation (Line(points={{-28,30},{-30,30},{-30,20}}, color={0,127,255}));
-  connect(case900Template.TSensor, val.T) annotation (Line(points={{-60,13},{
-          -50,13},{-50,42},{-18,42},{-18,40.6}}, color={0,0,127}));
+  connect(hea.port_b, rad.port_a)
+    annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
