@@ -84,6 +84,7 @@ model PartialZone "Building zone model"
   constrainedby
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
       redeclare package Medium = Medium,
+      final nPortsExt=nPorts,
       V=V,
       n50=n50,
       n50toAch=n50toAch,
@@ -387,10 +388,10 @@ end for;
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
   connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{
           -29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
-  connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{
-          -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
-  connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
-          -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
+  connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{-36,80},
+          {-36,92},{-40,92},{-40,100}},         color={0,127,255}));
+  connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{-24,80},
+          {-24,84},{40,84},{40,100}},         color={0,127,255}));
   connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{52,0},{52,16},{-8,
           16},{-8,28},{-19,28}}, color={0,0,127}));
   connect(intGaiLig.portRad, gainRad) annotation (Line(points={{20,60},{4,60},{4,
@@ -399,6 +400,8 @@ end for;
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
+  connect(interzonalAirFlow.portsExt, ports) annotation (Line(points={{-30,80},{
+          -30,90},{0,90},{0,100}}, color={0,127,255}));
  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -407,6 +410,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>
 Set <code>massDynamics=if interzonalAirFlow.prescribesPressure then Modelica.Fluid.Types.Dynamics.SteadyState</code>

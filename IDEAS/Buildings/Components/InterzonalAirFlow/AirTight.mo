@@ -2,15 +2,20 @@ within IDEAS.Buildings.Components.InterzonalAirFlow;
 model AirTight
   "Airtight: Air tight zone without air infiltration"
   extends IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
-    nPorts=0,
+    nPorts=nPortsExt,
     prescribesPressure=false);
 equation
   connect(port_a_interior, port_b_exterior) annotation (Line(points={{-60,-100},
-          {-60,0},{-20,0},{-20,100}}, color={0,127,255}));
-  connect(port_a_exterior, port_b_interior) annotation (Line(points={{20,100},{20,
+          {-60,0},{-60,0},{-60,100}}, color={0,127,255}));
+  connect(port_a_exterior, port_b_interior) annotation (Line(points={{60,100},{60,
           0},{60,0},{60,-100}}, color={0,127,255}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 January 25, 2019, Filip Jorissen:<br/>
 Added constant <code>prescribesPressure</code> that indicates
