@@ -231,32 +231,32 @@ equation
           380,190},{380,170}},
                            color={0,127,255}));
   connect(spl5.port_3, bedRoom2.port_b) annotation (Line(points={{230,120},{230,
-          58},{268,58},{268,62}},                color={0,127,255}));
-  connect(bedRoom2.port_a, bedRoom3.port_a) annotation (Line(points={{
-          264,62},{254,62},{250,62},{250,20},{268,20}}, color={0,127,255}));
-  connect(spl6.port_3, bedRoom3.port_a) annotation (Line(points={{190,120},{190,
-          20},{268,20}},                 color={0,127,255}));
-  connect(stairWay.port_b, bedRoom3.port_b) annotation (Line(points=
-         {{78,6},{80,6},{80,0},{80,8},{272,8},{272,20}}, color={0,127,255}));
-  connect(stairWay.port_a, bathRoom.port_a) annotation (Line(points={{
-          74,6},{74,6},{74,-6},{74,-4},{128,-4},{128,6}}, color={0,127,255}));
-  connect(bedRoom1.port_a, stairWay.port_b) annotation (Line(points={
-          {128,60},{122,60},{122,56},{78,56},{78,6}}, color={0,127,255}));
-  connect(spl7.port_3, bathRoom.port_b)
-    annotation (Line(points={{150,180},{150,6},{132,6}}, color={0,127,255}));
+          58},{272,58},{272,62}},                color={0,127,255}));
+  connect(bedRoom2.ports[1], bedRoom3.ports[1]) annotation (Line(points={{266,62},
+          {266,62},{250,62},{250,20},{270,20}},         color={0,127,255}));
+  connect(spl6.port_3, bedRoom3.ports[2]) annotation (Line(points={{190,120},{
+          190,20},{270,20}},             color={0,127,255}));
+  connect(stairWay.ports[2], bedRoom3.ports[3]) annotation (Line(points={{76,6},{
+          80,6},{80,0},{80,8},{270,8},{270,20}},         color={0,127,255}));
+  connect(stairWay.ports[1], bathRoom.ports[1]) annotation (Line(points={{76,6},{
+          74,6},{74,-6},{74,-4},{130,-4},{130,6}},        color={0,127,255}));
+  connect(bedRoom1.ports[1], stairWay.ports[3]) annotation (Line(points={{130,60},
+          {122,60},{122,56},{76,56},{76,6}},          color={0,127,255}));
+  connect(spl7.port_3, bathRoom.ports[2])
+    annotation (Line(points={{150,180},{150,6},{130,6}}, color={0,127,255}));
   connect(spl6.port_1, spl5.port_2) annotation (Line(points={{200,130},{220,130}},
                       color={0,127,255}));
   connect(spl8.port_1, spl6.port_2)
     annotation (Line(points={{142,130},{180,130}}, color={0,127,255}));
-  connect(spl8.port_3, bedRoom1.port_b) annotation (Line(points={{132,120},{132,
-          60}},                          color={0,127,255}));
-  connect(spl8.port_2, living.port_a) annotation (Line(points={{122,130},{-38,
-          130},{-38,36}}, color={0,127,255}));
-  connect(living.port_b, Diner.port_a) annotation (Line(points={{-34,
-          36},{-34,-38},{-34,-38}}, color={0,127,255}));
-  connect(Diner.port_b, spl7.port_1) annotation (Line(points={{-38,-38},{-56,
+  connect(spl8.port_3, bedRoom1.ports[2]) annotation (Line(points={{132,120},{
+          132,90},{132,60},{130,60}},    color={0,127,255}));
+  connect(spl8.port_2, living.ports[1]) annotation (Line(points={{122,130},{-36,
+          130},{-36,36}}, color={0,127,255}));
+  connect(living.ports[2], Diner.ports[1]) annotation (Line(points={{-36,36},{
+          -36,-38},{-36,-38}},      color={0,127,255}));
+  connect(Diner.ports[2], spl7.port_1) annotation (Line(points={{-36,-38},{-56,
           -38},{-56,190},{140,190}},                   color={0,127,255}));
-  connect(Diner.port_a, bouAir.ports[3]) annotation (Line(points={{-34,-38},{
+  connect(Diner.port_a, bouAir.ports[3]) annotation (Line(points={{-30,-38},{
           -16,-38},{-16,212},{380,212},{380,167.333}},color={0,127,255}));
   connect(Te.y, bouAir.T_in) annotation (Line(points={{381,90},{400,90},{400,
           174},{402,174}}, color={0,0,127}));
@@ -316,6 +316,13 @@ This model adds the building ventilation system.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 17, 2020 by Filip Jorissen:<br/>
+Revised fluid port connections to use <code>ports</code> instead 
+of <code>port_a</code> and <code>port_b</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
+</li>
 <li>
 October 26, 2018, by Filip Jorissen:<br/>
 Partial created for 

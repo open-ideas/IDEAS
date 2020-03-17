@@ -80,22 +80,25 @@ equation
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(port_b[1], gF.port_b) annotation (Line(
-      points={{-20,100},{-20,60},{56,60},{56,40}},
-      color={0,0,0},
-      smooth=Smooth.None));
-  connect(port_a[1], gF.port_a) annotation (Line(
-      points={{20,100},{20,62},{64,62},{64,40}},
-      color={0,0,0},
-      smooth=Smooth.None));
+  connect(port_b[1], gF.ports[1]) annotation (Line(points={{-20,100},{-20,64},{
+          60,64},{60,40}}, color={0,127,255}));
+  connect(port_a[1], gF.ports[2]) annotation (Line(points={{20,100},{20,76},{60,
+          76},{60,40}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
-            {150,100}}),       graphics), Documentation(info="<html>
+            {150,100}})),                 Documentation(info="<html>
 <p>
 Basic, most generic structure of the BesTest model.
 To be extended in other models.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 17, 2020 by Filip Jorissen:<br/>
+Revised fluid port connections to use <code>ports</code> instead 
+of <code>port_a</code> and <code>port_b</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
+</li>
 <li>
 March 8, 2017 by Filip Jorissen:<br/>
 Added angle for offsetting building rotation.

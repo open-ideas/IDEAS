@@ -148,7 +148,13 @@ equation
         Text(
           extent={{72,108},{120,92}},
           lineColor={0,0,127},
-          textString="Q_flow")}),
+          textString="Q_flow"),
+        Ellipse(
+          visible=inputType == UnitTests.Components.BaseClasses.InputType.Optimize,
+          extent={{-164,68},{-140,92}},
+          lineColor={28,108,200},
+          fillColor={28,108,200},
+          fillPattern=FillPattern.Solid)}),
 defaultComponentName="preOut",
 Documentation(info="<html>
 <p>

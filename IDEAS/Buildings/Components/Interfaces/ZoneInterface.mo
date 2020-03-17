@@ -8,7 +8,9 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   parameter Integer nSurf(min=2)
-    "Number of surfaces adjacent to and heat exchangeing with the zone";
+    "Number of surfaces adjacent to and heat exchanging with the zone";
+  parameter Integer nPorts(min=0)=2
+    "Number of ports for ventilation connections";
   parameter Modelica.SIunits.Volume V "Total zone air volume"
     annotation(Dialog(group="Building physics"));
   parameter Modelica.SIunits.Length hZone = 2.8
@@ -41,12 +43,14 @@ partial model ZoneInterface "Partial model for thermal building zones"
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
-    annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
+    "Port for ventilation connetions, deprecated, use 'ports' instead"
+    annotation (Placement(transformation(extent={{-70,90},{-50,110}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
-    annotation (Placement(transformation(extent={{10,90},{30,110}})));
+    "Port for ventilation connetions, deprecated, use 'ports' instead"
+    annotation (Placement(transformation(extent={{50,90},{70,110}})));
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
@@ -56,6 +60,12 @@ partial model ZoneInterface "Partial model for thermal building zones"
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
     "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
             {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Fluid.Interfaces.FluidPorts_a ports[nPorts](redeclare package Medium =
+        Medium) "Ports for ventilation connetions" annotation (Placement(
+        transformation(
+        extent={{-10,-40},{10,40}},
+        rotation=90,
+        origin={0,100})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
@@ -73,6 +83,10 @@ protected
 initial equation
   assert(nSurf>1, "In " + getInstanceName() +
     ": A minimum of 2 surfaces must be connected to the zone.");
+  assert(cardinality(port_a)+cardinality(port_b)==2, "In " + getInstanceName() +
+    ": You have made connections to port_a or port_b. These connections will be 
+    removed in a future release of IDEAS. Use the connector `ports' instead.",
+    AssertionLevel.warning);
 
 equation
   connect(sim.Qgai, dummy1);
@@ -132,6 +146,11 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 May 2, 2019 by Filip Jorissen:<br/>
 Moved location of <code>ppm</code> in the icon layer such that it

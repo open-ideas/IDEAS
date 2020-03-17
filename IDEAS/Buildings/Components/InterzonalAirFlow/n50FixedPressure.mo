@@ -6,10 +6,16 @@ model n50FixedPressure
       prescribesPressure=true,
       verifyBothPortsConnected=true);
 equation
-  connect(bou.ports[2], ports[2]) annotation (Line(points={{2,0},{2,-50},{2,-100},
-          {22,-100}},color={0,127,255}));
+  connect(bou.ports[2], ports[2]) annotation (Line(points={{-1.77636e-15,0},{
+          -1.77636e-15,-50},{-1.77636e-15,-100},{2,-100}},
+                     color={0,127,255}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 January 25, 2019, Filip Jorissen:<br/>
 Added constant <code>prescribesPressure</code> that indicates
