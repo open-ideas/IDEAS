@@ -227,8 +227,7 @@ block ReaderTMY3 "Reader for TMY3 weather data"
   constant Modelica.SIunits.HeatFlux solCon = 1367.7 "Solar constant";
 
 protected
-  final parameter Modelica.SIunits.Time[2] timeSpan=
-    IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeSpanTMY3(filNam, "tab1")
+  parameter Modelica.SIunits.Time[2] timeSpan(each fixed=false)
   "Start time, end time of weather data";
 
   Modelica.Blocks.Tables.CombiTable1Ds datRea(
@@ -507,6 +506,9 @@ First implementation.
 </ul>
 </html>"));
   end Longitude;
+
+initial equation
+  timeSpan=IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeSpanTMY3(filNam, "tab1");
 
 equation
   //---------------------------------------------------------------------------
