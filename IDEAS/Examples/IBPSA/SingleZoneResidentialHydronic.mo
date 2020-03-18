@@ -2,6 +2,7 @@ within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
   extends Modelica.Icons.Example;
+
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -20,8 +21,8 @@ model SingleZoneResidentialHydronic
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    Q_flow_nominal=2000,
-    dp_nominal=0)
+    Q_flow_nominal=3000,
+    dp_nominal=pump.dp_nominal)
     "Radiator"               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -39,10 +40,10 @@ model SingleZoneResidentialHydronic
     use_inputFilter=false,
     redeclare package Medium = Medium,
     m_flow_nominal=rad.m_flow_nominal,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
+    inputType=IDEAS.Fluid.Types.InputType.Stages,
     dp_nominal=100000)
     "Hydronic pump"
-    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+    annotation (Placement(transformation(extent={{0,0},{20,-20}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(
     nPorts=1,
     redeclare package Medium = Medium)
@@ -56,18 +57,21 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
-  Modelica.Blocks.Sources.RealExpression yOcc(y=if calTim.hour > 7 and calTim.hour
-         < 20 then 1 else 0)
+  Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
+         > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
-  IDEAS.Utilities.IO.SignalExchange.Read outputT(description=
-        "Operative temperature of the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature)
+  IDEAS.Utilities.IO.SignalExchange.Read outputT(
+    description="Zone temperature",
+    KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    y(unit="K"))
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
     u(min=273.15+20, max=273.15+80, unit="K"),
     description="Supply temperature set point of the heater")
-    "Block for overwriting control signal" annotation (Placement(transformation(
+    "Block for overwriting supply temperature control signal"
+                                           annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={10,80})));
@@ -75,20 +79,38 @@ model SingleZoneResidentialHydronic
     "Constant supply temperature set point"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
   Utilities.IO.SignalExchange.Read outputQ(description="Thermal power", KPIs=
-        IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+        IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    y(unit="W"))
     "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Utilities.IO.SignalExchange.Read outputP(description="Pump electrical power",
-      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+      KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    y(unit="W"))
     "Block for reading the pump electrical power"
-    annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  Fluid.Actuators.Valves.TwoWayTRV val(
-    redeclare package Medium = Medium,
-    m_flow_nominal=rad.m_flow_nominal,
-    dpValve_nominal=20000,
-    dpFixed_nominal=80000,
-    from_dp=true)
-    annotation (Placement(transformation(extent={{-8,20},{-28,40}})));
+    annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
+
+  Modelica.Blocks.Math.RealToInteger realToInteger
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
+  Controls.Discrete.HysteresisRelease       con(revert=true)
+    "Hysteresis controller for emission system "
+    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
+  Modelica.Blocks.Sources.Constant cooSet(k=273.15 + 23, y(unit="K"))
+    "Cooling set point"
+    annotation (Placement(transformation(extent={{-80,-58},{-60,-38}})));
+  Modelica.Blocks.Sources.Constant heaSet(k=273.15 + 21, y(unit="K"))
+    "Heating set point"
+    annotation (Placement(transformation(extent={{-80,-92},{-60,-72}})));
+  Utilities.IO.SignalExchange.Overwrite pumSetExt(u(
+      min=0,
+      max=1,
+      unit="1"), description=
+        "Integer signal to control the stage of the pump either on or off")
+    "Block for overwriting pump control signal" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={30,-70})));
+
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -114,14 +136,23 @@ equation
     annotation (Line(points={{-1,38},{0,38},{0,60},{58,60}}, color={0,0,127}));
   connect(outputQ.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
-  connect(outputP.u, pump.P) annotation (Line(points={{58,30},{46,30},{46,20},{
-          26,20},{26,-1},{21,-1}}, color={0,0,127}));
-  connect(hea.port_b, val.port_a)
-    annotation (Line(points={{0,30},{-8,30}}, color={0,127,255}));
-  connect(val.port_b, rad.port_a)
-    annotation (Line(points={{-28,30},{-30,30},{-30,20}}, color={0,127,255}));
-  connect(case900Template.TSensor, val.T) annotation (Line(points={{-60,13},{
-          -50,13},{-50,42},{-18,42},{-18,40.6}}, color={0,0,127}));
+  connect(outputP.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
+          {21,-19}},               color={0,0,127}));
+  connect(hea.port_b, rad.port_a)
+    annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
+  connect(heaSet.y, con.uLow) annotation (Line(points={{-59,-82},{-42,-82},{-42,
+          -78},{-22,-78}}, color={0,0,127}));
+  connect(cooSet.y, con.uHigh) annotation (Line(points={{-59,-48},{-42,-48},{
+          -42,-74},{-22,-74}}, color={0,0,127}));
+  connect(case900Template.TSensor, con.u) annotation (Line(points={{-60,13},{
+          -54,13},{-54,-40},{-40,-40},{-40,-70},{-22,-70},{-22,-70}}, color={0,
+          0,127}));
+  connect(con.y, pumSetExt.u)
+    annotation (Line(points={{1,-70},{18,-70}}, color={0,0,127}));
+  connect(pumSetExt.y, realToInteger.u)
+    annotation (Line(points={{41,-70},{58,-70}}, color={0,0,127}));
+  connect(realToInteger.y, pump.stage) annotation (Line(points={{81,-70},{88,
+          -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -152,7 +183,8 @@ The roof consists of a light construction and 11 cm of fibreglass.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-The zone is occupied by one person between 7 am and 8 pm of each day.
+The zone is occupied by one person before 7 am and after 8 pm each weekday
+and full time during weekends.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
@@ -170,8 +202,8 @@ The model only has a primary heating system that
 heats the zone using a single radiator
 with thermostatic valve,
 a circulation pump and a water heater.
-The radiator nominal thermal power is 2 kW, 
-while the heater maximum thermal power is 3 kW.
+The radiator nominal thermal power and heater maximum thermal 
+power is 3 kW.
 The thermostatic valve is fully closed when the operative
 temperature reaches 21 degrees centigrade
 and fully opened at 19 degrees centigrade.
