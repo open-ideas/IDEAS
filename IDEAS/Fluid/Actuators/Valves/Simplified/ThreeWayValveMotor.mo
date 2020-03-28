@@ -2,6 +2,7 @@ within IDEAS.Fluid.Actuators.Valves.Simplified;
 model ThreeWayValveMotor
   "Ideal three way valve with a krane controlled with a Real input with value between 0 and 1"
   extends IDEAS.Fluid.BaseClasses.PartialThreeWayResistance(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_small = m_flow_nominal*1e-4,
     final mDyn_flow_nominal = m_flow_nominal,
     redeclare IDEAS.Fluid.FixedResistances.LosslessPipe res1(m_flow_nominal=m_flow_nominal),
