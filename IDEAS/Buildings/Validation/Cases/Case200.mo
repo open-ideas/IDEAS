@@ -1,6 +1,5 @@
 within IDEAS.Buildings.Validation.Cases;
 model Case200
-  Modelica.SIunits.Temperature TAir = building.TSensor[1];
 
   extends IDEAS.Buildings.Validation.Interfaces.BesTestCase(
     redeclare replaceable IDEAS.Buildings.Validation.BaseClasses.Structure.Bui200 building,
