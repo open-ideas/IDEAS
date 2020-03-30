@@ -39,18 +39,18 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
       Placement(transformation(extent={{100,10},{120,30}}), iconTransformation(
           extent={{100,10},{120,30}})));
+
+  // icons removed to discourage the use of these ports
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
-    "Port for ventilation connetions, deprecated, use 'ports' instead"
-    annotation (Placement(transformation(extent={{-70,90},{-50,110}})));
+    "Port for ventilation connections, deprecated, use 'ports' instead";
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
     h_outflow(nominal=Medium.h_default))
-    "Port for ventilation connetions, deprecated, use 'ports' instead"
-    annotation (Placement(transformation(extent={{50,90},{70,110}})));
+    "Port for ventilation connections, deprecated, use 'ports' instead";
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
@@ -84,10 +84,17 @@ initial equation
   assert(nSurf>1, "In " + getInstanceName() +
     ": A minimum of 2 surfaces must be connected to the zone.");
   assert(cardinality(port_a)+cardinality(port_b)==2, "In " + getInstanceName() +
-    ": You have made connections to port_a or port_b. These connections will be 
+    ": You have made connections to port_a or port_b. These connectors will be 
     removed in a future release of IDEAS. Use the connector `ports' instead.",
     AssertionLevel.warning);
-
+  for i in 1:nPorts loop
+    assert(cardinality(ports[i])<=2,
+      "Each element of ports should have zero or one external connections but " +
+      getInstanceName() +".ports[" + String(i) + "] has " + String(cardinality(ports[i]) - 1) + "." +
+      " This can cause air to mix at the fluid port, without entering the zone, which is usually unintended.
+      Instead, increase nPorts and create a separate connection.",
+      level=AssertionLevel.warning);
+  end for;
 equation
   connect(sim.Qgai, dummy1);
   connect(sim.E, dummy2);
