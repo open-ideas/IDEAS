@@ -8,7 +8,8 @@ model Building
   replaceable package MediumAir=IDEAS.Media.Air;
 
   parameter Boolean standAlone=true;
-  parameter Boolean isDH=false "True if the building is connected to a DH grid";
+  // parameter isDH defining if the building is connected to a DH grid is now set in the heating system model
+  // the number of embeded ports of the structure is now taken from the one defined by the heating system: nEmb=heatingSystem.nEmbPorts
 
   final parameter Modelica.SIunits.Temperature T_start = 293.15
     "Operative zonal start temperatures";
@@ -19,15 +20,14 @@ model Building
       redeclare package Medium = MediumAir)
     constrainedby IDEAS.Templates.Interfaces.BaseClasses.Structure(
       redeclare package Medium = MediumAir,
+      final nEmb=heatingSystem.nEmbPorts,
       final T_start=T_start) "Building structure" annotation (Placement(
         transformation(extent={{-66,-10},{-36,10}})), choicesAllMatching=true);
 
   replaceable IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem heatingSystem
     constrainedby IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
     redeclare package Medium = Medium,
-    final isDH=isDH,
     final nZones=building.nZones,
-    final nEmbPorts=building.nEmb,
     final Q_design=Q_design) "Thermal building heating system" annotation (
       Placement(transformation(extent={{-20,-10},{20,10}})), choicesAllMatching=
        true);
@@ -66,10 +66,10 @@ model Building
     annotation (Placement(transformation(extent={{62,-40},{78,-24}})));
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-        Medium) if                               isDH
+        Medium) if                               heatingSystem.isDH
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-        Medium) if                               isDH
+        Medium) if                                heatingSystem.isDH
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
   final parameter Boolean InInterface = true;
 
