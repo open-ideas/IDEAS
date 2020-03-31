@@ -8,8 +8,6 @@ model Building
   replaceable package MediumAir=IDEAS.Media.Air;
 
   parameter Boolean standAlone=true;
-  // parameter isDH defining if the building is connected to a DH grid is now set in the heating system model
-  // the number of embeded ports of the structure is now taken from the one defined by the heating system: nEmb=heatingSystem.nEmbPorts
 
   final parameter Modelica.SIunits.Temperature T_start = 293.15
     "Operative zonal start temperatures";
@@ -157,7 +155,28 @@ equation
       thickness=0.5,
       pattern=LinePattern.Dash));
 
-  annotation (Icon(graphics={
+  annotation (Documentation(info="<html>
+<p>
+Interface for building model, that allows to select a structure, heating system,
+ventilation system, occupant model and optional in-home electrical grid. 
+These components must also be defined as extensions of the respective templates in
+<a href=\"modelica://IDEAS.Templates.Interfaces.BaseClasses\">
+IDEAS.Templates.Interfaces.BaseClasses</a>. This interface connects the componets appropriately and defines the media that are used. <br/>
+By setting <code>standAlone=false</code> an electric pin becomes available for connection to an external electricity grid. <br/>
+Fluid ports for the connection to a district heating network will be used if parameter <code>isDH=true</code> in the <code>heatingSystem<\code> model. 
+Furthermore, the number of embeded ports of the structure is taken from the one defined by the heating system: <code>building.nEmb=heatingSystem.nEmbPorts</code>.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+March 31, 2020, by Christina Protopapadaki:<br/>
+Parameter <code>isDH<\code> defining if the building is connected to a DH grid is now set in the heating system model instead of here.
+The number of embeded ports of the structure is now taken from the one defined by the heating system: <code>nEmb=heatingSystem.nEmbPorts</code>.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1118>#1118</a>.
+</li>
+</ul>
+</html>"),
+  Icon(graphics={
         Line(
           points={{60,22},{0,74},{-60,24},{-60,-46},{60,-46}},
           color={127,0,0},
