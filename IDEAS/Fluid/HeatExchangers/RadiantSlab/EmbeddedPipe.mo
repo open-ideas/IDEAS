@@ -179,8 +179,8 @@ protected
       neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
       deltax=(reyHi-reyLo)/2)
     "Lowest value for R_w that is expected for the set mass flow rate";
-  final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
-    "Mass of medium";
+  final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default*nParCir
+    "Mass of medium for the complete circuit";
   Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/(A_floor/nDiscr)
     "mass flow rate per unit floor area";
   Real m_flowSpLimit
@@ -361,6 +361,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 20, 2020 by Filip Jorissen:<br/>
+Fixed inconsistency in the mass computation of the MixingVolume.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1116>#1116</a>.
+</li>
 <li>
 January 31, 2020 by Filip Jorissen:<br/>
 Propagated <code>allowFlowReversal</code> in <code>TemperatureTwoPort</code> sensor. 
