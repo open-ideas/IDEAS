@@ -183,8 +183,8 @@ protected
       neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
       deltax=(reyHi-reyLo)/2)
     "Lowest value for R_w that is expected for the set mass flow rate";
-  final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default
-    "Mass of medium";
+  final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default*nParCir
+    "Mass of medium for the complete circuit";
   final parameter Modelica.SIunits.MassFlowRate m_flow_min=
     A_floor/nDiscr/2/(cp_default*(R_w_val_min+R_r_val+R_x_val))
     "Mass flow rate where G_t ~= G_max, see Koschenz eq. 4.68";
@@ -361,6 +361,11 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 <p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 20, 2020 by Filip Jorissen:<br/>
+Fixed inconsistency in the mass computation of the MixingVolume.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1116>#1116</a>.
+</li>
 <li>
 March 9, 2020 by Filip Jorissen:<br/>
 Twice continuously differentiable implementation.
