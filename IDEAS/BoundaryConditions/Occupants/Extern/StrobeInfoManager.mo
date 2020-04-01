@@ -304,7 +304,10 @@ Propagate start time of <code>CombiTimeTable</code>s in <code>StrobeInfoManager<
 </ul>
 </html>", revisions="<html>
 <ul>
-<li>April 1, 2020 by Jelger Jansen:<br>Added conditional connectors to be in line with the Modelica specification. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.</li>
+<li>
+April 1, 2020 by Jelger Jansen:<br/>
+Added conditional connectors to be in line with the Modelica specification. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+</li>
 </ul>
 </html>"));
 end StrobeInfoManager;

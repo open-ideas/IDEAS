@@ -71,8 +71,16 @@ equation
             -100},{200,100}}),
                       graphics), Documentation(revisions="<html>
 <ul>
-<li>July 25, 2018 by Filip Jorissen:<br>Fixed bug in assignment of <span style=\"font-family: Courier New;\">P</span> and <span style=\"font-family: Courier New;\">Q</span>. This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/869\">#869</a>. </li>
-<li>April 1, 2020 by Jelger Jansen:<br>Updated parameters to be consistent with the conditional connectors in StrobeInfoManager and to convert the loaded StROBe temperature setpoints, expressed in degrees Celcius, to Kelvin. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.</li>
+<li>
+July 25, 2018 by Filip Jorissen:<br/>
+Fixed bug in assignment of <code>P<\\code> and <code>Q</code>.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/869\">#869</a>.
+</li>
+<li>
+April 1, 2020 by Jelger Jansen:<br/>
+Updated parameters to be consistent with the conditional connectors in StrobeInfoManager and to convert the loaded StROBe temperature setpoints, expressed in degrees Celcius, to Kelvin. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+</li>
 </ul>
 </html>"));
 end StROBe;
