@@ -73,7 +73,7 @@ equation
 <ul>
 <li>
 July 25, 2018 by Filip Jorissen:<br/>
-Fixed bug in assignment of <code>P<\\code> and <code>Q</code>.
+Fixed bug in assignment of <code>P</code> and <code>Q</code>.
 This is for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/869\">#869</a>.
 </li>
