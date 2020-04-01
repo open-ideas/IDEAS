@@ -79,7 +79,9 @@ This is for
 </li>
 <li>
 April 1, 2020 by Jelger Jansen:<br/>
-Updated parameters to be consistent with the conditional connectors in StrobeInfoManager and to convert the loaded StROBe temperature setpoints, expressed in degrees Celcius, to Kelvin. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+Updated parameters to be consistent with the conditional connectors in StrobeInfoManager and to 
+convert the loaded StROBe temperature setpoints, expressed in degrees Celcius, to Kelvin. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
 </li>
 </ul>
 </html>"));

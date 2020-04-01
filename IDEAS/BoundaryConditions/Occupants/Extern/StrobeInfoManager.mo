@@ -296,17 +296,17 @@ equation
             100}}),
             graphics),
     Documentation(info="<html>
-<ul>
-<li>
-December 20, 2017 by Bram van der Heijde: <br/>
-Propagate start time of <code>CombiTimeTable</code>s in <code>StrobeInfoManager</code> and make data reader repeat input data to avoid errors.
-</li>
-</ul>
 </html>", revisions="<html>
 <ul>
 <li>
 April 1, 2020 by Jelger Jansen:<br/>
-Added conditional connectors to be in line with the Modelica specification. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+Added conditional connectors to be in line with the Modelica specification. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+</li>
+<li>
+December 20, 2017 by Bram van der Heijde: <br/>
+Propagate start time of <code>CombiTimeTable</code>s in <code>StrobeInfoManager</code> 
+and make data reader repeat input data to avoid errors.
 </li>
 </ul>
 </html>"));
