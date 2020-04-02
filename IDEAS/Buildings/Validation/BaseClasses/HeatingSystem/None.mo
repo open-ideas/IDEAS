@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Validation.BaseClasses.HeatingSystem;
 model None "None"
   extends IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
-    final nLoads=1, nZones=1, final nTemSen = nZones);
+    final nEmbPorts = 0, final nLoads=1, nZones=1, final nTemSen = nZones);
 
 equation
   for i in 1:nZones loop
