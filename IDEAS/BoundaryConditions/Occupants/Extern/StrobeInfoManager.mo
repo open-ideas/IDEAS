@@ -10,33 +10,33 @@ model StrobeInfoManager
   parameter Boolean StROBe_P = true "Boolean to read plug load profiles" annotation (Dialog(group="StROBe power load"));
 
   parameter String FilNam_P = "none.txt"
-    "File with (active) plug load profiles from StROBe"
+    "File with (active) plug load profiles from StROBe (in W)"
   annotation (Dialog(group="StROBe power load", enable=StROBe_P));
 
   parameter Boolean StROBe = true "Boolean to read the other profiles too" annotation (Dialog(group="StROBe"));
 
   parameter String FilNam_Q = "none.txt"
-    "File with (reactive) plug load profiles"  annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (reactive) plug load profiles (in W)"  annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_mDHW = "none.txt"
-    "File with hot watter tapping profiles"  annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with hot watter tapping profiles (in l/min)"  annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_QCon = "none.txt"
-    "File with (convective) internal heat gain profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (convective) internal heat gain profiles (in W)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_QRad = "none.txt"
-    "File with (radiative) internal heat gain profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (radiative) internal heat gain profiles (in W)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_TSet = "none.txt"
-    "File with (main) space heating setpoint profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (main) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_TSet2 = "none.txt"
-    "File with (secondary) space heating setpoint profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (secondary) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter Modelica.SIunits.Time startTime=0
     "Output = offset for time < startTime";
 
   parameter Boolean PHp = false "Boolean to read heat pump load profiles" annotation (Dialog(group="Heat pumps"));
   parameter String FilNam_PHp = "none.txt"
-    "File with (active) electric load heat pump profiles" annotation (Dialog(group="Heat pumps", enable=PHp));
+    "File with (active) electric load heat pump profiles (in W)" annotation (Dialog(group="Heat pumps", enable=PHp));
 
   parameter Boolean PPv = false "Boolean to read photovoltaic load profiles" annotation (Dialog(group="Photovoltaics"));
   parameter String FilNam_PPv = "none.txt"
-    "File with (active) photovoltaic load profiles"
+    "File with (active) photovoltaic load profiles (in W)"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
   parameter Integer nPv = 33 "Number of photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
