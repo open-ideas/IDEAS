@@ -22,9 +22,9 @@ model ConvectionVerification
 <ul>
 <li>
 March 31, 2020, by Christina Protopapadaki:<br/>
-Parameter <code>linearise_a<\code> changed to <code>linIntCon_a</code>, to be in line with change in
+Parameter <code>linearise_a</code> changed to <code>linIntCon_a</code>, to be in line with change in
 <a href=\"modelica://IDEAS.Buildings.Components.Interfaces.PartialSurface\">IDEAS.Buildings.Components.Interfaces.PartialSurface</a> from 
-<a href=https://github.com/open-ideas/IDEAS/commit/672f0cb>commit 672f0cb</a>. 
+<a href=\"https://github.com/open-ideas/IDEAS/commit/672f0cb\">commit 672f0cb</a>. 
 </li>
 </ul>
 </html>"),
