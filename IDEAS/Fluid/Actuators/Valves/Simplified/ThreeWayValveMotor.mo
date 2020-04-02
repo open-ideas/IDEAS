@@ -61,6 +61,11 @@ protected
                             noEvent(actualStream(port_b.h_outflow)),
                             noEvent(actualStream(port_b.Xi_outflow))) if
             show_T "Medium properties in port_b";
+  protected
+    final parameter Modelica.SIunits.MassFlowRate _m_flow_start = 0
+      "Start value for m_flow, used to avoid a warning if not set in m_flow, and to avoid m_flow.start in parameter window";
+    final parameter Modelica.SIunits.PressureDifference _dp_start(displayUnit="Pa") = 0
+      "Start value for dp, used to avoid a warning if not set in dp, and to avoid dp.start in parameter window";
   end IdealSource;
 
 equation
