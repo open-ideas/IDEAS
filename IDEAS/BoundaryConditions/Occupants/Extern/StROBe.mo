@@ -28,8 +28,7 @@ protected
     annotation (Placement(transformation(extent={{20,-10},{-20,10}},
         rotation=-90,
         origin={60,60})));
-  Modelica.Blocks.Sources.RealExpression[nZones] TSet_signal(
-    y=TSet_internal+273.15*ones(nZones))
+  Modelica.Blocks.Sources.RealExpression[nZones] TSet_signal(y=TSet_internal)
              annotation (Placement(transformation(
         extent={{20,-10},{-20,10}},
         rotation=-90,
@@ -78,8 +77,8 @@ This is for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/869\">#869</a>.
 </li>
 <li>
-April 1, 2020 by Jelger Jansen:<br/>
-Updated parameters to be consistent with the conditional connectors in StrobeInfoManager and to convert the loaded StROBe temperature setpoints, expressed in degrees Celcius, to Kelvin. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+April 2, 2020 by Jelger Jansen:<br/>
+Updated parameters to be consistent with the conditional connectors in StrobeInfoManager. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
 </li>
 </ul>
 </html>"));
