@@ -263,11 +263,11 @@ equation
           -16,-38},{-16,212},{380,212},{380,167.333}},color={0,127,255}));
   connect(Te.y, bouAir.T_in) annotation (Line(points={{381,90},{400,90},{400,
           174},{402,174}}, color={0,0,127}));
-  connect(bypassRet.port_b, fanRet.port_a)
+  connect(bypassRet.port_2, fanRet.port_a)
     annotation (Line(points={{320,190},{340,190}}, color={0,127,255}));
-  connect(hex.port_b1, bypassRet.port_a2) annotation (Line(points={{300,166},{
+  connect(hex.port_b1, bypassRet.port_3) annotation (Line(points={{300,166},{
           310,166},{310,180}}, color={0,127,255}));
-  connect(spl9.port_2, bypassRet.port_a1)
+  connect(spl9.port_2, bypassRet.port_1)
     annotation (Line(points={{280,190},{300,190}}, color={0,127,255}));
   connect(hex.port_a1, spl9.port_3) annotation (Line(points={{280,166},{270,166},
           {270,180}}, color={0,127,255}));
@@ -275,11 +275,11 @@ equation
     annotation (Line(points={{260,190},{160,190}}, color={0,127,255}));
   connect(spl10.port_3, hex.port_b2) annotation (Line(points={{270,140},{270,
           154},{280,154}}, color={0,127,255}));
-  connect(bypassSup.port_a2, hex.port_a2) annotation (Line(points={{310,140},{
+  connect(bypassSup.port_3, hex.port_a2) annotation (Line(points={{310,140},{
           310,154},{300,154}}, color={0,127,255}));
-  connect(bypassSup.port_b, fanSup.port_b) annotation (Line(points={{320,130},{
+  connect(bypassSup.port_2, fanSup.port_b) annotation (Line(points={{320,130},{
           340,130},{340,128}}, color={0,127,255}));
-  connect(spl10.port_1, bypassSup.port_a1)
+  connect(spl10.port_1, bypassSup.port_1)
     annotation (Line(points={{280,130},{300,130}}, color={0,127,255}));
   connect(spl10.port_2, spl5.port_1)
     annotation (Line(points={{260,130},{240,130}}, color={0,127,255}));
@@ -319,6 +319,11 @@ This model adds the building ventilation system.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 27, 2020 by Filip Jorissen:<br/> 
+Revised implementation such that flow reversal options are integrated.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1119\">#1119</a>.
+</li>
 <li>
 March 17, 2020 by Filip Jorissen:<br/>
 Revised fluid port connections to use <code>ports</code> instead 
