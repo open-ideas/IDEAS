@@ -181,9 +181,9 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{40,-98},{60,-78}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor theRes(R=50*tau/(
-        volBot.V*rho_default*IDEAS.Utilities.Psychrometrics.Constants.cpAir*
-        mSenFac))
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=(volBot.V*
+        rho_default*IDEAS.Utilities.Psychrometrics.Constants.cpAir*mSenFac)/tau
+        /50)
     "Temperature difference will settle after 3*50 time constants tau if m_flow=0"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -242,9 +242,9 @@ equation
                                                         color={191,0,0}));
   connect(temperatureSensor.T, TOutBot)
     annotation (Line(points={{60,-88},{108,-88}}, color={0,0,127}));
-  connect(theRes.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
+  connect(theCon.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
           -14},{32,-50},{10,-50}}, color={191,0,0}));
-  connect(theRes.port_b, volTop.heatPort)
+  connect(theCon.port_b, volTop.heatPort)
     annotation (Line(points={{32,6},{32,6},{32,50},{10,50}}, color={191,0,0}));
 
   connect(port_a2, volBot.ports[1])
@@ -453,6 +453,11 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 7, 2020, by Filip Jorissen:<br/>
+Replaced thermal resistor by thermal conductor to avoid division.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1129>#1129</a>.
+</li>
 <li>
 October 1, 2019, by Filip Jorissen:<br/>
 Revised computation of <code>C_star</code>
