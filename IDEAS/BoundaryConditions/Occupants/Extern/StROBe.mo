@@ -2,11 +2,11 @@ within IDEAS.BoundaryConditions.Occupants.Extern;
 model StROBe "StROBe occupant, for multi zone building models"
 
   extends IDEAS.Templates.Interfaces.BaseClasses.Occupant(
-      P = {strobe.tabP.y[id]},
-      Q = {strobe.tabQ.y[id]},
+      P = {strobe.tabP_internal[id]},
+      Q = {strobe.tabQ_internal[id]},
       final nLoads=1);
   outer StrobeInfoManager strobe(final StROBe_P=true, StROBe = true)
-    annotation (Placement(transformation(extent={{-186,80},{-166,100}})));
+    annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
   parameter Modelica.SIunits.Volume[nZones] VZones "Zone volumes";
   final parameter Real[nZones] fV = VZones/sum(VZones) "Zone volume fractions";
@@ -16,13 +16,15 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nZones] QCon_flow
     annotation (Placement(transformation(extent={{-170,10},{-190,30}})));
-  Modelica.Blocks.Sources.RealExpression[nZones] QCon(y=fV*strobe.tabQCon.y[id])
+  Modelica.Blocks.Sources.RealExpression[nZones] QCon(
+    y=fV*strobe.tabQCon_internal[id])
     annotation (Placement(transformation(extent={{-120,10},{-160,30}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nZones] QRad_flow
     annotation (Placement(transformation(extent={{-170,-30},{-190,-10}})));
-  Modelica.Blocks.Sources.RealExpression[nZones] QRad(y=fV*strobe.tabQRad.y[id])
+  Modelica.Blocks.Sources.RealExpression[nZones] QRad(
+    y=fV*strobe.tabQRad_internal[id])
     annotation (Placement(transformation(extent={{-120,-30},{-160,-10}})));
-  Modelica.Blocks.Sources.RealExpression mDHW(y=strobe.tabDHW.y[id]/60)
+  Modelica.Blocks.Sources.RealExpression mDHW(y=strobe.tabDHW_internal[id]/60)
     annotation (Placement(transformation(extent={{20,-10},{-20,10}},
         rotation=-90,
         origin={60,60})));
@@ -33,10 +35,10 @@ protected
         origin={0,60})));
 equation
 
-  TSet_internal[1] = strobe.tabTSet.y[id];
+  TSet_internal[1] = strobe.tabTSet_internal[id];
   if nZones > 1 then
     for i in 2:nZones loop
-      TSet_internal[i] = strobe.tabTSet2.y[id];
+      TSet_internal[i] = strobe.tabTSet2_internal[id];
     end for;
   end if;
 
@@ -73,6 +75,11 @@ July 25, 2018 by Filip Jorissen:<br/>
 Fixed bug in assignment of <code>P</code> and <code>Q</code>.
 This is for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/869\">#869</a>.
+</li>
+<li>
+April 1, 2020 by Jelger Jansen:<br/>
+Updated parameters to be consistent with the conditional connectors in StrobeInfoManager. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
 </li>
 </ul>
 </html>"));
