@@ -40,19 +40,7 @@ Diagram(graphics={           Text(
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_experimentSetupOutput,
-    __Dymola_Commands(executeCall(ensureSimulated=true) = {createPlot(
-        id=1,
-        position={0,0,1097,611},
-        y={"CaseNonLin.heatingSystem.QHeaSys","CaseLin.heatingSystem.QHeaSys"},
-        range={0.0,1000000.0,-4000.0,2000.0},
-        grid=true,
-        filename="ConvectionVerification.mat",
-        colors={{28,108,200},{238,46,47}}),createPlot(
-        id=1,
-        position={0,0,1097,302},
-        y={"CaseLin.building.TSensor[1]","CaseNonLin.building.TSensor[1]"},
-        range={0.0,1000000.0,293.0,301.0},
-        grid=true,
-        subPlot=2,
-        colors={{28,108,200},{238,46,47}})} "Simulate and plot"));
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Buildings/Validation/Tests/ConvectionVerification.mos"
+        "Simulate and plot"));
 end ConvectionVerification;
