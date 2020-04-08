@@ -7,8 +7,7 @@ model AdsolairDatasheetSummer
               pSat=IDEAS.Media.Air.saturationPressure(adsolair58.IEH.volBot.heatPort.T),
               p=adsolair58.IEH.port_a2.p,
               phi=0.75) -adsolair58.IEH.Xw_in_bot)      *adsolair58.IEH.port_a2.m_flow),
-          prescribeTBot=true,
-        volBot(substanceDynamics=Modelica.Fluid.Types.Dynamics.SteadyStateInitial))),
+          prescribeTBot=true)),
       sinkAir);
   Modelica.Blocks.Sources.Constant T_room(k=273.15 + 26.4)
     annotation (Placement(transformation(extent={{-114,20},{-100,34}})));
@@ -52,6 +51,8 @@ model AdsolairDatasheetSummer
   IDEAS.Utilities.Psychrometrics.Phi_pTX phi_evap
     "Relative humidity of evaporator outlet, for checking with reference result"
     annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
+initial equation
+  der(adsolair58.IEH.volBot.dynBal.mXi)=zeros(MediumAir.nXi);
 equation
   connect(RH_room.y, XiEnv.phi) annotation (Line(points={{-99.3,7},{-94,7},{-94,
           8.4},{-87.2,8.4}}, color={0,0,127}));
