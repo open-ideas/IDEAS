@@ -94,7 +94,7 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
     energyDynamics=if prescribeTBot then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
  else
      energyDynamics,
-    massDynamics = if prescribeTBot then Modelica.Fluid.Types.Dynamics.SteadyStateInitial else massDynamics)
+    massDynamics = massDynamics)
     annotation (Placement(transformation(extent={{10,-60},{-10,-40}})));
   IDEAS.Fluid.MixingVolumes.MixingVolumeMoistAir volTop(
     nPorts=2,

@@ -7,7 +7,8 @@ model AdsolairDatasheetSummer
               pSat=IDEAS.Media.Air.saturationPressure(adsolair58.IEH.volBot.heatPort.T),
               p=adsolair58.IEH.port_a2.p,
               phi=0.75) -adsolair58.IEH.Xw_in_bot)      *adsolair58.IEH.port_a2.m_flow),
-          prescribeTBot=true)),
+          prescribeTBot=true,
+        volBot(substanceDynamics=Modelica.Fluid.Types.Dynamics.SteadyStateInitial))),
       sinkAir);
   Modelica.Blocks.Sources.Constant T_room(k=273.15 + 26.4)
     annotation (Placement(transformation(extent={{-114,20},{-100,34}})));
