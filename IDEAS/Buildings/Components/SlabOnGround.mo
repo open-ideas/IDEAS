@@ -64,11 +64,14 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow adiabaticBoundary(Q_flow=0,
       T_ref=285.15)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-public
   Modelica.Blocks.Math.Product product
     annotation (Placement(transformation(extent={{-30,36},{-38,44}})));
   Modelica.Blocks.Sources.RealExpression Qm_val(y=-Qm)
     annotation (Placement(transformation(extent={{0,50},{-20,70}})));
+  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=sim.numIncAndAziInBus,
+      outputAngles=sim.outputAngles)
+    "Weather data bus connectable to weaBus connector from Buildings Library"
+    annotation (Placement(transformation(extent={{46,-90},{66,-70}})));
 equation
 
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
@@ -79,11 +82,18 @@ equation
     annotation (Line(points={{-40,0},{-45,0},{-50,0}}, color={191,0,0}));
   connect(Qm_val.y, product.u1) annotation (Line(points={{-21,60},{-26,60},{-26,
           42.4},{-29.2,42.4}}, color={0,0,127}));
-  connect(product.u2, propsBusInt.weaBus.dummy) annotation (Line(points={{-29.2,
-          37.6},{56.09,37.6},{56.09,19.91}},
-                                      color={0,0,127}));
+  connect(product.u2, weaBus.dummy) annotation (Line(points={{-29.2,37.6},{
+          56.05,37.6},{56.05,-79.95}},color={0,0,127}));
   connect(product.y, periodicFlow.Q_flow) annotation (Line(points={{-38.4,40},{-50,
           40},{-50,22},{-40,22}}, color={0,0,127}));
+  connect(sim.weaBus, weaBus) annotation (Line(
+      points={{49,-87},{56,-87},{56,-80}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -142,6 +152,12 @@ zone that is surrounded by air at the ambient temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
