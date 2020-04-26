@@ -45,7 +45,8 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem if
                              use_T_in or use_T_fixed "Prescribed temperature"
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
-  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus "Weather bus"
+  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(final numSolBus=sim.numIncAndAziInBus,
+      outputAngles=sim.outputAngles)                  "Weather bus"
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
 equation
   assert(not (use_T_in and use_Q_in or use_T_in and use_T_fixed or use_Q_in and use_T_fixed),
