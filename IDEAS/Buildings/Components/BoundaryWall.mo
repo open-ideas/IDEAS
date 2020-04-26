@@ -45,7 +45,8 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem if
                              use_T_in or use_T_fixed "Prescribed temperature"
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
-
+  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus "Weather bus"
+    annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
 equation
   assert(not (use_T_in and use_Q_in or use_T_in and use_T_fixed or use_Q_in and use_T_fixed),
     "In "+getInstanceName()+": Only one of the following options can be used simultaneously: use_T_in, use_Q_in, use_T_fixed");
@@ -54,18 +55,16 @@ equation
                                                     color={0,0,127}));
   connect(proPreQ.y, preFlo.Q_flow)
     annotation (Line(points={{-73.4,-20},{-60,-20}}, color={0,0,127}));
-  connect(proPreQ.u2, propsBusInt.weaBus.dummy) annotation (Line(points={{-87.2,
-            -16.4},{-92,-16.4},{-92,40},{56.09,40},{56.09,19.91}},
-                                                            color={0,0,127}),
+  connect(proPreQ.u2, weaBus.dummy) annotation (Line(points={{-87.2,-16.4},{-92,
+          -16.4},{-92,40},{50.05,40},{50.05,-69.95}},       color={0,0,127}),
       Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
   connect(proPreT.y, preTem.T)
       annotation (Line(points={{-73.4,20},{-62,20}}, color={0,0,127}));
-  connect(proPreT.u2, propsBusInt.weaBus.dummy) annotation (Line(points={{-87.2,
-            23.6},{-92,23.6},{-92,40},{56.09,40},{56.09,19.91}},
-                                                      color={0,0,127}), Text(
+  connect(proPreT.u2, weaBus.dummy) annotation (Line(points={{-87.2,23.6},{-92,
+          23.6},{-92,40},{50.05,40},{50.05,-69.95}},  color={0,0,127}), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
@@ -79,6 +78,14 @@ equation
   connect(TConst.y, proPreT.u1) annotation (Line(points={{-99.5,37},{-96,37},{-96,
           16.4},{-87.2,16.4}},
                          color={0,0,127}));
+  connect(sim.weaBus, weaBus) annotation (Line(
+      points={{49,-87},{50,-87},{50,-70}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),
@@ -145,6 +152,12 @@ If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 January 25, 2019, by Filip Jorissen:<br/>
 Revised initial equation implementation.
