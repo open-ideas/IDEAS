@@ -111,9 +111,11 @@ model SingleZoneResidentialHydronic
         rotation=180,
         origin={30,-70})));
 
-  Utilities.IO.SignalExchange.Read outputCO2(description=
-        "CO2 concentration in the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)
-    "Block for reading CO2 concentration"
+  Utilities.IO.SignalExchange.Read outputCO2(
+    description="CO2 concentration in the zone",
+    KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+
+    y(unit="ppm")) "Block for reading CO2 concentration"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
