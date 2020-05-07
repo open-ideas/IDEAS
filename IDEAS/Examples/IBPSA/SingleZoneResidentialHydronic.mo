@@ -63,7 +63,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   IDEAS.Utilities.IO.SignalExchange.Read outputT(
     description="Zone temperature",
-    KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
     y(unit="K"))
     "Block for reading the zone temperature"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
