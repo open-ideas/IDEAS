@@ -40,7 +40,7 @@ model TwoWayTRV "Two way thermostatic radiator valve"
   final parameter Modelica.SIunits.PressureDifference dp_nominal(displayUnit="Pa")=dpValve_nominal + dpFixed_nominal
     "Pressure drop at nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
-  parameter Boolean homotopyInitialization = true "= true, use homotopy method"
+  constant Boolean homotopyInitialization = true "= true, use homotopy method"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Boolean linearized = false
     "= true, use linear relation between m_flow and dp for any flow rate"
