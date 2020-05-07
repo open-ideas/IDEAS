@@ -66,7 +66,7 @@ model SingleZoneResidentialHydronic
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"))
     "Block for reading the zone temperature"
-    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+    annotation (Placement(transformation(extent={{60,20},{80,40}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
     u(min=273.15+20, max=273.15+80, unit="K"),
     description="Supply temperature set point of the heater")
@@ -111,6 +111,10 @@ model SingleZoneResidentialHydronic
         rotation=180,
         origin={30,-70})));
 
+  Utilities.IO.SignalExchange.Read outputCO2(description=
+        "CO2 concentration in the zone", KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)
+    "Block for reading CO2 concentration"
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -127,9 +131,11 @@ equation
   connect(hea.TSet, TSetExt.y)
     annotation (Line(points={{22,38},{21,38},{21,80}}, color={0,0,127}));
   connect(case900Template.TSensor, outputT.u) annotation (Line(points={{-60,13},
-          {46,13},{46,0},{58,0}}, color={0,0,127}));
+          {46,13},{46,30},{58,30}},
+                                  color={0,0,127}));
   connect(outputT.y, TZone)
-    annotation (Line(points={{81,0},{110,0}}, color={0,0,127}));
+    annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
+                                              color={0,0,127}));
   connect(TSetConst.y, TSetExt.u)
     annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
   connect(hea.Q_flow, outputQ.u)
@@ -153,6 +159,8 @@ equation
     annotation (Line(points={{41,-70},{58,-70}}, color={0,0,127}));
   connect(realToInteger.y, pump.stage) annotation (Line(points={{81,-70},{88,
           -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
+  connect(case900Template.ppm, outputCO2.u) annotation (Line(points={{-59,10},{
+          -50,10},{-50,0},{58,0}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
