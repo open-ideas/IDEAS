@@ -75,11 +75,10 @@ model TwoWayTRV "Two way thermostatic radiator valve"
         rotation=270,
         origin={0,106})));
   Modelica.Blocks.Sources.RealExpression yExp(y=
-        IDEAS.Utilities.Math.Functions.smoothLimit(
-        (TSet - T)/P,
-        0,
-        1,
-        0.001))        "Control signal"
+    IDEAS.Utilities.Math.Functions.smoothHeaviside(
+      (TSet - T)/P - 0.5,
+      0.5))
+      "Smooth control signal"
     annotation (Placement(transformation(extent={{-46,36},{-8,54}})));
   Modelica.Blocks.Interfaces.RealOutput y "Valve set point"
     annotation (Placement(transformation(extent={{40,60},{60,80}}),
@@ -118,6 +117,11 @@ to reflect the typical delay of radiator knobs.
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 31, 2020 by Filip Jorissen:<br/>
+Revised implementation using <code>smoothHeaviside</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1022\">#1022</a>.
+</li>
 <li>
 October 26, 2018 by Filip Jorissen:<br/>
 Using <code>smoothLimit</code> for P controller.

@@ -308,6 +308,11 @@ This Medium generates fewer algebraic loops in JModelica.
 </html>", revisions="<html>
 <ul>
 <li>
+February 17, 2020, by Filip Jorissen:<br/>
+Bugfix in <code>cv_const</code>. 
+See <a href=https://github.com/open-ideas/IDEAS/issues/1107>#1107</a>.
+</li>
+<li>
 May 23, 2018, by Filip Jorissen:<br/>
 First implementation based on IBPSA library models.
 </li>

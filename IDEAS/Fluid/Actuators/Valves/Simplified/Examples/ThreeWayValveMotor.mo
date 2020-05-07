@@ -50,11 +50,11 @@ equation
       points={{-78,-60},{-88,-60},{-88,0},{-82,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(threeWayValveMotor.port_a1, hot.ports[1]) annotation (Line(
+  connect(threeWayValveMotor.port_1, hot.ports[1]) annotation (Line(
       points={{10,0},{58,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(cold.ports[1], threeWayValveMotor.port_a2) annotation (Line(
+  connect(cold.ports[1], threeWayValveMotor.port_3) annotation (Line(
       points={{60,-60},{0,-60},{0,-10}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -66,7 +66,7 @@ equation
       points={{-62,0},{-44,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(temperature.port_a, threeWayValveMotor.port_b) annotation (Line(
+  connect(temperature.port_a, threeWayValveMotor.port_2) annotation (Line(
       points={{-24,0},{-10,0}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -78,5 +78,14 @@ equation
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file=
           "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/Actuators/Valves/Simplified/Examples/ThreeWayValveMotor.mos"
-        "Simulate and plot"));
+        "Simulate and plot"),
+    Documentation(revisions="<html>
+<ul>
+<li>
+March 27, 2020 by Filip Jorissen:<br/> 
+Revised implementation for 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1119\">#1119</a>.
+</li>
+</ul>
+</html>"));
 end ThreeWayValveMotor;
