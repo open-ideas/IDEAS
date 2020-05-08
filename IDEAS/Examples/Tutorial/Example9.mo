@@ -13,25 +13,25 @@ model Example9 "Adding CO2-controlled ventilation"
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
     redeclare package Medium = Medium,
     m_flow_nominal=100*1.2/3600,
-    dp_nominal=50,
+    dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for first zone"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
   Fluid.Actuators.Dampers.PressureIndependent vavSup1(
     redeclare package Medium = Medium,
     m_flow_nominal=100*1.2/3600,
-    dp_nominal=50,
+    dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for second zone"
     annotation (Placement(transformation(extent={{-120,-20},{-100,0}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet(
     redeclare package Medium = Medium,
     m_flow_nominal=100*1.2/3600,
-    dp_nominal=50,
+    dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for first zone"
     annotation (Placement(transformation(extent={{-100,20},{-120,40}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet1(
     redeclare package Medium = Medium,
     m_flow_nominal=100*1.2/3600,
-    dp_nominal=50,
+    dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for second zone"
     annotation (Placement(transformation(extent={{-100,-60},{-120,-40}})));
   Fluid.Movers.FlowControlled_dp fanSup(
@@ -70,8 +70,8 @@ model Example9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium, nPorts
-      =2) "Source model that takes properties from SimInfoManager"
+  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium, nPorts=
+       2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
 protected
   model OccSched "Simple occupancy schedule"
