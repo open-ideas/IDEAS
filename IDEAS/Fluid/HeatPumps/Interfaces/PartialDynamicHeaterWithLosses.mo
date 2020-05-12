@@ -19,7 +19,7 @@ partial model PartialDynamicHeaterWithLosses
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Dialog(tab="Flow resistance"));
-  parameter Boolean homotopyInitialization=true "= true, use homotopy method"
+  constant Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
   parameter Boolean allowFlowReversal=true
     "= false to simplify equations, assuming, but not enforcing, no flow reversal. Used only if model has two ports."

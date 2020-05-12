@@ -94,7 +94,7 @@ initial equation
   assert(energyDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState, "Energy dynamics cannot be set to steady state!");
 
 public
-  parameter Boolean homotopyInitialization=true "= true, use homotopy method"
+  constant Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation (Dialog(tab="Flow resistance"));
 
 
