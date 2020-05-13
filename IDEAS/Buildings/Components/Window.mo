@@ -128,11 +128,7 @@ protected
 
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
     inc=incInt,
-    azi=aziInt,
-    lat=sim.lat,
-    outputAngles=sim.outputAngles,
-    incAndAziInBus=sim.incAndAziInBus,
-    numIncAndAziInBus=sim.numIncAndAziInBus)
+    azi=aziInt)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     "Gain for direct solar irradiation"
@@ -239,11 +235,6 @@ equation
       points={{-79.4,-56},{-76,-56},{-76,-56},{-70,-56}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(radSolData.weaBus, propsBusInt.weaBus) annotation (Line(
-      points={{-80,-42},{-80,20},{0,20},{0,19.91},{56.09,19.91}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None));
   connect(radSolData.Tenv, skyRad.Tenv) annotation (Line(
       points={{-79.4,-52},{-72,-52},{-72,10},{-20,10},{-20,6}},
       color={0,0,127},
@@ -260,11 +251,11 @@ equation
       points={{-20,-37},{-20,-36},{-14,-36},{-14,61},{-20,61}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(eCon.Te, propsBusInt.weaBus.Te) annotation (Line(
-      points={{-20,-32.8},{56.09,-32.8},{56.09,19.91}},
+  connect(eCon.Te, radSolData.Te) annotation (Line(
+      points={{-20,-32.8},{-79.4,-32.8},{-79.4,-64}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(Tdes.u, propsBusInt.weaBus.Tdes);
+  connect(Tdes.u,radSolData.Tdes);
   connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-60,-54},{
           -60,-54},{-10,-54}},           color={0,0,127}));
   connect(heaCapGlaInt.port, layMul.port_a)
@@ -300,8 +291,8 @@ equation
           {-60,-44},{-60,56},{-40,56}}, color={0,0,127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (Line(points={{-42.4,-44},{
           -51.2,-44},{-60,-44}}, color={0,0,127}));
-  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points
-        ={{-20,-37},{-50,-37},{-50,-62.2},{-79.4,-62.2}}, color={0,0,127}));
+  connect(eCon.hForcedConExt, radSolData.hForcedConExt) annotation (Line(points=
+         {{-20,-37},{-50,-37},{-50,-62.2},{-79.4,-62.2}}, color={0,0,127}));
   connect(layFra.port_b, heaCapFraExt.port)
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
@@ -385,6 +376,12 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 <code>inc</code> and <code>azi</code> of surface now passed as parameters to ExteriorConvection.

@@ -228,11 +228,6 @@ equation
       This may be unintended.", AssertionLevel.warning);
   end if;
   for i in 1:nSurf loop
-    connect(sim.weaBus, propsBusInt[i].weaBus) annotation (Line(
-        points={{-81,93},{-81,92},{-80,92},{-80,66},{-80.1,66},{-80.1,39.9}},
-        color={255,204,51},
-        thickness=0.5,
-        smooth=Smooth.None));
     connect(dummy1, propsBusInt[i].Qgai);
     connect(dummy2, propsBusInt[i].E);
 end for;
@@ -407,6 +402,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>
 Set <code>massDynamics=if interzonalAirFlow.prescribesPressure then Modelica.Fluid.Types.Dynamics.SteadyState</code>
