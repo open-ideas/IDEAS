@@ -2,12 +2,16 @@ within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
   extends Modelica.Icons.Example;
+  package Medium = IDEAS.Media.Water "Water medium";
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  package Medium = IDEAS.Media.Water;
+  Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
+  Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
+    "Temperature within validity range of correlation";
+
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
@@ -114,9 +118,12 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Read outputCO2(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm")) "Block for reading CO2 concentration"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+
+  Modelica.Blocks.Sources.RealExpression QGas(y=hea.Q_flow/eta)
+    "Primary gas thermal power"
+    annotation (Placement(transformation(extent={{20,50},{40,70}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -140,8 +147,6 @@ equation
                                               color={0,0,127}));
   connect(TSetConst.y, TSetExt.u)
     annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
-  connect(hea.Q_flow, outputQ.u)
-    annotation (Line(points={{-1,38},{0,38},{0,60},{58,60}}, color={0,0,127}));
   connect(outputQ.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(outputP.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
@@ -163,6 +168,8 @@ equation
           -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
   connect(case900Template.ppm, outputCO2.u) annotation (Line(points={{-59,10},{
           -50,10},{-50,0},{58,0}}, color={0,0,127}));
+  connect(QGas.y, outputQ.u)
+    annotation (Line(points={{41,60},{58,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -217,14 +224,14 @@ power is 3 kW.
 The thermostatic valve is fully closed when the operative
 temperature reaches 21 degrees centigrade
 and fully opened at 19 degrees centigrade.
-The gas heater efficiency is assumed to be 100 % and by default it uses
+The gas heater efficiency is computed using a polynomial curve and by default it uses
 a fixed supply temperature set point of 60 degrees centigrade.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
 The heating system circulation pump has the default efficiency
 of the pump model, which is 49 % at the time of writing.
-No efficiency is computed for the heater.
+The heater efficiency is computed using a polynomial curve.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
