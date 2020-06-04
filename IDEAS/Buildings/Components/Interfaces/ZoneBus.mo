@@ -21,8 +21,6 @@ connector ZoneBus
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b surfRad annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b iSolDif annotation ();
-  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=numIncAndAziInBus, outputAngles=outputAngles)
-    annotation(HideResult=true);
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b Qgai
     "Heat gains in model" annotation ();
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
@@ -44,6 +42,12 @@ heat and information between a zone and a surface.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 March 21, 2017, by Filip Jorissen:<br/>
 Changed Reals into connectors for JModelica compatibility.
