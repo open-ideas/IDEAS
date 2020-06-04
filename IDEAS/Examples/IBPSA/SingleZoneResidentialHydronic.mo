@@ -70,28 +70,30 @@ model SingleZoneResidentialHydronic
          > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
-  IDEAS.Utilities.IO.SignalExchange.Read outputT(
-    description="Zone temperature",
+  IDEAS.Utilities.IO.SignalExchange.Read reaTRoo(
+    description="Operative zone temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
-    y(unit="K")) "Block for reading the zone temperature"
+    y(unit="K")) "Block for reading the operative zone temperature"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
-    u(min=273.15+20, max=273.15+80, unit="K"),
-    description="Supply temperature set point of the heater")
-    "Block for overwriting supply temperature control signal"
-                                           annotation (Placement(transformation(
+  IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
+      min=273.15 + 20,
+      max=273.15 + 80,
+      unit="K"), description="Supply temperature setpoint of the heater")
+    "Block for overwriting supply temperature control signal" annotation (
+      Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={10,80})));
+        origin={-18,80})));
   Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
     "Constant supply temperature set point"
-    annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
-  Utilities.IO.SignalExchange.Read outputQ(description="Thermal power", KPIs=
+    annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
+  Utilities.IO.SignalExchange.Read reaQHea(
+    description="Heating thermal power",                                KPIs=
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     y(unit="W"))
     "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
-  Utilities.IO.SignalExchange.Read outputP(description="Pump electrical power",
+  Utilities.IO.SignalExchange.Read reaPPum(description="Pump electrical power",
       KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Block for reading the pump electrical power"
@@ -101,8 +103,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
   Controls.Discrete.HysteresisRelease       con(revert=true)
     "Hysteresis controller for emission system "
-    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
-  Utilities.IO.SignalExchange.Overwrite pumSetExt(u(
+    annotation (Placement(transformation(extent={{-32,-80},{-12,-60}})));
+  Utilities.IO.SignalExchange.Overwrite ovePum(u(
       min=0,
       max=1,
       unit="1"), description=
@@ -111,17 +113,18 @@ model SingleZoneResidentialHydronic
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={30,-70})));
+        origin={10,-70})));
 
-  Utilities.IO.SignalExchange.Read outputCO2(
+  Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    y(unit="ppm")) "Block for reading CO2 concentration"
+
+    y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
   Modelica.Blocks.Sources.RealExpression QGas(y=hea.Q_flow/eta)
     "Primary gas thermal power"
-    annotation (Placement(transformation(extent={{20,50},{40,70}})));
+    annotation (Placement(transformation(extent={{30,50},{50,70}})));
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
@@ -152,6 +155,13 @@ model SingleZoneResidentialHydronic
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
     annotation (Placement(transformation(extent={{-156,-90},{-136,-70}})));
+  Utilities.IO.SignalExchange.Read reaTSetSup(description=
+        "Supply temperature setpoint of heater", y(unit="K"))
+    "Read supply temperature setpoint of heater"
+    annotation (Placement(transformation(extent={{0,70},{20,90}})));
+  Utilities.IO.SignalExchange.Read reaPum(description="Control signal for pump",
+      y(unit="1")) "Read control signal for pump"
+    annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -165,47 +175,51 @@ equation
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
     annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
-  connect(hea.TSet, TSetExt.y)
-    annotation (Line(points={{22,38},{21,38},{21,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, outputT.u) annotation (Line(points={{-60,13},
+  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
           {46,13},{46,30},{58,30}},
                                   color={0,0,127}));
-  connect(outputT.y, TZone)
+  connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
                                               color={0,0,127}));
-  connect(TSetConst.y, TSetExt.u)
-    annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
-  connect(outputQ.y, Q)
+  connect(TSetConst.y, oveTSetSup.u)
+    annotation (Line(points={{-39,80},{-30,80}}, color={0,0,127}));
+  connect(reaQHea.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
-  connect(outputP.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
+  connect(reaPPum.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
           {21,-19}},               color={0,0,127}));
   connect(hea.port_b, rad.port_a)
     annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
   connect(case900Template.TSensor, con.u) annotation (Line(points={{-60,13},{
-          -54,13},{-54,-40},{-40,-40},{-40,-70},{-22,-70},{-22,-70}}, color={0,
+          -54,13},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},           color={0,
           0,127}));
-  connect(con.y, pumSetExt.u)
-    annotation (Line(points={{1,-70},{18,-70}}, color={0,0,127}));
-  connect(pumSetExt.y, realToInteger.u)
-    annotation (Line(points={{41,-70},{58,-70}}, color={0,0,127}));
+  connect(con.y, ovePum.u)
+    annotation (Line(points={{-11,-70},{-2,-70}}, color={0,0,127}));
   connect(realToInteger.y, pump.stage) annotation (Line(points={{81,-70},{88,
           -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
-  connect(case900Template.ppm, outputCO2.u) annotation (Line(points={{-59,10},{
-          -50,10},{-50,0},{58,0}}, color={0,0,127}));
-  connect(QGas.y, outputQ.u)
-    annotation (Line(points={{41,60},{58,60}}, color={0,0,127}));
+  connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
+          {-50,10},{-50,0},{58,0}}, color={0,0,127}));
+  connect(QGas.y,reaQHea. u)
+    annotation (Line(points={{51,60},{58,60}}, color={0,0,127}));
   connect(oveTSetCoo.y, reaTSetCoo.u)
     annotation (Line(points={{-99,-50},{-92,-50}}, color={0,0,127}));
   connect(oveTSetHea.y, reaTSetHea.u)
     annotation (Line(points={{-99,-80},{-92,-80}}, color={0,0,127}));
   connect(reaTSetCoo.y, con.uHigh) annotation (Line(points={{-69,-50},{-42,-50},
-          {-42,-74},{-22,-74}}, color={0,0,127}));
+          {-42,-74},{-34,-74}}, color={0,0,127}));
   connect(reaTSetHea.y, con.uLow) annotation (Line(points={{-69,-80},{-42,-80},
-          {-42,-78},{-22,-78}}, color={0,0,127}));
+          {-42,-78},{-34,-78}}, color={0,0,127}));
   connect(TSetCoo.y, oveTSetCoo.u)
     annotation (Line(points={{-135,-50},{-122,-50}}, color={0,0,127}));
   connect(TSetHea.y, oveTSetHea.u)
     annotation (Line(points={{-135,-80},{-122,-80}}, color={0,0,127}));
+  connect(oveTSetSup.y, reaTSetSup.u)
+    annotation (Line(points={{-7,80},{-2,80}}, color={0,0,127}));
+  connect(reaTSetSup.y, hea.TSet) annotation (Line(points={{21,80},{28,80},{28,
+          38},{22,38}}, color={0,0,127}));
+  connect(ovePum.y, reaPum.u)
+    annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
+  connect(realToInteger.u, reaPum.y)
+    annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
