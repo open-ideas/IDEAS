@@ -290,25 +290,47 @@ position.
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-The model inputs are, through the signal exchange block:
+The model inputs are:
 <ul>
 <li>
-<code>TSup</code> [K]: The supply water temperature of the heater. 
-By default a fixed temperature of 60 degrees centigrade is assumed.
-The minimum and maximum values of the input are 20 and 80 degrees centigrade.
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+</li>
+<li>
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>Q</code> [W]: The thermal heating power of the heater.
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
 </li>
 <li>
-<code>TZone</code> [K]: The zone operative temperature.
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
 </li>
 <li>
-<code>P</code> [W]: The pump electrical power.
+<code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
+</li>
+<li>
+<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for pump
+</li>
+<li>
+<code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
+</li>
+<li>
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
+</li>
+<li>
+<code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
 </li>
 </ul>
 <h3>Additional System Design</h3>
