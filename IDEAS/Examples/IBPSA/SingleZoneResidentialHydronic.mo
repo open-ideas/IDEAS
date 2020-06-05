@@ -1,7 +1,6 @@
 within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
-  import IBPSA;
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water "Water medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
