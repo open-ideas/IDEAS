@@ -2,11 +2,16 @@ within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
   extends Modelica.Icons.Example;
+  String test = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY") "This is to ensure that the weather file is loaded when encapsulating this model into an FMU";
   package Medium = IDEAS.Media.Water "Water medium";
+  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+    annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
 
   Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
@@ -60,34 +65,35 @@ model SingleZoneResidentialHydronic
     "Zone operative temperature"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
-    annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
+    annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
          > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
-  IDEAS.Utilities.IO.SignalExchange.Read outputT(
-    description="Zone temperature",
+  IDEAS.Utilities.IO.SignalExchange.Read reaTRoo(
+    description="Operative zone temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
-    y(unit="K"))
-    "Block for reading the zone temperature"
+    y(unit="K")) "Block for reading the operative zone temperature"
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  IDEAS.Utilities.IO.SignalExchange.Overwrite TSetExt(
-    u(min=273.15+20, max=273.15+80, unit="K"),
-    description="Supply temperature set point of the heater")
-    "Block for overwriting supply temperature control signal"
-                                           annotation (Placement(transformation(
+  IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
+      min=273.15 + 20,
+      max=273.15 + 80,
+      unit="K"), description="Supply temperature setpoint of the heater")
+    "Block for overwriting supply temperature control signal" annotation (
+      Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={10,80})));
+        origin={-18,80})));
   Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
     "Constant supply temperature set point"
-    annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
-  Utilities.IO.SignalExchange.Read outputQ(description="Thermal power", KPIs=
+    annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
+  Utilities.IO.SignalExchange.Read reaQHea(
+    description="Heating thermal power",                                KPIs=
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     y(unit="W"))
     "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
-  Utilities.IO.SignalExchange.Read outputP(description="Pump electrical power",
+  Utilities.IO.SignalExchange.Read reaPPum(description="Pump electrical power",
       KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Block for reading the pump electrical power"
@@ -97,14 +103,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
   Controls.Discrete.HysteresisRelease       con(revert=true)
     "Hysteresis controller for emission system "
-    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
-  Modelica.Blocks.Sources.Constant cooSet(k=273.15 + 23, y(unit="K"))
-    "Cooling set point"
-    annotation (Placement(transformation(extent={{-80,-58},{-60,-38}})));
-  Modelica.Blocks.Sources.Constant heaSet(k=273.15 + 21, y(unit="K"))
-    "Heating set point"
-    annotation (Placement(transformation(extent={{-80,-92},{-60,-72}})));
-  Utilities.IO.SignalExchange.Overwrite pumSetExt(u(
+    annotation (Placement(transformation(extent={{-32,-80},{-12,-60}})));
+  Utilities.IO.SignalExchange.Overwrite ovePum(u(
       min=0,
       max=1,
       unit="1"), description=
@@ -113,17 +113,55 @@ model SingleZoneResidentialHydronic
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={30,-70})));
+        origin={10,-70})));
 
-  Utilities.IO.SignalExchange.Read outputCO2(
+  Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    y(unit="ppm")) "Block for reading CO2 concentration"
+
+    y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
   Modelica.Blocks.Sources.RealExpression QGas(y=hea.Q_flow/eta)
     "Primary gas thermal power"
-    annotation (Placement(transformation(extent={{20,50},{40,70}})));
+    annotation (Placement(transformation(extent={{30,50},{50,70}})));
+  Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
+      unit="K",
+      min=273.15 + 23,
+      max=273.15 + 30), description="Zone temperature setpoint for cooling")
+    "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={-110,-50})));
+  Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
+      max=273.15 + 23,
+      unit="K",
+      min=273.15 + 15), description="Zone temperature setpoint for heating")
+    "Overwrite for zone heating setpoint" annotation (Placement(transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={-110,-80})));
+  Utilities.IO.SignalExchange.Read reaTSetCoo(description=
+        "Zone air temperature setpoint for cooling", y(unit="K"))
+    "Read zone cooling setpoint"
+    annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
+  Utilities.IO.SignalExchange.Read reaTSetHea(description=
+        "Zone air temperature setpoint for heating", y(unit="K"))
+    "Read zone cooling heating"
+    annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
+        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
+    annotation (Placement(transformation(extent={{-156,-60},{-136,-40}})));
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
+        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
+    annotation (Placement(transformation(extent={{-156,-90},{-136,-70}})));
+  Utilities.IO.SignalExchange.Read reaTSetSup(description=
+        "Supply temperature setpoint of heater", y(unit="K"))
+    "Read supply temperature setpoint of heater"
+    annotation (Placement(transformation(extent={{0,70},{20,90}})));
+  Utilities.IO.SignalExchange.Read reaPum(description="Control signal for pump",
+      y(unit="1")) "Read control signal for pump"
+    annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -137,48 +175,59 @@ equation
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
     annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
-  connect(hea.TSet, TSetExt.y)
-    annotation (Line(points={{22,38},{21,38},{21,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, outputT.u) annotation (Line(points={{-60,13},
+  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
           {46,13},{46,30},{58,30}},
                                   color={0,0,127}));
-  connect(outputT.y, TZone)
+  connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
                                               color={0,0,127}));
-  connect(TSetConst.y, TSetExt.u)
-    annotation (Line(points={{-19,80},{-2,80}}, color={0,0,127}));
-  connect(outputQ.y, Q)
+  connect(TSetConst.y, oveTSetSup.u)
+    annotation (Line(points={{-39,80},{-30,80}}, color={0,0,127}));
+  connect(reaQHea.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
-  connect(outputP.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
+  connect(reaPPum.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
           {21,-19}},               color={0,0,127}));
   connect(hea.port_b, rad.port_a)
     annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
-  connect(heaSet.y, con.uLow) annotation (Line(points={{-59,-82},{-42,-82},{-42,
-          -78},{-22,-78}}, color={0,0,127}));
-  connect(cooSet.y, con.uHigh) annotation (Line(points={{-59,-48},{-42,-48},{
-          -42,-74},{-22,-74}}, color={0,0,127}));
   connect(case900Template.TSensor, con.u) annotation (Line(points={{-60,13},{
-          -54,13},{-54,-40},{-40,-40},{-40,-70},{-22,-70},{-22,-70}}, color={0,
+          -54,13},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},           color={0,
           0,127}));
-  connect(con.y, pumSetExt.u)
-    annotation (Line(points={{1,-70},{18,-70}}, color={0,0,127}));
-  connect(pumSetExt.y, realToInteger.u)
-    annotation (Line(points={{41,-70},{58,-70}}, color={0,0,127}));
+  connect(con.y, ovePum.u)
+    annotation (Line(points={{-11,-70},{-2,-70}}, color={0,0,127}));
   connect(realToInteger.y, pump.stage) annotation (Line(points={{81,-70},{88,
           -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
-  connect(case900Template.ppm, outputCO2.u) annotation (Line(points={{-59,10},{
-          -50,10},{-50,0},{58,0}}, color={0,0,127}));
-  connect(QGas.y, outputQ.u)
-    annotation (Line(points={{41,60},{58,60}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)),
+  connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
+          {-50,10},{-50,0},{58,0}}, color={0,0,127}));
+  connect(QGas.y,reaQHea. u)
+    annotation (Line(points={{51,60},{58,60}}, color={0,0,127}));
+  connect(oveTSetCoo.y, reaTSetCoo.u)
+    annotation (Line(points={{-99,-50},{-92,-50}}, color={0,0,127}));
+  connect(oveTSetHea.y, reaTSetHea.u)
+    annotation (Line(points={{-99,-80},{-92,-80}}, color={0,0,127}));
+  connect(reaTSetCoo.y, con.uHigh) annotation (Line(points={{-69,-50},{-42,-50},
+          {-42,-74},{-34,-74}}, color={0,0,127}));
+  connect(reaTSetHea.y, con.uLow) annotation (Line(points={{-69,-80},{-42,-80},
+          {-42,-78},{-34,-78}}, color={0,0,127}));
+  connect(TSetCoo.y, oveTSetCoo.u)
+    annotation (Line(points={{-135,-50},{-122,-50}}, color={0,0,127}));
+  connect(TSetHea.y, oveTSetHea.u)
+    annotation (Line(points={{-135,-80},{-122,-80}}, color={0,0,127}));
+  connect(oveTSetSup.y, reaTSetSup.u)
+    annotation (Line(points={{-7,80},{-2,80}}, color={0,0,127}));
+  connect(reaTSetSup.y, hea.TSet) annotation (Line(points={{21,80},{28,80},{28,
+          38},{22,38}}, color={0,0,127}));
+  connect(ovePum.y, reaPum.u)
+    annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
+  connect(realToInteger.u, reaPum.y)
+    annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
+  annotation (
     experiment(
       StopTime=31500000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-This is a single zone hydronic system model 
+This is a single zone residential hydronic system model 
 for WP 1.2 of IBPSA project 1. 
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
@@ -241,25 +290,47 @@ position.
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-The model inputs are, through the signal exchange block:
+The model inputs are:
 <ul>
 <li>
-<code>TSup</code> [K]: The supply water temperature of the heater. 
-By default a fixed temperature of 60 degrees centigrade is assumed.
-The minimum and maximum values of the input are 20 and 80 degrees centigrade.
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+</li>
+<li>
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>Q</code> [W]: The thermal heating power of the heater.
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
 </li>
 <li>
-<code>TZone</code> [K]: The zone operative temperature.
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
 </li>
 <li>
-<code>P</code> [W]: The pump electrical power.
+<code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
+</li>
+<li>
+<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for pump
+</li>
+<li>
+<code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
+</li>
+<li>
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
+</li>
+<li>
+<code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
 </li>
 </ul>
 <h3>Additional System Design</h3>
@@ -288,15 +359,78 @@ is modelled.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
+
 <p>
-We assume a constant heating (gas) price of 0.04 EUR/kWh (or 0.04 USD/kWh).
+The <b>Constant Electricity Price</b> profile is:
+<ul>
+The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
+as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in 
+<a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+</ul>
 </p>
+<p>
+The <b>Dynamic Electricity Price</b> profile is:
+<ul>
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time,
+as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
+<a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+</ul>
+<p>
+The <b>Highly Dynamic Electricity Price</b> profile is:
+<ul>
+The highly dynamic electricity price scenario is based on the the
+Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
+Obtained from:
+<a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
+</ul>
+</p>
+<p>
+The <b>Gas Price</b> profile is:
+<ul>
+The gas price is assumed constant and of 0.0198 EUR/kWh 
+as obtained from the \"Easy Indexed\" deal for gas
+<a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+</ul>
 <h4>Emission Factors</h4>
 <p>
-We assume a constant emission factor for gas of 200 g CO2/kWh.
+The <b>Electricity Emissions Factor</b> profile is:
+<ul>
+It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
+which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
+for year 2018. For reference, see:
+ <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+
+</ul>
+</p>
+<p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
+
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see:
+<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</ul>
+
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 2, 2020 by Javier Arroyo:<br/>
+Implemented temperature setpoint setback.
+</li>
 <li>
 March 21, 2019 by Filip Jorissen:<br/>
 Revised implementation based on first review for 
@@ -311,5 +445,7 @@ May 2, 2018 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Diagram(coordinateSystem(extent={{-160,-100},{100,100}})),
+    Icon(coordinateSystem(extent={{-160,-100},{100,100}})));
 end SingleZoneResidentialHydronic;

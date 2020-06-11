@@ -1,4 +1,4 @@
-simulateModel("IDEAS.Media.Examples.SteamProperties", method="dassl", startTime=0, stopTime=1.0, tolerance=1e-06, resultFile="SteamProperties");
+﻿simulateModel("IDEAS.Media.Examples.SteamProperties", method="dassl", startTime=0, stopTime=1.0, tolerance=1e-06, resultFile="SteamProperties");
 createPlot(
   id   = 1,
   x    = "T_degC",
