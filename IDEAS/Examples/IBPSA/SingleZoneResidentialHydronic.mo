@@ -11,7 +11,7 @@ model SingleZoneResidentialHydronic
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
+    annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
   Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
@@ -65,11 +65,11 @@ model SingleZoneResidentialHydronic
     "Zone operative temperature"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
-    annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
+    annotation (Placement(transformation(extent={{-180,60},{-160,80}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
          > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
-    annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
+    annotation (Placement(transformation(extent={{-92,38},{-72,58}})));
   IDEAS.Utilities.IO.SignalExchange.Read reaTRoo(
     description="Operative zone temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
@@ -84,9 +84,9 @@ model SingleZoneResidentialHydronic
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-18,80})));
-  Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
-    "Constant supply temperature set point"
-    annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
+  Modelica.Blocks.Sources.Constant offSet(k=0.2, y(unit="K"))
+    "Offset above heating temperature setpoint to ensure comfort"
+    annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
   Utilities.IO.SignalExchange.Read reaQHea(
     description="Heating thermal power",                                KPIs=
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
@@ -118,7 +118,6 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
@@ -162,6 +161,17 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Read reaPum(description="Control signal for pump",
       y(unit="1")) "Read control signal for pump"
     annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
+  Modelica.Blocks.Continuous.LimPID conPI(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=100,
+    Ti=300,
+    yMax=273.15 + 80,
+    yMin=273.15 + 20,
+    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    "PI controller for the boiler supply water temperature"
+    annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+  Modelica.Blocks.Math.Add add
+    annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -174,15 +184,13 @@ equation
   connect(bou.ports[1], pump.port_a)
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
-    annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
+    annotation (Line(points={{-58,14},{-58,48},{-71,48}},color={0,0,127}));
   connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
           {46,13},{46,30},{58,30}},
                                   color={0,0,127}));
   connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
                                               color={0,0,127}));
-  connect(TSetConst.y, oveTSetSup.u)
-    annotation (Line(points={{-39,80},{-30,80}}, color={0,0,127}));
   connect(reaQHea.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(reaPPum.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
@@ -220,6 +228,16 @@ equation
     annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
   connect(realToInteger.u, reaPum.y)
     annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
+  connect(conPI.y, oveTSetSup.u)
+    annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
+  connect(TSetHea.y, add.u2) annotation (Line(points={{-135,-80},{-132,-80},{
+          -132,-60},{-164,-60},{-164,4},{-132,4}}, color={0,0,127}));
+  connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,
+          16},{-132,16}}, color={0,0,127}));
+  connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
+          80},{-82,80}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
+          {-54,13},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
@@ -273,8 +291,10 @@ power is 3 kW.
 The thermostatic valve is fully closed when the operative
 temperature reaches 21 degrees centigrade
 and fully opened at 19 degrees centigrade.
-The gas heater efficiency is computed using a polynomial curve and by default it uses
-a fixed supply temperature set point of 60 degrees centigrade.
+The gas heater efficiency is computed using a polynomial curve and it uses
+a PI controller to modulate supply water temperature between 20 and 80 degrees centigrade
+to follow a reference that is set as a small offset above the heating setpoint of 0.2
+degrees centigrade by default. 
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -286,7 +306,9 @@ The heater efficiency is computed using a polynomial curve.
 <p>
 The model assumes a pump with a constant head.
 The resulting flow rate depends on the thermostatic valve
-position.
+position. The supply water temperature of the boiler is modulated using a PI
+controller that tracks indoor temperature to follow a reference defined as 
+the heating setpoint plus a small offset of 0.2 degrees centigrade. 
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
@@ -427,25 +449,14 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-June 2, 2020 by Javier Arroyo:<br/>
-Implemented temperature setpoint setback.
-</li>
-<li>
-March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation based on first review for 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>.
-</li>
-<li>
-January 22nd, 2019 by Filip Jorissen:<br/>
-Revised implementation by adding external inputs.
-</li>
-<li>
-May 2, 2018 by Filip Jorissen:<br/>
-First implementation.
-</li>
+<li>June 12, 2020 by Javier Arroyo:</li>
+<p>Implemented PI controller for boiler supply temperature. </p>
+<li>June 2, 2020 by Javier Arroyo:<br>Implemented temperature setpoint setback. </li>
+<li>March 21, 2019 by Filip Jorissen:<br>Revised implementation based on first review for <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. </li>
+<li>January 22nd, 2019 by Filip Jorissen:<br>Revised implementation by adding external inputs. </li>
+<li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-160,-100},{100,100}})),
-    Icon(coordinateSystem(extent={{-160,-100},{100,100}})));
+    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
+    Icon(coordinateSystem(extent={{-180,-100},{100,100}})));
 end SingleZoneResidentialHydronic;
