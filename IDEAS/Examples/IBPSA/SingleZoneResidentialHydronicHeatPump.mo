@@ -7,6 +7,7 @@ model SingleZoneResidentialHydronicHeatPump
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Real scalingFactor = 5 "Factor to scale up the model area and occupancy";
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
@@ -16,14 +17,17 @@ model SingleZoneResidentialHydronicHeatPump
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
-    n50=10)
+    n50=10,
+    l=8*sqrt(scalingFactor),
+    w=6*sqrt(scalingFactor),
+    A_winA=24)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-180,140},{-160,160}})));
-  Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
-         > 19) or calTim.weekDay > 5 then 1 else 0)
+  Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour >
+        19) or calTim.weekDay > 5 then 1*scalingFactor else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
@@ -142,7 +146,7 @@ model SingleZoneResidentialHydronicHeatPump
   Fluid.HeatPumps.ScrollWaterToWater       heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumWater,
-    scaling_factor=0.4,
+    scaling_factor=0.5,
     m2_flow_nominal=pumSou.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pumEmi.m_flow_nominal,
@@ -339,7 +343,7 @@ equation
     annotation (Line(points={{185,-50},{198,-50}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=31536000,
+      StopTime=604800,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
