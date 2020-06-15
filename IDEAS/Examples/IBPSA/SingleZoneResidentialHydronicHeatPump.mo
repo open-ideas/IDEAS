@@ -146,7 +146,7 @@ model SingleZoneResidentialHydronicHeatPump
     m2_flow_nominal=pumSou.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pumEmi.m_flow_nominal,
-    T1_start=298.15,
+    T1_start=293.15,
     T2_start=278.15,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     TEvaMin=273.15,
