@@ -247,6 +247,12 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.IO.SignalExchange.Read reaTRet(description="Return water temperature from emission system",
       y(unit="K")) "Read return water temperature from emission system"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}})));
+  Utilities.IO.SignalExchange.Read reaHeaPumCOP(description="Heat pump COP", y(
+        unit="1")) "Read heat pump COP"
+    annotation (Placement(transformation(extent={{200,-60},{220,-40}})));
+  Modelica.Blocks.Sources.RealExpression heaPumCOP(y=heaPum.com.COP)
+    "Substracts heat pump COP"
+    annotation (Placement(transformation(extent={{164,-60},{184,-40}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-20},{-58,-20}},
@@ -329,6 +335,8 @@ equation
           {70,26},{70,29}}, color={0,0,127}));
   connect(senTemRet.T, reaTRet.u)
     annotation (Line(points={{70,-31},{70,-50},{98,-50}}, color={0,0,127}));
+  connect(heaPumCOP.y, reaHeaPumCOP.u)
+    annotation (Line(points={{185,-50},{198,-50}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31536000,
