@@ -4,7 +4,7 @@ model SingleZoneResidentialHydronicHeatPump
   extends Modelica.Icons.Example;
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air "Air medium";
-  package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.3) "Glycol medium";
+  package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
@@ -13,7 +13,7 @@ model SingleZoneResidentialHydronicHeatPump
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-180,160},{-160,180}})));
+    annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
     redeclare Buildings.Components.Occupants.Input occNum,
@@ -27,7 +27,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
-    annotation (Placement(transformation(extent={{-180,140},{-160,160}})));
+    annotation (Placement(transformation(extent={{-240,140},{-220,160}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour >
         19) or calTim.weekDay > 5 then 1*scalingFactor else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
@@ -40,10 +40,10 @@ model SingleZoneResidentialHydronicHeatPump
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={10,150})));
-  Modelica.Blocks.Sources.Constant offSet(k=0.2, y(unit="K"))
-    "Offset above heating temperature setpoint to ensure comfort"
-    annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
+        origin={90,150})));
+  Modelica.Blocks.Sources.Constant offSetOcc(k=0.2, y(unit="K"))
+    "Offset above heating temperature setpoint during occupied hours to ensure comfort"
+    annotation (Placement(transformation(extent={{-200,142},{-180,162}})));
   Utilities.IO.SignalExchange.Read reaPPumEmi(
     description="Emission circuit pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
@@ -76,7 +76,7 @@ model SingleZoneResidentialHydronicHeatPump
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={-110,-50})));
+        origin={-170,10})));
   Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       max=273.15 + 23,
       unit="K",
@@ -84,38 +84,38 @@ model SingleZoneResidentialHydronicHeatPump
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={-110,-80})));
+        origin={-170,-30})));
   Utilities.IO.SignalExchange.Read reaTSetCoo(description=
         "Zone air temperature setpoint for cooling", y(unit="K"))
     "Read zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
+    annotation (Placement(transformation(extent={{-140,0},{-120,20}})));
   Utilities.IO.SignalExchange.Read reaTSetHea(description=
         "Zone air temperature setpoint for heating", y(unit="K"))
     "Read zone cooling heating"
-    annotation (Placement(transformation(extent={{-80,-90},{-60,-70}})));
+    annotation (Placement(transformation(extent={{-140,-40},{-120,-20}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
         TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-156,-60},{-136,-40}})));
+    annotation (Placement(transformation(extent={{-220,0},{-200,20}})));
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-156,-90},{-136,-70}})));
+    annotation (Placement(transformation(extent={{-220,-40},{-200,-20}})));
   Utilities.IO.SignalExchange.Read reaHeaPumY(description="Block for reading the heat pump modulating signal",
       y(unit="1")) "Read heat pump modulating signal"
-    annotation (Placement(transformation(extent={{40,140},{60,160}})));
+    annotation (Placement(transformation(extent={{120,140},{140,160}})));
   Utilities.IO.SignalExchange.Read reaPumEmi(description="Control signal for emission cirquit pump",
       y(unit="1")) "Read control signal for emission circuit pump"
     annotation (Placement(transformation(extent={{20,100},{40,120}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.1,
-    Ti=7000,
+    k=0.6,
+    Ti=8000,
     yMax=1,
     yMin=0,
     initType=Modelica.Blocks.Types.InitPID.InitialState)
     "PI controller for the boiler supply water temperature"
-    annotation (Placement(transformation(extent={{-60,140},{-40,160}})));
-  Modelica.Blocks.Math.Add add
-    annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
+    annotation (Placement(transformation(extent={{20,140},{40,160}})));
+  Modelica.Blocks.Math.Add addOcc
+    annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp       pumEmi(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -139,7 +139,7 @@ model SingleZoneResidentialHydronicHeatPump
     m_flow_nominal=pumEmi.m_flow_nominal,
     dp_nominal=pumEmi.dp_nominal/2,
     A_floor=case900Template.AZone) "Floor heating of the zone"
-    annotation (Placement(transformation(extent={{0,-10},{-20,10}})));
+    annotation (Placement(transformation(extent={{0,0},{-20,20}})));
   Fluid.Sensors.TemperatureTwoPort       senTemRet(
     redeclare package Medium = MediumWater,
     m_flow_nominal=pumEmi.m_flow_nominal,
@@ -148,14 +148,14 @@ model SingleZoneResidentialHydronicHeatPump
   Fluid.HeatPumps.ScrollWaterToWater       heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumGlycol,
-    scaling_factor=0.5,
+    scaling_factor=0.6,
     m2_flow_nominal=pumSou.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pumEmi.m_flow_nominal,
     T1_start=293.15,
     T2_start=278.15,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    TEvaMin=273.15,
+    TEvaMin=253.15,
     dTHys=3,
     datHeaPum=
         IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A(),
@@ -176,12 +176,11 @@ model SingleZoneResidentialHydronicHeatPump
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Circulation pump at source side"
     annotation (Placement(transformation(extent={{212,30},{192,50}})));
-  Fluid.Sources.Boundary_pT       bou(redeclare package Medium = MediumWater, nPorts=
-       1)            "Expansion vessel" annotation (Placement(
-        transformation(
+  Fluid.Sources.Boundary_pT bouWat(redeclare package Medium = MediumWater,
+      nPorts=1) "Expansion vessel" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=270,
-        origin={50,20})));
+        origin={50,10})));
   Utilities.IO.SignalExchange.Read reaPPumSou(
     description="Source circuit pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
@@ -259,9 +258,9 @@ model SingleZoneResidentialHydronicHeatPump
     dp1_nominal=pumSou.m_flow_nominal/2,
     dp2_nominal=fan.m_flow_nominal,
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
-    Q_flow_nominal=1000,
-    T_a1_nominal=274.15,
-    T_a2_nominal=288.15)                           "water-air heat exchanger"
+    Q_flow_nominal=3000,
+    T_a1_nominal=258.15,
+    T_a2_nominal=293.15)                           "water-air heat exchanger"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -296,57 +295,69 @@ model SingleZoneResidentialHydronicHeatPump
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Fan to pump air through heat exchanger"
     annotation (Placement(transformation(extent={{320,30},{300,50}})));
-  Fluid.Sources.Boundary_pT       bou1(redeclare package Medium = MediumGlycol,
-      nPorts=1)      "Expansion vessel" annotation (Placement(
-        transformation(
+  Fluid.Sources.Boundary_pT bouGly(redeclare package Medium = MediumGlycol,
+      nPorts=1) "Expansion vessel" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=270,
-        origin={230,20})));
+        origin={230,10})));
   Utilities.IO.SignalExchange.Read reaHexEps(description="Heat exchanger effectiveness",
       y(unit="1")) "Read Heat exchanger effectiveness"
     annotation (Placement(transformation(extent={{280,-60},{300,-40}})));
   Modelica.Blocks.Sources.RealExpression hexEps(y=hex.eps)
     "Substracts heat exchanger effectiveness"
     annotation (Placement(transformation(extent={{244,-60},{264,-40}})));
-  Utilities.IO.SignalExchange.Read reaPPumSou1(
-    description="Source circuit pump electrical power",
+  Utilities.IO.SignalExchange.Read reaPFan(
+    description=
+        "Electrical power of the fan insuflating air through the heat exchanger",
+
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
     y(unit="W"))
-    "Block for reading the electrical power of the pump at the heat pump source side"
+    "Block for reading the electrical power of the fan insuflating air through the heat exchanger"
     annotation (Placement(transformation(extent={{320,70},{340,90}})));
 
+  Utilities.IO.SignalExchange.Read reaHexQ(description=
+        "Heat that the heat exchanger introduces into the heat pump evaporator circuit from the environment",
+      y(unit="W"))
+    "Read the heat that the heat exchanger introduces into the heat pump evaporator circuit"
+    annotation (Placement(transformation(extent={{360,-60},{380,-40}})));
+  Modelica.Blocks.Sources.RealExpression hexQ(y=hex.Q1_flow)
+    "Substracts heat introduced into heat pump evaporator circuit"
+    annotation (Placement(transformation(extent={{324,-60},{344,-40}})));
+  Modelica.Blocks.Math.Add addUno
+    annotation (Placement(transformation(extent={{-160,40},{-140,60}})));
+  Modelica.Blocks.Sources.Constant offSetUno(k=4.5, y(unit="K"))
+    "Offset above heating temperature setpoint during unoccupied hours to ensure comfort"
+    annotation (Placement(transformation(extent={{-200,60},{-180,80}})));
+  Modelica.Blocks.Logical.Greater greater
+    annotation (Placement(transformation(extent={{-80,100},{-60,80}})));
+  Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
+    annotation (Placement(transformation(extent={{-20,140},{0,160}})));
+  Modelica.Blocks.Sources.Constant const(k=0)
+    annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-20},{-58,-20}},
                                     color={0,0,127}));
   connect(oveTSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-99,-50},{-82,-50}}, color={0,0,127}));
+    annotation (Line(points={{-159,10},{-142,10}}, color={0,0,127}));
   connect(oveTSetHea.y, reaTSetHea.u)
-    annotation (Line(points={{-99,-80},{-82,-80}}, color={0,0,127}));
+    annotation (Line(points={{-159,-30},{-142,-30}},
+                                                   color={0,0,127}));
   connect(TSetCoo.y, oveTSetCoo.u)
-    annotation (Line(points={{-135,-50},{-122,-50}}, color={0,0,127}));
+    annotation (Line(points={{-199,10},{-182,10}},   color={0,0,127}));
   connect(TSetHea.y, oveTSetHea.u)
-    annotation (Line(points={{-135,-80},{-122,-80}}, color={0,0,127}));
-  connect(oveHeaPumY.y, reaHeaPumY.u)
-    annotation (Line(points={{21,150},{38,150}}, color={0,0,127}));
+    annotation (Line(points={{-199,-30},{-182,-30}}, color={0,0,127}));
   connect(ovePumEmi.y, reaPumEmi.u)
     annotation (Line(points={{11,110},{18,110}}, color={0,0,127}));
   connect(realToInteger.u, reaPumEmi.y)
     annotation (Line(points={{48,110},{41,110}}, color={0,0,127}));
-  connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{-39,150},{-2,150}}, color={0,0,127}));
-  connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,16},
-          {-132,16}},     color={0,0,127}));
-  connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,150},
-          {-62,150}},    color={0,0,127}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
-          {-50,13},{-50,138}},                  color={0,0,127}));
   connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
           {-52,14},{-58,14}}, color={0,0,127}));
   connect(senTemSup.port_b,pumEmi. port_a)
     annotation (Line(points={{60,40},{40,40}},   color={0,127,255}));
-  connect(bou.ports[1],pumEmi. port_a)
-    annotation (Line(points={{50,30},{50,40},{40,40}},    color={0,127,255}));
+  connect(bouWat.ports[1], pumEmi.port_a)
+    annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_a2,pumSou. port_b)
     annotation (Line(points={{136,20},{136,40},{192,40}},color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
@@ -354,19 +365,18 @@ equation
   connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
           -20},{124,0}},        color={0,127,255}));
   connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
-        points={{-60,1},{-40,1},{-40,20},{-10,20},{-10,10}}, color={191,0,0}));
+        points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
   connect(pumEmi.port_b, floHea.port_a)
-    annotation (Line(points={{20,40},{0,40},{0,0}}, color={0,127,255}));
+    annotation (Line(points={{20,40},{0,40},{0,10}},color={0,127,255}));
   connect(floHea.port_b, senTemRet.port_b)
-    annotation (Line(points={{-20,0},{-20,-20},{60,-20}}, color={0,127,255}));
+    annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pumEmi.P, reaPPumEmi.u) annotation (Line(points={{19,49},{0,49},{0,80},
           {18,80}}, color={0,0,127}));
   connect(pumSou.P, reaPPumSou.u) annotation (Line(points={{191,49},{180,49},{180,
           80},{198,80}}, color={0,0,127}));
-  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{61,150},{420,150},{420,
-          -30},{127,-30},{127,-2}}, color={0,0,127}));
-  connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{-160,
-          -94},{-92,-94},{-92,-80},{-82,-80}}, color={0,0,127}));
+  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{420,150},
+          {420,-30},{127,-30},{127,-2}},
+                                    color={0,0,127}));
   connect(yPumEmi.y, ovePumEmi.u)
     annotation (Line(points={{-21,110},{-12,110}}, color={0,0,127}));
   connect(realToInteger.y, pumEmi.stage) annotation (Line(points={{71,110},{80,110},
@@ -383,8 +393,9 @@ equation
     annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
   connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-60,13},
           {-46,13},{-46,80},{-34,80}}, color={0,0,127}));
-  connect(floHea.QTot, reaQFloHea.u) annotation (Line(points={{-21,6},{-32,6},{-32,
-          -50},{-22,-50}}, color={0,0,127}));
+  connect(floHea.QTot, reaQFloHea.u) annotation (Line(points={{-21,16},{-32,16},
+          {-32,-50},{-22,-50}},
+                           color={0,0,127}));
   connect(heaPum.QEva_flow, reaQHeaPumEva.u) annotation (Line(points={{139,21},{
           139,28},{150,28},{150,10},{158,10}}, color={0,0,127}));
   connect(heaPum.QCon_flow, reaQHeaPumCon.u) annotation (Line(points={{121,21},{
@@ -413,15 +424,43 @@ equation
     annotation (Line(points={{320,40},{340,40},{340,8}}, color={0,127,255}));
   connect(realToInteger2.y, fan.stage) annotation (Line(points={{401,110},{410,110},
           {410,60},{310,60},{310,52}}, color={255,127,0}));
-  connect(bou1.ports[1], hex.port_b1) annotation (Line(points={{230,30},{230,40},
+  connect(bouGly.ports[1], hex.port_b1) annotation (Line(points={{230,20},{230,40},
           {266,40},{266,20}}, color={0,127,255}));
   connect(hexEps.y, reaHexEps.u)
     annotation (Line(points={{265,-50},{278,-50}}, color={0,0,127}));
-  connect(fan.P, reaPPumSou1.u) annotation (Line(points={{299,49},{290,49},{290,
-          80},{318,80}}, color={0,0,127}));
+  connect(fan.P, reaPFan.u) annotation (Line(points={{299,49},{290,49},{290,80},
+          {318,80}}, color={0,0,127}));
+  connect(hexQ.y, reaHexQ.u)
+    annotation (Line(points={{345,-50},{358,-50}}, color={0,0,127}));
+  connect(offSetOcc.y, addOcc.u1) annotation (Line(points={{-179,152},{-170,152},
+          {-170,136},{-162,136}}, color={0,0,127}));
+  connect(offSetUno.y, addUno.u1) annotation (Line(points={{-179,70},{-172,70},
+          {-172,56},{-162,56}}, color={0,0,127}));
+  connect(oveTSetHea.y, addOcc.u2) annotation (Line(points={{-159,-30},{-154,
+          -30},{-154,-50},{-228,-50},{-228,124},{-162,124}}, color={0,0,127}));
+  connect(oveTSetHea.y, addUno.u2) annotation (Line(points={{-159,-30},{-154,
+          -30},{-154,-50},{-228,-50},{-228,44},{-162,44}}, color={0,0,127}));
+  connect(oveHeaPumY.y, reaHeaPumY.u)
+    annotation (Line(points={{101,150},{118,150}}, color={0,0,127}));
+  connect(greater.y, switch1.u2) annotation (Line(points={{-59,90},{-52,90},{
+          -52,150},{-22,150}}, color={255,0,255}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
+          {-46,13},{-46,130},{30,130},{30,138}}, color={0,0,127}));
+  connect(conPI.y, oveHeaPumY.u)
+    annotation (Line(points={{41,150},{78,150}}, color={0,0,127}));
+  connect(switch1.y, conPI.u_s)
+    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
+  connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
+          {-128,158},{-22,158}}, color={0,0,127}));
+  connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
+          -120,142},{-22,142}}, color={0,0,127}));
+  connect(const.y, greater.u2) annotation (Line(points={{-93,120},{-90,120},{
+          -90,98},{-82,98}}, color={0,0,127}));
+  connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
+          60},{-100,60},{-100,90},{-82,90}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=604800,
+      StopTime=2592000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
@@ -638,6 +677,6 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-180,-100},{440,180}})),
-    Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
+    Diagram(coordinateSystem(extent={{-240,-80},{440,180}})),
+    Icon(coordinateSystem(extent={{-240,-80},{440,180}})));
 end SingleZoneResidentialHydronicHeatPump;
