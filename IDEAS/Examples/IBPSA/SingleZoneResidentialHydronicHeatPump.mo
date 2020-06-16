@@ -1,4 +1,4 @@
-within IDEAS.Examples.IBPSA;
+﻿within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronicHeatPump
   "Single zone residential hydronic example using a heat pump as heating production system"
   extends Modelica.Icons.Example;
@@ -25,9 +25,9 @@ model SingleZoneResidentialHydronicHeatPump
     w=6*sqrt(scalingFactor),
     A_winA=24,
     redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
-      conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
-          IDEAS.Buildings.Data.Insulation.Pur(d=0.07),
-          IDEAS.Buildings.Data.Materials.Screed(d=0.5),
+      conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
+          IDEAS.Buildings.Data.Insulation.Pur(d=0.2),
+          IDEAS.Buildings.Data.Materials.Screed(d=0.05),
           IDEAS.Buildings.Data.Materials.Tile(d=0.01)}),
     hasEmb=true)
     "Case 900 BESTEST model"
@@ -481,214 +481,116 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-This is a single zone residential hydronic system model with an air-source heat pump
-for WP 1.2 of IBPSA project 1. 
-<h3>Building Design and Use</h3>
+<p>This is a single zone residential hydronic system model with an air-source heat pump for WP 1.2 of IBPSA project 1. </p>
+<p><b><span style=\"font-size: 10pt;\">Building Design and Use</span></b></p>
 <h4>Architecture</h4>
-<p>
-This model represents a residential dwelling for a family of five members. 
-The building envelope model is based on the BESTEST case 900 test case. 
-The envelope model is therefore similar to the one used in 
-<a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
-IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>.
-but scaled up to have an area five times larger. 
-Particularly, the model consists of a single zone with a rectangular floor plan
-of 13.4 by 17.9 meters and a height of 2.7 m. 
-The zone further consists of several south-oriented windows, 
-which are modelled using a single window of 24 m2.
-</p>
+<p>This model represents a residential dwelling for a family of 5 members. The building envelope model is based on the BESTEST case 900 test case. The envelope model is therefore similar to the one used in <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>. but scaled up to have an area 5 times larger. Particularly, the model consists of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a height of 2.7 m. The zone further consists of several south-oriented windows, which are modelled using a single window of 24 m2. </p>
 <h4>Constructions</h4>
-<p>
-The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
-For more details see 
-<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
-IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
-The floor consists of 8 cm of concrete and 1 m of insulation,
-representing a perfectly insulated floor.
-The roof consists of a light construction and 11 cm of fibreglass.
-</p>
+<p>The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. For more details see <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. The floor is modeled as a slab on the ground: <a href=\"modelica://IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround\">IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround</a> consisting on the following layers: </p>
+<p><b>Floor</b> </p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><p align=\"center\"><h4>Name</h4></p></td>
+<td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
+<td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
+<td><p align=\"center\"><h4>Specific Heat Capacity [J/kg-K]</h4></p></td>
+<td><p align=\"center\"><h4>Density [kg/m3]</h4></p></td>
+</tr>
+<tr>
+<td><p>Layer 1 (concrete)</p></td>
+<td><p>0.15</p></td>
+<td><p>1.4</p></td>
+<td><p>840</p></td>
+<td><p>2100</p></td>
+</tr>
+<tr>
+<td><p>Layer 2 (insulation)</p></td>
+<td><p>0.20</p></td>
+<td><p>0.02</p></td>
+<td><p>1470</p></td>
+<td><p>30</p></td>
+</tr>
+<tr>
+<td><p>Layer 3 (screed)</p></td>
+<td><p>0.05</p></td>
+<td><p>0.6</p></td>
+<td><p>840</p></td>
+<td><p>1100</p></td>
+</tr>
+<tr>
+<td><p>Layer 4 (tile)</p></td>
+<td><p>0.01</p></td>
+<td><p>1.4</p></td>
+<td><p>840</p></td>
+<td><p>2100</p></td>
+</tr>
+</table>
+<p><br><br>The roof consists of a light construction and 11 cm of fibreglass. </p>
 <h4>Occupancy schedules</h4>
-<p>
-The zone is occupied by one person before 7 am and after 8 pm each weekday
-and full time during weekends.
-</p>
+<p>The zone is occupied by 5 people before 7 am and after 8 pm each weekday and full time during weekends. </p>
 <h4>Internal loads and schedules</h4>
-<p>
-There are no internal loads other than the occupants.
-</p>
+<p>There are no internal loads other than the occupants. </p>
 <h4>Climate data</h4>
-<p>
-The model uses a climate file containing one year
-of weather data for Uccle, Belgium.
-</p>
-<h3>HVAC System Design</h3>
+<p>The model uses a climate file containing one year of weather data for Uccle, Belgium. </p>
+<p><b><span style=\"font-size: 10pt;\">HVAC System Design</span></b></p>
 <h4>Primary and secondary system designs</h4>
-<p>
-The model only has a primary heating system that
-heats the zone using a single radiator
-with thermostatic valve,
-a circulation pump and a water heater.
-The radiator nominal thermal power and heater maximum thermal 
-power is 3 kW.
-The thermostatic valve is fully closed when the operative
-temperature reaches 21 degrees centigrade
-and fully opened at 19 degrees centigrade.
-The gas heater efficiency is computed using a polynomial curve and it uses
-a PI controller to modulate supply water temperature between 20 and 80 degrees centigrade
-to follow a reference that is set as a small offset above the heating setpoint of 0.2
-degrees centigrade by default. 
-</p>
+<p>An air-source modulating heat pump of 12.6 kW nominal thermal capacity substracts energy from the ambient air to heat up the floor heating emission circuit. A fan blows 0.1 kg/s of ambient air through a counter-flow heat exchanger when the heat pump is working to exchange heat between the ambient and the evaporator circuit of the heat pump. Such circuit works with a glycol - water mixture at 50&percnt; concentration. The glycol circuit works with a pump that moves the fluid at a rate of 0.5 kg/s when the heat pump is working. The floor heating presents heat injection between Layer 2 (insulation) and Layer 3 (screed), with water as working fluid which is also moved at a rate of 0.5 kg/s when the heat pump is working. </p>
 <h4>Equipment specifications and performance maps</h4>
-<p>
-The heating system circulation pump has the default efficiency
-of the pump model, which is 49 % at the time of writing.
-The heater efficiency is computed using a polynomial curve.
-</p>
+<p>The heat exchanger utilizes a model of a coil with effectiveness - NTU relation without humidity condensation. This model transfers heat in the amount of </p>
+<p align=\"center\"><i>Q̇ = Q̇<sub>max</sub> &epsilon;</i></p>
+<p align=\"center\">&epsilon; = f(NTU, Z, flowRegime), </p>
+<p>where Q̇<sub>max</sub> is the maximum heat that can be transferred, &epsilon; is the heat transfer effectiveness, NTU is the Number of Transfer Units, Z is the ratio of minimum to maximum capacity flow rate and flowRegime is the heat exchanger flow regime. The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where ṁ is the mass flow rate, ṁ<sub>0</sub> is the nominal mass flow rate, and n=0.8 on the air-side and n=0.85 on the water side. For this particular implementation, the computed nominal NTU is of 4.45, with a counter flow regime, and the resulting effectiveness approximately constant and of 0.37. </p>
+<p>The floor heating system circulation pump as well as the heat pump evaporator circuit have the default efficiency of the pump model, which is 49 &percnt; at the time of writing.</p>
+<p>The heat pump has been calibrated using manufacturer data from model </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
-<p>
-The model assumes a pump with a constant head.
-The resulting flow rate depends on the thermostatic valve
-position. The supply water temperature of the boiler is modulated using a PI
-controller that tracks indoor temperature to follow a reference defined as 
-the heating setpoint plus a small offset of 0.2 degrees centigrade. 
-</p>
-<h3>Model IO's</h3>
+<p>The model assumes a pump with a constant head. The resulting flow rate depends on the thermostatic valve position. The supply water temperature of the boiler is modulated using a PI controller that tracks indoor temperature to follow a reference defined as the heating setpoint plus a small offset of 0.2 degrees centigrade. </p>
+<p><b><span style=\"font-size: 10pt;\">Model IO&apos;s</span></b></p>
 <h4>Inputs</h4>
-The model inputs are:
+<p>The model inputs are: </p>
 <ul>
-<li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
-</li>
-<li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
-</li>
-<li>
-<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
-</li>
-<li>
-<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
-</li>
+<li><span style=\"font-family: Courier New;\">oveTSetHea_u</span> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating </li>
+<li><span style=\"font-family: Courier New;\">oveTSetCoo_u</span> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling </li>
+<li><span style=\"font-family: Courier New;\">oveTSetSup_u</span> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater </li>
+<li><span style=\"font-family: Courier New;\">ovePum_u</span> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off </li>
 </ul>
 <h4>Outputs</h4>
-The model outputs are:
+<p>The model outputs are: </p>
 <ul>
-<li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
-</li>
-<li>
-<code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
-</li>
-<li>
-<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
-</li>
-<li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for pump
-</li>
-<li>
-<code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
-</li>
-<li>
-<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
-</li>
-<li>
-<code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
-</li>
+<li><span style=\"font-family: Courier New;\">reaTSetHea_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for heating </li>
+<li><span style=\"font-family: Courier New;\">reaTSetCoo_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for cooling </li>
+<li><span style=\"font-family: Courier New;\">reaTSetSup_y</span> [K] [min=None, max=None]: Supply temperature setpoint of heater </li>
+<li><span style=\"font-family: Courier New;\">reaQHea_y</span> [W] [min=None, max=None]: Heating thermal power </li>
+<li><span style=\"font-family: Courier New;\">reaPum_y</span> [1] [min=None, max=None]: Control signal for pump </li>
+<li><span style=\"font-family: Courier New;\">reaPPum_y</span> [W] [min=None, max=None]: Pump electrical power </li>
+<li><span style=\"font-family: Courier New;\">reaCO2RooAir_y</span> [ppm] [min=None, max=None]: CO2 concentration in the zone </li>
+<li><span style=\"font-family: Courier New;\">reaTRoo_y</span> [K] [min=None, max=None]: Operative zone temperature </li>
 </ul>
-<h3>Additional System Design</h3>
+<p><b><span style=\"font-size: 10pt;\">Additional System Design</span></b></p>
 <h4>Lighting</h4>
-<p>
-No lighting model is included.
-</p>
+<p>No lighting model is included. </p>
 <h4>Shading</h4>
-<p>
-No shading model is included.
-</p>
-<h3>Model Implementation Details</h3>
+<p>No shading model is included. </p>
+<p><b><span style=\"font-size: 10pt;\">Model Implementation Details</span></b></p>
 <h4>Moist vs. dry air</h4>
-<p>
-The model uses moist air despite that
-no condensation is modelled in any of the used components.
-</p>
+<p>The model uses moist air despite that no condensation is modelled in any of the used components. </p>
 <h4>Pressure-flow models</h4>
-<p>
-A simple, single circulation loop is used to model the heating system.
-</p>
+<p>A simple, single circulation loop is used to model the heating system. </p>
 <h4>Infiltration models</h4>
-<p>
-Fixed air infiltration corresponding to an n50 value of 10
-is modelled.
-</p>
-<h3>Scenario Information</h3>
-<h4>Energy Pricing</h4>
-
-<p>
-The <b>Constant Electricity Price</b> profile is:
-<ul>
-The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
-as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in 
-<a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
-</ul>
-</p>
-<p>
-The <b>Dynamic Electricity Price</b> profile is:
-<ul>
-The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time,
-as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
-<a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
-The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
-The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
-</ul>
-<p>
-The <b>Highly Dynamic Electricity Price</b> profile is:
-<ul>
-The highly dynamic electricity price scenario is based on the the
-Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
-Obtained from:
-<a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
-https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
-</ul>
-</p>
-<p>
-The <b>Gas Price</b> profile is:
-<ul>
-The gas price is assumed constant and of 0.0198 EUR/kWh 
-as obtained from the \"Easy Indexed\" deal for gas
-<a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
-</ul>
+<p>Fixed air infiltration corresponding to an n50 value of 10 is modelled. </p>
+<p><b><span style=\"font-size: 10pt;\">Scenario Information</span></b></p>
+<p><b>Energy Pricing</b> </p>
+<p>The <b>Constant Electricity Price</b> profile is: </p>
+<p>The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
+<p>The <b>Dynamic Electricity Price</b> profile is: </p>
+<p>The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot; deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m. The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. </p>
+<p>The <b>Highly Dynamic Electricity Price</b> profile is: </p>
+<p>The highly dynamic electricity price scenario is based on the the Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019. Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> </p>
+<p>The <b>Gas Price</b> profile is: </p>
+<p>The gas price is assumed constant and of 0.0198 EUR/kWh as obtained from the &quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
 <h4>Emission Factors</h4>
-<p>
-The <b>Electricity Emissions Factor</b> profile is:
-<ul>
-It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
-which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
-for year 2018. For reference, see:
- <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
-https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
-
-</ul>
-</p>
-<p>
-The <b>Gas Emissions Factor</b> profile is:
-<ul>
-
-Based on the kgCO2 emitted per amount of natural gas burned in terms of 
-energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
-For reference,
-see:
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
-</ul>
-
-</p>
+<p>The <b>Electricity Emissions Factor</b> profile is: </p>
+<p>It is used a constant emission factor for electricity of 0.167 kgCO2/kWh which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB) for year 2018. For reference, see: <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> </p>
+<p>The <b>Gas Emissions Factor</b> profile is: </p>
+<p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> </p>
 </html>", revisions="<html>
 <ul>
 <li>June 12, 2020 by Javier Arroyo:</li>
