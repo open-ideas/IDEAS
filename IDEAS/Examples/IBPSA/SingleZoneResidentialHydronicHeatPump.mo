@@ -476,26 +476,32 @@ equation
     annotation (Line(points={{210,20},{210,40},{220,40}}, color={0,127,255}));
   annotation (
     experiment(
-      StopTime=2592000,
+      StopTime=604800,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-This is a single zone residential hydronic system model 
+This is a single zone residential hydronic system model with an air-source heat pump
 for WP 1.2 of IBPSA project 1. 
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-This building envelope model corresponds to the BESTEST case 900 test case. 
-It consists of a single zone with a rectangular floor plan
-of 6 by 8 meters and a height of 2.7 m. 
-The zone further consists of two south-oriented windows of 6 m2 each, 
-which are modelled using a single window of 12 m2.
+This model represents a residential dwelling for a family of five members. 
+The building envelope model is based on the BESTEST case 900 test case. 
+The envelope model is therefore similar to the one used in 
+<a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
+IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>.
+but scaled up to have an area five times larger. 
+Particularly, the model consists of a single zone with a rectangular floor plan
+of 13.4 by 17.9 meters and a height of 2.7 m. 
+The zone further consists of several south-oriented windows, 
+which are modelled using a single window of 24 m2.
 </p>
 <h4>Constructions</h4>
 <p>
 The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
-For more details see <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
+For more details see 
+<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
 IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
 The floor consists of 8 cm of concrete and 1 m of insulation,
 representing a perfectly insulated floor.
