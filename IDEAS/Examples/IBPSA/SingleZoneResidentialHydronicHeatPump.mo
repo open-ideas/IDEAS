@@ -639,5 +639,5 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-180,-100},{440,180}})),
-    Icon(coordinateSystem(extent={{-180,-100},{440,180}})));
+    Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
 end SingleZoneResidentialHydronicHeatPump;
