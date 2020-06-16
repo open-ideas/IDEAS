@@ -175,7 +175,7 @@ model SingleZoneResidentialHydronicHeatPump
     redeclare package Medium = MediumGlycol,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Circulation pump at source side"
-    annotation (Placement(transformation(extent={{212,30},{192,50}})));
+    annotation (Placement(transformation(extent={{200,30},{180,50}})));
   Fluid.Sources.Boundary_pT bouWat(redeclare package Medium = MediumWater,
       nPorts=1) "Expansion vessel" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -186,7 +186,7 @@ model SingleZoneResidentialHydronicHeatPump
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Block for reading the electrical power of the pump at the heat pump source side"
-    annotation (Placement(transformation(extent={{200,70},{220,90}})));
+    annotation (Placement(transformation(extent={{180,70},{200,90}})));
 
   Modelica.Blocks.Sources.RealExpression yPumEmi(y=if heaPum.com.isOn then 1
          else 0) "Control input signal to emission circuit pump"
@@ -260,7 +260,7 @@ model SingleZoneResidentialHydronicHeatPump
     configuration=IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
     Q_flow_nominal=3000,
     T_a1_nominal=258.15,
-    T_a2_nominal=293.15)                           "water-air heat exchanger"
+    T_a2_nominal=288.15)                           "water-air heat exchanger"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -299,7 +299,7 @@ model SingleZoneResidentialHydronicHeatPump
       nPorts=1) "Expansion vessel" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=270,
-        origin={230,10})));
+        origin={210,10})));
   Utilities.IO.SignalExchange.Read reaHexEps(description="Heat exchanger effectiveness",
       y(unit="1")) "Read Heat exchanger effectiveness"
     annotation (Placement(transformation(extent={{280,-60},{300,-40}})));
@@ -335,6 +335,11 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
+  Fluid.Sensors.TemperatureTwoPort senTemGly(
+    redeclare package Medium = MediumGlycol,
+    m_flow_nominal=pumSou.m_flow_nominal,
+    tau=0) "Temperature sensor for glycol"
+    annotation (Placement(transformation(extent={{240,50},{220,30}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-20},{-58,-20}},
@@ -359,7 +364,7 @@ equation
   connect(bouWat.ports[1], pumEmi.port_a)
     annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_a2,pumSou. port_b)
-    annotation (Line(points={{136,20},{136,40},{192,40}},color={0,127,255}));
+    annotation (Line(points={{136,20},{136,40},{180,40}},color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
           40},{80,40}},               color={0,127,255}));
   connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
@@ -372,8 +377,9 @@ equation
     annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pumEmi.P, reaPPumEmi.u) annotation (Line(points={{19,49},{0,49},{0,80},
           {18,80}}, color={0,0,127}));
-  connect(pumSou.P, reaPPumSou.u) annotation (Line(points={{191,49},{180,49},{180,
-          80},{198,80}}, color={0,0,127}));
+  connect(pumSou.P, reaPPumSou.u) annotation (Line(points={{179,49},{172,49},{
+          172,80},{178,80}},
+                         color={0,0,127}));
   connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{420,150},
           {420,-30},{127,-30},{127,-2}},
                                     color={0,0,127}));
@@ -387,8 +393,9 @@ equation
     annotation (Line(points={{228,110},{221,110}}, color={0,0,127}));
   connect(yPumSou.y, ovePumSou.u)
     annotation (Line(points={{159,110},{168,110}}, color={0,0,127}));
-  connect(realToInteger1.y, pumSou.stage) annotation (Line(points={{251,110},{260,
-          110},{260,60},{202,60},{202,52}}, color={255,127,0}));
+  connect(realToInteger1.y, pumSou.stage) annotation (Line(points={{251,110},{
+          260,110},{260,60},{190,60},{190,52}},
+                                            color={255,127,0}));
   connect(heaPum.P, reaPHeaPum.u)
     annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
   connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-60,13},
@@ -406,8 +413,6 @@ equation
     annotation (Line(points={{70,-31},{70,-50},{98,-50}}, color={0,0,127}));
   connect(heaPumCOP.y, reaHeaPumCOP.u)
     annotation (Line(points={{185,-50},{198,-50}}, color={0,0,127}));
-  connect(pumSou.port_a, hex.port_b1)
-    annotation (Line(points={{212,40},{266,40},{266,20}}, color={0,127,255}));
   connect(hex.port_a1, heaPum.port_b2) annotation (Line(points={{266,0},{266,-20},
           {136,-20},{136,0}}, color={0,127,255}));
   connect(hex.port_b2, outAir.ports[1]) annotation (Line(points={{278,0},{278,-20},
@@ -424,8 +429,6 @@ equation
     annotation (Line(points={{320,40},{340,40},{340,8}}, color={0,127,255}));
   connect(realToInteger2.y, fan.stage) annotation (Line(points={{401,110},{410,110},
           {410,60},{310,60},{310,52}}, color={255,127,0}));
-  connect(bouGly.ports[1], hex.port_b1) annotation (Line(points={{230,20},{230,40},
-          {266,40},{266,20}}, color={0,127,255}));
   connect(hexEps.y, reaHexEps.u)
     annotation (Line(points={{265,-50},{278,-50}}, color={0,0,127}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{299,49},{290,49},{290,80},
@@ -458,6 +461,12 @@ equation
           -90,98},{-82,98}}, color={0,0,127}));
   connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
           60},{-100,60},{-100,90},{-82,90}}, color={0,0,127}));
+  connect(pumSou.port_a, senTemGly.port_b)
+    annotation (Line(points={{200,40},{220,40}}, color={0,127,255}));
+  connect(senTemGly.port_a, hex.port_b1)
+    annotation (Line(points={{240,40},{266,40},{266,20}}, color={0,127,255}));
+  connect(bouGly.ports[1], senTemGly.port_b)
+    annotation (Line(points={{210,20},{210,40},{220,40}}, color={0,127,255}));
   annotation (
     experiment(
       StopTime=2592000,
@@ -677,6 +686,7 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-240,-80},{440,180}})),
-    Icon(coordinateSystem(extent={{-240,-80},{440,180}})));
+    Diagram(coordinateSystem(extent={{-240,-80},{440,180}}, preserveAspectRatio
+          =false)),
+    Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
 end SingleZoneResidentialHydronicHeatPump;
