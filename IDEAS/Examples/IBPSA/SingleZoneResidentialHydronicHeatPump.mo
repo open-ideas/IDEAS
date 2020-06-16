@@ -59,7 +59,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
 
   Modelica.Blocks.Math.RealToInteger realToInteger
-    annotation (Placement(transformation(extent={{50,100},{70,120}})));
+    annotation (Placement(transformation(extent={{52,100},{72,120}})));
   Utilities.IO.SignalExchange.Overwrite ovePumEmi(u(
       min=0,
       max=1,
@@ -68,13 +68,13 @@ model SingleZoneResidentialHydronicHeatPump
       Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={0,110})));
+        origin={2,110})));
 
   Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
-    annotation (Placement(transformation(extent={{-60,-30},{-80,-10}})));
+    annotation (Placement(transformation(extent={{-60,-60},{-80,-40}})));
 
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
@@ -111,7 +111,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{120,140},{140,160}})));
   Utilities.IO.SignalExchange.Read reaPumEmi(description="Control signal for emission cirquit pump",
       y(unit="1")) "Read control signal for emission circuit pump"
-    annotation (Placement(transformation(extent={{20,100},{40,120}})));
+    annotation (Placement(transformation(extent={{22,100},{42,120}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.6,
@@ -197,9 +197,9 @@ model SingleZoneResidentialHydronicHeatPump
 
   Modelica.Blocks.Sources.RealExpression yPumEmi(y=if heaPum.com.isOn then 1
          else 0) "Control input signal to emission circuit pump"
-    annotation (Placement(transformation(extent={{-42,100},{-22,120}})));
+    annotation (Placement(transformation(extent={{-40,100},{-20,120}})));
   Modelica.Blocks.Math.RealToInteger realToInteger1
-    annotation (Placement(transformation(extent={{230,100},{250,120}})));
+    annotation (Placement(transformation(extent={{212,100},{232,120}})));
   Utilities.IO.SignalExchange.Overwrite ovePumSou(u(
       min=0,
       max=1,
@@ -208,13 +208,13 @@ model SingleZoneResidentialHydronicHeatPump
       Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={180,110})));
+        origin={162,110})));
   Utilities.IO.SignalExchange.Read reaPumSou(description="Control signal for source cirquit pump",
       y(unit="1")) "Read control signal for source circuit pump"
-    annotation (Placement(transformation(extent={{200,100},{220,120}})));
+    annotation (Placement(transformation(extent={{182,100},{202,120}})));
   Modelica.Blocks.Sources.RealExpression yPumSou(y=if heaPum.com.isOn then 1
          else 0) "Control input signal to source circuit pump"
-    annotation (Placement(transformation(extent={{138,100},{158,120}})));
+    annotation (Placement(transformation(extent={{120,100},{140,120}})));
   Utilities.IO.SignalExchange.Read reaPHeaPum(
     description="Heat pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
@@ -276,7 +276,7 @@ model SingleZoneResidentialHydronicHeatPump
                                   nPorts=2) "Outside air"
     annotation (Placement(transformation(extent={{360,0},{340,20}})));
   Modelica.Blocks.Math.RealToInteger realToInteger2
-    annotation (Placement(transformation(extent={{380,100},{400,120}})));
+    annotation (Placement(transformation(extent={{352,100},{372,120}})));
   Utilities.IO.SignalExchange.Overwrite oveFan(u(
       min=0,
       max=1,
@@ -285,13 +285,13 @@ model SingleZoneResidentialHydronicHeatPump
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={330,110})));
+        origin={302,110})));
   Utilities.IO.SignalExchange.Read reaFan(description="Control signal for fan",
       y(unit="1")) "Read control signal for fan"
-    annotation (Placement(transformation(extent={{350,100},{370,120}})));
+    annotation (Placement(transformation(extent={{322,100},{342,120}})));
   Modelica.Blocks.Sources.RealExpression yFan(y=if heaPum.com.isOn then 1 else 0)
     "Control input signal to fan"
-    annotation (Placement(transformation(extent={{288,100},{308,120}})));
+    annotation (Placement(transformation(extent={{260,100},{280,120}})));
   Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -349,7 +349,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{240,50},{220,30}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
-          {-54,10},{-54,-20},{-58,-20}},
+          {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
   connect(oveTSetCoo.y, reaTSetCoo.u)
     annotation (Line(points={{-159,10},{-142,10}}, color={0,0,127}));
@@ -361,11 +361,12 @@ equation
   connect(TSetHea.y, oveTSetHea.u)
     annotation (Line(points={{-199,-30},{-182,-30}}, color={0,0,127}));
   connect(ovePumEmi.y, reaPumEmi.u)
-    annotation (Line(points={{11,110},{18,110}}, color={0,0,127}));
+    annotation (Line(points={{13,110},{20,110}}, color={0,0,127}));
   connect(realToInteger.u, reaPumEmi.y)
-    annotation (Line(points={{48,110},{41,110}}, color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
-          {-52,14},{-58,14}}, color={0,0,127}));
+    annotation (Line(points={{50,110},{43,110}}, color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
+          40},{-52,14},{-58,14}},
+                              color={0,0,127}));
   connect(senTemSup.port_b,pumEmi. port_a)
     annotation (Line(points={{60,40},{40,40}},   color={0,127,255}));
   connect(bouWat.ports[1], pumEmi.port_a)
@@ -387,21 +388,22 @@ equation
   connect(pumSou.P, reaPPumSou.u) annotation (Line(points={{179,49},{172,49},{
           172,80},{178,80}},
                          color={0,0,127}));
-  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{420,150},
-          {420,-30},{127,-30},{127,-2}},
+  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{400,150},
+          {400,-26},{127,-26},{127,-2}},
                                     color={0,0,127}));
   connect(yPumEmi.y, ovePumEmi.u)
-    annotation (Line(points={{-21,110},{-12,110}}, color={0,0,127}));
-  connect(realToInteger.y, pumEmi.stage) annotation (Line(points={{71,110},{80,110},
-          {80,60},{30,60},{30,52}}, color={255,127,0}));
+    annotation (Line(points={{-19,110},{-10,110}}, color={0,0,127}));
+  connect(realToInteger.y, pumEmi.stage) annotation (Line(points={{73,110},{80,
+          110},{80,60},{30,60},{30,52}},
+                                    color={255,127,0}));
   connect(ovePumSou.y, reaPumSou.u)
-    annotation (Line(points={{191,110},{198,110}}, color={0,0,127}));
+    annotation (Line(points={{173,110},{180,110}}, color={0,0,127}));
   connect(realToInteger1.u, reaPumSou.y)
-    annotation (Line(points={{228,110},{221,110}}, color={0,0,127}));
+    annotation (Line(points={{210,110},{203,110}}, color={0,0,127}));
   connect(yPumSou.y, ovePumSou.u)
-    annotation (Line(points={{159,110},{168,110}}, color={0,0,127}));
-  connect(realToInteger1.y, pumSou.stage) annotation (Line(points={{251,110},{
-          260,110},{260,60},{190,60},{190,52}},
+    annotation (Line(points={{141,110},{150,110}}, color={0,0,127}));
+  connect(realToInteger1.y, pumSou.stage) annotation (Line(points={{233,110},{
+          240,110},{240,60},{190,60},{190,52}},
                                             color={255,127,0}));
   connect(heaPum.P, reaPHeaPum.u)
     annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
@@ -425,17 +427,18 @@ equation
   connect(hex.port_b2, outAir.ports[1]) annotation (Line(points={{278,0},{278,-20},
           {340,-20},{340,12}}, color={0,127,255}));
   connect(oveFan.y, reaFan.u)
-    annotation (Line(points={{341,110},{348,110}}, color={0,0,127}));
+    annotation (Line(points={{313,110},{320,110}}, color={0,0,127}));
   connect(realToInteger2.u, reaFan.y)
-    annotation (Line(points={{378,110},{371,110}}, color={0,0,127}));
+    annotation (Line(points={{350,110},{343,110}}, color={0,0,127}));
   connect(yFan.y, oveFan.u)
-    annotation (Line(points={{309,110},{318,110}}, color={0,0,127}));
+    annotation (Line(points={{281,110},{290,110}}, color={0,0,127}));
   connect(fan.port_b, hex.port_a2)
     annotation (Line(points={{300,40},{278,40},{278,20}}, color={0,127,255}));
   connect(fan.port_a, outAir.ports[2])
     annotation (Line(points={{320,40},{340,40},{340,8}}, color={0,127,255}));
-  connect(realToInteger2.y, fan.stage) annotation (Line(points={{401,110},{410,110},
-          {410,60},{310,60},{310,52}}, color={255,127,0}));
+  connect(realToInteger2.y, fan.stage) annotation (Line(points={{373,110},{380,
+          110},{380,60},{310,60},{310,52}},
+                                       color={255,127,0}));
   connect(hexEps.y, reaHexEps.u)
     annotation (Line(points={{261,-50},{278,-50}}, color={0,0,127}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{299,49},{290,49},{290,80},
@@ -476,7 +479,7 @@ equation
     annotation (Line(points={{210,20},{210,40},{220,40}}, color={0,127,255}));
   annotation (
     experiment(
-      StopTime=604800,
+      StopTime=31500000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
@@ -524,7 +527,7 @@ equation
 <td><p>2100</p></td>
 </tr>
 </table>
-<p><br><br>The roof consists of a light construction and 11 cm of fibreglass. </p>
+<p><br><br><br><br><br><br><br><br>The roof consists of a light construction and 11 cm of fibreglass. </p>
 <h4>Occupancy schedules</h4>
 <p>The zone is occupied by 5 people before 7 am and after 8 pm each weekday and full time during weekends. </p>
 <h4>Internal loads and schedules</h4>
@@ -538,31 +541,31 @@ equation
 <p>The heat exchanger utilizes a model of a coil with effectiveness - NTU relation without humidity condensation. This model transfers heat in the amount of </p>
 <p align=\"center\"><i>Q̇ = Q̇<sub>max</sub> &epsilon;</i></p>
 <p align=\"center\">&epsilon; = f(NTU, Z, flowRegime), </p>
-<p>where Q̇<sub>max</sub> is the maximum heat that can be transferred, &epsilon; is the heat transfer effectiveness, NTU is the Number of Transfer Units, Z is the ratio of minimum to maximum capacity flow rate and flowRegime is the heat exchanger flow regime. The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where ṁ is the mass flow rate, ṁ<sub>0</sub> is the nominal mass flow rate, and n=0.8 on the air-side and n=0.85 on the water side. For this particular implementation, the computed nominal NTU is of 4.45, with a counter flow regime, and the resulting effectiveness approximately constant and of 0.37. </p>
-<p>The floor heating system circulation pump as well as the heat pump evaporator circuit have the default efficiency of the pump model, which is 49 &percnt; at the time of writing.</p>
-<p>The heat pump has been calibrated using manufacturer data from model </p>
+<p>where Q̇<sub>max</sub> is the maximum heat that can be transferred, &epsilon; is the heat transfer effectiveness, NTU is the Number of Transfer Units, Z is the ratio of minimum to maximum capacity flow rate and flowRegime is the heat exchanger flow regime. The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where ṁ is the mass flow rate, ṁ<sub>0</sub> is the nominal mass flow rate, and n=0.8 on the air-side and n=0.85 on the water side. For this particular implementation, the computed nominal NTU is of 4.45, with a counter flow regime, and the resulting effectiveness is approximately constant and of 0.37. </p>
+<p>The floor heating system circulation pump as well as the heat pump evaporator circuit have the default efficiency of the pump model, which is 49 &percnt; at the time of writing. Also the fan that blows ambient air through the heat exchanger uses this default efficiency of 49&percnt;.</p>
+<p>A water to water heat pump with a scroll compressor is used. The heat pump is modeled as described by: </p>
+<p>H. Jin. <i>Parameter estimation based models of water source heat pumps. </i>PhD Thesis. Oklahoma State University. Stillwater, Oklahoma, USA. 2012. </p>
+<p>The rate of heat transferred to the evaporator is given by: </p>
+<p align=\"center\"><i>Q̇<sub>Eva</sub> = ṁ<sub>ref</sub> ( h<sub>Vap</sub>(T<sub>Eva</sub>) - h<sub>Liq</sub>(T<sub>Con</sub>) ). </i></p>
+<p>The power consumed by the compressor is given by a linear efficiency relation: </p>
+<p align=\"center\"><i>P = P<sub>Theoretical</sub> / &eta; + P<sub>Loss,constant</sub>. </i></p>
+<p>Heat transfer in the evaporator and condenser is calculated using an &epsilon;-NTU method, assuming constant refrigerant temperature and constant heat transfer coefficient between fluid and refrigerant. </p>
+<p>Variable speed is achieved by multiplying the full load suction volume flow rate by the normalized compressor speed. The power and heat transfer rates are forced to zero if the resulting heat pump state has higher evaporating pressure than condensing pressure. </p>
+<p>The model parameters are obtained by calibration of the heat pump model to manufacturer performance data. This implementation uses the performance data from <a href=\"modelica://IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A\">IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A</a>. </p>
+<p>Parameters <span style=\"font-family: Courier New;\">TConMax</span> and <span style=\"font-family: Courier New;\">TEvaMin</span> are used to set an upper and lower bound for the condenser and evaporator. The compressor is disabled when these conditions are not satisfied, or when the evaporator temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. </p>
+<p>The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation of the heat transferred to the refrigerant in the evaporator. There is no supercooling. </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
-<p>The model assumes a pump with a constant head. The resulting flow rate depends on the thermostatic valve position. The supply water temperature of the boiler is modulated using a PI controller that tracks indoor temperature to follow a reference defined as the heating setpoint plus a small offset of 0.2 degrees centigrade. </p>
+<p>A baseline controller is implemented to procure comfort within the building zone. A PI controller is tuned so that the heat pump modulating signal for compressor frequency is the control variable and the indoor air temperature is the controlled variable. The control variable is limited between 0 and 1, and it is computed to drive the indoor temperature to follow the heating comfort set-point plus an offset which varies depending on the occupancy schedule: during occupied periods the offset is set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius and is meant to compensate for the large setback used during these periods. The latter offset prevents from abrubpt changes in the indoor temperature that can not be accomplished because of the large thermal inertia of the floor heating system and which would consecuently cause importante levels of discomfort. </p>
 <p><b><span style=\"font-size: 10pt;\">Model IO&apos;s</span></b></p>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
 <ul>
-<li><span style=\"font-family: Courier New;\">oveTSetHea_u</span> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating </li>
-<li><span style=\"font-family: Courier New;\">oveTSetCoo_u</span> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling </li>
-<li><span style=\"font-family: Courier New;\">oveTSetSup_u</span> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater </li>
-<li><span style=\"font-family: Courier New;\">ovePum_u</span> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off </li>
+<li></li>
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
 <ul>
-<li><span style=\"font-family: Courier New;\">reaTSetHea_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for heating </li>
-<li><span style=\"font-family: Courier New;\">reaTSetCoo_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for cooling </li>
-<li><span style=\"font-family: Courier New;\">reaTSetSup_y</span> [K] [min=None, max=None]: Supply temperature setpoint of heater </li>
-<li><span style=\"font-family: Courier New;\">reaQHea_y</span> [W] [min=None, max=None]: Heating thermal power </li>
-<li><span style=\"font-family: Courier New;\">reaPum_y</span> [1] [min=None, max=None]: Control signal for pump </li>
-<li><span style=\"font-family: Courier New;\">reaPPum_y</span> [W] [min=None, max=None]: Pump electrical power </li>
-<li><span style=\"font-family: Courier New;\">reaCO2RooAir_y</span> [ppm] [min=None, max=None]: CO2 concentration in the zone </li>
-<li><span style=\"font-family: Courier New;\">reaTRoo_y</span> [K] [min=None, max=None]: Operative zone temperature </li>
+<li></li>
 </ul>
 <p><b><span style=\"font-size: 10pt;\">Additional System Design</span></b></p>
 <h4>Lighting</h4>
@@ -593,15 +596,10 @@ equation
 <p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> </p>
 </html>", revisions="<html>
 <ul>
-<li>June 12, 2020 by Javier Arroyo:</li>
-<p>Implemented PI controller for boiler supply temperature. </p>
-<li>June 2, 2020 by Javier Arroyo:<br>Implemented temperature setpoint setback. </li>
-<li>March 21, 2019 by Filip Jorissen:<br>Revised implementation based on first review for <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. </li>
-<li>January 22nd, 2019 by Filip Jorissen:<br>Revised implementation by adding external inputs. </li>
-<li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
+<li>Jun 16, 2020 by Javier Arroyo:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-240,-80},{440,180}}, preserveAspectRatio
+    Diagram(coordinateSystem(extent={{-240,-80},{420,180}}, preserveAspectRatio
           =false)),
     Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
 end SingleZoneResidentialHydronicHeatPump;
