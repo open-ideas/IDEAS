@@ -20,9 +20,16 @@ model SingleZoneResidentialHydronicHeatPump
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
     n50=10,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     l=8*sqrt(scalingFactor),
     w=6*sqrt(scalingFactor),
-    A_winA=24)
+    A_winA=24,
+    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
+      conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
+          IDEAS.Buildings.Data.Insulation.Pur(d=0.07),
+          IDEAS.Buildings.Data.Materials.Screed(d=0.5),
+          IDEAS.Buildings.Data.Materials.Tile(d=0.01)}),
+    hasEmb=true)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
@@ -249,7 +256,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{200,-60},{220,-40}})));
   Modelica.Blocks.Sources.RealExpression heaPumCOP(y=heaPum.com.COP)
     "Substracts heat pump COP"
-    annotation (Placement(transformation(extent={{164,-60},{184,-40}})));
+    annotation (Placement(transformation(extent={{160,-60},{180,-40}})));
   Fluid.HeatExchangers.DryCoilEffectivenessNTU hex(
     redeclare package Medium1 = MediumGlycol,
     redeclare package Medium2 = MediumAir,
@@ -305,7 +312,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{280,-60},{300,-40}})));
   Modelica.Blocks.Sources.RealExpression hexEps(y=hex.eps)
     "Substracts heat exchanger effectiveness"
-    annotation (Placement(transformation(extent={{244,-60},{264,-40}})));
+    annotation (Placement(transformation(extent={{240,-60},{260,-40}})));
   Utilities.IO.SignalExchange.Read reaPFan(
     description=
         "Electrical power of the fan insuflating air through the heat exchanger",
@@ -323,7 +330,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{360,-60},{380,-40}})));
   Modelica.Blocks.Sources.RealExpression hexQ(y=hex.Q1_flow)
     "Substracts heat introduced into heat pump evaporator circuit"
-    annotation (Placement(transformation(extent={{324,-60},{344,-40}})));
+    annotation (Placement(transformation(extent={{320,-60},{340,-40}})));
   Modelica.Blocks.Math.Add addUno
     annotation (Placement(transformation(extent={{-160,40},{-140,60}})));
   Modelica.Blocks.Sources.Constant offSetUno(k=4.5, y(unit="K"))
@@ -412,7 +419,7 @@ equation
   connect(senTemRet.T, reaTRet.u)
     annotation (Line(points={{70,-31},{70,-50},{98,-50}}, color={0,0,127}));
   connect(heaPumCOP.y, reaHeaPumCOP.u)
-    annotation (Line(points={{185,-50},{198,-50}}, color={0,0,127}));
+    annotation (Line(points={{181,-50},{198,-50}}, color={0,0,127}));
   connect(hex.port_a1, heaPum.port_b2) annotation (Line(points={{266,0},{266,-20},
           {136,-20},{136,0}}, color={0,127,255}));
   connect(hex.port_b2, outAir.ports[1]) annotation (Line(points={{278,0},{278,-20},
@@ -430,11 +437,11 @@ equation
   connect(realToInteger2.y, fan.stage) annotation (Line(points={{401,110},{410,110},
           {410,60},{310,60},{310,52}}, color={255,127,0}));
   connect(hexEps.y, reaHexEps.u)
-    annotation (Line(points={{265,-50},{278,-50}}, color={0,0,127}));
+    annotation (Line(points={{261,-50},{278,-50}}, color={0,0,127}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{299,49},{290,49},{290,80},
           {318,80}}, color={0,0,127}));
   connect(hexQ.y, reaHexQ.u)
-    annotation (Line(points={{345,-50},{358,-50}}, color={0,0,127}));
+    annotation (Line(points={{341,-50},{358,-50}}, color={0,0,127}));
   connect(offSetOcc.y, addOcc.u1) annotation (Line(points={{-179,152},{-170,152},
           {-170,136},{-162,136}}, color={0,0,127}));
   connect(offSetUno.y, addUno.u1) annotation (Line(points={{-179,70},{-172,70},
