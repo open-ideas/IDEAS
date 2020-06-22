@@ -87,10 +87,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   if isZone then
-  connect(sim.weaBus, zoneBus.weaBus) annotation (Line(
-      points={{-81,33},{-40,33},{-40,-1.9},{100.1,-1.9}},
-      color={255,204,51},
-      thickness=0.5));
   end if;
   if isZone then
     connect(fixedTemperature.port, zoneBus.surfCon) annotation (Line(points={{-50,
@@ -131,5 +127,15 @@ equation
           smooth=Smooth.None), Line(
           points={{-60,60},{60,-60}},
           color={0,0,255},
-          smooth=Smooth.None)}));
+          smooth=Smooth.None)}),
+    Documentation(revisions="<html>
+<ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
+</ul>
+</html>"));
 end DummyConnection;

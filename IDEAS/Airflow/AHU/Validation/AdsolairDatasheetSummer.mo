@@ -51,6 +51,8 @@ model AdsolairDatasheetSummer
   IDEAS.Utilities.Psychrometrics.Phi_pTX phi_evap
     "Relative humidity of evaporator outlet, for checking with reference result"
     annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
+initial equation
+  der(adsolair58.IEH.volBot.dynBal.mXi)=zeros(MediumAir.nXi);
 equation
   connect(RH_room.y, XiEnv.phi) annotation (Line(points={{-99.3,7},{-94,7},{-94,
           8.4},{-87.2,8.4}}, color={0,0,127}));

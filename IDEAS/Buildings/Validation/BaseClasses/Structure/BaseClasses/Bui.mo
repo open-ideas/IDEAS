@@ -39,7 +39,7 @@ model Bui "Base model"
         rotation=90,
         origin={-19.5,-14.5})));
   IDEAS.Buildings.Components.OuterWall roof(
-    redeclare final parameter Data.Constructions.LightRoof constructionType,
+    redeclare parameter Data.Constructions.LightRoof constructionType,
     final A=48,
     final inc=IDEAS.Types.Tilt.Ceiling,
     final azi=aO+IDEAS.Types.Azimuth.S) annotation (Placement(transformation(

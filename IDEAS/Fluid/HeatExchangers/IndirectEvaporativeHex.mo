@@ -81,7 +81,6 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
     redeclare package Medium = Medium2,
     m_flow_nominal=m2_flow_nominal,
     prescribedHeatFlowRate=true,
-    massDynamics=massDynamics,
     m_flow_small=m_flow_small,
     nPorts=2,
     p_start=p2_start,
@@ -93,7 +92,9 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
     mSenFac=mSenFac,
     V=m2_flow_nominal/rho_default*tau,
     energyDynamics=if prescribeTBot then Modelica.Fluid.Types.Dynamics.DynamicFreeInitial
-         else energyDynamics)
+ else
+     energyDynamics,
+    massDynamics = massDynamics)
     annotation (Placement(transformation(extent={{10,-60},{-10,-40}})));
   IDEAS.Fluid.MixingVolumes.MixingVolumeMoistAir volTop(
     nPorts=2,
@@ -181,9 +182,9 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{40,-98},{60,-78}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor theRes(R=50*tau/(
-        volBot.V*rho_default*IDEAS.Utilities.Psychrometrics.Constants.cpAir*
-        mSenFac))
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=(volBot.V*
+        rho_default*IDEAS.Utilities.Psychrometrics.Constants.cpAir*mSenFac)/tau/
+        50)
     "Temperature difference will settle after 3*50 time constants tau if m_flow=0"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -208,11 +209,6 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature Tbot(T=273.15 + 21.4) if prescribeTBot
     "This override the temperature of the IEH outlet for validation purposes";
-initial equation
-  if prescribeTBot then
-    der(volBot.dynBal.mXi)=zeros(Medium2.nXi);
-  end if;
-
 equation
   assert(port_a1.m_flow>-m_flow_small or allowFlowReversal1, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
   assert(port_a2.m_flow>-m_flow_small or allowFlowReversal2, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
@@ -242,9 +238,9 @@ equation
                                                         color={191,0,0}));
   connect(temperatureSensor.T, TOutBot)
     annotation (Line(points={{60,-88},{108,-88}}, color={0,0,127}));
-  connect(theRes.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
+  connect(theCon.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
           -14},{32,-50},{10,-50}}, color={191,0,0}));
-  connect(theRes.port_b, volTop.heatPort)
+  connect(theCon.port_b, volTop.heatPort)
     annotation (Line(points={{32,6},{32,6},{32,50},{10,50}}, color={191,0,0}));
 
   connect(port_a2, volBot.ports[1])
@@ -453,6 +449,11 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 7, 2020, by Filip Jorissen:<br/>
+Replaced thermal resistor by thermal conductor to avoid division.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1129>#1129</a>.
+</li>
 <li>
 October 1, 2019, by Filip Jorissen:<br/>
 Revised computation of <code>C_star</code>

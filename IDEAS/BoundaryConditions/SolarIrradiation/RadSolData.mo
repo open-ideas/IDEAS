@@ -2,18 +2,17 @@ within IDEAS.BoundaryConditions.SolarIrradiation;
 model RadSolData "Selects or generates correct solar data for this surface"
   parameter Modelica.SIunits.Angle inc "inclination";
   parameter Modelica.SIunits.Angle azi "azimuth";
-  parameter Modelica.SIunits.Angle lat "latitude";
   parameter Boolean useLinearisation = false
     "Set to true if used for linearisation";
-  parameter Integer numIncAndAziInBus "Number of pre-computed combination of inc and azi for solar radiation";
-  parameter Modelica.SIunits.Angle[numIncAndAziInBus,2] incAndAziInBus "Combination of {inclination, azimuth} for which the solar data is available in weaBus.";
-  parameter Boolean outputAngles=true "Set to false when linearising only";
-
+  outer SimInfoManager                          sim
+    "Simulation information manager for climate data"
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+protected
   input IDEAS.Buildings.Components.Interfaces.WeaBus
-    weaBus(numSolBus=numIncAndAziInBus,
-        outputAngles=outputAngles)
+    weaBus(numSolBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
+public
   Modelica.Blocks.Interfaces.RealOutput HDirTil
     "Direct solar irradiation on a tilted surface"
     annotation (Placement(transformation(extent={{96,30},{116,50}})));
@@ -36,37 +35,42 @@ model RadSolData "Selects or generates correct solar data for this surface"
   Modelica.Blocks.Interfaces.RealOutput hForcedConExt
     "Forced flow convection coefficient at an external surface"
     annotation (Placement(transformation(extent={{96,-132},{116,-112}})));
+
+  Modelica.Blocks.Interfaces.RealOutput Te "Dry bulb temperature"
+    annotation (Placement(transformation(extent={{96,-150},{116,-130}})));
+  Modelica.Blocks.Interfaces.RealOutput Tdes "Design tempearture"
+    annotation (Placement(transformation(extent={{96,-170},{116,-150}})));
 protected
   final parameter Integer numMatches=
-    sum( {if     IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,1],inc)
-             and IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,2],azi)
+    sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
+             and IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
           then 1
-          else 0 for i in 1:numIncAndAziInBus});
+          else 0 for i in 1:sim.numIncAndAziInBus});
   final parameter Boolean solDataInBus = numMatches==1
     "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
   final parameter Integer solDataIndex=
-    sum( {if     IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,1],inc)
-             and IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,2],azi)
+    sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
+             and IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
           then i
-          else 0 for i in 1:numIncAndAziInBus})
+          else 0 for i in 1:sim.numIncAndAziInBus})
     "Index of the {inc,azi} combination in incAndAziInBus" annotation(Evaluate=true);
   IDEAS.BoundaryConditions.SolarIrradiation.ShadedRadSol radSol(
     final inc=inc,
     final azi=azi,
-    lat=lat,
-    outputAngles=outputAngles) if
+    final lat=sim.lat,
+    final outputAngles=sim.outputAngles) if
                       not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 
   output Buildings.Components.Interfaces.SolBus
-                                         solBusDummy(outputAngles=outputAngles)
+     solBusDummy(outputAngles=sim.outputAngles)
     "Required for avoiding warnings?"
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-60,10},{-20,50}})));
 
   Modelica.Blocks.Sources.Constant constAngLin(k=1) if
-                                                 solDataInBus and not outputAngles
+                                                 solDataInBus and not sim.outputAngles
     "Dummy inputs when linearising. This avoids unnecessary state space inputs."
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation
@@ -96,7 +100,7 @@ equation
       points={{106,-20},{-39.9,-20},{-39.9,30.1}},
       color={0,0,127},
       smooth=Smooth.None));
-  if not (solDataInBus and not outputAngles) then
+  if not (solDataInBus and not sim.outputAngles) then
   connect(angInc, solBusDummy.angInc) annotation (Line(
       points={{106,-40},{-40,-40},{-40,-42},{-39.9,-42},{-39.9,30.1}},
       color={0,0,127},
@@ -163,6 +167,14 @@ equation
   connect(radSol.winSpe, weaBus.Va) annotation (Line(points={{-76,42},{-76,76},
           {100,76},{100,80.05},{100.05,80.05}},                          color=
           {0,0,127}));
+  connect(weaBus, sim.weaBus) annotation (Line(
+      points={{100,80},{100,93},{-81,93}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(Te, weaBus.Te) annotation (Line(points={{106,-140},{80,-140},{80,
+          80.05},{100.05,80.05}}, color={0,0,127}));
+  connect(Tdes, weaBus.Tdes) annotation (Line(points={{106,-160},{82,-160},{82,
+          80.05},{100.05,80.05}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{120,100}})),           Documentation(info="<html>
 <p>
@@ -171,6 +183,12 @@ If the correct data is not contained by the bus, custom solar data is calculated
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Add RealOutput for coefficient for forced convection and get this from SolBus.

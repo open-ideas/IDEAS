@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Validation.BaseClasses.HeatingSystem;
 model Bangbang "BESTEST bang-bang heating system"
   extends IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
-    final nLoads=1, final nTemSen = nZones);
+    final nEmbPorts = 0, final nLoads=1, final nTemSen = nZones);
 
   parameter Modelica.SIunits.Volume[nZones] VZones;
   parameter Real mSenFac = 5 "Correction factor for thermal mass in zone";

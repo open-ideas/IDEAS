@@ -231,11 +231,6 @@ equation
 
 
   for i in 1:nSurf loop
-    connect(sim.weaBus, propsBusInt[i].weaBus) annotation (Line(
-        points={{-81,93},{-81,92},{-80,92},{-80,66},{-80.1,66},{-80.1,39.9}},
-        color={255,204,51},
-        thickness=0.5,
-        smooth=Smooth.None));
     connect(dummy1, propsBusInt[i].Qgai);
     connect(dummy2, propsBusInt[i].E);
 end for;
@@ -416,6 +411,12 @@ end for;
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+April 26, 2020, by Filip Jorissen:<br/>
+</li>
+<li>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
 </li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>

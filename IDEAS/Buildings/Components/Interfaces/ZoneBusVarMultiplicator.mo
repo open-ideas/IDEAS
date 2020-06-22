@@ -36,18 +36,14 @@ protected
     annotation (Placement(transformation(extent={{-10,-26},{10,-6}})));
   BaseClasses.Varia.HeatFlowMultiplicator QGai(k=k)
     "Block for scaling internal gains"
-    annotation (Placement(transformation(extent={{-10,-86},{10,-66}})));
+    annotation (Placement(transformation(extent={{-10,-52},{10,-32}})));
   BaseClasses.Varia.EnergyFlowMultiplicator E(k=k)
     "Block for scaling internal energy"
-    annotation (Placement(transformation(extent={{-10,-116},{10,-96}})));
-  WeaBus weaBus(numSolBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={0,-48})));
+    annotation (Placement(transformation(extent={{-10,-82},{10,-62}})));
   Modelica.Blocks.Routing.RealPassThrough inc "Inclination angle"
-    annotation (Placement(transformation(extent={{-10,-148},{10,-128}})));
+    annotation (Placement(transformation(extent={{-10,-114},{10,-94}})));
   Modelica.Blocks.Routing.RealPassThrough azi "Azimuth angle"
-    annotation (Placement(transformation(extent={{-10,-178},{10,-158}})));
+    annotation (Placement(transformation(extent={{-10,-144},{10,-124}})));
   Modelica.Blocks.Routing.RealPassThrough epsLw "Longwave emissivity"
     annotation (Placement(transformation(extent={{-10,118},{10,138}})));
   Modelica.Blocks.Routing.RealPassThrough epsSw "Shortwave emissivity"
@@ -70,14 +66,6 @@ equation
                                    color={191,0,0}));
   connect(iSolDir.port_a, propsBus_a.iSolDir) annotation (Line(points={{-10,12},
           {-100.1,12},{-100.1,0.1}},          color={191,0,0}));
-  connect(weaBus, propsBus_a.weaBus) annotation (Line(
-      points={{0,-48},{-100.1,-48},{-100.1,0.1}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaBus, propsBus_b.weaBus) annotation (Line(
-      points={{0,-48},{100.1,-48},{100.1,-0.1}},
-      color={255,204,51},
-      thickness=0.5));
   connect(surfCon.port_b, propsBus_b.surfCon) annotation (Line(points={{10,72},
           {100.1,72},{100.1,-0.1}},        color={191,0,0}));
   connect(surfRad.port_b, propsBus_b.surfRad) annotation (Line(points={{10,44},
@@ -87,27 +75,26 @@ equation
   connect(iSolDif.port_b, propsBus_b.iSolDif)
     annotation (Line(points={{10,-16},{100.1,-16},{100.1,-0.1}},
                                                              color={191,0,0}));
-  connect(QGai.port_b, propsBus_b.Qgai) annotation (Line(points={{10,-76},{
-          100.1,-76},{100.1,-0.1}},
+  connect(QGai.port_b, propsBus_b.Qgai) annotation (Line(points={{10,-42},{
+          100.1,-42},{100.1,-0.1}},
                               color={191,0,0}));
-  connect(E.E_b, propsBus_b.E) annotation (Line(points={{10,-106},{100.1,-106},
-          {100.1,-0.1}},
+  connect(E.E_b, propsBus_b.E) annotation (Line(points={{10,-72},{100.1,-72},{
+          100.1,-0.1}},
                   color={0,0,0}));
-  connect(inc.y, propsBus_b.inc) annotation (Line(points={{11,-138},{100.1,-138},
+  connect(inc.y, propsBus_b.inc) annotation (Line(points={{11,-104},{100.1,-104},
           {100.1,-0.1}}, color={0,0,127}));
-  connect(azi.y, propsBus_b.azi) annotation (Line(points={{11,-168},{100.1,-168},
+  connect(azi.y, propsBus_b.azi) annotation (Line(points={{11,-134},{100.1,-134},
           {100.1,-0.1}}, color={0,0,127}));
-  connect(azi.u, propsBus_a.azi) annotation (Line(points={{-12,-168},{-100.1,
-          -168},{-100.1,0.1}},
+  connect(azi.u, propsBus_a.azi) annotation (Line(points={{-12,-134},{-100.1,
+          -134},{-100.1,0.1}},
                          color={0,0,127}));
-  connect(inc.u, propsBus_a.inc) annotation (Line(points={{-12,-138},{-100.1,
-          -138},{-100.1,0.1}},
+  connect(inc.u, propsBus_a.inc) annotation (Line(points={{-12,-104},{-100.1,
+          -104},{-100.1,0.1}},
                          color={0,0,127}));
-  connect(E.E_a, propsBus_a.E) annotation (Line(points={{-9.8,-106},{-100.1,
-          -106},{-100.1,0.1}},
-                         color={0,0,0}));
-  connect(QGai.port_a, propsBus_a.Qgai) annotation (Line(points={{-10,-76},{
-          -100.1,-76},{-100.1,0.1}},       color={191,0,0}));
+  connect(E.E_a, propsBus_a.E) annotation (Line(points={{-9.8,-72},{-100.1,-72},
+          {-100.1,0.1}}, color={0,0,0}));
+  connect(QGai.port_a, propsBus_a.Qgai) annotation (Line(points={{-10,-42},{
+          -100.1,-42},{-100.1,0.1}},       color={191,0,0}));
   connect(epsLw.u, propsBus_a.epsLw) annotation (Line(points={{-12,128},{-100.1,
           128},{-100.1,0.1}}, color={0,0,127}));
   connect(epsSw.u, propsBus_a.epsSw) annotation (Line(points={{-12,98},{-100.1,
@@ -139,6 +126,12 @@ equation
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
+#1131</a>
+</li>
 <li>
 August 10, 2018 by Damien Picard:<br/>
 First implementation.

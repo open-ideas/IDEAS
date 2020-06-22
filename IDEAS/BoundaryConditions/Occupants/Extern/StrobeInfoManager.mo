@@ -10,32 +10,33 @@ model StrobeInfoManager
   parameter Boolean StROBe_P = true "Boolean to read plug load profiles" annotation (Dialog(group="StROBe power load"));
 
   parameter String FilNam_P = "none.txt"
-    "File with (active) plug load profiles from StROBe"
+    "File with (active) plug load profiles from StROBe (in W)"
   annotation (Dialog(group="StROBe power load", enable=StROBe_P));
 
   parameter Boolean StROBe = true "Boolean to read the other profiles too" annotation (Dialog(group="StROBe"));
 
   parameter String FilNam_Q = "none.txt"
-    "File with (reactive) plug load profiles"  annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (reactive) plug load profiles (in W)"  annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_mDHW = "none.txt"
-    "File with hot watter tapping profiles"  annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with hot watter tapping profiles (in l/min)"  annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_QCon = "none.txt"
-    "File with (convective) internal heat gain profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (convective) internal heat gain profiles (in W)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_QRad = "none.txt"
-    "File with (radiative) internal heat gain profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (radiative) internal heat gain profiles (in W)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_TSet = "none.txt"
-    "File with (main) space heating setpoint profiles" annotation (Dialog(group="StROBe", enable=StROBe));
+    "File with (main) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_TSet2 = "none.txt"
-    "File with (secondary) space heating setpoint profiles" annotation (Dialog(group="StROBe", enable=StROBe));
-  parameter SI.Time startTime=0 "Output = offset for time < startTime";
+    "File with (secondary) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
+  parameter Modelica.SIunits.Time startTime=0
+    "Output = offset for time < startTime";
 
   parameter Boolean PHp = false "Boolean to read heat pump load profiles" annotation (Dialog(group="Heat pumps"));
   parameter String FilNam_PHp = "none.txt"
-    "File with (active) electric load heat pump profiles" annotation (Dialog(group="Heat pumps", enable=PHp));
+    "File with (active) electric load heat pump profiles (in W)" annotation (Dialog(group="Heat pumps", enable=PHp));
 
   parameter Boolean PPv = false "Boolean to read photovoltaic load profiles" annotation (Dialog(group="Photovoltaics"));
   parameter String FilNam_PPv = "none.txt"
-    "File with (active) photovoltaic load profiles"
+    "File with (active) photovoltaic load profiles (in W)"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
   parameter Integer nPv = 33 "Number of photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
@@ -143,6 +144,74 @@ public
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
                            PHp
     annotation (Placement(transformation(extent={{-36,-12},{-22,2}})));
+
+  // Conditional connectors
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabQCon_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabQRad_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabTSet_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabP_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabQ_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabDHW_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nPv] tabPPv_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabTSet2_internal
+    "Needed to connect to conditional connector";
+  Modelica.Blocks.Interfaces.RealOutput[nOcc] tabPHp_internal
+    "Needed to connect to conditional connector";
+
+equation
+  // Conditional connectors
+  connect(tabQCon.y, tabQCon_internal);
+  if not StROBe then
+    tabQCon_internal = zeros(nOcc);
+  end if;
+
+  connect(tabQRad.y, tabQRad_internal);
+  if not StROBe then
+    tabQRad_internal = zeros(nOcc);
+  end if;
+
+  connect(tabTSet.y, tabTSet_internal);
+  if not StROBe then
+    tabTSet_internal = zeros(nOcc);
+  end if;
+
+  connect(tabP.y, tabP_internal);
+  if not StROBe_P then
+    tabP_internal = zeros(nOcc);
+  end if;
+
+  connect(tabQ.y, tabQ_internal);
+  if not StROBe then
+    tabQ_internal = zeros(nOcc);
+  end if;
+
+  connect(tabDHW.y, tabDHW_internal);
+  if not StROBe then
+    tabDHW_internal = zeros(nOcc);
+  end if;
+
+  connect(tabPPv.y, tabPPv_internal);
+  if not PPv then
+    tabPPv_internal = zeros(nPv);
+  end if;
+
+  connect(tabTSet2.y, tabTSet2_internal);
+  if not StROBe then
+    tabTSet2_internal = zeros(nOcc);
+  end if;
+
+  connect(tabPHp.y, tabPHp_internal);
+  if not PHp then
+    tabPHp_internal = zeros(nOcc);
+  end if;
+
   annotation (
     defaultComponentName="strobe",
     defaultComponentPrefixes="inner",
@@ -227,10 +296,17 @@ public
             100}}),
             graphics),
     Documentation(info="<html>
+</html>", revisions="<html>
 <ul>
 <li>
+April 1, 2020 by Jelger Jansen:<br/>
+Added conditional connectors to be in line with the Modelica specification. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1125\">#1125</a>.
+</li>
+<li>
 December 20, 2017 by Bram van der Heijde: <br/>
-Propagate start time of <code>CombiTimeTable</code>s in <code>StrobeInfoManager</code> and make data reader repeat input data to avoid errors.
+Propagate start time of <code>CombiTimeTable</code>s in <code>StrobeInfoManager</code> 
+and make data reader repeat input data to avoid errors.
 </li>
 </ul>
 </html>"));
