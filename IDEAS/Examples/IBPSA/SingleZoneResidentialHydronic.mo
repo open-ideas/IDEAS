@@ -30,7 +30,7 @@ model SingleZoneResidentialHydronic
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    Q_flow_nominal=3000,
+    Q_flow_nominal=5000,
     dp_nominal=pump.dp_nominal)
     "Radiator"               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -40,7 +40,7 @@ model SingleZoneResidentialHydronic
     redeclare package Medium = Medium,
     m_flow_nominal=pump.m_flow_nominal,
     dp_nominal=0,
-    QMax_flow=3000) "Ideal heater - pressure drop merged into radiator"
+    QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
   Fluid.Movers.FlowControlled_dp           pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
