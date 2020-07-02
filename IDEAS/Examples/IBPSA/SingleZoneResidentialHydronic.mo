@@ -84,7 +84,7 @@ model SingleZoneResidentialHydronic
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-18,80})));
-  Modelica.Blocks.Sources.Constant offSet(k=0.2, y(unit="K"))
+  Modelica.Blocks.Sources.Constant offSet(k=0.1, y(unit="K"))
     "Offset above heating temperature setpoint to ensure comfort"
     annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
   Utilities.IO.SignalExchange.Read reaQHea(
@@ -163,7 +163,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=100,
+    k=10,
     Ti=300,
     yMax=273.15 + 80,
     yMin=273.15 + 20,
