@@ -149,7 +149,6 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
 March 28, 2019 by Filip Jorissen:<br/>
 Renamed <code>nOcc</code> to <code>yOcc</code>
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
->>>>>>> master
 </li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>
