@@ -230,14 +230,14 @@ equation
     annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   connect(conPI.y, oveTSetSup.u)
     annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
-  connect(TSetHea.y, add.u2) annotation (Line(points={{-135,-80},{-132,-80},{
-          -132,-60},{-164,-60},{-164,4},{-132,4}}, color={0,0,127}));
   connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,
           16},{-132,16}}, color={0,0,127}));
   connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
           80},{-82,80}}, color={0,0,127}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
           {-54,13},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
+  connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{
+          -160,-64},{-96,-64},{-96,-80},{-92,-80}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
