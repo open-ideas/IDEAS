@@ -249,11 +249,21 @@ This is a single zone residential hydronic system model
 for WP 1.2 of IBPSA project 1. 
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>This building envelope model corresponds to the BESTEST case 900 test case. It consists of a single zone with a rectangular floor plan of 6 by 8 meters and a height of 2.7 m. The zone further consists of two south-oriented windows of 6 m2 each, which are modelled using a single window of 12 m2. </p>
+<p>This building envelope model corresponds to the BESTEST case 900 test case. 
+It consists of a single zone with a rectangular floor plan of 6 by 8 meters 
+and a height of 2.7 m. The zone further consists of two south-oriented windows 
+of 6 m2 each, which are modelled using a single window of 12 m2. </p>
 <h4>Constructions</h4>
-<p>The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. For more details see <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. The floor consists of 8 cm of concrete and 1 m of insulation, representing a perfectly insulated floor. The roof consists of a light construction and 11 cm of fibreglass. </p>
+<p>The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
+For more details see 
+<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. 
+The floor consists of 8 cm of concrete and 1 m of insulation, representing a 
+perfectly insulated floor. The roof consists of a light construction and 11 cm 
+of fibreglass. </p>
 <h4>Occupancy schedules</h4>
-<p>The zone is occupied by one person before 7 am and after 8 pm each weekday and full time during weekends. </p>
+<p>The zone is occupied by one person before 7 am and after 8 pm each weekday 
+and full time during weekends. </p>
 <h4>Internal loads and schedules</h4>
 <p>There are no internal loads other than the occupants. </p>
 <h4>Climate data</h4>
@@ -263,9 +273,22 @@ of weather data for Uccle, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>The model only has a primary heating system that heats the zone using a single radiator with thermostatic valve, a circulation pump and a water heater. The radiator nominal thermal power and heater maximum thermal power is 5 kW. The thermostatic valve is fully closed when the operative temperature surpasses the cooling setpoint and fully opened when the operative temperature lowers down the heating setpoint. The heating setpoint is set to 21 &#176;C during occupied periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. The gas heater efficiency is computed using a polynomial curve and it uses a PI controller to modulate supply water temperature between 20 and 80 &#176;C to follow a reference that is set as the heating setpoint plus a small deadband above of 0.1 &#176;C by default. </p>
+<p>The model only has a primary heating system that heats the zone using a 
+single radiator with thermostatic valve, a circulation pump and a water heater. 
+The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
+The thermostatic valve is fully closed when the operative temperature surpasses 
+the cooling setpoint and fully opened when the operative temperature lowers down 
+the heating setpoint. The heating setpoint is set to 21 &#176;C during occupied 
+periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
+24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. 
+The gas heater efficiency is computed using a polynomial curve and it uses a PI 
+controller to modulate supply water temperature between 20 and 80 &#176;C to 
+follow a reference that is set as the heating setpoint plus a small deadband 
+above of 0.1 &#176;C by default. </p>
 <h4>Equipment specifications and performance maps</h4>
-<p>The heating system circulation pump has the default efficiency of the pump model, which is 49 &percnt; at the time of writing. The heater efficiency is computed using a polynomial curve. </p>
+<p>The heating system circulation pump has the default efficiency of the pump 
+model, which is 49 &percnt; at the time of writing. The heater efficiency is 
+computed using a polynomial curve. </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 The model assumes a pump with a constant head.
@@ -352,7 +375,8 @@ https://www.energyprice.be/products-list/Engie</a>
 <p>
 The <b>Dynamic Electricity Price</b> profile is:
 <ul>
-The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time,
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+day time and 0.0383 EUR/kWh during night time,
 as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
@@ -364,7 +388,8 @@ The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 The <b>Highly Dynamic Electricity Price</b> profile is:
 <ul>
 The highly dynamic electricity price scenario is based on the the
-Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
+Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
+market in the year 2019.
 Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
