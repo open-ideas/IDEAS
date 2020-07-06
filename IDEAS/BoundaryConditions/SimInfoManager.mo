@@ -1,7 +1,14 @@
 within IDEAS.BoundaryConditions;
 model SimInfoManager
   "Simulation information manager for handling time and climate data required in each for simulation."
-  extends BoundaryConditions.Interfaces.PartialSimInfoManager;
+  extends BoundaryConditions.Interfaces.PartialSimInfoManager(
+    Te = TDryBul.y,TeAv = Te,
+    Tground=TdesGround,
+    relHum = phiEnv.y,
+    TDewPoi = TDewPoiData.y,
+    Tsky = TBlaSkyData.y,
+    Va = winSpeData.y,
+    Vdir = winDirData.y);
 
 protected
   Modelica.Blocks.Routing.RealPassThrough HDirNorData;
@@ -15,14 +22,7 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDirData;
   Modelica.Blocks.Routing.RealPassThrough TBlaSkyData;
 equation
-  Te = TDryBul.y;
-  TeAv = Te;
-  Tground=TdesGround;
-  relHum = phiEnv.y;
-  TDewPoi = TDewPoiData.y;
-  Tsky = TBlaSkyData.y;
-  Va = winSpeData.y;
-  Vdir = winDirData.y;
+
 
   connect(HDirNorData.u, weaDatBus.HDirNor);
   connect(HGloHorData.u, weaDatBus.HGloHor);
@@ -107,6 +107,12 @@ IDEAS uses TMY3 input files. For detailed documentation see
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 </html>", revisions="<html>
 <ul>
+<li>
+June 30, 2020 by Filip Jorissen:<br/>
+Overridable assignments of variables of PartialSimInfoManager.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1148\">
+#1148</a>
+</li>
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Make wind direction available on WeaBus.
