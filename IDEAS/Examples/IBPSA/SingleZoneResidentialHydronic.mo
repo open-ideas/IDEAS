@@ -415,8 +415,8 @@ https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020). 
 </p>
 <h4>Emission Factors</h4>
-<p>
 <h5>Electricity emissions factor profile</h5>
+<p>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
