@@ -276,26 +276,25 @@ of weather data for Uccle, Belgium.
 <p>The model only has a primary heating system that heats the zone using a 
 single radiator with thermostatic valve, a circulation pump and a water heater. 
 The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
-The thermostatic valve is fully closed when the operative temperature surpasses 
-the cooling setpoint and fully opened when the operative temperature lowers down 
-the heating setpoint. The heating setpoint is set to 21 &#176;C during occupied 
+The heating setpoint is set to 21 &#176;C during occupied 
 periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
 24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. 
 The gas heater efficiency is computed using a polynomial curve and it uses a PI 
 controller to modulate supply water temperature between 20 and 80 &#176;C to 
-follow a reference that is set as the heating setpoint plus a small deadband 
-above of 0.1 &#176;C by default. </p>
+track a reference for the operative zone temperature 
+that equals the heating setpoint plus an offset 
+of 0.1 &#176;C by default. </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>The heating system circulation pump has the default efficiency of the pump 
 model, which is 49 &percnt; at the time of writing. The heater efficiency is 
 computed using a polynomial curve. </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-The model assumes a pump with a constant head.
-The resulting flow rate depends on the thermostatic valve
-position. The supply water temperature of the boiler is modulated using a PI
+The model assumes a pump with a constant head, 
+which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
+The supply water temperature of the boiler is modulated using a PI
 controller that tracks indoor temperature to follow a reference defined as 
-the heating setpoint plus a small deadband of 0.1 &#176;C. 
+the heating setpoint plus an offset of 0.1 &#176;C. 
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
