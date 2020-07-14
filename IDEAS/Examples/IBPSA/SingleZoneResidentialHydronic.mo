@@ -422,6 +422,7 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
-    Icon(coordinateSystem(extent={{-180,-100},{100,100}})));
+    Diagram(coordinateSystem(extent={{-180,-100},{100,100}},
+          preserveAspectRatio=false)),
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
 end SingleZoneResidentialHydronic;
