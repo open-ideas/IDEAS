@@ -245,27 +245,37 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
+<p>
 This is a single zone residential hydronic system model 
 for WP 1.2 of IBPSA project 1. 
+</p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>This building envelope model corresponds to the BESTEST case 900 test case. 
+<p>
+This building envelope model corresponds to the BESTEST case 900 test case. 
 It consists of a single zone with a rectangular floor plan of 6 by 8 meters 
 and a height of 2.7 m. The zone further consists of two south-oriented windows 
-of 6 m2 each, which are modelled using a single window of 12 m2. </p>
+of 6 m2 each, which are modelled using a single window of 12 m2. 
+</p>
 <h4>Constructions</h4>
-<p>The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
+<p>
+The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
 For more details see 
 <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
 IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. 
 The floor consists of 8 cm of concrete and 1 m of insulation, representing a 
 perfectly insulated floor. The roof consists of a light construction and 11 cm 
-of fibreglass. </p>
+of fibreglass. 
+</p>
 <h4>Occupancy schedules</h4>
-<p>The zone is occupied by one person before 7 am and after 8 pm each weekday 
-and full time during weekends. </p>
+<p>
+The zone is occupied by one person before 7 am and after 8 pm each weekday 
+and full time during weekends. 
+</p>
 <h4>Internal loads and schedules</h4>
-<p>There are no internal loads other than the occupants. </p>
+<p>
+There are no internal loads other than the occupants. 
+</p>
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
@@ -273,7 +283,8 @@ of weather data for Uccle, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>The model only has a primary heating system that heats the zone using a 
+<p>
+The model only has a primary heating system that heats the zone using a 
 single radiator with thermostatic valve, a circulation pump and a water heater. 
 The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
 The heating setpoint is set to 21 &#176;C during occupied 
@@ -283,11 +294,14 @@ The gas heater efficiency is computed using a polynomial curve and it uses a PI
 controller to modulate supply water temperature between 20 and 80 &#176;C to 
 track a reference for the operative zone temperature 
 that equals the heating setpoint plus an offset 
-of 0.1 &#176;C by default. </p>
+of 0.1 &#176;C by default. 
+</p>
 <h4>Equipment specifications and performance maps</h4>
-<p>The heating system circulation pump has the default efficiency of the pump 
+<p>
+The heating system circulation pump has the default efficiency of the pump 
 model, which is 49%; at the time of writing. The heater efficiency is 
-computed using a polynomial curve. </p>
+computed using a polynomial curve. 
+</p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 The model assumes a pump with a constant head, 
@@ -350,9 +364,13 @@ No shading model is included.
 </p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
-<p>The model uses moist air despite that no condensation is modelled in any of the used components. </p>
+<p>
+The model uses moist air despite that no condensation is modelled in any of the used components. 
+</p>
 <h4>Pressure-flow models</h4>
-<p>A simple, single circulation loop is used to model the heating system. </p>
+<p>
+A simple, single circulation loop is used to model the heating system. 
+</p>
 <h4>Infiltration models</h4>
 <p>
 Fixed air infiltration corresponding to an n50 value of 10
@@ -395,6 +413,7 @@ as obtained from the \"Easy Indexed\" deal for gas
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
+</p>
 <h4>Emission Factors</h4>
 <p>
 <h5>Electricity emissions factor profile</h5>
@@ -404,8 +423,8 @@ for year 2018. For reference, see:
  <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
 </p>
-<p>
 <h5>Gas emissions factor profile</h5>
+<p>
 Based on the kgCO2 emitted per amount of natural gas burned in terms of 
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
