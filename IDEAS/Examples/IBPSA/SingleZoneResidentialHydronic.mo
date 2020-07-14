@@ -415,11 +415,27 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
-<li>June 12, 2020 by Javier Arroyo:<br>Implemented PI controller for boiler supply temperature. </li>
-<li>June 2, 2020 by Javier Arroyo:<br>Implemented temperature setpoint setback. </li>
-<li>March 21, 2019 by Filip Jorissen:<br>Revised implementation based on first review for <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. </li>
-<li>January 22nd, 2019 by Filip Jorissen:<br>Revised implementation by adding external inputs. </li>
-<li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
+<li>
+June 12, 2020 by Javier Arroyo:<br/>
+Implemented PI controller for boiler supply temperature. 
+</li>
+<li>
+June 2, 2020 by Javier Arroyo:<br/>
+Implemented temperature setpoint setback. 
+</li>
+<li>
+March 21, 2019 by Filip Jorissen:<br/>
+Revised implementation based on first review for 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. 
+</li>
+<li>
+January 22nd, 2019 by Filip Jorissen:<br/>
+Revised implementation by adding external inputs. 
+</li>
+<li>
+May 2, 2018 by Filip Jorissen:<br/>
+First implementation. 
+</li>
 </ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-180,-100},{100,100}},
