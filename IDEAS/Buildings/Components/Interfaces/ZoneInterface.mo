@@ -17,7 +17,7 @@ partial model ZoneInterface "Partial model for thermal building zones"
   parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
     annotation(Dialog(group="Building physics"));
   parameter Boolean useOccNumInput
-    "=false, to remove icon of nOcc"
+    "=false, to remove icon of yOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
   parameter Boolean useLigCtrInput
     "=false, to remove icon of lightCtrl"
@@ -35,8 +35,8 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
   Modelica.Blocks.Interfaces.RealOutput TSensor(unit="K", displayUnit="degC")
     "Sensor temperature of the zone, i.e. operative temeprature" annotation (
-      Placement(transformation(extent={{100,10},{120,30}}), iconTransformation(
-          extent={{100,10},{120,30}})));
+      Placement(transformation(extent={{90,20},{110,40}}),  iconTransformation(
+          extent={{90,20},{110,40}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal),
@@ -52,7 +52,8 @@ partial model ZoneInterface "Partial model for thermal building zones"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
-    annotation (Placement(transformation(extent={{140,50},{100,90}})));
+    annotation (Placement(transformation(extent={{140,50},{100,90}}),
+        iconTransformation(extent={{-130,-40},{-90,0}})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
     "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
             {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
@@ -132,6 +133,12 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 21, 2019 by Filip Jorissen:<br/>
+Revised implementation of icon for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
+and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
+</li>
 <li>
 May 2, 2019 by Filip Jorissen:<br/>
 Moved location of <code>ppm</code> in the icon layer such that it
