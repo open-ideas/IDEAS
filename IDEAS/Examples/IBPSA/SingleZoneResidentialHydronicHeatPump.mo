@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.IBPSA;
+within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronicHeatPump
   "Single zone residential hydronic example using a heat pump as heating production system"
   extends Modelica.Icons.Example;
@@ -378,18 +378,31 @@ equation
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
   annotation (
     experiment(
-      StopTime=31500000,
+      StopTime=1728000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-<p>This is a single zone residential hydronic system model with an air-source heat pump and floor heating for WP 1.2 of IBPSA project 1. </p>
+<p>This is a single zone residential hydronic system model with an air-source 
+heat pump and floor heating for WP 1.2 of IBPSA project 1. </p>
+
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>This model represents a residential dwelling for a family of 5 members. The building envelope model is based on the BESTEST case 900 test case. The envelope model is therefore similar to the one used in <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>. but scaled up to have an area 5 times larger. Particularly, the model consists of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a height of 2.7 m. The zone further consists of several south-oriented windows, which are modelled using a single window of 24 m2. </p>
+<p>This model represents a residential dwelling for a family of 5 members. 
+The building envelope model is based on the BESTEST case 900 test case. 
+The envelope model is therefore similar to the one used in 
+<a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
+IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
+but scaled up to have an area 5 times larger. Particularly, the model consists 
+of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a 
+height of 2.7 m. The zone further consists of several south-oriented windows, 
+which are modelled using a single window of 24 m2. </p>
+
 <h4>Constructions</h4>
 <p><b>Exterior walls</b> </p>
-<p>The walls are modeled as in <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
+<p>The walls are modeled as in 
+<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
+IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -420,7 +433,9 @@ equation
 </tr>
 </table>
 <p><b>Floor</b> </p>
-<p>The floor is modeled as a slab on the ground as in <a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: </p>
+<p>The floor is modeled as a slab on the ground as in 
+<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
+IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -458,7 +473,9 @@ equation
 </tr>
 </table>
 <p><b>Roof</b> </p>
-<p>The roof is modeled as in <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
+<p>The roof is modeled as in 
+<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
+IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -489,70 +506,145 @@ equation
 </tr>
 </table>
 <h4>Occupancy schedules</h4>
-<p>The zone is occupied by 5 people before 7 am and after 8 pm each weekday and full time during weekends. </p>
+<p>The zone is occupied by 5 people before 7 am and after 8 pm each weekday and 
+full time during weekends. </p>
 <h4>Internal loads and schedules</h4>
 <p>There are no internal loads other than the occupants. </p>
+
 <h4>Climate data</h4>
-<p>The model uses a climate file containing one year of weather data for Uccle, Belgium. </p>
+<p>The model uses a climate file containing one year of weather data for Uccle, 
+Belgium. </p>
+
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>An air-source modulating heat pump of 12.6 kW nominal heating capacity substracts energy from the ambient air to heat up the floor heating emission circuit. A fan blows 0.1 kg/s of ambient air through a counter-flow heat exchanger when the heat pump is working to substract heat from the ambient to the evaporator circuit of the heat pump. Such circuit works with a glycol - water mixture of 50&percnt; concentration. The glycol circuit works with a pump that moves the fluid at a flow rate of 0.5 kg/s when the heat pump is working. The floor heating presents heat injection between Layer 2 (insulation) and Layer 3 (screed), with water as working fluid which is also moved at a flow rate of 0.5 kg/s when the heat pump is working. </p>
+<p>An air-to-water modulating heat pump of 15 kW nominal heating capacity 
+substracts energy from the ambient air to heat up the floor heating emission 
+circuit. A fan blows ambient air through the heat pump evaporator 
+when the heat pump is working to substract heat from the ambient.
+The floor heating presents 
+heat injection between Layer 2 (insulation) and Layer 3 (screed), with water as 
+working fluid which is moved at a flow rate of 0.5 kg/s when the heat pump 
+is working. </p>
+
 <h4>Equipment specifications and performance maps</h4>
 <p><b>Heat pump</b> </p>
-<p>A water to water heat pump with a scroll compressor is used. The heat pump is modeled as described by: </p>
-<p>H. Jin. <i>Parameter estimation based models of water source heat pumps. </i>PhD Thesis. Oklahoma State University. Stillwater, Oklahoma, USA. 2012. </p>
-<p>The rate of heat transferred to the evaporator is given by: </p>
-<p align=\"center\"><i>Q̇<sub>Eva</sub> = ṁ<sub>ref</sub> ( h<sub>Vap</sub>(T<sub>Eva</sub>) - h<sub>Liq</sub>(T<sub>Con</sub>) ). </i></p>
-<p>The power consumed by the compressor is given by a linear efficiency relation: </p>
-<p align=\"center\"><i>P = P<sub>Theoretical</sub> / &eta; + P<sub>Loss,constant</sub>. </i></p>
-<p>Heat transfer in the evaporator and condenser is calculated using an &epsilon;-NTU method, assuming constant refrigerant temperature and constant heat transfer coefficient between fluid and refrigerant. </p>
-<p>Variable speed is achieved by multiplying the full load suction volume flow rate by the normalized compressor speed. The power and heat transfer rates are forced to zero if the resulting heat pump state has higher evaporating pressure than condensing pressure. </p>
-<p>The model parameters are obtained by calibration of the heat pump model to manufacturer performance data. This implementation uses the performance data from <a href=\"modelica://IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A\">IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A</a>. </p>
-<p>Parameters <span style=\"font-family: Courier New;\">TConMax</span> and <span style=\"font-family: Courier New;\">TEvaMin</span> are used to set an upper and lower bound for the condenser and evaporator. The compressor is disabled when these conditions are not satisfied, or when the evaporator temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. </p>
-<p>The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation of the heat transferred to the refrigerant in the evaporator. There is no supercooling. </p>
-<p><b>Heat exchanger</b> </p>
-<p>The heat exchanger utilizes a model of a coil with effectiveness - NTU relation without humidity condensation. This model transfers heat in the amount of </p>
-<p align=\"center\"><i>Q̇ = Q̇<sub>max</sub> &epsilon;</i></p>
-<p align=\"center\">&epsilon; = f(NTU, Z, flowRegime), </p>
-<p>where Q̇<sub>max</sub> is the maximum heat that can be transferred, &epsilon; is the heat transfer effectiveness, NTU is the Number of Transfer Units, Z is the ratio of minimum to maximum capacity flow rate and flowRegime is the heat exchanger flow regime. The convective heat transfer coefficients scale proportional to <i>(ṁ/ṁ<sub>0</sub>)<sup>n</i></sup>, where ṁ is the mass flow rate, ṁ<sub>0</sub> is the nominal mass flow rate, and n=0.8 on the air-side and n=0.85 on the water side. For this particular implementation, the computed nominal NTU is of 4.45, with a counter flow regime, and the resulting effectiveness is approximately constant and of 0.37. </p>
+<p>A water-to-air heat pump with a scroll compressor is used. 
+The heat pump is modeled as described by: </p>
+<p>H. Jin. <i>Parameter estimation based models of water source heat pumps. 
+</i>PhD Thesis. Oklahoma State University. Stillwater, Oklahoma, USA. 2012. </p>
+<p>with air instead of water blowing through the evaporator. Air condensation is
+therefore neglected. The model parameters are obtained by calibration of the heat pump model to manufacturer 
+performance data following the procedure explained in
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html\">
+this heat pump calibration guide</a>
+using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015. 
+</p>
+<p>Variable speed is achieved by multiplying the full load suction volume flow rate by the 
+normalized compressor speed. The power and heat transfer rates are forced to zero if the 
+resulting heat pump state has higher evaporating pressure than condensing pressure. </p>
+
+<p>Parameters <span style=\"font-family: Courier New;\">TConMax</span> and 
+<span style=\"font-family: Courier New;\">TEvaMin</span> are used to set an upper and lower bound for the condenser 
+and evaporator. The compressor is disabled when these conditions are not satisfied, or when the evaporator 
+temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. </p>
+<p>The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
+of the heat transferred to the refrigerant in the evaporator. There is no supercooling. </p>
+
 <p><b>Fluid movers</b> </p>
-<p>The floor heating system circulation pump as well as the heat pump evaporator circuit have the default efficiency of the pump model, which is 49 &percnt; at the time of writing. Also the fan that blows ambient air through the heat exchanger uses this default efficiency of 49&percnt;.</p>
+<p>The floor heating system circulation pump  
+has the default efficiency of the pump model, which is 49 &percnt; at the time of writing. 
+Also the fan that blows ambient air through the heat exchanger uses this default efficiency 
+of 49&percnt;.</p>
+
 <h4>Rule-based or local-loop controllers (if included)</h4>
-<p>A baseline controller is implemented to procure comfort within the building zone. A PI controller is tuned with the indoor air temperature as the controlled variable and the heat pump modulating signal for compressor frequency as the control variable. The control variable is limited between 0 and 1, and it is computed to drive the indoor temperature towards a reference defined as the heating comfort set-point plus an offset which varies depending on the occupancy schedule: during occupied periods the offset is set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius and is meant to compensate for the large setback used during these periods. The latter offset prevents from abrubpt changes in the indoor temperature that may not be accomplished because of the large thermal inertia of the floor heating system and which would consecuently cause importante levels of discomfort. All other equipment (fan for the heat exchanger, heat pump evaporator circuit pump and emission system pump) are heat pump slaves, i.e. they are switched on when the heat pump is working (modulating signal higher than 0) and switched off otherwise. </p>
+<p>A baseline controller is implemented to procure comfort within the building zone. 
+A PI controller is tuned with the indoor air temperature as the controlled variable 
+and the heat pump modulating signal for compressor frequency as the control variable. 
+The control variable is limited between 0 and 1, and it is computed to drive the indoor 
+temperature towards a reference defined as the heating comfort set-point plus an offset 
+which varies depending on the occupancy schedule: during occupied periods the offset is 
+set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
+around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius 
+and is meant to compensate for the large setback used during these periods. 
+The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
+be accomplished because of the large thermal inertia of the floor heating system and 
+which would consecuently cause importante levels of discomfort. All other equipment 
+(fan for the heat pump evaporator circuit and floor heating emission system pump) 
+are slaves of the heat pump functioning, i.e. they are switched on when the heat pump 
+is working (modulating signal higher than 0) and switched off otherwise. </p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
 <ul>
-<li><span style=\"font-family: Courier New;\">ovePumEmi_u</span> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the emission circuit pump either on or off </li>
-<li><span style=\"font-family: Courier New;\">oveTSetHea_u</span> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating </li>
-<li><span style=\"font-family: Courier New;\">oveTSetCoo_u</span> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling </li>
-<li><span style=\"font-family: Courier New;\">ovePumSou_u</span> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the source circuit pump either on or off </li>
-<li><span style=\"font-family: Courier New;\">oveHeaPumY_u</span> [1] [min=0.0, max=1.0]: Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity) </li>
-<li><span style=\"font-family: Courier New;\">oveFan_u</span> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the fan either on or off </li>
+<li>
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+<li>
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the emission circuit pump either on or off
+</li>
+<li>
+<code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity)
+</li>
+<li>
+<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the fan either on or off
+</li>
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
 <ul>
-<li><span style=\"font-family: Courier New;\">reaQFloHea_y</span> [W] [min=None, max=None]: Floor heating thermal power released to the zone </li>
-<li><span style=\"font-family: Courier New;\">reaHexEps_y</span> [1] [min=None, max=None]: Heat exchanger effectiveness </li>
-<li><span style=\"font-family: Courier New;\">reaTRet_y</span> [K] [min=None, max=None]: Return water temperature from emission system </li>
-<li><span style=\"font-family: Courier New;\">reaTZon_y</span> [K] [min=None, max=None]: Operative zone temperature </li>
-<li><span style=\"font-family: Courier New;\">reaTSetHea_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for heating </li>
-<li><span style=\"font-family: Courier New;\">reaPFan_y</span> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat exchanger </li>
-<li><span style=\"font-family: Courier New;\">reaFan_y</span> [1] [min=None, max=None]: Control signal for fan </li>
-<li><span style=\"font-family: Courier New;\">reaHeaPumCOP_y</span> [1] [min=None, max=None]: Heat pump COP </li>
-<li><span style=\"font-family: Courier New;\">reaPumSou_y</span> [1] [min=None, max=None]: Control signal for source cirquit pump </li>
-<li><span style=\"font-family: Courier New;\">reaPPumEmi_y</span> [W] [min=None, max=None]: Emission circuit pump electrical power </li>
-<li><span style=\"font-family: Courier New;\">reaPPumSou_y</span> [W] [min=None, max=None]: Source circuit pump electrical power </li>
-<li><span style=\"font-family: Courier New;\">reaTSup_y</span> [K] [min=None, max=None]: Supply water temperature to emission system </li>
-<li><span style=\"font-family: Courier New;\">reaQHeaPumCon_y</span> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser </li>
-<li><span style=\"font-family: Courier New;\">reaHeaPumY_y</span> [1] [min=None, max=None]: Block for reading the heat pump modulating signal </li>
-<li><span style=\"font-family: Courier New;\">reaPHeaPum_y</span> [W] [min=None, max=None]: Heat pump electrical power </li>
-<li><span style=\"font-family: Courier New;\">reaHexQ_y</span> [W] [min=None, max=None]: Heat that the heat exchanger introduces into the heat pump evaporator circuit from the environment </li>
-<li><span style=\"font-family: Courier New;\">reaPumEmi_y</span> [1] [min=None, max=None]: Control signal for emission cirquit pump </li>
-<li><span style=\"font-family: Courier New;\">reaTSetCoo_y</span> [K] [min=None, max=None]: Zone air temperature setpoint for cooling </li>
-<li><span style=\"font-family: Courier New;\">reaQHeaPumEva_y</span> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator </li>
-<li><span style=\"font-family: Courier New;\">reaCO2RooAir_y</span> [ppm] [min=None, max=None]: CO2 concentration in the zone </li>
+<li>
+<code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
+</li>
+<li>
+<code>reaCOP_y</code> [1] [min=None, max=None]: Heat pump COP
+</li>
+<li>
+<code>reaTZon_y</code> [K] [min=None, max=None]: Operative zone temperature
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat exchanger
+</li>
+<li>
+<code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
+</li>
+<li>
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
+</li>
+<li>
+<code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
+</li>
+<li>
+<code>reaQHeaPumCon_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser
+</li>
+<li>
+<code>reaHeaPumY_y</code> [1] [min=None, max=None]: Block for reading the heat pump modulating signal
+</li>
+<li>
+<code>reaPHeaPum_y</code> [W] [min=None, max=None]: Heat pump electrical power
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
+</li>
+<li>
+<code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from emission system
+</li>
+<li>
+<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to emission system
+</li>
+
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -563,31 +655,55 @@ equation
 <h4>Moist vs. dry air</h4>
 <p>The model uses moist air despite that no condensation is modelled in any of the used components. </p>
 <h4>Pressure-flow models</h4>
-<p>A simple, single circulation loop is used to model the floor heating system, the evaporator circuit and the air circulation through the heat exchanger. </p>
+<p>A simple, single circulation loop is used to model the floor heating system 
+as well as the air circulation through the heat pump evaporator. </p>
 <h4>Infiltration models</h4>
 <p>Fixed air infiltration corresponding to an n50 value of 10 is modelled. </p>
 <h3>Scenario Information</h3>
 <p><b>Energy Pricing</b> </p>
 <p>The <b>Constant Electricity Price</b> profile is: </p>
-<p>The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
+<p>The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, 
+as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in 
+<a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
 <p>The <b>Dynamic Electricity Price</b> profile is: </p>
-<p>The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot; deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m. The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. </p>
+<p>The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot; 
+deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m. 
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. </p>
 <p>The <b>Highly Dynamic Electricity Price</b> profile is: </p>
-<p>The highly dynamic electricity price scenario is based on the the Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019. Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> </p>
+<p>The highly dynamic electricity price scenario is based on the the Belgian day-ahead 
+energy prices as determined by the BELPEX wholescale electricity market in the year 2019. 
+Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> </p>
 <p>The <b>Gas Price</b> profile is: </p>
-<p>The gas price is assumed constant and of 0.0198 EUR/kWh as obtained from the &quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
+<p>The gas price is assumed constant and of 0.0198 EUR/kWh as obtained from the 
+&quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">
+https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
 <h4>Emission Factors</h4>
 <p>The <b>Electricity Emissions Factor</b> profile is: </p>
-<p>It is used a constant emission factor for electricity of 0.167 kgCO2/kWh which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB) for year 2018. For reference, see: <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> </p>
+<p>It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
+which is the grid electricity emission factor reported by the Association of Issuing Bodies 
+(AIB) for year 2018. For reference, see: 
+<a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> </p>
 <p>The <b>Gas Emissions Factor</b> profile is: </p>
-<p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> </p>
+<p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. 
+It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: 
+<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> </p>
 </html>", revisions="<html>
+<ul>
+<li>Jul 14, 2020 by Javier Arroyo:<br>Use calibrated air-to-water heat pump model. </li>
+</ul>
 <ul>
 <li>Jun 16, 2020 by Javier Arroyo:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-240,-80},{300,180}}, preserveAspectRatio
-          =false)),
+    Diagram(coordinateSystem(extent={{-240,-80},{300,180}}, preserveAspectRatio=
+           false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=
             false)));
 end SingleZoneResidentialHydronicHeatPump;
