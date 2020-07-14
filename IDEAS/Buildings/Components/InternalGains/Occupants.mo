@@ -8,7 +8,7 @@ model Occupants "Constant sensible, latent and CO2 heat production per person"
   parameter Real radFra(min=0,max=1) = occupancyType.radFra
     "Radiant fraction of sensible heat exchange, default based on Ashrae fundamentals chap 18.4 for low air velocity";
 protected
-  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = if (Medium.nC) >= 1 then Medium.enthalpyOfCondensingGas(T=273.15+35) else 2566120
+  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = if (Medium.nX) > 1 then Medium.enthalpyOfCondensingGas(T=273.15+35) else 2566120
     "Latent heat of evaporation of water at 35 degrees Celsius";
   constant Modelica.SIunits.SpecificEnthalpy E_glu = 16e6
     "Calorific value of glucose";
@@ -87,7 +87,7 @@ Sensible heat is emitted both as convective and radiant heat using a fixed weigh
 June 3, 2020 by Iago Cupeiro:<br/>
 Changed latent heat of evaporation of water.
 This is for issue
-<a href=https://github.com/open-ideas/IDEAS/issues/635>#1141</a>.
+<a href=https://github.com/open-ideas/IDEAS/issues/1141>#1141</a>.
 </li>
 <li>
 July 26, 2018 by Filip Jorissen:<br/>
