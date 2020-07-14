@@ -360,16 +360,16 @@ is modelled.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
-
+<h5>Constant electricity price profile</h5>
 <p>
-The <b>Constant Electricity Price</b> profile is: The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
+The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
 as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
 </p>
+<h5>Dynamic electricity price profile</h5>
 <p>
-The <b>Dynamic Electricity Price</b> profile is:
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
 day time and 0.0383 EUR/kWh during night time,
 as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
@@ -378,8 +378,9 @@ https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020). 
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+</p>
+<h5>Highly dynamic electricity price profile</h5>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is:
 The highly dynamic electricity price scenario is based on the the
 Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
 market in the year 2019.
@@ -387,8 +388,8 @@ Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
 </p>
+<h5>Gas price profile</h5>
 <p>
-The <b>Gas Price</b> profile is:
 The gas price is assumed constant and of 0.0198 EUR/kWh 
 as obtained from the \"Easy Indexed\" deal for gas
 <a href=\"https://www.energyprice.be/products-list/Engie\">
@@ -396,7 +397,7 @@ https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020). 
 <h4>Emission Factors</h4>
 <p>
-The <b>Electricity Emissions Factor</b> profile is:
+<h5>Electricity emissions factor profile</h5>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
@@ -404,7 +405,7 @@ for year 2018. For reference, see:
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
 </p>
 <p>
-The <b>Gas Emissions Factor</b> profile is:
+<h5>Gas emissions factor profile</h5>
 Based on the kgCO2 emitted per amount of natural gas burned in terms of 
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
