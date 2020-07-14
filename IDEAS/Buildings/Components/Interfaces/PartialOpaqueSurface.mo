@@ -33,7 +33,7 @@ initial equation
   assert(IDEAS.Utilities.Math.Functions.isAngle(constructionType.incLastLay, IDEAS.Types.Tilt.Other) or
     constructionType.incLastLay >= incInt - Modelica.Constants.pi/3 - Modelica.Constants.eps and
     constructionType.incLastLay <= incInt + Modelica.Constants.pi/3 + Modelica.Constants.eps,
-    "The inclination of a wall, a floor or a ceiling does not correspond to its record.");
+    "In " + getInstanceName() + ": The inclination of a wall, a floor or a ceiling does not correspond to its record.");
 
 equation
   connect(iSolDif.port, propsBus_a.iSolDif);
@@ -50,6 +50,11 @@ equation
         graphics),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 29, 2020, by Filip Jorissen:<br/>
+Added <code>getInstanceName()</code> in assert. 
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/1133>#1133</a>.
+</li>
 <li>
 June 27, 2018, by Filip Jorissen:<br/>
 Added check to avoid <code>energyDynamics=SteadyState</code>. 

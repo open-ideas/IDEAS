@@ -11,7 +11,7 @@ model SingleZoneResidentialHydronic
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
+    annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
   Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
@@ -30,7 +30,7 @@ model SingleZoneResidentialHydronic
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    Q_flow_nominal=3000,
+    Q_flow_nominal=5000,
     dp_nominal=pump.dp_nominal)
     "Radiator"               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -40,7 +40,7 @@ model SingleZoneResidentialHydronic
     redeclare package Medium = Medium,
     m_flow_nominal=pump.m_flow_nominal,
     dp_nominal=0,
-    QMax_flow=3000) "Ideal heater - pressure drop merged into radiator"
+    QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
   Fluid.Movers.FlowControlled_dp           pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -65,11 +65,11 @@ model SingleZoneResidentialHydronic
     "Zone operative temperature"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
-    annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
+    annotation (Placement(transformation(extent={{-180,60},{-160,80}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour
          > 19) or calTim.weekDay > 5 then 1 else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
-    annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
+    annotation (Placement(transformation(extent={{-92,38},{-72,58}})));
   IDEAS.Utilities.IO.SignalExchange.Read reaTRoo(
     description="Operative zone temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
@@ -84,9 +84,9 @@ model SingleZoneResidentialHydronic
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-18,80})));
-  Modelica.Blocks.Sources.Constant TSetConst(k=273.15 + 60)
-    "Constant supply temperature set point"
-    annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
+  Modelica.Blocks.Sources.Constant offSet(k=0.1, y(unit="K"))
+    "Offset above heating temperature setpoint to ensure comfort"
+    annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
   Utilities.IO.SignalExchange.Read reaQHea(
     description="Heating thermal power",                                KPIs=
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
@@ -118,7 +118,6 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
@@ -162,6 +161,17 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Read reaPum(description="Control signal for pump",
       y(unit="1")) "Read control signal for pump"
     annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
+  Modelica.Blocks.Continuous.LimPID conPI(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=10,
+    Ti=300,
+    yMax=273.15 + 80,
+    yMin=273.15 + 20,
+    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    "PI controller for the boiler supply water temperature"
+    annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+  Modelica.Blocks.Math.Add add
+    annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -174,15 +184,13 @@ equation
   connect(bou.ports[1], pump.port_a)
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
-    annotation (Line(points={{-58,14},{-58,50},{-41,50}},color={0,0,127}));
+    annotation (Line(points={{-58,14},{-58,48},{-71,48}},color={0,0,127}));
   connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
           {46,13},{46,30},{58,30}},
                                   color={0,0,127}));
   connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
                                               color={0,0,127}));
-  connect(TSetConst.y, oveTSetSup.u)
-    annotation (Line(points={{-39,80},{-30,80}}, color={0,0,127}));
   connect(reaQHea.y, Q)
     annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(reaPPum.u, pump.P) annotation (Line(points={{58,-30},{24,-30},{24,-19},
@@ -220,6 +228,16 @@ equation
     annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
   connect(realToInteger.u, reaPum.y)
     annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
+  connect(conPI.y, oveTSetSup.u)
+    annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
+  connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,
+          16},{-132,16}}, color={0,0,127}));
+  connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
+          80},{-82,80}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
+          {-54,13},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
+  connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{
+          -160,-64},{-96,-64},{-96,-80},{-92,-80}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
@@ -231,31 +249,23 @@ This is a single zone residential hydronic system model
 for WP 1.2 of IBPSA project 1. 
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>
-This building envelope model corresponds to the BESTEST case 900 test case. 
-It consists of a single zone with a rectangular floor plan
-of 6 by 8 meters and a height of 2.7 m. 
-The zone further consists of two south-oriented windows of 6 m2 each, 
-which are modelled using a single window of 12 m2.
-</p>
+<p>This building envelope model corresponds to the BESTEST case 900 test case. 
+It consists of a single zone with a rectangular floor plan of 6 by 8 meters 
+and a height of 2.7 m. The zone further consists of two south-oriented windows 
+of 6 m2 each, which are modelled using a single window of 12 m2. </p>
 <h4>Constructions</h4>
-<p>
-The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
-For more details see <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
-IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
-The floor consists of 8 cm of concrete and 1 m of insulation,
-representing a perfectly insulated floor.
-The roof consists of a light construction and 11 cm of fibreglass.
-</p>
+<p>The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
+For more details see 
+<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. 
+The floor consists of 8 cm of concrete and 1 m of insulation, representing a 
+perfectly insulated floor. The roof consists of a light construction and 11 cm 
+of fibreglass. </p>
 <h4>Occupancy schedules</h4>
-<p>
-The zone is occupied by one person before 7 am and after 8 pm each weekday
-and full time during weekends.
-</p>
+<p>The zone is occupied by one person before 7 am and after 8 pm each weekday 
+and full time during weekends. </p>
 <h4>Internal loads and schedules</h4>
-<p>
-There are no internal loads other than the occupants.
-</p>
+<p>There are no internal loads other than the occupants. </p>
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
@@ -263,34 +273,33 @@ of weather data for Uccle, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>
-The model only has a primary heating system that
-heats the zone using a single radiator
-with thermostatic valve,
-a circulation pump and a water heater.
-The radiator nominal thermal power and heater maximum thermal 
-power is 3 kW.
-The thermostatic valve is fully closed when the operative
-temperature reaches 21 degrees centigrade
-and fully opened at 19 degrees centigrade.
-The gas heater efficiency is computed using a polynomial curve and by default it uses
-a fixed supply temperature set point of 60 degrees centigrade.
-</p>
+<p>The model only has a primary heating system that heats the zone using a 
+single radiator with thermostatic valve, a circulation pump and a water heater. 
+The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
+The thermostatic valve is fully closed when the operative temperature surpasses 
+the cooling setpoint and fully opened when the operative temperature lowers down 
+the heating setpoint. The heating setpoint is set to 21 &#176;C during occupied 
+periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
+24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. 
+The gas heater efficiency is computed using a polynomial curve and it uses a PI 
+controller to modulate supply water temperature between 20 and 80 &#176;C to 
+follow a reference that is set as the heating setpoint plus a small deadband 
+above of 0.1 &#176;C by default. </p>
 <h4>Equipment specifications and performance maps</h4>
-<p>
-The heating system circulation pump has the default efficiency
-of the pump model, which is 49 % at the time of writing.
-The heater efficiency is computed using a polynomial curve.
-</p>
+<p>The heating system circulation pump has the default efficiency of the pump 
+model, which is 49 &percnt; at the time of writing. The heater efficiency is 
+computed using a polynomial curve. </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 The model assumes a pump with a constant head.
 The resulting flow rate depends on the thermostatic valve
-position.
+position. The supply water temperature of the boiler is modulated using a PI
+controller that tracks indoor temperature to follow a reference defined as 
+the heating setpoint plus a small deadband of 0.1 &#176;C. 
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-The model inputs are:
+<p>The model inputs are: </p>
 <ul>
 <li>
 <code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
@@ -306,7 +315,7 @@ The model inputs are:
 </li>
 </ul>
 <h4>Outputs</h4>
-The model outputs are:
+<p>The model outputs are: </p>
 <ul>
 <li>
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
@@ -335,23 +344,16 @@ The model outputs are:
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
-<p>
-No lighting model is included.
-</p>
+<p>No lighting model is included. </p>
 <h4>Shading</h4>
 <p>
 No shading model is included.
 </p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
-<p>
-The model uses moist air despite that
-no condensation is modelled in any of the used components.
-</p>
+<p>The model uses moist air despite that no condensation is modelled in any of the used components. </p>
 <h4>Pressure-flow models</h4>
-<p>
-A simple, single circulation loop is used to model the heating system.
-</p>
+<p>A simple, single circulation loop is used to model the heating system. </p>
 <h4>Infiltration models</h4>
 <p>
 Fixed air infiltration corresponding to an n50 value of 10
@@ -373,7 +375,8 @@ https://www.energyprice.be/products-list/Engie</a>
 <p>
 The <b>Dynamic Electricity Price</b> profile is:
 <ul>
-The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during day time and 0.0383 EUR/kWh during night time,
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+day time and 0.0383 EUR/kWh during night time,
 as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
@@ -385,7 +388,8 @@ The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 The <b>Highly Dynamic Electricity Price</b> profile is:
 <ul>
 The highly dynamic electricity price scenario is based on the the
-Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
+Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
+market in the year 2019.
 Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
@@ -427,25 +431,13 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-June 2, 2020 by Javier Arroyo:<br/>
-Implemented temperature setpoint setback.
-</li>
-<li>
-March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation based on first review for 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>.
-</li>
-<li>
-January 22nd, 2019 by Filip Jorissen:<br/>
-Revised implementation by adding external inputs.
-</li>
-<li>
-May 2, 2018 by Filip Jorissen:<br/>
-First implementation.
-</li>
+<li>June 12, 2020 by Javier Arroyo:<br>Implemented PI controller for boiler supply temperature. </li>
+<li>June 2, 2020 by Javier Arroyo:<br>Implemented temperature setpoint setback. </li>
+<li>March 21, 2019 by Filip Jorissen:<br>Revised implementation based on first review for <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. </li>
+<li>January 22nd, 2019 by Filip Jorissen:<br>Revised implementation by adding external inputs. </li>
+<li>May 2, 2018 by Filip Jorissen:<br>First implementation. </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-160,-100},{100,100}})),
-    Icon(coordinateSystem(extent={{-160,-100},{100,100}})));
+    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
+    Icon(coordinateSystem(extent={{-180,-100},{100,100}})));
 end SingleZoneResidentialHydronic;

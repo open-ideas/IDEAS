@@ -96,17 +96,17 @@ partial model PartialSimInfoManager
     "Linearises building model equations"
     annotation (Dialog(tab="Linearisation"));
 
-  Modelica.SIunits.Temperature Te
+  input Modelica.SIunits.Temperature Te
     "ambient outdoor temperature for determination of sky radiation exchange";
-  Modelica.SIunits.Temperature Tsky "effective overall sky temperature";
-  Modelica.SIunits.Temperature TeAv
+  input Modelica.SIunits.Temperature Tsky "effective overall sky temperature";
+  input Modelica.SIunits.Temperature TeAv
     "running average of ambient outdoor temperature of the last 5 days, not yet implemented";
-  Modelica.SIunits.Temperature Tground "ground temperature";
-  Modelica.SIunits.Velocity Va "wind speed";
-  Modelica.SIunits.Angle Vdir "wind direction";
+  input Modelica.SIunits.Temperature Tground "ground temperature";
+  input Modelica.SIunits.Velocity Va "wind speed";
+  input Modelica.SIunits.Angle Vdir "wind direction";
 
-  Real relHum(final unit="1") "Relative humidity";
-  Modelica.SIunits.Temperature TDewPoi "Dewpoint";
+  input Real relHum(final unit="1") "Relative humidity";
+  input Modelica.SIunits.Temperature TDewPoi "Dewpoint";
 
 
   Modelica.SIunits.Energy Etot "Total internal energy";
@@ -498,6 +498,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+June 30, 2020 by Filip Jorissen:<br/>
+Overridable assignments of variables of PartialSimInfoManager.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1148\">
+#1148</a>
+</li>
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Remove calculation of convection coefficient at exterior surfaces 
