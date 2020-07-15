@@ -262,7 +262,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{220,30},{200,50}})));
   Utilities.IO.SignalExchange.Read reaPFan(
     description=
-        "Electrical power of the fan insuflating air through the heat exchanger",
+        "Electrical power of the fan insuflating air through the heat pump evaporator",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Block for reading the electrical power of the fan insuflating air through the heat exchanger"
@@ -646,7 +646,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat exchanger
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat pump evaporator
 </li>
 <li>
 <code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
