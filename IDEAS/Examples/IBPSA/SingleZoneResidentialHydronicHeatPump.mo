@@ -581,7 +581,7 @@ temperature is larger than the condenser temperature. This mimics the temperatur
 </p>
 <p>
 The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
-of the heat transferred to the refrigerant in the evaporator. There is no supercooling. 
+of the heat transferred to the refrigerant in the evaporator. There is no subcooling. 
 </p>
 
 <p><b>Fluid movers</b> </p>
