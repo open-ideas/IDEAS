@@ -383,27 +383,32 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
-<p>This is a single zone residential hydronic system model with an air-source 
-heat pump and floor heating for WP 1.2 of IBPSA project 1. </p>
-
+<p>
+This is a single zone residential hydronic system model with an air-source 
+heat pump and floor heating for WP 1.2 of IBPSA project 1. 
+</p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>This model represents a residential dwelling for a family of 5 members. 
+<p>
+This model represents a simplified residential dwelling for a family of 5 members. 
 The building envelope model is based on the BESTEST case 900 test case. 
 The envelope model is therefore similar to the one used in 
 <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
 IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
-but scaled up to have an area 5 times larger. Particularly, the model consists 
+but it is scaled to an area that is 5 times larger. Particularly, the model consists 
 of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a 
 height of 2.7 m. The zone further consists of several south-oriented windows, 
-which are modelled using a single window of 24 m2. </p>
-
+which are modelled using a single window of 24 m2.
+</p>
 <h4>Constructions</h4>
 <p><b>Exterior walls</b> </p>
-<p>The walls are modeled as in 
+<p>
+The walls are modeled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+</p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
 <td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
@@ -433,10 +438,13 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p
 </tr>
 </table>
 <p><b>Floor</b> </p>
-<p>The floor is modeled as a slab on the ground as in 
+<p>
+The floor is modeled using 
 <a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
-IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: </p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: 
+</p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
 <td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
@@ -473,10 +481,13 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 </tr>
 </table>
 <p><b>Roof</b> </p>
-<p>The roof is modeled as in 
+<p>
+The roof is modeled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+</p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
 <td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
@@ -506,73 +517,94 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:</p
 </tr>
 </table>
 <h4>Occupancy schedules</h4>
-<p>The zone is occupied by 5 people before 7 am and after 8 pm each weekday and 
-full time during weekends. </p>
+<p>
+The zone is occupied by 5 people before 7 am and after 8 pm each weekday and 
+full time during weekends. 
+</p>
 <h4>Internal loads and schedules</h4>
-<p>There are no internal loads other than the occupants. </p>
+<p>
+There are no internal loads other than the occupants. 
+</p>
 
 <h4>Climate data</h4>
-<p>The model uses a climate file containing one year of weather data for Uccle, 
-Belgium. </p>
+<p>
+The model uses a climate file containing one year of weather data for Uccle, 
+Belgium. 
+</p>
 
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>An air-to-water modulating heat pump of 15 kW nominal heating capacity 
-substracts energy from the ambient air to heat up the floor heating emission 
-circuit. A fan blows ambient air through the heat pump evaporator 
-when the heat pump is working to substract heat from the ambient.
-The floor heating presents 
-heat injection between Layer 2 (insulation) and Layer 3 (screed), with water as 
-working fluid which is moved at a flow rate of 0.5 kg/s when the heat pump 
-is working. </p>
+<p>
+An air-to-water modulating heat pump of 15 kW nominal heating capacity 
+extracts energy from the ambient air to heat up the floor heating emission 
+system. A fan blows ambient air through the heat pump evaporator 
+when the heat pump is operating.
+The floor heating system injects heat between 
+Layer 2 (insulation) and Layer 3 (screed), with water as 
+working fluid. The floor heating mass flow rate is 0.5 kg/s when the heat pump 
+is working. 
+</p>
 
 <h4>Equipment specifications and performance maps</h4>
 <p><b>Heat pump</b> </p>
-<p>A water-to-air heat pump with a scroll compressor is used. 
-The heat pump is modeled as described by: </p>
-<p>H. Jin. <i>Parameter estimation based models of water source heat pumps. 
-</i>PhD Thesis. Oklahoma State University. Stillwater, Oklahoma, USA. 2012. </p>
-<p>with air instead of water blowing through the evaporator. Air condensation is
+<p>
+A water-to-air heat pump with a scroll compressor is used. 
+The heat pump is modeled as described by: 
+</p>
+<p>
+H. Jin. <i>Parameter estimation based models of water source heat pumps. 
+</i>PhD Thesis. Oklahoma State University. Stillwater, Oklahoma, USA. 2012. 
+</p>
+<p>
+with air instead of water blowing through the evaporator. Air condensation is
 therefore neglected. The model parameters are obtained by calibration of the heat pump model to manufacturer 
 performance data following the procedure explained in
 <a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html\">
 this heat pump calibration guide</a>
 using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015. 
 </p>
-<p>Variable speed is achieved by multiplying the full load suction volume flow rate by the 
+<p>
+Variable heat pump compressor speed is achieved by multiplying the full load suction volume flow rate by the 
 normalized compressor speed. The power and heat transfer rates are forced to zero if the 
-resulting heat pump state has higher evaporating pressure than condensing pressure. </p>
-
-<p>Parameters <span style=\"font-family: Courier New;\">TConMax</span> and 
-<span style=\"font-family: Courier New;\">TEvaMin</span> are used to set an upper and lower bound for the condenser 
-and evaporator. The compressor is disabled when these conditions are not satisfied, or when the evaporator 
-temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. </p>
-<p>The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
-of the heat transferred to the refrigerant in the evaporator. There is no supercooling. </p>
+resulting heat pump state has higher evaporating pressure than condensing pressure. 
+</p>
+<p>
+Parameters <code>TConMax</code> and 
+<code>TEvaMin</code> are used to set an upper and lower bound for the condenser 
+and evaporator temperatures. The compressor is disabled when these operating conditions are exceeded, or when the evaporator 
+temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. 
+</p>
+<p>
+The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
+of the heat transferred to the refrigerant in the evaporator. There is no supercooling. 
+</p>
 
 <p><b>Fluid movers</b> </p>
-<p>The floor heating system circulation pump  
+<p>
+The floor heating system circulation pump  
 has the default efficiency of the pump model, which is 49 &percnt; at the time of writing. 
 Also the fan that blows ambient air through the heat exchanger uses this default efficiency 
-of 49&percnt;.</p>
+of 49&percnt;.
+</p>
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
-<p>A baseline controller is implemented to procure comfort within the building zone. 
+<p>
+A baseline controller is implemented to procure comfort within the building zone. 
 A PI controller is tuned with the indoor air temperature as the controlled variable 
-and the heat pump modulating signal for compressor frequency as the control variable. 
+and the heat pump modulation signal for compressor frequency as the control variable. 
 The control variable is limited between 0 and 1, and it is computed to drive the indoor 
 temperature towards a reference defined as the heating comfort set-point plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
 around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius 
-and is meant to compensate for the large setback used during these periods. 
+and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
-be accomplished because of the large thermal inertia of the floor heating system and 
-which would consecuently cause importante levels of discomfort. All other equipment 
+be achievable because of the large thermal inertia of the floor heating system and 
+which would consequently cause importante levels of discomfort. All other equipment 
 (fan for the heat pump evaporator circuit and floor heating emission system pump) 
 are slaves of the heat pump functioning, i.e. they are switched on when the heat pump 
-is working (modulating signal higher than 0) and switched off otherwise. </p>
-
+is working (modulating signal higher than 0) and switched off otherwise. 
+</p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
@@ -648,58 +680,98 @@ is working (modulating signal higher than 0) and switched off otherwise. </p>
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
-<p>No lighting model is included. </p>
+<p>
+No lighting model is included. 
+</p>
 <h4>Shading</h4>
-<p>No shading model is included. </p>
+<p>
+No shading model is included. 
+</p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
-<p>The model uses moist air despite that no condensation is modelled in any of the used components. </p>
+<p>
+The model uses moist air despite that no condensation is modelled in any of the used components. 
+</p>
 <h4>Pressure-flow models</h4>
-<p>A simple, single circulation loop is used to model the floor heating system 
-as well as the air circulation through the heat pump evaporator. </p>
+<p>
+A simple, single circulation loop is used to model the floor heating system 
+as well as the air circulation through the heat pump evaporator. 
+</p>
 <h4>Infiltration models</h4>
-<p>Fixed air infiltration corresponding to an n50 value of 10 is modelled. </p>
+<p>
+Fixed air infiltration corresponding to an n50 value of 10 is modelled. 
+</p>
 <h3>Scenario Information</h3>
 <p><b>Energy Pricing</b> </p>
-<p>The <b>Constant Electricity Price</b> profile is: </p>
-<p>The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, 
+<p>
+The <b>Constant Electricity Price</b> profile is: 
+</p>
+<p>
+The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, 
 as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
-<p>The <b>Dynamic Electricity Price</b> profile is: </p>
-<p>The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
+</p>
+<p>
+The <b>Dynamic Electricity Price</b> profile is: 
+</p>
+<p>
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
 day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot; 
 deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m. 
-The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. </p>
-<p>The <b>Highly Dynamic Electricity Price</b> profile is: </p>
-<p>The highly dynamic electricity price scenario is based on the the Belgian day-ahead 
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+</p>
+<p>
+The <b>Highly Dynamic Electricity Price</b> profile is: 
+</p>
+<p>
+The highly dynamic electricity price scenario is based on the the Belgian day-ahead 
 energy prices as determined by the BELPEX wholescale electricity market in the year 2019. 
 Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
-https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> </p>
-<p>The <b>Gas Price</b> profile is: </p>
-<p>The gas price is assumed constant and of 0.0198 EUR/kWh as obtained from the 
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
+</p>
+<p>
+The <b>Gas Price</b> profile is: 
+</p>
+<p>
+The gas price is assumed constant and equal to 0.0198 EUR/kWh as obtained from the 
 &quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). </p>
+https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
+</p>
 <h4>Emission Factors</h4>
-<p>The <b>Electricity Emissions Factor</b> profile is: </p>
-<p>It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
+<p>
+The <b>Electricity Emissions Factor</b> profile is: 
+</p>
+<p>
+It is used a constant emission factor for electricity of 0.167 kgCO2/kWh, 
 which is the grid electricity emission factor reported by the Association of Issuing Bodies 
 (AIB) for year 2018. For reference, see: 
 <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
-https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> </p>
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+</p>
 <p>The <b>Gas Emissions Factor</b> profile is: </p>
-<p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. 
+<p>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. 
 It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: 
 <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> </p>
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</p>
 </html>", revisions="<html>
 <ul>
-<li>Jul 14, 2020 by Javier Arroyo:<br>Use calibrated air-to-water heat pump model. </li>
-</ul>
-<ul>
-<li>Jun 16, 2020 by Javier Arroyo:<br>First implementation. </li>
+<li>
+July 15, 2020 by Filip Jorissen:<br/>
+Review and documentation revisions.
+</li>
+<li>
+July 14, 2020 by Javier Arroyo:<br/>
+Use calibrated air-to-water heat pump model. 
+</li>
+<li>
+June 16, 2020 by Javier Arroyo:<br/>
+First implementation. 
+</li>
 </ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-240,-80},{300,180}}, preserveAspectRatio=
