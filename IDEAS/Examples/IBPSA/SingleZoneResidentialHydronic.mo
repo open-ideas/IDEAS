@@ -319,10 +319,10 @@ the heating setpoint plus an offset of 0.1 &#176;C.
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
 </li>
 <li>
 <code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
@@ -335,10 +335,10 @@ the heating setpoint plus an offset of 0.1 &#176;C.
 <p>The model outputs are: </p>
 <ul>
 <li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
 </li>
 <li>
 <code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
