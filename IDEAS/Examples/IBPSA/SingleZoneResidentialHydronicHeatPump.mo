@@ -168,7 +168,7 @@ model SingleZoneResidentialHydronicHeatPump
     TEvaMin=253.15,
     dTHys=3,
     dp1_nominal=pum.dp_nominal/2,
-    dp2_nominal=fan.dp_nominal/2,
+    dp2_nominal=fan.dp_nominal,
     datHeaPum=Data.Heating.Carrier_30AW015_15kW_4_9COP_R410A())
     "Air to water heat pump model with calibrated parameters from manufacturer data"
     annotation (Placement(transformation(
