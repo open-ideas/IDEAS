@@ -407,7 +407,7 @@ The walls are modeled using
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -443,7 +443,7 @@ The floor is modeled using
 <a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
 IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: 
 </p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -486,7 +486,7 @@ The roof is modeled using
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
-<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><p align=\"center\"><h4>Name</h4></p></td>
 <td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
@@ -582,9 +582,9 @@ of the heat transferred to the refrigerant in the evaporator. There is no superc
 <p><b>Fluid movers</b> </p>
 <p>
 The floor heating system circulation pump  
-has the default efficiency of the pump model, which is 49 &percnt; at the time of writing. 
+has the default efficiency of the pump model, which is 49 % at the time of writing. 
 Also the fan that blows ambient air through the heat exchanger uses this default efficiency 
-of 49&percnt;.
+of 49 %.
 </p>
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
