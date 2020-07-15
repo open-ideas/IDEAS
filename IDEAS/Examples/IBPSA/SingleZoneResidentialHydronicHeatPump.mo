@@ -409,11 +409,11 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
-<td><p align=\"center\"><h4>Name</h4></p></td>
-<td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
-<td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
-<td><p align=\"center\"><h4>Specific Heat Capacity [J/kg-K]</h4></p></td>
-<td><p align=\"center\"><h4>Density [kg/m3]</h4></p></td>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
 <td><p>Layer 1 (wood siding)</p></td>
@@ -445,11 +445,11 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
-<td><p align=\"center\"><h4>Name</h4></p></td>
-<td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
-<td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
-<td><p align=\"center\"><h4>Specific Heat Capacity [J/kg-K]</h4></p></td>
-<td><p align=\"center\"><h4>Density [kg/m3]</h4></p></td>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
 <td><p>Layer 1 (roof deck)</p></td>
@@ -488,11 +488,11 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
-<td><p align=\"center\"><h4>Name</h4></p></td>
-<td><p align=\"center\"><h4>Thickness [m]</h4></p></td>
-<td><p align=\"center\"><h4>Thermal Conductivity [W/m-K]</h4></p></td>
-<td><p align=\"center\"><h4>Specific Heat Capacity [J/kg-K]</h4></p></td>
-<td><p align=\"center\"><h4>Density [kg/m3]</h4></p></td>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
 <td><p>Layer 1 (wood siding)</p></td>
