@@ -80,7 +80,8 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
-      max=273.15 + 30), description="Zone temperature setpoint for cooling")
+      max=273.15 + 30), description=
+        "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
@@ -88,17 +89,20 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       max=273.15 + 23,
       unit="K",
-      min=273.15 + 15), description="Zone temperature setpoint for heating")
+      min=273.15 + 15), description=
+        "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-170,-30})));
   Utilities.IO.SignalExchange.Read reaTSetCoo(description=
-        "Zone air temperature setpoint for cooling", y(unit="K"))
+        "Zone operative temperature setpoint for cooling",
+                                                     y(unit="K"))
     "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-140,0},{-120,20}})));
   Utilities.IO.SignalExchange.Read reaTSetHea(description=
-        "Zone air temperature setpoint for heating", y(unit="K"))
+        "Zone operative temperature setpoint for heating",
+                                                     y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-140,-40},{-120,-20}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
@@ -611,10 +615,10 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
 </li>
 <li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the emission circuit pump either on or off
@@ -639,7 +643,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTZon_y</code> [K] [min=None, max=None]: Operative zone temperature
 </li>
 <li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
 </li>
 <li>
 <code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat exchanger
@@ -666,7 +670,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaPHeaPum_y</code> [W] [min=None, max=None]: Heat pump electrical power
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
 </li>
 <li>
 <code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
