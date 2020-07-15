@@ -127,7 +127,8 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
-      max=273.15 + 30), description="Zone temperature setpoint for cooling")
+      max=273.15 + 30), description=
+        "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
@@ -135,17 +136,20 @@ model SingleZoneResidentialHydronic
   Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       max=273.15 + 23,
       unit="K",
-      min=273.15 + 15), description="Zone temperature setpoint for heating")
+      min=273.15 + 15), description=
+        "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-110,-80})));
   Utilities.IO.SignalExchange.Read reaTSetCoo(description=
-        "Zone air temperature setpoint for cooling", y(unit="K"))
+        "Zone operative temperature setpoint for cooling",
+                                                     y(unit="K"))
     "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
   Utilities.IO.SignalExchange.Read reaTSetHea(description=
-        "Zone air temperature setpoint for heating", y(unit="K"))
+        "Zone operative temperature setpoint for heating",
+                                                     y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
