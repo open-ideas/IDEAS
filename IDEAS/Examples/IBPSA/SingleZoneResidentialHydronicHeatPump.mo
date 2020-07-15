@@ -142,9 +142,10 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{80,50},{60,30}})));
   Fluid.HeatExchangers.RadiantSlab.EmbeddedPipe floHea(
     redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare Fluid.HeatExchangers.RadiantSlab.BaseClasses.FH_Standard1
       RadSlaCha,
-    allowFlowReversal=true,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     dp_nominal=pum.dp_nominal/2,
     A_floor=case900Template.AZone) "Floor heating of the zone"
