@@ -28,9 +28,14 @@ record Ins2Kr = IDEAS.Buildings.Data.Interfaces.Glazing (
     final SwAbsDif={0.142,0.0,0.199},
     final U_value=1.0,
     final g_value=0.598)
-  "Saint Gobain Climaplus Futur KR 1.0 4/15/4 (U = 1.0 W/m2K, g = 0.598)"
+  "Deprecated: Saint Gobain Climaplus Futur KR 1.0 4/15/4 (U = 1.0 W/m2K, g = 0.598)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+July 20, 2020, by Filip Jorissen:<br/>
+Deprecated this glazing type since it is based on
+producted data of 10 years old.
+</li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
 Moved epsLw definition to solid layer to be consistent 
@@ -40,5 +45,7 @@ with changed implementation of MultiLayerLucent.
 </html>", info="<html>
 <p>
 Double insulated glazing system with krypton filling.
+This glazing system is based on product data that are at least 10 years old.
+The model is deprecated and remains available for backward compatibility reasons.
 </p>
 </html>"));
