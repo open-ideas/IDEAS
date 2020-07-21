@@ -18,8 +18,7 @@ model ZoneCO2 "Zone with CO2 concentration model"
               annotation (Placement(transformation(extent={{40,0},{20,20}})));
 
   IDEAS.Fluid.Sources.Boundary_pT bou(
-    nPorts=1,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium, nPorts=1)
     "Ideal pressure source"
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
   IDEAS.Fluid.Sources.MassFlowSource_T boundary(
@@ -27,8 +26,8 @@ model ZoneCO2 "Zone with CO2 concentration model"
     use_T_in=true,
     use_Xi_in=true,
     use_C_in=true,
-    nPorts=1,
-    use_m_flow_in=true) "Ideal flow rate source" annotation (Placement(
+    use_m_flow_in=true,
+    nPorts=1)           "Ideal flow rate source" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -62,8 +61,6 @@ protected
 equation
   connect(pulse.y, zone.yOcc) annotation (Line(points={{19,10},{0,10},{0,14},{-18,
           14}}, color={0,0,127}));
-  connect(bou.ports[1], zone.port_b)
-    annotation (Line(points={{-60,50},{-32,50},{-32,20}}, color={0,127,255}));
   connect(sim.weaDatBus, weaDatBus1) annotation (Line(
       points={{-80.1,90},{-70,90}},
       color={255,204,51},
@@ -72,16 +69,18 @@ equation
     annotation (Line(points={{-24,82},{-24,90},{-70,90}}, color={0,0,127}));
   connect(boundary.Xi_in[1], weaDatBus1.X_wEnv)
     annotation (Line(points={{-32,82},{-32,90},{-70,90}}, color={0,0,127}));
-  connect(boundary.ports[1], zone.port_a)
-    annotation (Line(points={{-28,60},{-28,20}}, color={0,127,255}));
   connect(hys.u, zone.ppm)
-    annotation (Line(points={{10,28},{10,12},{-19,12}}, color={0,0,127}));
+    annotation (Line(points={{10,28},{10,10},{-19,10}}, color={0,0,127}));
   connect(m_flow.y, boundary.m_flow_in)
     annotation (Line(points={{10,81},{-20,81},{-20,82}}, color={0,0,127}));
   connect(m_flow.u, hys.y)
     annotation (Line(points={{10,58},{10,51}}, color={255,0,255}));
   connect(CEnv.y, boundary.C_in)
     annotation (Line(points={{-43.1,86},{-36,86},{-36,82}}, color={0,0,127}));
+  connect(boundary.ports[1], zone.ports[2])
+    annotation (Line(points={{-28,60},{-30,60},{-30,20}}, color={0,127,255}));
+  connect(bou.ports[1], zone.ports[1])
+    annotation (Line(points={{-60,50},{-30,50},{-30,20}}, color={0,127,255}));
   annotation (experiment(
       StopTime=100000,
       Tolerance=1e-06,
@@ -92,6 +91,13 @@ simulating the CO2 generation caused by occupants.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 17, 2020 by Filip Jorissen:<br/>
+Revised fluid port connections to use <code>ports</code> instead 
+of <code>port_a</code> and <code>port_b</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
+</li>
 <li>
 September 24, 2018 by Filip Jorissen:<br/>
 Fix for supporting multiple trace substances.
