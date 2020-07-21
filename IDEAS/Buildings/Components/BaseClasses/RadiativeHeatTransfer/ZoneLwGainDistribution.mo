@@ -91,12 +91,12 @@ initial equation
   ASWotherSurface = sum({if IDEAS.Utilities.Math.Functions.isAngle(inc[i], IDEAS.Types.Tilt.Floor) then 0 else area[i]*epsSw[i] for i in 1:nSurf});
   weightFactorTRad = weightFactorDif;
 
-  assert(AfloorTot>2*Modelica.Constants.small, "WARNING: Zone does not contain a floor surface so incoming beam radiation is spread over all other surfaces! Is this intended? \n", AssertionLevel.warning);
-  assert(AfloorTot<0.9*sum(area), "More than 90% of zone surface area is floor, this is not allowed.");
-  assert(abs(1-sum(weightFactorTRad))<1e-4, "Error in computation of weightFactorTRad, please submit a bug report");
-  assert(abs(1-sum(weightFactorDir))<1e-4, "Error in computation of weightFactorDir, please submit a bug report");
-  assert(abs(1-sum(weightFactorDif))<1e-4, "Error in computation of weightFactorDif, please submit a bug report");
-  assert(abs(1-sum(weightFactorGain))<1e-4, "Error in computation of weightFactorGain, please submit a bug report");
+  assert(AfloorTot>2*Modelica.Constants.small, "In " + getInstanceName() + ": Zone does not contain a floor surface so incoming beam radiation is spread over all other surfaces! Is this intended? \n", AssertionLevel.warning);
+  assert(AfloorTot<0.9*sum(area), "In " + getInstanceName() + "More than 90% of zone surface area is floor, this is not allowed.");
+  assert(abs(1-sum(weightFactorTRad))<1e-4, "In " + getInstanceName() + "Error in computation of weightFactorTRad, please submit a bug report");
+  assert(abs(1-sum(weightFactorDir))<1e-4, "In " + getInstanceName() + "Error in computation of weightFactorDir, please submit a bug report");
+  assert(abs(1-sum(weightFactorDif))<1e-4, "In " + getInstanceName() + "Error in computation of weightFactorDif, please submit a bug report");
+  assert(abs(1-sum(weightFactorGain))<1e-4, "In " + getInstanceName() + "Error in computation of weightFactorGain, please submit a bug report");
 
   if lineariseJModelica then
     TRad=T_start;
@@ -178,6 +178,10 @@ If there is no floor then the beam radiation is spread over all surfaces and a w
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 21, 2020 by Filip Jorissen:<br/>
+Added <code>getInstanceName()</code> in asserts.
+</li>
 <li>
 November 5, 2018 by Filip Jorissen:<br/>
 Added initial equation for <code>TRad</code>.
