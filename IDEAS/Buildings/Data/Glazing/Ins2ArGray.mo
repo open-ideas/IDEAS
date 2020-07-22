@@ -34,7 +34,7 @@ record Ins2ArGray = IDEAS.Buildings.Data.Interfaces.Glazing (
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Deprecated this glazing type since it is based on
-producted data of 10 years old.
+product data of 10 years old.
 </li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
