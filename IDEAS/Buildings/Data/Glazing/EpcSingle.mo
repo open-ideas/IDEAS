@@ -27,7 +27,8 @@ record EpcSingle =
     final SwTransDif=0.765,
     final SwAbsDif={0.085},
     final U_value=5.8,
-    final g_value=0.88) "Uncoated single glazing (U = 5.8)"
+    final g_value=0.88)
+    "Uncoated single glazing (U = 5.8)"
   annotation (Documentation(revisions="<html>
 <ul>
 <li>

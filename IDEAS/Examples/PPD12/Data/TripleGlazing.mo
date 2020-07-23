@@ -31,4 +31,4 @@ final SwAbs= [0,0.161, 0.0,0.072, 0.0,0.051;
 final SwTransDif=0.283,
 final SwAbsDif={0.193,0.0,0.071,0.0,0.058},
 final U_value=0.61,
-final g_value=0.53) "Tripe glazing for ppd12";
+final g_value=0.53) "Triple glazing for ppd12";

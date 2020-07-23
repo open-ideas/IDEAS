@@ -27,7 +27,8 @@ model ZoneExample
         origin={-10,0})));
 
   IDEAS.Buildings.Components.Window window(
-    redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2 glazing,
+    redeclare Data.Glazing.Ins2Ar2020 glazing
+      "Insulating double glazing (6/16/6 AR Planitherm one) with clear glass",
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
