@@ -1,38 +1,42 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer;
-model SwWindowResponse "shortwave window respones"
-
-  parameter Integer nLay(min=1) "number of layers of the wall";
+model SwWindowResponse "Shortwave window respone"
+  parameter Integer nLay(min=1)
+    "Number of layers of the window";
   parameter Real[:, nLay + 1] SwAbs
-    "absorbed solar radiation for each layer for look-up table as function of angle of incidence";
+    "Absorbed solar radiation for each layer for look-up table as function of angle of incidence";
   parameter Real[:, 2] SwTrans
-    "transmitted solar radiation for look-up table as function of angle of incidence";
+    "Transmitted solar radiation for look-up table as function of angle of incidence";
   parameter Real[nLay] SwAbsDif
-    "absorbed solar radiation for each layer for look-up table as function of angle of incidence";
+    "Absorbed solar radiation for each layer for look-up table as function of angle of incidence";
   parameter Real SwTransDif
-    "transmitted solar radiation for look-up table as function of angle of incidence";
+    "Transmitted solar radiation for look-up table as function of angle of incidence";
 
-  final parameter Integer[nLay] columns=if (nLay == 1) then {2} else integer(
+  final parameter Integer[nLay] columns=
+    if (nLay == 1)
+    then {2}
+    else integer(
       linspace(
       2,
       nLay + 1,
       nLay));
 
   Modelica.Blocks.Interfaces.RealInput solDir
-    "direct solar illuminance on surface se"
+    "Direct solar irradiation"
     annotation (Placement(transformation(extent={{-120,40},{-80,80}})));
   Modelica.Blocks.Interfaces.RealInput solDif
-    "diffuse solar illuminance on surface s"
+    "Diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-120,0},{-80,40}})));
-  Modelica.Blocks.Interfaces.RealInput angInc "angle of incidence"
+  Modelica.Blocks.Interfaces.RealInput angInc
+    "Angle of incidence"
     annotation (Placement(transformation(extent={{-120,-60},{-80,-20}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nLay] iSolAbs
-    "solar absorptance in the panes"
+    "Port for absorbed solar irradiation"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir
-    "transmitted direct solar radiation"
+    "Transmitted direct solar radiation through the glazing"
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDif
-    "transmitted difuse solar radiation"
+    "Transmitted diffuse solar radiation through the glazing"
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
   Modelica.Blocks.Math.Gain radToDeg(final k=180/Modelica.Constants.pi)
     "Conversion of radians to degrees"
@@ -54,19 +58,19 @@ model SwWindowResponse "shortwave window respones"
         rotation=90,
         origin={-3,-11})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nLay] Abs_flow
-    "solar absorptance in the panes source" annotation (Placement(
+    "Solar absorptance in the panes source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=90,
         origin={-8.88178e-016,78})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dir_flow
-    "transmitted direct solar radiation source" annotation (Placement(
+    "Transmitted direct solar radiation source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={-20,-78})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Dif_flow
-    "transmitted difuse solar radiation source" annotation (Placement(
+    "Transmitted diffuse solar radiation source" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=-90,
@@ -86,12 +90,12 @@ model SwWindowResponse "shortwave window respones"
         rotation=-90,
         origin={-32,48})));
 
-  Modelica.Blocks.Math.Gain[   nLay] SwAbsDifProd(k=SwAbsDif)  annotation (Placement(
+  Modelica.Blocks.Math.Gain[nLay] SwAbsDifProd(k=SwAbsDif)  annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={25,21})));
-  Modelica.Blocks.Math.Gain    SwTransDifProd(k=SwTransDif)  annotation (Placement(
+  Modelica.Blocks.Math.Gain SwTransDifProd(k=SwTransDif)  annotation (Placement(
         transformation(
         extent={{-7,-7},{7,7}},
         rotation=90,
