@@ -398,7 +398,7 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
-April 26, 2020, by Filip Jorissen:<br/>
+July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>hZone</code> and <code>A</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
 #1158</a>

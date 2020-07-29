@@ -13,16 +13,15 @@ model ThreeWayValveMotor
       final control_m_flow=false,
       final control_dp=false,
       final show_T=show_T));
-  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
 
+  parameter Boolean show_T = false
+      "= true, if actual temperature at port is computed"
+      annotation(Dialog(tab="Advanced",group="Diagnostics"));
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal
     "Nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
   parameter Real l(min=1e-10, max=1) = 0.0001
     "Valve leakage, l=Kv(y=0)/Kv(y=1)";
-  parameter Boolean show_T = false
-    "= true, if actual temperature at port is computed"
-    annotation(Dialog(tab="Advanced",group="Diagnostics"));
 
   Modelica.Blocks.Interfaces.RealInput ctrl(min=0, max=1)
     "procentage of flow through flowPort_a1" annotation (Placement(transformation(
@@ -32,7 +31,6 @@ model ThreeWayValveMotor
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={0,108})));
-
 
   // IdealSource with extra parameters from IDEAS.Fluid.Interfaces.PartialTwoPortInterface
   // to avoid warnings since the template requires a PartialTwoPortInterface
@@ -109,6 +107,12 @@ equation
           fillPattern=FillPattern.Solid)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+July 29, 2020, by Filip Jorissen:<br/>
+Removed duplicate definition of <code>LumpedVolumeDeclarations</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
+#1158</a>
+</li>
 <li>
 March 27, 2020 by Filip Jorissen:<br/> 
 Revised implementation such that flow reversal options are integrated.
