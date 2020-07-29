@@ -220,40 +220,40 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(gF.TSensor, TSensor[1]) annotation (Line(
-      points={{60.6,-50},{104,-50},{104,-66.6667},{156,-66.6667}},
+      points={{61,-48},{104,-48},{104,-66.6667},{156,-66.6667}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(fF.TSensor, TSensor[2]) annotation (Line(
-      points={{60.6,10},{104,10},{104,-60},{156,-60}},
+      points={{61,12},{104,12},{104,-60},{156,-60}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(sF.TSensor, TSensor[3]) annotation (Line(
-      points={{60.6,70},{104,70},{104,-53.3333},{156,-53.3333}},
+      points={{61,72},{104,72},{104,-53.3333},{156,-53.3333}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(gF.port_b, port_b[1]) annotation (Line(
-      points={{48,-40},{48,-36},{-100,-36},{-100,84},{-22,84},{-22,93.3333},{
+  connect(gF.ports[1], port_b[1]) annotation (Line(
+      points={{50,-40},{50,-36},{-100,-36},{-100,84},{-22,84},{-22,93.3333},{
           -20,93.3333}},
       color={0,0,0},
       smooth=Smooth.None));
-  connect(gF.port_a, port_a[1]) annotation (Line(
-      points={{52,-40},{52,-32},{-96,-32},{-96,80},{20,80},{20,93.3333}},
+  connect(gF.ports[2], port_a[1]) annotation (Line(
+      points={{50,-40},{50,-32},{-96,-32},{-96,80},{20,80},{20,93.3333}},
       color={0,0,0},
       smooth=Smooth.None));
-  connect(fF.port_b, port_b[2]) annotation (Line(
-      points={{48,20},{48,26},{-100,26},{-100,84},{-20,84},{-20,100}},
+  connect(fF.ports[1], port_b[2]) annotation (Line(
+      points={{50,20},{50,26},{-100,26},{-100,84},{-20,84},{-20,100}},
       color={0,0,0},
       smooth=Smooth.None));
-  connect(fF.port_a, port_a[2]) annotation (Line(
-      points={{52,20},{52,30},{-96,30},{-96,80},{20,80},{20,100}},
+  connect(fF.ports[2], port_a[2]) annotation (Line(
+      points={{50,20},{50,30},{-96,30},{-96,80},{20,80},{20,100}},
       color={0,0,0},
       smooth=Smooth.None));
-  connect(sF.port_b, port_b[3]) annotation (Line(
-      points={{48,80},{48,84},{-20,84},{-20,106.667}},
+  connect(sF.ports[1], port_b[3]) annotation (Line(
+      points={{50,80},{50,84},{-20,84},{-20,106.667}},
       color={0,0,0},
       smooth=Smooth.None));
-  connect(sF.port_a, port_a[3]) annotation (Line(
-      points={{52,80},{52,88},{20,88},{20,106.667}},
+  connect(sF.ports[2], port_a[3]) annotation (Line(
+      points={{50,80},{50,88},{20,88},{20,106.667}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(gF_floor.port_emb[1], heatPortEmb[1]) annotation (Line(
@@ -269,5 +269,15 @@ equation
           {-32,44},{-32,36},{112,36},{112,66.6667},{150,66.6667}},     color={
           191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,
-            -100},{150,100}})));
+            -100},{150,100}})), Documentation(revisions="<html>
+<ul>
+<li>
+March 17, 2020 by Filip Jorissen:<br/>
+Revised fluid port connections to use <code>ports</code> instead 
+of <code>port_a</code> and <code>port_b</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
+</li>
+</ul>
+</html>"));
 end ThreeZone;

@@ -34,7 +34,7 @@ model WindowEN673 "Verifies U value of a glazing record"
       heaRad(dT_nom=0)),
     intCon_a(dT_nominal=3.759),
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    redeclare Data.Glazing.EpcDouble glazing)
+    redeclare Data.Glazing.Ins2Ar2020 glazing)
     "Window model with modifications to be better in line with EN673"
     annotation (Placement(transformation(extent={{-16,-20},{-4,0}})));
 
@@ -93,7 +93,7 @@ model WindowEN673 "Verifies U value of a glazing record"
     A=1,
     gainDir(k=0),
     gainDif(k=0),
-    redeclare Data.Glazing.EpcDouble glazing,
+    redeclare Data.Glazing.Ins2Ar2020 glazing,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
                   "Window without modifications"
     annotation (Placement(transformation(extent={{-16,-40},{-4,-20}})));
@@ -145,6 +145,10 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),        Documentation(revisions="<html>
 <ul>
+<li>
+July 20, 2020, by Filip Jorissen:<br/>
+Updated glazing type.
+</li>
 <li>
 September 22, 2019, by Filip Jorissen:<br/>
 First implementation.

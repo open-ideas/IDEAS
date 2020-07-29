@@ -16,12 +16,18 @@ equation
   connect(airExfiltration.m_flow_in, airInfiltration.m_flow_in)
     annotation (Line(points={{2,-56},{-18,-56},{-18,-44}},  color={0,0,127}));
   connect(airExfiltration.port_b, bou.ports[2])
-    annotation (Line(points={{10,-40},{10,0},{2,0}},  color={0,127,255}));
-  connect(airExfiltration.port_a, ports[2]) annotation (Line(points={{10,-60},{10,
-          -100},{22,-100},{22,-100}},
+    annotation (Line(points={{10,-40},{10,0},{-1.77636e-15,0}},
+                                                      color={0,127,255}));
+  connect(airExfiltration.port_a, ports[2]) annotation (Line(points={{10,-60},{
+          10,-100},{2,-100},{2,-100}},
                                     color={0,127,255}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 January 25, 2019, Filip Jorissen:<br/>
 Added constant <code>prescribesPressure</code> that indicates

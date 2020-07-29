@@ -2,7 +2,12 @@ within IDEAS.Buildings.Components;
 model Window "Multipane window"
   replaceable IDEAS.Buildings.Data.Interfaces.Glazing glazing
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
-    annotation (__Dymola_choicesAllMatching=true, Dialog(group=
+    annotation (choices(
+        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing "Insulating double glazing (6/16/6 AR Planitherm one, U=1.0, g=0.55) with clear glass"),
+        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins3Ar2020 glazing "Insulating triple glazing (6/16/6/16/6 AR Planitherm one, U=0.6, g=0.423) with clear glass"),
+        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcDouble glazing "Uncoated double glazing (4/12/4, U=2.9, g=0.78)"),
+        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcSingle glazing "Single glazing (U=5.8, g=0.88)")),
+        Dialog(group=
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
@@ -376,6 +381,12 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 2020, 2020, by Filip Jorissen:<br/>
+Added a list of default glazing systems.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1114\">
+#1114</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
