@@ -11,11 +11,6 @@ model PartialZone "Building zone model"
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
 
-  parameter Modelica.SIunits.Length hZone = 2.8
-    "Zone height: distance between floor and ceiling"
-    annotation(Dialog(group="Building physics"));
-  parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
-    annotation(Dialog(group="Building physics"));
   parameter Real n50(min=0.01)= 0.4
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(group="Building physics"));
@@ -320,8 +315,8 @@ end for;
       points={{-30,-20},{-30,-30},{-50,-30},{-50,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{110,20}},
-                   color={0,0,127}));
+  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{98,20},{98,30},{100,
+          30}},    color={0,0,127}));
   connect(radDistr.radSurfTot[1:nSurf], propsBusInt[1:nSurf].surfRad)
     annotation (Line(points={{-50,-40},{-50,-30},{-80,-30},{-80,39.9},{-80.1,
           39.9}}, color={191,0,0}));
@@ -402,6 +397,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Removed duplicate definition of <code>hZone</code> and <code>A</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
+#1158</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
