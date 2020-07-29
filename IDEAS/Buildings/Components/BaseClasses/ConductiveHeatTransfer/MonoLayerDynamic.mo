@@ -22,17 +22,22 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") = sum(T .* C);
 
 protected
-  final parameter Integer nRes=if addRes_b then nSta
-       else max(nSta - 1, 1) "Number of thermal resistances";
-  final parameter Modelica.SIunits.ThermalConductance[nRes] G=fill(nRes*A/R,
-      nRes);
-  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*(if nSta <= 2 or
-      addRes_b then ones(nSta)/nSta else cat(
+  final parameter Integer nRes=
+    if addRes_b
+    then nSta
+    else max(nSta - 1, 1)
+    "Number of thermal resistances";
+  final parameter Modelica.SIunits.ThermalConductance[nRes] G=
+    fill(nRes*A/R, nRes);
+  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*
+    (if nSta <= 2 or addRes_b
+    then ones(nSta)/nSta
+    else cat(
       1,
       {0.5},
       ones(nSta - 2),
       {0.5})/(nSta - 1));
-  final parameter Real[nSta] Cinv(unit="K/J") = ones(nSta) ./ C
+  final parameter Real[nSta] Cinv(each unit="K/J") = ones(nSta) ./ C
     "Dummy parameter for efficiently handling check for division by zero";
   Modelica.SIunits.Temperature[nSta] T(each start=T_start) "Temperature at the states";
   Modelica.SIunits.HeatFlowRate[nRes] Q_flow
