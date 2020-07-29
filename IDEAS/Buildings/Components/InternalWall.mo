@@ -48,9 +48,6 @@ model InternalWall "interior opaque wall between two zones"
    "Nominal temperature difference when linearising heat flow rate"
    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb[constructionType.nGain]
-    "port for gains by embedded active layers"
-    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
@@ -203,6 +200,12 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2020, by Filip Jorissen:<br/>
+Removed duplicate definition of <code>port_emb</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
+#1158</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
