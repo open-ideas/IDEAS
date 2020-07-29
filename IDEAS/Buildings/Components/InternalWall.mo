@@ -201,7 +201,7 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </html>", revisions="<html>
 <ul>
 <li>
-April 26, 2020, by Filip Jorissen:<br/>
+July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>port_emb</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
 #1158</a>
