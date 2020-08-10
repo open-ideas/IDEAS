@@ -4,6 +4,8 @@ connector ZoneBus
   parameter Integer numIncAndAziInBus
     "Number of calculated azimuth angles, set to sim.numIncAndAziInBus";
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
+  parameter Boolean use_port_1 = false;
+  parameter Boolean use_port_2 = false;
 
   IDEAS.Buildings.Components.Interfaces.RealConnector QTra_design(
     final quantity="Power",
@@ -23,6 +25,10 @@ connector ZoneBus
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b iSolDif annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b Qgai
     "Heat gains in model" annotation ();
+  Modelica.Fluid.Interfaces.FluidPort_a port_1 if use_port_1
+    "Port for interzonal air flow";
+  Modelica.Fluid.Interfaces.FluidPort_a port_2 if use_port_2
+    "Port for detailed interzonal air flow";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
     "Internal energy in model" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector inc(
@@ -42,6 +48,12 @@ heat and information between a zone and a surface.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

@@ -50,7 +50,11 @@ model InternalWall "interior opaque wall between two zones"
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles) "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+    outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
+
+    final use_port_2=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)
+                                   "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
@@ -200,6 +204,12 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>port_emb</code>.

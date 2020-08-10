@@ -41,7 +41,10 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
                                              "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
@@ -101,7 +104,10 @@ protected
     annotation (Placement(transformation(extent={{70,6},{88,36}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBusInt(
     numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles)
+    outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(
         extent={{-18,-18},{18,18}},
         rotation=-90,
@@ -165,6 +171,12 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 

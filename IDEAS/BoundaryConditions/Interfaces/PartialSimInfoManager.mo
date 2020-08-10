@@ -86,6 +86,11 @@ partial model PartialSimInfoManager
   parameter Real ppmCO2 = 400
     "Default CO2 concentration in [ppm] when using air medium containing CO2"
     annotation(Dialog(tab="Advanced", group="CO2"));
+
+  parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Type of interzonal air flow model"
+    annotation(Evaluate=true);
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
   final parameter Modelica.SIunits.Temperature Tdes=-8 + 273.15
@@ -498,6 +503,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 June 30, 2020 by Filip Jorissen:<br/>
 Overridable assignments of variables of PartialSimInfoManager.

@@ -3,13 +3,19 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   parameter Real k = 1 "Scaling factor";
 
   ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Unscaled port"                                                         annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-100,0})));
   ZoneBus propsBus_b(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Scaled port"                                                           annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -126,6 +132,12 @@ equation
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

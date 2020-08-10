@@ -175,7 +175,9 @@ model PartialZone "Building zone model"
 protected
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Dummy propsbus for partial" annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -318,8 +320,8 @@ end for;
       points={{-30,-20},{-30,-30},{-50,-30},{-50,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{98,20},{98,30},{100,
-          30}},    color={0,0,127}));
+  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{98,20},{98,20},{110,
+          20}},    color={0,0,127}));
   connect(radDistr.radSurfTot[1:nSurf], propsBusInt[1:nSurf].surfRad)
     annotation (Line(points={{-50,-40},{-50,-30},{-80,-30},{-80,39.9},{-80.1,
           39.9}}, color={191,0,0}));
@@ -402,6 +404,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>hZone</code> and <code>A</code>.
