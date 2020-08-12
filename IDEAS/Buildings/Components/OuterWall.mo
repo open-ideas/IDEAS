@@ -47,7 +47,7 @@ protected
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-22,-28},{-42,-8}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A)
+    solAbs(A=A, epsSw=layMul.mats[1].epsSw_b)
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-22,-8},{-42,12}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
@@ -87,10 +87,6 @@ equation
   connect(extRad.port_a, layMul.port_b) annotation (Line(
       points={{-22,22},{-18,22},{-18,0},{-10,0}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(layMul.iEpsSw_b,solAbs. epsSw) annotation (Line(
-      points={{-10,4},{-16,4},{-16,8},{-22,8}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(layMul.iEpsLw_b,extRad. epsLw) annotation (Line(
       points={{-10,8},{-16,8},{-16,25.4},{-22,25.4}},
