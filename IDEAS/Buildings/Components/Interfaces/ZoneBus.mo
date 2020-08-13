@@ -1,6 +1,8 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector ZoneBus
   extends Modelica.Icons.SignalBus;
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium "Medium in the component";
   parameter Integer numIncAndAziInBus
     "Number of calculated azimuth angles, set to sim.numIncAndAziInBus";
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";

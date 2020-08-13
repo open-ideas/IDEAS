@@ -49,6 +49,7 @@ model InternalWall "interior opaque wall between two zones"
    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,

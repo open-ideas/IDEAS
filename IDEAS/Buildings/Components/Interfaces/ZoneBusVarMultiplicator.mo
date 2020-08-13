@@ -1,29 +1,40 @@
 within IDEAS.Buildings.Components.Interfaces;
 model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsBus. This can be used to scale the surface to n identical surfaces"
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium
+    "Medium in the component";
   parameter Real k = 1 "Scaling factor";
 
   ZoneBus propsBus_a(
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Unscaled port"                                                         annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-100,0})));
+
   ZoneBus propsBus_b(
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Scaled port"                                                           annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={100,0})));
+
   outer BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
 protected
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(final k=k) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Mass flow rate multiplier for port 2"
+    annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(final k=k) if
+        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Mass flow rate multiplier for port 1"
+    annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
   Modelica.Blocks.Math.Gain area(k=k) "Heat exchange surface area"
@@ -109,6 +120,14 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
+  connect(massFlowRateMultiplier1.port_a, propsBus_a.port_1) annotation (Line(
+        points={{-10,-160},{-100.1,-160},{-100.1,0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier2.port_a, propsBus_a.port_2) annotation (Line(
+        points={{-10,-190},{-100.1,-190},{-100.1,0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier1.port_b, propsBus_b.port_1) annotation (Line(
+        points={{10,-160},{100.1,-160},{100.1,-0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier2.port_b, propsBus_b.port_2) annotation (Line(
+        points={{10,-190},{100,-190},{100,-0.1},{100.1,-0.1}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(

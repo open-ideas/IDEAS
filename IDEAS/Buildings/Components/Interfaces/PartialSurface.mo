@@ -4,7 +4,6 @@ partial model PartialSurface "Partial model for building envelope component"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
-
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
@@ -39,11 +38,14 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium
+    "Medium in the component"
+    annotation(Dialog(group="Interzonal airflow (Optional)"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
                                              "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
@@ -99,14 +101,15 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
 
-  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(k=nWin)
+  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(redeclare
+      package Medium = Medium,                                       k=nWin)
     "Gain for all propsBus variable to represent nWin surfaces instead of 1"
     annotation (Placement(transformation(extent={{70,6},{88,36}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBusInt(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(
         extent={{-18,-18},{18,18}},
@@ -115,6 +118,7 @@ protected
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={50,20})));
+
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
