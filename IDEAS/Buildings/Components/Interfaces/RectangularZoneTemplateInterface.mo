@@ -461,6 +461,8 @@ partial model RectangularZoneTemplateInterface
     "Azimuth angle of face D";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles) if nSurfExt>0
     "Propsbus for connecting additional external surfaces" annotation (
@@ -1414,6 +1416,13 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
