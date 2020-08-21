@@ -54,6 +54,7 @@ model PartialZone "Building zone model"
   replaceable ZoneAirModels.WellMixedAir airModel(
     redeclare package Medium = Medium,
     nSurf=nSurf,
+    nPorts=interzonalAirFlow.nPorts + n_ports_interzonal,
     Vtot=V,
     energyDynamics=energyDynamicsAir,
     allowFlowReversal=allowFlowReversal)
@@ -173,6 +174,12 @@ model PartialZone "Building zone model"
 
 
 protected
+  parameter Integer n_ports_interzonal=
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
+    elseif sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then nSurf
+    else nSurf*2
+      "Number of fluid ports for interzonal air flow modelling"
+      annotation(Evaluate=true);
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
@@ -397,7 +404,15 @@ end for;
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
   connect(interzonalAirFlow.portsExt, ports) annotation (Line(points={{-30,80},{
           -30,90},{0,90},{0,100}}, color={0,127,255}));
- annotation (Placement(transformation(extent={{
+  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
+    connect(airModel.ports[interzonalAirFlow.nPorts + 1:interzonalAirFlow.nPorts + nSurf], propsBusInt[1:nSurf].port_1) annotation (Line(points={{-30,
+          40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+  end if;
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+    connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
+          40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+  end if;
+  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
