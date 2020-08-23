@@ -6,6 +6,7 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   parameter Real k = 1 "Scaling factor";
 
   ZoneBus propsBus_a(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
@@ -15,6 +16,7 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
         origin={-100,0})));
 
   ZoneBus propsBus_b(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
@@ -27,12 +29,14 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
 protected
-  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(final k=k) if
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
+      redeclare package Medium = Medium,                                 final k=k) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Mass flow rate multiplier for port 2"
     annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
-  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(final k=k) if
-        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(
+      redeclare package Medium = Medium,                                 final k=k) if
+        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"

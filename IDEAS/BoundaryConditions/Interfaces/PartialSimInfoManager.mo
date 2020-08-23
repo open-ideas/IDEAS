@@ -91,7 +91,11 @@ partial model PartialSimInfoManager
   parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Type of interzonal air flow model"
-    annotation(Evaluate=true);
+    annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+  parameter Real n50 = 0.4
+    "n50 value of zones"
+    annotation(Dialog(group="Interzonal airflow"));
+
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
   final parameter Modelica.SIunits.Temperature Tdes=-8 + 273.15
@@ -160,7 +164,8 @@ partial model PartialSimInfoManager
   Modelica.Blocks.Sources.RealExpression CEnv(y=ppmCO2*MMFraction/1e6)
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
-
+  final parameter Modelica.SIunits.MassFlowRate m_flow_infiltration_nominal(fixed=false);
+  final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
     "Bus for windows in case of linearisation";
@@ -175,12 +180,13 @@ partial model PartialSimInfoManager
         rotation=270,
         origin={99,3.55271e-015})));
 
-  IDEAS.Buildings.Components.Interfaces.VolumePort volumePort
+  Buildings.Components.Interfaces.VolumePort volumePort
     "Port for summing volumes of all zones"
     annotation (Placement(transformation(extent={{32,-110},{52,-90}})));
-  IDEAS.Buildings.Components.Interfaces.AreaPort areaPort
+  Buildings.Components.Interfaces.AreaPort areaPort
     "Port for summing surface areas of all surfaces"
     annotation (Placement(transformation(extent={{70,-110},{90,-90}})));
+
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
 
@@ -231,6 +237,8 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
+  m_flow_infiltration_nominal = volumePort.V_tot*n50/3600*1.2;
+  A_tot=areaPort.A_tot;
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
   end if;

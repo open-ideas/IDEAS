@@ -11,7 +11,7 @@ model PartialZone "Building zone model"
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
 
-  parameter Real n50(min=0.01)= 0.4
+  parameter Real n50(min=0.01)= sim.n50
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(group="Building physics"));
   parameter Boolean allowFlowReversal=true
@@ -388,7 +388,7 @@ end for;
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
   connect(airModel.port_a, interzonalAirFlow.port_b_interior)
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
-  connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{
+  connect(interzonalAirFlow.ports[1:interzonalAirFlow.nPorts], airModel.ports[1:interzonalAirFlow.nPorts]) annotation (Line(points={{
           -29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
   connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{-36,80},
           {-36,92},{-60,92},{-60,100}},         color={0,127,255}));

@@ -38,7 +38,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Modelica.SIunits.Area A_crack = A/1000
+  parameter Modelica.SIunits.Area A_crack = (sim.m_flow_infiltration_nominal*A/sim.A_tot)/1013/1.2*2/sqrt(2*50/1.2)
     "Surface area of crack"
     annotation(Dialog(group="Interzonal air flow: Crack"));
 
