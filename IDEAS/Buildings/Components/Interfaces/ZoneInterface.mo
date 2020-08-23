@@ -67,6 +67,9 @@ partial model ZoneInterface "Partial model for thermal building zones"
         extent={{-10,-40},{10,40}},
         rotation=90,
         origin={0,100})));
+  SetVolume setVolume(V=V)
+    "Component for contributing zone volume to siminfomanager"
+    annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
 protected
   Modelica.Blocks.Sources.RealExpression Eexpr "Internal energy model";
   BaseClasses.ConservationOfEnergy.PrescribedEnergy prescribedHeatFlowE
@@ -104,6 +107,7 @@ equation
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, sim.Qgai);
 
+  connect(setVolume.volumePort, sim.volumePort);
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

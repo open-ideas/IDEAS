@@ -12,3 +12,7 @@ WindowDynamicsType
 ZoneBus
 ZoneBusVarMultiplicator
 ZoneInterface
+VolumePort
+AreaPort
+SetVolume
+SetArea

@@ -1,15 +1,13 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
-   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final nWin=1,
-     QTra_design=UEqui*A    *(273.15 + 21 - sim.Tdes),
-        dT_nominal_a=-3,
-        inc=IDEAS.Types.Tilt.Floor,
-        azi=0,
+  extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    final nWin=1,
+    QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
+    dT_nominal_a=-3,
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(disableInitPortB=true),
-    res1(from_dp=false),
-    res2(from_dp=false));
+    layMul(disableInitPortB=true));
 
   parameter Modelica.SIunits.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";

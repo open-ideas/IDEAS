@@ -11,6 +11,7 @@ model Window "Multipane window"
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
+    setArea(A=A),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),

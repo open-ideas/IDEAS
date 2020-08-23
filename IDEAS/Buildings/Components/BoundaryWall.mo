@@ -1,12 +1,13 @@
 within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with optional prescribed heat flow rate or temperature boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final nWin=1,
-     QTra_design=U_value*A*(273.15 + 21 - TRef_a),
-     dT_nominal_a=-1,
-    layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))),
     res1(from_dp=false),
-    res2(from_dp=false));
+    res2(from_dp=false),
+    final nWin=1,
+    QTra_design=U_value*A*(273.15 + 21 - TRef_a),
+    dT_nominal_a=-1,
+    layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
+            addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"

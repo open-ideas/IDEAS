@@ -175,6 +175,12 @@ partial model PartialSimInfoManager
         rotation=270,
         origin={99,3.55271e-015})));
 
+  IDEAS.Buildings.Components.Interfaces.VolumePort volumePort
+    "Port for summing volumes of all zones"
+    annotation (Placement(transformation(extent={{32,-110},{52,-90}})));
+  IDEAS.Buildings.Components.Interfaces.AreaPort areaPort
+    "Port for summing surface areas of all surfaces"
+    annotation (Placement(transformation(extent={{70,-110},{90,-90}})));
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
 
@@ -229,6 +235,8 @@ initial equation
     Etot = 0;
   end if;
 equation
+  volumePort.V_tot + volumePort.V = 0;
+  areaPort.A_tot + areaPort.A = 0;
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
   end if;

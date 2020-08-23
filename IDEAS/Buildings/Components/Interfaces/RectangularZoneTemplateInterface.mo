@@ -803,9 +803,7 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face A"
@@ -816,14 +814,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={-60,90})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusB[nExtB](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face B"
@@ -834,14 +831,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={90,60})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusC[nExtC](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face C"
@@ -852,14 +848,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=0,
         origin={68,-98})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusD[nExtD](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face D"
@@ -870,14 +865,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=-90,
         origin={-96,-70})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusFlo[nExtFlo](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of floor"
@@ -888,14 +882,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={0,-60})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusCei[nExtCei](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-    if
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface of ceiling: internal walls should be modelled as the floor of the zone above"
     annotation (Placement(transformation(
@@ -905,6 +898,7 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={-2,60})));
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb] if
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or

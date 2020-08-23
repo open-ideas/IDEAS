@@ -38,12 +38,11 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Modelica.SIunits.Area A_crack
+  parameter Modelica.SIunits.Area A_crack = A/1000
     "Surface area of crack"
     annotation(Dialog(group="Interzonal air flow: Crack"));
 
-  replaceable package Medium =
-    Modelica.Media.Interfaces.PartialMedium
+  replaceable package Medium = IDEAS.Media.Air
     "Medium in the component"
     annotation(Dialog(group="Interzonal airflow (Optional)"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
@@ -94,6 +93,7 @@ partial model PartialSurface "Partial model for building envelope component"
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
+
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -137,7 +137,9 @@ protected
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={50,20})));
-
+  IDEAS.Buildings.Components.Interfaces.SetArea setArea(A=0)
+    "Block that contributes surface area to the siminfomanager"
+    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
@@ -192,6 +194,7 @@ equation
           -40},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
           -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(setArea.areaPort, sim.areaPort);
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
