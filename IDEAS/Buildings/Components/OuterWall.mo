@@ -154,9 +154,8 @@ equation
                                                            color={0,0,127}));
   connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
           -40},{16,-50},{-80,-50}}, color={0,127,255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{
-          16,-60},{16,-50},{-80,-50}},
-                                    color={0,127,255}));
+  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
+          -60},{16,-50},{-80,-50}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

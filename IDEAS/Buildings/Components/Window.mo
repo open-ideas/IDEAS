@@ -307,12 +307,10 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{
-          16,-40},{16,-90},{-80,-90}},
-                                    color={0,127,255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{
-          18,-60},{18,-90},{-80,-90}},
-                                    color={0,127,255}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
+          -40},{16,-90},{-80,-90}}, color={0,127,255}));
+  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{18,
+          -60},{18,-90},{-80,-90}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

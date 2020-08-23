@@ -169,16 +169,16 @@ equation
           -42,96},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,84},{
           -38,84},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,70},
-          {-38,70},{-38,20.1},{-100.1,20.1}},
+  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,70},{
+          -38,70},{-38,20.1},{-100.1,20.1}},
                                           color={0,127,255}));
-  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,70},
-          {38,70},{38,19.91},{56.09,19.91}},
+  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,70},{
+          38,70},{38,19.91},{56.09,19.91}},
                                           color={0,127,255}));
-  connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-40},{
-          -60,-40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{
-          -60,-60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-40},{-60,
+          -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
+          -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

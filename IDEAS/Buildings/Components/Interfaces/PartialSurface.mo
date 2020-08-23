@@ -38,12 +38,10 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
-    "Nominal mass flow rate of crack"
+  parameter Modelica.SIunits.Area A_crack
+    "Surface area of crack"
     annotation(Dialog(group="Interzonal air flow: Crack"));
-  parameter Modelica.SIunits.PressureDifference dp_nominal
-    "Pressure drop of crack at nominal mass flow rate"
-    annotation(Dialog(group="Interzonal air flow: Crack"));
+
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium
     "Medium in the component"
@@ -81,19 +79,17 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  IDEAS.Fluid.FixedResistances.PressureDrop res1(redeclare package Medium = Medium,
-    final allowFlowReversal=true,
-    m_flow_nominal=m_flow_nominal/2,
-    from_dp=true,
-    dp_nominal=dp_nominal) if
+  IDEAS.Airflow.Multizone.Orifice res1(
+  redeclare package Medium = Medium,
+    m=0.65,
+    A=A_crack) if
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
     annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
-  IDEAS.Fluid.FixedResistances.PressureDrop res2(redeclare package Medium = Medium,
-    final allowFlowReversal=true,
-    m_flow_nominal=m_flow_nominal/2,
-    from_dp=true,
-    dp_nominal=dp_nominal) if
+  IDEAS.Airflow.Multizone.Orifice res2(
+  redeclare package Medium = Medium,
+    m=0.65,
+    A=A_crack) if
        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
