@@ -38,6 +38,12 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+    "Nominal mass flow rate of crack"
+    annotation(Dialog(group="Interzonal air flow: Crack"));
+  parameter Modelica.SIunits.PressureDifference dp_nominal
+    "Pressure drop of crack at nominal mass flow rate"
+    annotation(Dialog(group="Interzonal air flow: Crack"));
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium
     "Medium in the component"
@@ -74,6 +80,23 @@ partial model PartialSurface "Partial model for building envelope component"
     final inc=incInt)
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
+
+  IDEAS.Fluid.FixedResistances.PressureDrop res1(redeclare package Medium = Medium,
+    final allowFlowReversal=true,
+    m_flow_nominal=m_flow_nominal/2,
+    from_dp=true,
+    dp_nominal=dp_nominal) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Middle or bottom crack "
+    annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
+  IDEAS.Fluid.FixedResistances.PressureDrop res2(redeclare package Medium = Medium,
+    final allowFlowReversal=true,
+    m_flow_nominal=m_flow_nominal/2,
+    from_dp=true,
+    dp_nominal=dp_nominal) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Top crack"
+    annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
 protected
   final parameter Modelica.SIunits.Angle aziInt=
@@ -169,6 +192,10 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
+  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-40},{50,
+          -40},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
+          -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

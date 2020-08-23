@@ -63,6 +63,13 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-54,0},{-46,8}})));
+  IDEAS.Fluid.Sources.OutsideAir outsideAir(
+    redeclare package Medium = Medium,
+    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+         then 1 else 2) if
+    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Outside air model"
+    annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 initial equation
   QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
 
@@ -145,6 +152,11 @@ equation
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
           -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
                                                            color={0,0,127}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
+          -40},{16,-50},{-80,-50}}, color={0,127,255}));
+  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{
+          16,-60},{16,-50},{-80,-50}},
+                                    color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

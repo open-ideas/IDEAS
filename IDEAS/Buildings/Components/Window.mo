@@ -70,7 +70,6 @@ model Window "Multipane window"
         rotation=-90,
         origin={-40,-100})));
 
-
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -155,7 +154,7 @@ protected
     annotation (Placement(transformation(extent={{4,100},{24,120}})));
   Modelica.Blocks.Sources.Constant constEpsSwFra(final k=fraType.mat.epsSw)
     "Shortwave emissivity of frame"
-    annotation (Placement(transformation(extent={{4,46},{-6,56}})));
+    annotation (Placement(transformation(extent={{10,46},{0,56}})));
   Modelica.Blocks.Sources.Constant constEpsLwFra(final k=fraType.mat.epsLw)
     "Shortwave emissivity of frame"
     annotation (Placement(transformation(extent={{4,86},{-6,96}})));
@@ -176,6 +175,12 @@ protected
         start=T_start)) if                                                                             addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
+  IDEAS.Fluid.Sources.OutsideAir outsideAir(
+    redeclare package Medium = Medium,
+    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 1 else 2) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Outside air model"
+    annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -273,7 +278,7 @@ equation
           50},{-16,70},{-10,70}},
                               color={191,0,0}));
   connect(solAbs.epsSw, constEpsSwFra.y) annotation (Line(points={{-20,56},{-10,
-          56},{-10,51},{-6.5,51}}, color={0,0,127}));
+          56},{-10,51},{-0.5,51}}, color={0,0,127}));
   connect(gainDir.y, solWin.solDir)
     annotation (Line(points={{-37.8,-44},{-10,-44}}, color={0,0,127}));
   connect(gainDif.y, solWin.solDif) annotation (Line(points={{-31.8,-48},{-22,
@@ -302,6 +307,12 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{
+          16,-40},{16,-90},{-80,-90}},
+                                    color={0,127,255}));
+  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{
+          18,-60},{18,-90},{-80,-90}},
+                                    color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
