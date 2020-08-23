@@ -53,7 +53,6 @@ model InternalWall "interior opaque wall between two zones"
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
                                    "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
@@ -63,6 +62,7 @@ model InternalWall "interior opaque wall between two zones"
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-50,20})));
+
 
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
@@ -92,7 +92,7 @@ protected
   Modelica.Blocks.Sources.Constant E0(final k=0)
     "All internal energy is assigned to right side";
 
-  BaseClasses.ConvectiveHeatTransfer.CavityAirflow
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.CavityAirflow
                                         theConDoor(
     linearise=sim.linearise or linIntCon_a or linIntCon_b,
     h=h,
@@ -102,9 +102,24 @@ protected
     rho=rho,
     c_p=c_p,
     T=T,
-    dT=dT) if                                         hasCavity
-    "Model for air flow through open door or cavity"
-    annotation (Placement(transformation(extent={{-10,40},{10,60}})));
+    dT=dT) if
+       hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Thermal-only model for open door"
+    annotation (Placement(transformation(extent={{-10,30},{10,50}})));
+  IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
+    redeclare package Medium = Medium,
+    wOpe=w,
+    hOpe=h) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "2-port model for open door"
+    annotation (Placement(transformation(extent={{-10,80},{10,100}})));
+  IDEAS.Fluid.FixedResistances.PressureDrop res(
+    redeclare package Medium = Medium,
+    m_flow_nominal=sqrt(2/rho)*h/2*w*rho*c_p,
+    dp_nominal=1) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+    "1-port model for open door"
+    annotation (Placement(transformation(extent={{-10,60},{10,80}})));
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
@@ -141,11 +156,23 @@ equation
   connect(E_b.port, propsBus_b.E);
   connect(E_b.E, E0.y);
 
-  connect(theConDoor.port_a, propsBus_b.surfCon) annotation (Line(points={{-10,50},
-          {-48,50},{-48,20.1},{-100.1,20.1}}, color={191,0,0}));
-  connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,50},
-          {46,50},{46,19.91},{56.09,19.91}},
+  connect(theConDoor.port_a, propsBus_b.surfCon) annotation (Line(points={{-10,40},
+          {-48,40},{-48,20.1},{-100.1,20.1}}, color={191,0,0}));
+  connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,40},
+          {46,40},{46,19.91},{56.09,19.91}},
                                            color={191,0,0}));
+  connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,84},{
+          38,84},{38,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,96},{
+          42,96},{42,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(dooOpe.port_a1, propsBus_b.port_2) annotation (Line(points={{-10,96},{
+          -42,96},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,84},{
+          -38,84},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(res.port_a, propsBus_b.port_1) annotation (Line(points={{-10,70},{-38,
+          70},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(res.port_b, propsBusInt.port_1) annotation (Line(points={{10,70},{38,70},
+          {38,19.91},{56.09,19.91}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

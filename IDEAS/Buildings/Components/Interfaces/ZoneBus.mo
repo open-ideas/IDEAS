@@ -28,9 +28,9 @@ connector ZoneBus
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b Qgai
     "Heat gains in model" annotation ();
   Modelica.Fluid.Interfaces.FluidPort_a port_1 if use_port_1
-    "Port for interzonal air flow";
+    "Port for interzonal air flow: middle or bottom port";
   Modelica.Fluid.Interfaces.FluidPort_a port_2 if use_port_2
-    "Port for detailed interzonal air flow";
+    "Port for detailed interzonal air flow: top port";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
     "Internal energy in model" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector inc(
