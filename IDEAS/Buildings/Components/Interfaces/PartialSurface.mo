@@ -80,21 +80,25 @@ partial model PartialSurface "Partial model for building envelope component"
 
   IDEAS.Airflow.Multizone.Orifice res1(
   redeclare package Medium = Medium,
+    final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A_crack) if
+    A=A_crack) if add_cracks and
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
     annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
   IDEAS.Airflow.Multizone.Orifice res2(
   redeclare package Medium = Medium,
+    final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A_crack) if
+    A=A_crack) if add_cracks and
        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
 
 protected
+  parameter Boolean add_cracks = true
+    "Add cracks";
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
     then azi

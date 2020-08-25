@@ -3,6 +3,7 @@ model SlabOnGround "opaque floor on ground slab"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final nWin=1,
     QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
+    add_cracks=true,
     dT_nominal_a=-3,
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
@@ -27,6 +28,18 @@ model SlabOnGround "opaque floor on ground slab"
     "Two-dimensional correction for edge flow";
 
 //Calculation of heat loss based on ISO 13370
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
+    redeclare package Medium = Medium,
+    final m_flow=0,
+    nPorts=1) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
+    redeclare package Medium = Medium,
+    final m_flow=0,
+    nPorts=1) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    annotation (Placement(transformation(extent={{-28,-74},{-8,-54}})));
 protected
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground2(final d=0.33);
@@ -94,6 +107,10 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(boundary1.ports[1], res1.port_a) annotation (Line(points={{-8,-30},{6,
+          -30},{6,-40},{20,-40}}, color={0,127,255}));
+  connect(boundary2.ports[1], res2.port_a) annotation (Line(points={{-8,-64},{6,
+          -64},{6,-60},{20,-60}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
