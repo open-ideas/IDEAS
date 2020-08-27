@@ -219,11 +219,13 @@ model SingleZoneResidentialHydronicHeatPump
     y(unit="W"))
     "Block for reading the heat pump thermal power exchanged in the condenser"
     annotation (Placement(transformation(extent={{100,0},{80,20}})));
-  Utilities.IO.SignalExchange.Read reaTSup(description="Supply water temperature to emission system",
-      y(unit="K")) "Read supply water temperature to emission system"
+  Utilities.IO.SignalExchange.Read reaTSup(description=
+        "Supply water temperature to radiant floor",
+      y(unit="K")) "Read supply water temperature to radiant floor"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Utilities.IO.SignalExchange.Read reaTRet(description="Return water temperature from emission system",
-      y(unit="K")) "Read return water temperature from emission system"
+  Utilities.IO.SignalExchange.Read reaTRet(description=
+        "Return water temperature from radiant floor",
+      y(unit="K")) "Read return water temperature from radiant floor"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}})));
   Utilities.IO.SignalExchange.Read reaCOP(description="Heat pump COP", y(unit=
           "1")) "Read heat pump COP"
