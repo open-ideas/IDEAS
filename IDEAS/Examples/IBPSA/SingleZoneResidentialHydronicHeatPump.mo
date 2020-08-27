@@ -65,7 +65,7 @@ model SingleZoneResidentialHydronicHeatPump
       min=0,
       max=1,
       unit="1"), description=
-        "Integer signal to control the stage of the emission circuit pump either on or off")
+        "Integer signal to control the emission circuit pump either on or off")
     "Block for overwriting emission circuit pump control signal" annotation (
       Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -239,7 +239,8 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.IO.SignalExchange.Overwrite oveFan(u(
       min=0,
       max=1,
-      unit="1"), description="Integer signal to control the stage of the fan either on or off")
+      unit="1"), description=
+        "Integer signal to control the heat pump evaporator fan either on or off")
     "Block for overwriting fan control signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
