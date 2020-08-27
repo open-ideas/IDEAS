@@ -589,9 +589,9 @@ the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa.
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline controller is implemented to procure comfort within the building zone. 
-A PI controller is tuned with the indoor air temperature as the controlled variable 
+A PI controller is tuned with the zone operative temperature as the controlled variable 
 and the heat pump modulation signal for compressor frequency as the control variable. 
-The control variable is limited between 0 and 1, and it is computed to drive the indoor 
+The control variable is limited between 0 and 1, and it is computed to drive the zone operative 
 temperature towards a reference defined as the heating comfort set-point plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
@@ -599,7 +599,7 @@ around the set-point; during unoccupied periods the offset is set to 4.5 degrees
 and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
 be achievable because of the large thermal inertia of the floor heating system and 
-which would consequently cause importante levels of discomfort. All other equipment 
+which would consequently cause discomfort. All other equipment 
 (fan for the heat pump evaporator circuit and floor heating emission system pump) 
 are slaves of the heat pump functioning, i.e. they are switched on when the heat pump 
 is working (modulating signal higher than 0) and switched off otherwise. 
