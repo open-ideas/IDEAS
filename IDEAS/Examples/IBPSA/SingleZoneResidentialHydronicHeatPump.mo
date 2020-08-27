@@ -42,7 +42,8 @@ model SingleZoneResidentialHydronicHeatPump
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
       min=0,
       max=1,
-      unit="1"), description="Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity)")
+      unit="1"), description=
+        "Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)")
     "Block for overwriting heat pump modulating signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -324,8 +325,8 @@ equation
           {80,60},{30,60},{30,52}}, color={255,127,0}));
   connect(heaPum.P, reaPHeaPum.u)
     annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-60,13},
-          {-46,13},{-46,80},{-34,80}}, color={0,0,127}));
+  connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-59,12},
+          {-46,12},{-46,80},{-34,80}}, color={0,0,127}));
   connect(floHea.QTot, reaQFloHea.u) annotation (Line(points={{-21,16},{-32,16},
           {-32,-50},{-22,-50}},
                            color={0,0,127}));
@@ -363,8 +364,8 @@ equation
     annotation (Line(points={{101,150},{118,150}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,90},{-52,90},{
           -52,150},{-22,150}}, color={255,0,255}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
-          {-46,13},{-46,130},{30,130},{30,138}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
+          {-46,12},{-46,130},{30,130},{30,138}}, color={0,0,127}));
   connect(conPI.y, oveHeaPumY.u)
     annotation (Line(points={{41,150},{78,150}}, color={0,0,127}));
   connect(switch1.y, conPI.u_s)
