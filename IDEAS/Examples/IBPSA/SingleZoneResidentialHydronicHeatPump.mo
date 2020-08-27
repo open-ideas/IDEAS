@@ -548,7 +548,7 @@ system. A fan blows ambient air through the heat pump evaporator
 when the heat pump is operating.
 The floor heating system injects heat between 
 Layer 2 (insulation) and Layer 3 (screed), with water as 
-working fluid. The floor heating pump works at a mass flow rate of 0.5 kg/s when the heat pump 
+working fluid. The floor heating pump has a nominal mass flow rate of 0.5 kg/s when the heat pump 
 is working. 
 </p>
 
@@ -578,9 +578,12 @@ model documentation</a>.
 <p><b>Fluid movers</b> </p>
 <p>
 The floor heating system circulation pump  
-has the default efficiency of the pump model, which is 49 % at the time of writing. 
-Also the fan that blows ambient air through the heat exchanger uses this default efficiency 
+has the default total efficiency of the pump model, which is 49 % at the time of writing 
+(motor and hydraulic efficiencies are separately 70 % each). 
+Also the fan that blows ambient air through the heat exchanger uses this default total efficiency 
 of 49 %.
+The nominal mass flow rate of the floor heating circulation pump is of 0.5 kg/s and 
+the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa. 
 </p>
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
