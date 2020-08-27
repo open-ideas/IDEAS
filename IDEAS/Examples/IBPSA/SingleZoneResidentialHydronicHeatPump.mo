@@ -265,11 +265,9 @@ model SingleZoneResidentialHydronicHeatPump
     "Fan to pump air through heat exchanger"
     annotation (Placement(transformation(extent={{220,30},{200,50}})));
   Utilities.IO.SignalExchange.Read reaPFan(
-    description=
-        "Electrical power of the fan insuflating air through the heat pump evaporator",
+    description="Electrical power of the heat pump evaporator fan",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W"))
-    "Block for reading the electrical power of the fan insuflating air through the heat exchanger"
+    y(unit="W")) "Electrical power of the heat pump evaporator fan"
     annotation (Placement(transformation(extent={{220,70},{240,90}})));
 
   Modelica.Blocks.Math.Add addUno
