@@ -548,7 +548,7 @@ system. A fan blows ambient air through the heat pump evaporator
 when the heat pump is operating.
 The floor heating system injects heat between 
 Layer 2 (insulation) and Layer 3 (screed), with water as 
-working fluid. The floor heating mass flow rate is 0.5 kg/s when the heat pump 
+working fluid. The floor heating pump works at a mass flow rate of 0.5 kg/s when the heat pump 
 is working. 
 </p>
 
@@ -571,21 +571,10 @@ this heat pump calibration guide</a>
 using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015. 
 </p>
 <p>
-Variable heat pump compressor speed is achieved by multiplying the full load suction volume flow rate by the 
-normalized compressor speed. The power and heat transfer rates are forced to zero if the 
-resulting heat pump state has higher evaporating pressure than condensing pressure. 
+For more information of the heat pump model we refer to the 
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps.html#Buildings.Fluid.HeatPumps.ScrollWaterToWater\">
+model documentation</a>.
 </p>
-<p>
-Parameters <code>TConMax</code> and 
-<code>TEvaMin</code> are used to set an upper and lower bound for the condenser 
-and evaporator temperatures. The compressor is disabled when these operating conditions are exceeded, or when the evaporator 
-temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. 
-</p>
-<p>
-The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
-of the heat transferred to the refrigerant in the evaporator. There is no subcooling. 
-</p>
-
 <p><b>Fluid movers</b> </p>
 <p>
 The floor heating system circulation pump  
