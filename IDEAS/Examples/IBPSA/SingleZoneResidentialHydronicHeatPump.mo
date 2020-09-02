@@ -611,6 +611,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
 <ul>
+
 <li>
 <code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
 </li>
@@ -618,18 +619,20 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
 </li>
 <li>
-<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the emission circuit pump either on or off
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
 </li>
 <li>
-<code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity)
+<code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
-<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the fan either on or off
+<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
 </li>
+
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
 <ul>
+
 <li>
 <code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
 </li>
@@ -643,7 +646,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat pump evaporator
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
 </li>
 <li>
 <code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
@@ -673,11 +676,12 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
 </li>
 <li>
-<code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from emission system
+<code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from radiant floor
 </li>
 <li>
-<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to emission system
+<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
 </li>
+
 
 </ul>
 <h3>Additional System Design</h3>
