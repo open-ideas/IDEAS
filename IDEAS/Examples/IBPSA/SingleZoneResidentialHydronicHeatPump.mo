@@ -568,7 +568,10 @@ therefore neglected. The model parameters are obtained by calibration of the hea
 performance data following the procedure explained in
 <a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html\">
 this heat pump calibration guide</a>
-using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015. 
+using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015
+which data can be found in
+<a href=\"https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf\">
+this manufacturer datasheet</a>.
 </p>
 <p>
 For more information of the heat pump model we refer to the 
