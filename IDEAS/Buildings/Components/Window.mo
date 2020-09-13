@@ -178,6 +178,7 @@ protected
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = Medium,
+    final azi=aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 1 else 2) if
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"

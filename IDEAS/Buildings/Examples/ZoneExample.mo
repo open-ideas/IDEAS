@@ -6,7 +6,7 @@ model ZoneExample
   parameter Modelica.SIunits.Length l = 4 "Room length";
   parameter Modelica.SIunits.Length w = 4 "Room width";
   parameter Modelica.SIunits.Length h = 2.7 "Room height";
-  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
+  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)
                                               "Data reader"
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   IDEAS.Buildings.Components.Zone zone(
@@ -33,7 +33,7 @@ model ZoneExample
       "Insulating double glazing (6/16/6 AR Planitherm one) with clear glass",
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=IDEAS.Types.Azimuth.S,
+    azi=IDEAS.Types.Azimuth.N,
     A=2)                       "Window model"
     annotation (Placement(transformation(extent={{-56,40},{-44,60}})));
   IDEAS.Buildings.Components.SlabOnGround slabOnGround(
@@ -44,7 +44,7 @@ model ZoneExample
            "Floor model"
     annotation (Placement(transformation(extent={{-56,-40},{-44,-20}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
-    azi=0,
+    azi=IDEAS.Types.Azimuth.N,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     A=(l + w)*2*h)         "Outer wall model"
