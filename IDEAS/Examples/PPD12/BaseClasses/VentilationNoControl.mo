@@ -1,47 +1,61 @@
 within IDEAS.Examples.PPD12.BaseClasses;
 partial model VentilationNoControl "Ppd 12 example model"
   extends IDEAS.Examples.PPD12.BaseClasses.HeatingNoControl(
-    living(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    Diner(nPorts=3,
-          airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
+    living(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    Diner(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
     stairWay(nPorts=3,
-             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    bathRoom(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    bedRoom1(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    bedRoom2(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
-    bedRoom3(nPorts=3,
-             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)),
+             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+      redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    bathRoom(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    bedRoom1(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    bedRoom2(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    bedRoom3(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+        redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
     radGnd(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBed1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBat2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBat1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBed2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
-    radBed3(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
+    radBed3(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
+    hallway(redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow),
+    Porch(redeclare Buildings.Components.InterzonalAirFlow.AirTight
+        interzonalAirFlow, hasCavityD=true));
 
-  IDEAS.Fluid.Movers.FlowControlled_m_flow fanSup(
+  Fluid.Movers.FlowControlled_dp           fanSup(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
     use_inputFilter=false,
     dp_nominal=300,
     redeclare package Medium = MediumAir,
-    constantMassFlowRate=70*1.2/3600,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     redeclare Data.FanCurvePP12 per)      "Supply fan"
     annotation (Placement(transformation(extent={{360,118},{340,138}})));
-  IDEAS.Fluid.Movers.FlowControlled_m_flow fanRet(
+  Fluid.Movers.FlowControlled_dp           fanRet(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
     use_inputFilter=false,
     dp_nominal=300,
     redeclare package Medium = MediumAir,
-    constantMassFlowRate=70*1.2/3600,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     redeclare Data.FanCurvePP12 per)      "Return fan"
     annotation (Placement(transformation(extent={{340,180},{360,200}})));
   IDEAS.Fluid.Sources.Boundary_pT bouAir(
-    nPorts=3,
+    nPorts=2,
     use_T_in=true,
     redeclare package Medium = MediumAir) "Boundary for air model"
     annotation (Placement(transformation(extent={{400,160},{380,180}})));
@@ -228,23 +242,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(fanSup.port_a, bouAir.ports[1]) annotation (Line(points={{360,128},{
-          380,128},{380,172.667}},
+          380,128},{380,172}},
                            color={0,127,255}));
   connect(fanRet.port_b, bouAir.ports[2]) annotation (Line(points={{360,190},{
-          380,190},{380,170}},
+          380,190},{380,168}},
                            color={0,127,255}));
   connect(spl5.port_3, bedRoom2.port_b) annotation (Line(points={{230,120},{230,
           58},{272,58},{272,62}},                color={0,127,255}));
-  connect(bedRoom2.ports[1], bedRoom3.ports[1]) annotation (Line(points={{266,62},
-          {266,62},{250,62},{250,20},{270,20}},         color={0,127,255}));
   connect(spl6.port_3, bedRoom3.ports[2]) annotation (Line(points={{190,120},{190,
           20},{270,20}},                 color={0,127,255}));
-  connect(stairWay.ports[2], bedRoom3.ports[3]) annotation (Line(points={{76,6},{
-          80,6},{80,0},{80,8},{270,8},{270,20}},         color={0,127,255}));
-  connect(stairWay.ports[1], bathRoom.ports[1]) annotation (Line(points={{76,6},{
-          74,6},{74,-6},{74,-4},{130,-4},{130,6}},        color={0,127,255}));
-  connect(bedRoom1.ports[1], stairWay.ports[3]) annotation (Line(points={{130,60},
-          {122,60},{122,56},{76,56},{76,6}},          color={0,127,255}));
   connect(spl7.port_3, bathRoom.ports[2])
     annotation (Line(points={{150,180},{150,6},{130,6}}, color={0,127,255}));
   connect(spl6.port_1, spl5.port_2) annotation (Line(points={{200,130},{220,130}},
@@ -255,12 +261,8 @@ equation
           90},{132,60},{130,60}},        color={0,127,255}));
   connect(spl8.port_2, living.ports[1]) annotation (Line(points={{122,130},{-36,
           130},{-36,36}}, color={0,127,255}));
-  connect(living.ports[2], Diner.ports[1]) annotation (Line(points={{-36,36},{-36,
-          -38},{-36,-38}},          color={0,127,255}));
   connect(Diner.ports[2], spl7.port_1) annotation (Line(points={{-36,-38},{-56,-38},
           {-56,190},{140,190}},                        color={0,127,255}));
-  connect(Diner.ports[3], bouAir.ports[3]) annotation (Line(points={{-36,-38},{
-          -16,-38},{-16,212},{380,212},{380,167.333}},color={0,127,255}));
   connect(Te.y, bouAir.T_in) annotation (Line(points={{381,90},{400,90},{400,
           174},{402,174}}, color={0,0,127}));
   connect(bypassRet.port_2, fanRet.port_a)
