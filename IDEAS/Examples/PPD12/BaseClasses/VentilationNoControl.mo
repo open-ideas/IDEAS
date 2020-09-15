@@ -8,7 +8,7 @@ partial model VentilationNoControl "Ppd 12 example model"
         redeclare Buildings.Components.InterzonalAirFlow.AirTight
         interzonalAirFlow),
     stairWay(nPorts=3,
-             airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+      airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
       redeclare Buildings.Components.InterzonalAirFlow.AirTight
         interzonalAirFlow),
     bathRoom(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
@@ -29,9 +29,12 @@ partial model VentilationNoControl "Ppd 12 example model"
     radBat1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBed2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
     radBed3(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
-    hallway(redeclare Buildings.Components.InterzonalAirFlow.AirTight
+    hallway(airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+            redeclare Buildings.Components.InterzonalAirFlow.AirTight
         interzonalAirFlow),
-    Porch(redeclare Buildings.Components.InterzonalAirFlow.AirTight
+    Porch(
+      airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+          redeclare Buildings.Components.InterzonalAirFlow.AirTight
         interzonalAirFlow, hasCavityD=true));
 
   Fluid.Movers.FlowControlled_dp           fanSup(

@@ -4,9 +4,8 @@ model VentilationRBC "Ppd 12 example model using rule based controller"
     fanRet(inputType=IDEAS.Fluid.Types.InputType.Constant),
     fanSup(inputType=IDEAS.Fluid.Types.InputType.Constant),
     hallway(hasCavityA=true, hasCavityD=true),
-    Diner(hasCavityA=true),
+    Diner(hasCavityA=true, hasCavityC=true),
     sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
-
     bathRoom(hasCavityC=true),
     stairWay(hasCavityC=true),
     bedRoom2(hasCavityA=true));
