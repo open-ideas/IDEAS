@@ -42,7 +42,7 @@ partial model VentilationNoControl "Ppd 12 example model"
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
     use_inputFilter=false,
-    dp_nominal=300,
+    dp_nominal=80,
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     redeclare Data.FanCurvePP12 per)      "Supply fan"
@@ -52,7 +52,7 @@ partial model VentilationNoControl "Ppd 12 example model"
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
     use_inputFilter=false,
-    dp_nominal=300,
+    dp_nominal=100,
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
     redeclare Data.FanCurvePP12 per)      "Return fan"
