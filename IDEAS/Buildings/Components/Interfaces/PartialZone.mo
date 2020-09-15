@@ -51,13 +51,7 @@ model PartialZone "Building zone model"
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  replaceable ZoneAirModels.WellMixedAir airModel(
-    redeclare package Medium = Medium,
-    nSurf=nSurf,
-    nPorts=interzonalAirFlow.nPorts + n_ports_interzonal,
-    Vtot=V,
-    energyDynamics=energyDynamicsAir,
-    allowFlowReversal=allowFlowReversal)
+  replaceable ZoneAirModels.WellMixedAir airModel
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
@@ -70,7 +64,7 @@ model PartialZone "Building zone model"
     massDynamics=if interzonalAirFlow.prescribesPressure
                  then Modelica.Fluid.Types.Dynamics.SteadyState
                  else energyDynamicsAir,
-    nPorts=interzonalAirFlow.nPorts,
+    nPorts=interzonalAirFlow.nPorts + n_ports_interzonal,
     m_flow_nominal=m_flow_nominal)
     "Zone air model"
     annotation (choicesAllMatching=true,
