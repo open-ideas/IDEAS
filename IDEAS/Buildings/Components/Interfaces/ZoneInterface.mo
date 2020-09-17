@@ -1,7 +1,8 @@
 within IDEAS.Buildings.Components.Interfaces;
 partial model ZoneInterface "Partial model for thermal building zones"
-  replaceable package Medium =
-    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+  replaceable package Medium = IDEAS.Media.Air
+  constrainedby Modelica.Media.Interfaces.PartialMedium
+    "Medium in the component"
       annotation (choicesAllMatching = true);
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
@@ -154,6 +155,12 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+September 17, 2020, Filip Jorissen:<br/>
+Modified default Medium.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
+March 21, 2019 by Filip Jorissen:<br/>
+</li>
 <li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
