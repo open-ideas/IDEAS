@@ -1,7 +1,10 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer;
 model ExteriorSolarAbsorption
   "Shortwave radiation absorption on an exterior surface"
-  parameter Modelica.SIunits.Area A "Surface area";
+  parameter Modelica.SIunits.Area A
+    "Surface area";
+  parameter Modelica.SIunits.Emissivity epsSw
+    "Short wave solar absorption coefficient";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Port for heat exchange"
@@ -12,16 +15,9 @@ model ExteriorSolarAbsorption
   Modelica.Blocks.Interfaces.RealInput solDif(unit="W/m2")
     "Diffuse solar irradiation on surface"
     annotation (Placement(transformation(extent={{120,0},{80,40}})));
-  Modelica.Blocks.Interfaces.RealInput epsSw
-    "Shortwave emissivity of the surface"
-    annotation (Placement(transformation(extent={{-120,40},{-80,80}})));
 
 protected
-  parameter Modelica.SIunits.Area ASw(fixed=false)
-    "Dummy for converting continuous variable into parameter";
-
-initial equation
-  ASw=-A*epsSw;
+  parameter Modelica.SIunits.Area ASw = - A*epsSw "Constant folding";
 
 equation
   port_a.Q_flow = ASw*(solDir + solDif);
@@ -52,6 +48,11 @@ equation
 <p>Transmitted shortwave solar radiation is distributed over all surfaces in the zone in a prescribed scale. This scale is an input value which may be dependent on the shape of the zone and the location of the windows, but literature <a href=\"IDEAS.Buildings.UsersGuide.References\">[Liesen 1997]</a> shows that the overall model is not significantly sensitive to this assumption.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 12, 2020 by Filip Jorissen:<br/>
+No longer using connector and initial equation for <code>epsSw</code>.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1162\">#1162</a>.
+</li>
 <li>
 October 29, 2018 by Filip Jorissen:<br/>
 Improved documentation for
