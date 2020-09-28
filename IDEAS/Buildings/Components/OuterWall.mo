@@ -25,6 +25,13 @@ model OuterWall "Opaque building envelope construction"
     annotation(Dialog(group="Building shade",enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
+  parameter Real Cs=1
+    "Wind speed modifier"
+    annotation(Dialog(group="Interzonal airflow (Optional)"));
+  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
+      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+      "Cp at different angles of attack"
+      annotation(Dialog(group="Interzonal airflow (Optional)"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
     final L=L,
@@ -66,7 +73,9 @@ protected
     annotation (Placement(transformation(extent={{-54,0},{-46,8}})));
   IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = Medium,
+    final table=coeffsCp,
     final azi=aziInt,
+    final Cs=Cs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if
     sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
