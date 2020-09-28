@@ -38,12 +38,12 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Modelica.SIunits.Area A_crack = (sim.m_flow_infiltration_nominal*A/sim.A_tot)/sqrt(2*50/1.2)
-    "Surface area of crack"
-    annotation(Dialog(group="Interzonal air flow: Crack"));
 
   replaceable package Medium = IDEAS.Media.Air
     "Medium in the component"
+    annotation(Dialog(group="Interzonal airflow (Optional)"));
+  parameter Real q50( unit="m3/(h.m2)") = sim.q50
+    "Envelope air tightness"
     annotation(Dialog(group="Interzonal airflow (Optional)"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
@@ -78,19 +78,23 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  IDEAS.Airflow.Multizone.Orifice res1(
+  PowerLaw_q50 res1(
   redeclare package Medium = Medium,
     final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A_crack) if add_cracks and
+    A=A,
+    final q50=q50) if
+                  add_cracks and
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
     annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
-  IDEAS.Airflow.Multizone.Orifice res2(
+  PowerLaw_q50 res2(
   redeclare package Medium = Medium,
     final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A_crack) if add_cracks and
+    A=A,
+    final q50=q50) if
+                  add_cracks and
        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
@@ -144,6 +148,73 @@ protected
   IDEAS.Buildings.Components.Interfaces.SetArea setArea(A=0)
     "Block that contributes surface area to the siminfomanager"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+
+model PowerLaw_q50
+
+    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
+      m=0.5,
+      k=A*coeff); //mass flow form of orifice equation
+
+  parameter Modelica.SIunits.Area A
+    "Surface area";
+  parameter Real q50(unit="m3/(h.m2)")
+    "Leaked volume flow rate per unit A at 50Pa";
+  final parameter Real coeff = (q50/3600)*A/(50^m)
+    "Conversion coefficient";
+equation
+  v= V_flow/A;
+  annotation (Icon(graphics={
+        Text(
+          extent={{16,-46},{92,-84}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="n50=%n50"),
+        Text(
+          extent={{-82,98},{48,38}},
+          lineColor={28,108,200},
+          fillColor={215,215,215},
+          fillPattern=FillPattern.None,
+          textString="n50/m²"),
+        Rectangle(
+          extent={{-48,32},{54,-36}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-56,12},{82,-14}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-94,4},{-58,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{54,6},{106,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-64,2},{-46,-6}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-82,4},{-46,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid)}));
+end PowerLaw_q50;
+
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);

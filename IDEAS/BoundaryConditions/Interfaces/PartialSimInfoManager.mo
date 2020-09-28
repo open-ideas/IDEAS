@@ -165,6 +165,7 @@ partial model PartialSimInfoManager
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
   final parameter Modelica.SIunits.MassFlowRate m_flow_infiltration_nominal(fixed=false);
+  final parameter Real q50( unit="m3/(h.m2)") = (m_flow_infiltration_nominal/1.2*3600*A_tot);
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
