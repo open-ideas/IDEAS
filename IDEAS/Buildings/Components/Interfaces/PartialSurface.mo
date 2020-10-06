@@ -159,32 +159,25 @@ model PowerLaw_q50
     "Surface area";
   parameter Real q50(unit="m3/(h.m2)")
     "Leaked volume flow rate per unit A at 50Pa";
-  final parameter Real coeff = (q50/3600)*A/(50^m)
+  final parameter Real coeff = (q50/3600)/(50^m)
     "Conversion coefficient";
 equation
   v= V_flow/A;
   annotation (Icon(graphics={
         Text(
-          extent={{16,-46},{92,-84}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          textString="n50=%n50"),
-        Text(
-          extent={{-82,98},{48,38}},
+          extent={{-100,100},{-40,60}},
           lineColor={28,108,200},
           fillColor={215,215,215},
           fillPattern=FillPattern.None,
-          textString="n50/m²"),
+          textString="q50"),
         Rectangle(
-          extent={{-48,32},{54,-36}},
+          extent={{-20,80},{20,-80}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{-56,12},{82,-14}},
+          extent={{-60,58},{64,46}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
           fillColor={255,255,255},
@@ -212,6 +205,30 @@ equation
           lineColor={0,0,255},
           pattern=LinePattern.None,
           fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,36},{66,24}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,-54},{66,-66}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-56,-24},{68,-36}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-38,4},{40,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}));
 end PowerLaw_q50;
 
