@@ -57,7 +57,7 @@ def _setEnvironmentVariables(var, value):
     '''
     import os
     import platform
-    if os.environ.has_key(var):
+    if var in os.environ.keys():
         if platform.system() == "Windows":
             os.environ[var] = value + ";" + os.environ[var]
         else:
