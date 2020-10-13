@@ -12,7 +12,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   parameter Real fraLosDesNom=0.68
     "Ratio of power at design conditions over power at 2/35degC";
   parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
-  final parameter SI.Power QNomFinal=if QDesign == 0 then QNom else QDesign/
+  final parameter SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
       fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
   parameter Real modulation_min=20 "Minimal modulation percentage";
   parameter Real modulation_start=35
@@ -218,6 +218,11 @@ equation
 <p>A specific heat pump example is given in <a href=\"modelica://IDEAS.Thermal.Components.Examples.HeatPump_AirWater\">IDEAS.Thermal.Components.Examples.HeatPump_AirWater</a>.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 10, 2020 by Filip Jorissen:<br/>
+Fixed real equality comparison for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1172\">#1172</a>.
+</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for
