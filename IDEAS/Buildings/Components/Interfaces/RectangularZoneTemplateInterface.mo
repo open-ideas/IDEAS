@@ -492,7 +492,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallANet) if
+    A=AWallANet,
+    redeclare package Medium = Medium) if
        hasBouA
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,0},{-110,20}})));
@@ -506,7 +507,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallBNet) if
+    A=AWallBNet,
+    redeclare package Medium = Medium) if
        hasBouB
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,-20},{-110,0}})));
@@ -519,7 +521,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallCNet) if
+    A=AWallCNet,
+    redeclare package Medium = Medium) if
        hasBouC
     "Boundary wall for face C of this zone"
     annotation (Placement(transformation(extent={{-120,-40},{-110,-20}})));
@@ -531,7 +534,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallDNet) if
+    A=AWallDNet,
+    redeclare package Medium = Medium) if
        hasBouD
     "Boundary wall for face D of this zone"
     annotation (Placement(transformation(extent={{-120,-60},{-110,-40}})));
@@ -543,7 +547,8 @@ protected
       mats=conTypFlo.mats),
     T_start=T_start,
     linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou) if
+    dT_nominal_a=dT_nominal_bou,
+    redeclare package Medium = Medium) if
        hasBouFlo
     "Boundary wall for zone floor"
     annotation (Placement(transformation(extent={{-120,-80},{-110,-60}})));
@@ -555,7 +560,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=ACeiNet) if
+    A=ACeiNet,
+    redeclare package Medium = Medium) if
        hasBouCei
     "Boundary wall for zone ceiling"
     annotation (Placement(transformation(extent={{-120,-100},{-110,-80}})));
@@ -567,6 +573,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallANet),
@@ -587,6 +594,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallBNet),
@@ -606,6 +614,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallCNet),
@@ -624,6 +633,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallDNet),
@@ -644,6 +654,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,ACeiNet)) if
@@ -660,6 +671,7 @@ protected
       mats=conTypFlo.mats),
     T_start=T_start,
     linIntCon_a=linIntCon,
+    redeclare package Medium = Medium,
     TeAvg=TeAvg,
     TiAvg=TiAvg,
     dTeAvg=dTeAvg,
@@ -677,6 +689,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     hasCavity=hasCavityA,
@@ -702,6 +715,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -726,6 +740,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -749,6 +764,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -775,6 +791,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB) if
     hasIntFlo
@@ -790,6 +807,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intA,
     azi=0,
