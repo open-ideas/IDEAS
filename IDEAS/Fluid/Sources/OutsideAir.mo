@@ -94,7 +94,7 @@ algorithm
         y2=yd[i + 1],
         y1d=d[i],
         y2d=d[i + 1]);
-
+   annotation(Inline=false);
 end windPressureProfile;
   Modelica.SIunits.Angle surOut = azi-Modelica.Constants.pi   "Angle of surface that is used to compute angle of attack of wind";
   Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
