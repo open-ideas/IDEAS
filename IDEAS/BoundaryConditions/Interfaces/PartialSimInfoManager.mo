@@ -165,7 +165,7 @@ partial model PartialSimInfoManager
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
   final parameter Modelica.SIunits.MassFlowRate m_flow_infiltration_nominal(fixed=false);
-  final parameter Real q50( unit="m3/(h.m2)") = (m_flow_infiltration_nominal/1.2*3600*A_tot);
+  final parameter Real q50( unit="m3/(h.m2)") = ((m_flow_infiltration_nominal*3600/1.2)/A_tot);
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
@@ -238,7 +238,7 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
-  m_flow_infiltration_nominal = volumePort.V_tot*n50/3600*1.2;
+  m_flow_infiltration_nominal = volumePort.V_tot*n50*1.2/3600;
   A_tot=areaPort.A_tot;
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
