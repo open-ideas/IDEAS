@@ -2,11 +2,7 @@ within IDEAS.Buildings.Components;
 model Window "Multipane window"
   replaceable IDEAS.Buildings.Data.Interfaces.Glazing glazing
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
-    annotation (choices(
-        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing "Insulating double glazing (6/16/6 AR Planitherm one, U=1.0, g=0.55) with clear glass"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins3Ar2020 glazing "Insulating triple glazing (6/16/6/16/6 AR Planitherm one, U=0.6, g=0.423) with clear glass"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcDouble glazing "Uncoated double glazing (4/12/4, U=2.9, g=0.78)"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcSingle glazing "Single glazing (U=5.8, g=0.88)")),
+    annotation (choicesAllMatching=true,
         Dialog(group=
           "Construction details"));
 

@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Glazing;
-record Ins2ArSilver = IDEAS.Buildings.Data.Interfaces.Glazing (
+record Ins2ArSilver = IDEAS.Buildings.Data.Interfaces.OldGlazing (
     final nLay=3,
     final mats={Materials.Glass(d=0.006, epsLw_a=0.110),
                 Materials.Argon(d=0.016),
@@ -31,6 +31,10 @@ record Ins2ArSilver = IDEAS.Buildings.Data.Interfaces.Glazing (
       "Deprecated: Low SHGC AR 1.3 6/16/6 (U = 1.3 W/m2K, g = 0.298)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending OldGlazing.
+</li>
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Deprecated this glazing type since it is based on

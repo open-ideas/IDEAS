@@ -1,26 +1,8 @@
 within IDEAS.Buildings.Data.Interfaces;
 record Glazing
   "Template record for glazing, based on  Window software by LBNL"
-  extends Modelica.Icons.MaterialProperty;
+  extends IDEAS.Buildings.Data.Interfaces.PartialGlazing;
 
-  parameter Integer nLay(min=1)
-    "Number of layers of the glazing, including gaps";
-  parameter IDEAS.Buildings.Data.Interfaces.Material[nLay] mats
-    "Array of materials, ordered from outside to inside. Add coatings to glass by setting epsLw_a for inward facing sides of the glass, epsLw_b for outward.";
-  parameter Real[:, nLay + 1] SwAbs
-    "Absorbed solar radiation for each layer as function of angle of incidence";
-  parameter Real[:, 2] SwTrans
-    "Transmitted solar radiation as function of angle of incidence";
-  parameter Real[nLay] SwAbsDif
-    "Absorbed solar radiation for each layer as function of angle of incidence";
-  parameter Real SwTransDif
-    "Transmitted solar radiation as function of angle of incidence";
-
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer U_value "Design U-value. (Only used for calculation Qdesign)";
-  parameter Real g_value
-    "Design g-value. (Not used in calculation, only informative)";
-  parameter Boolean checkLowPerformanceGlazing = true
-    "Throw error when the glazing does not have a coating in the cavity";
   annotation (Documentation(info="<html>
   <p>
   The <code>Glazing.mo</code> partial describes the material data 
