@@ -10,7 +10,7 @@ model OutsideAir
   parameter Real Cs = 1 "Wind speed modifier";
   constant Modelica.SIunits.Density rho = 1.2 "Air density";
   Modelica.SIunits.Angle alpha "Wind incidence angle (0: normal to wall)";
-  Real CpAct(min=0, final unit="1") "Actual wind pressure coefficient";
+  Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
   Modelica.SIunits.Pressure pWin(displayUnit="Pa")
     "Change in pressure due to wind force";
@@ -103,7 +103,6 @@ equation
 
   alpha = winDir-surOut;
 
-  CpAct =windPressureProfile(u=alpha, table=table[:, :]);                                                                                                                                                      //input is in degrees
 
   pWin = Cs*0.5*CpAct*rho*vWin*vWin;
   pTot = p_in_internal + pWin;
