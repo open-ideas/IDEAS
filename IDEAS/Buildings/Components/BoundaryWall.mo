@@ -6,7 +6,8 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     dT_nominal_a=-1,
     add_cracks=false,
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
-            addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
+            addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))),
+    Read_q50(v50_surf=0));
 
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"

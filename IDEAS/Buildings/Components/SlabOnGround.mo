@@ -8,7 +8,8 @@ model SlabOnGround "opaque floor on ground slab"
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(disableInitPortB=true));
+    layMul(disableInitPortB=true),
+    Read_q50(v50_surf=0));
 
   parameter Modelica.SIunits.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";
