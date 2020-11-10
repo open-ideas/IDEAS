@@ -44,6 +44,7 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Dialog(group="Interzonal airflow (Optional)"));
   parameter Real q50=Read_q50.q50 "Envelope air tightness"
     annotation (Dialog(group="Interzonal airflow (Optional)"));
+    parameter Real q50=if q50_custome then q50 else Read_q50.q50 "Envelope air tightness" annotation (Dialog(enable=q50_custome,group="Interzonal airflow (Optional)"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
