@@ -174,7 +174,7 @@ model PartialZone "Building zone model"
     q50_corr=sim.q50,
     n50_custome=n50_custome)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
-  parameter Boolean n50_custome=true  "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
+  parameter Boolean n50_custome=false "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
 protected
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
