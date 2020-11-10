@@ -45,6 +45,9 @@ connector ZoneBus
     final quantity="Angle",
     final unit="rad",
     displayUnit="deg") annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector v50 "v50 if the surface has a custome q50 value" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone "v50 if the surface has a custome q50 value" annotation ();
+
 
   annotation (Documentation(info="<html>
 <p>

@@ -69,6 +69,12 @@ protected
     annotation (Placement(transformation(extent={{-10,118},{10,138}})));
   Modelica.Blocks.Routing.RealPassThrough epsSw "Shortwave emissivity"
     annotation (Placement(transformation(extent={{-10,88},{10,108}})));
+  Modelica.Blocks.Math.Gain v50(k=k)
+    "v50 value if q50 of the surface is custome"
+    annotation (Placement(transformation(extent={{-10,-232},{10,-212}})));
+  Modelica.Blocks.Routing.RealPassThrough q50_zone
+    "q50 for non costume surfaces"
+    annotation (Placement(transformation(extent={{8,-268},{-12,-248}})));
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -132,6 +138,14 @@ equation
         points={{10,-160},{100.1,-160},{100.1,-0.1}}, color={0,127,255}));
   connect(massFlowRateMultiplier2.port_b, propsBus_b.port_2) annotation (Line(
         points={{10,-190},{100,-190},{100,-0.1},{100.1,-0.1}}, color={0,127,255}));
+  connect(v50.u, propsBus_a.v50) annotation (Line(points={{-12,-222},{-100,-222},
+          {-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(v50.y, propsBus_b.v50) annotation (Line(points={{11,-222},{100,-222},
+          {100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(q50_zone.u, propsBus_b.q50_zone) annotation (Line(points={{10,-258},{
+          100,-258},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(q50_zone.y, propsBus_a.q50_zone) annotation (Line(points={{-13,-258},
+          {-100,-258},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(
