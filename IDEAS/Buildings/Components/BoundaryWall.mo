@@ -1,6 +1,8 @@
 within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with optional prescribed heat flow rate or temperature boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    q50=0,
+    q50_custome=true,
     final nWin=1,
     QTra_design=U_value*A*(273.15 + 21 - TRef_a),
     dT_nominal_a=-1,
@@ -12,7 +14,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-  parameter Modelica.SIunits.Temperature T_fixed = 294.15
+  parameter Modelica.SIunits.Temperature T_fixed=294.15
     "Fixed boundary temperature"
     annotation(Dialog(group="Boundary conditions",enable=use_T_fixed));
   parameter Boolean use_T_in = false

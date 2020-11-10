@@ -10,10 +10,10 @@ model PartialZone "Building zone model"
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-
-  parameter Real n50(min=0.01)= sim.n50
+  parameter Boolean n50_custome=false "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
+  parameter Real n50(min=0.01,fixed= n50_custome)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
-    annotation(Dialog(group="Building physics"));
+    annotation(Dialog(enable=n50_custome,group="Building physics"));
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Advanced", group="Air model"));
@@ -171,10 +171,10 @@ model PartialZone "Building zone model"
     nSurf=nSurf,
     n50=n50,
     V=V,
-    q50_corr=sim.q50,
+    q50_corr=sim.q50_cor,
     n50_custome=n50_custome)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
-  parameter Boolean n50_custome=false "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
+
 protected
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
@@ -231,28 +231,22 @@ model Setq50 "q50 set by zone"
   parameter Boolean n50_custome=false;
 
 
-  Modelica.Blocks.Interfaces.RealInput v50_custome[nSurf]    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
+  Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
+    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
+  Modelica.Blocks.Interfaces.RealInput nonCust[nSurf]
+    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
-  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-60},{-118,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-70},
+              {-118,-50}})));
 
-  Real q50_custome[nSurf]  "if v50_custome=0 the related area should be considered for q50_zone. This is in case if no custome q50 value is assigned to the surface or in surfaces assumed airtight";
+
 
 equation
 
-for i in  1:nSurf loop
-  if v50_custome[i] > 0 then
-    q50_custome[i] = 0;
-  else
-    q50_custome[i]=1; // if the surface does not have a custome q50, the area is considered
-  end if;
-end for;
-
-
-
   if n50_custome then
+    q50_zone=fill(((n50*V) - sum(v50_surf))/sum(Area*nonCust), nSurf);
+  else
     q50_zone=fill(q50_corr,nSurf);
-    else
-    q50_zone= fill(((n50*V)-sum(v50_custome))/sum(Area*q50_custome),nSurf);
 
   end if;
 
@@ -261,6 +255,14 @@ end Setq50;
 
 
 initial equation
+
+  if n50_custome then
+  n50=n50;
+  else
+  n50=sum(propsBusInt.v50)/V;
+  end if;
+
+
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 
 equation
@@ -452,11 +454,13 @@ end for;
           40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
   end if;
   connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{-60.8,
-          -95},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
+          -96},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
           {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
-  connect(setq50.v50_custome, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
+  connect(setq50.v50_surf, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
           {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.nonCust, propsBusInt.nonCust) annotation (Line(points={{-60.6,-82},
+          {-80,-82},{-80,39.9},{-80.1,39.9}}, color={0,0,127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

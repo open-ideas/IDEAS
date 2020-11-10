@@ -45,9 +45,10 @@ connector ZoneBus
     final quantity="Angle",
     final unit="rad",
     displayUnit="deg") annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector v50 "v50 if the surface has a custome q50 value" annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone "v50 if the surface has a custome q50 value" annotation ();
-
+  IDEAS.Buildings.Components.Interfaces.RealConnector v50( final unit="m3/h") "v50 if the surface has a custome q50 value" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone(  final unit="m3/(h.m2)")
+                                                                                        "v50 of the surface" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector nonCust "1 if custome q50 value is assigned to surface" annotation ();
 
   annotation (Documentation(info="<html>
 <p>

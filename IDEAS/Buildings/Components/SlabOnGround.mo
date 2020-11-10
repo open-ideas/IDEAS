@@ -1,6 +1,8 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    q50=0,
+    q50_custome=true,
     final nWin=1,
     QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
     add_cracks=false,
@@ -13,9 +15,9 @@ model SlabOnGround "opaque floor on ground slab"
 
   parameter Modelica.SIunits.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";
-  parameter Modelica.SIunits.Temperature TeAvg = 273.15+10.8
+  parameter Modelica.SIunits.Temperature TeAvg=273.15 + 10.8
     "Annual average outdoor temperature";
-  parameter Modelica.SIunits.Temperature TiAvg = 273.15+22
+  parameter Modelica.SIunits.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature";
   parameter Modelica.SIunits.TemperatureDifference dTeAvg = 4
     "Amplitude of variation of monthly average outdoor temperature";

@@ -100,7 +100,8 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
 
-  q50_zone Read_q50(v50_surf=q50*A, q50_custome=q50_custome)
+  q50_zone Read_q50(
+    q50_inp=q50,    v50_surf=q50*A, q50_custome=q50_custome)
     annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
 
 
@@ -241,21 +242,30 @@ model q50_zone "Read q_50 from zone"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Real q50(fixed=false);
-  parameter Real v50_surf;
+  parameter Real q50_inp;
+  parameter Real v50_surf( unit="m3/h");
   parameter Boolean q50_custome=false;
 
   Modelica.Blocks.Interfaces.RealInput q50_zone    annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
-  Modelica.Blocks.Interfaces.RealOutput v50    annotation (Placement(transformation(extent={{-98,-80},{-118,-60}})));
+  Modelica.Blocks.Interfaces.RealOutput v50    annotation (Placement(transformation(extent={{-100,
+            -90},{-120,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput nonCust
+    annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
 initial equation
 
-  q50=q50_zone;
+  if q50_custome then
+    q50= q50_inp;
+    else
+    q50=q50_zone;
+  end if;
 
 equation
+  v50=v50_surf;
 
   if q50_custome then
-  v50=v50_surf;
+  nonCust=0;
   else
-  v50=0;
+  nonCust=1;
   end if;
 
 
@@ -317,12 +327,16 @@ equation
   connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
           -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(setArea.areaPort, sim.areaPort);
-  connect(Read_q50.v50, propsBusInt.v50) annotation (Line(points={{59.2,-57},{59.2,
-          -56},{56,-56},{56,-18},{56.09,-18},{56.09,19.91}}, color={0,0,127}));
+  connect(Read_q50.v50, propsBusInt.v50) annotation (Line(points={{59,-58},{56,
+          -58},{56,-20},{56.09,-20},{56.09,19.91}},          color={0,0,127}));
   connect(Read_q50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{59.4,
           -43},{59.4,-42},{56.09,-42},{56.09,19.91}}, color={0,0,127}));
-  connect(Read_q50.v50, setArea.v50) annotation (Line(points={{59.2,-57},{59.2,
-          -82.5},{79.4,-82.5},{79.4,-83.2}}, color={0,0,127}));
+  connect(Read_q50.v50, setArea.v50) annotation (Line(points={{59,-58},{56,-58},
+          {56,-82},{79.4,-82},{79.4,-83.2}}, color={0,0,127}));
+  connect(Read_q50.nonCust, propsBusInt.nonCust) annotation (Line(points={{59,
+          -52},{56.09,-52},{56.09,19.91}}, color={0,0,127}));
+  connect(Read_q50.nonCust, setArea.nonCust) annotation (Line(points={{59,-52},
+          {56,-52},{56,-88},{79.4,-88},{79.4,-87.4}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    q50_custome=true,
     q50=2,
     final nWin=1,
     dT_nominal_a=1,
@@ -181,8 +182,10 @@ equation
           -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
           -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(Read_q50.v50, propsBus_b.v50) annotation (Line(points={{59.2,-57},{
-          55.6,-57},{55.6,20.1},{-100.1,20.1}}, color={0,0,127}));
+  connect(Read_q50.nonCust, propsBus_b.nonCust) annotation (Line(points={{59,
+          -52},{54,-52},{54,20.1},{-100.1,20.1}}, color={0,0,127}));
+  connect(Read_q50.v50, propsBus_b.v50) annotation (Line(points={{59,-58},{54.6,
+          -58},{54.6,20.1},{-100.1,20.1}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

@@ -75,6 +75,9 @@ protected
   Modelica.Blocks.Routing.RealPassThrough q50_zone
     "q50 for non costume surfaces"
     annotation (Placement(transformation(extent={{8,-268},{-12,-248}})));
+  Modelica.Blocks.Routing.RealPassThrough nonCust
+    "0 if the surface has a custom q50"
+    annotation (Placement(transformation(extent={{-12,-296},{8,-276}})));
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -146,6 +149,10 @@ equation
           100,-258},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
   connect(q50_zone.y, propsBus_a.q50_zone) annotation (Line(points={{-13,-258},
           {-100,-258},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(nonCust.u, propsBus_a.nonCust) annotation (Line(points={{-14,-286},{
+          -100,-286},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(nonCust.y, propsBus_b.nonCust) annotation (Line(points={{9,-286},{100,
+          -286},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(
