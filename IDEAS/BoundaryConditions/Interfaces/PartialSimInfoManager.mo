@@ -1,4 +1,4 @@
-within IDEAS.BoundaryConditions.Interfaces;
+﻿within IDEAS.BoundaryConditions.Interfaces;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
 
@@ -165,8 +165,13 @@ partial model PartialSimInfoManager
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
   final parameter Modelica.SIunits.MassFlowRate m_flow_infiltration_nominal(fixed=false);
-  final parameter Real q50( unit="m3/(h.m2)") = ((m_flow_infiltration_nominal*3600/1.2)/A_tot);
+  final parameter Real q50( unit="m3/(h.m2)") = ((m_flow_infiltration_nominal*3600/1.2)/A_add_tot);
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
+  final parameter Modelica.SIunits.Area A_add_tot( fixed=false)
+                                                               "Total area without customly assigned v50 value";
+  final parameter Modelica.SIunits.VolumeFlowRate V50_custome( fixed=false) "Total customely assigned v50 values through components";
+
+
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
     "Bus for windows in case of linearisation";
@@ -238,14 +243,21 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
-  m_flow_infiltration_nominal = volumePort.V_tot*n50*1.2/3600;
+  m_flow_infiltration_nominal = ((volumePort.V_tot*n50)-V50_custome)*1.2/3600;
   A_tot=areaPort.A_tot;
+  A_add_tot=areaPort.A_add_tot;
+  V50_custome=areaPort.V50_cust;
+
+
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
   end if;
 equation
   volumePort.V_tot + volumePort.V = 0;
   areaPort.A_tot + areaPort.A = 0;
+  areaPort.A_add_tot+areaPort.A_add=0;
+  areaPort.V50_cust+areaPort.v50=0;
+
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
   end if;

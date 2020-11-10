@@ -244,10 +244,8 @@ model q50_zone "Read q_50 from zone"
   parameter Real v50_surf;
   parameter Boolean q50_custome=false;
 
-  Modelica.Blocks.Interfaces.RealInput q50_zone
-    annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
-  Modelica.Blocks.Interfaces.RealOutput v50
-    annotation (Placement(transformation(extent={{-98,-80},{-118,-60}})));
+  Modelica.Blocks.Interfaces.RealInput q50_zone    annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
+  Modelica.Blocks.Interfaces.RealOutput v50    annotation (Placement(transformation(extent={{-98,-80},{-118,-60}})));
 initial equation
 
   q50=q50_zone;
@@ -323,6 +321,8 @@ equation
           -56},{56,-56},{56,-18},{56.09,-18},{56.09,19.91}}, color={0,0,127}));
   connect(Read_q50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{59.4,
           -43},{59.4,-42},{56.09,-42},{56.09,19.91}}, color={0,0,127}));
+  connect(Read_q50.v50, setArea.v50) annotation (Line(points={{59.2,-57},{59.2,
+          -82.5},{79.4,-82.5},{79.4,-83.2}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
