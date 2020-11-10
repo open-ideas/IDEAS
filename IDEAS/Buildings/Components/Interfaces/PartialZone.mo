@@ -42,7 +42,7 @@ model PartialZone "Building zone model"
     annotation(Dialog(tab = "Initialization"));
   parameter Real fRH=11
     "Reheat factor for calculation of design heat load, (EN 12831, table D.10 Annex D)" annotation(Dialog(tab="Advanced",group="Design heat load"));
-  parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
+  parameter Modelica.SIunits.Temperature Tzone_nom=295.15
     "Nominal zone temperature, used for linearising radiative heat exchange"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
   parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
@@ -174,7 +174,7 @@ model PartialZone "Building zone model"
     q50_corr=sim.q50,
     n50_custome=n50_custome)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
-  parameter Boolean n50_custome=false "true if a custom n50 value is used";
+  parameter Boolean n50_custome=true  "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
 protected
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
@@ -235,13 +235,24 @@ model Setq50 "q50 set by zone"
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-60},{-118,-40}})));
 
+  Real q50_custome[nSurf]  "if v50_custome=0 the related area should be considered for q50_zone. This is in case if no custome q50 value is assigned to the surface or in surfaces assumed airtight";
+
 equation
+
+for i in  1:nSurf loop
+  if v50_custome[i] > 0 then
+    q50_custome[i] = 0;
+  else
+    q50_custome[i]=1; // if the surface does not have a custome q50, the area is considered
+  end if;
+end for;
+
+
 
   if n50_custome then
     q50_zone=fill(q50_corr,nSurf);
     else
-
-    q50_zone= fill(((n50*V)-sum(v50_custome))/sum(Area),nSurf);
+    q50_zone= fill(((n50*V)-sum(v50_custome))/sum(Area*q50_custome),nSurf);
 
   end if;
 
@@ -440,12 +451,12 @@ end for;
     connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
           40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
   end if;
-  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{
-          -60.8,-95},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{-60.8,
+          -95},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
           {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
-  connect(setq50.v50_custome, propsBusInt.v50) annotation (Line(points={{-60.6,
-          -85.2},{-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.v50_custome, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
+          {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
