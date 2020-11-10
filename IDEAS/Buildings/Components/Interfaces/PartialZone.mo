@@ -167,6 +167,14 @@ model PartialZone "Building zone model"
 
 
 
+  Setq50 setq50(
+    nSurf=nSurf,
+    n50=n50,
+    V=V,
+    q50_corr=sim.q50,
+    n50_custome=n50_custome)
+    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+  parameter Boolean n50_custome=false "true if a custom n50 value is used";
 protected
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
@@ -212,6 +220,32 @@ protected
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
+
+model Setq50 "q50 set by zone"
+  extends Modelica.Blocks.Icons.Block;
+
+  parameter Integer nSurf;
+  parameter Real n50;
+  parameter Real V;
+  parameter Real q50_corr=sim.q50;
+  parameter Boolean n50_custome=false;
+
+
+  Modelica.Blocks.Interfaces.RealInput v50_custome[nSurf]    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
+  Modelica.Blocks.Interfaces.RealInput Area[nSurf]    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
+  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-60},{-118,-40}})));
+
+equation
+
+  if n50_custome then
+    q50_zone=fill(q50_corr,nSurf);
+    else
+
+    q50_zone= fill(((n50*V)-sum(v50_custome))/sum(Area),nSurf);
+
+  end if;
+
+end Setq50;
 
 
 
@@ -406,6 +440,12 @@ end for;
     connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
           40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
   end if;
+  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{
+          -60.8,-95},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
+          {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.v50_custome, propsBusInt.v50) annotation (Line(points={{-60.6,
+          -85.2},{-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
