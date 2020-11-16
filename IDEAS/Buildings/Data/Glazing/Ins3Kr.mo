@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Glazing;
-record Ins3Kr = IDEAS.Buildings.Data.Interfaces.Glazing (
+record Ins3Kr = IDEAS.Buildings.Data.Interfaces.OldGlazing (
     final nLay=5,
     final mats={Materials.Glass(d=0.004, epsLw_a=0.04),
                 Materials.Krypton(d=0.008),
@@ -33,6 +33,10 @@ record Ins3Kr = IDEAS.Buildings.Data.Interfaces.Glazing (
   "Deprecated: Saint Gobain Climaplus  Futur KR 4/8/4/8/4 (U = 0.7 W/m2K, g = 0.407)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending OldGlazing.
+</li>
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Deprecated this glazing type since it is based on
