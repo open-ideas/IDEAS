@@ -2,6 +2,7 @@ within IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses;
 partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Integer nPorts "Number of ports for connection to zone air volume";
+  parameter Integer nPortsExt "Number of ports for connection to zone air volume";
   parameter Modelica.SIunits.Volume V "Zone air volume for n50 computation";
   parameter Real n50 "n50 value";
   parameter Real n50toAch = 20
@@ -33,13 +34,13 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
     m_flow(nominal=m_flow_nominal_vent),
     h_outflow(nominal=Medium.h_default))
     "Port a connection to model exterior ports"
-    annotation (Placement(transformation(extent={{10,90},{30,110}})));
+    annotation (Placement(transformation(extent={{50,90},{70,110}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_exterior(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal_vent),
     h_outflow(nominal=Medium.h_default))
     "Port b connection to model exterior ports"
-    annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
+    annotation (Placement(transformation(extent={{-70,90},{-50,110}})));
   Modelica.Fluid.Interfaces.FluidPorts_a[nPorts] ports(
     redeclare each package Medium = Medium,
     each m_flow(nominal=m_flow_nominal_vent),
@@ -49,6 +50,20 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
         extent={{-10,40},{10,-40}},
         rotation=90,
         origin={2,-100})));
+  Modelica.Fluid.Interfaces.FluidPorts_b[nPortsExt] portsExt(
+    redeclare each package Medium = Medium,
+    each m_flow(nominal=m_flow_nominal_vent),
+    each h_outflow(nominal=Medium.h_default))
+    "Ports connector for multiple ports" annotation (Placement(
+        transformation(
+        extent={{-10,40},{10,-40}},
+        rotation=90,
+        origin={0,100})));
+
+equation
+  connect(ports[1+nPorts-nPortsExt:nPorts], portsExt[1:nPortsExt]) annotation (Line(points={{2,-100},{0,-100},{0,100},{0,
+          100}}, color={0,127,255}));
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(
           extent={{-15,80},{15,-80}},
@@ -103,6 +118,11 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 January 25, 2019, Filip Jorissen:<br/>
 Added constant <code>prescribesPressure</code> that indicates

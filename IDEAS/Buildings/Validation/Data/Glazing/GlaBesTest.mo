@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Validation.Data.Glazing;
-record GlaBesTest = IDEAS.Buildings.Data.Interfaces.Glazing (
+record GlaBesTest = IDEAS.Buildings.Data.Interfaces.PartialGlazing (
     final nLay=3,
     final mats={IDEAS.Buildings.Data.Materials.Glass(
           d=0.003175,
@@ -53,4 +53,12 @@ record GlaBesTest = IDEAS.Buildings.Data.Interfaces.Glazing (
     final U_value=3.0,
     final g_value=0.87,
     final SwAbsDif={0.0796,0.0,0.0585},
-    final SwTransDif=0.652331) "BESTEST glazing";
+    final SwTransDif=0.652331) "BESTEST glazing" annotation (Documentation(
+      revisions="<html>
+<ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending <code>PartialGlazing</code>, which does not show in Window dropdown.
+</li>
+</ul>
+</html>"));

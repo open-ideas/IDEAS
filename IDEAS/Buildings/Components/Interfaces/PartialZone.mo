@@ -7,15 +7,6 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-    replaceable package Medium =
-    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choicesAllMatching = true);
-
-  parameter Modelica.SIunits.Length hZone = 2.8
-    "Zone height: distance between floor and ceiling"
-    annotation(Dialog(group="Building physics"));
-  parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
-    annotation(Dialog(group="Building physics"));
   parameter Real n50(min=0.01)= 0.4
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(group="Building physics"));
@@ -84,6 +75,7 @@ model PartialZone "Building zone model"
   constrainedby
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
       redeclare package Medium = Medium,
+      final nPortsExt=nPorts,
       V=V,
       n50=n50,
       n50toAch=n50toAch,
@@ -227,6 +219,8 @@ equation
       through the zone to/from the surroundings, at ambient temperature. 
       This may be unintended.", AssertionLevel.warning);
   end if;
+
+
   for i in 1:nSurf loop
     connect(dummy1, propsBusInt[i].Qgai);
     connect(dummy2, propsBusInt[i].E);
@@ -320,8 +314,8 @@ end for;
       points={{-30,-20},{-30,-30},{-50,-30},{-50,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{110,20}},
-                   color={0,0,127}));
+  connect(add.y, TSensor) annotation (Line(points={{96.6,20},{98,20},{98,20},{110,
+          20}},    color={0,0,127}));
   connect(radDistr.radSurfTot[1:nSurf], propsBusInt[1:nSurf].surfRad)
     annotation (Line(points={{-50,-40},{-50,-30},{-80,-30},{-80,39.9},{-80.1,
           39.9}}, color={191,0,0}));
@@ -382,10 +376,10 @@ end for;
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
   connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{
           -29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
-  connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{
-          -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
-  connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{
-          -28,80},{-28,84},{20,84},{20,100}}, color={0,127,255}));
+  connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{-36,80},
+          {-36,92},{-60,92},{-60,100}},         color={0,127,255}));
+  connect(interzonalAirFlow.port_a_exterior, port_a) annotation (Line(points={{-24,80},
+          {-24,84},{60,84},{60,100}},         color={0,127,255}));
   connect(ppm, airModel.ppm) annotation (Line(points={{110,0},{52,0},{52,16},{-8,
           16},{-8,28},{-19,28}}, color={0,0,127}));
   connect(intGaiLig.portRad, gainRad) annotation (Line(points={{20,60},{4,60},{4,
@@ -394,6 +388,8 @@ end for;
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
+  connect(interzonalAirFlow.portsExt, ports) annotation (Line(points={{-30,80},{
+          -30,90},{0,90},{0,100}}, color={0,127,255}));
  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -403,7 +399,24 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+September 17, 2020, Filip Jorissen:<br/>
+Removed Medium declaration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
+March 21, 2019 by Filip Jorissen:<br/>
+</li>
+<li>
+July 29, 2020, by Filip Jorissen:<br/>
+Removed duplicate definition of <code>hZone</code> and <code>A</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
+#1158</a>
+</li>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
 April 26, 2020, by Filip Jorissen:<br/>
+</li>
+<li>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
 #1131</a>

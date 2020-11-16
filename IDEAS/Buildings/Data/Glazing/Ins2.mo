@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Glazing;
-record Ins2 = IDEAS.Buildings.Data.Interfaces.Glazing (
+record Ins2 = IDEAS.Buildings.Data.Interfaces.OldGlazing (
     final nLay=3,
     final mats={
       Materials.Glass(d=0.004,epsLw_a=0.04),
@@ -29,9 +29,18 @@ record Ins2 = IDEAS.Buildings.Data.Interfaces.Glazing (
     final SwAbsDif={0.135,0.0,0.027},
     final U_value=1.4,
     final g_value=0.755)
-  "Saint Gobain ClimaPlus Futur AR 1.4 4/15/4 (U = 1.4 W/m2K, g = 0.755)"
+  "Deprecated: Saint Gobain ClimaPlus Futur AR 1.4 4/15/4 (U = 1.4 W/m2K, g = 0.755)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending OldGlazing.
+</li>
+<li>
+July 20, 2020, by Filip Jorissen:<br/>
+Deprecated this glazing type since it is based on
+product data of 10 years old.
+</li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
 Moved epsLw definition to solid layer to be consistent 
@@ -40,6 +49,8 @@ with changed implementation of MultiLayerLucent.
 </ul>
 </html>", info="<html>
 <p>
-Double insulated glazing system.
+Double insulated glazing system. 
+This glazing system is based on product data that are at least 10 years old.
+The model is deprecated and remains available for backward compatibility reasons.
 </p>
 </html>"));

@@ -4,13 +4,18 @@ model FixedPressure "FixedPressure: idealised, fixed pressure boundary"
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlowBoundary(
       prescribesPressure=true,
       verifyBothPortsConnected=true,
-      nPorts=1,
+      nPorts=1+nPortsExt,
       bou(nPorts=1));
 equation
   connect(bou.ports[1], ports[1]) annotation (Line(points={{-6.66134e-16,0},{2,0},{2,-100}},
                      color={0,127,255}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+March 17, 2020, Filip Jorissen:<br/>
+Added support for vector fluidport.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
+</li>
 <li>
 January 25, 2019, Filip Jorissen:<br/>
 Added constant <code>prescribesPressure</code> that indicates

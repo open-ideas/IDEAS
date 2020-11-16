@@ -2,7 +2,8 @@ within IDEAS.Buildings.Components;
 model Window "Multipane window"
   replaceable IDEAS.Buildings.Data.Interfaces.Glazing glazing
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
-    annotation (__Dymola_choicesAllMatching=true, Dialog(group=
+    annotation (choicesAllMatching=true,
+        Dialog(group=
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
@@ -148,14 +149,12 @@ protected
         start=T_start)) if                                                                             addCapFra
     "Heat capacitor for frame at interior"
     annotation (Placement(transformation(extent={{4,100},{24,120}})));
-  Modelica.Blocks.Sources.Constant constEpsSwFra(final k=fraType.mat.epsSw)
-    "Shortwave emissivity of frame"
-    annotation (Placement(transformation(extent={{4,46},{-6,56}})));
   Modelica.Blocks.Sources.Constant constEpsLwFra(final k=fraType.mat.epsLw)
     "Shortwave emissivity of frame"
     annotation (Placement(transformation(extent={{4,86},{-6,96}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A*frac) if fraType.present
+    solAbs(A=A*frac, epsSw=fraType.mat.epsSw) if
+                        fraType.present
     "Solar absorption model for shortwave radiation"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
@@ -267,8 +266,6 @@ equation
   connect(solAbs.port_a, layFra.port_b) annotation (Line(points={{-20,50},{-16,
           50},{-16,70},{-10,70}},
                               color={191,0,0}));
-  connect(solAbs.epsSw, constEpsSwFra.y) annotation (Line(points={{-20,56},{-10,
-          56},{-10,51},{-6.5,51}}, color={0,0,127}));
   connect(gainDir.y, solWin.solDir)
     annotation (Line(points={{-37.8,-44},{-10,-44}}, color={0,0,127}));
   connect(gainDif.y, solWin.solDif) annotation (Line(points={{-31.8,-48},{-22,
@@ -376,6 +373,17 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 12, 2020 by Filip Jorissen:<br/>
+No longer using connector and initial equation for <code>epsSw</code>.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1162\">#1162</a>.
+</li>
+<li>
+July 2020, 2020, by Filip Jorissen:<br/>
+Added a list of default glazing systems.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1114\">
+#1114</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
