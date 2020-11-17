@@ -10,7 +10,7 @@ model InternalWall "interior opaque wall between two zones"
            then 0 else sum(port_emb.Q_flow))),
     final QTra_design=U_value*A*(TRef_a - TRef_b),
     intCon_a,
-    Read_q50(v50_surf=0));
+    Read_q50(v50_surf=0, q50_custome=true));
 
   parameter Boolean linIntCon_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"

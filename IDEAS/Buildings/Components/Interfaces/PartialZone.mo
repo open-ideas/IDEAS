@@ -227,14 +227,14 @@ model Setq50 "q50 set by zone"
   parameter Integer nSurf;
   parameter Real n50;
   parameter Real V;
-  parameter Real q50_corr=sim.q50;
+  parameter Real q50_corr;
   parameter Boolean n50_custome=false;
 
 
-  Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
-    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
-  Modelica.Blocks.Interfaces.RealInput nonCust[nSurf]
-    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
+  Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
+  Real v50_cost [nSurf]
+                       "0 if not a custom v50 value is defined by surfaces";
+  Modelica.Blocks.Interfaces.RealInput nonCust[nSurf]    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-70},
               {-118,-50}})));
@@ -242,10 +242,21 @@ model Setq50 "q50 set by zone"
 
 
   Modelica.Blocks.Interfaces.BooleanOutput n50_cust[nSurf]    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
+
+
 equation
 
+  for i in 1:nSurf loop
+  if nonCust[i]>0 then
+    v50_cost[i]=0;
+  else
+    v50_cost[i]=v50_surf[i];
+  end if;
+  end for;
+
+
   if n50_custome then
-    q50_zone=fill(((n50*V) - sum(v50_surf))/sum(Area*nonCust), nSurf);
+    q50_zone=fill((((n50*V) - sum(v50_cost))/sum(Area*nonCust)), nSurf);
   else
     q50_zone=fill(q50_corr,nSurf);
 

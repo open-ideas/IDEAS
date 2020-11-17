@@ -260,13 +260,17 @@ initial equation
     q50=q50_zone;
   end if;
 
+
+
 equation
   v50=v50_surf;
 
   if q50_custome then
   nonCust=0;
+
   else
   nonCust=1;
+
   end if;
 
 
