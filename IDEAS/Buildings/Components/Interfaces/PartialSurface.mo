@@ -251,6 +251,7 @@ model q50_zone "Read q_50 from zone"
             -90},{-120,-70}})));
   Modelica.Blocks.Interfaces.RealOutput nonCust
     annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
+
 initial equation
 
   if q50_custome then
@@ -330,13 +331,15 @@ equation
   connect(Read_q50.v50, propsBusInt.v50) annotation (Line(points={{59,-58},{56,
           -58},{56,-20},{56.09,-20},{56.09,19.91}},          color={0,0,127}));
   connect(Read_q50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{59.4,
-          -43},{59.4,-42},{56.09,-42},{56.09,19.91}}, color={0,0,127}));
+          -43},{59.4,-44},{56.09,-44},{56.09,19.91}}, color={0,0,127}));
   connect(Read_q50.v50, setArea.v50) annotation (Line(points={{59,-58},{56,-58},
           {56,-82},{79.4,-82},{79.4,-83.2}}, color={0,0,127}));
-  connect(Read_q50.nonCust, propsBusInt.nonCust) annotation (Line(points={{59,
-          -52},{56.09,-52},{56.09,19.91}}, color={0,0,127}));
+  connect(Read_q50.nonCust, propsBusInt.nonCust) annotation (Line(points={{59,-52},
+          {56.09,-52},{56.09,19.91}},      color={0,0,127}));
   connect(Read_q50.nonCust, setArea.nonCust) annotation (Line(points={{59,-52},
           {56,-52},{56,-88},{79.4,-88},{79.4,-87.4}}, color={0,0,127}));
+  connect(setArea.n50_cust, propsBusInt.n50_cust) annotation (Line(points={{
+          79.4,-91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}}, color={255,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

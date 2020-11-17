@@ -241,6 +241,7 @@ model Setq50 "q50 set by zone"
 
 
 
+  Modelica.Blocks.Interfaces.BooleanOutput n50_cust[nSurf]    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
 equation
 
   if n50_custome then
@@ -249,6 +250,8 @@ equation
     q50_zone=fill(q50_corr,nSurf);
 
   end if;
+
+  n50_cust=fill(n50_custome,nSurf);
 
 end Setq50;
 
@@ -461,6 +464,9 @@ end for;
           {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.nonCust, propsBusInt.nonCust) annotation (Line(points={{-60.6,-82},
           {-80,-82},{-80,39.9},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.n50_cust, propsBusInt.n50_cust) annotation (Line(points={{
+          -60.8,-92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}}, color={
+          255,0,255}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

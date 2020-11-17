@@ -49,7 +49,7 @@ connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone(  final unit="m3/(h.m2)")
                                                                                         "v50 of the surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector nonCust "1 if custome q50 value is assigned to surface" annotation ();
-
+  IDEAS.Buildings.Components.Interfaces.BooleanConnector n50_cust "is the zones n50 a custome value?";
   annotation (Documentation(info="<html>
 <p>
 Connector that contains a weather bus and further

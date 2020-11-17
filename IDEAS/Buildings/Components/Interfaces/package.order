@@ -4,6 +4,7 @@ PartialOpaqueSurface
 PartialSurface
 PartialZone
 RealConnector
+BooleanConnector
 RectangularZoneTemplateInterface
 SolBus
 WeaBus
