@@ -4,7 +4,8 @@ model RadiatorHeating
   extends IDEAS.Templates.Heating.BaseClasses.HysteresisHeating(
     final nEmbPorts=0,
     final nConvPorts = nZones,
-    final nRadPorts = nZones);
+    final nRadPorts = nZones,
+    booToRea(realTrue=rad.m_flow_nominal));
 
 protected
   Fluid.HeatExchangers.Radiators.RadiatorEN442_2[nZones] rad(
@@ -20,7 +21,7 @@ protected
         rotation=90,
         origin={-160,0})));
   Fluid.HeatExchangers.Heater_T hea1(
-    m_flow_nominal=0.2,
+    m_flow_nominal=sum(rad.m_flow_nominal),
     dp_nominal=10000,
     allowFlowReversal=false,
     redeclare package Medium = Medium)
@@ -34,9 +35,7 @@ protected
     m_flow_nominal=rad.m_flow_nominal,
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-120,-40},{-100,-20}})));
-  Modelica.Blocks.Math.BooleanToReal[nZones] booToRea(realTrue=rad.m_flow_nominal)
-    "Boolean to real conversion for pump flow rate"
-    annotation (Placement(transformation(extent={{-60,-10},{-80,10}})));
+
   Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium = Medium)
     "Boundary for setting the absolute pressure"
     annotation (Placement(transformation(extent={{-120,60},{-100,80}})));
@@ -53,7 +52,8 @@ equation
   connect(pum.port_a, rad.port_b) annotation (Line(points={{-120,-30},{-160,-30},
           {-160,-20}}, color={0,127,255}));
   connect(hys.y, booToRea.u)
-    annotation (Line(points={{-41,0},{-58,0}}, color={255,0,255}));
+    annotation (Line(points={{-41,0},{-50,0},{-50,0},{-58,0}},
+                                               color={255,0,255}));
   connect(booToRea.y, pum.m_flow_in)
     annotation (Line(points={{-81,0},{-110,0},{-110,-18}}, color={0,0,127}));
   for i in 1:nZones loop

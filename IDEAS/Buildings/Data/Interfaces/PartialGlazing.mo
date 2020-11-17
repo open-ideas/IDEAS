@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Interfaces;
-partial record PartialGlazing "Template used for deprecated glazing types"
+record PartialGlazing "Template used for deprecated glazing types"
   extends Modelica.Icons.MaterialProperty;
 
   parameter Integer nLay(min=1)

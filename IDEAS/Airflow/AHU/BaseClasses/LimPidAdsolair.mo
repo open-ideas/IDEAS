@@ -86,7 +86,7 @@ model LimPidAdsolair
     xi_start=xi_start,
     xd_start=xd_start,
     y_start=y_start,
-    reverseAction=false)
+    reverseActing=true)
     annotation (Placement(transformation(extent={{20,20},{40,40}})));
   Modelica.Blocks.Interfaces.BooleanInput revActIn if
                                                     useRevActIn
