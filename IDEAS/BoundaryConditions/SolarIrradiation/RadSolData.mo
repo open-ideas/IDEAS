@@ -43,17 +43,23 @@ public
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
-             and IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
+             and (IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
+                  or IDEAS.Utilities.Math.Functions.isAngle(IDEAS.Types.Tilt.Ceiling,inc)
+                  or IDEAS.Utilities.Math.Functions.isAngle(IDEAS.Types.Tilt.Floor,inc))
           then 1
-          else 0 for i in 1:sim.numIncAndAziInBus});
+          else 0 for i in 1:sim.numIncAndAziInBus})
+    annotation(Evaluate=true);
   final parameter Boolean solDataInBus = numMatches==1
     "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
   final parameter Integer solDataIndex=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
-             and IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
+             and (IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
+                  or IDEAS.Utilities.Math.Functions.isAngle(IDEAS.Types.Tilt.Ceiling,inc)
+                  or IDEAS.Utilities.Math.Functions.isAngle(IDEAS.Types.Tilt.Floor,inc))
           then i
           else 0 for i in 1:sim.numIncAndAziInBus})
-    "Index of the {inc,azi} combination in incAndAziInBus" annotation(Evaluate=true);
+    "Index of the {inc,azi} combination in incAndAziInBus"
+    annotation(Evaluate=true);
   IDEAS.BoundaryConditions.SolarIrradiation.ShadedRadSol radSol(
     final inc=inc,
     final azi=azi,
@@ -183,6 +189,12 @@ If the correct data is not contained by the bus, custom solar data is calculated
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 12, 2020, by Filip Jorissen:<br/>
+Using precomputed data for ceilings/floors even if azimuth angle mismatches.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1160\">
+#1160</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

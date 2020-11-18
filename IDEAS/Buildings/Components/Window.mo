@@ -2,16 +2,11 @@ within IDEAS.Buildings.Components;
 model Window "Multipane window"
   replaceable IDEAS.Buildings.Data.Interfaces.Glazing glazing
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type"
-    annotation (choices(
-        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing "Insulating double glazing (6/16/6 AR Planitherm one, U=1.0, g=0.55) with clear glass"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.Ins3Ar2020 glazing "Insulating triple glazing (6/16/6/16/6 AR Planitherm one, U=0.6, g=0.423) with clear glass"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcDouble glazing "Uncoated double glazing (4/12/4, U=2.9, g=0.78)"),
-        choice(redeclare IDEAS.Buildings.Data.Glazing.EpcSingle glazing "Single glazing (U=5.8, g=0.88)")),
+    annotation (choicesAllMatching=true,
         Dialog(group=
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
-    setArea(A=A),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),
@@ -50,13 +45,7 @@ model Window "Multipane window"
   parameter Boolean controlled = shaType.controlled
     " = true if shaType has a control input (see e.g. screen). Can be set to false manually to force removal of input icon."
     annotation(Dialog(tab="Advanced",group="Icon"));
-  parameter Real Cs=1
-    "Wind speed modifier"
-    annotation(Dialog(group="Interzonal airflow (Optional)"));
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
-      "Cp at different angles of attack"
-      annotation(Dialog(group="Interzonal airflow (Optional)"));
+
   replaceable parameter IDEAS.Buildings.Data.Frames.None fraType
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame "Window frame type"
     annotation (choicesAllMatching=true, Dialog(group=
@@ -76,6 +65,7 @@ model Window "Multipane window"
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={-40,-100})));
+
 
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
@@ -159,14 +149,12 @@ protected
         start=T_start)) if                                                                             addCapFra
     "Heat capacitor for frame at interior"
     annotation (Placement(transformation(extent={{4,100},{24,120}})));
-  Modelica.Blocks.Sources.Constant constEpsSwFra(final k=fraType.mat.epsSw)
-    "Shortwave emissivity of frame"
-    annotation (Placement(transformation(extent={{10,46},{0,56}})));
   Modelica.Blocks.Sources.Constant constEpsLwFra(final k=fraType.mat.epsLw)
     "Shortwave emissivity of frame"
     annotation (Placement(transformation(extent={{4,86},{-6,96}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A*frac) if fraType.present
+    solAbs(A=A*frac, epsSw=fraType.mat.epsSw) if
+                        fraType.present
     "Solar absorption model for shortwave radiation"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
@@ -182,15 +170,6 @@ protected
         start=T_start)) if                                                                             addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
-  IDEAS.Fluid.Sources.OutsideAir outsideAir(
-    redeclare package Medium = Medium,
-    final table=coeffsCp,
-    final azi=aziInt,
-    final Cs=Cs,
-    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 1 else 2) if
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    "Outside air model"
-    annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -287,8 +266,6 @@ equation
   connect(solAbs.port_a, layFra.port_b) annotation (Line(points={{-20,50},{-16,
           50},{-16,70},{-10,70}},
                               color={191,0,0}));
-  connect(solAbs.epsSw, constEpsSwFra.y) annotation (Line(points={{-20,56},{-10,
-          56},{-10,51},{-0.5,51}}, color={0,0,127}));
   connect(gainDir.y, solWin.solDir)
     annotation (Line(points={{-37.8,-44},{-10,-44}}, color={0,0,127}));
   connect(gainDif.y, solWin.solDif) annotation (Line(points={{-31.8,-48},{-22,
@@ -317,10 +294,6 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
-          -40},{16,-90},{-80,-90}}, color={0,127,255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{18,
-          -60},{18,-90},{-80,-90}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -400,6 +373,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 12, 2020 by Filip Jorissen:<br/>
+No longer using connector and initial equation for <code>epsSw</code>.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1162\">#1162</a>.
+</li>
 <li>
 July 2020, 2020, by Filip Jorissen:<br/>
 Added a list of default glazing systems.

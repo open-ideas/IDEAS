@@ -42,7 +42,8 @@ model SingleZoneResidentialHydronicHeatPump
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
       min=0,
       max=1,
-      unit="1"), description="Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity)")
+      unit="1"), description=
+        "Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)")
     "Block for overwriting heat pump modulating signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -64,7 +65,7 @@ model SingleZoneResidentialHydronicHeatPump
       min=0,
       max=1,
       unit="1"), description=
-        "Integer signal to control the stage of the emission circuit pump either on or off")
+        "Integer signal to control the emission circuit pump either on or off")
     "Block for overwriting emission circuit pump control signal" annotation (
       Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -218,11 +219,13 @@ model SingleZoneResidentialHydronicHeatPump
     y(unit="W"))
     "Block for reading the heat pump thermal power exchanged in the condenser"
     annotation (Placement(transformation(extent={{100,0},{80,20}})));
-  Utilities.IO.SignalExchange.Read reaTSup(description="Supply water temperature to emission system",
-      y(unit="K")) "Read supply water temperature to emission system"
+  Utilities.IO.SignalExchange.Read reaTSup(description=
+        "Supply water temperature to radiant floor",
+      y(unit="K")) "Read supply water temperature to radiant floor"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Utilities.IO.SignalExchange.Read reaTRet(description="Return water temperature from emission system",
-      y(unit="K")) "Read return water temperature from emission system"
+  Utilities.IO.SignalExchange.Read reaTRet(description=
+        "Return water temperature from radiant floor",
+      y(unit="K")) "Read return water temperature from radiant floor"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}})));
   Utilities.IO.SignalExchange.Read reaCOP(description="Heat pump COP", y(unit=
           "1")) "Read heat pump COP"
@@ -238,7 +241,8 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.IO.SignalExchange.Overwrite oveFan(u(
       min=0,
       max=1,
-      unit="1"), description="Integer signal to control the stage of the fan either on or off")
+      unit="1"), description=
+        "Integer signal to control the heat pump evaporator fan either on or off")
     "Block for overwriting fan control signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -261,11 +265,9 @@ model SingleZoneResidentialHydronicHeatPump
     "Fan to pump air through heat exchanger"
     annotation (Placement(transformation(extent={{220,30},{200,50}})));
   Utilities.IO.SignalExchange.Read reaPFan(
-    description=
-        "Electrical power of the fan insuflating air through the heat pump evaporator",
+    description="Electrical power of the heat pump evaporator fan",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W"))
-    "Block for reading the electrical power of the fan insuflating air through the heat exchanger"
+    y(unit="W")) "Electrical power of the heat pump evaporator fan"
     annotation (Placement(transformation(extent={{220,70},{240,90}})));
 
   Modelica.Blocks.Math.Add addUno
@@ -324,8 +326,8 @@ equation
           {80,60},{30,60},{30,52}}, color={255,127,0}));
   connect(heaPum.P, reaPHeaPum.u)
     annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-60,13},
-          {-46,13},{-46,80},{-34,80}}, color={0,0,127}));
+  connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-59,12},
+          {-46,12},{-46,80},{-34,80}}, color={0,0,127}));
   connect(floHea.QTot, reaQFloHea.u) annotation (Line(points={{-21,16},{-32,16},
           {-32,-50},{-22,-50}},
                            color={0,0,127}));
@@ -363,8 +365,8 @@ equation
     annotation (Line(points={{101,150},{118,150}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,90},{-52,90},{
           -52,150},{-22,150}}, color={255,0,255}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
-          {-46,13},{-46,130},{30,130},{30,138}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
+          {-46,12},{-46,130},{30,130},{30,138}}, color={0,0,127}));
   connect(conPI.y, oveHeaPumY.u)
     annotation (Line(points={{41,150},{78,150}}, color={0,0,127}));
   connect(switch1.y, conPI.u_s)
@@ -546,7 +548,7 @@ system. A fan blows ambient air through the heat pump evaporator
 when the heat pump is operating.
 The floor heating system injects heat between 
 Layer 2 (insulation) and Layer 3 (screed), with water as 
-working fluid. The floor heating mass flow rate is 0.5 kg/s when the heat pump 
+working fluid. The floor heating pump has a nominal mass flow rate of 0.5 kg/s when the heat pump 
 is working. 
 </p>
 
@@ -566,38 +568,33 @@ therefore neglected. The model parameters are obtained by calibration of the hea
 performance data following the procedure explained in
 <a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html\">
 this heat pump calibration guide</a>
-using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015. 
+using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015
+which data can be found in
+<a href=\"https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf\">
+this manufacturer datasheet</a>.
 </p>
 <p>
-Variable heat pump compressor speed is achieved by multiplying the full load suction volume flow rate by the 
-normalized compressor speed. The power and heat transfer rates are forced to zero if the 
-resulting heat pump state has higher evaporating pressure than condensing pressure. 
+For more information of the heat pump model we refer to the 
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps.html#Buildings.Fluid.HeatPumps.ScrollWaterToWater\">
+model documentation</a>.
 </p>
-<p>
-Parameters <code>TConMax</code> and 
-<code>TEvaMin</code> are used to set an upper and lower bound for the condenser 
-and evaporator temperatures. The compressor is disabled when these operating conditions are exceeded, or when the evaporator 
-temperature is larger than the condenser temperature. This mimics the temperature protection of the heat pump. 
-</p>
-<p>
-The compression process is assumed isentropic. The thermal energy of superheating is ignored in the evaluation 
-of the heat transferred to the refrigerant in the evaporator. There is no subcooling. 
-</p>
-
 <p><b>Fluid movers</b> </p>
 <p>
 The floor heating system circulation pump  
-has the default efficiency of the pump model, which is 49 % at the time of writing. 
-Also the fan that blows ambient air through the heat exchanger uses this default efficiency 
+has the default total efficiency of the pump model, which is 49 % at the time of writing 
+(motor and hydraulic efficiencies are separately 70 % each). 
+Also the fan that blows ambient air through the heat exchanger uses this default total efficiency 
 of 49 %.
+The nominal mass flow rate of the floor heating circulation pump is of 0.5 kg/s and 
+the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa. 
 </p>
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline controller is implemented to procure comfort within the building zone. 
-A PI controller is tuned with the indoor air temperature as the controlled variable 
+A PI controller is tuned with the zone operative temperature as the controlled variable 
 and the heat pump modulation signal for compressor frequency as the control variable. 
-The control variable is limited between 0 and 1, and it is computed to drive the indoor 
+The control variable is limited between 0 and 1, and it is computed to drive the zone operative 
 temperature towards a reference defined as the heating comfort set-point plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
@@ -605,7 +602,7 @@ around the set-point; during unoccupied periods the offset is set to 4.5 degrees
 and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
 be achievable because of the large thermal inertia of the floor heating system and 
-which would consequently cause importante levels of discomfort. All other equipment 
+which would consequently cause discomfort. All other equipment 
 (fan for the heat pump evaporator circuit and floor heating emission system pump) 
 are slaves of the heat pump functioning, i.e. they are switched on when the heat pump 
 is working (modulating signal higher than 0) and switched off otherwise. 
@@ -614,6 +611,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
 <ul>
+
 <li>
 <code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
 </li>
@@ -621,18 +619,20 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
 </li>
 <li>
-<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the emission circuit pump either on or off
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
 </li>
 <li>
-<code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal between 0 (not working) and 1 (working at maximum capacity)
+<code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
-<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the fan either on or off
+<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
 </li>
+
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
 <ul>
+
 <li>
 <code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
 </li>
@@ -646,7 +646,7 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the fan insuflating air through the heat pump evaporator
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
 </li>
 <li>
 <code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
@@ -676,11 +676,12 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
 </li>
 <li>
-<code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from emission system
+<code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from radiant floor
 </li>
 <li>
-<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to emission system
+<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
 </li>
+
 
 </ul>
 <h3>Additional System Design</h3>
@@ -765,6 +766,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 27, 2020 by Javier Arroyo:<br/>
+Changes for Review 1 of BOPTEST peer review checklist.
+</li>
 <li>
 July 15, 2020 by Filip Jorissen:<br/>
 Review and documentation revisions.
