@@ -249,9 +249,9 @@ initial equation
   V_flow_infiltration_corr = (V_tot*n50)-V50_custome;
   V50= (V_tot*n50);
   A_tot=areaPort.A_tot;
-  A_add_tot=areaPort.A_add_tot;
   V50_custome=areaPort.V50_cust;
   V_tot=volumePort.V_tot;
+  A_add_tot=max(0.00001,areaPort.A_add_tot);//else division by 0 error when all surfaces are custome
 
 
   if not linearise and computeConservationOfEnergy then
