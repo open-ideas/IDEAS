@@ -241,16 +241,18 @@ end PowerLaw_q50;
 model q50_zone "Read q_50 from zone"
   extends Modelica.Blocks.Icons.Block;
 
-  parameter Real q50(fixed=false);
+
   parameter Real q50_inp;
   parameter Real v50_surf( unit="m3/h");
   parameter Boolean q50_custome=false;
 
-  Modelica.Blocks.Interfaces.RealInput q50_zone    annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
+  parameter Real q50(fixed=false) annotation(Dialog(enable = false));
+
+  Modelica.Blocks.Interfaces.RealInput q50_zone annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
+
   Modelica.Blocks.Interfaces.RealOutput v50    annotation (Placement(transformation(extent={{-100,
             -90},{-120,-70}})));
-  Modelica.Blocks.Interfaces.RealOutput nonCust
-    annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput nonCust   annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
 
 initial equation
 
@@ -260,20 +262,21 @@ initial equation
     q50=q50_zone;
   end if;
 
-
-
 equation
   v50=v50_surf;
 
   if q50_custome then
   nonCust=0;
-
   else
   nonCust=1;
-
   end if;
 
 
+  annotation (Icon(graphics={Rectangle(
+          extent={{-82,80},{78,-80}},
+          lineColor={28,108,200},
+          fillColor={145,167,175},
+          fillPattern=FillPattern.Forward)}));
 end q50_zone;
 
 
