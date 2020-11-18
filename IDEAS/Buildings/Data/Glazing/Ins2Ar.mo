@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Glazing;
-record Ins2Ar = IDEAS.Buildings.Data.Interfaces.Glazing (
+record Ins2Ar = IDEAS.Buildings.Data.Interfaces.OldGlazing (
     final nLay=3,
     final mats={Materials.Glass(d=0.004,epsLw_a=0.04),
                 Materials.Argon(d=0.015),
@@ -31,6 +31,10 @@ record Ins2Ar = IDEAS.Buildings.Data.Interfaces.Glazing (
   "Deprecated: Saint Gobain Climaplus Futur AR 1.1 4/15/4 (U = 1.10 W/m2K, g = 0.589)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending OldGlazing.
+</li>
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Deprecated this glazing type since it is based on

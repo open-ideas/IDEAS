@@ -1,5 +1,5 @@
 within IDEAS.Examples.TwinHouses.BaseClasses.Data.Materials;
-record Glazing =IDEAS.Buildings.Data.Interfaces.Glazing (
+record Glazing = IDEAS.Buildings.Data.Interfaces.PartialGlazing (
     final nLay=3,
     final mats={IDEAS.Buildings.Data.Materials.Glass(
                                 d=0.004,
@@ -37,6 +37,10 @@ record Glazing =IDEAS.Buildings.Data.Interfaces.Glazing (
   "Glass properties as specified by EN410 spectrum (U = 1.1 W/m2K, g = 0.525)"
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending <code>PartialGlazing</code>, which does not show in Window dropdown.
+</li>
 <li>
 September 2, 2015, by Filip Jorissen:<br/>
 Moved epsLw definition to solid layer to be consistent 
