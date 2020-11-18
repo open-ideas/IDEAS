@@ -66,6 +66,14 @@ model Window "Multipane window"
         rotation=-90,
         origin={-40,-100})));
 
+          parameter Real Cs=1
+    "Wind speed modifier"
+    annotation(Dialog(group="Interzonal airflow (Optional)"));
+  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
+      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+      "Cp at different angles of attack"
+      annotation(Dialog(group="Interzonal airflow (Optional)"));
+
 
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
@@ -170,6 +178,16 @@ protected
         start=T_start)) if                                                                             addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
+  Fluid.Sources.OutsideAir       outsideAir(
+    redeclare package Medium = Medium,
+    final table=coeffsCp,
+    final azi=aziInt,
+    final Cs=Cs,
+    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+         then 1 else 2) if
+    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Outside air model"
+    annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -294,6 +312,10 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
+  connect(res1.port_a,outsideAir. ports[1]) annotation (Line(points={{20,-40},{16,
+          -40},{16,-90},{-20,-90}}, color={0,127,255}));
+  connect(res2.port_a,outsideAir. ports[2]) annotation (Line(points={{20,-60},{16,
+          -60},{16,-90},{-20,-90}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
