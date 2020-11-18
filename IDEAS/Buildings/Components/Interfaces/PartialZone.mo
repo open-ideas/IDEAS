@@ -230,21 +230,18 @@ model Setq50 "q50 set by zone"
   parameter Real q50_corr;
   parameter Boolean n50_custome=false;
 
+  parameter Real v50_cost[nSurf](fixed=false)  "0 if not a custom v50 value is defined by surfaces";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
-  Real v50_cost [nSurf]
-                       "0 if not a custom v50 value is defined by surfaces";
   Modelica.Blocks.Interfaces.RealInput nonCust[nSurf]    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
-  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-70},
-              {-118,-50}})));
-
 
 
   Modelica.Blocks.Interfaces.BooleanOutput n50_cust[nSurf]    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
+  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]    annotation (Placement(transformation(extent={{-98,-70},
+              {-118,-50}})));
 
-
-equation
+initial equation
 
   for i in 1:nSurf loop
   if nonCust[i]>0 then
@@ -254,18 +251,18 @@ equation
   end if;
   end for;
 
+equation
+  n50_cust=fill(n50_custome,nSurf);
 
-  if n50_custome then
+    if n50_custome then
     q50_zone=fill((((n50*V) - sum(v50_cost))/sum(Area*nonCust)), nSurf);
   else
     q50_zone=fill(q50_corr,nSurf);
-
   end if;
 
- //assert(n50_custome and max(v50_cost)>0 and (n50*V - sum(v50_cost))<0,  "The total customly assigned lower level volume flow rate at 50pa exceeds the flow for the given zone n50 value, q50_zone will be negative",level = AssertionLevel.error);
- // assert(min(v50_cost)>0, "All surfaces have custome flows, q50_zone and the zones n50 will not be used in simulation",level = AssertionLevel.warning);
 
-  n50_cust=fill(n50_custome,nSurf);
+ //assert(n50_custome and max(v50_cost)>0 and (n50*V - sum(v50_cost))<0,  "The total customly assigned lower level volume flow rate at 50pa exceeds the flow for the given zone n50 value, q50_zone will be negative",level = AssertionLevel.error);
+ //assert(min(v50_cost)>0, "All surfaces have custome flows, q50_zone and the zones n50 will not be used in simulation",level = AssertionLevel.warning);
 
 end Setq50;
 
@@ -277,7 +274,7 @@ initial equation
   n50=n50;
   else
   n50=sum(propsBusInt.v50)/V;
-  end if;
+  end if; //n50 is calculated based on surfaces q50*A unless a custome n50 is defined
 
 
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
