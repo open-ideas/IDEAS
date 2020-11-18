@@ -264,6 +264,11 @@ equation
  //assert(n50_custome and max(v50_cost)>0 and (n50*V - sum(v50_cost))<0,  "The total customly assigned lower level volume flow rate at 50pa exceeds the flow for the given zone n50 value, q50_zone will be negative",level = AssertionLevel.error);
  //assert(min(v50_cost)>0, "All surfaces have custome flows, q50_zone and the zones n50 will not be used in simulation",level = AssertionLevel.warning);
 
+    annotation (Icon(graphics={Rectangle(
+            extent={{-84,80},{82,-80}},
+            lineColor={28,108,200},
+            fillColor={145,167,175},
+            fillPattern=FillPattern.Forward)}));
 end Setq50;
 
 
