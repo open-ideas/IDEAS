@@ -164,16 +164,16 @@ partial model PartialSimInfoManager
   Modelica.Blocks.Sources.RealExpression CEnv(y=ppmCO2*MMFraction/1e6)
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
-  final parameter Real V_flow_infiltration_corr(unit="m3/h",fixed=false);
-  final parameter Real V50(unit="m3/h",fixed=false);
-  final parameter Real q50_cor( unit="m3/(h.m2)") = V_flow_infiltration_corr/A_add_tot;
-  final parameter Real q50_av(  unit="m3/(h.m2)") = V50/A_tot "average, not corrected q50";
-  final parameter Real V_tot( unit="m3",fixed=false) "total conditioned building volume";
-  final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
-  final parameter Modelica.SIunits.Area A_add_tot( fixed=false)
-                                                               "Total area without customly assigned v50 value";
-  final parameter Real V50_custome( unit="m3/h",fixed=false) "Total customely assigned v50 values through components";
 
+  final parameter Real V_add(unit="m3/h")= V50-V50_custome "additional, not custome volume flowrate";
+  final parameter Real V50(unit="m3/h")=V_tot*n50;
+  final parameter Real q50_cor( unit="m3/(h.m2)") = V_add/A_add_tot;
+  final parameter Real q50_av(  unit="m3/(h.m2)") = V50/A_tot "average, not corrected q50";
+
+  final parameter Modelica.SIunits.Volume V_tot(fixed=false) "total conditioned building volume";
+  final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
+  final parameter Real V50_custome( unit="m3/h",fixed=false) "Total customely assigned v50 values through components";
+  final parameter Modelica.SIunits.Area A_add_tot( fixed=false) "Total area without customly assigned q50 value or connected to zone with customly assigned n50";
 
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
@@ -246,24 +246,25 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
-  V_flow_infiltration_corr = (V_tot*n50)-V50_custome;
-  V50= (V_tot*n50);
+  V_tot=volumePort.V_tot;
   A_tot=areaPort.A_tot;
   V50_custome=areaPort.V50_cust;
-  V_tot=volumePort.V_tot;
   A_add_tot=max(0.001,areaPort.A_add_tot);//else division by 0 error when all surfaces are custome
+
+  //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
+  //assert(A_add_tot>0.001 and V_add<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
+
 
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
   end if;
+
 equation
   volumePort.V_tot + volumePort.V = 0;
   areaPort.A_tot + areaPort.A = 0;
-  areaPort.A_add_tot+areaPort.A_add=0;
   areaPort.V50_cust+areaPort.v50=0;
+  areaPort.A_add_tot+areaPort.A_add=0;
 
-  //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
-  //assert(A_add_tot>0.001 and V50-V50_custome<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
 
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
