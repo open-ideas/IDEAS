@@ -251,8 +251,7 @@ initial equation
   A_tot=areaPort.A_tot;
   V50_custome=areaPort.V50_cust;
   V_tot=volumePort.V_tot;
-  A_add_tot=max(0.00001,areaPort.A_add_tot);//else division by 0 error when all surfaces are custome
-
+  A_add_tot=max(0.001,areaPort.A_add_tot);//else division by 0 error when all surfaces are custome
 
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
@@ -262,6 +261,9 @@ equation
   areaPort.A_tot + areaPort.A = 0;
   areaPort.A_add_tot+areaPort.A_add=0;
   areaPort.V50_cust+areaPort.v50=0;
+
+  //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
+  //assert(A_add_tot>0.001 and V50-V50_custome<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
 
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
