@@ -1,10 +1,10 @@
 DiffuseIsotropic
 DiffusePerez
 DirectTiltedSurface
-RadiationConvertor
-RadiationConvertorSimplified
 RadSol
 RadSolData
+RadiationConvertor
+RadiationConvertorSimplified
 ShadedRadSol
 Examples
 BaseClasses

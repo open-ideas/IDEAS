@@ -51,6 +51,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+August 12, 2020 by Filip Jorissen:<br/>
+No longer using connector and initial equation for <code>epsSw</code>.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1162\">#1162</a>.
+</li>
+<li>
 April 29, 2020, by Filip Jorissen:<br/>
 Added <code>getInstanceName()</code> in assert. 
 See issue <a href=https://github.com/open-ideas/IDEAS/issues/1133>#1133</a>.

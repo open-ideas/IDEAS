@@ -421,6 +421,12 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
 #1066</a>
 </li>
 <li>
+September 17, 2020, Filip Jorissen:<br/>
+Removed Medium declaration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
+March 21, 2019 by Filip Jorissen:<br/>
+</li>
+<li>
 July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>hZone</code> and <code>A</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">

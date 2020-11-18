@@ -1,6 +1,6 @@
 within IDEAS.Examples.PPD12.Data;
 record TripleGlazing =
-    IDEAS.Buildings.Data.Interfaces.Glazing (
+    IDEAS.Buildings.Data.Interfaces.PartialGlazing (
 final nLay=5,
 final mats={ IDEAS.Buildings.Data.Materials.Glass(d=0.006, epsLw_a=0.037),
  IDEAS.Buildings.Data.Materials.Argon(d=0.016),
@@ -31,4 +31,12 @@ final SwAbs= [0,0.161, 0.0,0.072, 0.0,0.051;
 final SwTransDif=0.283,
 final SwAbsDif={0.193,0.0,0.071,0.0,0.058},
 final U_value=0.61,
-final g_value=0.53) "Triple glazing for ppd12";
+final g_value=0.53) "Triple glazing for ppd12" annotation (Documentation(
+      revisions="<html>
+<ul>
+<li>
+October 28, 2020, by Filip Jorissen:<br/>
+Extending <code>PartialGlazing</code>, which does not show in Window dropdown.
+</li>
+</ul>
+</html>"));
