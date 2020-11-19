@@ -13,7 +13,7 @@ model PartialZone "Building zone model"
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Advanced", group="Air model"));
-  parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate"
+  parameter Real n50toAch = 7.5 "Conversion fractor from n50 to Air Change Rate"
    annotation(Dialog(tab="Advanced", group="Air model"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsAir=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Type of energy balance for air model: dynamic (3 initialization options) or steady state";
@@ -400,7 +400,7 @@ end for;
 <ul>
 <li>
 November 18, 2020, Filip Jorissen:<br/>
-Changed default n50 value from 0.4 to 3.
+Changed default n50 value from 0.4 to 3 and n50toAch from 20 to 7.5.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1181\">#1181</a>.
 </li>
 <li>
