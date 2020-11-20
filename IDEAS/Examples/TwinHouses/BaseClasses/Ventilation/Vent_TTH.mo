@@ -41,7 +41,7 @@ model Vent_TTH
   IDEAS.Fluid.Sources.Boundary_pT bou[5](
     each final nPorts=1,
     redeclare each package Medium = Medium)
-    annotation (Placement(transformation(extent={{-120,48},{-142,66}})));
+    annotation (Placement(transformation(extent={{-90,44},{-112,62}})));
   Modelica.Blocks.Math.Gain massflowInput(k=1.205/3600)
     annotation (Placement(transformation(extent={{-44,-46},{-60,-30}})));
   Modelica.Blocks.Math.UnitConversions.From_degC from_degC
@@ -50,7 +50,7 @@ model Vent_TTH
     redeclare package Medium = Medium,
     each final nPorts=1,
     each m_flow=0)
-    annotation (Placement(transformation(extent={{-120,-92},{-140,-72}})));
+    annotation (Placement(transformation(extent={{-80,-98},{-100,-78}})));
 equation
   connect(port_b[1], source[1].ports[1]);
 
@@ -62,9 +62,9 @@ equation
   connect(spl.port_2, port_b[4]) annotation (Line(points={{-124,22},{-110,
           22},{-110,-20},{-200,-20}}, color={0,127,255}));
   connect(port_a[3], bou[1].ports[1]) annotation (Line(points={{-200,17.1429},{
-          -200,57},{-142,57}},      color={0,0,0}));
+          -200,53},{-112,53}},      color={0,0,0}));
   connect(port_a[4], bou[2].ports[1]) annotation (Line(points={{-200,20},{-200,
-          57},{-142,57}},           color={0,0,0}));
+          53},{-112,53}},           color={0,0,0}));
   connect(measuredInput.y[2], massflowInput.u) annotation (Line(points={{13.3,-57},
           {0,-57},{0,-38},{-22,-38},{-42.4,-38}}, color={0,0,127}));
   connect(source[1].m_flow_in, massflowInput.y) annotation (Line(points={{-78,-38},
@@ -74,10 +74,10 @@ equation
   connect(from_degC.y, source[1].T_in) annotation (Line(points={{-54.8,-68},{-70,
           -68},{-70,-42},{-78,-42}}, color={0,0,127}));
   connect(port_a[5:7], bou[3:5].ports[1]) annotation (Line(points={{-200,
-          28.5714},{-190,28.5714},{-190,48},{-190,57},{-142,57}},
+          28.5714},{-190,28.5714},{-190,53},{-112,53}},
                                                   color={0,0,0}));
-  connect(source1[1:3].ports[1], port_b[5:7]) annotation (Line(points={{-140,
-          -82},{-200,-82},{-200,-11.4286}},                  color={0,127,255}));
+  connect(source1[1:3].ports[1], port_b[5:7]) annotation (Line(points={{-100,
+          -88},{-200,-88},{-200,-11.4286}},                  color={0,127,255}));
   connect(port_b[2], port_a[1]) annotation (Line(points={{-200,-25.7143},{-200,
           11.4286}},                 color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
