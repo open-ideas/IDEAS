@@ -255,7 +255,7 @@ equation
   n50_cust=fill(n50_custome,nSurf);
 
     if n50_custome then
-    q50_zone=fill((((n50*V) - sum(v50_cost))/sum(Area*nonCust)), nSurf);
+    q50_zone=fill((((n50*V) - sum(v50_cost))/max(0.0001,sum(Area*nonCust))), nSurf);
   else
     q50_zone=fill(q50_corr,nSurf);
   end if;
