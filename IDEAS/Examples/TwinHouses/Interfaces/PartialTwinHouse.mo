@@ -43,9 +43,10 @@ partial model PartialTwinHouse
     nZones=struct.nZones,
     VZones=struct.VZones,
     redeclare package Medium = IDEAS.Media.Air,
-    final exp=exp,
-    final bui=bui)                              "Ventilation model"
+     exp=exp,
+     bui=bui)                              "Ventilation model"
     annotation (Placement(transformation(extent={{0,20},{40,40}})));
+
 protected
   Modelica.Blocks.Sources.RealExpression[7] noInput(each y=0) "No occupants"
     annotation (Placement(transformation(extent={{-30,-46},{-10,-26}})));
