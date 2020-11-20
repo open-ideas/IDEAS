@@ -33,7 +33,13 @@ partial model PartialTwinHouse
     final exp=exp,
     final bui=bui)                           "Heat system model"
     annotation (Placement(transformation(extent={{0,-10},{40,10}})));
-   replaceable IDEAS.Examples.TwinHouses.BaseClasses.Ventilation.Vent_TTH vent(
+   replaceable BaseClasses.Ventilation.Vent_TTH_pressureNetwork           vent(
+    nZones=struct.nZones,
+    VZones=struct.VZones,
+    redeclare package Medium = IDEAS.Media.Air,
+    final exp=exp,
+    final bui=bui) constrainedby
+    IDEAS.Examples.TwinHouses.BaseClasses.Ventilation.Vent_TTH(
     nZones=struct.nZones,
     VZones=struct.VZones,
     redeclare package Medium = IDEAS.Media.Air,
