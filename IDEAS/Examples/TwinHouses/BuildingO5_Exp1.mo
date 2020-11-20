@@ -5,8 +5,7 @@ model BuildingO5_Exp1
    bui=2,
    exp=1,
    redeclare BaseClasses.Structures.TwinhouseO5 struct,
-    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort,
-        n50=1.62));
+    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort, n50=1.64));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
