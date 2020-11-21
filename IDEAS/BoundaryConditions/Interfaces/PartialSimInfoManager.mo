@@ -165,15 +165,15 @@ partial model PartialSimInfoManager
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
 
-  final parameter Real V_add(unit="m3/h")= V50-V50_custome "additional, not custome volume flowrate";
-  final parameter Real V50(unit="m3/h")=V_tot*n50;
-  final parameter Real q50_cor( unit="m3/(h.m2)") = V_add/A_add_tot;
+  final parameter Real V50_def(unit="m3/h")= V50-V50_custom "Corrected V50 value, default for surfaces without custom assignment.";
+  final parameter Real V50(unit="m3/h")=V_tot*n50 "V50 value assuming no custom v50 values.";
+  final parameter Real q50_def( unit="m3/(h.m2)") = V50_def/A_def;
   final parameter Real q50_av(  unit="m3/(h.m2)") = V50/A_tot "average, not corrected q50";
 
-  final parameter Modelica.SIunits.Volume V_tot(fixed=false) "total conditioned building volume";
+  final parameter Modelica.SIunits.Volume V_tot(fixed=false) "Total conditioned building volume";
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
-  final parameter Real V50_custome( unit="m3/h",fixed=false) "Total customely assigned v50 values through components";
-  final parameter Modelica.SIunits.Area A_add_tot( fixed=false) "Total area without customly assigned q50 value or connected to zone with customly assigned n50";
+  final parameter Real V50_custom( unit="m3/h",fixed=false) "Sum of v50 values for components that have a custom assignment";
+  final parameter Modelica.SIunits.Area A_def( fixed=false) "Total area with default q50, i.e. without custom q50 assignment, or connected to zone with custom n50 assigned";
 
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
@@ -248,8 +248,8 @@ protected
 initial equation
   V_tot=volumePort.V_tot;
   A_tot=areaPort.A_tot;
-  V50_custome=areaPort.V50_cust;
-  A_add_tot=max(0.001,areaPort.A_add_tot);//else division by 0 error when all surfaces are custome
+  V50_def=areaPort.V50_cust;
+  A_def=max(0.001,areaPort.A_add_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
   //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
   //assert(A_add_tot>0.001 and V_add<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);

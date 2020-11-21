@@ -172,7 +172,7 @@ model PartialZone "Building zone model"
     nSurf=nSurf,
     n50=n50,
     V=V,
-    q50_corr=sim.q50_cor,
+    q50_corr=sim.q50_def,
     n50_custome=n50_custome)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
