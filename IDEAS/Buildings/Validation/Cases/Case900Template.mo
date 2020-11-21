@@ -4,7 +4,7 @@ model Case900Template "Case 900 implementation using template"
   extends IDEAS.Buildings.Components.RectangularZoneTemplate(
     h=2.7,
     redeclare package Medium = IDEAS.Media.Air,
-    n50=0.822*0.5*20,
+    n50=0.822*0.5*n50toAch,
     redeclare replaceable Components.ZoneAirModels.WellMixedAir airModel,
     T_start=293.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -40,6 +40,12 @@ model Case900Template "Case 900 implementation using template"
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 18, 2020 by Filip Jorissen:<br/>
+Revised n50 value such that it cancels out <code>n50toAch</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1081>#1081</a>.
+</li>
 <li>
 March 26, 2018 by Filip Jorissen:<br/>
 First implementation

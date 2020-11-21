@@ -11,7 +11,7 @@ model Bui "Base model"
   IDEAS.Buildings.Components.Zone gF(
     mSenFac=0.822,
     V=129.6,
-    n50=0.822*0.5*20,
+    n50=0.822*0.5*gF.n50toAch,
     redeclare package Medium = Medium,
     nSurf=6,
     hZone=2.7,
@@ -92,6 +92,12 @@ To be extended in other models.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 18, 2020 by Filip Jorissen:<br/>
+Revised n50 value such that it cancels out <code>n50toAch</code>.
+This is for 
+<a href=https://github.com/open-ideas/IDEAS/issues/1081>#1081</a>.
+</li>
 <li>
 March 17, 2020 by Filip Jorissen:<br/>
 Revised fluid port connections to use <code>ports</code> instead 

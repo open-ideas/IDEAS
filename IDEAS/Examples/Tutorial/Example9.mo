@@ -7,7 +7,9 @@ model Example9 "Adding CO2-controlled ventilation"
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
     rectangularZoneTemplate1(
       redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
-      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp));
+      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+    pumpSec(nominalValuesDefineDefaultPressureCurve=true),
+    pumpPrim(nominalValuesDefineDefaultPressureCurve=true));
 
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
@@ -36,6 +38,7 @@ model Example9 "Adding CO2-controlled ventilation"
     annotation (Placement(transformation(extent={{-100,-60},{-120,-40}})));
   Fluid.Movers.FlowControlled_dp fanSup(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
+    nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = Medium,
     dp_nominal=200,
     m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal,
@@ -43,6 +46,7 @@ model Example9 "Adding CO2-controlled ventilation"
     annotation (Placement(transformation(extent={{-220,10},{-200,30}})));
   Fluid.Movers.FlowControlled_dp fanRet(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
+    nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = Medium,
     dp_nominal=200,
     m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal,
@@ -91,15 +95,6 @@ protected
 
 
 equation
-  connect(vavSup.port_b, rectangularZoneTemplate.port_a)
-    annotation (Line(points={{-100,60},{2,60},{2,40}}, color={0,127,255}));
-  connect(vavSup1.port_b, rectangularZoneTemplate1.port_a)
-    annotation (Line(points={{-100,-10},{2,-10},{2,-20}}, color={0,127,255}));
-  connect(vavRet1.port_a, rectangularZoneTemplate1.port_b) annotation (Line(
-        points={{-100,-50},{-40,-50},{-40,-14},{-2,-14},{-2,-20}}, color={0,127,
-          255}));
-  connect(vavRet.port_a, rectangularZoneTemplate.port_b) annotation (Line(
-        points={{-100,30},{-40,30},{-40,52},{-2,52},{-2,40}}, color={0,127,255}));
   connect(vavSup.port_a, fanSup.port_b) annotation (Line(points={{-120,60},{-180,
           60},{-180,20},{-200,20}}, color={0,127,255}));
   connect(vavSup1.port_a, fanSup.port_b) annotation (Line(points={{-120,-10},{-180,
@@ -132,6 +127,14 @@ equation
           {-250,-2},{-250,-6}}, color={0,127,255}));
   connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,2},{
           -252,2},{-252,6},{-250,6}}, color={0,127,255}));
+  connect(vavSup.port_b, rectangularZoneTemplate.ports[1]) annotation (Line(
+        points={{-100,60},{-2,60},{-2,40},{0,40}}, color={0,127,255}));
+  connect(vavRet.port_a, rectangularZoneTemplate.ports[2]) annotation (Line(
+        points={{-100,30},{-14,30},{-14,40},{0,40}}, color={0,127,255}));
+  connect(vavSup1.port_b, rectangularZoneTemplate1.ports[1])
+    annotation (Line(points={{-100,-10},{0,-10},{0,-20}}, color={0,127,255}));
+  connect(vavRet1.port_a, rectangularZoneTemplate1.ports[2]) annotation (Line(
+        points={{-100,-50},{-34,-50},{-34,-20},{0,-20}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-280,-100},{280,100}})),
     experiment(
@@ -145,6 +148,10 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 21, 2020 by Filip Jorissen:<br/>
+Avoiding warnings for default pressure curves and due to using port_a and port_b.
+</li>
 <li>
 September 21, 2019 by Filip Jorissen:<br/>
 Using OutsideAir.
