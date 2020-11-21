@@ -49,6 +49,10 @@ model DummyConnection "Source generator/sink for propsbus"
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow QRad(Q_flow=0) if
                          isZone
     annotation (Placement(transformation(extent={{-40,-64},{-20,-44}})));
+  Modelica.Blocks.Sources.Constant q50_zone(k=0) if  isZone
+    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
+  Modelica.Blocks.Sources.BooleanConstant custom_n50(k=false) if  isZone
+    annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
@@ -118,6 +122,14 @@ equation
   end if;
 
 
+  connect(zero.y, zoneBus.nonCust) annotation (Line(points={{-59,-40},{100.1,-40},
+          {100.1,-1.9}}, color={0,0,127}));
+  connect(zero.y, zoneBus.v50) annotation (Line(points={{-59,-40},{100.1,-40},{100.1,
+          -1.9}}, color={0,0,127}));
+  connect(custom_n50.y, zoneBus.custom_n50) annotation (Line(points={{-59,-90},{
+          100.1,-90},{100.1,-1.9}}, color={255,0,255}));
+  connect(q50_zone.y, zoneBus.q50_zone) annotation (Line(points={{-59,-70},{100.1,
+          -70},{100.1,-1.9}}, color={0,0,127}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -130,6 +142,12 @@ equation
           smooth=Smooth.None)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 21, 2020, by Filip Jorissen:<br/>
+Added connections for interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
