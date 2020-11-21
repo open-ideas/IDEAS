@@ -248,7 +248,7 @@ protected
 initial equation
   V_tot=volumePort.V_tot;
   A_tot=areaPort.A_tot;
-  V50_def=areaPort.V50_cust;
+  V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
   //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
