@@ -61,7 +61,8 @@ model PartialZone "Building zone model"
     final T_start=T_start,
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
-    massDynamics=if interzonalAirFlow.prescribesPressure
+    massDynamics=if interzonalAirFlow.prescribesPressure or
+                    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
                  then Modelica.Fluid.Types.Dynamics.SteadyState
                  else energyDynamicsAir,
     nPorts=interzonalAirFlow.nPorts + n_ports_interzonal,
