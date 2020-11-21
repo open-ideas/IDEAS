@@ -601,44 +601,44 @@ equation
   connect(Bedroom1.propsBus[11], W54.propsBus_b);
 
   Living.gainCon.T= TSensor[1];
-  connect(Living.port_a, port_a[1]);
-  connect(Living.port_b, port_b[1]);
+  connect(Living.ports[1], port_a[1]);
+  connect(Living.ports[2], port_b[1]);
   connect(Living.gainCon, heatPortCon[1]);
   connect(Living.gainRad, heatPortRad[1]);
 
   Corridor.gainCon.T= TSensor[2];
-  connect(Corridor.port_a, port_a[2]);
-  connect(Corridor.port_b, port_b[2]);
+  connect(Corridor.ports[1], port_a[2]);
+  connect(Corridor.ports[2], port_b[2]);
   connect(Corridor.gainCon, heatPortCon[2]);
   connect(Corridor.gainRad, heatPortRad[2]);
 
   Bathroom.gainCon.T= TSensor[3];
-  connect(Bathroom.port_a, port_a[3]);
-  connect(Bathroom.port_b, port_b[3]);
+  connect(Bathroom.ports[1], port_a[3]);
+  connect(Bathroom.ports[2], port_b[3]);
   connect(Bathroom.gainCon, heatPortCon[3]);
   connect(Bathroom.gainRad, heatPortRad[3]);
 
   Bedroom1.gainCon.T=TSensor[4];
-  connect(Bedroom1.port_a, port_a[4]);
-  connect(Bedroom1.port_b, port_b[4]);
+  connect(Bedroom1.ports[1], port_a[4]);
+  connect(Bedroom1.ports[2], port_b[4]);
   connect(Bedroom1.gainCon, heatPortCon[4]);
   connect(Bedroom1.gainRad, heatPortRad[4]);
 
   Kitchen.gainCon.T= TSensor[5];
-  connect(Kitchen.port_a, port_a[5]);
-  connect(Kitchen.port_b, port_b[5]);
+  connect(Kitchen.ports[1], port_a[5]);
+  connect(Kitchen.ports[2], port_b[5]);
   connect(Kitchen.gainCon, heatPortCon[5]);
   connect(Kitchen.gainRad, heatPortRad[5]);
 
   Entrance.gainCon.T= TSensor[6];
-  connect(Entrance.port_a, port_a[6]);
-  connect(Entrance.port_b, port_b[6]);
+  connect(Entrance.ports[1], port_a[6]);
+  connect(Entrance.ports[2], port_b[6]);
   connect(Entrance.gainCon, heatPortCon[6]);
   connect(Entrance.gainRad, heatPortRad[6]);
 
   Bedroom2.gainCon.T= TSensor[7];
-  connect(Bedroom2.port_a, port_a[7]);
-  connect(Bedroom2.port_b, port_b[7]);
+  connect(Bedroom2.ports[1], port_a[7]);
+  connect(Bedroom2.ports[2], port_b[7]);
   connect(Bedroom2.gainCon, heatPortCon[7]);
   connect(Bedroom2.gainRad, heatPortRad[7]);
 
@@ -680,4 +680,12 @@ equation
           18,6},{18,-86},{-31.8,-86}},
                                  color={0,0,127}));
 
+  annotation (Documentation(revisions="<html>
+<ul>
+<li>
+November 21, 2020, by Filip Jorissen:<br/>
+Using <code>ports</code> instead of <code>port_a</code> and <code>port_b</code>.
+</li>
+</ul>
+</html>"));
 end TwinhouseO5;
