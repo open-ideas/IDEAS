@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-    q50_custome=true,
+    custom_q50=true,
     q50=2,
     final nWin=1,
     dT_nominal_a=1,
@@ -12,7 +12,8 @@ model InternalWall "interior opaque wall between two zones"
     intCon_a,
     Read_q50(
       q50_inp=q50,
-             v50_surf=0, q50_custome=true));
+      v50_surf=0,
+      custom_q50=true));
 
   parameter Boolean linIntCon_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"

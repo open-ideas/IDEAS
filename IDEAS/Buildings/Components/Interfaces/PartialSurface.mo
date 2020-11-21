@@ -42,8 +42,8 @@ partial model PartialSurface "Partial model for building envelope component"
   replaceable package Medium = IDEAS.Media.Air
     "Medium in the component"
     annotation(Dialog(group="Interzonal airflow (Optional)"));
-    parameter Boolean q50_custome=false  annotation (Dialog(group="Interzonal airflow (Optional)"));
-    parameter Real q50=if q50_custome then q50 else Read_q50.q50 "Envelope air tightness" annotation (Dialog(enable=q50_custome,group="Interzonal airflow (Optional)"));
+    parameter Boolean custom_q50=false  annotation (Dialog(group="Interzonal airflow (Optional)"));
+    parameter Real q50=if custom_q50 then q50 else Read_q50.q50 "Envelope air tightness" annotation (Dialog(enable=custom_q50,group="Interzonal airflow (Optional)"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
@@ -100,8 +100,10 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
 
-  q50_zone Read_q50(
-    q50_inp=q50,    v50_surf=q50*A, q50_custome=q50_custome)
+  Q50_zone Read_q50(
+    q50_inp=q50,
+    v50_surf=q50*A,
+    custom_q50=custom_q50)
     annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
 
 
@@ -238,13 +240,13 @@ equation
           fillPattern=FillPattern.Solid)}));
 end PowerLaw_q50;
 
-model q50_zone "Read q_50 from zone"
+model Q50_zone "Read q_50 from zone"
   extends Modelica.Blocks.Icons.Block;
 
 
   parameter Real q50_inp;
   parameter Real v50_surf( unit="m3/h");
-  parameter Boolean q50_custome=false;
+  parameter Boolean custom_q50=false;
 
   parameter Real q50(fixed=false) annotation(Dialog(enable = false));
 
@@ -256,7 +258,7 @@ model q50_zone "Read q_50 from zone"
 
 initial equation
 
-  if q50_custome then
+  if custom_q50 then
     q50= q50_inp;
     else
     q50=q50_zone;
@@ -265,7 +267,7 @@ initial equation
 equation
   v50=v50_surf;
 
-  if q50_custome then
+  if custom_q50 then
   nonCust=0;
   else
   nonCust=1;
@@ -277,7 +279,7 @@ equation
           lineColor={28,108,200},
           fillColor={145,167,175},
           fillPattern=FillPattern.Forward)}));
-end q50_zone;
+end Q50_zone;
 
 
 equation
@@ -345,8 +347,8 @@ equation
           {56.09,-52},{56.09,19.91}},      color={0,0,127}));
   connect(Read_q50.nonCust, setArea.nonCust) annotation (Line(points={{59,-52},
           {56,-52},{56,-88},{79.4,-88},{79.4,-87.4}}, color={0,0,127}));
-  connect(setArea.n50_cust, propsBusInt.n50_cust) annotation (Line(points={{
-          79.4,-91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}}, color={255,0,255}));
+  connect(setArea.custom_n50, propsBusInt.custom_n50) annotation (Line(points={{79.4,
+          -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

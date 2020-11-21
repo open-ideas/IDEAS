@@ -168,13 +168,7 @@ model PartialZone "Building zone model"
 
 
 
-  Setq50 setq50(
-    nSurf=nSurf,
-    n50=n50,
-    V=V,
-    q50_corr=sim.q50_def,
-    custom_n50=custom_n50)
-    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+
 
 protected
   parameter Integer n_ports_interzonal=
@@ -222,16 +216,28 @@ protected
         rotation=270,
         origin={-30,-10})));
 
+  Setq50 setq50(
+    nSurf=nSurf,
+    n50=n50,
+    V=V,
+    q50_corr=sim.q50_def,
+    custom_n50=custom_n50)
+    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+
 model Setq50 "q50 computation in zone"
   extends Modelica.Blocks.Icons.Block;
 
-  parameter Integer nSurf "Number of surfaces";
-  parameter Real n50 "n50 value";
-  parameter Modelica.SIunits.Volume V "Zone volume";
+  parameter Integer nSurf
+    "Number of surfaces";
+  parameter Real n50
+    "n50 value";
+  parameter Modelica.SIunits.Volume V
+    "Zone volume";
   parameter Real q50_corr;
-  parameter Boolean custom_n50 = false " = true, to set custom n50 value for this zone";
-  parameter Real v50_cost[nSurf](fixed=false)  "0 if not a custom v50 value is defined by surfaces";
-
+  parameter Boolean custom_n50 = false
+    " = true, to set custom n50 value for this zone";
+  parameter Real v50_cost[nSurf](fixed=false)
+    "0 if not a custom v50 value is defined by surfaces";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
@@ -239,7 +245,7 @@ model Setq50 "q50 computation in zone"
    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]
    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
-  Modelica.Blocks.Interfaces.BooleanOutput n50_cust[nSurf]
+  Modelica.Blocks.Interfaces.BooleanOutput custom_n50s[nSurf]
     "Custom n50 value"
    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
@@ -248,17 +254,16 @@ model Setq50 "q50 computation in zone"
               {-118,-50}})));
 
 initial equation
-
   for i in 1:nSurf loop
-  if nonCust[i]>0 then
-    v50_cost[i]=0;
-  else
-    v50_cost[i]=v50_surf[i];
-  end if;
+    if nonCust[i]>0 then
+      v50_cost[i]=0;
+    else
+      v50_cost[i]=v50_surf[i];
+    end if;
   end for;
 
 equation
-  n50_cust=fill(custom_n50,nSurf);
+  custom_n50s=fill(custom_n50,nSurf);
 
     if custom_n50 then
     q50_zone=fill((((n50*V) - sum(v50_cost))/max(0.0001,sum(Area*nonCust))), nSurf);
@@ -486,8 +491,8 @@ end for;
           {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.nonCust, propsBusInt.nonCust) annotation (Line(points={{-60.6,-82},
           {-80,-82},{-80,39.9},{-80.1,39.9}}, color={0,0,127}));
-  connect(setq50.n50_cust, propsBusInt.n50_cust) annotation (Line(points={{
-          -60.8,-92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}}, color={
+  connect(setq50.custom_n50s, propsBusInt.custom_n50) annotation (Line(points={{-60.8,
+          -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
