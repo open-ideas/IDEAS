@@ -10,19 +10,19 @@ model PartialZone "Building zone model"
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Boolean custom_n50=false "true if a custom n50 value is used" annotation(Dialog(group="Building physics"));
+  parameter Boolean custom_n50=false "true if a custom n50 value is used" annotation(Dialog(tab="Airflow", group="Airtightness"));
   parameter Real n50(min=0.01,fixed= custom_n50)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
-    annotation(Dialog(enable=custom_n50,group="Building physics"));
+    annotation(Dialog(enable=custom_n50,tab="Airflow", group="Airtightness"));
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
-    annotation(Dialog(tab="Advanced", group="Air model"));
+    annotation(Dialog(tab="Airflow", group="Air model"));
   parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate"
-   annotation(Dialog(tab="Advanced", group="Air model"));
+   annotation(Dialog(tab="Airflow", group="Airtightness"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsAir=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Type of energy balance for air model: dynamic (3 initialization options) or steady state";
   parameter Real mSenFac = 5 "Correction factor for thermal capacity of zone air."
-    annotation(Dialog(tab="Advanced",group="Air model"));
+    annotation(Dialog(tab="Airflow",group="Air model"));
 
   parameter Boolean linIntRad=sim.linIntRad
     "Linearized computation of long wave radiation"
@@ -70,7 +70,7 @@ model PartialZone "Building zone model"
     "Zone air model"
     annotation (choicesAllMatching=true,
     Placement(transformation(extent={{-40,20},{-20,40}})),
-    Dialog(tab="Advanced",group="Air model"));
+    Dialog(tab="Airflow",group="Air model"));
   replaceable IDEAS.Buildings.Components.InterzonalAirFlow.n50Tight interzonalAirFlow
   constrainedby
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
@@ -81,10 +81,8 @@ model PartialZone "Building zone model"
       n50toAch=n50toAch,
       m_flow_nominal_vent=m_flow_nominal)
       "Interzonal air flow model"
-    annotation (choicesAllMatching = true,Dialog(tab="Advanced", group="Air model"),
-      Placement(transformation(extent={{-40,60},{-20,80}})),
-    choicesAllMatching=true,
-    Dialog(group="Building physics"));
+    annotation (choicesAllMatching = true,Dialog(tab="Airflow",group="Airtightness"),
+      Placement(transformation(extent={{-40,60},{-20,80}})));
   replaceable IDEAS.Buildings.Components.Occupants.Fixed occNum
     constrainedby Occupants.BaseClasses.PartialOccupants(
       final A=A,
