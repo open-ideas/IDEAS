@@ -27,11 +27,11 @@ model OuterWall "Opaque building envelope construction"
     "Wall U-value";
   parameter Real Cs=1
     "Wind speed modifier"
-    annotation(Dialog(group="Interzonal airflow (Optional)"));
+    annotation(Dialog(tab="Airflow", group="Wind Pressure"));
   parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
       -0.35; 270,-0.3; 315,0.1; 360,0.4]
       "Cp at different angles of attack"
-      annotation(Dialog(group="Interzonal airflow (Optional)"));
+      annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
     final L=L,
