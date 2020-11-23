@@ -12,7 +12,7 @@ model Bui630 "BESTEST Building model case 630"
       each ovGap=0.35,
       each finGap = 0,
       each finDep=1.0,
-      each hFin=0.35)));
+      each hFin=0.35)), gF(custom_n50=true));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
             {150,100}}),       graphics));
 end Bui630;

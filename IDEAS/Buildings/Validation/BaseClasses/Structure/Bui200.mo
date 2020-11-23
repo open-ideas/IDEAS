@@ -8,6 +8,7 @@ model Bui200 "BESTEST Building model case 195"
 
   IDEAS.Buildings.Components.Zone gF(
     V=129.6,
+    custom_n50=true,
     n50=0,
     mSenFac=0.822,
     nSurf=8,
