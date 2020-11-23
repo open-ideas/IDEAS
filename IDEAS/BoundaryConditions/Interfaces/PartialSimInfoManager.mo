@@ -251,7 +251,7 @@ initial equation
   V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
-  //assert(A_def<0.0011, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
+  //assert(A_def<0.0011, "All surfaces have lower level custome flows, q50_def will not be used in simulation",level = AssertionLevel.warning);
   //assert(A_def>0.001 and V50_def<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
 
 
