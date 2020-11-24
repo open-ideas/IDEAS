@@ -1,10 +1,13 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
-model n50Tight
-  "n50Tight: n50 air leakage into and from airtight zone"
-
+model Sim
+  "Sim: Default model , either n50Tight or AirTight based on input in SimInfoManager"
   parameter Real n50;
 
-  extends IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(n50_int=n50,prescribesPressure=false, bou(azi=0));
+  extends
+    IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(n50_int=if sim.interZonalAirFlowType<>IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0 else n50,
+    prescribesPressure=false, bou(azi=0));
+
+
   Fluid.Interfaces.IdealSource airExfiltration(
     redeclare package Medium = Medium,
     control_m_flow=true,
@@ -14,9 +17,9 @@ model n50Tight
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={10,-50})));
+
 equation
-  assert(sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    "n50Tight should not be used in combination with sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None. Use AirTight instead.");
+
   connect(airExfiltration.m_flow_in, airInfiltration.m_flow_in)
     annotation (Line(points={{2,-56},{-18,-56},{-18,-44}},  color={0,0,127}));
   connect(airExfiltration.port_b, bou.ports[2])
@@ -46,11 +49,7 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/796\">#796</a>.
 </ul>
 </html>", info="<html>
 <p>
-This model represents an air tight zone.  
-A fixed mass flow rate, 
-corresponding to air infiltration, is injected into and extracted from the zone.
-The mass flow rate is computed from the zone <code>n50</code> value.
-No other air leakage is modelled.
+
 </p>
 </html>"), Icon(graphics={
         Rectangle(
@@ -58,4 +57,4 @@ No other air leakage is modelled.
           fillColor={192,192,192},
           fillPattern=FillPattern.Backward,
           pattern=LinePattern.None)}));
-end n50Tight;
+end Sim;

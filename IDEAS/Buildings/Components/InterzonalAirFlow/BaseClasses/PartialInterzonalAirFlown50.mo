@@ -6,7 +6,7 @@ partial model PartialInterzonalAirFlown50
       nPorts=2+nPortsExt, bou(nPorts=2));
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal_airLea=
-    V*rho_default/3600*n50/n50toAch
+    V*rho_default/3600*n50_int/n50toAch
     "Nominal mass flow of air leakage"
     annotation(Dialog(tab="Advanced"));
 

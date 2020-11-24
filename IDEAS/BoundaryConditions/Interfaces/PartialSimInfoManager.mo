@@ -90,11 +90,15 @@ partial model PartialSimInfoManager
 
   parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    "Type of interzonal air flow model"
-    annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+    "Type of interzonal air flow model" annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+
+  parameter Boolean useN50BuildingComputation=false annotation(choices(checkBox=true),Dialog(enable= if interZonalAirFlowType==
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then true else false,group="Interzonal airflow"));
+
   parameter Real n50 = 0.4
     "n50 value of zones"
-    annotation(Dialog(group="Interzonal airflow"));
+    annotation(Dialog(enable= if interZonalAirFlowType<>
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or useN50BuildingComputation then true else false,group="Interzonal airflow"));
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
@@ -167,8 +171,8 @@ partial model PartialSimInfoManager
 
   final parameter Real V50_def(unit="m3/h")= V50-V50_custom "Corrected V50 value, default for surfaces without custom assignment.";
   final parameter Real V50(unit="m3/h")=V_tot*n50 "V50 value assuming no custom v50 values.";
-  final parameter Real q50_def( unit="m3/(h.m2)") = V50_def/A_def;
-  final parameter Real q50_av(  unit="m3/(h.m2)") = V50/A_tot "average, not corrected q50";
+  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def<0.0011 then q50_av else V50_def/A_def;
+  final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot<0.0011 then 0 else V50/A_tot "average, not corrected q50";
 
   final parameter Modelica.SIunits.Volume V_tot(fixed=false) "Total conditioned building volume";
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
@@ -247,12 +251,12 @@ protected
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   V_tot=volumePort.V_tot;
-  A_tot=areaPort.A_tot;
+  A_tot=max(0.001,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
   V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
-  //assert(A_add_tot<=0.001, "All surfaces have lower level custome flows, q50_corr will not be used in simulation",level = AssertionLevel.warning);
-  //assert(A_add_tot>0.001 and V_add<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
+  //assert(A_def<0.0011, "All surfaces have lower level custome flows, q50_def will not be used in simulation",level = AssertionLevel.warning);
+  //assert(A_def>0.001 and V50_def<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
 
 
   if not linearise and computeConservationOfEnergy then

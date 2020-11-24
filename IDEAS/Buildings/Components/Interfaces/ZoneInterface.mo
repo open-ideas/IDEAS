@@ -28,7 +28,7 @@ partial model ZoneInterface "Partial model for thermal building zones"
   //default ACH=2 for ventilation
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal = V * 1.2*2/3600
     "Nominal flow rate of the air flow system fluid ports"
-    annotation(Dialog(tab="Advanced",group="Air model"));
+    annotation(Dialog(tab="Airflow",group="Air model"));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
     "Internal zone node for radiative heat gains"
