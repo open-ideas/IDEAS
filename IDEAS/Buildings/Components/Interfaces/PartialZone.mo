@@ -11,7 +11,7 @@ model PartialZone "Building zone model"
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
   parameter Boolean custom_n50=if sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation then true else false "true if a custom n50 value is used" annotation(Dialog(tab="Airflow", group="Airtightness"));
-  parameter Real n50(min=0.01,fixed= custom_n50)
+  parameter Real n50(start=3,min=0.01,fixed= custom_n50)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(enable=custom_n50,tab="Airflow", group="Airtightness"));
   parameter Boolean allowFlowReversal=true
@@ -71,7 +71,7 @@ model PartialZone "Building zone model"
     annotation (choicesAllMatching=true,
     Placement(transformation(extent={{-40,20},{-20,40}})),
     Dialog(tab="Airflow",group="Air model"));
-  replaceable IDEAS.Buildings.Components.InterzonalAirFlow.n50Tight interzonalAirFlow
+  replaceable IDEAS.Buildings.Components.InterzonalAirFlow.Sim interzonalAirFlow
   constrainedby
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
       redeclare package Medium = Medium,
