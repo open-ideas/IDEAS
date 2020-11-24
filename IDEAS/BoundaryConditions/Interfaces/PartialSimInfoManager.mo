@@ -90,8 +90,8 @@ partial model PartialSimInfoManager
 
   parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    "Type of interzonal air flow model"
-  parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None   "Type of interzonal air flow model"    annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+    "Type of interzonal air flow model" annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+
   parameter Boolean useN50BuildingComputation=false annotation(choices(checkBox=true),Dialog(enable= if interZonalAirFlowType==
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then true else false,group="Interzonal airflow"));
 
