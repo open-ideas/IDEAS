@@ -3,7 +3,7 @@ model Bui600 "BESTEST Building model case 600"
 
   extends IDEAS.Buildings.Validation.BaseClasses.Structure.BaseClasses.Bui(
     wall(A={21.6,16.2,9.6,16.2}),
-    gF(nSurf=8, custom_n50=true));
+    gF(nSurf=8));
 
   IDEAS.Buildings.Components.Window[2] win(
     final A={6,6},

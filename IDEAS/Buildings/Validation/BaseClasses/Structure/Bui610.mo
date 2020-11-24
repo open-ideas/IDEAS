@@ -8,8 +8,7 @@ model Bui610 "BESTEST Building model case 610"
       each dep=1.0,
       each gap=0.35,
       wLeft={0.5,4.5},
-      wRight = {4.5,0.5})), gF(custom_n50=true))
-                             annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
+      wRight = {4.5,0.5})))  annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-150,-100},
             {150,100}}),       graphics));
   annotation (Documentation(revisions="<html>
 <ul>

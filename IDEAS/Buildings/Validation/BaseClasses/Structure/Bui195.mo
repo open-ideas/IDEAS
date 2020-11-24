@@ -2,8 +2,7 @@ within IDEAS.Buildings.Validation.BaseClasses.Structure;
 model Bui195 "BESTEST Building model case 195"
 
   extends IDEAS.Buildings.Validation.BaseClasses.Structure.BaseClasses.Bui(
-    gF(custom_n50=true,
-       n50=0),
+    gF(n50=0),
     wall(redeclare parameter Data.Constructions.LightWall_195 constructionType,
           A =   {21.6,16.2,21.6,16.2}),
     roof(redeclare parameter Data.Constructions.LightRoof_195 constructionType));
