@@ -6,18 +6,15 @@ model NumberOccupants
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneFixed(
-    custom_n50=true,
     redeclare Occupants.Fixed occNum(nOccFix=2),
     useOccNumInput=false) "Zone with fixed number of occupants"
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneInput(
-      custom_n50=true,
     redeclare Occupants.Input occNum)
     "Zone with input for number of occupants"
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneBlock(
     useOccNumInput=false,
-    custom_n50=true,
     redeclare Occupants.CustomBlock occNum(
         redeclare Modelica.Blocks.Sources.Sine
         singleOutput(
@@ -37,7 +34,6 @@ model NumberOccupants
     offset=0) annotation (Placement(transformation(extent={{40,0},{20,20}})));
 
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneAreaWeightedInput(
-      custom_n50=true,
     redeclare  Occupants.AreaWeightedInput occNum)
     "Zone with area weighted input for number of occupants"
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
