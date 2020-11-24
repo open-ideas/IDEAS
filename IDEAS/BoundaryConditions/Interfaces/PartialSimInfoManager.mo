@@ -97,7 +97,8 @@ partial model PartialSimInfoManager
 
   parameter Real n50 = 0.4
     "n50 value of zones"
-    annotation(Dialog(group="Interzonal airflow"));
+    annotation(Dialog(enable= if interZonalAirFlowType<>
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or useN50BuildingComputation then true else false,group="Interzonal airflow"));
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
