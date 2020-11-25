@@ -11,9 +11,15 @@ model PartialZone "Building zone model"
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
   parameter Boolean custom_n50=if sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation then true else false "true if a custom n50 value is used" annotation(Dialog(tab="Airflow", group="Airtightness"));
-  parameter Real n50(unit="1/h",start=3,min=0.01,fixed= custom_n50)
+
+  parameter Real n50(unit="1/h",min=0.01)= if custom_n50 then 0.4 else n50_int
+   annotation(Dialog(tab="Airflow", group="Airtightness"));
+protected
+  parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(enable=custom_n50,tab="Airflow", group="Airtightness"));
+
+public
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Airflow", group="Air model"));
@@ -30,7 +36,7 @@ model PartialZone "Building zone model"
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/n50toAch*(273.15
+  final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50_int/n50toAch*(273.15
        + 21 - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
   final parameter Modelica.SIunits.Power QRH_design=A*fRH
@@ -77,7 +83,7 @@ model PartialZone "Building zone model"
       redeclare package Medium = Medium,
       final nPortsExt=nPorts,
       V=V,
-      n50=n50,
+      n50=n50_int,
       n50toAch=n50toAch,
       m_flow_nominal_vent=m_flow_nominal)
       "Interzonal air flow model"
@@ -216,7 +222,7 @@ protected
 
   Setq50 setq50(
     nSurf=nSurf,
-    n50=n50,
+    n50=n50_int,
     V=V,
     q50_corr=sim.q50_def,
     custom_n50=custom_n50)
@@ -285,9 +291,9 @@ end Setq50;
 initial equation
 
   if custom_n50 then
-    n50 = n50;
+    n50_int = n50;
   else
-    n50 = sum(propsBusInt.v50)/V;
+    n50_int = sum(propsBusInt.v50)/V;
   end if; //n50 is computed based on surfaces q50*A unless a custome n50 is defined
 
 
