@@ -5,6 +5,7 @@ model BuildingO5_Exp1_1Port
    bui=2,
    exp=1,
    redeclare BaseClasses.Structures.TwinhouseO5 struct,
+   redeclare BaseClasses.Ventilation.Vent_TTH_pressureNetwork vent,
     sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort, n50=1.64));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
