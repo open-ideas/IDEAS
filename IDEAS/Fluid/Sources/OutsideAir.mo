@@ -9,7 +9,8 @@ model OutsideAir
   parameter Modelica.SIunits.Angle azi "Surface azimuth (South:0, West:pi/2)"  annotation (choicesAllMatching=true);
 
   parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
-  parameter Modelica.SIunits.Length Habs=1 "Absolute height of boundary for correcting the wind speed" annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Habs=10
+                                           "Absolute height of boundary for correcting the wind speed" annotation(Dialog(group="Wind"));
 
 
   constant Modelica.SIunits.Density rho = 1.2 "Air density";
