@@ -67,14 +67,19 @@ model Window "Multipane window"
         rotation=-90,
         origin={-40,-100})));
 
-          parameter Real Cs=1
-    "Wind speed modifier"
-    annotation(Dialog(group="Interzonal airflow (Optional)"));
+
+
   parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
       -0.35; 270,-0.3; 315,0.1; 360,0.4]
       "Cp at different angles of attack"
-      annotation(Dialog(group="Interzonal airflow (Optional)"));
+      annotation(Dialog(tab="Airflow",group="Wind"));
+  parameter Real Cs=sim.Cs
+                       "Wind speed modifier"
+    annotation (Dialog(tab="Airflow", group="Wind"));
 
+  parameter Real Habs=1
+    "Absolute height of boundary for correcting the wind speed"
+    annotation (Dialog(tab="Airflow", group="Wind"));
 
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
@@ -183,7 +188,8 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    final Cs=Cs,
+    Cs=Cs,
+    Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if
     sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None

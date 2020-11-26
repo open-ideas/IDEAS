@@ -75,7 +75,7 @@ partial model PartialSimInfoManager
   parameter Modelica.SIunits.Energy Emax=1
     "Error bound for violation of conservation of energy" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=strictConservationOfEnergy));
-  parameter Modelica.SIunits.Temperature Tenv_nom= 280
+  parameter Modelica.SIunits.Temperature Tenv_nom=280
     "Nominal ambient temperature, only used when linearising equations";
 
   parameter Integer nWindow = 1
@@ -99,6 +99,18 @@ partial model PartialSimInfoManager
     "n50 value of zones"
     annotation(Dialog(enable= if interZonalAirFlowType<>
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or useN50BuildingComputation then true else false,group="Interzonal airflow"));
+
+  parameter Modelica.SIunits.Length H=10 "Building or roof height"
+                                                                  annotation(Dialog(group="Wind"));
+  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+  parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+                                                                                                                            annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Hwin=10 "Height above ground of meteorological wind speed measurement"
+                                                                                                          annotation(Dialog(group="Wind"));
+
+  parameter Real Cs= (A0*A0)*((H/Hwin)^(2*a)) "Wind speed modifier"
+                                                                   annotation(Dialog(group="Wind"));
+
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";

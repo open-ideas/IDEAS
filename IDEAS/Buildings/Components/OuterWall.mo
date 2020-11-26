@@ -25,9 +25,7 @@ model OuterWall "Opaque building envelope construction"
     annotation(Dialog(group="Building shade",enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
-  parameter Real Cs=1
-    "Wind speed modifier"
-    annotation(Dialog(tab="Airflow", group="Wind Pressure"));
+
   parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
       -0.35; 270,-0.3; 315,0.1; 360,0.4]
       "Cp at different angles of attack"
@@ -45,6 +43,13 @@ model OuterWall "Opaque building envelope construction"
       Dialog(tab="Advanced",group="Shading"));
 
 
+
+  parameter Real Cs=sim.Cs
+                       "Wind speed modifier"
+    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real Habs=1
+    "Absolute height of boundary for correcting the wind speed"
+    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -75,7 +80,8 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    final Cs=Cs,
+    Cs=Cs,
+    Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if
     sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
