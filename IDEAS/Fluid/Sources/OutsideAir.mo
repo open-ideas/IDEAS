@@ -7,10 +7,16 @@ model OutsideAir
 
   parameter Real table[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,-0.35; 270,-0.3; 315,0.1; 360,0.4] "Cp at different angles of attack";
   parameter Modelica.SIunits.Angle azi "Surface azimuth (South:0, West:pi/2)"  annotation (choicesAllMatching=true);
-  parameter Real Cs = 1 "Wind speed modifier";
+
+  parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Habs=10
+                                           "Absolute height of boundary for correcting the wind speed" annotation(Dialog(group="Wind"));
+
+
   constant Modelica.SIunits.Density rho = 1.2 "Air density";
   Modelica.SIunits.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
+
 
   Modelica.SIunits.Pressure pWin(displayUnit="Pa")
     "Change in pressure due to wind force";
@@ -20,6 +26,12 @@ model OutsideAir
 
 
 protected
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+                                                                                                                             annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Hwin=sim.Hwin "Height above ground of meteorological wind speed measurement" annotation(Dialog(group="Wind"));
+
+
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
