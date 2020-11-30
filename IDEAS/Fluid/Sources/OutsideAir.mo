@@ -117,7 +117,7 @@ equation
 
 
   pWin = Cs*0.5*CpAct*rho*vWin*vWin;
-  pTot = p_in_internal + pWin;
+  pTot = p_in_internal + (if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then pWin else 0);
 
   connect(bus,sim.weaDatBus);
 
