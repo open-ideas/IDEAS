@@ -42,7 +42,7 @@ partial model PartialSurface "Partial model for building envelope component"
   replaceable package Medium = IDEAS.Media.Air
     "Medium in the component"
     annotation(Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"));
-    parameter Boolean custom_q50=false  annotation (Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"));
+    parameter Boolean custom_q50=false  annotation (Dialog(tab="Airflow", group="Airtightness"));
     parameter Real q50=if custom_q50 then q50 else Read_q50.q50 "Envelope air tightness" annotation (Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
@@ -104,7 +104,7 @@ partial model PartialSurface "Partial model for building envelope component"
     q50_inp=q50,
     v50_surf=q50*A,
     custom_q50=custom_q50)
-    annotation (Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"),Placement(transformation(extent={{60,-60},{80,-40}})));
+    annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
 
 
 
