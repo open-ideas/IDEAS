@@ -263,7 +263,7 @@ protected
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   V_tot=volumePort.V_tot;
-  A_tot=max(0.001,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
+  A_tot=max(Modelica.Constants.small,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
   V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
