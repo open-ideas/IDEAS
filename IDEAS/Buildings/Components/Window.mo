@@ -25,7 +25,7 @@ model Window "Multipane window"
       dT_nom_air=5,
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
-    setArea(A=A));
+    setArea(A=nWin*A));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));

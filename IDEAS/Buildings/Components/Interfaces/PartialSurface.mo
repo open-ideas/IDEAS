@@ -341,14 +341,14 @@ equation
           -58},{56,-20},{56.09,-20},{56.09,19.91}},          color={0,0,127}));
   connect(Read_q50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{59.4,
           -43},{59.4,-44},{56.09,-44},{56.09,19.91}}, color={0,0,127}));
-  connect(Read_q50.v50, setArea.v50) annotation (Line(points={{59,-58},{56,-58},
-          {56,-82},{79.4,-82},{79.4,-83.2}}, color={0,0,127}));
   connect(Read_q50.nonCust, propsBusInt.nonCust) annotation (Line(points={{59,-52},
           {56.09,-52},{56.09,19.91}},      color={0,0,127}));
   connect(Read_q50.nonCust, setArea.nonCust) annotation (Line(points={{59,-52},
           {56,-52},{56,-88},{79.4,-88},{79.4,-87.4}}, color={0,0,127}));
   connect(setArea.custom_n50, propsBusInt.custom_n50) annotation (Line(points={{79.4,
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
+  connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
+          79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
