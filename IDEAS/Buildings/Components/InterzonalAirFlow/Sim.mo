@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model Sim
-  "Sim: Default model , either n50Tight or AirTight based on input in SimInfoManager"
+  "Switches between n50Tight or AirTight based on interzonalAirFlowType in SimInfoManager"
   extends
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(
       n50_int=if sim.interZonalAirFlowType<>IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0 else n50,
