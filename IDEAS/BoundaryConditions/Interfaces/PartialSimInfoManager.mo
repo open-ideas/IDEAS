@@ -183,8 +183,8 @@ partial model PartialSimInfoManager
 
   final parameter Real V50_def(unit="m3/h")= V50-V50_custom "Corrected V50 value, default for surfaces without custom assignment.";
   final parameter Real V50(unit="m3/h")=V_tot*n50 "V50 value assuming no custom v50 values.";
-  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def<0.0011 then q50_av else V50_def/A_def;
-  final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot<0.0011 then 0 else V50/A_tot "average, not corrected q50";
+  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def< Modelica.Constants.small then q50_av else V50_def/A_def;
+  final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot < Modelica.Constants.small then 0 else V50/A_tot "average, not corrected q50";
 
   final parameter Modelica.SIunits.Volume V_tot(fixed=false) "Total conditioned building volume";
   final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
@@ -263,7 +263,7 @@ protected
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
   V_tot=volumePort.V_tot;
-  A_tot=max(0.001,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
+  A_tot=max(Modelica.Constants.small,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
   V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
