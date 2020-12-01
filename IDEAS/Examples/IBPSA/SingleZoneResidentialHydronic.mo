@@ -176,6 +176,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
+  Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -189,8 +191,8 @@ equation
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
     annotation (Line(points={{-58,14},{-58,48},{-71,48}},color={0,0,127}));
-  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
-          {46,13},{46,30},{58,30}},
+  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-59,12},
+          {46,12},{46,30},{58,30}},
                                   color={0,0,127}));
   connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
@@ -201,8 +203,8 @@ equation
           {21,-19}},               color={0,0,127}));
   connect(hea.port_b, rad.port_a)
     annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
-  connect(case900Template.TSensor, con.u) annotation (Line(points={{-60,13},{
-          -54,13},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},           color={0,
+  connect(case900Template.TSensor, con.u) annotation (Line(points={{-59,12},{-54,
+          12},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},               color={0,
           0,127}));
   connect(con.y, ovePum.u)
     annotation (Line(points={{-11,-70},{-2,-70}}, color={0,0,127}));
@@ -238,10 +240,14 @@ equation
           16},{-132,16}}, color={0,0,127}));
   connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
           80},{-82,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
-          {-54,13},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
+          {-54,12},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
   connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{
           -160,-64},{-96,-64},{-96,-80},{-92,-80}}, color={0,0,127}));
+  connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
+      points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     experiment(
       StopTime=31500000,
@@ -438,6 +444,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 1, 2020 by David Blum:<br/>
+Added weather station. 
+</li>
 <li>
 June 12, 2020 by Javier Arroyo:<br/>
 Implemented PI controller for boiler supply temperature. 

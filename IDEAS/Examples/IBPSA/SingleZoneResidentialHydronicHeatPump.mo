@@ -281,6 +281,8 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
+  Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
@@ -383,6 +385,10 @@ equation
           -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
+  connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
+      points={{-220.1,170},{-190,170},{-190,169.9},{-159.9,169.9}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     experiment(
       StopTime=1728000,
@@ -766,6 +772,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 1, 2020 by David Blum:<br/>
+Added weather station. 
+</li>
 <li>
 August 27, 2020 by Javier Arroyo:<br/>
 Changes for Review 1 of BOPTEST peer review checklist.
