@@ -1,11 +1,8 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model n50FixedPressure
   "n50FixedPressure: fixed pressure boundary, n50 air leakage into zone"
-
- parameter Real n50;
  extends
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(
-      n50_int=n50,
       prescribesPressure=true,
       verifyBothPortsConnected=true);
 equation

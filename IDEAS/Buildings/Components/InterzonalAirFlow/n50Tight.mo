@@ -1,10 +1,8 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model n50Tight
   "n50Tight: n50 air leakage into and from airtight zone"
-
-  parameter Real n50;
-
-  extends IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(n50_int=n50,prescribesPressure=false, bou(azi=0));
+  extends IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(
+    prescribesPressure=false);
   Fluid.Interfaces.IdealSource airExfiltration(
     redeclare package Medium = Medium,
     control_m_flow=true,

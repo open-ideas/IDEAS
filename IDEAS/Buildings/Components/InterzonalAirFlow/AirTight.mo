@@ -1,8 +1,6 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model AirTight
   "Airtight: Air tight zone without air infiltration"
-  parameter Real n50;
-
   extends IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
     n50_int=0,
     nPorts=nPortsExt,

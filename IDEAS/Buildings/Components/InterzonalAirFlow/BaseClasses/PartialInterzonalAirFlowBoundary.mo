@@ -6,7 +6,9 @@ partial model PartialInterzonalAirFlowBoundary
   outer BoundaryConditions.SimInfoManager sim "Simulation information manager"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  Fluid.Sources.OutsideAir bou(redeclare package Medium = Medium, azi=0)
+  IDEAS.Fluid.Sources.OutsideAir bou(
+    redeclare package Medium = Medium,
+    azi=0)
     "Boundary model" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,

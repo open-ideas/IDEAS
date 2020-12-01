@@ -1,10 +1,7 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model FixedPressure "FixedPressure: idealised, fixed pressure boundary"
-
-  parameter Real n50;
-
   extends
-    IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlowBoundary(n50_int=n50,
+    IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlowBoundary(
       prescribesPressure=true,
       verifyBothPortsConnected=true,
       nPorts=1+nPortsExt,
