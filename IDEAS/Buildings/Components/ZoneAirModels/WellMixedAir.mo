@@ -73,7 +73,8 @@ protected
     "Vector with zero everywhere except where species is";
 
   IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(
-    redeclare package Medium = Medium) if hasVap
+    redeclare package Medium = Medium,
+    final warnAboutOnePortConnection=false) if hasVap
     "Relative humidity of the zone air"
     annotation (Placement(transformation(extent={{30,-30},{50,-50}})));
     model MixingVolumeNominal
@@ -91,7 +92,8 @@ protected
           m(nominal=m_nominal)));
     end MixingVolumeNominal;
   IDEAS.Fluid.Sensors.PPM senPPM(
-    redeclare package Medium = Medium) if hasPpm
+    redeclare package Medium = Medium,
+    final warnAboutOnePortConnection=false) if  hasPpm
     "CO2 sensor"
     annotation (Placement(transformation(extent={{50,-10},{70,-30}})));
 
