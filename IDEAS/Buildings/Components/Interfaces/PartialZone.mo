@@ -12,8 +12,10 @@ model PartialZone "Building zone model"
       annotation (choicesAllMatching = true);
   parameter Boolean custom_n50=if sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation  then true else false "true if a custom n50 value is used" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
-  parameter Real n50(unit="1/h",min=0.01)= if custom_n50 and not setq50.allSurfacesCustom then 0.4 else n50_int
+  parameter Real n50(unit="1/h",min=0.01)= sim.n50 "Optional n50 input"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
+  final parameter Real n50_computed(unit="1/h",min=0.01) = if custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
+
 protected
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
@@ -241,7 +243,9 @@ model Setq50 "q50 computation in zone"
   parameter Boolean custom_n50 = false
     " = true, to set custom n50 value for this zone";
 
-  parameter Boolean allSurfacesCustom(fixed=false) "Boolean indicating if all conected surfaces are custom";
+  parameter Boolean allSurfacesCustom(fixed=false)
+    "Boolean indicating if all conected surfaces are custom"
+    annotation(Evaluate=true);
 
   parameter Real v50_cost[nSurf](fixed=false)
     "0 if not a custom v50 value is defined by surfaces";
@@ -269,11 +273,7 @@ initial equation
     end if;
   end for;
 
-  if max(Modelica.Constants.small, sum(Area*nonCust))<=Modelica.Constants.small then
-    allSurfacesCustom=true;
-  else
-    allSurfacesCustom=false;
-  end if;
+  allSurfacesCustom = max(Modelica.Constants.small, sum(Area*nonCust))<=Modelica.Constants.small;
 
 equation
   custom_n50s=fill(custom_n50,nSurf);
@@ -299,12 +299,8 @@ end Setq50;
 
 initial equation
 
-  if custom_n50 and not setq50.allSurfacesCustom then
-    n50_int = n50;
-  else
-    n50_int = sum(propsBusInt.v50)/V;
-  end if; //n50 is computed based on surfaces q50*A unless a custome n50 is defined
 
+  n50_int = if custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
 
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 

@@ -18,7 +18,9 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Dialog(enable=aziOpt==5));
   parameter Modelica.SIunits.Area A
     "Component surface area";
-  parameter Real nWin = 1 "Use this factor to scale the component to nWin identical components";
+  parameter Real nWin = 1
+    "Use this factor to scale the component to nWin identical components"
+    annotation(Evaluate=true);
   parameter Modelica.SIunits.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
     annotation (Dialog(group="Design power",tab="Advanced"));
@@ -42,7 +44,8 @@ partial model PartialSurface "Partial model for building envelope component"
   replaceable package Medium = IDEAS.Media.Air
     "Medium in the component"
     annotation(Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"));
-    parameter Boolean custom_q50=false  annotation (Dialog(tab="Airflow", group="Airtightness"));
+    parameter Boolean custom_q50=false
+      annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
     parameter Real q50=if custom_q50 then q50 else Read_q50.q50 "Envelope air tightness" annotation (Dialog(enable=custom_q50,tab="Airflow", group="Airtightness"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
