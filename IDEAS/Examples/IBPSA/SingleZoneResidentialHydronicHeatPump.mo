@@ -281,6 +281,8 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
+  Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
@@ -383,6 +385,10 @@ equation
           -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
+  connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
+      points={{-220.1,170},{-190,170},{-190,169.9},{-159.9,169.9}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     experiment(
       StopTime=1728000,
@@ -681,8 +687,75 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <li>
 <code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
 </li>
-
-
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -766,6 +839,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 1, 2020 by David Blum:<br/>
+Added weather station. 
+</li>
 <li>
 August 27, 2020 by Javier Arroyo:<br/>
 Changes for Review 1 of BOPTEST peer review checklist.

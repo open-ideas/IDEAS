@@ -7,13 +7,14 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-  parameter Real n50(min=0.01)= 0.4
+  parameter Real n50(min=0.01) = 3
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(group="Building physics"));
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Advanced", group="Air model"));
-  parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate"
+  // See #1181 for a motivation of this value.
+  parameter Real n50toAch = 20 "Conversion fractor from n50 to Air Change Rate"
    annotation(Dialog(tab="Advanced", group="Air model"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsAir=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Type of energy balance for air model: dynamic (3 initialization options) or steady state";
@@ -399,10 +400,14 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+November 18, 2020, Filip Jorissen:<br/>
+Changed default n50 value from 0.4 to 3 and added documentation for n50toAch.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1181\">#1181</a>.
+</li>
+<li>
 September 17, 2020, Filip Jorissen:<br/>
 Removed Medium declaration.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 July 29, 2020, by Filip Jorissen:<br/>

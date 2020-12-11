@@ -176,6 +176,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
+  Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -189,8 +191,8 @@ equation
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
     annotation (Line(points={{-58,14},{-58,48},{-71,48}},color={0,0,127}));
-  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-60,13},
-          {46,13},{46,30},{58,30}},
+  connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-59,12},
+          {46,12},{46,30},{58,30}},
                                   color={0,0,127}));
   connect(reaTRoo.y, TZone)
     annotation (Line(points={{81,30},{96,30},{96,0},{110,0}},
@@ -201,8 +203,8 @@ equation
           {21,-19}},               color={0,0,127}));
   connect(hea.port_b, rad.port_a)
     annotation (Line(points={{0,30},{-30,30},{-30,20}}, color={0,127,255}));
-  connect(case900Template.TSensor, con.u) annotation (Line(points={{-60,13},{
-          -54,13},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},           color={0,
+  connect(case900Template.TSensor, con.u) annotation (Line(points={{-59,12},{-54,
+          12},{-54,-40},{-40,-40},{-40,-70},{-34,-70}},               color={0,
           0,127}));
   connect(con.y, ovePum.u)
     annotation (Line(points={{-11,-70},{-2,-70}}, color={0,0,127}));
@@ -238,10 +240,14 @@ equation
           16},{-132,16}}, color={0,0,127}));
   connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
           80},{-82,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-60,13},
-          {-54,13},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
+          {-54,12},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
   connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{
           -160,-64},{-96,-64},{-96,-80},{-92,-80}}, color={0,0,127}));
+  connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
+      points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     experiment(
       StopTime=31500000,
@@ -358,6 +364,75 @@ the heating setpoint plus an offset of 0.1 &#176;C.
 <li>
 <code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
 </li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -438,6 +513,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 1, 2020 by David Blum:<br/>
+Added weather station. 
+</li>
 <li>
 June 12, 2020 by Javier Arroyo:<br/>
 Implemented PI controller for boiler supply temperature. 
