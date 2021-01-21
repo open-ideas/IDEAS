@@ -178,7 +178,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
   Modelica.Blocks.Math.BooleanToInteger booToInt
     annotation (Placement(transformation(extent={{50,-56},{30,-36}})));
-  Modelica.Blocks.Logical.GreaterThreshold greThr(threshold=0)
+  Modelica.Blocks.Logical.GreaterThreshold greThr(threshold=0.1)
     "greater threshold"
     annotation (Placement(transformation(extent={{66,-80},{86,-60}})));
 equation
