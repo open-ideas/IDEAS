@@ -99,8 +99,6 @@ model SingleZoneResidentialHydronic
     "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
 
-  Modelica.Blocks.Math.RealToInteger realToInteger
-    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
   Controls.Discrete.HysteresisRelease       con(revert=true)
     "Hysteresis controller for emission system "
     annotation (Placement(transformation(extent={{-32,-80},{-12,-60}})));
@@ -178,6 +176,11 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
+  Modelica.Blocks.Math.BooleanToInteger booToInt
+    annotation (Placement(transformation(extent={{50,-56},{30,-36}})));
+  Modelica.Blocks.Logical.GreaterThreshold greThr(threshold=0)
+    "greater threshold"
+    annotation (Placement(transformation(extent={{66,-80},{86,-60}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -208,8 +211,6 @@ equation
           0,127}));
   connect(con.y, ovePum.u)
     annotation (Line(points={{-11,-70},{-2,-70}}, color={0,0,127}));
-  connect(realToInteger.y, pump.stage) annotation (Line(points={{81,-70},{88,
-          -70},{88,-48},{10,-48},{10,-22}}, color={255,127,0}));
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-50,10},{-50,0},{58,0}}, color={0,0,127}));
   connect(QGas.y,reaQHea. u)
@@ -232,8 +233,6 @@ equation
           38},{22,38}}, color={0,0,127}));
   connect(ovePum.y, reaPum.u)
     annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
-  connect(realToInteger.u, reaPum.y)
-    annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   connect(conPI.y, oveTSetSup.u)
     annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
   connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,
@@ -248,6 +247,12 @@ equation
       points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
       color={255,204,51},
       thickness=0.5));
+  connect(booToInt.u, greThr.y) annotation (Line(points={{52,-46},{94,-46},{94,
+          -70},{87,-70}}, color={255,0,255}));
+  connect(reaPum.y, greThr.u)
+    annotation (Line(points={{51,-70},{64,-70}}, color={0,0,127}));
+  connect(booToInt.y, pump.stage)
+    annotation (Line(points={{29,-46},{10,-46},{10,-22}}, color={255,127,0}));
   annotation (
     experiment(
       StopTime=31500000,
