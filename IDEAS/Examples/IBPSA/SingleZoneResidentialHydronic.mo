@@ -49,7 +49,7 @@ model SingleZoneResidentialHydronic
     use_inputFilter=false,
     redeclare package Medium = Medium,
     m_flow_nominal=rad.m_flow_nominal,
-    inputType=IDEAS.Fluid.Types.InputType.Stages,
+    inputType=IDEAS.Fluid.Types.InputType.Continuous,
     dp_nominal=100000)
     "Hydronic pump"
     annotation (Placement(transformation(extent={{0,0},{20,-20}})));
@@ -176,11 +176,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
-  Modelica.Blocks.Math.BooleanToInteger booToInt
-    annotation (Placement(transformation(extent={{50,-56},{30,-36}})));
-  Modelica.Blocks.Logical.GreaterThreshold greThr(threshold=0.1)
-    "greater threshold"
-    annotation (Placement(transformation(extent={{66,-80},{86,-60}})));
+  Modelica.Blocks.Math.Gain gain(k=pump.dp_nominal)
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
           12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -247,12 +244,10 @@ equation
       points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
       color={255,204,51},
       thickness=0.5));
-  connect(booToInt.u, greThr.y) annotation (Line(points={{52,-46},{94,-46},{94,
-          -70},{87,-70}}, color={255,0,255}));
-  connect(reaPum.y, greThr.u)
-    annotation (Line(points={{51,-70},{64,-70}}, color={0,0,127}));
-  connect(booToInt.y, pump.stage)
-    annotation (Line(points={{29,-46},{10,-46},{10,-22}}, color={255,127,0}));
+  connect(reaPum.y, gain.u)
+    annotation (Line(points={{51,-70},{58,-70}}, color={0,0,127}));
+  connect(gain.y, pump.dp_in) annotation (Line(points={{81,-70},{88,-70},{88,
+          -48},{10,-48},{10,-22}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
