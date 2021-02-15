@@ -443,7 +443,7 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <td><p>10</p></td>
 </tr>
 <tr>
-<td><p>Layer 3 (concrete)</p></td>
+<td><p>Layer 3 (concrete block)</p></td>
 <td><p>0.1</p></td>
 <td><p>0.51</p></td>
 <td><p>1000</p></td>
@@ -465,11 +465,11 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 <td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
-<td><p>Layer 1 (roof deck)</p></td>
-<td><p>0.019</p></td>
-<td><p>0.14</p></td>
-<td><p>900</p></td>
-<td><p>530</p></td>
+<td><p>Layer 1 (concrete)</p></td>
+<td><p>0.15</p></td>
+<td><p>1.4</p></td>
+<td><p>840</p></td>
+<td><p>2100</p></td>
 </tr>
 <tr>
 <td><p>Layer 2 (insulation)</p></td>
@@ -508,11 +508,11 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
-<td><p>Layer 1 (wood siding)</p></td>
-<td><p>0.009</p></td>
-<td><p>0.14</p></td>
-<td><p>900</p></td>
-<td><p>530</p></td>
+<td><p>Layer 1 (roof deck)</p></td>
+<td><p>0.019 </p></td>
+<td><p>0.14 </p></td>
+<td><p>900 </p></td>
+<td><p>530 </p></td>
 </tr>
 <tr>
 <td><p>Layer 2 (fiber glass)</p></td>
