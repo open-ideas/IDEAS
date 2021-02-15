@@ -410,7 +410,7 @@ The building envelope model is based on the BESTEST case 900 test case.
 The envelope model is therefore similar to the one used in 
 <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
 IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
-but it is scaled to an area that is 5 times larger. Particularly, the model consists 
+but it is scaled to an area that is 4 times larger. Particularly, the model consists 
 of a single zone with a rectangular floor plan of 12 by 16 meters and a 
 height of 2.7 m. The zone further consists of several south-oriented windows, 
 which are modelled using a single window of 24 m2.
