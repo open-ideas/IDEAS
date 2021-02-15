@@ -22,6 +22,7 @@ model SingleZoneResidentialHydronicHeatPump
     mSenFac=1,
     n50=10,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    hasInt=true,
     l=8*sqrt(scalingFactor),
     w=6*sqrt(scalingFactor),
     A_winA=24,
