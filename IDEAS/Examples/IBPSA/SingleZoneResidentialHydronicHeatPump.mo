@@ -9,7 +9,8 @@ model SingleZoneResidentialHydronicHeatPump
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Real scalingFactor = 5 "Factor to scale up the model area and occupancy";
+  parameter Real scalingFactor = 4 "Factor to scale up the model area";
+  parameter Real nOccupants = 5 "Number of occupants";
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
@@ -36,7 +37,7 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-240,140},{-220,160}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour >
-        19) or calTim.weekDay > 5 then 1*scalingFactor else 0)
+        19) or calTim.weekDay > 5 then 1*nOccupants else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
@@ -409,7 +410,7 @@ The envelope model is therefore similar to the one used in
 <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
 IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
 but it is scaled to an area that is 5 times larger. Particularly, the model consists 
-of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a 
+of a single zone with a rectangular floor plan of 12 by 16 meters and a 
 height of 2.7 m. The zone further consists of several south-oriented windows, 
 which are modelled using a single window of 24 m2.
 </p>
