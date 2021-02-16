@@ -25,6 +25,7 @@ model SingleZoneResidentialHydronicHeatPump
     hasInt=true,
     l=8*sqrt(scalingFactor),
     w=6*sqrt(scalingFactor),
+    lInt=3*case900Template.w + 2*case900Template.l,
     A_winA=24,
     redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
       conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
