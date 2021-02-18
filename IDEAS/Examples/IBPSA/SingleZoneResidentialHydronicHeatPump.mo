@@ -413,7 +413,10 @@ The envelope model is therefore similar to the one used in
 IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
 but it is scaled to an area that is 4 times larger. Particularly, the model consists 
 of a single zone with a rectangular floor plan of 12 by 16 meters and a 
-height of 2.7 m. The zone further consists of several south-oriented windows, 
+height of 2.7 m. The internal wall mass is modelled using a single wall with a 
+a length that equals three times the building width plus two times the building length.
+This assumes that there are around 12 rooms in the building. 
+The zone further consists of several south-oriented windows, 
 which are modelled using a single window of 24 m2.
 </p>
 <h4>Constructions</h4>
@@ -607,7 +610,7 @@ The control variable is limited between 0 and 1, and it is computed to drive the
 temperature towards a reference defined as the heating comfort set-point plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
-around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius 
+around the set-point; during unoccupied periods the offset is set to 5.5 degrees Celsius 
 and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
 be achievable because of the large thermal inertia of the floor heating system and 
@@ -845,6 +848,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 18, 2020 by Javier Arroyo	:<br/>
+Decrease size and add internal walls. 
+</li>
 <li>
 December 1, 2020 by David Blum:<br/>
 Added weather station. 
