@@ -789,7 +789,7 @@ Fixed air infiltration corresponding to an n50 value of 10 is modelled.
 <h3>Scenario Information</h3>
 <p><b>Energy Pricing</b> </p>
 <p>
-All prices are provided as defined by the utility supplier and are exempt from taxes and transportation fees. 
+All prices are provided as defined by the utility supplier and exclude taxes and transportation fees. 
 </p>
 <p>
 The <b>Constant Electricity Price</b> profile is: 
