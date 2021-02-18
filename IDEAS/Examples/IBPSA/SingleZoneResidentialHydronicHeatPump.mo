@@ -275,7 +275,7 @@ model SingleZoneResidentialHydronicHeatPump
 
   Modelica.Blocks.Math.Add addUno
     annotation (Placement(transformation(extent={{-160,40},{-140,60}})));
-  Modelica.Blocks.Sources.Constant offSetUno(k=4.5, y(unit="K"))
+  Modelica.Blocks.Sources.Constant offSetUno(k=5.5, y(unit="K"))
     "Offset above heating temperature setpoint during unoccupied hours to ensure comfort"
     annotation (Placement(transformation(extent={{-200,60},{-180,80}})));
   Modelica.Blocks.Logical.Greater greater
