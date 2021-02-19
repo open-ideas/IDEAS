@@ -422,7 +422,7 @@ which are modelled using a single window of 24 m2.
 <h4>Constructions</h4>
 <p><b>Exterior walls</b> </p>
 <p>
-The walls are modeled using 
+The walls are modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
@@ -458,7 +458,7 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </table>
 <p><b>Floor</b> </p>
 <p>
-The floor is modeled using 
+The floor is modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
 IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: 
 </p>
@@ -501,7 +501,7 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 </table>
 <p><b>Roof</b> </p>
 <p>
-The roof is modeled using 
+The roof is modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
@@ -568,7 +568,7 @@ is working.
 <p><b>Heat pump</b> </p>
 <p>
 A water-to-air heat pump with a scroll compressor is used. 
-The heat pump is modeled as described by: 
+The heat pump is modelled as described by: 
 </p>
 <p>
 H. Jin. <i>Parameter estimation based models of water source heat pumps. 
