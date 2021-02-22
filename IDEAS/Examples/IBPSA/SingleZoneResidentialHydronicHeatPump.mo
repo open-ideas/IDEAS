@@ -795,7 +795,7 @@ for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
 \"The energy prices and costs in Europe report\"</a>.
 For the assumed location of the test case, this value is of
-0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+0.20 EUR/kWh for electricity. 
 </p>
 <p>
 The <b>Constant Electricity Price</b> profile is: 
@@ -832,16 +832,6 @@ https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>.
 Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
 added up on top of these prices. 
 </p>
-<p>
-The <b>Gas Price</b> profile is: 
-</p>
-<p>
-The gas price is assumed constant and equal to 0.0198 EUR/kWh as obtained from the 
-&quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
-Adding up the transmission fees and taxes, the final constant gas price is
-of 0.0498 EUR/kWh. 
-</p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is: 
@@ -852,13 +842,6 @@ which is the grid electricity emission factor reported by the Association of Iss
 (AIB) for year 2018. For reference, see: 
 <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
-</p>
-<p>The <b>Gas Emissions Factor</b> profile is: </p>
-<p>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. 
-It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: 
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
 </p>
 </html>", revisions="<html>
 <ul>
