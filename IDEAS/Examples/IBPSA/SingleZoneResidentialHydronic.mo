@@ -457,6 +457,15 @@ is modelled.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay 
+for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
+\"The energy prices and costs in Europe report\"</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+</p>
 <h5>Constant electricity price profile</h5>
 <p>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
@@ -464,6 +473,8 @@ as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh. 
 </p>
 <h5>Dynamic electricity price profile</h5>
 <p>
@@ -475,6 +486,8 @@ https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020). 
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods. 
 </p>
 <h5>Highly dynamic electricity price profile</h5>
 <p>
@@ -484,6 +497,8 @@ market in the year 2019.
 Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
+added up on top of these prices. 
 </p>
 <h5>Gas price profile</h5>
 <p>
@@ -492,6 +507,8 @@ as obtained from the \"Easy Indexed\" deal for gas
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant gas price is
+of 0.0498 EUR/kWh. 
 </p>
 <h4>Emission Factors</h4>
 <h5>Electricity emissions factor profile</h5>
@@ -513,6 +530,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 22, 2020 by Javier Arroyo<br/>
+Add transmission fees and taxes to pricing scenarios. 
+</li>
 <li>
 December 1, 2020 by David Blum:<br/>
 Added weather station. 
