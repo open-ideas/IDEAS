@@ -83,17 +83,17 @@ model SingleZoneResidentialHydronicHeatPump
 
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description=
+      min=273.15 + 5,
+      max=273.15 + 35), description=
         "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-170,10})));
   Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
-      max=273.15 + 23,
+      max=273.15 + 35,
       unit="K",
-      min=273.15 + 15), description=
+      min=273.15 + 5),  description=
         "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
