@@ -51,7 +51,7 @@ model SingleZoneResidentialHydronicHeatPump
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={90,150})));
+        origin={150,150})));
   Modelica.Blocks.Sources.Constant offSetOcc(k=0.2, y(unit="K"))
     "Offset above heating temperature setpoint during occupied hours to ensure comfort"
     annotation (Placement(transformation(extent={{-200,142},{-180,162}})));
@@ -83,17 +83,17 @@ model SingleZoneResidentialHydronicHeatPump
 
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description=
+      min=273.15 + 5,
+      max=273.15 + 35), description=
         "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-170,10})));
   Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
-      max=273.15 + 23,
+      max=273.15 + 35,
       unit="K",
-      min=273.15 + 15), description=
+      min=273.15 + 5),  description=
         "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -117,7 +117,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-220,-40},{-200,-20}})));
   Utilities.IO.SignalExchange.Read reaHeaPumY(description="Block for reading the heat pump modulating signal",
       y(unit="1")) "Read heat pump modulating signal"
-    annotation (Placement(transformation(extent={{120,140},{140,160}})));
+    annotation (Placement(transformation(extent={{180,140},{200,160}})));
   Utilities.IO.SignalExchange.Read reaPum(description=
         "Control signal for emission cirquit pump", y(unit="1"))
     "Read control signal for emission circuit pump"
@@ -130,7 +130,7 @@ model SingleZoneResidentialHydronicHeatPump
     yMin=0,
     initType=Modelica.Blocks.Types.InitPID.InitialState)
     "PI controller for the boiler supply water temperature"
-    annotation (Placement(transformation(extent={{20,140},{40,160}})));
+    annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
@@ -199,7 +199,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{140,70},{160,90}})));
 
   Utilities.IO.SignalExchange.Read       reaTZon(
-    description="Operative zone temperature",
+    description="Zone operative temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
     y(unit="K")) "Block for reading the operative zone temperature"
     annotation (Placement(transformation(extent={{-32,70},{-12,90}})));
@@ -286,6 +286,19 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
+  Utilities.IO.SignalExchange.Overwrite oveTSet(u(
+      max=273.15 + 35,
+      unit="K",
+      min=273.15 + 5), description="Zone operative temperature setpoint")
+    "Overwrite for zone temperature setpoint" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={30,150})));
+  Utilities.IO.SignalExchange.Read reaTSet(description=
+        "Zone operative temperature setpoint", y(unit="K"))
+    "Read zone temperature setpoint"
+    annotation (Placement(transformation(extent={{60,140},{80,160}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
@@ -322,7 +335,7 @@ equation
     annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
-  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{292,150},
+  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{201,150},{292,150},
           {292,-24},{127,-24},{127,-2}},
                                     color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -367,15 +380,15 @@ equation
   connect(oveTSetHea.y, addUno.u2) annotation (Line(points={{-159,-30},{-154,
           -30},{-154,-50},{-228,-50},{-228,44},{-162,44}}, color={0,0,127}));
   connect(oveHeaPumY.y, reaHeaPumY.u)
-    annotation (Line(points={{101,150},{118,150}}, color={0,0,127}));
+    annotation (Line(points={{161,150},{178,150}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,90},{-52,90},{
           -52,150},{-22,150}}, color={255,0,255}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
-          {-46,12},{-46,130},{30,130},{30,138}}, color={0,0,127}));
+          {-46,12},{-46,130},{110,130},{110,138}},
+                                                 color={0,0,127}));
   connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{41,150},{78,150}}, color={0,0,127}));
-  connect(switch1.y, conPI.u_s)
-    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
+    annotation (Line(points={{121,150},{138,150}},
+                                                 color={0,0,127}));
   connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
           {-128,158},{-22,158}}, color={0,0,127}));
   connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
@@ -392,6 +405,12 @@ equation
       points={{-220.1,170},{-190,170},{-190,169.9},{-159.9,169.9}},
       color={255,204,51},
       thickness=0.5));
+  connect(switch1.y, oveTSet.u)
+    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
+  connect(oveTSet.y, reaTSet.u)
+    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
+  connect(reaTSet.y, conPI.u_s)
+    annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=1728000,
@@ -625,19 +644,22 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <ul>
 
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
-</li>
-<li>
-<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
 </li>
 <li>
 <code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
-<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
 </li>
 
 </ul>
@@ -646,43 +668,34 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <ul>
 
 <li>
-<code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
 </li>
 <li>
 <code>reaCOP_y</code> [1] [min=None, max=None]: Heat pump COP
 </li>
 <li>
-<code>reaTZon_y</code> [K] [min=None, max=None]: Operative zone temperature
-</li>
-<li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
-</li>
-<li>
 <code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
-</li>
-<li>
-<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
-</li>
-<li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
-</li>
-<li>
-<code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
-</li>
-<li>
-<code>reaQHeaPumCon_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser
 </li>
 <li>
 <code>reaHeaPumY_y</code> [1] [min=None, max=None]: Block for reading the heat pump modulating signal
 </li>
 <li>
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
+</li>
+<li>
 <code>reaPHeaPum_y</code> [W] [min=None, max=None]: Heat pump electrical power
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
+<code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
+</li>
+<li>
+<code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
+</li>
+<li>
+<code>reaQHeaPumCon_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser
 </li>
 <li>
 <code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
@@ -691,77 +704,90 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from radiant floor
 </li>
 <li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>reaTSet_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint
+</li>
+<li>
 <code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
 </li>
 <li>
-<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
-</li>
-<li>
-<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
-</li>
-<li>
-<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
-</li>
-<li>
-<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
-</li>
-<li>
-<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
-</li>
-<li>
-<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
-</li>
-<li>
-<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
-</li>
-<li>
-<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+<code>reaTZon_y</code> [K] [min=None, max=None]: Zone operative temperature
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
 <code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
 </li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -846,11 +872,15 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </html>", revisions="<html>
 <ul>
 <li>
-February 22, 2020 by Javier Arroyo	:<br/>
+March 3, 2021 by Javier Arroyo	:<br/>
+Overwrite zone operative temperature setpoint. 
+</li>
+<li>
+February 22, 2021 by Javier Arroyo	:<br/>
 Add transmission fees and taxes to pricing scenarios. 
 </li>
 <li>
-February 18, 2020 by Javier Arroyo	:<br/>
+February 18, 2021 by Javier Arroyo	:<br/>
 Decrease size and add internal walls. 
 </li>
 <li>
