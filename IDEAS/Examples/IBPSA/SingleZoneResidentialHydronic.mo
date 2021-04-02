@@ -3,7 +3,8 @@ model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
   extends Modelica.Icons.Example;
   String test = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY") "This is to ensure that the weather file is loaded when encapsulating this model into an FMU";
-  package Medium = IDEAS.Media.Water "Water medium";
+  package MediumWater = IDEAS.Media.Water "Water medium";
+  package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
@@ -18,6 +19,7 @@ model SingleZoneResidentialHydronic
     "Temperature within validity range of correlation";
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
+    redeclare package Medium = MediumAir,
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
@@ -26,7 +28,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -37,7 +39,7 @@ model SingleZoneResidentialHydronic
         rotation=90,
         origin={-30,10})));
   IDEAS.Fluid.HeatExchangers.Heater_T hea(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     m_flow_nominal=pump.m_flow_nominal,
     dp_nominal=0,
     QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
@@ -47,7 +49,7 @@ model SingleZoneResidentialHydronic
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
     use_inputFilter=false,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
     dp_nominal=100000)
@@ -55,7 +57,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{0,0},{20,-20}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(
     nPorts=1,
-    redeclare package Medium = Medium)
+    redeclare package Medium = MediumWater)
     "Absolute pressure boundary"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Blocks.Interfaces.RealOutput Q(unit="W")
@@ -531,7 +533,11 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </html>", revisions="<html>
 <ul>
 <li>
-February 22, 2020 by Javier Arroyo<br/>
+April 2, 2021 by Javier Arroyo<br/>
+Add CO2 to air medium. 
+</li>
+<li>
+February 22, 2021 by Javier Arroyo<br/>
 Add transmission fees and taxes to pricing scenarios. 
 </li>
 <li>
