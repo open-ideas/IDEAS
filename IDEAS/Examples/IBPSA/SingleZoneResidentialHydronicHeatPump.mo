@@ -3,7 +3,7 @@ model SingleZoneResidentialHydronicHeatPump
   "Single zone residential hydronic example using a heat pump as heating production system"
   extends Modelica.Icons.Example;
   package MediumWater = IDEAS.Media.Water "Water medium";
-  package MediumAir = IDEAS.Media.Air "Air medium";
+  package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
@@ -17,6 +17,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
+    redeclare package Medium = MediumAir,
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
@@ -843,7 +844,11 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </html>", revisions="<html>
 <ul>
 <li>
-March 3, 2021 by Javier Arroyo	:<br/>
+April 2, 2021 by Javier Arroyo<br/>
+Add CO2 to air medium. 
+</li>
+<li>
+March 3, 2021 by Javier Arroyo        :<br/>
 Overwrite zone operative temperature setpoint. 
 </li>
 <li>
