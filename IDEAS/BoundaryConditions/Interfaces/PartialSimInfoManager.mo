@@ -2,7 +2,7 @@
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
   parameter String filNam=
-    Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY")
+    Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Brussels.mos")
     "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="TMY-files (*.TMY);;Text files (*.txt);;All files (*.*)", caption="Select the weather file")));
   parameter Modelica.SIunits.Angle lat(displayUnit="deg") = weaDat.lat
     "Latitude of the location"
@@ -498,6 +498,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+April 16, 2021 by Filip Jorissen:<br/>
+Changed the default weather file to Brussels.mos.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1209\">
+#1209</a> for more details.
+</li>
 <li>
 June 30, 2020 by Filip Jorissen:<br/>
 Overridable assignments of variables of PartialSimInfoManager.
