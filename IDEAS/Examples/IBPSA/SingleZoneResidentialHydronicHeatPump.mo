@@ -544,7 +544,7 @@ There are no internal loads other than the occupants.
 
 <h4>Climate data</h4>
 <p>
-The model uses a climate file containing one year of weather data for Uccle, 
+The model uses a climate file containing one year of weather data for Brussels, 
 Belgium. 
 </p>
 
