@@ -291,7 +291,7 @@ There are no internal loads other than the occupants.
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Uccle, Belgium.
+of weather data for Brussels, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
