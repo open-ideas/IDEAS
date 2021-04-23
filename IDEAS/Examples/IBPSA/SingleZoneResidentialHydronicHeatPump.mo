@@ -544,7 +544,7 @@ There are no internal loads other than the occupants.
 
 <h4>Climate data</h4>
 <p>
-The model uses a climate file containing one year of weather data for Uccle, 
+The model uses a climate file containing one year of weather data for Brussels, 
 Belgium. 
 </p>
 
@@ -785,6 +785,36 @@ as well as the air circulation through the heat pump evaporator.
 Fixed air infiltration corresponding to an n50 value of 10 is modelled. 
 </p>
 <h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 16.
+</ul>
+<ul>
+End Time: Day 30.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with 
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 108.
+</ul>
+<ul>
+End Time: Day 122.
+</ul>
+</p>
 <p><b>Energy Pricing</b> </p>
 <p>
 All pricing scenarios include the same constant value for transmission fees and taxes
@@ -843,6 +873,10 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 22, 2021, by Javier Arroyo:<br/>
+Add time period documentation.
+</li>
 <li>
 April 2, 2021 by Javier Arroyo<br/>
 Add CO2 to air medium. 
