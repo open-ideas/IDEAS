@@ -458,7 +458,6 @@ Fixed air infiltration corresponding to an n50 value of 10
 is modelled.
 </p>
 <h3>Scenario Information</h3>
-<h3>Scenario Information</h3>
 <h4>Time Periods</h4>
 <p>
 The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
