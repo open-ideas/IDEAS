@@ -1,7 +1,9 @@
 within IDEAS.Examples.PPD12;
 model VentilationMPC
   "PPD12 model using off-line computed model predictive controller results"
-  extends BaseClasses.VentilationNoControl(pump(inputType=IDEAS.Fluid.Types.InputType.Constant));
+  extends BaseClasses.VentilationNoControl(pump(inputType=IDEAS.Fluid.Types.InputType.Constant), sim(
+        filNam=Modelica.Utilities.Files.loadResource(
+          "modelica://IDEAS/Resources/weatherdata/Uccle.TMY")));
   Modelica.Blocks.Sources.CombiTimeTable MPCResults(
     tableOnFile=true,
     tableName="csv",
@@ -86,5 +88,15 @@ equation
           grid=true,
           filename="VentilationRBC.mat",
           subPlot=2,
-          colors={{28,108,200}}) == 0} "Simulate and compare (long simulation)"));
+          colors={{28,108,200}}) == 0} "Simulate and compare (long simulation)"),
+    Documentation(info="<html>
+<p>This model uses the weather file Uccle.TMY since it was used when the reference results were generated.</p>
+</html>", revisions="<html>
+<ul>
+<li>
+April 19, 2021 by Filip Jorissen:<br/>
+Updated weather file
+</li>
+</ul>
+</html>"));
 end VentilationMPC;

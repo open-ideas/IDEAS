@@ -103,10 +103,19 @@ of the TMY3 weather data reader is used.
 </li>
 </ul>
 <h4>TMY3 weather data files</h4>
-IDEAS uses TMY3 input files. For detailed documentation see 
+IDEAS uses TMY3 input files. 
+The default weather file 'Brussels.mos' contains weather information from IWEC for the Brussels region.
+For detailed documentation see 
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 </html>", revisions="<html>
 <ul>
+<li>
+April 16, 2021 by Filip Jorissen:<br/>
+Changed the default weather file to Brussels.mos
+and revised the documentation accordingly.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1209\">
+#1209</a> for more details.
+</li>
 <li>
 June 30, 2020 by Filip Jorissen:<br/>
 Overridable assignments of variables of PartialSimInfoManager.

@@ -162,6 +162,10 @@ equation
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
 <li>
+November 21, 2020 by Filip Jorissen:<br/>
+Avoiding warnings for one port sensors.
+</li>
+<li>
 December 13, 2019 by Filip Jorissen:<br/>
 Directly referencing <code>IDEAS.Media.Air</code> instead of <code>Medium</code>
 to avoid warnings in Dymola and errors in OpenModelica.
