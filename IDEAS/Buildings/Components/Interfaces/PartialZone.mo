@@ -10,7 +10,8 @@ model PartialZone "Building zone model"
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Boolean custom_n50=if sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation  then true else false "true if a custom n50 value is used" annotation(Dialog(tab="Airflow", group="Airtightness"));
+  parameter Boolean custom_n50=sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation
+    "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
   parameter Real n50(unit="1/h",min=0.01)= sim.n50 "Optional n50 input"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
@@ -227,10 +228,10 @@ protected
     n50=n50_int,
     V=V,
     q50_corr=sim.q50_def,
-    custom_n50=custom_n50)
+    use_custom_n50=custom_n50)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
-model Setq50 "q50 computation in zone"
+model Setq50 "q50 computation for zones"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Integer nSurf
@@ -240,54 +241,48 @@ model Setq50 "q50 computation in zone"
   parameter Modelica.SIunits.Volume V
     "Zone volume";
   parameter Real q50_corr;
-  parameter Boolean custom_n50 = false
+  parameter Boolean use_custom_n50 = false
     " = true, to set custom n50 value for this zone";
 
   parameter Boolean allSurfacesCustom(fixed=false)
-    "Boolean indicating if all conected surfaces are custom"
+    "Boolean indicating whether all connected surfaces are custom"
     annotation(Evaluate=true);
-
-  parameter Real v50_cost[nSurf](fixed=false)
-    "0 if not a custom v50 value is defined by surfaces";
+  final parameter Modelica.SIunits.Area defaultArea[nSurf](each fixed=false)
+    "The surface area for which default q50 is computed";
+  parameter Real v50_custom[nSurf](fixed=false)
+    "custom assigned v50 value, else zero";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
-  Modelica.Blocks.Interfaces.RealInput nonCust[nSurf]
+  Modelica.Blocks.Interfaces.BooleanInput use_custom_q50[nSurf]
+    "Equals true if the user assigned a custom q50 value for the surface"
    annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]
+    "Surface areas"
    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
   Modelica.Blocks.Interfaces.BooleanOutput custom_n50s[nSurf]
-    "Custom n50 value"
+    "Equals true if the surfaces connected to this zone should use the custom q50 value"
    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
-    "Custom q50 value"
+    "Custom q50 value for the surfaces connected to this zone"
    annotation (Placement(transformation(extent={{-98,-70},
               {-118,-50}})));
-
 initial equation
-  for i in 1:nSurf loop
-    if nonCust[i]>0 then
-      v50_cost[i]=0;
-    else
-      v50_cost[i]=v50_surf[i];
-    end if;
-  end for;
 
-  allSurfacesCustom = max(Modelica.Constants.small, sum(Area*nonCust))<=Modelica.Constants.small;
+  for i in 1:nSurf loop
+    defaultArea[i] = if use_custom_q50[i] then 0 else Area[i];
+    v50_custom[i] = if use_custom_q50[i] then v50_surf[i] else 0;
+  end for;
+  allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
 
 equation
-  custom_n50s=fill(custom_n50,nSurf);
+  custom_n50s=fill(use_custom_n50,nSurf);
 
-    if custom_n50 then
-    q50_zone=fill((((n50*V) - sum(v50_cost))/max(Modelica.Constants.small, sum(Area*nonCust))), nSurf);
+  if use_custom_n50 then
+    q50_zone=fill((((n50*V) - sum(v50_custom))/max(Modelica.Constants.small, sum(defaultArea))), nSurf);
   else
     q50_zone=fill(q50_corr,nSurf);
   end if;
-
-
- //assert(custom_n50 and max(v50_cost)>0 and (n50*V - sum(v50_cost))<0,  "The total customly assigned lower level volume flow rate at 50pa exceeds the flow for the given zone n50 value, q50_zone will be negative",level = AssertionLevel.error);
- //assert(min(v50_cost)>0, "All surfaces have custom flows, q50_zone and the zones n50 will not be used in simulation",level = AssertionLevel.warning);
-
     annotation (Icon(graphics={Rectangle(
             extent={{-84,80},{82,-80}},
             lineColor={28,108,200},
@@ -498,8 +493,9 @@ end for;
           {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.v50_surf, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
           {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
-  connect(setq50.nonCust, propsBusInt.nonCust) annotation (Line(points={{-60.6,-82},
-          {-80,-82},{-80,39.9},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.use_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{-60.6,
+          -82},{-80,-82},{-80,39.9},{-80.1,39.9}},
+                                              color={0,0,127}));
   connect(setq50.custom_n50s, propsBusInt.custom_n50) annotation (Line(points={{-60.8,
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
