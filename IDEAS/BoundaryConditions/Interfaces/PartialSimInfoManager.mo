@@ -97,7 +97,7 @@ partial model PartialSimInfoManager
     annotation(choices(checkBox=true),Dialog(enable=interZonalAirFlowType==
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,group="Interzonal airflow"));
 
-  parameter Real n50 = 0.4
+  parameter Real n50 = 3
     "n50 value of zones"
     annotation(Dialog(enable= if interZonalAirFlowType<>
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or useN50BuildingComputation then true else false,group="Interzonal airflow"));
