@@ -53,6 +53,8 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
   Modelica.Blocks.Sources.BooleanConstant custom_n50(k=false) if  isZone
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
+  Modelica.Blocks.Sources.BooleanConstant custom_q50(k=false) if not isZone
+    annotation (Placement(transformation(extent={{-80,-130},{-60,-110}})));
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
@@ -122,14 +124,15 @@ equation
   end if;
 
 
-  connect(zero.y, zoneBus.nonCust) annotation (Line(points={{-59,-40},{100.1,-40},
-          {100.1,-1.9}}, color={0,0,127}));
   connect(zero.y, zoneBus.v50) annotation (Line(points={{-59,-40},{100.1,-40},{100.1,
           -1.9}}, color={0,0,127}));
   connect(custom_n50.y, zoneBus.custom_n50) annotation (Line(points={{-59,-90},{
           100.1,-90},{100.1,-1.9}}, color={255,0,255}));
   connect(q50_zone.y, zoneBus.q50_zone) annotation (Line(points={{-59,-70},{100.1,
           -70},{100.1,-1.9}}, color={0,0,127}));
+  connect(custom_q50.y, zoneBus.use_custom_q50) annotation (Line(points={{-59,
+          -120},{100.1,-120},{100.1,-1.9}},
+                                     color={255,0,255}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

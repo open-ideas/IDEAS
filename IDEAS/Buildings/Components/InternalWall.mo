@@ -181,9 +181,9 @@ equation
           -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
           -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(Read_q50.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{54.6,
+  connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{54.6,
           -58},{54.6,20.1},{-100.1,20.1}}, color={0,0,127}));
-  connect(Read_q50.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
+  connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {54,-52},{54,20.1},{-100.1,20.1}},      color={0,0,127}));
 
   annotation (
