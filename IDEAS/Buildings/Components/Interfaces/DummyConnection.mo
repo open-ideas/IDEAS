@@ -126,8 +126,8 @@ equation
 
   connect(zero.y, zoneBus.v50) annotation (Line(points={{-59,-40},{100.1,-40},{100.1,
           -1.9}}, color={0,0,127}));
-  connect(custom_n50.y, zoneBus.custom_n50) annotation (Line(points={{-59,-90},{
-          100.1,-90},{100.1,-1.9}}, color={255,0,255}));
+  connect(custom_n50.y, zoneBus.use_custom_n50) annotation (Line(points={{-59,-90},
+          {100.1,-90},{100.1,-1.9}},color={255,0,255}));
   connect(q50_zone.y, zoneBus.q50_zone) annotation (Line(points={{-59,-70},{100.1,
           -70},{100.1,-1.9}}, color={0,0,127}));
   connect(custom_q50.y, zoneBus.use_custom_q50) annotation (Line(points={{-59,

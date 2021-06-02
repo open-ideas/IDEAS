@@ -28,7 +28,7 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   outer BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
-  Modelica.Blocks.Routing.BooleanPassThrough custom_n50
+  Modelica.Blocks.Routing.BooleanPassThrough use_custom_n50
     annotation (Placement(transformation(extent={{8,-324},{-12,-304}})));
 protected
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
@@ -157,9 +157,9 @@ equation
   connect(use_custom_q50.y, propsBus_b.use_custom_q50) annotation (Line(points={{9,-286},
           {100,-286},{100,-0.1},{100.1,-0.1}},
                                           color={0,0,127}));
-  connect(custom_n50.u, propsBus_b.custom_n50) annotation (Line(points={{10,-314},
+  connect(use_custom_n50.u, propsBus_b.use_custom_n50) annotation (Line(points={{10,-314},
           {100.1,-314},{100.1,-0.1}},color={255,0,255}));
-  connect(custom_n50.y, propsBus_a.custom_n50) annotation (Line(points={{-13,
+  connect(use_custom_n50.y, propsBus_a.use_custom_n50) annotation (Line(points={{-13,
           -314},{-100,-314},{-100,0.1},{-100.1,0.1}},
                                                 color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},

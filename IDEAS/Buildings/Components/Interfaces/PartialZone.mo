@@ -10,17 +10,17 @@ model PartialZone "Building zone model"
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Boolean custom_n50=sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation
+  parameter Boolean use_custom_n50=sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation
     "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
   parameter Real n50(unit="1/h",min=0.01)= sim.n50 "Optional n50 input"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
-  final parameter Real n50_computed(unit="1/h",min=0.01) = if custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
+  final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
 
 protected
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
-    annotation(Dialog(enable=custom_n50,tab="Airflow", group="Airtightness"));
+    annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
 
 public
   parameter Boolean allowFlowReversal=true
@@ -228,7 +228,7 @@ protected
     n50=n50_int,
     V=V,
     q50_corr=sim.q50_def,
-    use_custom_n50=custom_n50)
+    use_custom_n50=use_custom_n50)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
 model Setq50 "q50 computation for zones"
@@ -260,7 +260,7 @@ model Setq50 "q50 computation for zones"
   Modelica.Blocks.Interfaces.RealInput Area[nSurf]
     "Surface areas"
    annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
-  Modelica.Blocks.Interfaces.BooleanOutput custom_n50s[nSurf]
+  Modelica.Blocks.Interfaces.BooleanOutput use_custom_n50s[nSurf]
     "Equals true if the surfaces connected to this zone should use the custom q50 value"
    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
@@ -276,7 +276,7 @@ initial equation
   allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
 
 equation
-  custom_n50s=fill(use_custom_n50,nSurf);
+  use_custom_n50s=fill(use_custom_n50,nSurf);
 
   if use_custom_n50 then
     q50_zone=fill((((n50*V) - sum(v50_custom))/max(Modelica.Constants.small, sum(defaultArea))), nSurf);
@@ -295,7 +295,7 @@ end Setq50;
 initial equation
 
 
-  n50_int = if custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
+  n50_int = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
 
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 
@@ -496,8 +496,8 @@ end for;
   connect(setq50.use_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{-60.6,
           -82},{-80,-82},{-80,39.9},{-80.1,39.9}},
                                               color={0,0,127}));
-  connect(setq50.custom_n50s, propsBusInt.custom_n50) annotation (Line(points={{-60.8,
-          -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
+  connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
+          -92.8},{-60,-92.8},{-60,-92},{-80,-92},{-80,40}},             color={
           255,0,255}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),

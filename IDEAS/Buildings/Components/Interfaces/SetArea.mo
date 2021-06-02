@@ -11,7 +11,7 @@ model SetArea "Block for communicating the surface area of the surface to the Si
   Modelica.Blocks.Interfaces.RealInput v50
     "v50 value"
      annotation (Placement(transformation(extent={{-126,48},{-86,88}})));
-  Modelica.Blocks.Interfaces.BooleanInput custom_n50
+  Modelica.Blocks.Interfaces.BooleanInput use_custom_n50
     "Is the zones n50 custom?"
      annotation (Placement(transformation(extent={{-126,-30},{-86,10}})));
 
@@ -21,7 +21,7 @@ protected
   parameter Modelica.SIunits.Area A_def_q50 = if use_custom_q50 then 0 else A;
 
 initial equation
-  if not use_custom_q50 and not custom_n50 then
+  if not use_custom_q50 and not use_custom_n50 then
     v50_custom=0;
   else
     v50_custom=v50;
@@ -30,7 +30,7 @@ initial equation
 
 equation
   areaPort.A = A;
-  areaPort.A_def = (if custom_n50 then 0 else A_def_q50); // if surface is not custom, then the area is communicated, else 0
+  areaPort.A_def = (if use_custom_n50 then 0 else A_def_q50); // if surface is not custom, then the area is communicated, else 0
   areaPort.v50 = v50_custom;
 
 end SetArea;

@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-    final q50_val=0,
+    final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
     QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),

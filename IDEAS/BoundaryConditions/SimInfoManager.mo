@@ -107,6 +107,43 @@ IDEAS uses TMY3 input files.
 The default weather file 'Brussels.mos' contains weather information from IWEC for the Brussels region.
 For detailed documentation see 
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
+<h4>Interzonal airflow</h4>
+<p>
+IDEAS supports several levels of detail for simulating interzonal airflow and air infiltration,
+which can be selected by setting the value of the parameter <code>interzonalAirFlowType</code>. 
+By default, <code>interzonalAirFlowType = None</code> and a fixed n50 value is assumed. 
+The corresponding <b>fixed</b> mass flow rate is pushed 
+into (with ambient properties) and extracted from each zone model.
+In practice, air infiltration however depends on the wind pressure 
+and occurs only for zones that have an exterior/outer wall
+or windows. 
+</p>
+<p>
+The other <code>interzonalAirFlowType</code> options model this effect in more detail.
+By default, the <code>OuterWall</code> and <code>Window</code> leakage coefficients are computed
+using the zone n50 values. The volume and n50 value of each zone are used to compute the total
+nominal air infiltration at 50 Pa pressure difference. The total exterior wall and window surface
+area are used to compute an average air leakage coefficient 
+(<code>q50</code> value) such that this total air infiltration
+is obtained at 50 Pa pressure difference. 
+Using these coefficients and the static wind pressures, 
+a flow network is configured that computes the mass flow rates through
+each wall and window.
+When a custom q50 value for a wall or window is known, it can be 
+assigned by the user using the parameters <code>use_custom_q50</code> and <code>custom_q50</code>.
+The algorithm considers these q50 values as known and recomputes all remaining q50 values
+such that the n50 value is reached.
+In a similar way, the total n50 value for one zone can be forced by using
+the zone parameters <code>use_custom_n50<code> and <code>n50</code>.
+In this case, only the remaining zones contribute to the total building
+air leakage, which is subsequently attributed to the surfaces of only those zones.
+</p>
+<p>
+In case <code>interzonalAirFlowType=OnePort</code> then one port is used to model the air exchange through each surface.
+When <code>interzonalAirFlowType=TwoPorts</code> two ports are used, 
+which adds a bit of detail at the cost of having to solve
+a more complex flow network.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>

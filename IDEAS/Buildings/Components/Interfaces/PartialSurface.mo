@@ -47,7 +47,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Boolean use_custom_q50=false
     "set to true to disable the default q50 computation and to assign a custom q50 value"
     annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
-  parameter Real q50_val = 2
+  parameter Real custom_q50 = 2
     "Envelope air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   final parameter Real q50_internal(fixed=false)
@@ -275,7 +275,7 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
           fillPattern=FillPattern.Forward)}));
 end Q50_parameterToConnector;
 initial equation
-  q50_internal=if use_custom_q50 then q50_val else q50_zone.q50_zone;
+  q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
 
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
@@ -338,7 +338,7 @@ equation
           -43},{79.4,-44},{56.09,-44},{56.09,19.91}}, color={0,0,127}));
   connect(q50_zone.using_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{79,-52},
           {56.09,-52},{56.09,19.91}},      color={0,0,127}));
-  connect(setArea.custom_n50, propsBusInt.custom_n50) annotation (Line(points={{79.4,
+  connect(setArea.use_custom_n50, propsBusInt.use_custom_n50) annotation (Line(points={{79.4,
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
