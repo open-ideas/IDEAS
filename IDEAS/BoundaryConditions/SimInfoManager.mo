@@ -141,8 +141,11 @@ air leakage, which is subsequently attributed to the surfaces of only those zone
 <p>
 In case <code>interzonalAirFlowType=OnePort</code> then one port is used to model the air exchange through each surface.
 When <code>interzonalAirFlowType=TwoPorts</code> two ports are used, 
-which adds a bit of detail at the cost of having to solve
+which increases the level of detail at the cost of having to solve
 a more complex flow network.
+The second port e.g. allows more detailed modelling of bidirectional 
+flow through open doors using two flow paths instead of only
+modelling the total flow through a single flow path.
 </p>
 </html>", revisions="<html>
 <ul>
