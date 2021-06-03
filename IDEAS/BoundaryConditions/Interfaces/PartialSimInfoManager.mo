@@ -277,7 +277,7 @@ initial equation
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
   end if;
-  assert(not computeConservationOfEnergy or interzonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+  assert(not computeConservationOfEnergy or interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "Conservation of energy check only not supported interzonalAirFlowType==None.");
 equation
   volumePort.V_tot + volumePort.V = 0;
