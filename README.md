@@ -1,4 +1,4 @@
-IDEAS v2.1.1
+IDEAS v2.2
 ============
 [![Build Status](https://travis-ci.org/open-ideas/IDEAS.svg?branch=master)](https://travis-ci.org/open-ideas/IDEAS)
 
