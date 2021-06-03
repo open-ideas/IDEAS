@@ -137,6 +137,10 @@ In a similar way, the total n50 value for one zone can be forced by using
 the zone parameters <code>use_custom_n50<code> and <code>n50</code>.
 In this case, only the remaining zones contribute to the total building
 air leakage, which is subsequently attributed to the surfaces of only those zones.
+When <code>use_custom_q50=false</code>, <code>n50</code> is ignored and 
+<code>sim.n50</code> is used instead for this computation.
+I.e., the whole building is assumed to have the n50 value <code>sim.n50</code> 
+except for zones where <code>use_custom_q50=true</code>.
 </p>
 <p>
 In case <code>interzonalAirFlowType=OnePort</code> then one port is used to model the air exchange through each surface.

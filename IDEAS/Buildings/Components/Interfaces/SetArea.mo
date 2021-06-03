@@ -2,7 +2,7 @@ within IDEAS.Buildings.Components.Interfaces;
 model SetArea "Block for communicating the surface area of the surface to the SimInfoManager"
   extends Modelica.Blocks.Icons.Block;
   parameter Modelica.SIunits.Area A
-    "Zone volume";
+    "Surface area";
   parameter Boolean use_custom_q50
     "Custom q50 value";
   IDEAS.Buildings.Components.Interfaces.AreaPort areaPort

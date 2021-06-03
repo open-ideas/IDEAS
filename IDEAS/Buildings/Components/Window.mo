@@ -18,14 +18,17 @@ model Window "Multipane window"
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
     E(y=0),
     layMul(
-      A=A*(1 - frac),
+      A=A_glass,
       nLay=glazing.nLay,
       mats=glazing.mats,
       energyDynamics=if windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Normal then energyDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
       dT_nom_air=5,
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
-    setArea(A=nWin*A));
+    setArea(A=A_glass*nWin),
+    q50_zone(v50_surf=q50_internal*A_glass),
+    res1(A=A_glass),
+    res2(A=A_glass));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -92,6 +95,7 @@ protected
     "Heat capacity of glazing state";
   final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
+  final parameter Modelica.SIunits.Area A_glass = A*(1 - frac);
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     eCon(

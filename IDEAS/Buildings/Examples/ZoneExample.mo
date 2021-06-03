@@ -6,7 +6,7 @@ model ZoneExample
   parameter Modelica.SIunits.Length l = 4 "Room length";
   parameter Modelica.SIunits.Length w = 4 "Room width";
   parameter Modelica.SIunits.Length h = 2.7 "Room height";
-  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)
+  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
                                               "Data reader"
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   IDEAS.Buildings.Components.Zone zone(
