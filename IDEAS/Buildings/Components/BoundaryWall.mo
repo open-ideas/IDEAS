@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with optional prescribed heat flow rate or temperature boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-    final q50_val=0,
+    final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
     QTra_design=U_value*A*(273.15 + 21 - TRef_a),
