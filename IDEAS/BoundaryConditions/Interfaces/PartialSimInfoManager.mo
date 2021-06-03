@@ -93,14 +93,15 @@ partial model PartialSimInfoManager
     "Type of interzonal air flow model"
     annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
 
-  parameter Boolean useN50BuildingComputation=false
+  parameter Boolean unify_n50 = false
+    "if true, zone n50 values are merged and then redistributed across al zones even if interZonalAirFlowType==None"
     annotation(choices(checkBox=true),Dialog(enable=interZonalAirFlowType==
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,group="Interzonal airflow"));
 
   parameter Real n50 = 3
     "n50 value of zones"
-    annotation(Dialog(enable= if interZonalAirFlowType<>
-    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or useN50BuildingComputation then true else false,group="Interzonal airflow"));
+    annotation(Dialog(enable=interZonalAirFlowType<>
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
 
   parameter Modelica.SIunits.Length H=10 "Building or roof height"
                                                                   annotation(Dialog(group="Wind"));

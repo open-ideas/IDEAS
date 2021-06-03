@@ -111,7 +111,7 @@ For detailed documentation see
 <p>
 IDEAS supports several levels of detail for simulating interzonal airflow and air infiltration,
 which can be selected by setting the value of the parameter <code>interzonalAirFlowType</code>. 
-By default, <code>interzonalAirFlowType = None</code> and a fixed n50 value is assumed. 
+By <b>default</b>, <code>interzonalAirFlowType = None</code> and a fixed n50 value is assumed for each zone. 
 The corresponding <b>fixed</b> mass flow rate is pushed 
 into (with ambient properties) and extracted from each zone model.
 In practice, air infiltration however depends on the wind pressure 
@@ -146,6 +146,14 @@ a more complex flow network.
 The second port e.g. allows more detailed modelling of bidirectional 
 flow through open doors using two flow paths instead of only
 modelling the total flow through a single flow path.
+</p>
+<p>
+When setting <code>unify_n50=true</code> in the <code>SimInfoManager</code> 
+while <code>interzonalAirFlowType=None</code>, the n50 values are automatically
+redistributed across the zones but instead of using pressure-driven flow, a fixed
+infiltration flow rate is assumed. While this implementation is more detailed
+and comes at no added computational cost, it is disabled by default 
+for backward compatibility reasons.
 </p>
 </html>", revisions="<html>
 <ul>

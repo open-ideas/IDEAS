@@ -10,10 +10,12 @@ model PartialZone "Building zone model"
     replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Boolean use_custom_n50=sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and not sim.useN50BuildingComputation
+  parameter Boolean use_custom_n50=
+    sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    and not sim.unify_n50
     "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
-  parameter Real n50(unit="1/h",min=0.01)= sim.n50 "Optional n50 input"
+  parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
   final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
 
@@ -497,7 +499,7 @@ end for;
           -82},{-80,-82},{-80,39.9},{-80.1,39.9}},
                                               color={0,0,127}));
   connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
-          -92.8},{-60,-92.8},{-60,-92},{-80,-92},{-80,40}},             color={
+          -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
