@@ -4,7 +4,8 @@ model EnergyConservationValidation
   extends IDEAS.Buildings.Examples.ZoneExample(
     sim(computeConservationOfEnergy=true,
         strictConservationOfEnergy=true,
-        Emax=1),
+        Emax=1,
+      interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None),
     zone(airModel(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)),
     zone1(airModel(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
       redeclare Components.OccupancyType.OfficeWork occTyp,
