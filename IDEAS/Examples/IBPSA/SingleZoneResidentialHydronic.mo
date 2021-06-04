@@ -3,7 +3,8 @@ model SingleZoneResidentialHydronic
   "Single zone residential hydronic example model"
   extends Modelica.Icons.Example;
   String test = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY") "This is to ensure that the weather file is loaded when encapsulating this model into an FMU";
-  package Medium = IDEAS.Media.Water "Water medium";
+  package MediumWater = IDEAS.Media.Water "Water medium";
+  package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
@@ -18,6 +19,7 @@ model SingleZoneResidentialHydronic
     "Temperature within validity range of correlation";
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
+    redeclare package Medium = MediumAir,
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
@@ -26,7 +28,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
 
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     T_a_nominal=273.15 + 70,
     T_b_nominal=273.15 + 50,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -37,7 +39,7 @@ model SingleZoneResidentialHydronic
         rotation=90,
         origin={-30,10})));
   IDEAS.Fluid.HeatExchangers.Heater_T hea(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     m_flow_nominal=pump.m_flow_nominal,
     dp_nominal=0,
     QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
@@ -47,7 +49,7 @@ model SingleZoneResidentialHydronic
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
     use_inputFilter=false,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumWater,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
     dp_nominal=100000)
@@ -55,7 +57,7 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{0,0},{20,-20}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(
     nPorts=1,
-    redeclare package Medium = Medium)
+    redeclare package Medium = MediumWater)
     "Absolute pressure boundary"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Blocks.Interfaces.RealOutput Q(unit="W")
@@ -289,7 +291,7 @@ There are no internal loads other than the occupants.
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Uccle, Belgium.
+of weather data for Brussels, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
@@ -456,17 +458,61 @@ Fixed air infiltration corresponding to an n50 value of 10
 is modelled.
 </p>
 <h3>Scenario Information</h3>
-<h4>Energy Pricing</h4>
-<h5>Constant electricity price profile</h5>
+<h4>Time Periods</h4>
 <p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 311.
+</ul>
+<ul>
+End Time: Day 325.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with 
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 334.
+</ul>
+<ul>
+End Time: Day 348.
+</ul>
+</p>
+<h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay 
+for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
+\"The energy prices and costs in Europe report\"</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+</p>
+<p>
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
 as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh. 
+</ul>
 </p>
-<h5>Dynamic electricity price profile</h5>
 <p>
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
 day time and 0.0383 EUR/kWh during night time,
 as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
@@ -475,44 +521,71 @@ https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020). 
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods. 
+</ul>
 </p>
-<h5>Highly dynamic electricity price profile</h5>
 <p>
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<ul>
 The highly dynamic electricity price scenario is based on the the
 Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
 market in the year 2019.
 Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
+added up on top of these prices. 
+</ul>
 </p>
-<h5>Gas price profile</h5>
+The <b>Gas Price</b> profile is:
 <p>
+<ul>
 The gas price is assumed constant and of 0.0198 EUR/kWh 
 as obtained from the \"Easy Indexed\" deal for gas
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> 
 (accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant gas price is
+of 0.0498 EUR/kWh. 
+</ul>
 </p>
 <h4>Emission Factors</h4>
-<h5>Electricity emissions factor profile</h5>
 <p>
+The <b>Electricity Emissions Factor</b> profile is:
+<ul>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
  <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+</ul>
 </p>
-<h5>Gas emissions factor profile</h5>
 <p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
 Based on the kgCO2 emitted per amount of natural gas burned in terms of 
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
 <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</ul>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 22, 2021, by Javier Arroyo:<br/>
+Add time period documentation.
+</li>
+<li>
+April 2, 2021 by Javier Arroyo<br/>
+Add CO2 to air medium. 
+</li>
+<li>
+February 22, 2021 by Javier Arroyo<br/>
+Add transmission fees and taxes to pricing scenarios. 
+</li>
 <li>
 December 1, 2020 by David Blum:<br/>
 Added weather station. 

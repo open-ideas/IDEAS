@@ -3,26 +3,30 @@ model SingleZoneResidentialHydronicHeatPump
   "Single zone residential hydronic example using a heat pump as heating production system"
   extends Modelica.Icons.Example;
   package MediumWater = IDEAS.Media.Water "Water medium";
-  package MediumAir = IDEAS.Media.Air "Air medium";
+  package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
   parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Real scalingFactor = 5 "Factor to scale up the model area and occupancy";
+  parameter Real scalingFactor = 4 "Factor to scale up the model area";
+  parameter Real nOccupants = 5 "Number of occupants";
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
+    redeclare package Medium = MediumAir,
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
     n50=10,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    hasInt=true,
     l=8*sqrt(scalingFactor),
     w=6*sqrt(scalingFactor),
+    lInt=3*case900Template.w + 2*case900Template.l,
     A_winA=24,
     redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
       conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
@@ -36,7 +40,7 @@ model SingleZoneResidentialHydronicHeatPump
   Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
     annotation (Placement(transformation(extent={{-240,140},{-220,160}})));
   Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour >
-        19) or calTim.weekDay > 5 then 1*scalingFactor else 0)
+        19) or calTim.weekDay > 5 then 1*nOccupants else 0)
     "Fixed schedule of 1 occupant between 7 am and 8 pm"
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
@@ -48,10 +52,10 @@ model SingleZoneResidentialHydronicHeatPump
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={90,150})));
+        origin={150,150})));
   Modelica.Blocks.Sources.Constant offSetOcc(k=0.2, y(unit="K"))
     "Offset above heating temperature setpoint during occupied hours to ensure comfort"
-    annotation (Placement(transformation(extent={{-200,142},{-180,162}})));
+    annotation (Placement(transformation(extent={{-200,140},{-180,160}})));
   Utilities.IO.SignalExchange.Read reaPPumEmi(
     description="Emission circuit pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
@@ -78,43 +82,25 @@ model SingleZoneResidentialHydronicHeatPump
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{-60,-60},{-80,-40}})));
 
-  Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
-      unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description=
-        "Zone operative temperature setpoint for cooling")
-    "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=180,
-        origin={-170,10})));
-  Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
-      max=273.15 + 23,
-      unit="K",
-      min=273.15 + 15), description=
-        "Zone operative temperature setpoint for heating")
-    "Overwrite for zone heating setpoint" annotation (Placement(transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=180,
-        origin={-170,-30})));
   Utilities.IO.SignalExchange.Read reaTSetCoo(description=
         "Zone operative temperature setpoint for cooling",
                                                      y(unit="K"))
     "Read zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-140,0},{-120,20}})));
+    annotation (Placement(transformation(extent={{-160,0},{-140,20}})));
   Utilities.IO.SignalExchange.Read reaTSetHea(description=
         "Zone operative temperature setpoint for heating",
                                                      y(unit="K"))
     "Read zone cooling heating"
-    annotation (Placement(transformation(extent={{-140,-40},{-120,-20}})));
+    annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
         TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-220,0},{-200,20}})));
+    annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-220,-40},{-200,-20}})));
+    annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Utilities.IO.SignalExchange.Read reaHeaPumY(description="Block for reading the heat pump modulating signal",
       y(unit="1")) "Read heat pump modulating signal"
-    annotation (Placement(transformation(extent={{120,140},{140,160}})));
+    annotation (Placement(transformation(extent={{180,140},{200,160}})));
   Utilities.IO.SignalExchange.Read reaPum(description=
         "Control signal for emission cirquit pump", y(unit="1"))
     "Read control signal for emission circuit pump"
@@ -127,7 +113,7 @@ model SingleZoneResidentialHydronicHeatPump
     yMin=0,
     initType=Modelica.Blocks.Types.InitPID.InitialState)
     "PI controller for the boiler supply water temperature"
-    annotation (Placement(transformation(extent={{20,140},{40,160}})));
+    annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
@@ -196,7 +182,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{140,70},{160,90}})));
 
   Utilities.IO.SignalExchange.Read       reaTZon(
-    description="Operative zone temperature",
+    description="Zone operative temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
     y(unit="K")) "Block for reading the operative zone temperature"
     annotation (Placement(transformation(extent={{-32,70},{-12,90}})));
@@ -272,30 +258,34 @@ model SingleZoneResidentialHydronicHeatPump
 
   Modelica.Blocks.Math.Add addUno
     annotation (Placement(transformation(extent={{-160,40},{-140,60}})));
-  Modelica.Blocks.Sources.Constant offSetUno(k=4.5, y(unit="K"))
+  Modelica.Blocks.Sources.Constant offSetUno(k=5.5, y(unit="K"))
     "Offset above heating temperature setpoint during unoccupied hours to ensure comfort"
     annotation (Placement(transformation(extent={{-200,60},{-180,80}})));
   Modelica.Blocks.Logical.Greater greater
-    annotation (Placement(transformation(extent={{-80,100},{-60,80}})));
+    annotation (Placement(transformation(extent={{-80,90},{-60,70}})));
   Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
   Modelica.Blocks.Sources.Constant const(k=0)
-    annotation (Placement(transformation(extent={{-114,110},{-94,130}})));
+    annotation (Placement(transformation(extent={{-114,100},{-94,120}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
+  Utilities.IO.SignalExchange.Overwrite oveTSet(u(
+      max=273.15 + 35,
+      unit="K",
+      min=273.15 + 5), description="Zone operative temperature setpoint")
+    "Overwrite for zone temperature setpoint" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={30,150})));
+  Utilities.IO.SignalExchange.Read reaTSet(description=
+        "Zone operative temperature setpoint", y(unit="K"))
+    "Read zone temperature setpoint"
+    annotation (Placement(transformation(extent={{60,140},{80,160}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(oveTSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-159,10},{-142,10}}, color={0,0,127}));
-  connect(oveTSetHea.y, reaTSetHea.u)
-    annotation (Line(points={{-159,-30},{-142,-30}},
-                                                   color={0,0,127}));
-  connect(TSetCoo.y, oveTSetCoo.u)
-    annotation (Line(points={{-199,10},{-182,10}},   color={0,0,127}));
-  connect(TSetHea.y, oveTSetHea.u)
-    annotation (Line(points={{-199,-30},{-182,-30}}, color={0,0,127}));
   connect(ovePum.y, reaPum.u)
     annotation (Line(points={{13,110},{20,110}}, color={0,0,127}));
   connect(realToInteger.u, reaPum.y)
@@ -319,7 +309,7 @@ equation
     annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
-  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{141,150},{292,150},
+  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{201,150},{292,150},
           {292,-24},{127,-24},{127,-2}},
                                     color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -355,32 +345,28 @@ equation
           {280,60},{210,60},{210,52}}, color={255,127,0}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{199,49},{190,49},{190,80},
           {218,80}}, color={0,0,127}));
-  connect(offSetOcc.y, addOcc.u1) annotation (Line(points={{-179,152},{-170,152},
+  connect(offSetOcc.y, addOcc.u1) annotation (Line(points={{-179,150},{-170,150},
           {-170,136},{-162,136}}, color={0,0,127}));
   connect(offSetUno.y, addUno.u1) annotation (Line(points={{-179,70},{-172,70},
           {-172,56},{-162,56}}, color={0,0,127}));
-  connect(oveTSetHea.y, addOcc.u2) annotation (Line(points={{-159,-30},{-154,
-          -30},{-154,-50},{-228,-50},{-228,124},{-162,124}}, color={0,0,127}));
-  connect(oveTSetHea.y, addUno.u2) annotation (Line(points={{-159,-30},{-154,
-          -30},{-154,-50},{-228,-50},{-228,44},{-162,44}}, color={0,0,127}));
   connect(oveHeaPumY.y, reaHeaPumY.u)
-    annotation (Line(points={{101,150},{118,150}}, color={0,0,127}));
-  connect(greater.y, switch1.u2) annotation (Line(points={{-59,90},{-52,90},{
+    annotation (Line(points={{161,150},{178,150}}, color={0,0,127}));
+  connect(greater.y, switch1.u2) annotation (Line(points={{-59,80},{-52,80},{
           -52,150},{-22,150}}, color={255,0,255}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
-          {-46,12},{-46,130},{30,130},{30,138}}, color={0,0,127}));
+          {-46,12},{-46,130},{110,130},{110,138}},
+                                                 color={0,0,127}));
   connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{41,150},{78,150}}, color={0,0,127}));
-  connect(switch1.y, conPI.u_s)
-    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
+    annotation (Line(points={{121,150},{138,150}},
+                                                 color={0,0,127}));
   connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
           {-128,158},{-22,158}}, color={0,0,127}));
   connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
           -120,142},{-22,142}}, color={0,0,127}));
-  connect(const.y, greater.u2) annotation (Line(points={{-93,120},{-90,120},{
-          -90,98},{-82,98}}, color={0,0,127}));
+  connect(const.y, greater.u2) annotation (Line(points={{-93,110},{-90,110},{
+          -90,88},{-82,88}}, color={0,0,127}));
   connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
-          60},{-100,60},{-100,90},{-82,90}}, color={0,0,127}));
+          60},{-100,60},{-100,80},{-82,80}}, color={0,0,127}));
   connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,8},{240,
           -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
@@ -389,6 +375,20 @@ equation
       points={{-220.1,170},{-190,170},{-190,169.9},{-159.9,169.9}},
       color={255,204,51},
       thickness=0.5));
+  connect(switch1.y, oveTSet.u)
+    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
+  connect(oveTSet.y, reaTSet.u)
+    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
+  connect(reaTSet.y, conPI.u_s)
+    annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
+  connect(TSetCoo.y, reaTSetCoo.u)
+    annotation (Line(points={{-179,10},{-162,10}}, color={0,0,127}));
+  connect(TSetHea.y, reaTSetHea.u) annotation (Line(points={{-179,-30},{-172,
+          -30},{-172,-30},{-162,-30}}, color={0,0,127}));
+  connect(TSetHea.y, addUno.u2) annotation (Line(points={{-179,-30},{-170,-30},
+          {-170,-60},{-220,-60},{-220,44},{-162,44}}, color={0,0,127}));
+  connect(TSetHea.y, addOcc.u2) annotation (Line(points={{-179,-30},{-170,-30},
+          {-170,-60},{-220,-60},{-220,124},{-162,124}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=1728000,
@@ -408,15 +408,18 @@ The building envelope model is based on the BESTEST case 900 test case.
 The envelope model is therefore similar to the one used in 
 <a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
 IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a> 
-but it is scaled to an area that is 5 times larger. Particularly, the model consists 
-of a single zone with a rectangular floor plan of 13.4 by 17.9 meters and a 
-height of 2.7 m. The zone further consists of several south-oriented windows, 
+but it is scaled to an area that is 4 times larger. Particularly, the model consists 
+of a single zone with a rectangular floor plan of 12 by 16 meters and a 
+height of 2.7 m. The internal wall mass is modelled using a single wall with a 
+a length that equals three times the building width plus two times the building length.
+This assumes that there are around 12 rooms in the building. 
+The zone further consists of several south-oriented windows, 
 which are modelled using a single window of 24 m2.
 </p>
 <h4>Constructions</h4>
 <p><b>Exterior walls</b> </p>
 <p>
-The walls are modeled using 
+The walls are modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
@@ -443,7 +446,7 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <td><p>10</p></td>
 </tr>
 <tr>
-<td><p>Layer 3 (concrete)</p></td>
+<td><p>Layer 3 (concrete block)</p></td>
 <td><p>0.1</p></td>
 <td><p>0.51</p></td>
 <td><p>1000</p></td>
@@ -452,7 +455,7 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </table>
 <p><b>Floor</b> </p>
 <p>
-The floor is modeled using 
+The floor is modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
 IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers: 
 </p>
@@ -465,11 +468,11 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 <td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
-<td><p>Layer 1 (roof deck)</p></td>
-<td><p>0.019</p></td>
-<td><p>0.14</p></td>
-<td><p>900</p></td>
-<td><p>530</p></td>
+<td><p>Layer 1 (concrete)</p></td>
+<td><p>0.15</p></td>
+<td><p>1.4</p></td>
+<td><p>840</p></td>
+<td><p>2100</p></td>
 </tr>
 <tr>
 <td><p>Layer 2 (insulation)</p></td>
@@ -495,7 +498,7 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 </table>
 <p><b>Roof</b> </p>
 <p>
-The roof is modeled using 
+The roof is modelled using 
 <a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
 IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 </p>
@@ -508,11 +511,11 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <td><h4>Density [kg/m3]</h4></td>
 </tr>
 <tr>
-<td><p>Layer 1 (wood siding)</p></td>
-<td><p>0.009</p></td>
-<td><p>0.14</p></td>
-<td><p>900</p></td>
-<td><p>530</p></td>
+<td><p>Layer 1 (roof deck)</p></td>
+<td><p>0.019 </p></td>
+<td><p>0.14 </p></td>
+<td><p>900 </p></td>
+<td><p>530 </p></td>
 </tr>
 <tr>
 <td><p>Layer 2 (fiber glass)</p></td>
@@ -541,7 +544,7 @@ There are no internal loads other than the occupants.
 
 <h4>Climate data</h4>
 <p>
-The model uses a climate file containing one year of weather data for Uccle, 
+The model uses a climate file containing one year of weather data for Brussels, 
 Belgium. 
 </p>
 
@@ -562,7 +565,7 @@ is working.
 <p><b>Heat pump</b> </p>
 <p>
 A water-to-air heat pump with a scroll compressor is used. 
-The heat pump is modeled as described by: 
+The heat pump is modelled as described by: 
 </p>
 <p>
 H. Jin. <i>Parameter estimation based models of water source heat pumps. 
@@ -604,7 +607,7 @@ The control variable is limited between 0 and 1, and it is computed to drive the
 temperature towards a reference defined as the heating comfort set-point plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
-around the set-point; during unoccupied periods the offset is set to 4.5 degrees Celsius 
+around the set-point; during unoccupied periods the offset is set to 5.5 degrees Celsius 
 and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
 be achievable because of the large thermal inertia of the floor heating system and 
@@ -619,19 +622,16 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <ul>
 
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
-</li>
-<li>
-<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
 </li>
 <li>
 <code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
-<code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+</li>
+<li>
+<code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
 </li>
 
 </ul>
@@ -640,43 +640,34 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <ul>
 
 <li>
-<code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
 </li>
 <li>
 <code>reaCOP_y</code> [1] [min=None, max=None]: Heat pump COP
 </li>
 <li>
-<code>reaTZon_y</code> [K] [min=None, max=None]: Operative zone temperature
-</li>
-<li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
-</li>
-<li>
 <code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
-</li>
-<li>
-<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
-</li>
-<li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
-</li>
-<li>
-<code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
-</li>
-<li>
-<code>reaQHeaPumCon_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser
 </li>
 <li>
 <code>reaHeaPumY_y</code> [1] [min=None, max=None]: Block for reading the heat pump modulating signal
 </li>
 <li>
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
+</li>
+<li>
 <code>reaPHeaPum_y</code> [W] [min=None, max=None]: Heat pump electrical power
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
+<code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
+</li>
+<li>
+<code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
+</li>
+<li>
+<code>reaQHeaPumCon_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the condenser
 </li>
 <li>
 <code>reaQHeaPumEva_y</code> [W] [min=None, max=None]: Heat pump thermal power exchanged in the evaporator
@@ -685,77 +676,90 @@ is working (modulating signal higher than 0) and switched off otherwise.
 <code>reaTRet_y</code> [K] [min=None, max=None]: Return water temperature from radiant floor
 </li>
 <li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>reaTSet_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint
+</li>
+<li>
 <code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
 </li>
 <li>
-<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
-</li>
-<li>
-<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
-</li>
-<li>
-<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
-</li>
-<li>
-<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
-</li>
-<li>
-<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
-</li>
-<li>
-<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
-</li>
-<li>
-<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
-</li>
-<li>
-<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+<code>reaTZon_y</code> [K] [min=None, max=None]: Zone operative temperature
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
 <code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
 </li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -781,64 +785,114 @@ as well as the air circulation through the heat pump evaporator.
 Fixed air infiltration corresponding to an n50 value of 10 is modelled. 
 </p>
 <h3>Scenario Information</h3>
-<p><b>Energy Pricing</b> </p>
+<h4>Time Periods</h4>
 <p>
-The <b>Constant Electricity Price</b> profile is: 
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 16.
+</ul>
+<ul>
+End Time: Day 30.
+</ul>
 </p>
 <p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with 
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 108.
+</ul>
+<ul>
+End Time: Day 122.
+</ul>
+</p>
+<h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay 
+for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
+\"The energy prices and costs in Europe report\"</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity. 
+</p>
+<p>
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh, 
 as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in 
 <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh. 
+</ul>
 </p>
 <p>
-The <b>Dynamic Electricity Price</b> profile is: 
-</p>
-<p>
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
 day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot; 
 deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m. 
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods. 
+</ul>
 </p>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is: 
-</p>
-<p>
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<ul>
 The highly dynamic electricity price scenario is based on the the Belgian day-ahead 
 energy prices as determined by the BELPEX wholescale electricity market in the year 2019. 
 Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
-https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
-</p>
-<p>
-The <b>Gas Price</b> profile is: 
-</p>
-<p>
-The gas price is assumed constant and equal to 0.0198 EUR/kWh as obtained from the 
-&quot;Easy Indexed&quot; deal for gas <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020). 
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>.
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
+added up on top of these prices. 
+</ul>
 </p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is: 
-</p>
-<p>
+<ul>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh, 
 which is the grid electricity emission factor reported by the Association of Issuing Bodies 
 (AIB) for year 2018. For reference, see: 
 <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
-</p>
-<p>The <b>Gas Emissions Factor</b> profile is: </p>
-<p>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. 
-It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see: 
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</ul>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 22, 2021, by Javier Arroyo:<br/>
+Add time period documentation.
+</li>
+<li>
+April 2, 2021 by Javier Arroyo<br/>
+Add CO2 to air medium. 
+</li>
+<li>
+March 3, 2021 by Javier Arroyo        :<br/>
+Overwrite zone operative temperature setpoint. 
+</li>
+<li>
+February 22, 2021 by Javier Arroyo	:<br/>
+Add transmission fees and taxes to pricing scenarios. 
+</li>
+<li>
+February 18, 2021 by Javier Arroyo	:<br/>
+Decrease size and add internal walls. 
+</li>
 <li>
 December 1, 2020 by David Blum:<br/>
 Added weather station. 
