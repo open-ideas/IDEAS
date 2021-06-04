@@ -29,7 +29,7 @@ protected
   final parameter Modelica.SIunits.Temperature Tinit1=303.15;
   final parameter Modelica.SIunits.Temperature Tinit1N = (if exp== 1 then Tinit1 else 295.15);
   final parameter Modelica.SIunits.Temperature Tinit2=if exp == 1 then 298.15 else 303.15;
-  final parameter Modelica.SIunits.Temperature Tinit2N = (if exp== 1 then Tinit1 else 295.15);
+  final parameter Modelica.SIunits.Temperature Tinit2N = (if exp== 1 then Tinit2 else 295.15);
   final parameter String filename = if exp==1 and bui== 1 then "MeasurementTwinHouseN2Exp1.txt" elseif exp==2 and bui==1 then "MeasurementTwinHouseN2Exp2.txt" else "MeasurementTwinHouseO5.txt";
 
 equation
