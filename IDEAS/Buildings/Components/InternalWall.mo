@@ -2,13 +2,14 @@ within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
-    final custom_q50=0,
+    custom_q50=2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    final QTra_design=U_value*A*(TRef_a - TRef_b));
+    final QTra_design=U_value*A*(TRef_a - TRef_b),
+    q50_zone(v50_surf=0));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
