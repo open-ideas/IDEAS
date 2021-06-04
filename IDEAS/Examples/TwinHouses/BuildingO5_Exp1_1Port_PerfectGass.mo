@@ -7,7 +7,9 @@ model BuildingO5_Exp1_1Port_PerfectGass
    redeclare BaseClasses.Structures.TwinhouseO5_AirPerfectGass
                                                 struct,
    redeclare BaseClasses.Ventilation.Vent_TTH_pressureNetwork_AirPerfectGass vent,
-    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort, n50=1.64));
+    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort, n50=1.64,
+      A0=1,
+      a=0.15));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
