@@ -2,7 +2,7 @@ within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
-    final custom_q50=0,
+    custom_q50=2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
@@ -110,6 +110,7 @@ protected
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
+public
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
     wOpe=w,
