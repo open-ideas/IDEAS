@@ -67,6 +67,8 @@ model InternalWall "interior opaque wall between two zones"
         origin={-50,20})));
 
 
+  parameter Real CD=0.78 "Discharge coefficient of cavity"
+    annotation (Dialog(tab="Airflow"));
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -116,13 +118,13 @@ protected
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,80},{10,100}})));
-  IDEAS.Fluid.FixedResistances.PressureDrop resDoor(
+  Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
-    m_flow_nominal=sqrt(2/rho)*h/2*w*rho*c_p,
-    dp_nominal=1) if
+    A=w*h,
+    CD=CD) if
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
-    annotation (Placement(transformation(extent={{-10,60},{10,80}})));
+    annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
@@ -172,20 +174,18 @@ equation
           -42,96},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,84},{
           -38,84},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,70},{
-          -38,70},{-38,20.1},{-100.1,20.1}},
-                                          color={0,127,255}));
-  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,70},{
-          38,70},{38,19.91},{56.09,19.91}},
-                                          color={0,127,255}));
+  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,68},{
+          -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
+          38,68},{38,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-40},{-60,
           -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
           -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{54.6,
-          -58},{54.6,20.1},{-100.1,20.1}}, color={0,0,127}));
+  connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{56,
+          -58},{56,20.1},{-100.1,20.1}},   color={0,0,127}));
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
-          {54,-52},{54,20.1},{-100.1,20.1}},      color={0,0,127}));
+          {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
 
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),

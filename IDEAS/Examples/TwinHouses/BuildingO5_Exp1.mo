@@ -6,7 +6,9 @@ model BuildingO5_Exp1
    exp=1,
    redeclare BaseClasses.Structures.TwinhouseO5 struct,
     sim(unify_n50=true,
-        n50=1.64));
+        n50=1.64,
+      A0=1,
+      a=0.15));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
