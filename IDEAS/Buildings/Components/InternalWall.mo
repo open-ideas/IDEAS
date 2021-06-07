@@ -8,7 +8,8 @@ model InternalWall "interior opaque wall between two zones"
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    final QTra_design=U_value*A*(TRef_a - TRef_b));
+    final QTra_design=U_value*A*(TRef_a - TRef_b),
+    q50_zone(v50_surf=0));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
