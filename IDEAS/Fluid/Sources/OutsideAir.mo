@@ -5,7 +5,33 @@ model OutsideAir
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
 
+  parameter Real table[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,-0.35; 270,-0.3; 315,0.1; 360,0.4] "Cp at different angles of attack";
+  parameter Modelica.SIunits.Angle azi "Surface azimuth (South:0, West:pi/2)"  annotation (choicesAllMatching=true);
+
+  parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Habs=10
+                                           "Absolute height of boundary for correcting the wind speed" annotation(Dialog(group="Wind"));
+
+
+  constant Modelica.SIunits.Density rho = 1.2 "Air density";
+  Modelica.SIunits.Angle alpha "Wind incidence angle (0: normal to wall)";
+  Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
+
+
+  Modelica.SIunits.Pressure pWin(displayUnit="Pa")
+    "Change in pressure due to wind force";
+
+  Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
+    "Sum of atmospheric pressure and wind pressure";
+
+
 protected
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+                                                                                                                             annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Hwin=sim.Hwin "Height above ground of meteorological wind speed measurement" annotation(Dialog(group="Wind"));
+
+
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
@@ -25,7 +51,74 @@ protected
     "Connector for X_wEnv";
   Modelica.Blocks.Routing.RealPassThrough p_link;
 
+function windPressureProfile
+  "Function for the cubic spline interpolation of table input of a windpressureprofile"
+
+  input Modelica.SIunits.Angle u "independent variable, wind incidence angle";
+  input Real table[:,:];
+
+  output Real z "Dependent variable without monotone interpolation, CpAct";
+
+  //extend table with 1 point at the beginning and end for correct derivative at 0 and 360
+
+  protected
+  Real Radtable[:,:] = [Modelica.Constants.D2R*table[:,1],table[:,2]];
+
+  Real prevPoint[1,2] = [Radtable[size(table, 1)-1, 1] - (2*Modelica.Constants.pi), Radtable[size(table, 1)-1, 2]];
+  Real nextPoint[1,2] = [Radtable[2, 1] + (2*Modelica.Constants.pi), Radtable[2, 2]];
+  Real exTable[:,:] = [prevPoint;Radtable;nextPoint]; //Extended table
+
+  Real[:] xd=exTable[:,1] "Support points x-value";
+  Real[size(xd, 1)] yd=exTable[:,2] "Support points y-value";
+  Real[size(xd, 1)] d=IDEAS.Utilities.Math.Functions.splineDerivatives(
+    x=xd,
+    y=yd,
+    ensureMonotonicity=false); // Get the derivative values at the support points
+
+  Integer i "Integer to select data interval";
+  Real aR "u, restricted to 0...2*pi";
+
+
+algorithm
+
+  // Change sign to positive
+  aR := if u < 0 then -u else u;
+
+  // Constrain to [0...2*pi]
+  if aR > 2*Modelica.Constants.pi then
+  aR := aR - integer(aR/(2*Modelica.Constants.pi))*(2*Modelica.Constants.pi);
+  end if;
+
+  i := 1;
+  for j in 1:size(xd, 1) - 1 loop
+    if aR > xd[j] then
+      i := j;
+    end if;
+  end for;
+
+  // Interpolate the data
+
+  z :=IDEAS.Utilities.Math.Functions.cubicHermiteLinearExtrapolation(
+        x=aR,
+        x1=xd[i],
+        x2=xd[i + 1],
+        y1=yd[i],
+        y2=yd[i + 1],
+        y1d=d[i],
+        y2d=d[i + 1]);
+   annotation(Inline=false);
+end windPressureProfile;
+  Modelica.SIunits.Angle surOut = azi-Modelica.Constants.pi   "Angle of surface that is used to compute angle of attack of wind";
+  Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
+  Modelica.Blocks.Interfaces.RealInput winDir( final unit="rad",displayUnit="deg") = sim.Vdir "Wind direction from weather bus";
 equation
+
+  alpha = winDir-surOut;
+
+
+  pWin = Cs*0.5*CpAct*rho*vWin*vWin;
+  pTot = p_in_internal + (if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then pWin else 0);
+
   connect(bus,sim.weaDatBus);
 
   connect(p_link.u, bus.pAtm);
@@ -64,7 +157,7 @@ equation
   connect(medium.Xi, Xi_in_internal);
 
   for i in 1:nPorts loop
-    ports[i].p          = p_in_internal;
+    ports[i].p          = pTot;
     ports[i].h_outflow  = h_internal;
     ports[i].Xi_outflow = Xi_in_internal;
   end for;

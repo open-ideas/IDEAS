@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
    extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+     setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
      QTra_design(fixed=false));
@@ -25,6 +26,11 @@ model OuterWall "Opaque building envelope construction"
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
+  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
+      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+      "Cp at different angles of attack"
+      annotation(Dialog(tab="Airflow", group="Wind Pressure"));
+
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
     final L=L,
     final dh=dh,
@@ -37,6 +43,13 @@ model OuterWall "Opaque building envelope construction"
       Dialog(tab="Advanced",group="Shading"));
 
 
+
+  parameter Real Cs=sim.Cs
+                       "Wind speed modifier"
+    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real Habs=1
+    "Absolute height of boundary for correcting the wind speed"
+    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -63,6 +76,17 @@ protected
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-54,0},{-46,8}})));
+  IDEAS.Fluid.Sources.OutsideAir outsideAir(
+    redeclare package Medium = Medium,
+    final table=coeffsCp,
+    final azi=aziInt,
+    Cs=Cs,
+    Habs=Habs,
+    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+         then 1 else 2) if
+    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Outside air model"
+    annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 initial equation
   QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
 
@@ -141,6 +165,10 @@ equation
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
           -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
                                                            color={0,0,127}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
+          -40},{16,-50},{-80,-50}}, color={0,127,255}));
+  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
+          -60},{16,-50},{-80,-50}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

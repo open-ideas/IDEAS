@@ -461,6 +461,9 @@ partial model RectangularZoneTemplateInterface
     "Azimuth angle of face D";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
+    redeclare each final package Medium = Medium,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles) if nSurfExt>0
     "Propsbus for connecting additional external surfaces" annotation (
@@ -489,7 +492,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallANet) if
+    A=AWallANet,
+    redeclare package Medium = Medium) if
        hasBouA
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,0},{-110,20}})));
@@ -503,7 +507,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallBNet) if
+    A=AWallBNet,
+    redeclare package Medium = Medium) if
        hasBouB
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,-20},{-110,0}})));
@@ -516,7 +521,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallCNet) if
+    A=AWallCNet,
+    redeclare package Medium = Medium) if
        hasBouC
     "Boundary wall for face C of this zone"
     annotation (Placement(transformation(extent={{-120,-40},{-110,-20}})));
@@ -528,7 +534,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=AWallDNet) if
+    A=AWallDNet,
+    redeclare package Medium = Medium) if
        hasBouD
     "Boundary wall for face D of this zone"
     annotation (Placement(transformation(extent={{-120,-60},{-110,-40}})));
@@ -540,7 +547,8 @@ protected
       mats=conTypFlo.mats),
     T_start=T_start,
     linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_bou) if
+    dT_nominal_a=dT_nominal_bou,
+    redeclare package Medium = Medium) if
        hasBouFlo
     "Boundary wall for zone floor"
     annotation (Placement(transformation(extent={{-120,-80},{-110,-60}})));
@@ -552,7 +560,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    A=ACeiNet) if
+    A=ACeiNet,
+    redeclare package Medium = Medium) if
        hasBouCei
     "Boundary wall for zone ceiling"
     annotation (Placement(transformation(extent={{-120,-100},{-110,-80}})));
@@ -564,6 +573,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallANet),
@@ -584,6 +594,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallBNet),
@@ -603,6 +614,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallCNet),
@@ -621,6 +633,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,AWallDNet),
@@ -641,6 +654,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
     A=max(0,ACeiNet)) if
@@ -657,6 +671,7 @@ protected
       mats=conTypFlo.mats),
     T_start=T_start,
     linIntCon_a=linIntCon,
+    redeclare package Medium = Medium,
     TeAvg=TeAvg,
     TiAvg=TiAvg,
     dTeAvg=dTeAvg,
@@ -674,6 +689,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     hasCavity=hasCavityA,
@@ -699,6 +715,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -723,6 +740,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -746,6 +764,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB,
     g=g,
@@ -772,6 +791,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intB) if
     hasIntFlo
@@ -787,6 +807,7 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_intA,
+    redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     dT_nominal_b=dT_nominal_intA,
     azi=0,
@@ -796,8 +817,11 @@ protected
     annotation (Placement(transformation(extent={{-176,20},{-164,40}})));
 public
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA[nExtA](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face A"
@@ -808,9 +832,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={-60,90})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusB[nExtB](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face B"
@@ -821,9 +849,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={90,60})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusC[nExtC](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face C"
@@ -834,9 +866,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=0,
         origin={68,-98})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusD[nExtD](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face D"
@@ -847,9 +883,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=-90,
         origin={-96,-70})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusFlo[nExtFlo](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of floor"
@@ -860,9 +900,13 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={0,-60})));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusCei[nExtCei](
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles) if
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface of ceiling: internal walls should be modelled as the floor of the zone above"
     annotation (Placement(transformation(
@@ -872,6 +916,7 @@ public
         extent={{-20,20},{20,-20}},
         rotation=180,
         origin={-2,60})));
+
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb] if
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
@@ -1414,6 +1459,13 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 

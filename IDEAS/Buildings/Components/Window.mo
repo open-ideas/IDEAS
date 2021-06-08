@@ -18,13 +18,17 @@ model Window "Multipane window"
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
     E(y=0),
     layMul(
-      A=A*(1 - frac),
+      A=A_glass,
       nLay=glazing.nLay,
       mats=glazing.mats,
       energyDynamics=if windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Normal then energyDynamics else Modelica.Fluid.Types.Dynamics.SteadyState,
       dT_nom_air=5,
       linIntCon=true,
-      checkCoatings=glazing.checkLowPerformanceGlazing));
+      checkCoatings=glazing.checkLowPerformanceGlazing),
+    setArea(A=A_glass*nWin),
+    q50_zone(v50_surf=q50_internal*A_glass),
+    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass),
+    res2(A=A_glass/2));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -67,6 +71,19 @@ model Window "Multipane window"
         origin={-40,-100})));
 
 
+
+  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
+      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+      "Cp at different angles of attack"
+      annotation(Dialog(tab="Airflow",group="Wind"));
+  parameter Real Cs=sim.Cs
+                       "Wind speed modifier"
+    annotation (Dialog(tab="Airflow", group="Wind"));
+
+  parameter Real Habs=1
+    "Absolute height of boundary for correcting the wind speed"
+    annotation (Dialog(tab="Airflow", group="Wind"));
+
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -78,6 +95,7 @@ protected
     "Heat capacity of glazing state";
   final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
+  final parameter Modelica.SIunits.Area A_glass = A*(1 - frac);
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     eCon(
@@ -170,6 +188,17 @@ protected
         start=T_start)) if                                                                             addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
+  Fluid.Sources.OutsideAir       outsideAir(
+    redeclare package Medium = Medium,
+    final table=coeffsCp,
+    final azi=aziInt,
+    Cs=Cs,
+    Habs=Habs,
+    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+         then 1 else 2) if
+    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Outside air model"
+    annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
@@ -294,6 +323,10 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
+  connect(res1.port_a,outsideAir. ports[1]) annotation (Line(points={{20,-40},{16,
+          -40},{16,-90},{-20,-90}}, color={0,127,255}));
+  connect(res2.port_a,outsideAir. ports[2]) annotation (Line(points={{20,-60},{16,
+          -60},{16,-90},{-20,-90}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

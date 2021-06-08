@@ -33,13 +33,20 @@ partial model PartialTwinHouse
     final exp=exp,
     final bui=bui)                           "Heat system model"
     annotation (Placement(transformation(extent={{0,-10},{40,10}})));
-   replaceable IDEAS.Examples.TwinHouses.BaseClasses.Ventilation.Vent_TTH vent(
+   replaceable BaseClasses.Ventilation.Vent_TTH                           vent(
     nZones=struct.nZones,
     VZones=struct.VZones,
     redeclare package Medium = IDEAS.Media.Air,
     final exp=exp,
-    final bui=bui)                              "Ventilation model"
+    final bui=bui) constrainedby
+    IDEAS.Examples.TwinHouses.BaseClasses.Ventilation.Vent_TTH(
+    nZones=struct.nZones,
+    VZones=struct.VZones,
+    redeclare package Medium = IDEAS.Media.Air,
+     exp=exp,
+     bui=bui)                              "Ventilation model"
     annotation (Placement(transformation(extent={{0,20},{40,40}})));
+
 protected
   Modelica.Blocks.Sources.RealExpression[7] noInput(each y=0) "No occupants"
     annotation (Placement(transformation(extent={{-30,-46},{-10,-26}})));

@@ -74,8 +74,9 @@ model Example9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium, nPorts=
-       2) "Source model that takes properties from SimInfoManager"
+  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium,
+    azi=0,
+    nPorts=2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
 protected
   model OccSched "Simple occupancy schedule"

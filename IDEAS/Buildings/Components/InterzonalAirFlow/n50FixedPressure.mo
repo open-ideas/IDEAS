@@ -1,11 +1,13 @@
 within IDEAS.Buildings.Components.InterzonalAirFlow;
 model n50FixedPressure
   "n50FixedPressure: fixed pressure boundary, n50 air leakage into zone"
-  extends
+ extends
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlown50(
       prescribesPressure=true,
       verifyBothPortsConnected=true);
 equation
+  assert(sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    "n50FixedPressure should not be used in combination with sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None. Use AirTight instead.");
   connect(bou.ports[2], ports[2]) annotation (Line(points={{-1.77636e-15,0},{
           -1.77636e-15,-50},{-1.77636e-15,-100},{2,-100}},
                      color={0,127,255}));

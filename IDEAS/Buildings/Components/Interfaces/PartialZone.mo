@@ -7,19 +7,33 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-  parameter Real n50(min=0.01) = 3
+    replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+      annotation (choicesAllMatching = true);
+  parameter Boolean use_custom_n50=
+    sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    and not sim.unify_n50
+    "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
+
+  parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
+   annotation(Dialog(tab="Airflow", group="Airtightness"));
+  final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
+
+protected
+  parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
-    annotation(Dialog(group="Building physics"));
+    annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
+
+public
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
-    annotation(Dialog(tab="Advanced", group="Air model"));
-  // See #1181 for a motivation of this value.
-  parameter Real n50toAch = 20 "Conversion fractor from n50 to Air Change Rate"
-   annotation(Dialog(tab="Advanced", group="Air model"));
+    annotation(Dialog(tab="Airflow", group="Air model"));
+  parameter Real n50toAch=20 "Conversion fractor from n50 to Air Change Rate"
+   annotation(Dialog(tab="Airflow", group="Airtightness"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsAir=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Type of energy balance for air model: dynamic (3 initialization options) or steady state";
   parameter Real mSenFac = 5 "Correction factor for thermal capacity of zone air."
-    annotation(Dialog(tab="Advanced",group="Air model"));
+    annotation(Dialog(tab="Airflow",group="Air model"));
 
   parameter Boolean linIntRad=sim.linIntRad
     "Linearized computation of long wave radiation"
@@ -27,7 +41,7 @@ model PartialZone "Building zone model"
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50/n50toAch*(273.15
+  final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50_int/n50toAch*(273.15
        + 21 - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
   final parameter Modelica.SIunits.Power QRH_design=A*fRH
@@ -39,7 +53,7 @@ model PartialZone "Building zone model"
     annotation(Dialog(tab = "Initialization"));
   parameter Real fRH=11
     "Reheat factor for calculation of design heat load, (EN 12831, table D.10 Annex D)" annotation(Dialog(tab="Advanced",group="Design heat load"));
-  parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
+  parameter Modelica.SIunits.Temperature Tzone_nom=295.15
     "Nominal zone temperature, used for linearising radiative heat exchange"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
   parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
@@ -48,12 +62,7 @@ model PartialZone "Building zone model"
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  replaceable ZoneAirModels.WellMixedAir airModel(
-    redeclare package Medium = Medium,
-    nSurf=nSurf,
-    Vtot=V,
-    energyDynamics=energyDynamicsAir,
-    allowFlowReversal=allowFlowReversal)
+  replaceable ZoneAirModels.WellMixedAir airModel
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
@@ -63,29 +72,28 @@ model PartialZone "Building zone model"
     final T_start=T_start,
     allowFlowReversal=allowFlowReversal,
     energyDynamics=energyDynamicsAir,
-    massDynamics=if interzonalAirFlow.prescribesPressure
+    massDynamics=if interzonalAirFlow.prescribesPressure or
+                    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
                  then Modelica.Fluid.Types.Dynamics.SteadyState
                  else energyDynamicsAir,
-    nPorts=interzonalAirFlow.nPorts,
+    nPorts=interzonalAirFlow.nPorts + n_ports_interzonal,
     m_flow_nominal=m_flow_nominal)
     "Zone air model"
     annotation (choicesAllMatching=true,
     Placement(transformation(extent={{-40,20},{-20,40}})),
-    Dialog(tab="Advanced",group="Air model"));
-  replaceable IDEAS.Buildings.Components.InterzonalAirFlow.n50Tight interzonalAirFlow
+    Dialog(tab="Airflow",group="Air model"));
+  replaceable IDEAS.Buildings.Components.InterzonalAirFlow.Sim interzonalAirFlow
   constrainedby
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlow(
       redeclare package Medium = Medium,
       final nPortsExt=nPorts,
       V=V,
-      n50=n50,
+      n50=n50_int,
       n50toAch=n50toAch,
       m_flow_nominal_vent=m_flow_nominal)
       "Interzonal air flow model"
-    annotation (choicesAllMatching = true,Dialog(tab="Advanced", group="Air model"),
-      Placement(transformation(extent={{-40,60},{-20,80}})),
-    choicesAllMatching=true,
-    Dialog(group="Building physics"));
+    annotation (choicesAllMatching = true,Dialog(tab="Airflow",group="Airtightness"),
+      Placement(transformation(extent={{-40,60},{-20,80}})));
   replaceable IDEAS.Buildings.Components.Occupants.Fixed occNum
     constrainedby Occupants.BaseClasses.PartialOccupants(
       final A=A,
@@ -169,10 +177,21 @@ model PartialZone "Building zone model"
 
 
 
+
+
 protected
+  parameter Integer n_ports_interzonal=
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
+    elseif sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then nSurf
+    else nSurf*2
+      "Number of fluid ports for interzonal air flow modelling"
+      annotation(Evaluate=true);
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Dummy propsbus for partial" annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -206,9 +225,80 @@ protected
         rotation=270,
         origin={-30,-10})));
 
+  Setq50 setq50(
+    nSurf=nSurf,
+    n50=n50_int,
+    V=V,
+    q50_corr=sim.q50_def,
+    use_custom_n50=use_custom_n50)
+    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+
+model Setq50 "q50 computation for zones"
+  extends Modelica.Blocks.Icons.Block;
+
+  parameter Integer nSurf
+    "Number of surfaces";
+  parameter Real n50
+    "n50 value";
+  parameter Modelica.SIunits.Volume V
+    "Zone volume";
+  parameter Real q50_corr;
+  parameter Boolean use_custom_n50 = false
+    " = true, to set custom n50 value for this zone";
+
+  parameter Boolean allSurfacesCustom(fixed=false)
+    "Boolean indicating whether all connected surfaces are custom"
+    annotation(Evaluate=true);
+  final parameter Modelica.SIunits.Area defaultArea[nSurf](each fixed=false)
+    "The surface area for which default q50 is computed";
+  parameter Real v50_custom[nSurf](fixed=false)
+    "custom assigned v50 value, else zero";
+
+  Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
+   annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
+  Modelica.Blocks.Interfaces.BooleanInput use_custom_q50[nSurf]
+    "Equals true if the user assigned a custom q50 value for the surface"
+   annotation (Placement(transformation(extent={{-126,60},{-86,100}})));
+  Modelica.Blocks.Interfaces.RealInput Area[nSurf]
+    "Surface areas"
+   annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
+  Modelica.Blocks.Interfaces.BooleanOutput use_custom_n50s[nSurf]
+    "Equals true if the surfaces connected to this zone should use the custom q50 value"
+   annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
+  Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
+    "Custom q50 value for the surfaces connected to this zone"
+   annotation (Placement(transformation(extent={{-98,-70},
+              {-118,-50}})));
+initial equation
+
+  for i in 1:nSurf loop
+    defaultArea[i] = if use_custom_q50[i] then 0 else Area[i];
+    v50_custom[i] = if use_custom_q50[i] then v50_surf[i] else 0;
+  end for;
+  allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
+
+equation
+  use_custom_n50s=fill(use_custom_n50,nSurf);
+
+  if use_custom_n50 then
+    q50_zone=fill((((n50*V) - sum(v50_custom))/max(Modelica.Constants.small, sum(defaultArea))), nSurf);
+  else
+    q50_zone=fill(q50_corr,nSurf);
+  end if;
+    annotation (Icon(graphics={Rectangle(
+            extent={{-84,80},{82,-80}},
+            lineColor={28,108,200},
+            fillColor={145,167,175},
+            fillPattern=FillPattern.Forward)}));
+end Setq50;
+
 
 
 initial equation
+
+
+  n50_int = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
+
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
 
 equation
@@ -375,7 +465,7 @@ end for;
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
   connect(airModel.port_a, interzonalAirFlow.port_b_interior)
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
-  connect(interzonalAirFlow.ports, airModel.ports) annotation (Line(points={{
+  connect(interzonalAirFlow.ports[1:interzonalAirFlow.nPorts], airModel.ports[1:interzonalAirFlow.nPorts]) annotation (Line(points={{
           -29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
   connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{-36,80},
           {-36,92},{-60,92},{-60,100}},         color={0,127,255}));
@@ -391,7 +481,27 @@ end for;
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
   connect(interzonalAirFlow.portsExt, ports) annotation (Line(points={{-30,80},{
           -30,90},{0,90},{0,100}}, color={0,127,255}));
- annotation (Placement(transformation(extent={{
+  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
+    connect(airModel.ports[interzonalAirFlow.nPorts + 1:interzonalAirFlow.nPorts + nSurf], propsBusInt[1:nSurf].port_1) annotation (Line(points={{-30,
+          40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+  end if;
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+    connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
+          40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+  end if;
+  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{-60.8,
+          -96},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
+          {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.v50_surf, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
+          {-60.6,-84.6},{-80.1,-84.6},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.use_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{-60.6,
+          -82},{-80,-82},{-80,39.9},{-80.1,39.9}},
+                                              color={0,0,127}));
+  connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
+          -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
+          255,0,255}));
+  annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
@@ -399,6 +509,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 November 18, 2020, Filip Jorissen:<br/>
 Changed default n50 value from 0.4 to 3 and added documentation for n50toAch.

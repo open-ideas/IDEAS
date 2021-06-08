@@ -4,7 +4,6 @@ partial model PartialSurface "Partial model for building envelope component"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
-
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
@@ -19,7 +18,9 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation(Dialog(enable=aziOpt==5));
   parameter Modelica.SIunits.Area A
     "Component surface area";
-  parameter Real nWin = 1 "Use this factor to scale the component to nWin identical components";
+  parameter Real nWin = 1
+    "Use this factor to scale the component to nWin identical components"
+    annotation(Evaluate=true);
   parameter Modelica.SIunits.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
     annotation (Dialog(group="Design power",tab="Advanced"));
@@ -40,8 +41,23 @@ partial model PartialSurface "Partial model for building envelope component"
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
 
+  replaceable package Medium = IDEAS.Media.Air
+    "Medium in the component"
+    annotation(Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
+  parameter Boolean use_custom_q50=false
+    "set to true to disable the default q50 computation and to assign a custom q50 value"
+    annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
+  parameter Real custom_q50 = 2
+    "Envelope air tightness"
+    annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
+  final parameter Real q50_internal(fixed=false)
+    "Envelope air tightness";
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    redeclare final package Medium = Medium,
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
                                              "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
@@ -70,7 +86,40 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
+  PowerLaw_q50 res1(
+  redeclare package Medium = Medium,
+    final forceErrorControlOnFlow=false,
+    m=0.65,
+    A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then A/2 else A,
+    final q50=q50_internal) if
+                  add_cracks and
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Middle or bottom crack "
+    annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
+  PowerLaw_q50 res2(
+  redeclare package Medium = Medium,
+    final forceErrorControlOnFlow=false,
+    m=0.65,
+    A=A/2,
+    final q50=q50_internal) if
+                  add_cracks and
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Top crack"
+    annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
+
+
+  Q50_parameterToConnector q50_zone(
+    q50_inp=q50_internal,
+    v50_surf=q50_internal*A,
+    use_custom_q50=use_custom_q50)
+    annotation (Placement(transformation(extent={{80,-60},{100,-40}})));
+
+
+
 protected
+  parameter Boolean add_cracks = true
+    "Add cracks";
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
     then azi
@@ -96,12 +145,16 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
 
-  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(k=nWin)
+  IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(redeclare
+      package Medium = Medium,                                       k=nWin)
     "Gain for all propsBus variable to represent nWin surfaces instead of 1"
     annotation (Placement(transformation(extent={{70,6},{88,36}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBusInt(
+    redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles)
+    outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(
         extent={{-18,-18},{18,18}},
         rotation=-90,
@@ -109,6 +162,122 @@ protected
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={50,20})));
+  IDEAS.Buildings.Components.Interfaces.SetArea setArea(A=0, use_custom_q50=
+        use_custom_q50)
+    "Block that contributes surface area to the siminfomanager"
+    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+
+model PowerLaw_q50
+
+    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
+      m=0.5,
+      k=A*coeff); //mass flow form of orifice equation
+
+  parameter Modelica.SIunits.Area A
+    "Surface area";
+  parameter Real q50(unit="m3/(h.m2)")
+    "Leaked volume flow rate per unit A at 50Pa";
+  final parameter Real coeff = (q50/3600)/(50^m)
+    "Conversion coefficient";
+equation
+  v= V_flow/A;
+  annotation (Icon(graphics={
+        Text(
+          extent={{-100,100},{-40,60}},
+          lineColor={28,108,200},
+          fillColor={215,215,215},
+          fillPattern=FillPattern.None,
+          textString="q50"),
+        Rectangle(
+          extent={{-20,80},{20,-80}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-60,58},{64,46}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-94,4},{-58,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{54,6},{106,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-64,2},{-46,-6}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-82,4},{-46,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,36},{66,24}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,-54},{66,-66}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-56,-24},{68,-36}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-38,4},{40,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid)}));
+end PowerLaw_q50;
+
+model Q50_parameterToConnector "Converts parameter values into connectors for propsBus"
+  extends Modelica.Blocks.Icons.Block;
+
+  parameter Real q50_inp
+    "q50 value after applying overrides";
+  parameter Real v50_surf( unit="m3/h")
+    "Custom v50 value";
+  parameter Boolean use_custom_q50=false
+    "true if custom q50 value should be considered by the zone";
+  Modelica.Blocks.Interfaces.RealInput q50_zone
+    "Input for q50 value computed by the zone"
+   annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
+  Modelica.Blocks.Interfaces.RealOutput v50 = v50_surf
+    "Output for v50 value request by the surface"
+   annotation (Placement(transformation(extent={{-100,
+            -90},{-120,-70}})));
+  Modelica.Blocks.Interfaces.BooleanOutput using_custom_q50 = use_custom_q50
+    "Output indicating whether a custom q50 value should be considered by the zone"
+   annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
+  annotation (Icon(graphics={Rectangle(
+          extent={{-82,80},{78,-80}},
+          lineColor={28,108,200},
+          fillColor={145,167,175},
+          fillPattern=FillPattern.Forward)}));
+end Q50_parameterToConnector;
+initial equation
+  q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
+
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
@@ -159,12 +328,33 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
+  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-40},{50,
+          -40},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
+          -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(setArea.areaPort, sim.areaPort);
+  connect(q50_zone.v50, propsBusInt.v50) annotation (Line(points={{79,-58},{56,-58},
+          {56,-20},{56.09,-20},{56.09,19.91}},               color={0,0,127}));
+  connect(q50_zone.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{79.4,
+          -43},{79.4,-44},{56.09,-44},{56.09,19.91}}, color={0,0,127}));
+  connect(q50_zone.using_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{79,-52},
+          {56.09,-52},{56.09,19.91}},      color={0,0,127}));
+  connect(setArea.use_custom_n50, propsBusInt.use_custom_n50) annotation (Line(points={{79.4,
+          -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
+  connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
+          79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 

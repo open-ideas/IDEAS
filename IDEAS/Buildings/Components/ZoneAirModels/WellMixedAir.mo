@@ -9,6 +9,8 @@ model WellMixedAir "Zone air model assuming perfectly mixed air"
     parameter StateSelect stateSelectTVol = if sim.linearise then StateSelect.prefer else StateSelect.default
       "Set to .prefer to use temperature as a state in mixing volume";
 
+    Real ACH(unit="1/h") = (sum(m_flow_pos)*3600/rho_default)/Vtot
+      "Air change rate per hour";
 
 protected
   final parameter Modelica.SIunits.MolarMass MM=
@@ -66,15 +68,17 @@ protected
         origin={64,22})));
 protected
   constant Real s[:]= {
-    if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
+  if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
                                             caseSensitive=false))
-    then 1 else 0 for i in 1:Medium.nC}
+  then 1 else 0 for i in 1:Medium.nC}
     "Vector with zero everywhere except where species is";
 
+  Modelica.SIunits.MassFlowRate m_flow_pos[nPorts+2]
+    "Truncated mass flow rate";
   IDEAS.Fluid.Sensors.RelativeHumidity senRelHum(
     redeclare package Medium = Medium,
-    warnAboutOnePortConnection=false) if hasVap
+    final warnAboutOnePortConnection=false) if hasVap
     "Relative humidity of the zone air"
     annotation (Placement(transformation(extent={{30,-30},{50,-50}})));
     model MixingVolumeNominal
@@ -93,11 +97,19 @@ protected
     end MixingVolumeNominal;
   IDEAS.Fluid.Sensors.PPM senPPM(
     redeclare package Medium = Medium,
-    warnAboutOnePortConnection=false) if hasPpm
+    final warnAboutOnePortConnection=false) if  hasPpm
     "CO2 sensor"
     annotation (Placement(transformation(extent={{50,-10},{70,-30}})));
 
+
+
+
 equation
+
+  for i in 1:nPorts+2 loop
+    m_flow_pos[i]= max(vol.ports[i].m_flow,0);
+  end for;
+
   if hasVap then
     assert(vol.ports[1].Xi_outflow[1] <= 0.1,
            "The water content of the zone air model is very high. 

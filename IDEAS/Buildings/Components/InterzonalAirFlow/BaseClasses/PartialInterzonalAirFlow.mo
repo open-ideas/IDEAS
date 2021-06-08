@@ -5,6 +5,7 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   parameter Integer nPortsExt "Number of ports for connection to zone air volume";
   parameter Modelica.SIunits.Volume V "Zone air volume for n50 computation";
   parameter Real n50 "n50 value";
+  parameter Real n50_int=n50 "Internal n50 value";
   parameter Real n50toAch = 20
     "Conversion fractor from n50 to Air Change Rate"
     annotation(Dialog(tab="Advanced"));

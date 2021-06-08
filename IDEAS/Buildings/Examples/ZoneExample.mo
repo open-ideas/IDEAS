@@ -6,13 +6,15 @@ model ZoneExample
   parameter Modelica.SIunits.Length l = 4 "Room length";
   parameter Modelica.SIunits.Length w = 4 "Room width";
   parameter Modelica.SIunits.Length h = 2.7 "Room height";
-  inner BoundaryConditions.SimInfoManager sim "Data reader"
+  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
+                                              "Data reader"
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));
   IDEAS.Buildings.Components.Zone zone(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     nSurf=3,
-    V=l*w*h)
+    V=l*w*h,
+    redeclare Components.InterzonalAirFlow.AirTight interzonalAirFlow)
           "First zone"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   IDEAS.Buildings.Components.InternalWall internalWall(
@@ -24,14 +26,14 @@ model ZoneExample
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
-        origin={-10,0})));
+        origin={-8,0})));
 
   IDEAS.Buildings.Components.Window window(
     redeclare Data.Glazing.Ins2Ar2020 glazing
       "Insulating double glazing (6/16/6 AR Planitherm one) with clear glass",
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=IDEAS.Types.Azimuth.S,
+    azi=IDEAS.Types.Azimuth.N,
     A=2)                       "Window model"
     annotation (Placement(transformation(extent={{-56,40},{-44,60}})));
   IDEAS.Buildings.Components.SlabOnGround slabOnGround(
@@ -42,7 +44,7 @@ model ZoneExample
            "Floor model"
     annotation (Placement(transformation(extent={{-56,-40},{-44,-20}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
-    azi=0,
+    azi=IDEAS.Types.Azimuth.N,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     A=(l + w)*2*h)         "Outer wall model"
@@ -52,7 +54,7 @@ model ZoneExample
     allowFlowReversal=true,
     nSurf=4,
     V=l*w*h,
-    redeclare Components.InterzonalAirFlow.n50Tight interzonalAirFlow)
+    redeclare Components.InterzonalAirFlow.AirTight interzonalAirFlow)
           "Second zone"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
   IDEAS.Buildings.Components.OuterWall outerWall1(
@@ -69,7 +71,7 @@ model ZoneExample
     annotation (Placement(transformation(extent={{-56,60},{-44,80}})));
 equation
   connect(internalWall.propsBus_a, zone.propsBus[1]) annotation (Line(
-      points={{-12,-5},{-12,-24.6667},{0,-24.6667}},
+      points={{-10,-5},{-10,-24.6667},{0,-24.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(slabOnGround.propsBus_a, zone.propsBus[2]) annotation (Line(
@@ -93,7 +95,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(internalWall.propsBus_b, zone1.propsBus[4]) annotation (Line(
-      points={{-12,5},{-12,5},{-12,14},{-12,32.5},{0,32.5}},
+      points={{-10,5},{-12,5},{-12,32.5},{0,32.5}},
       color={255,204,51},
       thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
