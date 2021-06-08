@@ -13,7 +13,7 @@ model BuildingO5_Exp1_1Port
       A0=1,
       a=0.15));
 
-  BaseClasses.Data.ValidationDataO5Exp1_Airflow validationDataO5Exp1_Airflow
+  IDEAS.Examples.TwinHouses.BaseClasses.Data.ValidationDataO5Exp1_Airflow validationDataO5Exp1_Airflow
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
