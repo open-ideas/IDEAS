@@ -1,11 +1,5 @@
 simulateModel("IDEAS.Examples.TwinHouses.BuildingO5_Exp1", startTime=1.5e+007, stopTime=2.35872e+007, numberOfIntervals=0, outputInterval=900, method="dassl", tolerance=1e-006, resultFile="BuildingO5_Exp1");
 
-createPlot(id=1, position={0, 0, 1367, 610}, y={"struct.W40.resDoor.m_flow", "validationDataO5Exp1_Airflow.W40_resDoor"}, range={19980000.0, 20860000.0, 0.02, 0.06}, autoscale=false, grid=true, colors={{28,108,200}, {238,46,47}});
-createPlot(id=1, position={0, 0, 1367, 119}, y={"struct.W1.propsBus_a.port_1.m_flow", "validationDataO5Exp1_Airflow.W1_FlowRate"}, range={19980000.0, 20860000.0, -0.004, 0.002}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
-createPlot(id=1, position={0, 0, 1367, 118}, y={"validationDataO5Exp1_Airflow.W10_FlowRate", "struct.W10.propsBus_a.port_1.m_flow"}, range={19980000.0, 20860000.0, -0.01, 0.01}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}});
-createPlot(id=1, position={0, 0, 1367, 119}, y={"validationDataO5Exp1_Airflow.W38_FlowRate", "struct.W38.propsBus_a.port_1.m_flow"}, range={19980000.0, 20860000.0, -0.001, 0.001}, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}});
-
-
 createPlot(id=1, position={15, 10, 1320, 830}, y={"struct.TSensor[1]", "heaSys.heaSche.TdegC[1].y"}, heading="Simulated vs. measured Temperature Living", range={20100000.0, 23600000.0, 15.0, 35.0},grid=true, autoscale=false,legendLocation=5, colors={{28,108,200}, {238,46,47}});
 createPlot(id=1, position={15, 10, 1320, 204}, y={"struct.TSensor[2]", "heaSys.heaSche.TdegC[2].y"}, heading="Simulated vs. measured Temperature Corridor", range={20100000.0, 23600000.0, 15.0, 35.0}, grid=true, autoscale=false,legendLocation=5, legendHorizontal=false, subPlot=2, colors={{28,108,200}, {238,46,47}});
 createPlot(id=1, position={15, 10, 1320, 203}, y={"struct.TSensor[3]", "heaSys.heaSche.TdegC[3].y"}, heading="Simulated vs. measured Temperature Bathroom", range={20100000.0, 23600000.0, 15.0, 35.0}, grid=true,autoscale=false, legendLocation=5, legendHorizontal=false, subPlot=3, colors={{28,108,200}, {238,46,47}});
