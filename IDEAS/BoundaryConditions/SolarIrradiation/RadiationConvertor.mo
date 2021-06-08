@@ -24,7 +24,7 @@ model RadiationConvertor
     annotation (Placement(transformation(extent={{-140,30},{-100,70}}),
         iconTransformation(extent={{-140,30},{-100,70}})));
   Modelica.Blocks.Interfaces.RealInput HWest
-    "Total radiation on a plane facing east"
+    "Total radiation on a plane facing west"
     annotation (Placement(transformation(extent={{-140,-10},{-100,30}}),
         iconTransformation(extent={{-140,-10},{-100,30}})));
   IDEAS.Utilities.Math.Min Hmin(nin=3, u(each start=0))
@@ -42,10 +42,12 @@ model RadiationConvertor
     "Diffuse radiation on a horizontal surface" annotation (Placement(
         transformation(extent={{100,70},{120,90}}), iconTransformation(extent={{
             100,70},{120,90}})));
-  Modelica.Blocks.Interfaces.RealInput solHouAng "Solar hour angle"
+  Modelica.Blocks.Interfaces.RealInput solHouAng
+    "Solar hour angle"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}}),
         iconTransformation(extent={{-140,-100},{-100,-60}})));
-  Modelica.Blocks.Interfaces.RealOutput solZen "Solar zenith angle"
+  Modelica.Blocks.Interfaces.RealOutput solZen
+    "Solar zenith angle"
     annotation (Placement(transformation(extent={{100,10},{120,30}}),
         iconTransformation(extent={{100,10},{120,30}})));
 

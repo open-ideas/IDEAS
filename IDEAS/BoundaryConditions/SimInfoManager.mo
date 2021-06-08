@@ -143,13 +143,16 @@ I.e., the whole building is assumed to have the n50 value <code>sim.n50</code>
 except for zones where <code>use_custom_q50=true</code>.
 </p>
 <p>
-In case <code>interzonalAirFlowType=OnePort</code> then one port is used to model the air exchange through each surface.
+In case <code>interzonalAirFlowType=OnePort</code> then one port is 
+used to model the air exchange through each surface
+and through cavities in internal walls (open doors).
 When <code>interzonalAirFlowType=TwoPorts</code> two ports are used, 
 which increases the level of detail at the cost of having to solve
 a more complex flow network.
 The second port e.g. allows more detailed modelling of bidirectional 
-flow through open doors using two flow paths instead of only
+flow through cavities (e.g. open doors) using two flow paths instead of only
 modelling the total flow through a single flow path.
+The two-port option is still under development.
 </p>
 <p>
 When setting <code>unify_n50=true</code> in the <code>SimInfoManager</code> 

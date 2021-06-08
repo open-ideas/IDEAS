@@ -90,7 +90,8 @@ partial model PartialSurface "Partial model for building envelope component"
   redeclare package Medium = Medium,
     final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A,
+    A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then A/2 else A,
     final q50=q50_internal) if
                   add_cracks and
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
@@ -100,7 +101,7 @@ partial model PartialSurface "Partial model for building envelope component"
   redeclare package Medium = Medium,
     final forceErrorControlOnFlow=false,
     m=0.65,
-    A=A,
+    A=A/2,
     final q50=q50_internal) if
                   add_cracks and
        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
