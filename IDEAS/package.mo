@@ -8,8 +8,8 @@ annotation (
   uses(Modelica(version="3.2.3")),
   Icon(graphics),
   version="2.2.0",
-  versionDate="2021-06-03",
-  dateModified = "2021-06-03",
+  versionDate="2021-06-09",
+  dateModified = "2021-06-09",
   conversion(
  from(version={"0.2"},
       script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos")),

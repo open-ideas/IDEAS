@@ -1,5 +1,5 @@
 ## IDEAS v2.2
-IDEAS 2.2 has been release on June 3rd, 2021. The most notable changes are:
+IDEAS 2.2 has been release on June 9th, 2021. The most notable changes are:
 + Interzonal airflow support has been added. See the SimInfoManager documentation for more details.
 + IBPSA has been update to commit 443cb50b7ce58ac1585688
 + Emulator models have been added for the IBPSA project 1 WP 1.2 BOPTEST.

@@ -5,7 +5,7 @@ IDEAS v2.2
 Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level.
 
 ## Release history
-+ June 3rd, 2021: IDEAS v2.2 has been released.
++ June 9th, 2021: IDEAS v2.2 has been released.
 + February 28th, 2019: IDEAS v2.1 has been released.
 + September 28th, 2018: IDEAS v2.0 has been released.
 + May 5th, 2017: IDEAS v1.0 has been released.  
