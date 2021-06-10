@@ -10,15 +10,19 @@ model BuildingN2_Exp1
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StartTime=1.5e+007,
-      StopTime=2.35872e+007,
+      StartTime=15000000,
+      StopTime=23587200,
       Interval=900,
-      Tolerance=1e-006),
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Dassl"),
     __Dymola_experimentSetupOutput,
     __Dymola_experimentFlags(
-      Advanced(GenerateVariableDependencies=false, OutputModelicaCode=false),
+      Advanced(
+        EvaluateAlsoTop=false,
+        GenerateVariableDependencies=false,
+        OutputModelicaCode=true),
       Evaluate=true,
-      OutputCPUtime=true,
+      OutputCPUtime=false,
       OutputFlatModelica=false),
     __Dymola_Commands(file=
           "modelica://IDEAS/Resources/Scripts/Dymola/Examples/TwinHouses/BuildingN2_Exp1.mos"

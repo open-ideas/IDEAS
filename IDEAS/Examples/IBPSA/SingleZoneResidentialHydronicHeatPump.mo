@@ -220,7 +220,8 @@ model SingleZoneResidentialHydronicHeatPump
     "Substracts heat pump COP"
     annotation (Placement(transformation(extent={{160,-60},{180,-40}})));
   Fluid.Sources.OutsideAir outAir(redeclare package Medium = MediumAir,
-                                  nPorts=2) "Outside air"
+    azi=0,
+    nPorts=2) "Outside air"
     annotation (Placement(transformation(extent={{260,0},{240,20}})));
   Modelica.Blocks.Math.RealToInteger realToInteger2
     annotation (Placement(transformation(extent={{252,100},{272,120}})));

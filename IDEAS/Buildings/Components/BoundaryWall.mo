@@ -1,15 +1,19 @@
 within IDEAS.Buildings.Components;
 model BoundaryWall "Opaque wall with optional prescribed heat flow rate or temperature boundary conditions"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final nWin=1,
-     QTra_design=U_value*A*(273.15 + 21 - TRef_a),
-     dT_nominal_a=-1,
-    layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
+    final custom_q50=0,
+    final use_custom_q50=true,
+    final nWin=1,
+    QTra_design=U_value*A*(273.15 + 21 - TRef_a),
+    dT_nominal_a=-1,
+    add_cracks=false,
+    layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
+            addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-  parameter Modelica.SIunits.Temperature T_fixed = 294.15
+  parameter Modelica.SIunits.Temperature T_fixed=294.15
     "Fixed boundary temperature"
     annotation(Dialog(group="Boundary conditions",enable=use_T_fixed));
   parameter Boolean use_T_in = false
@@ -36,6 +40,18 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     "Constant block for temperature"
     annotation (Placement(transformation(extent={{-110,32},{-100,42}})));
 
+  Fluid.Sources.MassFlowSource_T       boundary1(
+    redeclare package Medium = Medium,
+    nPorts=1,
+    final m_flow=1e-10) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
+  Fluid.Sources.MassFlowSource_T       boundary2(
+    redeclare package Medium = Medium,
+    nPorts=1,
+    final m_flow=0) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -87,6 +103,10 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(boundary1.ports[1], propsBusInt.port_1) annotation (Line(points={{-8,-30},
+          {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
+          {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
             100}})),

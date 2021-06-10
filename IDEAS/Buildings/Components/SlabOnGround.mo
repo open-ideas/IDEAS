@@ -1,19 +1,23 @@
 within IDEAS.Buildings.Components;
 model SlabOnGround "opaque floor on ground slab"
-   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final nWin=1,
-     QTra_design=UEqui*A    *(273.15 + 21 - sim.Tdes),
-        dT_nominal_a=-3,
-        inc=IDEAS.Types.Tilt.Floor,
-        azi=0,
+  extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    custom_q50=0,
+    final use_custom_q50=true,
+    final nWin=1,
+    QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
+    add_cracks=false,
+    dT_nominal_a=-3,
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
-    layMul(disableInitPortB=true));
+    layMul(disableInitPortB=true),
+    q50_zone(v50_surf=0));
 
   parameter Modelica.SIunits.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";
-  parameter Modelica.SIunits.Temperature TeAvg = 273.15+10.8
+  parameter Modelica.SIunits.Temperature TeAvg=273.15 + 10.8
     "Annual average outdoor temperature";
-  parameter Modelica.SIunits.Temperature TiAvg = 273.15+22
+  parameter Modelica.SIunits.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature";
   parameter Modelica.SIunits.TemperatureDifference dTeAvg = 4
     "Amplitude of variation of monthly average outdoor temperature";
@@ -27,6 +31,18 @@ model SlabOnGround "opaque floor on ground slab"
     "Two-dimensional correction for edge flow";
 
 //Calculation of heat loss based on ISO 13370
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
+    redeclare package Medium = Medium,
+    nPorts=1,
+    final m_flow=1e-10) if
+       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
+    redeclare package Medium = Medium,
+    nPorts=1,
+    final m_flow=0) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground2(final d=0.33);
@@ -94,6 +110,10 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(boundary1.ports[1], propsBusInt.port_1) annotation (Line(points={{-8,-30},
+          {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
+          {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

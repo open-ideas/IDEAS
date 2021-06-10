@@ -2,7 +2,13 @@ within IDEAS.Examples.PPD12;
 model VentilationRBC "Ppd 12 example model using rule based controller"
   extends IDEAS.Examples.PPD12.BaseClasses.VentilationNoControl(
     fanRet(inputType=IDEAS.Fluid.Types.InputType.Constant),
-    fanSup(inputType=IDEAS.Fluid.Types.InputType.Constant));
+    fanSup(inputType=IDEAS.Fluid.Types.InputType.Constant),
+    hallway(hasCavityA=true, hasCavityD=true),
+    Diner(hasCavityA=true, hasCavityC=true),
+    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
+    bathRoom(hasCavityC=true),
+    stairWay(hasCavityC=true),
+    bedRoom2(hasCavityA=true));
 
   Modelica.Blocks.Sources.Constant bypContr(k=0)
     "Bypass control: always bypass"

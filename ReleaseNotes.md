@@ -1,3 +1,61 @@
+## IDEAS v2.2
+IDEAS 2.2 has been release on June 9th, 2021. The most notable changes are:
++ Interzonal airflow support has been added. See the SimInfoManager documentation for more details.
++ IBPSA has been update to commit 443cb50b7ce58ac1585688
++ Emulator models have been added for the IBPSA project 1 WP 1.2 BOPTEST.
++ A tutorial has been added in IDEAS.Examples.Tutorial
++ Unit test results have been updated to Dymola 2020.
++ The default n50 value has been increased from 0.4 to 3 ACH.
++ The default IDEAS weather file has been changed since the old file data was shifted by one hour. The new file source is IWEC.
+
+### Detailed release notes:
+- An implementaiton has been added for a VAV model that has additional parameters for indicating the minimum and maximum VAV flow rate.
+- An implementation has been added for a shading controller that considers the solar irradiation on an inclined surface instead of on a horizontal surface.
+- An implementation has been added for a simple clock.
+- The number of default glazing system options has been reduced.
+- The zone Medium now equals IDEAS.Media.Air by default.
+- Revised the implmeentation of ExteriorSolarAbsorption such that no initial equation is needed.
+- Improved the orientation detection functionality for horizontal surfaces.
+- The heat of evaporation of water has been changed to a more accurate value in the internal gains model.
+- The thermostatic radiator valve implementation has been revised to avoid numerical problems.
+- Improved errors and warnings in various models.
+- The specific heat capacity of DryAir was wrong. This has been fixed.
+- Various other changes to the EmbeddedPipe model.
+- BESTEST results have been updated.
+- The glazing and frame thermal mass has been split for numerical reasons.
+- The external convection implementation of surfaces has been revised.
+- An 'inverse Perez model' has been added, which computes global and diffuse solar irradiation from 3 distinct measurements on an inclined surface.
+- The zone icon now displays the number of connected surfaces.
+- Inclination and/or azimuth angles can now be indicated using bullets (for S/E/N/W, etc) instead of manually filling in the exact value.
+- Fixed a division by zero in ThreeWayValveMotor.
+- Fixed a bug in the indirect evaporative heat exchanger that caused it to fail for balanced flow rates.
+- A tool has been added for validating a window U value according to EN673, see IDEAS/Buildings/Components/Validations/WindowEN673.mo.
+- A new boundary model has been added that internally sets the exterior air boundary conditions: OutsideAir.
+- Cleaned up old glazing records.
+- Users are now warned about missing coatings in glazing systems. The warning can be disabled.
+- Fixed an issue where dp_nominal=0 caused a division by zero in the EmbeddedPipe.
+- Fixed an issue where the TSensor output of the zone was on top of the ppm output.
+- Fixed OpenModelica import errors.
+- Revised the mixing implementation of ThreeWayValveMotor.
+- Propagated mSenFac in ThreeWayValveMotor.
+- Updates to PPD12 model.
+- Reenabled pressure drop by default in EmbeddedPipe.
+- A reasonable default humidity has been added for the Fanger comfort model when dry air is used.
+- A bug has been fixed in the BuildingShade model that caused negative shading fractions.
+- Added an assert that verifies the correct flow direction of the EmbeddedPipe.
+- Instead of 0, now a sensible initial state for the CO2 concentration has been added for zones.
+- An option has been added for scaling the number of occupants input of a zone by the zone surface area.
+- The lateral displacement of horizontal fins can now be controlled instead of controlling the horizontal fin angle.
+- An inconsistency in the computation of CO2 concentrations has been fixed.
+- The impact of horizontal fin shading on the diffuse solar irradiation is modelled in more detail.
+
+### Acknowledgements
+- We thank Ian Beausoleil-Morrison for his contribution to the exterior surface convection modelling.
+- We thank Klaas de Jonge for his contribution to the interzonal air flow implementation modelling.
+- We thank all participants of IBPSA project 1 and Michael Wetter in particular for their contributions to the IBPSA library.
+- We thank VLAIO (HBC 2018.2092), the EU (grant number 723649 - MPC-; GT) and KU Leuven (project C32/18/063) for their financial support which made this development possible.
+
+
 ## IDEAS v2.1
 IDEAS 2.1 has been released on February 28th, 2019. The most important changes are:
 

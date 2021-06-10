@@ -1,23 +1,46 @@
 within IDEAS.Buildings.Components.Interfaces;
 model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsBus. This can be used to scale the surface to n identical surfaces"
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium
+    "Medium in the component";
   parameter Real k = 1 "Scaling factor";
 
   ZoneBus propsBus_a(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    redeclare final package Medium = Medium,
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Unscaled port"                                                         annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-100,0})));
+
   ZoneBus propsBus_b(
-    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
+    redeclare final package Medium = Medium,
+    numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
+    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     "Scaled port"                                                           annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={100,0})));
+
   outer BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
+  Modelica.Blocks.Routing.BooleanPassThrough use_custom_n50
+    annotation (Placement(transformation(extent={{8,-324},{-12,-304}})));
 protected
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
+      redeclare package Medium = Medium,                                 final k=k) if
+       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Mass flow rate multiplier for port 2"
+    annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(
+      redeclare package Medium = Medium,                                 final k=k) if
+        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Mass flow rate multiplier for port 1"
+    annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
   Modelica.Blocks.Math.Gain area(k=k) "Heat exchange surface area"
@@ -48,6 +71,15 @@ protected
     annotation (Placement(transformation(extent={{-10,118},{10,138}})));
   Modelica.Blocks.Routing.RealPassThrough epsSw "Shortwave emissivity"
     annotation (Placement(transformation(extent={{-10,88},{10,108}})));
+  Modelica.Blocks.Math.Gain v50(k=k)
+    "v50 value if q50 of the surface is custome"
+    annotation (Placement(transformation(extent={{-10,-232},{10,-212}})));
+  Modelica.Blocks.Routing.RealPassThrough q50_zone
+    "q50 for non costume surfaces"
+    annotation (Placement(transformation(extent={{8,-268},{-12,-248}})));
+  Modelica.Blocks.Routing.BooleanPassThrough use_custom_q50
+    "0 if the surface has a custom q50"
+    annotation (Placement(transformation(extent={{-12,-296},{8,-276}})));
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -103,6 +135,33 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
+  connect(massFlowRateMultiplier1.port_a, propsBus_a.port_1) annotation (Line(
+        points={{-10,-160},{-100.1,-160},{-100.1,0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier2.port_a, propsBus_a.port_2) annotation (Line(
+        points={{-10,-190},{-100.1,-190},{-100.1,0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier1.port_b, propsBus_b.port_1) annotation (Line(
+        points={{10,-160},{100.1,-160},{100.1,-0.1}}, color={0,127,255}));
+  connect(massFlowRateMultiplier2.port_b, propsBus_b.port_2) annotation (Line(
+        points={{10,-190},{100,-190},{100,-0.1},{100.1,-0.1}}, color={0,127,255}));
+  connect(v50.u, propsBus_a.v50) annotation (Line(points={{-12,-222},{-100,-222},
+          {-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(v50.y, propsBus_b.v50) annotation (Line(points={{11,-222},{100,-222},
+          {100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(q50_zone.u, propsBus_b.q50_zone) annotation (Line(points={{10,-258},{
+          100,-258},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(q50_zone.y, propsBus_a.q50_zone) annotation (Line(points={{-13,-258},
+          {-100,-258},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(use_custom_q50.u, propsBus_a.use_custom_q50) annotation (Line(points={{-14,
+          -286},{-100,-286},{-100,0.1},{-100.1,0.1}},
+                                               color={0,0,127}));
+  connect(use_custom_q50.y, propsBus_b.use_custom_q50) annotation (Line(points={{9,-286},
+          {100,-286},{100,-0.1},{100.1,-0.1}},
+                                          color={0,0,127}));
+  connect(use_custom_n50.u, propsBus_b.use_custom_n50) annotation (Line(points={{10,-314},
+          {100.1,-314},{100.1,-0.1}},color={255,0,255}));
+  connect(use_custom_n50.y, propsBus_a.use_custom_n50) annotation (Line(points={{-13,
+          -314},{-100,-314},{-100,0.1},{-100.1,0.1}},
+                                                color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(
@@ -126,6 +185,12 @@ equation
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

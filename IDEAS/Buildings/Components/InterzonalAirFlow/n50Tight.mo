@@ -13,6 +13,8 @@ model n50Tight
         rotation=90,
         origin={10,-50})));
 equation
+  assert(sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    "n50Tight should not be used in combination with sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None. Use AirTight instead.");
   connect(airExfiltration.m_flow_in, airInfiltration.m_flow_in)
     annotation (Line(points={{2,-56},{-18,-56},{-18,-44}},  color={0,0,127}));
   connect(airExfiltration.port_b, bou.ports[2])

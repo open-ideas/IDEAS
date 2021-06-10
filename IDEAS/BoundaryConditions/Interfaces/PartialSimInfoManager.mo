@@ -1,6 +1,7 @@
-﻿within IDEAS.BoundaryConditions.Interfaces;
+within IDEAS.BoundaryConditions.Interfaces;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
+
   parameter String filNam=
     Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Brussels.mos")
     "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="TMY-files (*.TMY);;Text files (*.txt);;All files (*.*)", caption="Select the weather file")));
@@ -74,7 +75,7 @@ partial model PartialSimInfoManager
   parameter Modelica.SIunits.Energy Emax=1
     "Error bound for violation of conservation of energy" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=strictConservationOfEnergy));
-  parameter Modelica.SIunits.Temperature Tenv_nom= 280
+  parameter Modelica.SIunits.Temperature Tenv_nom=280
     "Nominal ambient temperature, only used when linearising equations";
 
   parameter Integer nWindow = 1
@@ -86,6 +87,34 @@ partial model PartialSimInfoManager
   parameter Real ppmCO2 = 400
     "Default CO2 concentration in [ppm] when using air medium containing CO2"
     annotation(Dialog(tab="Advanced", group="CO2"));
+
+  parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Type of interzonal air flow model"
+    annotation(Dialog(group="Interzonal airflow"),Evaluate=true);
+
+  parameter Boolean unify_n50 = false
+    "if true, zone n50 values are merged and then redistributed across al zones even if interZonalAirFlowType==None"
+    annotation(choices(checkBox=true),Dialog(enable=interZonalAirFlowType==
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,group="Interzonal airflow"));
+
+  parameter Real n50 = 3
+    "n50 value of zones"
+    annotation(Dialog(enable=interZonalAirFlowType<>
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
+
+  parameter Modelica.SIunits.Length H=10 "Building or roof height"
+                                                                  annotation(Dialog(group="Wind"));
+  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+  parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+                                                                                                                            annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Hwin=10 "Height above ground of meteorological wind speed measurement"
+                                                                                                          annotation(Dialog(group="Wind"));
+
+  parameter Real Cs= (A0*A0)*((H/Hwin)^(2*a)) "Wind speed modifier"
+                                                                   annotation(Dialog(group="Wind"));
+
+
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
   final parameter Modelica.SIunits.Temperature Tdes=-8 + 273.15
@@ -155,6 +184,16 @@ partial model PartialSimInfoManager
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
 
+  final parameter Real V50_def(unit="m3/h")= V50-V50_custom "Corrected V50 value, default for surfaces without custom assignment.";
+  final parameter Real V50(unit="m3/h")=V_tot*n50 "V50 value assuming no custom v50 values.";
+  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def< Modelica.Constants.small then q50_av else V50_def/A_def;
+  final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot < Modelica.Constants.small then 0 else V50/A_tot "average, not corrected q50";
+
+  final parameter Modelica.SIunits.Volume V_tot(fixed=false) "Total conditioned building volume";
+  final parameter Modelica.SIunits.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
+  final parameter Real V50_custom( unit="m3/h",fixed=false) "Sum of v50 values for components that have a custom assignment";
+  final parameter Modelica.SIunits.Area A_def( fixed=false) "Total area with default q50, i.e. without custom q50 assignment, or connected to zone with custom n50 assigned";
+
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
     "Bus for windows in case of linearisation";
@@ -168,6 +207,13 @@ partial model PartialSimInfoManager
         extent={{-20,-19},{20,19}},
         rotation=270,
         origin={99,3.55271e-015})));
+
+  Buildings.Components.Interfaces.VolumePort volumePort
+    "Port for summing volumes of all zones"
+    annotation (Placement(transformation(extent={{32,-110},{52,-90}})));
+  Buildings.Components.Interfaces.AreaPort areaPort
+    "Port for summing surface areas of all surfaces"
+    annotation (Placement(transformation(extent={{70,-110},{90,-90}})));
 
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
@@ -219,10 +265,27 @@ protected
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
 initial equation
+  V_tot=volumePort.V_tot;
+  A_tot=max(Modelica.Constants.small,areaPort.A_tot); //max(.,.) to avoid division by 0 error when no surfaces with possible air leakage
+  V50_custom=areaPort.V50_cust;
+  A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
+
+  //assert(A_def<0.0011, "All surfaces have lower level custome flows, q50_def will not be used in simulation",level = AssertionLevel.warning);
+  //assert(A_def>0.001 and V50_def<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
+
+
   if not linearise and computeConservationOfEnergy then
     Etot = 0;
   end if;
+  assert(not computeConservationOfEnergy or interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    "Conservation of energy check only not supported interzonalAirFlowType==None.");
 equation
+  volumePort.V_tot + volumePort.V = 0;
+  areaPort.A_tot + areaPort.A = 0;
+  areaPort.V50_cust+areaPort.v50=0;
+  areaPort.A_def_tot+areaPort.A_def=0;
+
+
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
   end if;
@@ -498,6 +561,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 April 16, 2021 by Filip Jorissen:<br/>
 Changed the default weather file to Brussels.mos.

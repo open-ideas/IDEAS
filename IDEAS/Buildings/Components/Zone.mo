@@ -4,8 +4,11 @@ model Zone "Building zone model"
 
   //this propsbus exposes all ports to the outside of the model
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBus(
+    redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
-    each final outputAngles=sim.outputAngles)
+    each final outputAngles=sim.outputAngles,
+    each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
                           annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
         rotation=-90,
@@ -13,6 +16,7 @@ model Zone "Building zone model"
         extent={{-20,20},{20,-20}},
         rotation=-90,
         origin={-100,40})));
+
 equation
   connect(propsBus, propsBusInt) annotation (Line(
       points={{-100,40},{-90,40},{-80,40}},
@@ -115,6 +119,12 @@ IDEAS.Buildings.Components.LightingControl</a> for the available options.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 10, 2020, by Filip Jorissen:<br/>
+Modifications for supporting interzonal airflow.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
+#1066</a>
+</li>
 <li>
 October 13, 2019 by Filip Jorissen:<br/>
 Added number of surfaces in the zone icon.
