@@ -908,6 +908,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </html>", revisions="<html>
 <ul>
 <li>
+June 23, 2021, by David Blum:<br/>
+Add schematics to documentation.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>. 
+</li>
+<li>
 April 22, 2021, by Javier Arroyo:<br/>
 Add time period documentation.
 </li>

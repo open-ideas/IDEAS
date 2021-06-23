@@ -236,8 +236,8 @@ equation
     annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   connect(conPI.y, oveTSetSup.u)
     annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
-  connect(offSet.y, add.u1) annotation (Line(points={{-159,-10},{-156,-10},{
-          -156,-74},{-152,-74}},
+  connect(offSet.y, add.u1) annotation (Line(points={{-159,-10},{-156,-10},{-156,
+          -74},{-152,-74}},
                           color={0,0,127}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
           {-54,12},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
@@ -245,8 +245,8 @@ equation
       points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
       color={255,204,51},
       thickness=0.5));
-  connect(TSetHea.y, add.u2) annotation (Line(points={{-159,-80},{-156,-80},{
-          -156,-86},{-152,-86}}, color={0,0,127}));
+  connect(TSetHea.y, add.u2) annotation (Line(points={{-159,-80},{-156,-80},{-156,
+          -86},{-152,-86}}, color={0,0,127}));
   connect(add.y, oveTSetHea.u)
     annotation (Line(points={{-129,-80},{-122,-80}}, color={0,0,127}));
   connect(reaTSetHea.y, conPI.u_s) annotation (Line(points={{-69,-80},{-60,-80},
@@ -613,6 +613,13 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 23, 2021, by David Blum:<br/>
+Add schematics to documentation and move heating set point offset to 
+before overwrite block.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>. 
+</li>
 <li>
 April 22, 2021, by Javier Arroyo:<br/>
 Add time period documentation.
