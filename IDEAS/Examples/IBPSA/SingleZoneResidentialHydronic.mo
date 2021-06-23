@@ -297,7 +297,8 @@ of weather data for Brussels, Belgium.
 <h4>Primary and secondary system designs</h4>
 <p>
 The model only has a primary heating system that heats the zone using a 
-single radiator with thermostatic valve, a circulation pump and a water heater. 
+single radiator with thermostatic valve, a circulation pump and a water heater.
+The system is presented in Figure 1 below.
 The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
 The heating setpoint is set to 21 &#176;C during occupied 
 periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
@@ -307,6 +308,21 @@ controller to modulate supply water temperature between 20 and 80 &#176;C to
 track a reference for the operative zone temperature 
 that equals the heating setpoint plus an offset 
 of 0.1 &#176;C by default. 
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronic_Schematic.png\" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -318,10 +334,32 @@ computed using a polynomial curve.
 <p>
 The model assumes a pump with a constant head, 
 which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
-The supply water temperature of the boiler is modulated using a PI
-controller that tracks indoor temperature to follow a reference defined as 
-the heating setpoint plus an offset of 0.1 &#176;C. 
+The supply water temperature set point of the boiler is modulated using a PI
+controller that tracks zone operative temperature to follow the zone operative temperature setpoint,
+depicted as controller C1 in Figure 1 and shown in Figure 2 below.
+For baseline control, this setpoint is defined as 
+the heating comfort setpoint plus an offset of 0.1 &#176;C. 
+The pump is switched on and off with hysteresis based on the indoor 
+temperature with the heating set point as the low point and the cooling set point
+as the high point.  It is assumed that the boiler exactly 
+outputs the supply water temperature set point using an ideal controller
+depicted as C2 in Figure 1.
 </p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronic_C1.png\" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
