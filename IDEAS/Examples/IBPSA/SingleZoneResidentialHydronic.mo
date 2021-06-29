@@ -88,7 +88,7 @@ model SingleZoneResidentialHydronic
         origin={-18,80})));
   Modelica.Blocks.Sources.Constant offSet(k=0.1, y(unit="K"))
     "Offset above heating temperature setpoint to ensure comfort"
-    annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
+    annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
   Utilities.IO.SignalExchange.Read reaQHea(
     description="Heating thermal power",                                KPIs=
         IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
@@ -156,10 +156,10 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
         TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-156,-60},{-136,-40}})));
+    annotation (Placement(transformation(extent={{-180,-60},{-160,-40}})));
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-156,-90},{-136,-70}})));
+    annotation (Placement(transformation(extent={{-180,-90},{-160,-70}})));
   Utilities.IO.SignalExchange.Read reaTSetSup(description=
         "Supply temperature setpoint of heater", y(unit="K"))
     "Read supply temperature setpoint of heater"
@@ -177,7 +177,7 @@ model SingleZoneResidentialHydronic
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Modelica.Blocks.Math.Add add
-    annotation (Placement(transformation(extent={{-130,0},{-110,20}})));
+    annotation (Placement(transformation(extent={{-150,-90},{-130,-70}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
 equation
@@ -225,9 +225,7 @@ equation
   connect(reaTSetHea.y, con.uLow) annotation (Line(points={{-69,-80},{-42,-80},
           {-42,-78},{-34,-78}}, color={0,0,127}));
   connect(TSetCoo.y, oveTSetCoo.u)
-    annotation (Line(points={{-135,-50},{-122,-50}}, color={0,0,127}));
-  connect(TSetHea.y, oveTSetHea.u)
-    annotation (Line(points={{-135,-80},{-122,-80}}, color={0,0,127}));
+    annotation (Line(points={{-159,-50},{-122,-50}}, color={0,0,127}));
   connect(oveTSetSup.y, reaTSetSup.u)
     annotation (Line(points={{-7,80},{-2,80}}, color={0,0,127}));
   connect(reaTSetSup.y, hea.TSet) annotation (Line(points={{21,80},{28,80},{28,
@@ -238,18 +236,21 @@ equation
     annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   connect(conPI.y, oveTSetSup.u)
     annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
-  connect(offSet.y, add.u1) annotation (Line(points={{-149,30},{-140,30},{-140,
-          16},{-132,16}}, color={0,0,127}));
-  connect(add.y, conPI.u_s) annotation (Line(points={{-109,10},{-100,10},{-100,
-          80},{-82,80}}, color={0,0,127}));
+  connect(offSet.y, add.u1) annotation (Line(points={{-159,-10},{-156,-10},{-156,
+          -74},{-152,-74}},
+                          color={0,0,127}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
           {-54,12},{-54,60},{-70,60},{-70,68}}, color={0,0,127}));
-  connect(add.u2, reaTSetHea.u) annotation (Line(points={{-132,4},{-160,4},{
-          -160,-64},{-96,-64},{-96,-80},{-92,-80}}, color={0,0,127}));
   connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
       points={{-160.1,90},{-150,90},{-150,89.9},{-139.9,89.9}},
       color={255,204,51},
       thickness=0.5));
+  connect(TSetHea.y, add.u2) annotation (Line(points={{-159,-80},{-156,-80},{-156,
+          -86},{-152,-86}}, color={0,0,127}));
+  connect(add.y, oveTSetHea.u)
+    annotation (Line(points={{-129,-80},{-122,-80}}, color={0,0,127}));
+  connect(reaTSetHea.y, conPI.u_s) annotation (Line(points={{-69,-80},{-60,-80},
+          {-60,-20},{-100,-20},{-100,80},{-82,80}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
@@ -297,7 +298,8 @@ of weather data for Brussels, Belgium.
 <h4>Primary and secondary system designs</h4>
 <p>
 The model only has a primary heating system that heats the zone using a 
-single radiator with thermostatic valve, a circulation pump and a water heater. 
+single radiator with thermostatic valve, a circulation pump and a water heater.
+The system is presented in Figure 1 below.
 The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
 The heating setpoint is set to 21 &#176;C during occupied 
 periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
@@ -307,6 +309,21 @@ controller to modulate supply water temperature between 20 and 80 &#176;C to
 track a reference for the operative zone temperature 
 that equals the heating setpoint plus an offset 
 of 0.1 &#176;C by default. 
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronic_Schematic.png\" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -318,10 +335,32 @@ computed using a polynomial curve.
 <p>
 The model assumes a pump with a constant head, 
 which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
-The supply water temperature of the boiler is modulated using a PI
-controller that tracks indoor temperature to follow a reference defined as 
-the heating setpoint plus an offset of 0.1 &#176;C. 
+The supply water temperature set point of the boiler is modulated using a PI
+controller that tracks zone operative temperature to follow the zone operative temperature setpoint,
+depicted as controller C1 in Figure 1 and shown in Figure 2 below.
+For baseline control, this setpoint is defined as 
+the heating comfort setpoint plus an offset of 0.1 &#176;C. 
+The pump is switched on and off with hysteresis based on the indoor 
+temperature with the heating set point as the low point and the cooling set point
+as the high point.  It is assumed that the boiler exactly 
+outputs the supply water temperature set point using an ideal controller
+depicted as C2 in Figure 1.
 </p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronic_C1.png\" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
@@ -574,6 +613,13 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 23, 2021, by David Blum:<br/>
+Add schematics to documentation and move heating set point offset to 
+before overwrite block.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>. 
+</li>
 <li>
 April 22, 2021, by Javier Arroyo:<br/>
 Add time period documentation.

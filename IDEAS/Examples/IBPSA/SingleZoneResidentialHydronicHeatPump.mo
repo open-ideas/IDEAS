@@ -554,12 +554,27 @@ Belgium.
 <p>
 An air-to-water modulating heat pump of 15 kW nominal heating capacity 
 extracts energy from the ambient air to heat up the floor heating emission 
-system. A fan blows ambient air through the heat pump evaporator 
+system, as shown in Figure 1 below. 
+A fan blows ambient air through the heat pump evaporator 
 when the heat pump is operating.
 The floor heating system injects heat between 
 Layer 2 (insulation) and Layer 3 (screed), with water as 
 working fluid. The floor heating pump has a nominal mass flow rate of 0.5 kg/s when the heat pump 
 is working. 
+</p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_Schematic.png\" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
 </p>
 
 <h4>Equipment specifications and performance maps</h4>
@@ -603,19 +618,37 @@ the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa.
 <p>
 A baseline controller is implemented to procure comfort within the building zone. 
 A PI controller is tuned with the zone operative temperature as the controlled variable 
-and the heat pump modulation signal for compressor frequency as the control variable. 
+and the heat pump modulation signal for compressor frequency as the control variable,
+as depicted as C1 in Figure 1 and shown in Figure 2 below. 
 The control variable is limited between 0 and 1, and it is computed to drive the zone operative 
-temperature towards a reference defined as the heating comfort set-point plus an offset 
+temperature towards the zone operative temperature setpoint.  For baseline control, this setpoint is 
+computed as the heating comfort setpoint plus an offset 
 which varies depending on the occupancy schedule: during occupied periods the offset is 
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations 
-around the set-point; during unoccupied periods the offset is set to 5.5 degrees Celsius 
+around the setpoint; during unoccupied periods the offset is set to 5.5 degrees Celsius 
 and is meant to compensate for the large temperature setback used during these periods. 
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not 
 be achievable because of the large thermal inertia of the floor heating system and 
 which would consequently cause discomfort. All other equipment 
 (fan for the heat pump evaporator circuit and floor heating emission system pump) 
-are slaves of the heat pump functioning, i.e. they are switched on when the heat pump 
-is working (modulating signal higher than 0) and switched off otherwise. 
+are switched on when the heat pump 
+is working (modulating signal higher than 0) and switched off otherwise.  This
+is depicted as controller C2 in Figure 1. 
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_C1.png\" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
@@ -875,6 +908,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </html>", revisions="<html>
 <ul>
 <li>
+June 23, 2021, by David Blum:<br/>
+Add schematics to documentation.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>. 
+</li>
+<li>
 April 22, 2021, by Javier Arroyo:<br/>
 Add time period documentation.
 </li>
@@ -887,11 +926,11 @@ March 3, 2021 by Javier Arroyo        :<br/>
 Overwrite zone operative temperature setpoint. 
 </li>
 <li>
-February 22, 2021 by Javier Arroyo	:<br/>
+February 22, 2021 by Javier Arroyo        :<br/>
 Add transmission fees and taxes to pricing scenarios. 
 </li>
 <li>
-February 18, 2021 by Javier Arroyo	:<br/>
+February 18, 2021 by Javier Arroyo        :<br/>
 Decrease size and add internal walls. 
 </li>
 <li>
