@@ -12,7 +12,7 @@ model PartialZone "Building zone model"
       annotation (choicesAllMatching = true);
   parameter Boolean use_custom_n50=
     sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    and not sim.unify_n50
+    and sim.unify_n50
     "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
   parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
@@ -509,6 +509,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 19, 2021, by Filip Jorissen:<br/>
+Bugfix for the parameter <code>unify_n50</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1223\">
+#1223</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

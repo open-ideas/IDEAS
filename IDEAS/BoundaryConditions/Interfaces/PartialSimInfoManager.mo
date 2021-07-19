@@ -186,7 +186,7 @@ partial model PartialSimInfoManager
 
   final parameter Real V50_def(unit="m3/h")= V50-V50_custom "Corrected V50 value, default for surfaces without custom assignment.";
   final parameter Real V50(unit="m3/h")=V_tot*n50 "V50 value assuming no custom v50 values.";
-  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def< Modelica.Constants.small then q50_av else V50_def/A_def;
+  final parameter Real q50_def( unit="m3/(h.m2)") = if A_def < Modelica.Constants.small then q50_av else V50_def/A_def;
   final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot < Modelica.Constants.small then 0 else V50/A_tot "average, not corrected q50";
 
   final parameter Modelica.SIunits.Volume V_tot(fixed=false) "Total conditioned building volume";
@@ -270,8 +270,7 @@ initial equation
   V50_custom=areaPort.V50_cust;
   A_def=max(0.001,areaPort.A_def_tot);  //max(.,.) to avoid division by 0 error when all surfaces are custom
 
-  //assert(A_def<0.0011, "All surfaces have lower level custome flows, q50_def will not be used in simulation",level = AssertionLevel.warning);
-  //assert(A_def>0.001 and V50_def<0,  "The total customly assigned volume flow rate at 50pa exceeds the flow at the given building n50 value, q50_cor will be negative",level = AssertionLevel.error);
+  assert(V50_def>=0,  "The total custom air infiltration exceeds the total building n50 value. Increase n50. V50_def="+String(V50_def),level = AssertionLevel.error);
 
 
   if not linearise and computeConservationOfEnergy then
@@ -561,6 +560,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+July 19, 2021, by Filip Jorissen:<br/>
+Added assert that checks for negative V50.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1223\">
+#1223</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

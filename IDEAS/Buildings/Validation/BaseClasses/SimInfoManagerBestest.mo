@@ -3,7 +3,8 @@ model SimInfoManagerBestest "Siminfomanager for BESTEST cases"
   extends IDEAS.BoundaryConditions.SimInfoManager(
     filNam=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/BESTEST.TMY"),
     linIntRad=false,
-    linExtRad=false);
+    linExtRad=false,
+    n50=0.822*10);
   annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
