@@ -47,7 +47,7 @@ partial model Structure "Partial model for building structure models"
     "Construction nodes for heat gains by embedded layers" annotation (
       Placement(transformation(extent={{140,50},{160,70}}), iconTransformation(
           extent={{140,50},{160,70}})));
-  Modelica.Blocks.Interfaces.RealOutput[nZones] TSensor(final quantity="ThermodynamicTemperature",unit="K",displayUnit="degC", min=0)
+  Modelica.Blocks.Interfaces.RealOutput[nZones] TSensor(each final quantity="ThermodynamicTemperature",each unit="K",each displayUnit="degC", each min=0)
     "Sensor temperature of the zones"
     annotation (Placement(transformation(extent={{146,-70},{166,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b[nZones] port_b(redeclare package Medium = Medium)
