@@ -40,9 +40,8 @@ model Adsolair58 "Adsolair58 example model"
       package
       Medium = Medium) "Case 900 building envelope"
     annotation (Placement(transformation(extent={{10,-120},{40,-100}})));
-  IDEAS.Buildings.Validation.BaseClasses.Structure.Bui610 bui610(redeclare
-      package
-      Medium = Medium) "Case 610 building envelope"
+  IDEAS.Buildings.Validation.BaseClasses.Structure.Bui600 bui600_2(redeclare
+      package Medium = Medium) "Case 600 building envelope"
     annotation (Placement(transformation(extent={{-50,-120},{-20,-100}})));
   IDEAS.Buildings.Validation.BaseClasses.Structure.Bui930 bui930(redeclare
       package
@@ -235,12 +234,10 @@ equation
   connect(vavSup3.port_b, bui600.port_a[1]) annotation (Line(points={{-70,-80},{
           -76,-80},{-76,-100},{-83,-100}},
                                          color={0,127,255}));
-  connect(vavRet2.port_a, bui610.port_b[1]) annotation (Line(points={{-40,-60},{
-          -40,-60},{-40,-100},{-37,-100}},
-                                         color={0,127,255}));
-  connect(vavSup2.port_b, bui610.port_a[1]) annotation (Line(points={{-20,-60},{
-          -26,-60},{-26,-100},{-33,-100}},
-                                         color={0,127,255}));
+  connect(vavRet2.port_a, bui600_2.port_b[1]) annotation (Line(points={{-40,-60},
+          {-40,-60},{-40,-100},{-37,-100}}, color={0,127,255}));
+  connect(vavSup2.port_b, bui600_2.port_a[1]) annotation (Line(points={{-20,-60},
+          {-26,-60},{-26,-100},{-33,-100}}, color={0,127,255}));
   connect(vavRet1.port_a, bui900.port_b[1]) annotation (Line(points={{18,-80},{22,
           -80},{22,-100},{23,-100}},
                                    color={0,127,255}));
@@ -279,9 +276,8 @@ equation
   connect(conPID4.u_m, bui600.TSensor[1]) annotation (Line(points={{-63,-101},{-63,
           -116},{-69.4,-116}},
                              color={0,0,127}));
-  connect(conPID3.u_m, bui610.TSensor[1]) annotation (Line(points={{-13,-101},{-13,
-          -116},{-19.4,-116}},
-                             color={0,0,127}));
+  connect(conPID3.u_m, bui600_2.TSensor[1]) annotation (Line(points={{-13,-101},
+          {-13,-116},{-19.4,-116}}, color={0,0,127}));
   connect(conPID2.u_m, bui900.TSensor[1])
     annotation (Line(points={{47,-101},{47,-116},{40.6,-116}},
                                                             color={0,0,127}));
