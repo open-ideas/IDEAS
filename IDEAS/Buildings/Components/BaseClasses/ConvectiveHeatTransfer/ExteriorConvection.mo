@@ -6,7 +6,7 @@ model ExteriorConvection "exterior surface convection"
     annotation(Evaluate=true);
   parameter Modelica.SIunits.CoefficientOfHeatTransfer hConExtLin = 18.3
     "Fixed exterior convection coefficient used when linearising equations"
-     annotation(Dialog(enable=linearize));
+     annotation(Dialog(enable=linearise));
   parameter Modelica.SIunits.Angle inc "Surface inclination";
   parameter Modelica.SIunits.Angle azi "Surface azimuth";
 
