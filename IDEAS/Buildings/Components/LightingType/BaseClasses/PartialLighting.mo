@@ -9,7 +9,6 @@ partial record PartialLighting
   parameter Modelica.SIunits.LuminousEfficacy K
     "Luminous efficacy, specifies the lm/W (lumen per watt) of the installed lighting";
 
-protected
   parameter Real conFra(min=0, max=1) = 1-radFra
     "Convective fraction of lighting heat exchange";
   annotation (Documentation(revisions="<html>
