@@ -192,15 +192,13 @@ protected
         origin={32,-4})));
   Modelica.Blocks.Math.Gain negate(k=-1) "For minus sign"
     annotation (Placement(transformation(extent={{-46,-26},{-34,-14}})));
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulIn(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXi  wetBulIn(
     TDryBul=T_top_in,
     p=port_a1.p,
     Xi=Xi_top_in[1:Medium1.nXi],
     redeclare package Medium = Medium1)
     "Wet bulb temperature based on wet channel inlet conditions";
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulOut(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXi  wetBulOut(
     TDryBul=volTop.heatPort.T,
     p=port_a1.p,
     Xi=volTop.ports[1].Xi_outflow[1:Medium1.nXi],
@@ -209,6 +207,16 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature Tbot(T=273.15 + 21.4) if prescribeTBot
     "This override the temperature of the IEH outlet for validation purposes";
+
+block TWetBul_TDryBulXi
+  "Model to compute the wet bulb temperature based on mass fraction, with output for XiSat"
+  extends IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi(final approximateWetBulb=false);
+
+  Modelica.SIunits.MassFraction XiSatOut(start=0.01,nominal=0.01) = XiSat
+    "Water vapor mass fraction at saturation";
+
+end TWetBul_TDryBulXi;
+
 equation
   assert(port_a1.m_flow>-m_flow_small or allowFlowReversal1, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
   assert(port_a2.m_flow>-m_flow_small or allowFlowReversal2, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
@@ -216,7 +224,7 @@ equation
     // model from: Liu, Z., Allen, W., & Modera, M. (2013). Simplified thermal modeling of indirect evaporative heat exchangers. HVAC&R Research, 19(March), 37–41. doi:10.1080/10789669.2013.763653
     Qmax=C_min*(T_bot_in-T_top_in_wet);
     C_top = port_a1.m_flow*(if adiabaticOn
-                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSat,1-wetBulOut.XiSat}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSat,1-wetBulIn.XiSat})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
+                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSatOut,1-wetBulOut.XiSatOut}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSatOut,1-wetBulIn.XiSatOut})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
                             else Medium1.specificHeatCapacityCp(Medium1.setState_pTX(Medium1.p_default, Medium1.T_default, Medium1.X_default)));
     C_bot = port_a2.m_flow*Medium2.specificHeatCapacityCp(Medium2.setState_pTX(Medium2.p_default, Medium2.T_default, Medium2.X_default));
     Q = Qmax*(if use_eNTU then eps_NTU else (if adiabaticOn then eps_adia_on else eps_adia_off));
@@ -449,6 +457,11 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+July 26, 2021, by Filip Jorissen:<br/>
+Custom wet bulb computation model for
+<a href=https://github.com/open-ideas/IDEAS/issues/1225>#1225</a>.
+</li>
 <li>
 April 7, 2020, by Filip Jorissen:<br/>
 Replaced thermal resistor by thermal conductor to avoid division.
