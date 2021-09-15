@@ -4,8 +4,8 @@ model OneOpenDoor "Model with one open and one closed door"
 
   package Medium = Modelica.Media.Air.SimpleAir;
 
-  IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(redeclare package Medium
-      = Medium) "Discretized door"
+  IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(redeclare package Medium =
+        Medium) "Discretized door"
     annotation (Placement(transformation(extent={{10,-8},{30,12}})));
 
   IDEAS.Fluid.MixingVolumes.MixingVolume volA(
@@ -26,8 +26,8 @@ model OneOpenDoor "Model with one open and one closed door"
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFlo
     annotation (Placement(transformation(extent={{14,60},{34,80}})));
-  Modelica.Blocks.Sources.Sine heaSou(freqHz=1/3600) annotation (Placement(
-        transformation(extent={{-60,60},{-40,80}})));
+  Modelica.Blocks.Sources.Sine heaSou(f=1/3600)
+    annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
   Modelica.Blocks.Math.Gain Gain1(k=100) annotation (Placement(transformation(
           extent={{-20,60},{0,80}})));
   IDEAS.Airflow.Multizone.DoorDiscretizedOperable dooOpeClo(redeclare package

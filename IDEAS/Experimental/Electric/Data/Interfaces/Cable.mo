@@ -10,6 +10,6 @@ record Cable "Low Voltage Cable Type"
   final parameter
     IDEAS.Experimental.Electric.BaseClasses.Types.ComplexCharacteristicImpedance
     ZCha(final re=RCha, final im=XCha) "Characteristic Impedance of the Cable";
-  parameter Modelica.SIunits.ElectricCurrent In
+  parameter Modelica.Units.SI.ElectricCurrent In
     "Nominal Electrical Current Fused";
 end Cable;

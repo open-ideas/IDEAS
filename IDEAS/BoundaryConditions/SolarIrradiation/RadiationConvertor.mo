@@ -3,14 +3,18 @@ model RadiationConvertor
   "Converts east-south-west radiation into different components"
   extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Angle lat "Latitude";
-  parameter Modelica.SIunits.Angle delta = 0 "Relative shift of south in the direction of west.";
+  parameter Modelica.Units.SI.Angle lat "Latitude";
+  parameter Modelica.Units.SI.Angle delta=0
+    "Relative shift of south in the direction of west.";
   parameter Real[3] rho = {0.2,0.2,0.2} "Ground reflectivities for east, south, west";
-  final parameter Modelica.SIunits.Angle south=IDEAS.Types.Azimuth.S + delta;
-  final parameter Modelica.SIunits.Angle east = south + Modelica.SIunits.Conversions.from_deg(270) + delta;
-  final parameter Modelica.SIunits.Angle west = south + Modelica.SIunits.Conversions.from_deg(90) + delta;
-  final parameter Modelica.SIunits.Angle vertical=IDEAS.Types.Tilt.Wall;
-  final parameter Modelica.SIunits.Angle horizontal = Modelica.SIunits.Conversions.from_deg(0);
+  final parameter Modelica.Units.SI.Angle south=IDEAS.Types.Azimuth.S + delta;
+  final parameter Modelica.Units.SI.Angle east=south +
+      Modelica.Units.Conversions.from_deg(270) + delta;
+  final parameter Modelica.Units.SI.Angle west=south +
+      Modelica.Units.Conversions.from_deg(90) + delta;
+  final parameter Modelica.Units.SI.Angle vertical=IDEAS.Types.Tilt.Wall;
+  final parameter Modelica.Units.SI.Angle horizontal=
+      Modelica.Units.Conversions.from_deg(0);
   parameter Real lon "Longitude";
   Modelica.Blocks.Interfaces.RealInput decAng "Declination angle"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}}),

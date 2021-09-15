@@ -6,18 +6,18 @@ model SimpleHouse
   package MediumAir = IDEAS.Media.Air;
   package MediumWater = IDEAS.Media.Water;
 
-  parameter Modelica.SIunits.Area A_wall = 100 "Wall area";
-  parameter Modelica.SIunits.Area A_win = 5 "Window area";
+  parameter Modelica.Units.SI.Area A_wall=100 "Wall area";
+  parameter Modelica.Units.SI.Area A_win=5 "Window area";
   parameter Real g_win(min=0, max=1, unit="1") = 0.3 "Solar heat gain coefficient of window";
-  parameter Modelica.SIunits.Volume V_zone = A_wall*3 "Wall area";
-  parameter Modelica.SIunits.HeatFlowRate QHea_nominal = 700
+  parameter Modelica.Units.SI.Volume V_zone=A_wall*3 "Wall area";
+  parameter Modelica.Units.SI.HeatFlowRate QHea_nominal=700
     "Nominal capacity of heating system";
-  parameter Modelica.SIunits.MassFlowRate mWat_flow_nominal=QHea_nominal/10/4200
-    "Nominal mass flow rate for water loop";
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=V_zone*2*1.2/3600
+  parameter Modelica.Units.SI.MassFlowRate mWat_flow_nominal=QHea_nominal/10/
+      4200 "Nominal mass flow rate for water loop";
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=V_zone*2*1.2/3600
     "Nominal mass flow rate for air loop";
 
-  parameter Modelica.SIunits.PressureDifference dpAir_nominal=200
+  parameter Modelica.Units.SI.PressureDifference dpAir_nominal=200
     "Pressure drop at nominal mass flow rate for air loop";
   parameter Boolean allowFlowReversal=false
     "= false because flow will not reverse in these circuits";
@@ -220,9 +220,9 @@ equation
           120.4},{-44,120},{-32,120}}, color={0,127,255}));
   connect(vavDam.port_b, zone.ports[2])
     annotation (Line(points={{82,120},{90,120},{90,140}}, color={0,127,255}));
-  connect(senTemZonAir.T, hysRad.u) annotation (Line(points={{60,180},{60,180},{
-          -132,180},{-132,-100},{-76,-100}},  color={0,0,127}));
-  connect(senTemZonAir.T,conDam. u_s) annotation (Line(points={{60,180},{60,180},
+  connect(senTemZonAir.T, hysRad.u) annotation (Line(points={{59,180},{59,180},
+          {-132,180},{-132,-100},{-76,-100}}, color={0,0,127}));
+  connect(senTemZonAir.T,conDam. u_s) annotation (Line(points={{59,180},{59,180},
           {-132,180},{-132,90},{-62,90},{-22,90}},
                                           color={0,0,127}));
   connect(conDam.y, vavDam.y) annotation (Line(points={{1,90},{26,90},{72,90},{72,

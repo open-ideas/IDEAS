@@ -2,9 +2,9 @@ within IDEAS.Experimental.Electric.Distribution.DC.BaseClasses;
 model Branch
   extends Modelica.Electrical.Analog.Interfaces.OnePort;
 
-  parameter Modelica.SIunits.Resistance R;
+  parameter Modelica.Units.SI.Resistance R;
 
-  Modelica.SIunits.Power Plos;
+  Modelica.Units.SI.Power Plos;
 
 equation
   v = R*i;

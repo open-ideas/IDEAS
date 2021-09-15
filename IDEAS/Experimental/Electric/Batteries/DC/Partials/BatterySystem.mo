@@ -7,8 +7,8 @@ partial model BatterySystem
 // Individual parameters
   parameter Real EBat(final quantity="Energy", final unit="kW.h",displayUnit="kW.h")
     "Total battery capacity in [kW.h]";
-  parameter Modelica.SIunits.Efficiency SoC_start "Start battery SoC";
-  parameter Modelica.SIunits.Efficiency DOD_max "Maximum discharge [%/100]";
+  parameter Modelica.Units.SI.Efficiency SoC_start "Start battery SoC";
+  parameter Modelica.Units.SI.Efficiency DOD_max "Maximum discharge [%/100]";
 
   IDEAS.Experimental.Electric.BaseClasses.DC.WattsLaw wattsLaw annotation (
       Placement(transformation(

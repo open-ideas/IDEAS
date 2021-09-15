@@ -47,7 +47,7 @@ required from medium model \""
     T=T0 + u/cv_const;
     //u = cv_const*(T - T0);
     d = d_const;
-    R = 0;
+  R_s = 0;
     MM = MM_const;
     state.T = T;
     state.p = p;

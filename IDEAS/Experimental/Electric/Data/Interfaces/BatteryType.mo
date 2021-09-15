@@ -16,17 +16,17 @@ record BatteryType
    systems at the end consumer lever", PhD Thesis, 23 February 2010, Karlsuher Institut fur Technologie
 */
 
-  parameter Modelica.SIunits.Efficiency eta_in(min=0,max=1)
+  parameter Modelica.Units.SI.Efficiency eta_in(min=0, max=1)
     "Efficiency Grid --> Invertor";
-  parameter Modelica.SIunits.Efficiency eta_out(min=0,max=1)
+  parameter Modelica.Units.SI.Efficiency eta_out(min=0, max=1)
     "Efficiency Invertor --> Grid";
-  parameter Modelica.SIunits.Efficiency eta_c(min=0,max=1)
+  parameter Modelica.Units.SI.Efficiency eta_c(min=0, max=1)
     "Efficiency Invertor --> Battery";
-  parameter Modelica.SIunits.Efficiency eta_d(min=0,max=1)
+  parameter Modelica.Units.SI.Efficiency eta_d(min=0, max=1)
     "Efficiency Battery --> Invertor";
-  parameter Modelica.SIunits.Efficiency alpha_sd(min=0,max=1)
+  parameter Modelica.Units.SI.Efficiency alpha_sd(min=0, max=1)
     "Self-discharge (%/100) per month";
-  parameter Modelica.SIunits.Efficiency delta_sd=alpha_sd/(365.25/12*24*3600)
+  parameter Modelica.Units.SI.Efficiency delta_sd=alpha_sd/(365.25/12*24*3600)
     "Standby SOC-loss in time interval";
   parameter Real e_c "Ratio: Maximum charge power to maximum battery capacity";
   parameter Real e_d

@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Examples.Performance;
 model Example1v2 "Example 1 model with mixing volume"
   extends IDEAS.Fluid.Examples.Performance.BaseClasses.Example1;
-  parameter Modelica.SIunits.Time tau=10 "Time constant at nominal flow";
+  parameter Modelica.Units.SI.Time tau=10 "Time constant at nominal flow";
 
   Fluid.Delays.DelayFirstOrder[nRes.k] vol(
     redeclare each package Medium = Medium,

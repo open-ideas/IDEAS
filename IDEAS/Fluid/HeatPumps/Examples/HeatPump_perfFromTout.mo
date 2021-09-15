@@ -20,7 +20,7 @@ model HeatPump_perfFromTout
   Modelica.Blocks.Sources.Sine sine(
     amplitude=5,
     startTime=0,
-    freqHz=1/5000,
+    f=1/5000,
     offset=273.15 + 40)
     annotation (Placement(transformation(extent={{110,-40},{90,-20}})));
   Sources.Boundary_pT bou(          redeclare package Medium = Medium,
@@ -46,7 +46,7 @@ model HeatPump_perfFromTout
     amplitude=4,
     offset=273.15 + 10,
     startTime=0,
-    freqHz=1/3000)
+    f=1/3000)
     annotation (Placement(transformation(extent={{-132,-40},{-112,-20}})));
   HP_WaterWater_OnOff HP_nom(
     redeclare package Medium1 = Medium,

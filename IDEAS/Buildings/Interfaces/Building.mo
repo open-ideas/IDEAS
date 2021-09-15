@@ -3,11 +3,11 @@ partial model Building "Partial model for building models"
 
 parameter Integer nZones(min=1)
     "Number of conditioned thermal zones in the building";
-parameter Modelica.SIunits.Area ATrans
+  parameter Modelica.Units.SI.Area ATrans
     "Transmission heat loss area of the residential unit";
-parameter Modelica.SIunits.Volume[nZones] VZones
+  parameter Modelica.Units.SI.Volume[nZones] VZones
     "Conditioned volume of the building based on external dimensions";
-final parameter Modelica.SIunits.Length C = sum(VZones)/ATrans
+  final parameter Modelica.Units.SI.Length C=sum(VZones)/ATrans
     "Building compactness";
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim

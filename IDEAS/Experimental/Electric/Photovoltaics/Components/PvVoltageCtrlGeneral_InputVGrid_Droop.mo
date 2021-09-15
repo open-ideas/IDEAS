@@ -1,7 +1,7 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components;
 block PvVoltageCtrlGeneral_InputVGrid_Droop "Basic droop controller"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real VMax=248 "Final voltage, from here eta=0";
   parameter Real timeOff=300;

@@ -3,11 +3,12 @@ partial model ModulationSecurity "Non physical down modulation of the power of a
   in order to reduce the number of events"
   parameter Boolean use_modulation_security=false
     "Set to true if power modulation should be used to avoid exceeding temperature." annotation (Dialog(tab="Advanced", group="Events"));
-  parameter Modelica.SIunits.TemperatureDifference deltaT_security= if use_modulation_security then 1 else 5
+  parameter Modelica.Units.SI.TemperatureDifference deltaT_security=if
+      use_modulation_security then 1 else 5
     "Temperature difference from the boundary at which the security hysteresis will be released";
-  parameter Modelica.SIunits.Temperature T_max=373.15
+  parameter Modelica.Units.SI.Temperature T_max=373.15
     "Maximum fluid temperature";
-  parameter Modelica.SIunits.Temperature T_min=273.15
+  parameter Modelica.Units.SI.Temperature T_min=273.15
     "Minimum fluid temperature";
 
   Modelica.Blocks.Interfaces.RealOutput modulation_security=
@@ -15,14 +16,14 @@ partial model ModulationSecurity "Non physical down modulation of the power of a
       x=min(limLow.y, limUp.y)/max(Modelica.Constants.eps,deltaT_security) - 1,
       pos=1,
       neg=0,
-      deltax=0.5) if                                                                                                     use_modulation_security
+      deltax=0.5)                                                                                                     if use_modulation_security
     "Modulation to avoid reaching temperature boundaries";
 
 protected
   Modelica.Blocks.Interfaces.RealOutput modulation_security_internal;
-  Modelica.SIunits.Temperature T_high
+  Modelica.Units.SI.Temperature T_high
     "Temperature which might cause overhitting (e.g. for a heat pump the condensor temperature)";
-  Modelica.SIunits.Temperature T_low
+  Modelica.Units.SI.Temperature T_low
     "Temperature which might cause undercooling (e.g. for a heat pump the evaporator temperature)";
 
   Modelica.Blocks.Sources.RealExpression limLow(y=T_low - T_min)

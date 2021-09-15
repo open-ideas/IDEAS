@@ -3,7 +3,7 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Integer nPorts "Number of ports for connection to zone air volume";
   parameter Integer nPortsExt "Number of ports for connection to zone air volume";
-  parameter Modelica.SIunits.Volume V "Zone air volume for n50 computation";
+  parameter Modelica.Units.SI.Volume V "Zone air volume for n50 computation";
   parameter Real n50 "n50 value";
   parameter Real n50_int=n50 "Internal n50 value";
   parameter Real n50toAch = 20
@@ -15,9 +15,9 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   //  or none of the are connected, to avoid incorrect use.
   parameter Boolean verifyBothPortsConnected = false
     "=true, to verify fluid port connections";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_vent
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_vent
     "Nominal mass flow rate of ventilation system"
-    annotation(Dialog(tab="Advanced"));
+    annotation (Dialog(tab="Advanced"));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_interior(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal_vent),

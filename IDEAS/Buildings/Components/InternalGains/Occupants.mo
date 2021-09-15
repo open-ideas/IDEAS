@@ -1,16 +1,17 @@
 within IDEAS.Buildings.Components.InternalGains;
 model Occupants "Constant sensible, latent and CO2 heat production per person"
   extends BaseClasses.PartialOccupancyGains;
-  parameter Modelica.SIunits.Power QlatPp = occupancyType.QlatPp
+  parameter Modelica.Units.SI.Power QlatPp=occupancyType.QlatPp
     "Latent heat production per person, default from Ashrae Fundamentals: 'Seated, very light work'";
-  parameter Modelica.SIunits.Power QsenPp = occupancyType.QsenPp
+  parameter Modelica.Units.SI.Power QsenPp=occupancyType.QsenPp
     "Sensible heat production per person, default from Ashrae Fundamentals: 'Seated, very light work'";
   parameter Real radFra(min=0,max=1) = occupancyType.radFra
     "Radiant fraction of sensible heat exchange, default based on Ashrae fundamentals chap 18.4 for low air velocity";
 protected
-  constant Modelica.SIunits.SpecificEnthalpy lambdaWater = if (Medium.nX) > 1 then Medium.enthalpyOfCondensingGas(T=273.15+35) else 2566120
+  constant Modelica.Units.SI.SpecificEnthalpy lambdaWater=if (Medium.nX) > 1
+       then Medium.enthalpyOfCondensingGas(T=273.15 + 35) else 2566120
     "Latent heat of evaporation of water at 35 degrees Celsius";
-  constant Modelica.SIunits.SpecificEnthalpy E_glu = 16e6
+  constant Modelica.Units.SI.SpecificEnthalpy E_glu=16e6
     "Calorific value of glucose";
   constant Real MM_glu = 180
     "Molar mass of glucose";
@@ -18,8 +19,8 @@ protected
     "Molar mass of CO2";
   parameter Real m_flow_co2_pp = (QlatPp+QsenPp)/(E_glu*MM_glu/6/MM_CO2)
     "CO2 production per person, based on oxidation of suger with calorific value of 16 kJ/g";
-  final parameter Modelica.SIunits.MassFlowRate m_flow_h2o_pp = QlatPp/lambdaWater
-    "Vapor production per person";
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_h2o_pp=QlatPp/
+      lambdaWater "Vapor production per person";
   final parameter Real s_co2[max(Medium.nC,1)] = {if Modelica.Utilities.Strings.isEqual(string1=if Medium.nC>0 then Medium.extraPropertiesNames[i] else "",
                                              string2="CO2",
                                              caseSensitive=false)

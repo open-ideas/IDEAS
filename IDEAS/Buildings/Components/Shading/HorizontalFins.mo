@@ -2,31 +2,29 @@ within IDEAS.Buildings.Components.Shading;
 model HorizontalFins "Horizontal fin shading with 2 control input options"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final controlled=use_betaInput or use_displacementInput);
 
-  parameter Modelica.SIunits.Length s(min=0)
-    "Vertical spacing between fins";
-  parameter Modelica.SIunits.Length w(min=0)
-    "Fin width";
-  parameter Modelica.SIunits.Length t(min=0)
-    "Fin thickness";
+  parameter Modelica.Units.SI.Length s(min=0) "Vertical spacing between fins";
+  parameter Modelica.Units.SI.Length w(min=0) "Fin width";
+  parameter Modelica.Units.SI.Length t(min=0) "Fin thickness";
   parameter Boolean use_displacementInput = false
     "=true, to use input for controlling the horizontal fin displacement. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Boolean use_betaInput = false
     "=true, to use input for fin inclination angle"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Angle beta(min=0)=0
+  parameter Modelica.Units.SI.Angle beta(min=0) = 0
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
-    annotation(Dialog(enable=not use_betaInput));
+    annotation (Dialog(enable=not use_betaInput));
 
   Real shaFrac "Shaded fraction of the glazing for direct solar irradiation";
   Real shaFracDif "Shaded fraction of the glazing for diffuse solar irradiation";
 
 
 protected
-  Modelica.SIunits.Length dy1 = s-sin(beta_internal)*w-cos(beta_internal)*t;
-  Modelica.SIunits.Length dx = cos(beta_internal)*w-sin(beta_internal)*t;
-  Modelica.SIunits.Length dz = dx/cos(angInc) "Horizontal ray displacement along the ray direction";
-  Modelica.SIunits.Length dy3 = max(0,min(dz*tan(angAlt),s));
+  Modelica.Units.SI.Length dy1=s - sin(beta_internal)*w - cos(beta_internal)*t;
+  Modelica.Units.SI.Length dx=cos(beta_internal)*w - sin(beta_internal)*t;
+  Modelica.Units.SI.Length dz=dx/cos(angInc)
+    "Horizontal ray displacement along the ray direction";
+  Modelica.Units.SI.Length dy3=max(0, min(dz*tan(angAlt), s));
 
   Real dispLim=min(1,max(0,disp_internal));
 
@@ -34,15 +32,15 @@ protected
     "Internal variable for inclination angle";
   Modelica.Blocks.Interfaces.RealInput disp_internal
     "Internal variable for displacement fraction";
-  Modelica.SIunits.Angle angAlt = Modelica.Constants.pi/2 - angZen
+  Modelica.Units.SI.Angle angAlt=Modelica.Constants.pi/2 - angZen
     "Altitude angle";
 
   // assuming diffuse radiation impedes perpendicular in azimuth direction
   // and under 30 degrees with the horizontal plane
-  parameter Modelica.SIunits.Angle angAltDif = Modelica.Constants.pi/2/3
+  parameter Modelica.Units.SI.Angle angAltDif=Modelica.Constants.pi/2/3
     "Assumed average altitude angle of diffuse shading";
-  Modelica.SIunits.Length dy3Dif = max(0,min(dzDif*tan(angAltDif),s));
-  Modelica.SIunits.Length dzDif = dx/cos(angAltDif);
+  Modelica.Units.SI.Length dy3Dif=max(0, min(dzDif*tan(angAltDif), s));
+  Modelica.Units.SI.Length dzDif=dx/cos(angAltDif);
 
 initial equation
   if not use_betaInput then

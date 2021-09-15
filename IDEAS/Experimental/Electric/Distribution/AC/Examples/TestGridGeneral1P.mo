@@ -7,7 +7,7 @@ model TestGridGeneral1P
     annotation (Placement(transformation(extent={{-80,74},{-60,94}})));
   IDEAS.Experimental.Electric.Distribution.AC.Examples.Components.SinePower sinePower
     annotation (Placement(transformation(extent={{58,-10},{78,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
     f=50,
     V=230,
@@ -15,7 +15,7 @@ model TestGridGeneral1P
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-66,-10})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{-76,-54},{-56,-34}})));
   IDEAS.Experimental.Electric.Distribution.AC.Grid_1P grid_1P(redeclare
       Data.Grids.TestGrid2Nodes grid)

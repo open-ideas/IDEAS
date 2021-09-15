@@ -2,33 +2,33 @@ within IDEAS.Buildings.Components.Shading;
 model BoxAndScreen "Box and screen shading"
 
 
-  parameter Modelica.SIunits.Length hWin(min=0) "Window height"
-    annotation(Dialog(group="Window properties"));
-  parameter Modelica.SIunits.Length wWin(min=0) "Window width"
-    annotation(Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
+    annotation (Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length wWin(min=0) "Window width"
+    annotation (Dialog(group="Window properties"));
 
-  parameter Modelica.SIunits.Length wLeft(min=0)
+  parameter Modelica.Units.SI.Length wLeft(min=0)
     "Left overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length wRight(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length wRight(min=0)
     "Right overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length ovDep(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length ovDep(min=0)
     "Overhang depth perpendicular to the wall plane"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length ovGap(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length ovGap(min=0)
     "Distance between window upper edge and overhang lower edge"
-    annotation(Dialog(group="Overhang properties"));
+    annotation (Dialog(group="Overhang properties"));
 
-  parameter Modelica.SIunits.Length hFin(min=0)
+  parameter Modelica.Units.SI.Length hFin(min=0)
     "Height of side fin above window"
-    annotation(Dialog(group="Side fin properties"));
-  parameter Modelica.SIunits.Length finDep(min=0)
+    annotation (Dialog(group="Side fin properties"));
+  parameter Modelica.Units.SI.Length finDep(min=0)
     "Side fin depth perpendicular to the wall plane"
-    annotation(Dialog(group="Side fin properties"));
-  parameter Modelica.SIunits.Length finGap(min=0)
+    annotation (Dialog(group="Side fin properties"));
+  parameter Modelica.Units.SI.Length finGap(min=0)
     "Vertical distance between side fin and window"
-    annotation(Dialog(group="Side fin properties"));
+    annotation (Dialog(group="Side fin properties"));
 
   parameter Real shaCorr=0.24 "Shortwave transmittance of shortwave radiation";
 

@@ -3,9 +3,10 @@ model EmbeddedPipeVerification
   "Verification of embedded pipe model for large flow rates"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water;
-  parameter Modelica.SIunits.Length d = 1/(1/(embeddedPipe.RadSlaCha.S_2) + 1/(embeddedPipe.RadSlaCha.S_1)) "Equivalent thickness";
+  parameter Modelica.Units.SI.Length d=1/(1/(embeddedPipe.RadSlaCha.S_2) + 1/(
+      embeddedPipe.RadSlaCha.S_1)) "Equivalent thickness";
 
-  parameter Modelica.SIunits.TemperatureDifference dT = 10;
+  parameter Modelica.Units.SI.TemperatureDifference dT=10;
 
   IDEAS.Fluid.HeatExchangers.RadiantSlab.EmbeddedPipe embeddedPipe(
     redeclare package Medium = Medium,

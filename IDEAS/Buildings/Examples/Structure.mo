@@ -16,8 +16,8 @@ model Structure "Example building structure model"
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
   Modelica.Blocks.Sources.Cosine cosine[3](
     each amplitude=300,
-    each offset = 100,
-    each freqHz=1/864000,
+    each offset=100,
+    each f=1/864000,
     phase={0,261.79938779915,523.5987755983})
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
 equation

@@ -4,15 +4,15 @@ model BuildingShade
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
     final controlled=false);
 
-  parameter Modelica.SIunits.Length L(min=0)
+  parameter Modelica.Units.SI.Length L(min=0)
     "Distance to object perpendicular to window"
-    annotation(Dialog(group="Dimensions (see illustration in documentation)"));
-  parameter Modelica.SIunits.Length dh
+    annotation (Dialog(group="Dimensions (see illustration in documentation)"));
+  parameter Modelica.Units.SI.Length dh
     "Height difference between top of object and top of window glazing"
-    annotation(Dialog(group="Dimensions (see illustration in documentation)"));
-  parameter Modelica.SIunits.Length hWin(min=0) = 1
+    annotation (Dialog(group="Dimensions (see illustration in documentation)"));
+  parameter Modelica.Units.SI.Length hWin(min=0) = 1
     "Window height: distance between top and bottom of window glazing"
-    annotation(Dialog(group="Dimensions (see illustration in documentation)"));
+    annotation (Dialog(group="Dimensions (see illustration in documentation)"));
   parameter Real fraSha(min=0,max=1) = 1
     "Fraction of the light that is shaded, e.g. smaller than 1 for shading cast by tree lines.";
   final parameter Real fraSunDifSky(final min=0,final max=1, final unit="1") = 1-vieAngObj/(Modelica.Constants.pi/2)
@@ -24,17 +24,20 @@ model BuildingShade
   // Computation assumes that window base is at ground level.
   // Viewing angle computed from center of glazing.
 protected
-  parameter Modelica.SIunits.Angle vieAngObj = atan((hWin/2+dh)/L) "Viewing angle of opposite object";
-  final parameter Modelica.SIunits.Angle rot = 0
+  parameter Modelica.Units.SI.Angle vieAngObj=atan((hWin/2 + dh)/L)
+    "Viewing angle of opposite object";
+  final parameter Modelica.Units.SI.Angle rot=0
     "Rotation angle of opposite building. Zero when parallel, positive when rotated clockwise"
-    annotation(Evaluate=true);
+    annotation (Evaluate=true);
   final parameter Real coeff = 1-fraSha "More efficient implementation";
   final parameter Real hWinInv = 1/hWin "More efficient implementation";
   Real tanZen = tan(min(angZen, Modelica.Constants.pi/2.01));
-  Modelica.SIunits.Length L1 "Horizontal distance to object when following vertical plane through sun ray";
-  Modelica.SIunits.Length L2 "Distance to object, taking into account sun position";
-  Modelica.SIunits.Angle alt = (Modelica.Constants.pi/2) - angZen;
-  Modelica.SIunits.Angle verAzi
+  Modelica.Units.SI.Length L1
+    "Horizontal distance to object when following vertical plane through sun ray";
+  Modelica.Units.SI.Length L2
+    "Distance to object, taking into account sun position";
+  Modelica.Units.SI.Angle alt=(Modelica.Constants.pi/2) - angZen;
+  Modelica.Units.SI.Angle verAzi
     "Angle between downward projection of sun's rays and normal to vertical surface";
 initial equation
   assert(fraSunDifSky>=0 and fraSunDifSky<=1, "In " + getInstanceName() +

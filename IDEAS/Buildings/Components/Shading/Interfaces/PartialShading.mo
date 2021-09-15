@@ -3,9 +3,8 @@ partial model PartialShading "Window shading partial"
   parameter Boolean controlled=true
     "if true, shading has a control input"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Angle azi
-    "Window azimuth angle"
-    annotation(Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Angle azi "Window azimuth angle"
+    annotation (Dialog(group="Window properties"));
 
   Modelica.Blocks.Interfaces.RealInput HDirTil
     "Direct solar illuminance on surface" annotation (Placement(

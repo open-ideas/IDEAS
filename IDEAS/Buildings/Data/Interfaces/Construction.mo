@@ -12,7 +12,7 @@ partial record Construction "Template record for surface structure: define/order
   // where locGain=1 is the first layer
   parameter IDEAS.Buildings.Data.Interfaces.Material[:] mats
     "Array of materials. The last layer is connected to propsBus_a.";
-  parameter Modelica.SIunits.Angle incLastLay = IDEAS.Types.Tilt.Other
+  parameter Modelica.Units.SI.Angle incLastLay=IDEAS.Types.Tilt.Other
     "Set to IDEAS.Types.Tilt.Floor if the last layer of mats is a floor, to .Ceiling if it is a ceiling and to .Other if other. For verification purposes.";
 
   annotation (Documentation(info="<html>

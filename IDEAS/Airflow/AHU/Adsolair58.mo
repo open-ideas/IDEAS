@@ -29,15 +29,15 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   final parameter Boolean allowFlowReversal=false
     "Flow reversal is not supported"
     annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_small=m1_flow_nominal/50
+  parameter Modelica.Units.SI.MassFlowRate m_flow_small=m1_flow_nominal/50
     "Small mass flow rate for regularization of zero flow"
-    annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.Time tau=60
+    annotation (Dialog(tab="Advanced"));
+  parameter Modelica.Units.SI.Time tau=60
     "Thermal time constant of evaporator, condensor and heat recovery unit at nominal flow rate"
-    annotation(Dialog(group="Advanced"));
-  parameter Modelica.SIunits.Pressure dp_fouling_top=0
+    annotation (Dialog(group="Advanced"));
+  parameter Modelica.Units.SI.Pressure dp_fouling_top=0
     "Nominal pressure drop in top channel due to filter fouling";
-  parameter Modelica.SIunits.Pressure dp_fouling_bot=0
+  parameter Modelica.Units.SI.Pressure dp_fouling_bot=0
     "Nominal pressure drop in bottom channel due to filter fouling";
   parameter Real alpha = 0.5
     "Pressure recovery factor for fixed pressure drop in bottom bypass channel"
@@ -47,7 +47,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     annotation(Dialog(group="Advanced"));
 
   //EQUATIONS
-  Modelica.SIunits.Energy E=IEH.E + eva.U + con.U;
+  Modelica.Units.SI.Energy E=IEH.E + eva.U + con.U;
   Real BPF=min(1, max(0, IDEAS.Utilities.Math.Functions.spliceFunction(
       x=abs(IEH.TOutBot - eva.heatPort.T) - 0.2,
       pos=(eva.heatPort.T - com.Teva)*
@@ -62,7 +62,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     "Water fraction at saturation in evaporator at refrigerant temperature";
   Real x_out=BPF*IEH.port_b2.Xi_outflow[1] + (1 - BPF)*min(X_sat_evap, IEH.port_b2.Xi_outflow[
       1]) "Outlet water mass fraction based on BPF";
-  Modelica.SIunits.MassFlowRate m_condens=IEH.port_a2.m_flow*(IEH.port_b2.Xi_outflow[
+  Modelica.Units.SI.MassFlowRate m_condens=IEH.port_a2.m_flow*(IEH.port_b2.Xi_outflow[
       1] - x_out) "Water condensation mass flow rate in the evaporator.";
 
   // PORTS
@@ -368,8 +368,8 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     annotation (Placement(transformation(extent={{40,86},{60,106}})));
 
 protected
-  final parameter Modelica.SIunits.Density rho_default=MediumAir.density(
-     MediumAir.setState_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=MediumAir.density(
+      MediumAir.setState_pTX(
       T=MediumAir.T_default,
       p=MediumAir.p_default,
       X=MediumAir.X_default[1:MediumAir.nXi]))
@@ -394,12 +394,12 @@ model TwoWayEqualPercentageAdd
   extends IDEAS.Fluid.Actuators.BaseClasses.PartialTwoWayValveKv(
     dpValve_nominal= k1^2*m_flow_nominal^2/2/Medium.density(sta_default)/A^2,
     phi=sqrt(1/(1/((l+(1-l)*(c*{y_actual^3, y_actual^2, y_actual}))^2) + (if addPreDro then 1/yAdd^2 else 0))));
-  parameter Modelica.SIunits.Pressure dpAdd
+    parameter Modelica.Units.SI.Pressure dpAdd
       "Additional pressure drop when addPreDro is true";
   parameter Real k1(min=0)= 0.45
       "Flow coefficient for y=1, k1 = pressure drop divided by dynamic pressure"
   annotation(Dialog(tab="Damper coefficients"));
-  parameter Modelica.SIunits.Area A "Damper face area";
+    parameter Modelica.Units.SI.Area A "Damper face area";
   Modelica.Blocks.Interfaces.BooleanInput addPreDro
       "Add additional pressure drop"
                                    annotation (Placement(transformation(

@@ -3,13 +3,13 @@ model ZoneWithInputsValidationNonLinear "Model to validate the linearization met
   extends Examples.ZoneWithInputsLinearise(sim(lineariseDymola=false,
         createOutputs=true), validation=true);
   Modelica.Blocks.Sources.Sine occQRad[2](
-    each freqHz=1/12/3600,
+    each f=1/12/3600,
     each startTime=7200,
     each amplitude=20,
     each offset=20) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-144},{60,-124}})));
   Modelica.Blocks.Sources.Sine occQCon[2](
-    each freqHz=1/6/3600,
+    each f=1/6/3600,
     each amplitude=80,
     each offset=80) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-114},{60,-94}})));
@@ -120,17 +120,17 @@ protected
        "C") "Size of C matrix of state space model";
 public
   Modelica.Blocks.Sources.Sine ctrlInputTestCon[nZones](
-    each freqHz=1/1/3600,
+    each f=1/1/3600,
     each amplitude=30,
     each offset=30) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,54},{38,66}})));
   Modelica.Blocks.Sources.Sine ctrlInputTestRad[nZones](
-    each freqHz=1/2/3600,
+    each f=1/2/3600,
     each amplitude=40,
     each offset=40) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,34},{38,46}})));
   Modelica.Blocks.Sources.Sine ctrlInputTestEmb[nEmb](
-    each freqHz=1/16/3600,
+    each f=1/16/3600,
     each amplitude=60,
     each offset=60) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,14},{38,26}})));

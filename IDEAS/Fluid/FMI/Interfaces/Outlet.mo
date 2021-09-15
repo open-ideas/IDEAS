@@ -21,12 +21,12 @@ connector Outlet "Connector for fluid outlet"
 
   output Medium.MassFlowRate m_flow
     "Mass flow rate from the connection point into the component";
-  IDEAS.Fluid.FMI.Interfaces.PressureOutput p if
-       use_p_in "Thermodynamic pressure in the connection point";
+  IDEAS.Fluid.FMI.Interfaces.PressureOutput p
+    if use_p_in "Thermodynamic pressure in the connection point";
 
   input IDEAS.Fluid.FMI.Interfaces.FluidProperties backward(
-    redeclare final package Medium = Medium) if
-       allowFlowReversal "Inflowing properties";
+    redeclare final package Medium = Medium)
+    if allowFlowReversal "Inflowing properties";
 
   output IDEAS.Fluid.FMI.Interfaces.FluidProperties forward(
     redeclare final package Medium = Medium) "Outflowing properties";

@@ -1,4 +1,4 @@
-within IDEAS.Fluid.Actuators.Valves.Examples;
+﻿within IDEAS.Fluid.Actuators.Valves.Examples;
 model ThreeWayValves "Three way valves with different opening characteristics"
   extends Modelica.Icons.Example;
 

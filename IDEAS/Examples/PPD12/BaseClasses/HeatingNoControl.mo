@@ -6,19 +6,21 @@ partial model HeatingNoControl "Ppd 12 example model without control"
   parameter Real dp_26mm = 992*(m_flow_nominal/0.4)^2 "Pressure drop per m of duct with diameter of 26/20 mm for flow rate of 0.4kg/s";
   parameter Real dp_20mm = 2871*(m_flow_nominal/0.4)^2 "Pressure drop per m of duct with diameter of 20/16 mm for flow rate of 0.4kg/s";
   parameter Real dp_16mm = 11320*(m_flow_nominal/0.4)^2 "Pressure drop per m of duct with diameter of 16/12 mm for flow rate of 0.4kg/s";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.4
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.4
     "Nominal water mass flow rate";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=300*1.2/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=300*1.2/3600
     "Nominal air mass flow rate";
 
   //CONTROL
-  parameter Modelica.SIunits.Temperature TSet=294.15 "Temperature set point";
-  parameter Modelica.SIunits.Temperature TSet2=303.15 "Temperature set point";
+  parameter Modelica.Units.SI.Temperature TSet=294.15 "Temperature set point";
+  parameter Modelica.Units.SI.Temperature TSet2=303.15 "Temperature set point";
 
-  Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
+  Modelica.Units.SI.Efficiency eta={-6.017763e-11,2.130271e-8,-3.058709e-6,
+      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i
+       in 0:6} "Boiler efficiency";
   Real TCorr=min(max(senTemRet.T - 273.15, 25), 75)
     "Temperature within validity range of correlation";
-  Modelica.SIunits.Power QGas = hea.Q_flow/eta;
+  Modelica.Units.SI.Power QGas=hea.Q_flow/eta;
 
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radGnd(
     redeclare package Medium = MediumWater,

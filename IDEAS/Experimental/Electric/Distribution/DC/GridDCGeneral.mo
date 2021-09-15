@@ -22,18 +22,18 @@ parameter Integer Nodes=grid.nNodes;
   Modelica.Electrical.Analog.Interfaces.PositivePin[2] gridConnection
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 
-  output Modelica.SIunits.ActivePower PGriTot=gridOnlyDC.PGriTot;
+  output Modelica.Units.SI.ActivePower PGriTot=gridOnlyDC.PGriTot;
 
-  output Modelica.SIunits.Voltage Vabs[Nodes]=gridOnlyDC.Vabs;
+  output Modelica.Units.SI.Voltage Vabs[Nodes]=gridOnlyDC.Vabs;
 
-  output Modelica.SIunits.ActivePower PLosBra[Nodes]=gridOnlyDC.PLosBra;
-  output Modelica.SIunits.ActivePower PLosNeu[Nodes]=gridOnlyDC.PLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosPha=gridOnlyDC.PGriLosPha;
-  output Modelica.SIunits.ActivePower PGriLosNeu=gridOnlyDC.PGriLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosTot=gridOnlyDC.PGriLosTot;
+  output Modelica.Units.SI.ActivePower PLosBra[Nodes]=gridOnlyDC.PLosBra;
+  output Modelica.Units.SI.ActivePower PLosNeu[Nodes]=gridOnlyDC.PLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosPha=gridOnlyDC.PGriLosPha;
+  output Modelica.Units.SI.ActivePower PGriLosNeu=gridOnlyDC.PGriLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosTot=gridOnlyDC.PGriLosTot;
 
-  output Modelica.SIunits.Current Ibranch0=gridOnlyDC.branch[1].i;
-  output Modelica.SIunits.Current Ineutral0=gridOnlyDC.neutral[1].i;
+  output Modelica.Units.SI.Current Ibranch0=gridOnlyDC.branch[1].i;
+  output Modelica.Units.SI.Current Ineutral0=gridOnlyDC.neutral[1].i;
 
 equation
   connect(gridOnlyDC.node, node2Lines)

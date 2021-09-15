@@ -7,29 +7,29 @@ model BESTEST
   constant Real kW = 1/1000;
 
   //variables for annual heating/cooling load (energy)
-  Modelica.SIunits.Energy EAnnHea600[6];
-  Modelica.SIunits.Energy EAnnCoo600[6];
-  Modelica.SIunits.Energy EAnnHea900[6];
-  Modelica.SIunits.Energy EAnnCoo900[6];
+  Modelica.Units.SI.Energy EAnnHea600[6];
+  Modelica.Units.SI.Energy EAnnCoo600[6];
+  Modelica.Units.SI.Energy EAnnHea900[6];
+  Modelica.Units.SI.Energy EAnnCoo900[6];
 
   //intermediate variables for computing average hourly cooling/heating load (power)
-  Modelica.SIunits.Energy EHouHea600[6];
-  Modelica.SIunits.Energy EHouCoo600[6];
-  Modelica.SIunits.Energy EHouHea900[6];
-  Modelica.SIunits.Energy EHouCoo900[6];
+  Modelica.Units.SI.Energy EHouHea600[6];
+  Modelica.Units.SI.Energy EHouCoo600[6];
+  Modelica.Units.SI.Energy EHouHea900[6];
+  Modelica.Units.SI.Energy EHouCoo900[6];
 
   //variables for storing peak hourly cooling/heating load (power)
-  discrete Modelica.SIunits.Power QPeaHea600[6];
-  discrete Modelica.SIunits.Power QPeaCoo600[6];
-  discrete Modelica.SIunits.Power QPeaHea900[6];
-  discrete Modelica.SIunits.Power QPeaCoo900[6];
+  discrete Modelica.Units.SI.Power QPeaHea600[6];
+  discrete Modelica.Units.SI.Power QPeaCoo600[6];
+  discrete Modelica.Units.SI.Power QPeaHea900[6];
+  discrete Modelica.Units.SI.Power QPeaCoo900[6];
 
   Real TAnnAvg[4];
   Real THouAvg[4];
 
   //variables for storing peak temperatures in free floating cases
-  discrete Modelica.SIunits.Temperature Tmax[4];
-  discrete Modelica.SIunits.Temperature Tmin[4];
+  discrete Modelica.Units.SI.Temperature Tmax[4];
+  discrete Modelica.Units.SI.Temperature Tmin[4];
 
   // BESTEST cases
   IDEAS.Buildings.Validation.Cases.Case600 Case600

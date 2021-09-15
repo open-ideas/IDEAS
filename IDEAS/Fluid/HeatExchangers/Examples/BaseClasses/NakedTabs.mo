@@ -8,7 +8,7 @@ model NakedTabs "HeatPort-only tabs system, without embedded pipe"
 
   parameter Integer n1=radSlaCha.n1;
   parameter Integer n2=radSlaCha.n2;
-  parameter Modelica.SIunits.Area A_floor=1 "Floor surface";
+  parameter Modelica.Units.SI.Area A_floor=1 "Floor surface";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_b

@@ -1,31 +1,29 @@
 within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model InteriorConvection "interior surface convection"
 
-  parameter Modelica.SIunits.Area A "surface area";
-  parameter Modelica.SIunits.Angle inc "inclination";
+  parameter Modelica.Units.SI.Area A "surface area";
+  parameter Modelica.Units.SI.Angle inc "inclination";
 
   parameter Boolean linearise = false
     "= true, if convective heat transfer should be linearised"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal = -2
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal=-2
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
-    annotation(Evaluate=true, enable = linearise);
-  parameter Modelica.SIunits.Length hZone = 2.7
+    annotation (Evaluate=true, enable=linearise);
+  parameter Modelica.Units.SI.Length hZone=2.7
     "Zone height, for calculation of hydraulic diameter"
-    annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.Length DhWall = 4*A/(2*A/hZone+2*hZone)
-    "Hydraulic diameter for walls"
-    annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.Length DhFloor = sqrt(A)
-    "Hydraulic diameter for ceiling/floor"
-    annotation(Dialog(tab="Advanced"));
+    annotation (Dialog(tab="Advanced"));
+  parameter Modelica.Units.SI.Length DhWall=4*A/(2*A/hZone + 2*hZone)
+    "Hydraulic diameter for walls" annotation (Dialog(tab="Advanced"));
+  parameter Modelica.Units.SI.Length DhFloor=sqrt(A)
+    "Hydraulic diameter for ceiling/floor" annotation (Dialog(tab="Advanced"));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 protected
-  Modelica.SIunits.TemperatureDifference dT(start=0);
+  Modelica.Units.SI.TemperatureDifference dT(start=0);
   final parameter Real coeffWall = A*1.823/DhWall^0.121
     "For avoiding calculation of power at every time step";
   final parameter Real coeffFloor = A*2.175/DhFloor^0.076

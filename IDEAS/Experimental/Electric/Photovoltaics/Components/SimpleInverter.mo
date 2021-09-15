@@ -6,10 +6,10 @@ model SimpleInverter
 
   parameter Real eff=0.95;
   //For now
-  flow Modelica.SIunits.ActivePower P_dc;
-  flow Modelica.SIunits.ActivePower P;
-  flow Modelica.SIunits.ApparentPower S;
-  flow Modelica.SIunits.ReactivePower Q;
+  flow Modelica.Units.SI.ActivePower P_dc;
+  flow Modelica.Units.SI.ActivePower P;
+  flow Modelica.Units.SI.ApparentPower S;
+  flow Modelica.Units.SI.ReactivePower Q;
   parameter Real cosphi=1;
   //For now
 

@@ -28,7 +28,7 @@ model HeatPump_AirWater
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
   Modelica.Blocks.Sources.Sine sine(
-    freqHz=1/5000,
+    f=1/5000,
     startTime=5000,
     amplitude=4,
     offset=273.15 + 30)
@@ -37,7 +37,7 @@ model HeatPump_AirWater
     p=200000,
     nPorts=1)
     annotation (Placement(transformation(extent={{40,-20},{20,0}})));
-  constant Modelica.SIunits.MassFlowRate m_flow_nominal=0.2
+  constant Modelica.Units.SI.MassFlowRate m_flow_nominal=0.2
     "Nominal mass flow rate";
   inner BoundaryConditions.SimInfoManager
                        sim

@@ -60,7 +60,7 @@ model HeatPump_WaterWaterTSet
     nPorts=2)
     annotation (Placement(transformation(extent={{78,2},{58,-18}})));
   Modelica.Blocks.Sources.Sine sine(
-    freqHz=1/500,
+    f=1/500,
     amplitude=5,
     offset=273.15 + 20,
     startTime=0)

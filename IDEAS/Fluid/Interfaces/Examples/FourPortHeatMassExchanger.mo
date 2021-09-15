@@ -3,7 +3,7 @@ model FourPortHeatMassExchanger
   "FourPortHeatMassExchanger example model"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water;
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=1
     "Nominal mass flow rate";
 
   IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger fouPor(

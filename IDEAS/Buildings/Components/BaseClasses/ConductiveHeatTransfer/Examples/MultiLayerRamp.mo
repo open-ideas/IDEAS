@@ -1,11 +1,12 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples;
 model MultiLayerRamp "Unit test for multi layer model"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Area A=10 "total multilayer area";
-  parameter Modelica.SIunits.TemperatureDifference dT=20 "Temperature difference of the ramp";
-  Modelica.SIunits.Temperature dT_Avg;
-  Modelica.SIunits.Energy Etot;
-  Modelica.SIunits.Energy Enet_layMul;
+  parameter Modelica.Units.SI.Area A=10 "total multilayer area";
+  parameter Modelica.Units.SI.TemperatureDifference dT=20
+    "Temperature difference of the ramp";
+  Modelica.Units.SI.Temperature dT_Avg;
+  Modelica.Units.SI.Energy Etot;
+  Modelica.Units.SI.Energy Enet_layMul;
   parameter IDEAS.Buildings.Data.Constructions.ConcreteSlab concreteFloor
     "Record containing tabs construction data"
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
@@ -28,7 +29,7 @@ model MultiLayerRamp "Unit test for multi layer model"
     "Multi layer model"
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
 protected
-  parameter Modelica.SIunits.Energy E0_layMul(fixed=false);
+  parameter Modelica.Units.SI.Energy E0_layMul(fixed=false);
 
 public
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=10000)

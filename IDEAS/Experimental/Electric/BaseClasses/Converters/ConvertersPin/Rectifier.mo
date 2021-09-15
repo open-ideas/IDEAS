@@ -1,11 +1,11 @@
 within IDEAS.Experimental.Electric.BaseClasses.Converters.ConvertersPin;
 model Rectifier "Rectifier (AC to DC)"
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 extends Partials.Converter;
 
   parameter Boolean inverter = false "Inverter: true / Rectifier: false";
 
-  Modelica.SIunits.ActivePower Plos;
+  Modelica.Units.SI.ActivePower Plos;
 
 equation
   if pDC == 0 then

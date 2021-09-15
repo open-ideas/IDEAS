@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.SolarIrradiation;
 model RadSolData "Selects or generates correct solar data for this surface"
-  parameter Modelica.SIunits.Angle inc "inclination";
-  parameter Modelica.SIunits.Angle azi "azimuth";
+  parameter Modelica.Units.SI.Angle inc "inclination";
+  parameter Modelica.Units.SI.Angle azi "azimuth";
   parameter Boolean useLinearisation = false
     "Set to true if used for linearisation";
   outer SimInfoManager                          sim
@@ -64,8 +64,8 @@ protected
     final inc=inc,
     final azi=azi,
     final lat=sim.lat,
-    final outputAngles=sim.outputAngles) if
-                      not solDataInBus
+    final outputAngles=sim.outputAngles)
+                   if not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 
@@ -75,8 +75,8 @@ protected
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-60,10},{-20,50}})));
 
-  Modelica.Blocks.Sources.Constant constAngLin(k=1) if
-                                                 solDataInBus and not sim.outputAngles
+  Modelica.Blocks.Sources.Constant constAngLin(k=1)
+                                              if solDataInBus and not sim.outputAngles
     "Dummy inputs when linearising. This avoids unnecessary state space inputs."
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation

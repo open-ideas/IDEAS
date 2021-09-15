@@ -5,16 +5,22 @@ model SingleZoneResidentialHydronic
   String test = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY") "This is to ensure that the weather file is loaded when encapsulating this model into an FMU";
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+    "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+    "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
-  Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
+  Modelica.Units.SI.Efficiency eta={-6.017763e-11,2.130271e-8,-3.058709e-6,
+      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i
+       in 0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
     "Temperature within validity range of correlation";
 
@@ -173,7 +179,7 @@ model SingleZoneResidentialHydronic
     Ti=300,
     yMax=273.15 + 80,
     yMin=273.15 + 20,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Modelica.Blocks.Math.Add add

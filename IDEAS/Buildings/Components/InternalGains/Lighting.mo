@@ -9,7 +9,7 @@ model Lighting
     annotation (Placement(transformation(extent={{-52,-10},{-32,10}})));
 
 protected
-  final parameter Modelica.SIunits.Power PNom = rooTyp.Ev*A/ligTyp.K
+  final parameter Modelica.Units.SI.Power PNom=rooTyp.Ev*A/ligTyp.K
     "Nominal power, avoids parameter division";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFloCon(final
       alpha=0) "Prescribed heat flow rate for convective sensible heat"

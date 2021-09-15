@@ -34,7 +34,7 @@ public
   Modelica.Blocks.Sources.Cosine ctrl(
     amplitude=0.5,
     offset=0.5,
-    freqHz=1/3600/3) "Dummy control signal"
+    f=1/3600/3) "Dummy control signal"
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
   Shading.SideFins sideFins(
     azi=azi.k,

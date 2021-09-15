@@ -2,8 +2,8 @@ within IDEAS.Experimental.Electric.Distribution.Examples.Components;
 model Transformer
   import IDEAS;
 
-  parameter Modelica.SIunits.Temperature THsRef = 326.6;
-  parameter Modelica.SIunits.Temperature TToRef = 314.44;
+  parameter Modelica.Units.SI.Temperature THsRef=326.6;
+  parameter Modelica.Units.SI.Temperature TToRef=314.44;
 
   IDEAS.Experimental.Electric.Distribution.AC.Components.MvLvTransformer_3P
     transformer_MvLv(redeclare
@@ -16,7 +16,7 @@ model Transformer
     amplitude=100000,
     startTime=0,
     offset=50000,
-    freqHz=0.00001)
+    f=0.00001)
     annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
   Modelica.Blocks.Sources.Constant const
     annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));

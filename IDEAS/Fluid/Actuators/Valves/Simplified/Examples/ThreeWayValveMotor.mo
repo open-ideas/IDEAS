@@ -17,10 +17,11 @@ model ThreeWayValveMotor
         origin={-72,0})));
   Modelica.Blocks.Sources.Constant flow_pump(k=1)
         annotation (Placement(transformation(extent={{-98,60},{-78,80}})));
-  Modelica.Blocks.Sources.Sine     ctrl(freqHz=0.1,
+  Modelica.Blocks.Sources.Sine ctrl(
+    f=0.1,
     amplitude=0.5,
     offset=0.5)
-        annotation (Placement(transformation(extent={{-32,58},{-12,78}})));
+    annotation (Placement(transformation(extent={{-32,58},{-12,78}})));
   Sources.Boundary_pT sink(
     redeclare package Medium = Medium,
     nPorts=1,

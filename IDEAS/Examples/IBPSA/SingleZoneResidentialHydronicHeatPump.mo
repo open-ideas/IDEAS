@@ -5,10 +5,14 @@ model SingleZoneResidentialHydronicHeatPump
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+    "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+    "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
@@ -111,7 +115,7 @@ model SingleZoneResidentialHydronicHeatPump
     Ti=8000,
     yMax=1,
     yMin=0,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc

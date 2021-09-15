@@ -42,20 +42,24 @@ partial model PartialFlowMachine
   parameter Boolean nominalValuesDefineDefaultPressureCurve = false
     "Set to true to avoid warning if m_flow_nominal and dp_nominal are used to construct the default pressure curve";
 
-  parameter Modelica.SIunits.Time tau=1
+  parameter Modelica.Units.SI.Time tau=1
     "Time constant of fluid volume for nominal flow, used if energy or mass balance is dynamic"
-    annotation (Dialog(tab="Dynamics",
-                        group="Nominal condition",
-                        enable=energyDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState or
-                               massDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState));
+    annotation (Dialog(
+      tab="Dynamics",
+      group="Nominal condition",
+      enable=energyDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState or
+          massDynamics <> Modelica.Fluid.Types.Dynamics.SteadyState));
 
   // Classes used to implement the filtered speed
   parameter Boolean use_inputFilter=true
     "= true, if speed is filtered with a 2nd order CriticalDamping filter"
     annotation(Dialog(tab="Dynamics", group="Filtered speed"));
-  parameter Modelica.SIunits.Time riseTime=30
-    "Rise time of the filter (time to reach 99.6 % of the speed)"
-    annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
+  parameter Modelica.Units.SI.Time riseTime=30
+    "Rise time of the filter (time to reach 99.6 % of the speed)" annotation (
+      Dialog(
+      tab="Dynamics",
+      group="Filtered speed",
+      enable=use_inputFilter));
   parameter Modelica.Blocks.Types.Init init=Modelica.Blocks.Types.Init.InitialOutput
     "Type of initialization (no init/steady state/initial state/initial output)"
     annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
@@ -63,8 +67,8 @@ partial model PartialFlowMachine
     annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
 
   // Connectors and ports
-    Modelica.Blocks.Interfaces.IntegerInput stage if
-       inputType == IDEAS.Fluid.Types.InputType.Stages
+    Modelica.Blocks.Interfaces.IntegerInput stage
+    if inputType == IDEAS.Fluid.Types.InputType.Stages
     "Stage input signal for the pressure head"
     annotation (Placement(
         transformation(
@@ -90,9 +94,10 @@ partial model PartialFlowMachine
         iconTransformation(extent={{-10,-78},{10,-58}})));
 
   // Variables
-  Modelica.SIunits.VolumeFlowRate VMachine_flow(start=_VMachine_flow) = eff.V_flow "Volume flow rate";
-  Modelica.SIunits.PressureDifference dpMachine(displayUnit="Pa")=
-      -preSou.dp "Pressure difference";
+  Modelica.Units.SI.VolumeFlowRate VMachine_flow(start=_VMachine_flow) = eff.V_flow
+    "Volume flow rate";
+  Modelica.Units.SI.PressureDifference dpMachine(displayUnit="Pa") = -preSou.dp
+    "Pressure difference";
 
   Real eta(unit="1", final quantity="Efficiency") =    eff.eta "Global efficiency";
   Real etaHyd(unit="1", final quantity="Efficiency") = eff.etaHyd "Hydraulic efficiency";
@@ -100,7 +105,7 @@ partial model PartialFlowMachine
 
   // Quantity to control
 protected
-  final parameter Modelica.SIunits.VolumeFlowRate _VMachine_flow = 0
+  final parameter Modelica.Units.SI.VolumeFlowRate _VMachine_flow=0
     "Start value for VMachine_flow, used to avoid a warning if not specified";
 
   parameter Types.PrescribedVariable preVar "Type of prescribed variable";
@@ -123,17 +128,12 @@ protected
   final parameter Boolean haveVMax = (abs(per.pressure.dp[nOri]) < Modelica.Constants.eps)
     "Flag, true if user specified data that contain V_flow_max";
 
-  final parameter Modelica.SIunits.VolumeFlowRate V_flow_max=
-    if per.havePressureCurve then
-    (if haveVMax then
-      per.pressure.V_flow[nOri]
-     else
-      per.pressure.V_flow[nOri] - (per.pressure.V_flow[nOri] - per.pressure.V_flow[
-      nOri - 1])/((per.pressure.dp[nOri] - per.pressure.dp[nOri - 1]))*per.pressure.dp[nOri])
-    else
+  final parameter Modelica.Units.SI.VolumeFlowRate V_flow_max=if per.havePressureCurve
+       then (if haveVMax then per.pressure.V_flow[nOri] else per.pressure.V_flow[
+      nOri] - (per.pressure.V_flow[nOri] - per.pressure.V_flow[nOri - 1])/((per.pressure.dp[
+      nOri] - per.pressure.dp[nOri - 1]))*per.pressure.dp[nOri]) else
       m_flow_nominal/rho_default "Maximum volume flow rate, used for smoothing";
-  final parameter Modelica.SIunits.Density rho_default=
-    Medium.density_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density_pTX(
       p=Medium.p_default,
       T=Medium.T_default,
       X=Medium.X_default) "Default medium density";
@@ -143,21 +143,21 @@ protected
     p=p_start,
     X=X_start) "Medium state at start values";
 
-  final parameter Modelica.SIunits.SpecificEnthalpy h_outflow_start = Medium.specificEnthalpy(sta_start)
-    "Start value for outflowing enthalpy";
+  final parameter Modelica.Units.SI.SpecificEnthalpy h_outflow_start=
+      Medium.specificEnthalpy(sta_start) "Start value for outflowing enthalpy";
 
   Modelica.Blocks.Sources.Constant[size(stageInputs, 1)] stageValues(
-    final k=stageInputs) if
-      inputType == IDEAS.Fluid.Types.InputType.Stages "Stage input values"
+    final k=stageInputs)
+   if inputType == IDEAS.Fluid.Types.InputType.Stages "Stage input values"
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
   Modelica.Blocks.Sources.Constant setConst(
-    final k=constInput) if
-      inputType == IDEAS.Fluid.Types.InputType.Constant
+    final k=constInput)
+   if inputType == IDEAS.Fluid.Types.InputType.Constant
     "Constant input set point"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
 
-  Extractor extractor(final nin=size(stageInputs,1)) if
-      inputType == IDEAS.Fluid.Types.InputType.Stages "Stage input extractor"
+  Extractor extractor(final nin=size(stageInputs,1))
+   if inputType == IDEAS.Fluid.Types.InputType.Stages "Stage input extractor"
     annotation (Placement(transformation(extent={{-50,60},{-30,40}})));
 
   Modelica.Blocks.Routing.RealPassThrough inputSwitch
@@ -189,13 +189,13 @@ protected
      final init=init,
      x(each stateSelect=StateSelect.always),
      final analogFilter=Modelica.Blocks.Types.AnalogFilter.CriticalDamping,
-     final filterType=Modelica.Blocks.Types.FilterType.LowPass) if
-        use_inputFilter
+     final filterType=Modelica.Blocks.Types.FilterType.LowPass)
+     if use_inputFilter
     "Second order filter to approximate valve opening time, and to improve numerics"
     annotation (Placement(transformation(extent={{20,81},{34,95}})));
 
-  Modelica.Blocks.Math.Gain gaiSpe(y(final unit="1")) if
-    inputType == IDEAS.Fluid.Types.InputType.Continuous and
+  Modelica.Blocks.Math.Gain gaiSpe(y(final unit="1"))
+ if inputType == IDEAS.Fluid.Types.InputType.Continuous and
     speedIsInput
     "Gain to normalized speed using speed_nominal or speed_rpm_nominal"
     annotation (Placement(transformation(extent={{-4,74},{-16,86}})));
@@ -210,17 +210,17 @@ protected
 
   IDEAS.Fluid.Movers.BaseClasses.PowerInterface heaDis(
     final motorCooledByFluid=per.motorCooledByFluid,
-    final delta_V_flow=1E-3*V_flow_max) if
-      addPowerToMedium "Heat dissipation into medium"
+    final delta_V_flow=1E-3*V_flow_max)
+   if addPowerToMedium "Heat dissipation into medium"
     annotation (Placement(transformation(extent={{20,-80},{40,-60}})));
 
-  Modelica.Blocks.Math.Add PToMed(final k1=1, final k2=1) if
-    addPowerToMedium "Heat and work input into medium"
+  Modelica.Blocks.Math.Add PToMed(final k1=1, final k2=1)
+ if addPowerToMedium "Heat and work input into medium"
     annotation (Placement(transformation(extent={{50,-90},{70,-70}})));
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prePow(
-    final alpha=0) if
-    addPowerToMedium
+    final alpha=0)
+ if addPowerToMedium
     "Prescribed power (=heat and flow work) flow for dynamic model"
     annotation (Placement(transformation(extent={{-14,-104},{-34,-84}})));
 

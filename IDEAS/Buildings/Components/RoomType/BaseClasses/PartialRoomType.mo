@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.RoomType.BaseClasses;
 partial record PartialRoomType
   extends Modelica.Icons.Record;
-  parameter Modelica.SIunits.Illuminance Ev
+  parameter Modelica.Units.SI.Illuminance Ev
     "Illuminance requirement of the zone";
 
   annotation (Documentation(revisions="<html>

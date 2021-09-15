@@ -1,39 +1,37 @@
 within IDEAS.Buildings.Components.Shading;
 model OverhangAndHorizontalFins "Roof overhang and horizontal fins"
 
-  parameter Modelica.SIunits.Length hWin(min=0) "Window height"
-    annotation(Dialog(group="Window properties"));
-  parameter Modelica.SIunits.Length wWin(min=0) "Window width"
-    annotation(Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
+    annotation (Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length wWin(min=0) "Window width"
+    annotation (Dialog(group="Window properties"));
 
-  parameter Modelica.SIunits.Length wLeft(min=0)
+  parameter Modelica.Units.SI.Length wLeft(min=0)
     "Left overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length wRight(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length wRight(min=0)
     "Right overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length dep(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length dep(min=0)
     "Overhang depth perpendicular to the wall plane"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length gap(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length gap(min=0)
     "Distance between window upper edge and overhang lower edge"
-    annotation(Dialog(group="Overhang properties"));
+    annotation (Dialog(group="Overhang properties"));
 
-  parameter Modelica.SIunits.Length s(min=0)
-    "Vertical spacing between fins"
-    annotation(Dialog(group="Horizontal fin properties"));
-  parameter Modelica.SIunits.Length w(min=0)
-    "Fin width"
-    annotation(Dialog(group="Horizontal fin properties"));
-  parameter Modelica.SIunits.Length t(min=0)
-    "Fin thickness"
-    annotation(Dialog(group="Horizontal fin properties"));
+  parameter Modelica.Units.SI.Length s(min=0) "Vertical spacing between fins"
+    annotation (Dialog(group="Horizontal fin properties"));
+  parameter Modelica.Units.SI.Length w(min=0) "Fin width"
+    annotation (Dialog(group="Horizontal fin properties"));
+  parameter Modelica.Units.SI.Length t(min=0) "Fin thickness"
+    annotation (Dialog(group="Horizontal fin properties"));
   parameter Boolean use_betaInput = false
     "=true, to use input for fin inclination angle"
     annotation(Evaluate=true,Dialog(group="Horizontal fin properties"));
-  parameter Modelica.SIunits.Angle beta(min=0)=0
+  parameter Modelica.Units.SI.Angle beta(min=0) = 0
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
-    annotation(Dialog(enable=not use_betaInput,group="Horizontal fin properties"));
+    annotation (Dialog(enable=not use_betaInput, group=
+          "Horizontal fin properties"));
 
 
 

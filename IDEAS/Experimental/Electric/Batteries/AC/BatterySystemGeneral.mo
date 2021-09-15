@@ -3,12 +3,12 @@ model BatterySystemGeneral
   extends Partials.BatterySystem;
 
   // Variables
-  Modelica.SIunits.Power Pnet "Power available to charge/discharge battery";
+  Modelica.Units.SI.Power Pnet "Power available to charge/discharge battery";
 
   // Models
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin pin[
-    numPha] annotation (Placement(transformation(extent={{-106,-10},{-86,10}},
-          rotation=0)));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin pin[numPha]
+    annotation (Placement(transformation(extent={{-106,-10},{-86,10}}, rotation
+          =0)));
 
   IDEAS.Experimental.Electric.Batteries.Control.BatteryCtrlGeneral batteryCtrlGeneral(
     numPha=numPha,
