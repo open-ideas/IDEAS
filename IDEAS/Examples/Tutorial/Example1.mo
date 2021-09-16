@@ -9,7 +9,9 @@ model Example1 "First example model containing one zone"
 
 
   //SimInfoManager must be 'inner' at the top level
-  inner IDEAS.BoundaryConditions.SimInfoManager sim
+  inner IDEAS.BoundaryConditions.SimInfoManager sim(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/Uccle.TMY"))
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Zone zone(
     redeclare package Medium = Medium,
