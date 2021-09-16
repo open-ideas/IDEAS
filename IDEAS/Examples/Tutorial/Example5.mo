@@ -7,9 +7,7 @@ model Example5 "New model with 2 coupled zones"
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.7 "Zone height";
 
-  inner BoundaryConditions.SimInfoManager       sim(filNam=
-        Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/weatherdata/Uccle.TMY"))
+  inner BoundaryConditions.SimInfoManager       sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Buildings.Components.RectangularZoneTemplate rectangularZoneTemplate(
     redeclare package Medium = Medium,
