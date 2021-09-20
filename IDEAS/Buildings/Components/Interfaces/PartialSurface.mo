@@ -50,6 +50,9 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Real custom_q50 = 2
     "Envelope air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
+  parameter Boolean exclude_custom_q50=false
+    "set to true to exclude the custom q50 from the default q50 computation"
+    annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   final parameter Real q50_internal(fixed=false)
     "Envelope air tightness";
 
@@ -162,8 +165,8 @@ protected
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={50,20})));
-  IDEAS.Buildings.Components.Interfaces.SetArea setArea(A=0, use_custom_q50=
-        use_custom_q50)
+  IDEAS.Buildings.Components.Interfaces.SetArea setArea(A=0, 
+    use_custom_q50 = use_custom_q50  and not exclude_custom_q50)
     "Block that contributes surface area to the siminfomanager"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
@@ -349,6 +352,12 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+September 20, 2021, by Filip Jorissen:<br/>
+Added the parameter <code>exclude_custom_q50</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1232\">
+#1232</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
