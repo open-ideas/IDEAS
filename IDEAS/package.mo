@@ -7,7 +7,7 @@ import SI = Modelica.SIunits;
 annotation (
   uses(Modelica(version="3.2.3")),
   Icon(graphics),
-  version="2.2.0",
+  version="2.2.1",
   versionDate="2021-06-09",
   dateModified = "2021-06-09",
   conversion(
