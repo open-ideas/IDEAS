@@ -1,3 +1,6 @@
+## IDEAS v2.2.1
+IDEAS 2.2.1 has been released on September 20th, 2021. This update includes an IBPSA merge up to commit f15e041c818bfc38b5b32aa8ad8e3e119ffc92de, which fixes crashes when using the weather data reader together with the weather file Brussels.mos for the most recent versions of Dymola.
+
 ## IDEAS v2.2
 IDEAS 2.2 has been release on June 9th, 2021. The most notable changes are:
 + Interzonal airflow support has been added. See the SimInfoManager documentation for more details.
