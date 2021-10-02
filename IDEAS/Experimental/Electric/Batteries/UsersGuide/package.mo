@@ -3,7 +3,7 @@ package UsersGuide "User's Guide"
 extends Modelica.Icons.Information;
 
 
-annotation (__Dymola_DocumentationClass=true, Documentation(info="<html>
+annotation (DocumentationClass=true, Documentation(info="<html>
 <p>
 The Battery Package implements everything that 
 has to do with a battery system itself.
