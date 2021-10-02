@@ -5,7 +5,7 @@ model HeatPump_perfFromTout
   parameter Real scaling = 2;
 
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,

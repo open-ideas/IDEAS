@@ -58,7 +58,7 @@ model Window "Multipane window"
     Shading.Interfaces.PartialShading(
                             final azi=aziInt) "First shading type"  annotation (Placement(transformation(extent={{-70,-60},
             {-60,-40}})),
-      __Dymola_choicesAllMatching=true, Dialog(group="Construction details"));
+      choicesAllMatching=true, Dialog(group="Construction details"));
 
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (

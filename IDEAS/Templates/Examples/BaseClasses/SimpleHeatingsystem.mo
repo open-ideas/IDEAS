@@ -15,7 +15,7 @@ partial model SimpleHeatingsystem
   replaceable IDEAS.Templates.Structure.Case900 structure constrainedby
     IDEAS.Templates.Interfaces.BaseClasses.Structure "Building structure"
     annotation (Placement(transformation(extent={{-54,0},{-20,22}})),
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   Modelica.Blocks.Sources.Constant TSet(k=273.15 + 22)
     "Temperature set point for zone"
