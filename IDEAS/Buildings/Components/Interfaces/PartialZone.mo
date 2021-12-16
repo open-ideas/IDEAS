@@ -230,7 +230,9 @@ protected
     n50=n50_int,
     V=V,
     q50_corr=sim.q50_def,
-    use_custom_n50=use_custom_n50)
+    use_custom_n50=use_custom_n50,
+    hZone=hZone,
+    hFloor=hFloor)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
 model Setq50 "q50 computation for zones"
@@ -254,6 +256,9 @@ model Setq50 "q50 computation for zones"
   parameter Real v50_custom[nSurf](fixed=false)
     "custom assigned v50 value, else zero";
 
+  parameter Modelica.SIunits.Length hZone "Zone height: distance between floor and ceiling";
+  parameter Modelica.SIunits.Length hFloor = 0  "Absolute height of zone floor";
+
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
   Modelica.Blocks.Interfaces.BooleanInput use_custom_q50[nSurf]
@@ -267,13 +272,21 @@ model Setq50 "q50 computation for zones"
    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
     "Custom q50 value for the surfaces connected to this zone"
-   annotation (Placement(transformation(extent={{-98,-70},
-              {-118,-50}})));
+   annotation (Placement(transformation(extent={{-98,-60},{-118,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput hzone[nSurf]
+    "Custom q50 value for the surfaces connected to this zone"
+    annotation (Placement(transformation(extent={{-96,-82},{-116,-62}})));
+  Modelica.Blocks.Interfaces.RealOutput hfloor[nSurf]
+    "Custom q50 value for the surfaces connected to this zone"
+    annotation (Placement(transformation(extent={{-96,-106},{-116,-86}})));
 initial equation
 
   for i in 1:nSurf loop
     defaultArea[i] = if use_custom_q50[i] then 0 else Area[i];
     v50_custom[i] = if use_custom_q50[i] then v50_surf[i] else 0;
+
+    hzone[i]=hZone;
+    hfloor[i]=hFloor;
   end for;
   allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
 
@@ -285,6 +298,10 @@ equation
   else
     q50_zone=fill(q50_corr,nSurf);
   end if;
+
+
+
+
     annotation (Icon(graphics={Rectangle(
             extent={{-84,80},{82,-80}},
             lineColor={28,108,200},
@@ -489,8 +506,6 @@ end for;
     connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
           40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
   end if;
-  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{-60.8,
-          -96},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
           {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.v50_surf, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
@@ -501,6 +516,12 @@ end for;
   connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
+  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{
+          -60.8,-95},{-80.1,-95},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.hzone, propsBusInt.hzone) annotation (Line(points={{-60.6,
+          -97.2},{-80.1,-97.2},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.hfloor, propsBusInt.hfloor) annotation (Line(points={{-60.6,
+          -99.6},{-80.1,-99.6},{-80.1,39.9}}, color={0,0,127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
