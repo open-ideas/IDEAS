@@ -1,6 +1,6 @@
 IDEAS v2.2.1
 ============
-[![Build Status](https://travis-ci.org/open-ideas/IDEAS.svg?branch=master)](https://travis-ci.org/open-ideas/IDEAS)
+[![Build Status](https://app.travis-ci.com/open-ideas/IDEAS.svg?branch=master)](https://app.travis-ci.com/open-ideas/IDEAS)
 
 Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level.
 
@@ -19,7 +19,6 @@ Modelica model environment for Integrated District Energy Assessment Simulations
 ## Backwards compatibility:
 IDEAS 2.0 is not backwards compatible with IDEAS 1.0, although the required changes should be limited or non-existent for most users.
 In the future we hope to provide automated Dymola conversion scripts when making releases.
-
 
 ## License
 IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.eu) under a [BSD 3 license](https://htmlpreview.github.io/?https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html).
@@ -64,7 +63,6 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
 14. G. Reynders, J. Diriken, D. Saelens (2017). Generic characterization method for energy flexibility: Applied to structural thermal storage in residential buildings. *Applied Energy* **198**, 192-202, doi: 10.1016/j.apenergy.2017.04.061
 15. F. Jorissen. (2018) Toolchain for optimal control and design of energy systems in buildings. PhD thesis, Arenberg Doctoral School, KU Leuven.
 16. Picard D., Sourbron M., Jorissen F., Vana Z., Cigler J., Ferkl L., Helsen L. (2016). Comparison of Model Predictive Control Performance Using Grey-Box and White-Box Controller Models of a Multi-zone Office Building. International High Performance Buildings Conference. International High Performance Buildings Conference. West Lafayette, 11-14 July 2016 (art.nr. 203).
-
 
 ### Bibtex entry for citing IDEAS
 Please cite IDEAS using the information below.
