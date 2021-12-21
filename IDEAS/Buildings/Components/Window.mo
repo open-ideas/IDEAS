@@ -31,8 +31,8 @@ model Window "Multipane window"
     setArea(A=A_glass*nWin),
     q50_zone(v50_surf=q50_internal*A_glass),
     res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass, h_a=Habs
-           - (propsBusInt.hfloor + 0.25*hVertical + hRef_a)),
-    res2(A=A_glass/2, h_a=Habs - (propsBusInt.hfloor + 0.75*hVertical + hRef_a)));
+           - (hfloor_a + 0.25*hVertical + hRef_a)),
+    res2(A=A_glass/2, h_a=Habs - (hfloor_a + 0.75*hVertical + hRef_a)));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));

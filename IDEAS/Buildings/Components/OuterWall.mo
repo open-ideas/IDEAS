@@ -5,8 +5,8 @@ model OuterWall "Opaque building envelope construction"
      final nWin=1,
      dT_nominal_a=-3,
      QTra_design(fixed=false),
-    res1(h_a=Habs - (propsBusInt.hfloor + 0.25*hVertical + hRef_a)),
-    res2(h_a=Habs - (propsBusInt.hfloor + 0.75*hVertical + hRef_a)));
+    res1(h_a=Habs - (hfloor_a + 0.25*hVertical + hRef_a)),
+    res2(h_a=Habs - (hfloor_a + 0.75*hVertical + hRef_a)));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
