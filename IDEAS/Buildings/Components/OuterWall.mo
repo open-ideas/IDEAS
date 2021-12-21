@@ -4,7 +4,9 @@ model OuterWall "Opaque building envelope construction"
      setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
-     QTra_design(fixed=false));
+     QTra_design(fixed=false),
+    res1(h_a=Habs - (propsBusInt.hfloor + 0.25*hVertical + hRef_a)),
+    res2(h_a=Habs - (propsBusInt.hfloor + 0.75*hVertical + hRef_a)));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -165,8 +167,9 @@ equation
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
           -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
                                                            color={0,0,127}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
-          -40},{16,-50},{-80,-50}}, color={0,127,255}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-36},{
+          16,-36},{16,-50},{-80,-50}},
+                                    color={0,127,255}));
   connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
           -60},{16,-50},{-80,-50}}, color={0,127,255}));
   annotation (
