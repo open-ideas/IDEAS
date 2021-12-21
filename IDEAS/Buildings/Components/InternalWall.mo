@@ -71,8 +71,10 @@ model InternalWall "interior opaque wall between two zones"
 
   parameter Real CD=0.78 "Discharge coefficient of cavity"
     annotation (Dialog(tab="Airflow"));
-  final parameter Real hzone_b( fixed=false);
-  parameter Real hRef_b=if inc == 0 then hzone_b else 0                     "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  final parameter Real hzone_b(fixed=false);
+  final parameter Real hfloor_b(fixed=false);
+
+  parameter Real hRef_b=if inc == 0 then hzone_b else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
   //TO CHECK: default should be zone height when it is the ceiling at propsbus
 
 protected
@@ -121,10 +123,14 @@ public
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
     wOpe=w,
-    hOpe=h) if
+    hOpe=h,
+    hA=hfloor_a + hRef_a + (hzone_a/2),
+    hB=hfloor_b + hRef_b + (hzone_b/2),
+    nCom=4,
+    CD=CD) if
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "2-port model for open door"
-    annotation (Placement(transformation(extent={{-10,80},{10,100}})));
+    annotation (Placement(transformation(extent={{-10,82},{10,102}})));
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
@@ -134,6 +140,7 @@ public
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 initial equation
     hzone_b = propsBus_b.hzone;
+    hfloor_b= propsBus_b.hfloor;
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
@@ -175,14 +182,14 @@ equation
   connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,40},
           {46,40},{46,19.91},{56.09,19.91}},
                                            color={191,0,0}));
-  connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,84},{
-          38,84},{38,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,96},{
-          42,96},{42,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(dooOpe.port_a1, propsBus_b.port_2) annotation (Line(points={{-10,96},{
-          -42,96},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,84},{
-          -38,84},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,86},{
+          38,86},{38,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,98},{
+          42,98},{42,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(dooOpe.port_a1, propsBus_b.port_2) annotation (Line(points={{-10,98},{
+          -42,98},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,86},{
+          -38,86},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,68},{
           -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
