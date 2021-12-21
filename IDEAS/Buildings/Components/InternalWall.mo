@@ -9,7 +9,9 @@ model InternalWall "interior opaque wall between two zones"
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
     final QTra_design=U_value*A*(TRef_a - TRef_b),
-    q50_zone(v50_surf=0));
+    q50_zone(v50_surf=0),
+    res1(h_a=-0.5*hzone_b + 0.25*hVertical + hRef_b),
+    res2(h_a=-0.5*hzone_b + 0.75*hVertical + hRef_b));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -69,6 +71,10 @@ model InternalWall "interior opaque wall between two zones"
 
   parameter Real CD=0.78 "Discharge coefficient of cavity"
     annotation (Dialog(tab="Airflow"));
+  final parameter Real hzone_b( fixed=false);
+  parameter Real hRef_b=if inc == 0 then hzone_b else 0                     "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  //TO CHECK: default should be zone height when it is the ceiling at propsbus
+
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -126,6 +132,8 @@ public
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
+initial equation
+    hzone_b = propsBus_b.hzone;
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
@@ -179,8 +187,8 @@ equation
           -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
           38,68},{38,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-40},{-60,
-          -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-36},{-60,
+          -36},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
           -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{56,
