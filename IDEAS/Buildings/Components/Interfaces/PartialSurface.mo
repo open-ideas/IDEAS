@@ -47,10 +47,10 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Boolean use_custom_q50=false
     "set to true to disable the default q50 computation and to assign a custom q50 value"
     annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
-  parameter Real custom_q50 = 2
+  parameter Real custom_q50(unit="m3/(h.m2)") = 2
     "Envelope air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
-  final parameter Real q50_internal(fixed=false)
+  final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
     "Envelope air tightness";
 
   final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
@@ -273,6 +273,13 @@ model PowerLaw_q50_stack
 
       parameter Real m=0.65;
       final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used";
+       //ERROR: Top-level models fail due to non-fixed conditions although at this level, only parameters are considered.
+      //Dymola wants to handle the connect() statements first, before the initial equations apparantly.
+      final parameter Boolean ColApos(fixed=false);
+      final parameter Boolean ColBpos(fixed=false);
+      final parameter Boolean ColAneg(fixed=false);
+      final parameter Boolean ColBneg(fixed=false);
+
       parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
       parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
       parameter Real q50
@@ -298,12 +305,12 @@ model PowerLaw_q50_stack
       Airflow.Multizone.MediumColumn col_a_pos(
     redeclare package Medium = Medium,
     h=abs(h_a),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if                                                                                StackEff
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if ColApos
     annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
       Airflow.Multizone.MediumColumn col_b_pos(
     redeclare package Medium = Medium,
     h=abs(h_b),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if                                                                                StackEff
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if ColBpos
     annotation (Placement(transformation(extent={{50,0},{70,20}})));
 
   outer BoundaryConditions.SimInfoManager sim
@@ -312,23 +319,34 @@ model PowerLaw_q50_stack
       Airflow.Multizone.MediumColumn col_b_neg(
     redeclare package Medium = Medium,
     h=abs(h_b),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if                                                                                   StackEff
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if ColBneg
     annotation (Placement(transformation(extent={{50,-40},{70,-20}})));
       Airflow.Multizone.MediumColumn col_a_neg(
     redeclare package Medium = Medium,
     h=abs(h_a),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if                                                                                   StackEff
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if ColAneg
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   Fluid.FixedResistances.LosslessPipe No_stack_a(
     redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    m_flow_nominal=0.1)
+    allowFlowReversal=true,
+    m_flow_nominal=q50*1.2/3600) if
+                          not StackEff
     annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
   Fluid.FixedResistances.LosslessPipe No_stack_b(
     redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    m_flow_nominal=0.1)
+    allowFlowReversal=true,
+    m_flow_nominal=q50*1.2/3600) if
+                          not StackEff
     annotation (Placement(transformation(extent={{40,40},{60,60}})));
+
+initial equation
+                 //attempt to let Dymola handle this before connecting - failed
+ColApos= StackEff and h_a>0;
+ColBpos= StackEff and h_b>0;
+ColAneg= StackEff and not h_a>0;
+ColBneg= StackEff and not h_b>0;
+
+
 equation
 
   connect(port_a, col_a_neg.port_a) annotation (Line(points={{-100,0},{-84,0},{-84,
@@ -469,7 +487,6 @@ equation
       points={{56.09,19.91},{46,19.91},{46,0},{40,0}},
       color={191,0,0},
       smooth=Smooth.None));
-
   connect(layMul.port_a, propsBusInt.surfRad) annotation (Line(
       points={{10,0},{16,0},{16,19.91},{56.09,19.91}},
       color={191,0,0},
