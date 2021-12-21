@@ -53,6 +53,13 @@ partial model PartialSurface "Partial model for building envelope component"
   final parameter Real q50_internal(fixed=false)
     "Envelope air tightness";
 
+  final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
+  parameter Real hVertical=if inc==Modelica.Constants.pi or inc==0 then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings";
+
+  parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  //TO CHECK: default should be zone height only when it is the ceiling at propsbus a
+
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
@@ -86,25 +93,19 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  PowerLaw_q50 res1(
-  redeclare package Medium = Medium,
-    final forceErrorControlOnFlow=false,
-    m=0.65,
-    A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then A/2 else A,
-    final q50=q50_internal) if
-                  add_cracks and
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+  PowerLaw_q50_stack res1(
+  redeclare package Medium = Medium, StackEff= if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then true else false,
+    h_b= -0.5*hzone_a + 0.25*hVertical +hRef_a) if
+        add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
-    annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
-  PowerLaw_q50 res2(
-  redeclare package Medium = Medium,
-    final forceErrorControlOnFlow=false,
-    m=0.65,
-    A=A/2,
-    final q50=q50_internal) if
-                  add_cracks and
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    annotation (Placement(transformation(extent={{20,-46},{40,-26}})));
+
+
+  PowerLaw_q50_stack res2(
+  redeclare package
+  Medium = Medium,
+  h_b= -0.5*hzone_a + 0.75*hVertical +hRef_a) if
+       add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
@@ -248,7 +249,208 @@ equation
           pattern=LinePattern.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}));
-end PowerLaw_q50;
+    end PowerLaw_q50;
+
+
+
+
+
+    model PowerLaw_q50_stack
+
+    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium  constrainedby
+      Modelica.Media.Interfaces.PartialMedium                                                  annotation (
+          __Dymola_choicesAllMatching=true);
+
+
+      parameter Modelica.SIunits.Area A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+             then A/2 else A
+             "Surface area";
+
+      parameter Real       m=0.65;
+      parameter Boolean StackEff=true "True if stack effect is used";
+
+      parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
+      parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
+
+    /*
+  parameter Airflow.Multizone.Types.densitySelection densitySelection_port_a=
+      IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom
+    "Select how to pick density";
+  parameter Airflow.Multizone.Types.densitySelection densitySelection_port_b=
+      IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom
+    "Select how to pick density";
+*/
+
+    Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
+                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
+    Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
+                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
+
+
+    PowerLaw_q50 res1(
+        redeclare package Medium = Medium,
+        final forceErrorControlOnFlow=false,
+        m=m,
+        useDefaultProperties= if StackEff then false else true,
+        A=A,
+        final q50=q50_internal) if StackEff and
+                      add_cracks and
+           sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+        "Middle or bottom crack "
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+
+      Airflow.Multizone.MediumColumn col(
+        redeclare package Medium = Medium,
+        h=abs(h_a),
+        densitySelection= if h_a>0 then IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom else IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+        annotation (Placement(transformation(extent={{-70,-12},{-50,8}})));
+      Airflow.Multizone.MediumColumn col1(
+        redeclare package Medium = Medium,
+        h=abs(h_b),
+        densitySelection= if h_b>0 then IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom else IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+        annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+
+
+
+    equation
+       if StackEff then //Conditionally connect to density columns
+
+         if h_a>=0 and h_b>=0 then
+
+      connect(port_a, col.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,-12},
+              {-60,-12}}, color={0,127,255}));
+      connect(col.port_a, res1.port_a) annotation (Line(points={{-60,8},{-40,8},{-40,
+              0},{-12,0}}, color={0,127,255}));
+      connect(port_b, col1.port_b) annotation (Line(points={{100,0},{74,0},{74,-10},
+              {50,-10}}, color={0,127,255}));
+      connect(col1.port_a, res1.port_b) annotation (Line(points={{50,10},{30,10},{30,
+              0},{8,0}}, color={0,127,255}));
+
+         elseif h_a>=0 and h_b<0 then
+
+      connect(port_a, col.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,-12},
+              {-60,-12}}, color={0,127,255}));
+      connect(col.port_a, res1.port_a) annotation (Line(points={{-60,8},{-40,8},{-40,
+              0},{-12,0}}, color={0,127,255}));
+      connect(port_b, col1.port_a) annotation (Line(points={{100,0},{74,0},{74,10},{
+                  50,10}},
+                         color={0,127,255}));
+      connect(col1.port_b, res1.port_b) annotation (Line(points={{50,-10},{30,-10},{
+                  30,0},{8,0}},
+                         color={0,127,255}));
+
+          elseif h_a<0 and h_b>=0 then
+
+      connect(port_a, col.port_a) annotation (Line(points={{-100,0},{-80,0},{-80,8},
+                  {-60,8}},
+                          color={0,127,255}));
+      connect(col.port_b, res1.port_a) annotation (Line(points={{-60,-12},{-40,-12},
+                  {-40,0},{-12,0}},
+                           color={0,127,255}));
+      connect(port_b, col1.port_b) annotation (Line(points={{100,0},{74,0},{74,-10},
+              {50,-10}}, color={0,127,255}));
+      connect(col1.port_a, res1.port_b) annotation (Line(points={{50,10},{30,10},{30,
+              0},{8,0}}, color={0,127,255}));
+
+         elseif h_a<0 and h_b<0 then
+
+      connect(port_a, col.port_a) annotation (Line(points={{-100,0},{-80,0},{-80,8},
+                  {-60,8}},
+                          color={0,127,255}));
+      connect(col.port_b, res1.port_a) annotation (Line(points={{-60,-12},{-40,-12},
+                  {-40,0},{-12,0}},
+                           color={0,127,255}));
+      connect(port_b, col1.port_a) annotation (Line(points={{100,0},{74,0},{74,10},{
+                  50,10}},
+                         color={0,127,255}));
+      connect(col1.port_b, res1.port_b) annotation (Line(points={{50,-10},{30,-10},{
+                  30,0},{8,0}},
+                         color={0,127,255}));
+
+
+         end if;
+
+
+
+
+       else //or ignore density columns
+         connect(port_a,res1.port_a);
+         connect(port_b,res1.port_b);
+      end if;
+
+
+
+    annotation (Icon(graphics={
+        Text(
+          extent={{-100,100},{-40,60}},
+          lineColor={28,108,200},
+          fillColor={215,215,215},
+          fillPattern=FillPattern.None,
+          textString="q50"),
+        Rectangle(
+          extent={{-20,80},{20,-80}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-60,58},{64,46}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-94,4},{-58,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{54,6},{106,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-64,2},{-46,-6}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-82,4},{-46,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,127,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,36},{66,24}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-58,-54},{66,-66}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-56,-24},{68,-36}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-38,4},{40,-8}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid)}));
+    end PowerLaw_q50_stack;
+
+
+
 
 model Q50_parameterToConnector "Converts parameter values into connectors for propsBus"
   extends Modelica.Blocks.Icons.Block;
@@ -269,6 +471,9 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
   Modelica.Blocks.Interfaces.BooleanOutput using_custom_q50 = use_custom_q50
     "Output indicating whether a custom q50 value should be considered by the zone"
    annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
+  Modelica.Blocks.Interfaces.RealInput dummy_h[2]
+      "Dummy connectors for hzone and hfloor"
+      annotation (Placement(transformation(extent={{-126,14},{-86,54}})));
   annotation (Icon(graphics={Rectangle(
           extent={{-82,80},{78,-80}},
           lineColor={28,108,200},
@@ -277,6 +482,7 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
 end Q50_parameterToConnector;
 initial equation
   q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
+  hzone_a=propsBusInt.hzone;
 
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
@@ -328,8 +534,8 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-40},{50,
-          -40},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-36},{50,
+          -36},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
           -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(setArea.areaPort, sim.areaPort);
@@ -343,6 +549,10 @@ equation
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
+  connect(q50_zone.dummy_h[1], propsBusInt.hzone) annotation (Line(points={{79.4,
+          -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
+  connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
+          -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
