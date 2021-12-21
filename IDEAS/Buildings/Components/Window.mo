@@ -7,6 +7,9 @@ model Window "Multipane window"
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
+    hRef_a=if inc == 0 then hzone_a else (hzone_a - hVertical)/2,
+    hVertical=if inc == Modelica.Constants.pi or inc == 0 then 0 else min(
+        hzone_a, sqrt(A)),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),
@@ -27,8 +30,9 @@ model Window "Multipane window"
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A_glass*nWin),
     q50_zone(v50_surf=q50_internal*A_glass),
-    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass),
-    res2(A=A_glass/2));
+    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass, h_a=Habs
+           - (propsBusInt.hfloor + 0.25*hVertical + hRef_a)),
+    res2(A=A_glass/2, h_a=Habs - (propsBusInt.hfloor + 0.75*hVertical + hRef_a)));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -323,8 +327,9 @@ equation
     annotation (Line(points={{-10,70},{-10,100}}, color={191,0,0}));
   connect(heaCapGlaExt.port, layMul.port_b)
     annotation (Line(points={{-10,-12},{-10,0}}, color={191,0,0}));
-  connect(res1.port_a,outsideAir. ports[1]) annotation (Line(points={{20,-40},{16,
-          -40},{16,-90},{-20,-90}}, color={0,127,255}));
+  connect(res1.port_a,outsideAir. ports[1]) annotation (Line(points={{20,-36},{
+          16,-36},{16,-90},{-20,-90}},
+                                    color={0,127,255}));
   connect(res2.port_a,outsideAir. ports[2]) annotation (Line(points={{20,-60},{16,
           -60},{16,-90},{-20,-90}}, color={0,127,255}));
     annotation (
