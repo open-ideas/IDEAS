@@ -285,8 +285,6 @@ initial equation
     defaultArea[i] = if use_custom_q50[i] then 0 else Area[i];
     v50_custom[i] = if use_custom_q50[i] then v50_surf[i] else 0;
 
-    hzone[i]=hZone;
-    hfloor[i]=hFloor;
   end for;
   allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
 
@@ -299,6 +297,8 @@ equation
     q50_zone=fill(q50_corr,nSurf);
   end if;
 
+    hzone=fill(hZone,nSurf);
+    hfloor=fill(hFloor,nSurf);
 
 
 
@@ -519,9 +519,9 @@ end for;
   connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{
           -60.8,-95},{-80.1,-95},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.hzone, propsBusInt.hzone) annotation (Line(points={{-60.6,
-          -97.2},{-80.1,-97.2},{-80.1,39.9}}, color={0,0,127}));
+          -97.2},{-60.6,-97.8},{-80.1,-97.8},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.hfloor, propsBusInt.hfloor) annotation (Line(points={{-60.6,
-          -99.6},{-80.1,-99.6},{-80.1,39.9}}, color={0,0,127}));
+          -99.6},{-60.6,-99.8},{-80.1,-99.8},{-80.1,39.9}}, color={0,0,127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
