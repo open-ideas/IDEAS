@@ -273,12 +273,15 @@ model PowerLaw_q50_stack
 
       parameter Real m=0.65;
       final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used";
-       //ERROR: Top-level models fail due to non-fixed conditions although at this level, only parameters are considered.
-      //Dymola wants to handle the connect() statements first, before the initial equations apparantly.
-      final parameter Boolean ColApos(fixed=false);
-      final parameter Boolean ColBpos(fixed=false);
-      final parameter Boolean ColAneg(fixed=false);
-      final parameter Boolean ColBneg(fixed=false);
+
+      /*ERROR:  Current version of the Modelica translator can only handle
+*/
+      final parameter Boolean ColApos=StackEff and h_a>0;
+      final parameter Boolean ColBpos=StackEff and h_b>0;
+      final parameter Boolean ColAneg=StackEff and not h_a>0;
+      final parameter Boolean ColBneg=StackEff and not h_b>0;
+
+
 
       parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
       parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
@@ -339,14 +342,6 @@ model PowerLaw_q50_stack
                           not StackEff
     annotation (Placement(transformation(extent={{40,40},{60,60}})));
 
-initial equation
-                 //attempt to let Dymola handle this before connecting - failed
-ColApos= StackEff and h_a>0;
-ColBpos= StackEff and h_b>0;
-ColAneg= StackEff and not h_a>0;
-ColBneg= StackEff and not h_b>0;
-
-
 equation
 
   connect(port_a, col_a_neg.port_a) annotation (Line(points={{-100,0},{-84,0},{-84,
@@ -365,14 +360,13 @@ equation
           {20,50},{40,50}}, color={0,127,255}));
   connect(No_stack_b.port_b, port_b) annotation (Line(points={{60,50},{80,50},{80,
           0},{100,0}}, color={0,127,255}));
-    connect(port_a, col_a_pos.port_b)
-      annotation (Line(points={{-100,0},{-60,0}}, color={0,127,255}));
-    connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,20},{
+  connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-60,0}}, color={0,127,255}));
+  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,20},{
             -40,20},{-40,0},{-12,0}}, color={0,127,255}));
-    connect(port_b, col_b_pos.port_b)
-      annotation (Line(points={{100,0},{60,0}}, color={0,127,255}));
-    connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,20},{34,
+  connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{60,0}}, color={0,127,255}));
+  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,20},{34,
             20},{34,0},{8,0}}, color={0,127,255}));
+
     annotation (Icon(graphics={
         Text(
           extent={{-100,100},{-40,60}},
