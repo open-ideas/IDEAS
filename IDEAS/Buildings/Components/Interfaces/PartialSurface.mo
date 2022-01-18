@@ -55,10 +55,11 @@ partial model PartialSurface "Partial model for building envelope component"
 
   final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Real hfloor_a( fixed=false);
-  parameter Real hVertical=if inc==Modelica.Constants.pi or inc==0 then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings";
+  parameter Real hVertical=if inc==Modelica.Constants.pi or inc==0 then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
+  parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  "
+                                                                                                                                                                                   annotation(Evaluate=true);
 
-  parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
-  //TO CHECK: default should be zone height only when it is the ceiling at propsbus a
+  //TO CHECK: default should be zone height only when it is the ceiling at propsbus
 
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
@@ -272,14 +273,14 @@ model PowerLaw_q50_stack
              "Surface area";
 
       parameter Real m=0.65;
-      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used";
+      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
 
       /*ERROR:  Current version of the Modelica translator can only handle
-*/
-      final parameter Boolean ColApos=StackEff and h_a>0;
-      final parameter Boolean ColBpos=StackEff and h_b>0;
-      final parameter Boolean ColAneg=StackEff and not h_a>0;
-      final parameter Boolean ColBneg=StackEff and not h_b>0;
+      */
+      final parameter Boolean ColApos=StackEff and h_a>0 annotation(Evaluate=true);
+      final parameter Boolean ColBpos=StackEff and h_b>0 annotation(Evaluate=true);
+      final parameter Boolean ColAneg=StackEff and not h_a>0 annotation(Evaluate=true);
+      final parameter Boolean ColBneg=StackEff and not h_b>0 annotation(Evaluate=true);
 
 
 
