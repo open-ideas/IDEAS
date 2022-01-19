@@ -80,9 +80,12 @@ model Window "Multipane window"
       -0.35; 270,-0.3; 315,0.1; 360,0.4]
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow",group="Wind"));
+  parameter Boolean Use_custom_Cs = false
+    "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
+    annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(tab="Airflow", group="Wind"));
+    annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
   final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
     "Absolute height of the ambient boundary for correcting the wind speed"
