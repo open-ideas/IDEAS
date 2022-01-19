@@ -124,8 +124,8 @@ public
     redeclare package Medium = Medium,
     wOpe=w,
     hOpe=h,
-    hA=hfloor_a + hRef_a + (hzone_a/2),
-    hB=hfloor_b + hRef_b + (hzone_b/2),
+    hA=(hzone_a/2) - hRef_a,
+    hB=(hzone_b/2) - hRef_b,
     nCom=4,
     CD=CD) if
        hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
