@@ -196,8 +196,8 @@ protected
     final table=coeffsCp,
     final azi=aziInt,
     Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then (A0*A0)*((Habs/Hwin)^(2*a)) elseif not Use_custom_Cs then sim.Cs
-         else Cs,
+         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
+        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if
