@@ -45,8 +45,8 @@ partial model PartialSurface "Partial model for building envelope component"
     "Medium in the component"
     annotation(Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   parameter Boolean use_custom_q50=false
-    "set to true to disable the default q50 computation and to assign a custom q50 value"
-    annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
+    "check to disable the default q50 computation and to assign a custom q50 value"
+    annotation (choices(checkBox=true),Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
   parameter Real custom_q50(unit="m3/(h.m2)") = 2
     "Envelope air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
