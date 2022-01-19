@@ -59,9 +59,6 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  "
                                                                                                                                                                                    annotation(Evaluate=true);
 
-  //TO CHECK: default should be zone height only when it is the ceiling at propsbus
-
-
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
