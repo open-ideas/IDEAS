@@ -5,8 +5,8 @@ model OuterWall "Opaque building envelope construction"
      final nWin=1,
      dT_nominal_a=-3,
      QTra_design(fixed=false),
-    res1(h_a=Habs - (hfloor_a + 0.25*hVertical + hRef_a)),
-    res2(h_a=Habs - (hfloor_a + 0.75*hVertical + hRef_a)));
+    res1(h_a=(Habs - sim.Hpres) + 0.25*hVertical),
+    res2(h_a=(Habs - sim.Hpres) - 0.25*hVertical));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -46,12 +46,15 @@ model OuterWall "Opaque building envelope construction"
 
 
 
+  parameter Boolean Use_custom_Cs = false
+    "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
+    annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real Habs=1
-    "Absolute height of boundary for correcting the wind speed"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+    annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
+    "Absolute height of the center of the surface for correcting the wind speed, used in TwoPort implementation"
+    annotation (Dialog(tab="Airflow", group="Wind"));
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -82,7 +85,9 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    Cs=Cs,
+    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then (A0*A0)*((Habs/Hwin)^(2*a)) elseif not Use_custom_Cs then sim.Cs
+         else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if

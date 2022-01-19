@@ -30,9 +30,9 @@ model Window "Multipane window"
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A_glass*nWin),
     q50_zone(v50_surf=q50_internal*A_glass),
-    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass, h_a=Habs
-           - (hfloor_a + 0.25*hVertical + hRef_a)),
-    res2(A=A_glass/2, h_a=Habs - (hfloor_a + 0.75*hVertical + hRef_a)));
+    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass, h_a=(
+          Habs - sim.Hpres) + 0.25*hVertical),
+    res2(A=A_glass/2, h_a=(Habs - sim.Hpres) - 0.25*hVertical));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -84,10 +84,9 @@ model Window "Multipane window"
                        "Wind speed modifier"
     annotation (Dialog(tab="Airflow", group="Wind"));
 
-  parameter Real Habs=1
-    "Absolute height of boundary for correcting the wind speed"
+  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
+    "Absolute height of the ambient boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
-
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -196,7 +195,9 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    Cs=Cs,
+    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then (A0*A0)*((Habs/Hwin)^(2*a)) elseif not Use_custom_Cs then sim.Cs
+         else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2) if

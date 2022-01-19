@@ -108,6 +108,8 @@ partial model PartialSimInfoManager
   parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
   parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
                                                                                                                             annotation(Dialog(group="Wind"));
+  parameter Modelica.SIunits.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement"
+                                                                                                                annotation(Dialog(group="Wind"));
   parameter Modelica.SIunits.Length Hwin=10 "Height above ground of meteorological wind speed measurement"
                                                                                                           annotation(Dialog(group="Wind"));
 
