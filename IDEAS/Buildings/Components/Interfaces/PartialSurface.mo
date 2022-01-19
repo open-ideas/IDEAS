@@ -175,7 +175,74 @@ protected
     "Block that contributes surface area to the siminfomanager"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
-model PowerLaw_q50
+
+
+
+
+
+
+model PowerLaw_q50_stack
+
+    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium  constrainedby
+      Modelica.Media.Interfaces.PartialMedium                                                  annotation (
+          __Dymola_choicesAllMatching=true);
+
+
+      parameter Modelica.SIunits.Area A
+             "Surface area";
+
+      parameter Real m=0.65;
+      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
+
+
+      parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
+      parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
+      parameter Real q50
+      "Leaked volume flow rate per unit A at 50Pa";
+
+    Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
+                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
+    Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
+                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
+
+
+    PowerLaw_q50 res1(
+        redeclare package Medium = Medium,
+        final forceErrorControlOnFlow=false,
+        m=m,
+        useDefaultProperties= not StackEff,
+        A=A,
+      final q50=q50)
+        "Middle or bottom crack "
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+
+
+      DensityColumn               col_a_pos(
+    redeclare package Medium = Medium,
+    h=h_a) if                                                                      StackEff
+    annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
+      DensityColumn               col_b_pos(
+    redeclare package Medium = Medium,
+    h=h_b) if                                                                      StackEff
+    annotation (Placement(transformation(extent={{50,-10},{70,10}})));
+
+  outer BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+
+  Fluid.FixedResistances.LosslessPipe No_stack_a(
+    redeclare package Medium = Medium,
+    allowFlowReversal=true,
+    m_flow_nominal=q50*1.2/3600) if
+                          not StackEff
+    annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
+  Fluid.FixedResistances.LosslessPipe No_stack_b(
+    redeclare package Medium = Medium,
+    allowFlowReversal=true,
+    m_flow_nominal=q50*1.2/3600) if
+                          not StackEff
+    annotation (Placement(transformation(extent={{50,30},{70,50}})));
+
+  model PowerLaw_q50
 
     extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
       m=0.5,
@@ -187,7 +254,7 @@ model PowerLaw_q50
     "Leaked volume flow rate per unit A at 50Pa";
   final parameter Real coeff = (q50/3600)/(50^m)
     "Conversion coefficient";
-equation
+  equation
   v= V_flow/A;
   annotation (Icon(graphics={
         Text(
@@ -256,117 +323,271 @@ equation
           pattern=LinePattern.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}));
-end PowerLaw_q50;
+  end PowerLaw_q50;
 
 
+  model DensityColumn
+  "Vertical shaft with no friction and no storage of heat and mass"
+
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+      annotation (choices(
+        choice(redeclare package Medium = IDEAS.Media.Air "Moist air")));
+  parameter Modelica.SIunits.Length h= 3 "Height of shaft";
 
 
-
-model PowerLaw_q50_stack
-
-    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium  constrainedby
-      Modelica.Media.Interfaces.PartialMedium                                                  annotation (
-          __Dymola_choicesAllMatching=true);
-
-
-      parameter Modelica.SIunits.Area A
-             "Surface area";
-
-      parameter Real m=0.65;
-      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
-
-      /*ERROR:  Current version of the Modelica translator can only handle
-      */
-      final parameter Boolean ColApos=StackEff and h_a>0 annotation(Evaluate=true);
-      final parameter Boolean ColBpos=StackEff and h_b>0 annotation(Evaluate=true);
-      final parameter Boolean ColAneg=StackEff and not h_a>0 annotation(Evaluate=true);
-      final parameter Boolean ColBneg=StackEff and not h_b>0 annotation(Evaluate=true);
-
-
-
-      parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
-      parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
-      parameter Real q50
-      "Leaked volume flow rate per unit A at 50Pa";
-
-    Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
-                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
-                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
-
-
-    PowerLaw_q50 res1(
-        redeclare package Medium = Medium,
-        final forceErrorControlOnFlow=false,
-        m=m,
-        useDefaultProperties= not StackEff,
-        A=A,
-      final q50=q50)
-        "Middle or bottom crack "
-        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
-
-
-      Airflow.Multizone.MediumColumn col_a_pos(
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare package Medium = Medium,
-    h=abs(h_a),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if ColApos
-    annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
-      Airflow.Multizone.MediumColumn col_b_pos(
+    p(start=Medium.p_default))
+    "Fluid connector a (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}}),
+        iconTransformation(extent={{-10,90},{10,110}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = Medium,
-    h=abs(h_b),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom) if ColBpos
-    annotation (Placement(transformation(extent={{50,0},{70,20}})));
+    p(start=Medium.p_default))
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{10,-110},{-10,-90}}), iconTransformation(extent={{10,-110},{-10,-90}})));
 
-  outer BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+  Modelica.SIunits.VolumeFlowRate V_flow
+    "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
+  Modelica.SIunits.MassFlowRate m_flow
+    "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
+  Modelica.SIunits.PressureDifference dp(displayUnit="Pa")
+    "Pressure difference between port_a and port_b";
+  Modelica.SIunits.Density rho "Density in medium column";
 
-      Airflow.Multizone.MediumColumn col_b_neg(
-    redeclare package Medium = Medium,
-    h=abs(h_b),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if ColBneg
-    annotation (Placement(transformation(extent={{50,-40},{70,-20}})));
-      Airflow.Multizone.MediumColumn col_a_neg(
-    redeclare package Medium = Medium,
-    h=abs(h_a),
-    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop) if ColAneg
-    annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  Fluid.FixedResistances.LosslessPipe No_stack_a(
-    redeclare package Medium = Medium,
-    allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if
-                          not StackEff
-    annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
-  Fluid.FixedResistances.LosslessPipe No_stack_b(
-    redeclare package Medium = Medium,
-    allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if
-                          not StackEff
-    annotation (Placement(transformation(extent={{40,40},{60,60}})));
+    protected
+  Medium.ThermodynamicState sta_b=Medium.setState_phX(
+      port_b.p,
+      actualStream(port_b.h_outflow),
+      actualStream(port_b.Xi_outflow)) "Medium properties in port_a";
+  Medium.MassFraction Xi[Medium.nXi] "Mass fraction used to compute density";
+
+  equation
+  // Design direction of mass flow rate
+  m_flow = port_a.m_flow;
+
+  // Pressure difference between ports
+  // Xi is computed first as it is used in two expression, and in one
+  // of them only one component is used.
+  // We test for Medium.nXi == 0 as Modelica.Media.Air.SimpleAir has no
+  // moisture and hence Xi[1] is an illegal statement.
+  // We first compute temperature and then invoke a density function that
+  // takes temperature as an argument. Simply calling a density function
+  // of a medium that takes enthalpy as an argument would be dangerous
+  // as different media can have different datum for the enthalpy.
+
+  Xi = inStream(port_b.Xi_outflow);
+  rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
+  p=Medium.p_default,
+  T=Medium.temperature(Medium.setState_phX(port_b.p, inStream(port_b.h_outflow), Xi)),
+  X_w=if Medium.nXi == 0 then 0 else Xi[1]);
+
+  V_flow = m_flow/Medium.density(sta_b);
+
+  dp = if h>0 then port_a.p - port_b.p else -port_a.p + port_b.p;
+  dp = -abs(h)*rho*Modelica.Constants.g_n;
+
+  // Isenthalpic state transformation (no storage and no loss of energy)
+  port_a.h_outflow = inStream(port_b.h_outflow);
+  port_b.h_outflow = inStream(port_a.h_outflow);
+
+  // Mass balance (no storage)
+  port_a.m_flow + port_b.m_flow = 0;
+
+  // Transport of substances
+  port_a.Xi_outflow = inStream(port_b.Xi_outflow);
+  port_b.Xi_outflow = inStream(port_a.Xi_outflow);
+
+  port_a.C_outflow = inStream(port_b.C_outflow);
+  port_b.C_outflow = inStream(port_a.C_outflow);
+
+  annotation (
+    Icon(graphics={
+        Line(
+          points={{0,100},{0,-100},{0,-98}}),
+        Text(
+          extent={{24,-78},{106,-100}},
+          lineColor={0,0,127},
+              textString="Zone/Amb"),
+        Text(
+          extent={{32,104},{98,70}},
+          lineColor={0,0,127},
+              textString="FlowElem"),
+        Text(
+          extent={{36,26},{88,-10}},
+          lineColor={0,0,127},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          textString="h=%h"),
+        Rectangle(
+          extent={{-16,80},{16,-80}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.fromTop,
+          extent={{-16,80},{16,0}},
+          fillColor={85,170,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.actual,
+          extent={{-16,80},{16,54}},
+          fillColor={85,170,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom,
+          extent={{-16,0},{16,-82}},
+          fillColor={85,170,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.actual,
+          extent={{-16,-55},{16,-80}},
+          fillColor={85,170,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0})}),
+      defaultComponentName="col",
+      Documentation(info=
+                   "<html>
+<p>
+This model describes the pressure difference of a vertical medium
+column. It can be used to model the pressure difference caused by
+stack effect.
+</p>
+<h4>Typical use and important parameters</h4>
+<p>
+The model can be used with the following three configurations, which are
+controlled by the setting of the parameter <code>densitySelection</code>:
+</p>
+<ul>
+<li>
+<code>top</code>:
+Use this setting to use the density from the volume that is connected
+to <code>port_a</code>.
+</li>
+<li>
+<code>bottom</code>:
+Use this setting to use the density from the volume that is connected
+to <code>port_b</code>.
+</li>
+<li>
+<code>actual</code>:
+Use this setting to use the density based on the actual flow direction.
+</li>
+</ul>
+<p>
+The settings <code>top</code> and <code>bottom</code>
+should be used when rooms or different floors of a building are
+connected since multizone airflow models assume that each floor is completely mixed.
+For these two seetings, this model will compute the pressure between the center of the room
+and an opening that is at height <code>h</code> relative to the center of the room.
+The setting <code>actual</code> may be used to model a chimney in which
+a column of air will change its density based on the flow direction.
+</p>
+<p>
+In this model, the parameter <code>h</code> must always be positive, and the port <code>port_a</code> must be
+at the top of the column.
+</p>
+<h4>Dynamics</h4>
+<p>
+For a dynamic model, use
+<a href=\"modelica://IDEAS.Airflow.Multizone.MediumColumnDynamic\">
+IDEAS.Airflow.Multizone.MediumColumnDynamic</a> instead of this model.
+</p>
+</html>", revisions=
+          "<html>
+<ul>
+<li>
+January 18, 2019, by Jianjun Hu:<br/>
+Limited the media choice to moist air only.
+See <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1050\">#1050</a>.
+</li>
+<li>
+May 1, 2018, by Filip Jorissen:<br/>
+Removed declaration of <code>allowFlowReversal</code>
+and changed default density computation such
+that it assumes a constant pressure.
+See <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/877\">#877</a>.
+</li>
+<li>
+November 3, 2016, by Michael Wetter:<br/>
+Removed start values for mass flow rate and pressure difference
+to simplify the parameter window.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/552\">#552</a>.
+</li>
+<li>
+January 22, 2016, by Michael Wetter:<br/>
+Corrected type declaration of pressure difference.
+This is
+for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/404\">#404</a>.
+</li>
+<li>
+February 24, 2015 by Michael Wetter:<br/>
+Changed model to use
+<a href=\"modelica://IDEAS.Utilities.Psychrometrics.Functions.density_pTX\">
+IDEAS.Utilities.Psychrometrics.Functions.density_pTX</a>
+for the density computation
+as
+<a href=\"modelica://IDEAS.Media.Air.density\">
+IDEAS.Media.Air.density</a>
+does not depend on temperature.
+</li>
+<li>
+December 22, 2014 by Michael Wetter:<br/>
+Removed <code>Modelica.Fluid.System</code>
+to address issue
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/311\">#311</a>.
+</li>
+<li>October 4, 2014 by Michael Wetter:<br/>
+Removed assignment of <code>port_?.p.nominal</code> to avoid a warning in OpenModelica because
+alias sets have different nominal values.
+</li>
+<li>April 17, 2013 by Michael Wetter:<br/>
+Reformulated the assert statement that checks for the correct value of <code>densitySelection</code>.
+</li>
+<li>July 28, 2010 by Michael Wetter:<br/>
+Changed sign for pressure difference.
+</li>
+<li>
+July 20, 2010 by Michael Wetter:<br/>
+Migrated model to Modelica 3.1 and integrated it into the Buildings library.
+Reimplemented assignment of density based on flow direction or based on outflowing state.
+</li>
+<li>
+February 24, 2005 by Michael Wetter:<br/>
+Released first version.
+</li>
+</ul>
+</html>"));
+  end DensityColumn;
+
 
 equation
 
-  connect(port_a, col_a_neg.port_a) annotation (Line(points={{-100,0},{-84,0},{-84,
-          -20},{-60,-20}}, color={0,127,255}));
-  connect(port_b, col_b_neg.port_a) annotation (Line(points={{100,0},{80,0},{80,
-          -20},{60,-20}}, color={0,127,255}));
-  connect(col_b_neg.port_b, res1.port_b) annotation (Line(points={{60,-40},{20,-40},
-          {20,0},{8,0}}, color={0,127,255}));
-  connect(col_a_neg.port_b, res1.port_a) annotation (Line(points={{-60,-40},{-20,
-          -40},{-20,0},{-12,0}}, color={0,127,255}));
-  connect(port_a, No_stack_a.port_a) annotation (Line(points={{-100,0},{-84,0},{
-          -84,50},{-60,50}}, color={0,127,255}));
-  connect(No_stack_a.port_b, res1.port_a) annotation (Line(points={{-40,50},{-20,
-          50},{-20,0},{-12,0}}, color={0,127,255}));
+  connect(port_a, No_stack_a.port_a) annotation (Line(points={{-100,0},{-80,0},{
+          -80,40},{-68,40}}, color={0,127,255}));
+  connect(No_stack_a.port_b, res1.port_a) annotation (Line(points={{-48,40},{-20,
+          40},{-20,0},{-12,0}}, color={0,127,255}));
   connect(res1.port_b, No_stack_b.port_a) annotation (Line(points={{8,0},{20,0},
-          {20,50},{40,50}}, color={0,127,255}));
-  connect(No_stack_b.port_b, port_b) annotation (Line(points={{60,50},{80,50},{80,
+          {20,40},{50,40}}, color={0,127,255}));
+  connect(No_stack_b.port_b, port_b) annotation (Line(points={{70,40},{80,40},{80,
           0},{100,0}}, color={0,127,255}));
-  connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-60,0}}, color={0,127,255}));
-  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,20},{
-            -40,20},{-40,0},{-12,0}}, color={0,127,255}));
-  connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{60,0}}, color={0,127,255}));
-  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,20},{34,
-            20},{34,0},{8,0}}, color={0,127,255}));
+  connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,
+          -10},{-60,-10}},                                                      color={0,127,255}));
+  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-40,
+          10},{-40,0},{-12,0}},       color={0,127,255}));
+  connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{80,0},{80,
+          -10},{60,-10}},                                                     color={0,127,255}));
+  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,10},{34,10},
+          {34,0},{8,0}},       color={0,127,255}));
 
     annotation (Icon(graphics={
         Text(
@@ -468,6 +689,7 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
           fillColor={145,167,175},
           fillPattern=FillPattern.Forward)}));
 end Q50_parameterToConnector;
+
 initial equation
   q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
   hzone_a=propsBusInt.hzone;
