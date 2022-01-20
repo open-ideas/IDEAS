@@ -76,14 +76,17 @@ model Window "Multipane window"
 
 
 
-  replaceable parameter IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Cubic Cp_table
+  replaceable parameter
+    IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
     constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
-    "Table with default table for wind pressure coefficients for walls, floors and roofs" annotation (
+    "Tables with wind pressure coefficients for walls, floors and roofs"
+    annotation (
     __Dymola_choicesAllMatching=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real coeffsCp[:,:]= if inc==0 then Cp_table.Cp_Roof elseif inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
-      "Cp at different angles of attack"
+
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+      "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   parameter Boolean Use_custom_Cs = false
