@@ -28,8 +28,14 @@ model OuterWall "Opaque building envelope construction"
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+
+  replaceable parameter IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Cubic Cp_table
+    constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
+    "Table with default table for wind pressure coefficients for walls, floors and roofs" annotation (
+    __Dymola_choicesAllMatching=true,
+    Placement(transformation(extent={{-34,78},{-30,82}})),
+    Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real coeffsCp[:,:]= if inc==0 then Cp_table.Cp_Roof elseif inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 

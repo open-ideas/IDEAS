@@ -76,10 +76,16 @@ model Window "Multipane window"
 
 
 
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+  replaceable parameter IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Cubic Cp_table
+    constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
+    "Table with default table for wind pressure coefficients for walls, floors and roofs" annotation (
+    __Dymola_choicesAllMatching=true,
+    Placement(transformation(extent={{-34,78},{-30,82}})),
+    Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real coeffsCp[:,:]= if inc==0 then Cp_table.Cp_Roof elseif inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
-      annotation(Dialog(tab="Airflow",group="Wind"));
+      annotation(Dialog(tab="Airflow", group="Wind Pressure"));
+
   parameter Boolean Use_custom_Cs = false
     "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
     annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
