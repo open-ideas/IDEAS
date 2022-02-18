@@ -144,29 +144,12 @@ model SingleZoneResidentialHydronic
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-110,-80})));
-  Utilities.IO.SignalExchange.Read reaTSetCoo(description=
-        "Zone operative temperature setpoint for cooling",
-                                                     y(unit="K"))
-    "Read zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
-  Utilities.IO.SignalExchange.Read reaTSetHea(description=
-        "Zone operative temperature setpoint for heating",
-                                                     y(unit="K"))
-    "Read zone cooling heating"
-    annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
   Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
         TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
     annotation (Placement(transformation(extent={{-180,-60},{-160,-40}})));
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
     annotation (Placement(transformation(extent={{-180,-90},{-160,-70}})));
-  Utilities.IO.SignalExchange.Read reaTSetSup(description=
-        "Supply temperature setpoint of heater", y(unit="K"))
-    "Read supply temperature setpoint of heater"
-    annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  Utilities.IO.SignalExchange.Read reaPum(description="Control signal for pump",
-      y(unit="1")) "Read control signal for pump"
-    annotation (Placement(transformation(extent={{30,-80},{50,-60}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=10,
@@ -216,24 +199,8 @@ equation
           {-50,10},{-50,0},{58,0}}, color={0,0,127}));
   connect(QGas.y,reaQHea. u)
     annotation (Line(points={{51,60},{58,60}}, color={0,0,127}));
-  connect(oveTSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-99,-50},{-92,-50}}, color={0,0,127}));
-  connect(oveTSetHea.y, reaTSetHea.u)
-    annotation (Line(points={{-99,-80},{-92,-80}}, color={0,0,127}));
-  connect(reaTSetCoo.y, con.uHigh) annotation (Line(points={{-69,-50},{-42,-50},
-          {-42,-74},{-34,-74}}, color={0,0,127}));
-  connect(reaTSetHea.y, con.uLow) annotation (Line(points={{-69,-80},{-42,-80},
-          {-42,-78},{-34,-78}}, color={0,0,127}));
   connect(TSetCoo.y, oveTSetCoo.u)
     annotation (Line(points={{-159,-50},{-122,-50}}, color={0,0,127}));
-  connect(oveTSetSup.y, reaTSetSup.u)
-    annotation (Line(points={{-7,80},{-2,80}}, color={0,0,127}));
-  connect(reaTSetSup.y, hea.TSet) annotation (Line(points={{21,80},{28,80},{28,
-          38},{22,38}}, color={0,0,127}));
-  connect(ovePum.y, reaPum.u)
-    annotation (Line(points={{21,-70},{28,-70}}, color={0,0,127}));
-  connect(realToInteger.u, reaPum.y)
-    annotation (Line(points={{58,-70},{51,-70}}, color={0,0,127}));
   connect(conPI.y, oveTSetSup.u)
     annotation (Line(points={{-59,80},{-30,80}}, color={0,0,127}));
   connect(offSet.y, add.u1) annotation (Line(points={{-159,-10},{-156,-10},{-156,
@@ -249,8 +216,16 @@ equation
           -86},{-152,-86}}, color={0,0,127}));
   connect(add.y, oveTSetHea.u)
     annotation (Line(points={{-129,-80},{-122,-80}}, color={0,0,127}));
-  connect(reaTSetHea.y, conPI.u_s) annotation (Line(points={{-69,-80},{-60,-80},
-          {-60,-20},{-100,-20},{-100,80},{-82,80}}, color={0,0,127}));
+  connect(oveTSetSup.y, hea.TSet) annotation (Line(points={{-7,80},{26,80},{26,38},
+          {22,38}}, color={0,0,127}));
+  connect(ovePum.y, realToInteger.u)
+    annotation (Line(points={{21,-70},{58,-70}}, color={0,0,127}));
+  connect(oveTSetCoo.y, con.uHigh) annotation (Line(points={{-99,-50},{-54,-50},
+          {-54,-74},{-34,-74}}, color={0,0,127}));
+  connect(oveTSetHea.y, con.uLow) annotation (Line(points={{-99,-80},{-40,-80},{
+          -40,-78},{-34,-78}}, color={0,0,127}));
+  connect(oveTSetHea.y, conPI.u_s) annotation (Line(points={{-99,-80},{-94,-80},
+          {-94,80},{-82,80}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=31500000,
@@ -382,19 +357,7 @@ depicted as C2 in Figure 1.
 <p>The model outputs are: </p>
 <ul>
 <li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
-</li>
-<li>
-<code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
-</li>
-<li>
 <code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
-</li>
-<li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for pump
 </li>
 <li>
 <code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
@@ -613,6 +576,12 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 2, 2021, by David Blum:<br/>
+Remove read blocks for control signals.
+This is for
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/364\">BOPTEST issue #364</a>. 
+</li>
 <li>
 June 23, 2021, by David Blum:<br/>
 Add schematics to documentation and move heating set point offset to 
