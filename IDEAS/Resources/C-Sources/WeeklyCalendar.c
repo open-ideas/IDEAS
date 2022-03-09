@@ -375,8 +375,13 @@ double getCalendarValue(void * ID, const int column, const double modelicaTime) 
 	} else {
 		for (i = calendarID->previousIndex; i > 0; i--) {
 			if (calendarID->calendar[i - 1]->time < time) {
+				i = i - 1;
 				break;
 			}
+		}
+		// if time is smaller than the first row, wrap back to the end of the week
+		if (i == 0 && calendarID->calendar[0]->time > time){
+			i = calendarID->n_rowsUnpacked - 1;
 		}
 	}
 	calendarID->previousIndex = i;
