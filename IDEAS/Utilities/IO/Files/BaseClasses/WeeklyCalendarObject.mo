@@ -34,7 +34,7 @@ annotation(Documentation(info="<html>
 revisions="<html>
 <ul>
 <li>
-March 7 2022, by Filip Jorissen:<br/>
+March 9 2022, by Filp Jorissen:<br/>
 First implementation.
 </li>
 </ul>
