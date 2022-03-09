@@ -278,7 +278,9 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 			}
 		}
 	}
+	// ModelicaFormatError("test");
 	fclose(fp);
+
 
 	// TODO check number of rows
 	// if (rul){
@@ -290,6 +292,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	double lastData[calendarID->n_cols_in-1];
 	memset(lastData, (char)(double)0, calendarID->n_cols_in-1); // set vector to zero initial guess
 
+	ModelicaFormatError("test");
 	int j,k;
 	for (i = 0; i < 2; ++i){
 		for (j = 0; j < rule_i; ++j){
@@ -302,13 +305,14 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 			}
 		}
 	}
+	ModelicaFormatWarning("test");
 
-	calendarID->t_offset = t_offset;
 	calendarID->t_offset = t_offset;
 	calendarID->n_rules = rule_i;
-	calendarID->lastIndex = 0;
+	calendarID->previousIndex = 0;
 	calendarID->calendar = rules;
 
+	// weeklyCalendarFree(calendarID);
 
 	return (void*) calendarID;
 }
@@ -330,8 +334,32 @@ void weeklyCalendarFree(void * ID){
 	ID=NULL;
 }
 
-double callCalendar(void * ID, const double time, const int index){
-	return 0;
+double getCalendarValue(void * ID, const int column, const double time){
+	WeeklyCalendar* calendarID = (WeeklyCalendar*)ID;
+
+	if (column < 0 || column > calendarID->n_cols_in-1){
+		ModelicaFormatError("The requested column index '%i' is outside of the table range.", column + 1);
+	}
+
+	int i;
+	if (time == calendarID->previousTimestamp)
+		i=calendarID->previousIndex;
+	else if (time > calendarID->calendar[calendarID->previousIndex]->time){
+		for(i=calendarID->previousIndex; i<calendarID->n_rules -1; i ++){
+			if (calendarID->calendar[i]->time > time);
+				break;
+		}
+	}else{
+		for(i=calendarID->previousIndex; i>0; i --){
+			if (calendarID->calendar[i]->time < time);
+				break;
+		}
+	}
+	calendarID->previousIndex = i;
+	calendarID->previousTimestamp = time;
+	
+
+	return calendarID->calendar[i]->data[column];
 }
 
 

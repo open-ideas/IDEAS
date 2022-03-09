@@ -22,7 +22,8 @@ typedef struct WeeklyCalendar {
 	int n_cols_in; /* Number of input columns */
 	int n_rules;	/* Number of rules: number of rows after unpacking the date */
 	
-	int lastIndex; /* Index where the calendar was called the last time */
+	double previousTimestamp;	/* Time where the calendar was called the previous time */
+	int previousIndex; 				/* Index where the calendar was called the previous time */
 
 	struct TimeDataTuple ** calendar;
 
@@ -35,6 +36,6 @@ void *weeklyCalendarInit(const char* name, const double t_offset);
 
 void weeklyCalendarFree(void * ID);
 
-double callCalendar(void * ID, const double time, const int index);
+double getCalendarValue(void * ID, const int column, const double time);
 
 #endif
