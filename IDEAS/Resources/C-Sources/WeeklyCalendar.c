@@ -1,4 +1,4 @@
-/* 
+/*
 
   This code implements a weekly calendar. Header file.
 
@@ -32,13 +32,13 @@
 #define WEEKCAL_c
 
 
-int cmpfun(const void ** tuple1, const void ** tuple2){
+int cmpfun(const void ** tuple1, const void ** tuple2) {
 	double time1 = (*(const TimeDataTuple **)tuple1)->time;
-  double time2 = (*(const TimeDataTuple **)tuple2)->time;
-	return  (time1-time2);
+	double time2 = (*(const TimeDataTuple **)tuple2)->time;
+	return  (time1 - time2);
 }
 
-void* weeklyCalendarInit(const char* name, const double t_offset){
+void* weeklyCalendarInit(const char* name, const double t_offset) {
 	WeeklyCalendar* calendarID = (WeeklyCalendar*)calloc(1, sizeof(WeeklyCalendar));
 
 	FILE *fp;
@@ -47,7 +47,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	struct TimeDataTuple **rules;
 
 	fp = fopen(name, "r");
-	if (fp == NULL){
+	if (fp == NULL) {
 		ModelicaFormatError("Failed to open file");
 	}
 
@@ -71,129 +71,129 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	// The format is day1,day2,day3:23:59:59 where day* is one of mon, tue, wed, thu, fri, sat, sun.
 	// All later columns contain data, where '-' serves as a wildcard, where data from the previous rule is reused.
 	// Rules are sorted by timestamp and then expanded, where '-' is filled in.
-	while ( 1 ){
+	while ( 1 ) {
 		int parseToken = 0;
 		double timeStamp;
-		
+
 
 		char c = fgetc ( fp ) ; // read a character from the file
-		if ( c == EOF ){
-			if (feof(fp)){
+		if ( c == EOF ) {
+			if (feof(fp)) {
 				break; // exit the while loop
-			}else{
+			} else {
 				ModelicaFormatError("Error while reading file.");
 			}
 		}{
-			if(index >= bufLen - 2){
+			if (index >= bufLen - 2) {
 				ModelicaFormatError("Buffer overflow");
 			}
 
-			
-			if (c == '\n'){// Check whether a token ends
+
+			if (c == '\n') { // Check whether a token ends
 				parseToken = 1;
-			}else if (comment == 1 || c == '#'){
+			} else if (comment == 1 || c == '#') {
 				comment = 1;
 				continue; // ignore this character and the next characters until a newline is detected, then parse the token
-			}else if ( isHeaderLine == 0 && (c == ' ' || c == '\t' ) && index > 0){ // parse token when reaching a space or tab, unless buffer is empty
+			} else if ( isHeaderLine == 0 && (c == ' ' || c == '\t' ) && index > 0) { // parse token when reaching a space or tab, unless buffer is empty
 				parseToken = 1;
-			}else if (c != ' ' && c != '\t' ){ //build up the token by copying a character
-				token[index]=c;
+			} else if (c != ' ' && c != '\t' ) { //build up the token by copying a character
+				token[index] = c;
 				index++;
 			}
 
 
 			// Parse a token if needed.
-			if (parseToken == 1 && index > 0){
+			if (parseToken == 1 && index > 0) {
 				token[index] = '\0';
 				index++;
 				const int tokenLen = strlen(token);
-				index=0;
+				index = 0;
 
 				// ModelicaFormatWarning("Parsing token %s", token);
 				char buff2[bufLen]; // shouldn't require an overflow check since token is already checked
 
-				if (foundHeader == 0 && strcmp("double", token) == 0){ // we found a header line, we expect a specific format after the whitespace
+				if (foundHeader == 0 && strcmp("double", token) == 0) { // we found a header line, we expect a specific format after the whitespace
 					isHeaderLine = 1;
 					foundHeader = 1;
-				}else if ( isHeaderLine == 1 ){	// parse the header columns and rows
-					if (strncmp("tab1(", token, 4) != 0){
+				} else if ( isHeaderLine == 1 ) {	// parse the header columns and rows
+					if (strncmp("tab1(", token, 4) != 0) {
 						ModelicaFormatError("Incorrect header. It should start with 'tab1('.");
 					}
-					
+
 					char *source = token + 5;
-					int ncharsRow = strcspn(source,",");
-					
-					if (tokenLen == ncharsRow + 5 ){
+					int ncharsRow = strcspn(source, ",");
+
+					if (tokenLen == ncharsRow + 5 ) {
 						ModelicaFormatError("Incorrect header. No comma was found in the header.");
 					}
 					strncpy(buff2, source, ncharsRow);
-					buff2[ncharsRow]='\0';
+					buff2[ncharsRow] = '\0';
 
-					if (sscanf(buff2, "%i", &calendarID->n_rows_in) != 1){
+					if (sscanf(buff2, "%i", &calendarID->n_rows_in) != 1) {
 						ModelicaFormatError("Error in intenger conversion in header while parsing %s.", buff2);
 					}
 
 					source = source + ncharsRow + 1;
-					int ncharsCol = strcspn(source,")");
-					if (tokenLen == ncharsCol + ncharsRow + 5 + 1){
+					int ncharsCol = strcspn(source, ")");
+					if (tokenLen == ncharsCol + ncharsRow + 5 + 1) {
 						ModelicaFormatError("Incorrect header. No closing colon was found in the header.");
-					}else if(tokenLen > ncharsCol + ncharsRow + 5 + 1 + 1){
+					} else if (tokenLen > ncharsCol + ncharsRow + 5 + 1 + 1) {
 						ModelicaFormatError("Incorrect header. It has trailing characters: '%s'.", token + ncharsRow + ncharsCol + 7);
 					}
 					strncpy(buff2, source, ncharsCol);
-					buff2[ncharsCol]='\0';
-					if (sscanf(buff2, "%i", &calendarID->n_cols_in) != 1){
+					buff2[ncharsCol] = '\0';
+					if (sscanf(buff2, "%i", &calendarID->n_cols_in) != 1) {
 						ModelicaFormatError("Error in integer conversion in header while parsing %s.", buff2);
 					}
-					if (calendarID->n_cols_in < 2){
+					if (calendarID->n_cols_in < 2) {
 						ModelicaFormatError("Illegal number of columns '%i'.", calendarID->n_cols_in);
 					}
-					if (calendarID->n_rows_in < 1){
+					if (calendarID->n_rows_in < 1) {
 						ModelicaFormatError("Illegal number of rows '%i'.", calendarID->n_rows_in);
 					}
 					isHeaderLine = 0;
 					foundHeader = 1;
 					rules = calloc(sizeof(TimeDataTuple *), calendarID->n_rows_in);
 					n_rulesInMem = calendarID->n_rows_in;
-				}else if(foundHeader == 0){
+				} else if (foundHeader == 0) {
 					ModelicaFormatError("Illegal file format, no header was found.");
-				}else if (tokensInLine == 0){
+				} else if (tokensInLine == 0) {
 					// 0 tokens have been found on this line, so we're parsing a date/time
 					timeStamp = 0;
-					const int ncharsDays = strcspn(token,":");
-					if (tokenLen  != ncharsDays){
-						const int ncharsHour = strcspn(token + ncharsDays + 1,":");
+					const int ncharsDays = strcspn(token, ":");
+					if (tokenLen  != ncharsDays) {
+						const int ncharsHour = strcspn(token + ncharsDays + 1, ":");
 						strncpy(buff2, token + ncharsDays + 1, ncharsHour);
 						buff2[ncharsHour] = '\0';
 						double val;
-						if (sscanf(buff2, "%lf", &val) != 1){
+						if (sscanf(buff2, "%lf", &val) != 1) {
 							ModelicaFormatError("Error in float conversion in hours. Found token %s with length %i", buff2, ncharsHour);
 						}
-						if (val>24 || val < 0){
+						if (val > 24 || val < 0) {
 							ModelicaFormatError("Unexpected value for hour: '%lf', should be between 0 and 24.", val);
 						}
-						timeStamp += val*3600;
+						timeStamp += val * 3600;
 
-						if (tokenLen != ncharsHour + ncharsDays + 1){
-							const int ncharsMinutes = strcspn(token + ncharsDays + ncharsHour + 2,":");
+						if (tokenLen != ncharsHour + ncharsDays + 1) {
+							const int ncharsMinutes = strcspn(token + ncharsDays + ncharsHour + 2, ":");
 							strncpy(buff2, token + ncharsDays + ncharsHour + 2, ncharsMinutes);
 							buff2[ncharsMinutes] = '\0';
-							if (sscanf(buff2, "%lf", &val) != 1){
+							if (sscanf(buff2, "%lf", &val) != 1) {
 								ModelicaFormatError("Error in float conversion in minutes.");
 							}
-							if (val>60 || val < 0){
+							if (val > 60 || val < 0) {
 								ModelicaFormatError("Unexpected value for minute: '%lf', should be between 0 and 60.", val);
 							}
-							timeStamp += val*60;
+							timeStamp += val * 60;
 
-							if (tokenLen != ncharsMinutes + ncharsHour + ncharsDays + 2){
+							if (tokenLen != ncharsMinutes + ncharsHour + ncharsDays + 2) {
 								const int ncharsSeconds = tokenLen - ncharsMinutes - ncharsHour - ncharsDays - 2;
 								strncpy(buff2, token + ncharsDays + ncharsHour + ncharsMinutes + 3, ncharsSeconds);
 								buff2[ncharsSeconds] = '\0';
-								if (sscanf(buff2, "%lf", &val) != 1){
+								if (sscanf(buff2, "%lf", &val) != 1) {
 									ModelicaFormatError("Error in float conversion in seconds.");
 								}
-								if (val>60 || val < 0){
+								if (val > 60 || val < 0) {
 									ModelicaFormatError("Unexpected value for seconds: '%lf', should be between 0 and 60.", val);
 								}
 								timeStamp += val;
@@ -201,44 +201,44 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 						}
 					}
 					strncpy(buff2, token, ncharsDays);
-					buff2[ncharsDays]='\0';
+					buff2[ncharsDays] = '\0';
 
 
 					// loop over all days (comma separated) and for each date, add a rule
 					int offset = 0;
-					while ( 1 ){
+					while ( 1 ) {
 						char * startIndex = buff2 + offset;
-						
-						int nchars = strcspn(startIndex,",");
-						if (nchars != 3 ){
+
+						int nchars = strcspn(startIndex, ",");
+						if (nchars != 3 ) {
 							ModelicaFormatError("Unexpected day formatting: %s.", startIndex);
 						}
-						
+
 
 						double t_day;
-						if (strncmp("mon", startIndex, 3) == 0){
+						if (strncmp("mon", startIndex, 3) == 0) {
 							t_day = 0;
-						}else if (strncmp("tue", startIndex, 3) == 0){
-							t_day = 1*3600*24;
-						}else if (strncmp("wed", startIndex, 3) == 0){
-							t_day = 2*3600*24;
-						}else if (strncmp("thu", startIndex, 3) == 0){
-							t_day = 3*3600*24;
-						}else if (strncmp("fri", startIndex, 3) == 0){
-							t_day = 4*3600*24;
-						}else if (strncmp("sat", startIndex, 3) == 0){
-							t_day = 5*3600*24;
-						}else if (strncmp("sun", startIndex, 3) == 0){
-							t_day = 6*3600*24;
-						}else{
+						} else if (strncmp("tue", startIndex, 3) == 0) {
+							t_day = 1 * 3600 * 24;
+						} else if (strncmp("wed", startIndex, 3) == 0) {
+							t_day = 2 * 3600 * 24;
+						} else if (strncmp("thu", startIndex, 3) == 0) {
+							t_day = 3 * 3600 * 24;
+						} else if (strncmp("fri", startIndex, 3) == 0) {
+							t_day = 4 * 3600 * 24;
+						} else if (strncmp("sat", startIndex, 3) == 0) {
+							t_day = 5 * 3600 * 24;
+						} else if (strncmp("sun", startIndex, 3) == 0) {
+							t_day = 6 * 3600 * 24;
+						} else {
 							ModelicaFormatError("Unexpected day format: %s.", startIndex);
 						}
 
 						// expand the memory if the initially assigned memory block does not suffice
-						if (rule_i >= n_rulesInMem){
+						if (rule_i >= n_rulesInMem) {
 							n_rulesInMem += calendarID->n_rows_in;
 							rules = realloc(rules, sizeof(TimeDataTuple*) * n_rulesInMem);
-							if(rules == NULL){
+							if (rules == NULL) {
 								ModelicaFormatError("Failed to reallocate memory.");
 							}
 						}
@@ -246,48 +246,48 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 						double time_i = timeStamp + t_day;
 						rules[rule_i] = calloc(sizeof(TimeDataTuple), 1);
 						rules[rule_i]->time = time_i;
-						rules[rule_i]->data = calloc(sizeof(double), (calendarID->n_cols_in-1));
+						rules[rule_i]->data = calloc(sizeof(double), (calendarID->n_cols_in - 1));
 						rule_i++;
 
 						n_rulesInRow++;
 						n_rowsUnpacked++;
-						if (offset==0) // only for the first rule in this row
+						if (offset == 0) // only for the first rule in this row
 							n_rowsPacked++;
 
-						if (strlen(startIndex) == 3){ //reached the end of the substring
+						if (strlen(startIndex) == 3) { //reached the end of the substring
 							break;
 						}
 						offset = offset + 4; // the length of a token and a comma
 					}
-					
+
 					tokensInLine++;
-				}else if (tokensInLine > 0){
+				} else if (tokensInLine > 0) {
 					// a token has been found on this line before, so we're parsing some numerical data
-					if (tokensInLine >= calendarID->n_cols_in){
+					if (tokensInLine >= calendarID->n_cols_in) {
 						ModelicaFormatError("Too many columns on row %i.", line);
 					}
 
 					double val;
-					if (sscanf(token, "%lf", &val) != 1){
-						if (token[0]== '-'){
+					if (sscanf(token, "%lf", &val) != 1) {
+						if (token[0] == '-') {
 							val = NAN; //convert the wildcard in a double representation
-						}else{
+						} else {
 							ModelicaFormatError("Invalid format for float %s.", token);
 						}
-						
+
 					}
 					// Set the data for all rules that result from this row.
-					for (i = rule_i-n_rulesInRow; i < rule_i; ++i){
-						rules[i]->data[tokensInLine-1] = val;
+					for (i = rule_i - n_rulesInRow; i < rule_i; ++i) {
+						rules[i]->data[tokensInLine - 1] = val;
 					}
 
 					tokensInLine++;
-				}else{
+				} else {
 					ModelicaFormatError("Logic error"); //should not be able to end up here
 				}
 			}
-			if (c == '\n'){ //reset some internal variables
-				if (tokensInLine>0 && tokensInLine != calendarID->n_cols_in){
+			if (c == '\n') { //reset some internal variables
+				if (tokensInLine > 0 && tokensInLine != calendarID->n_cols_in) {
 					ModelicaFormatError("Incorrect number of columns on line %i.", line);
 				}
 				line++;
@@ -299,7 +299,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	}
 	fclose(fp);
 
-	if (n_rowsPacked != calendarID->n_rows_in){
+	if (n_rowsPacked != calendarID->n_rows_in) {
 		ModelicaFormatError("Incorrect number of rows: %i instead of %i.", n_rowsPacked, calendarID->n_rows_in);
 	}
 
@@ -307,19 +307,19 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	qsort(rules, rule_i, sizeof(TimeDataTuple*), cmpfun);
 
 	// working vector with zero initial value
-	double lastData[calendarID->n_cols_in-1];
-	memset(lastData, (char)(double)0, calendarID->n_cols_in-1); // set vector to zero initial guess
+	double lastData[calendarID->n_cols_in - 1];
+	memset(lastData, (char)(double)0, calendarID->n_cols_in - 1); // set vector to zero initial guess
 
 	// Loop over all data and fill in wildcards using the last preceeding value.
 	// This may wrap back to the end of last week, therefore loop the data twice.
 	// If an entire column contains wildcards then use a default value of zero.
-	int j,k;
-	for (i = 0; i < 2; ++i){
-		for (j = 0; j < rule_i; ++j){
-			for (k = 0; k < calendarID->n_cols_in - 1; ++k){
-				if( !isnan(rules[j]->data[k]) ){
+	int j, k;
+	for (i = 0; i < 2; ++i) {
+		for (j = 0; j < rule_i; ++j) {
+			for (k = 0; k < calendarID->n_cols_in - 1; ++k) {
+				if ( !isnan(rules[j]->data[k]) ) {
 					lastData[k] = rules[j]->data[k];
-				}else if (i > 0){ // only on the second pass, since otherwise the default value is filled in permanently and information from the back of the domain can't be recycled
+				} else if (i > 0) { // only on the second pass, since otherwise the default value is filled in permanently and information from the back of the domain can't be recycled
 					rules[j]->data[k] = lastData[k];
 				}
 			}
@@ -336,52 +336,52 @@ void* weeklyCalendarInit(const char* name, const double t_offset){
 	return (void*) calendarID;
 }
 
-void weeklyCalendarFree(void * ID){
+void weeklyCalendarFree(void * ID) {
 	WeeklyCalendar* calendarID = (WeeklyCalendar*)ID;
-	
+
 	int i;
-	for (i = 0; i < calendarID->n_rowsUnpacked; ++i){
+	for (i = 0; i < calendarID->n_rowsUnpacked; ++i) {
 		free(calendarID->calendar[i]->data);
 		free(calendarID->calendar[i]);
 	}
-	
+
 	free(calendarID->calendar);
 	free(ID);
-	ID=NULL;
+	ID = NULL;
 }
 
 // Get a column value. Cache the last used row internally to speed up lookup.
-double getCalendarValue(void * ID, const int column, const double modelicaTime){
+double getCalendarValue(void * ID, const int column, const double modelicaTime) {
 	WeeklyCalendar* calendarID = (WeeklyCalendar*)ID;
 
-	if (column < 0 || column > calendarID->n_cols_in-1){
+	if (column < 0 || column > calendarID->n_cols_in - 1) {
 		ModelicaFormatError("The requested column index '%i' is outside of the table range.", column + 1);
 	}
 
 	//extrapolation for weeks that are outside of the user-defined range
 	double t = modelicaTime - calendarID->t_offset;
-	const double weekLen = 7*24*3600;
-	double time = fmod(t - weekLen*floor(t/weekLen), weekLen);
+	const double weekLen = 7 * 24 * 3600;
+	double time = fmod(t - weekLen * floor(t / weekLen), weekLen);
 
 	int i;
-	if (time == calendarID->previousTimestamp){
-		i=calendarID->previousIndex;
-	}else if (time > calendarID->calendar[calendarID->previousIndex]->time){
-		for(i=calendarID->previousIndex; i <calendarID->n_rowsUnpacked - 1; i ++){
-			if (calendarID->calendar[i+1]->time > time){
+	if (time == calendarID->previousTimestamp) {
+		i = calendarID->previousIndex;
+	} else if (time > calendarID->calendar[calendarID->previousIndex]->time) {
+		for (i = calendarID->previousIndex; i < calendarID->n_rowsUnpacked - 1; i ++) {
+			if (calendarID->calendar[i + 1]->time > time) {
 				break;
 			}
 		}
-	}else{
-		for(i=calendarID->previousIndex; i>0; i--){
-			if (calendarID->calendar[i-1]->time < time){
+	} else {
+		for (i = calendarID->previousIndex; i > 0; i--) {
+			if (calendarID->calendar[i - 1]->time < time) {
 				break;
 			}
 		}
 	}
 	calendarID->previousIndex = i;
 	calendarID->previousTimestamp = time;
-	
+
 	return calendarID->calendar[i]->data[column];
 }
 
