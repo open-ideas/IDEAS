@@ -5,11 +5,11 @@ model WeeklyCalendar "Weekly calendar model"
     "Columns that should be loaded from file";
   parameter Modelica.SIunits.Time t_offset = 0
     "Timestamp that corresponds to Monday midnight";
-  parameter String filename = "test.txt"
+  parameter String fileName = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/schedule.txt")
     "Filename";
 
   IDEAS.Utilities.IO.Files.BaseClasses.WeeklyCalendarObject cal=
-      IDEAS.Utilities.IO.Files.BaseClasses.WeeklyCalendarObject(filename, t_offset)
+      IDEAS.Utilities.IO.Files.BaseClasses.WeeklyCalendarObject(fileName, t_offset)
     "Calendar object";
 protected
   parameter Integer n_columns = size(columns,1);
@@ -27,7 +27,10 @@ protected
 public
   Modelica.Blocks.Interfaces.RealOutput[n_columns] y = {getCalendarValue(cal, iCol-1, time) for iCol in columns} " Outputs"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  annotation (experiment(StopTime=604800, Interval=100), Documentation(
+  annotation (experiment(
+      StartTime=-10000,
+      StopTime=1000000,
+      Interval=100),                                     Documentation(
         revisions="<html>
 <ul>
 <li>
