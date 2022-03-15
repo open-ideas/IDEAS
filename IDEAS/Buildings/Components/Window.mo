@@ -84,6 +84,16 @@ model Window "Multipane window"
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
 
+
+  parameter Boolean use_trickle_vent = false
+    "= true, to enable trickle vent"
+    annotation(Dialog(group="Trickle vent", tab="Airflow"));
+  parameter SI.MassFlowRate m_flow_nominal = 0
+    "Nominal mass flow rate of trickle vent"
+    annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
+  parameter SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
+    "Pressure drop at nominal mass flow rate of trickle vent"
+    annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -96,7 +106,12 @@ protected
   final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
   final parameter Modelica.SIunits.Area A_glass = A*(1 - frac);
-
+  IDEAS.Airflow.Multizone.TrickleVent trickleVent(
+    redeclare package Medium = Medium,
+    final allowFlowReversal=true,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_nominal) if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None "Trickle vent"
+    annotation (Placement(transformation(extent={{20,-88},{40,-68}})));
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     eCon(
     final A=A*(1 - frac),
@@ -194,16 +209,17 @@ protected
     final azi=aziInt,
     Cs=Cs,
     Habs=Habs,
-    nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then 1 else 2) if
+    nPorts=(if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+             then 1 else 2) +
+           (if use_trickle_vent then 1 else 0)) if
     sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
-
-
+  assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
 
 
 equation
@@ -284,8 +300,8 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u,radSolData.Tdes);
-  connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-60,-54},{
-          -60,-54},{-10,-54}},           color={0,0,127}));
+  connect(shaType.iAngInc, solWin.angInc) annotation (Line(points={{-60,-54},{-60,
+          -54},{-10,-54}},               color={0,0,127}));
   connect(heaCapGlaInt.port, layMul.port_a)
     annotation (Line(points={{16,-12},{16,0},{10,0}}, color={191,0,0}));
   connect(heaCapFraIn.port, layFra.port_a)
@@ -327,6 +343,11 @@ equation
           -40},{16,-90},{-20,-90}}, color={0,127,255}));
   connect(res2.port_a,outsideAir. ports[2]) annotation (Line(points={{20,-60},{16,
           -60},{16,-90},{-20,-90}}, color={0,127,255}));
+  connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation (Line(points={{20,-78},
+          {16,-78},{16,-92},{-2,-92},{-2,-90},{-20,-90}},                color={
+          0,127,255}));
+  connect(trickleVent.port_b, propsBusInt.port_1) annotation (Line(points={{40,-78},
+          {50,-78},{50,19.91},{56.09,19.91}}, color={0,127,255}));
     annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -398,6 +419,9 @@ The parameter <code>n</code> may be used to scale the window to <code>n</code> i
 For example, if a wall has 10 identical windows with identical shading, this parameter
 can be used to simulate 10 windows by scaling the model of a single window.
 </p>
+<p>
+The parameter tab Airflow lists optional parameters for adding a self regulating trickle vent.
+</p>
 <h4>Validation</h4>
 <p>
 To verify the U-value of your glazing system implementation,
@@ -406,6 +430,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 21, 2021 by Filip Jorissen:<br/>
+Added trickle vent support.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1232\">#1232</a>.
+</li>
 <li>
 August 12, 2020 by Filip Jorissen:<br/>
 No longer using connector and initial equation for <code>epsSw</code>.
