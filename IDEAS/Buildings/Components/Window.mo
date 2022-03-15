@@ -91,7 +91,7 @@ model Window "Multipane window"
   parameter SI.MassFlowRate m_flow_nominal = 0
     "Nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-  parameter SI.PressureDifference dp_nominal = 5
+  parameter SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
     "Pressure drop at nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
 protected
