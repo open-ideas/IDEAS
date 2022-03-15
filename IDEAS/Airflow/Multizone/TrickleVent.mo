@@ -33,13 +33,9 @@ equation
   // Pressure drop calculation
   if computeFlowResistance then
     if linearized then
-      if from_dp then
-        m_flow = dp*coeff;
-      else
-        dp = m_flow*coeff;
-      end if;
+      m_flow = dp*coeff;
     else
-          m_flow=
+      m_flow=
             IDEAS.Utilities.Math.Functions.smoothMin(
             m_flow_nominal,
             IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
@@ -52,88 +48,13 @@ equation
     dp = 0;
   end if;  // computeFlowResistance
 
-  annotation (defaultComponentName="res",
+  annotation (defaultComponentName="vent",
 Documentation(info="<html>
 <p>
 Model of a self regulating trickle vent.
-The positive mass flow rate is limited to <code>m_flow_nominal</code>.
-</p>
-<h4>Assumptions</h4>
-<p>
-In the region
-<code>abs(m_flow) &lt; m_flow_turbulent</code>,
-the square root is replaced by a differentiable function
-with finite slope.
-The value of <code>m_flow_turbulent</code> is
-computed as
-<code>m_flow_turbulent = deltaM * abs(m_flow_nominal)</code>,
-where <code>deltaM=0.3</code> and
-<code>m_flow_nominal</code> are parameters that can be set by the user.
-</p>
-<p>
-The figure below shows the pressure drop for the parameters
-<code>m_flow_nominal=5</code> kg/s,
-<code>dp_nominal=10</code> Pa and
-<code>deltaM=0.3</code>.
-</p>
-<p align=\"center\">
-<img alt=\"image\" src=\"modelica://IDEAS/Resources/Images/Fluid/FixedResistances/PressureDrop.png\"/>
-</p>
-<h4>Important parameters</h4>
-<p>
-If the parameter <code>linearized</code> is set to <code>true</code>,
-then the pressure drop is computed as a linear function of the
-mass flow rate.
-</p>
-<p>
-Setting <code>allowFlowReversal=false</code> can lead to simpler
-equations. However, this should only be set to <code>false</code>
-if one can guarantee that the flow never reverses its direction.
-This can be difficult to guarantee, as pressure imbalance after
-the initialization, or due to medium expansion and contraction,
-can lead to reverse flow.
-</p>
-<p>
-If the parameter
-<code>show_T</code> is set to <code>true</code>,
-then the model will compute the
-temperature at its ports. Note that this can lead to state events
-when the mass flow rate approaches zero,
-which can increase computing time.
-</p>
-<h4>Notes</h4>
-<p>
-For more detailed models that compute the actual flow friction,
-models from the package
-<a href=\"modelica://Modelica.Fluid\">
-Modelica.Fluid</a>
-can be used and combined with models from the
-<code>IDEAS</code> library.
-</p>
-<p>
-For a model that uses the hydraulic parameter and flow velocity at nominal conditions
-as a parameter, use
-<a href=\"modelica://IDEAS.Fluid.FixedResistances.HydraulicDiameter\">
-IDEAS.Fluid.FixedResistances.HydraulicDiameter</a>.
-</p>
-<h4>Implementation</h4>
-<p>
-The pressure drop is computed by calling a function in the package
-<a href=\"modelica://IDEAS.Fluid.BaseClasses.FlowModels\">
-IDEAS.Fluid.BaseClasses.FlowModels</a>,
-This package contains regularized implementations of the equation
-</p>
-<p align=\"center\" style=\"font-style:italic;\">
-  m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
-</p>
-<p>
-and its inverse function.
-</p>
-<p>
-To decouple the energy equation from the mass equations,
-the pressure drop is a function of the mass flow rate,
-and not the volume flow rate.
-This leads to simpler equations.
+The positive mass flow rate is limited to <code>m_flow_nominal</code>
+at a pressure difference of <code>dp_nominal</code>.
+For negative pressure differences the mass flow rate is not limited.
 </p>
 </html>", revisions="<html>
 <ul>

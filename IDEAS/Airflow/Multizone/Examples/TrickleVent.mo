@@ -1,13 +1,12 @@
 within IDEAS.Airflow.Multizone.Examples;
-model TrickleVent2 "Model with a trickle vent"
+model TrickleVent "Model with a trickle vent"
   extends Modelica.Icons.Example;
-  package Medium = IDEAS.Media.Air;
-  IDEAS.Airflow.Multizone.TrickleVent
-                                  res(redeclare package Medium = Medium,
+  package Medium = IDEAS.Media.Air "Air medium";
+  IDEAS.Airflow.Multizone.TrickleVent vent(
+    redeclare package Medium = Medium,
     m_flow_nominal=0.1,
-    dp_nominal=2)
-             "Orifice"
-             annotation (Placement(transformation(extent={{0,18},{20,38}})));
+    dp_nominal=2) "Trickle vent"
+    annotation (Placement(transformation(extent={{0,20},{20,40}})));
   IDEAS.Fluid.Sources.Boundary_pT roo1(
     redeclare package Medium = Medium,
     use_p_in=true,
@@ -43,13 +42,14 @@ equation
           -68,38},{-62,38}}, color={0,0,127}));
   connect(add.y, roo2.p_in) annotation (Line(points={{65,-20},{90,-20},{90,22},
           {82,22}}, color={0,0,127}));
-  connect(roo1.ports[1], res.port_a) annotation (Line(points={{-40,30},{-20,30},
-          {-20,28},{0,28}}, color={0,127,255}));
-  connect(res.port_b, roo2.ports[1]) annotation (Line(points={{20,28},{42,28},{
-          42,30},{60,30}}, color={0,127,255}));
+  connect(roo1.ports[1], vent.port_a)
+    annotation (Line(points={{-40,30},{0,30}}, color={0,127,255}));
+  connect(vent.port_b, roo2.ports[1])
+    annotation (Line(points={{20,30},{60,30}}, color={0,127,255}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=1),
-    __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Airflow/Multizone/Examples/TrickleVent2.mos"
+    __Dymola_Commands(file=
+          "modelica://IDEAS/Resources/Scripts/Dymola/Airflow/Multizone/Examples/TrickleVent.mos"
         "Simulate and plot"),
     Documentation(info="<html>
 <p>
@@ -63,4 +63,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end TrickleVent2;
+end TrickleVent;

@@ -1,5 +1,0 @@
-simulateModel("IDEAS.Airflow.Multizone.Examples.TrickleVent2", stopTime=1,
-   method="CVode", tolerance=1e-06, resultFile="TrickleVent2");
-
-createPlot(id=1, position={0, 0, 1109, 499}, y={"res.m_flow"}, range={0.0, 1.0, -0.25, 0.15000000000000002}, grid=true,  colors={{28,108,200}});
-
