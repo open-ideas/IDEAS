@@ -2,7 +2,7 @@ within IDEAS.Buildings;
 package UsersGuide "User's Guide"
 extends Modelica.Icons.Information;
 
-annotation (__Dymola_DocumentationClass=true, Documentation(info="<html>
+annotation (DocumentationClass=true, Documentation(info="<html>
 <p>
 The main goal of the IDEAS Buildings library is to set up models that allow simulating
 building envelope models. These models may be coupled to

@@ -7,7 +7,7 @@ extends Modelica.Icons.Information;
 
 
 
-annotation (__Dymola_DocumentationClass=true, Documentation(info="<html>
+annotation (DocumentationClass=true, Documentation(info="<html>
 <p>
 <i><b>Integrated District Energy Assessment by Simulation</b></i> 
 (<code>IDEAS</code>) is a Modelica library that allows integrated transient simulation of 
