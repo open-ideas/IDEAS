@@ -1,6 +1,6 @@
 /*
 
-  This code implements a weekly calendar. Header file.
+  This code implements a weekly schedule. Header file.
 
 	License: BSD3
 
@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "WeeklyCalendar.h"
+#include "WeeklySchedule.h"
 
 #ifndef WEEKCAL_c
 #define WEEKCAL_c
@@ -38,8 +38,8 @@ int cmpfun(const void * tuple1, const void * tuple2) {
 	return  (time1 - time2);
 }
 
-void* weeklyCalendarInit(const char* name, const double t_offset) {
-	WeeklyCalendar* calendarID = (WeeklyCalendar*)calloc(1, sizeof(WeeklyCalendar));
+void* weeklyScheduleInit(const char* name, const double t_offset) {
+	WeeklySchedule* scheduleID = (WeeklySchedule*)calloc(1, sizeof(WeeklySchedule));
 
 	FILE *fp;
 	const int bufLen = 255;
@@ -136,7 +136,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 					strncpy(buff2, source, ncharsRow);
 					buff2[ncharsRow] = '\0';
 
-					if (sscanf(buff2, "%i", &calendarID->n_rows_in) != 1) {
+					if (sscanf(buff2, "%i", &scheduleID->n_rows_in) != 1) {
 						ModelicaFormatError("Error in intenger conversion in header while parsing %s in weekly schedule '%s'.", buff2, name);
 					}
 
@@ -149,19 +149,19 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 					}
 					strncpy(buff2, source, ncharsCol);
 					buff2[ncharsCol] = '\0';
-					if (sscanf(buff2, "%i", &calendarID->n_cols_in) != 1) {
+					if (sscanf(buff2, "%i", &scheduleID->n_cols_in) != 1) {
 						ModelicaFormatError("Error in integer conversion in header while parsing %s in weekly schedule '%s'..", buff2, name);
 					}
-					if (calendarID->n_cols_in < 2) {
-						ModelicaFormatError("Illegal number of columns '%i' when reading weekly schedule '%s'.", calendarID->n_cols_in, name);
+					if (scheduleID->n_cols_in < 2) {
+						ModelicaFormatError("Illegal number of columns '%i' when reading weekly schedule '%s'.", scheduleID->n_cols_in, name);
 					}
-					if (calendarID->n_rows_in < 1) {
-						ModelicaFormatError("Illegal number of rows '%i' when reading weekly schedule '%s'.", calendarID->n_rows_in, name);
+					if (scheduleID->n_rows_in < 1) {
+						ModelicaFormatError("Illegal number of rows '%i' when reading weekly schedule '%s'.", scheduleID->n_rows_in, name);
 					}
 					isHeaderLine = 0;
 					foundHeader = 1;
-					rules = calloc(sizeof(TimeDataTuple *), calendarID->n_rows_in);
-					n_rulesInMem = calendarID->n_rows_in;
+					rules = calloc(sizeof(TimeDataTuple *), scheduleID->n_rows_in);
+					n_rulesInMem = scheduleID->n_rows_in;
 				} else if (foundHeader == 0) {
 					ModelicaFormatError("Illegal file format, no header was found when reading weekly schedule '%s'.", name);
 				} else if (tokensInLine == 0) {
@@ -242,7 +242,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 
 						/* expand the memory if the initially assigned memory block does not suffice*/
 						if (rule_i >= n_rulesInMem) {
-							n_rulesInMem += calendarID->n_rows_in;
+							n_rulesInMem += scheduleID->n_rows_in;
 							rules = realloc(rules, sizeof(TimeDataTuple*) * n_rulesInMem);
 							if (rules == NULL) {
 								ModelicaFormatError("Failed to reallocate memory when reading weekly schedule '%s'.", name);
@@ -252,7 +252,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 						time_i = timeStamp + t_day;
 						rules[rule_i] = calloc(sizeof(TimeDataTuple), 1);
 						rules[rule_i]->time = time_i;
-						rules[rule_i]->data = calloc(sizeof(double), (calendarID->n_cols_in - 1));
+						rules[rule_i]->data = calloc(sizeof(double), (scheduleID->n_cols_in - 1));
 						rule_i++;
 
 						n_rulesInRow++;
@@ -271,7 +271,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 					double val;
 
 					/* a token has been found on this line before, so we're parsing some numerical data*/
-					if (tokensInLine >= calendarID->n_cols_in) {
+					if (tokensInLine >= scheduleID->n_cols_in) {
 						ModelicaFormatError("Too many columns on row %i when reading weekly schedule '%s'.", line, name);
 					}
 
@@ -295,7 +295,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 				free(buff2);
 			}
 			if (c == '\n') { /*reset some internal variables*/
-				if (tokensInLine > 0 && tokensInLine != calendarID->n_cols_in) {
+				if (tokensInLine > 0 && tokensInLine != scheduleID->n_cols_in) {
 					ModelicaFormatError("Incorrect number of columns on line %i when reading weekly schedule '%s'.", line, name);
 				}
 				line++;
@@ -307,8 +307,8 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 	}
 	fclose(fp);
 
-	if (n_rowsPacked != calendarID->n_rows_in) {
-		ModelicaFormatError("Incorrect number of rows when reading weekly schedule '%s': %i instead of %i.", name, n_rowsPacked, calendarID->n_rows_in);
+	if (n_rowsPacked != scheduleID->n_rows_in) {
+		ModelicaFormatError("Incorrect number of rows when reading weekly schedule '%s': %i instead of %i.", name, n_rowsPacked, scheduleID->n_rows_in);
 	}
 
 	/* sort all data by time stamp*/
@@ -317,8 +317,8 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 	{
 		/* working vector with zero initial value*/
 		int j, k;
-		double *lastData = calloc(sizeof(double), calendarID->n_cols_in - 1);
-		memset(lastData, (char)(double)0, calendarID->n_cols_in - 1); /* set vector to zero initial guess*/
+		double *lastData = calloc(sizeof(double), scheduleID->n_cols_in - 1);
+		memset(lastData, (char)(double)0, scheduleID->n_cols_in - 1); /* set vector to zero initial guess*/
 
 		/* Loop over all data and fill in wildcards using the last preceeding value.*/
 		/* This may wrap back to the end of last week, therefore loop the data twice.*/
@@ -326,7 +326,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 
 		for (i = 0; i < 2; ++i) {
 			for (j = 0; j < rule_i; ++j) {
-				for (k = 0; k < calendarID->n_cols_in - 1; ++k) {
+				for (k = 0; k < scheduleID->n_cols_in - 1; ++k) {
 					if ( rules[j]->data[k] != HUGE_VAL ) {
 						lastData[k] = rules[j]->data[k];
 					} else if (i > 0) { /* only on the second pass, since otherwise the default value is filled in permanently and information from the back of the domain can't be recycled*/
@@ -339,42 +339,42 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 	}
 
 	/* store data for later use*/
-	calendarID->t_offset = t_offset;
-	calendarID->n_rowsUnpacked = n_rowsUnpacked;
-	calendarID->previousIndex = 0;
-	calendarID->calendar = rules;
-	calendarID->previousTimestamp = HUGE_VAL;
+	scheduleID->t_offset = t_offset;
+	scheduleID->n_rowsUnpacked = n_rowsUnpacked;
+	scheduleID->previousIndex = 0;
+	scheduleID->schedule = rules;
+	scheduleID->previousTimestamp = HUGE_VAL;
 
 	free(token);
 
-	return (void*) calendarID;
+	return (void*) scheduleID;
 }
 
-void weeklyCalendarFree(void * ID) {
-	WeeklyCalendar* calendarID = (WeeklyCalendar*)ID;
+void weeklyScheduleFree(void * ID) {
+	WeeklySchedule* scheduleID = (WeeklySchedule*)ID;
 
 	int i;
-	for (i = 0; i < calendarID->n_rowsUnpacked; ++i) {
-		free(calendarID->calendar[i]->data);
-		free(calendarID->calendar[i]);
+	for (i = 0; i < scheduleID->n_rowsUnpacked; ++i) {
+		free(scheduleID->schedule[i]->data);
+		free(scheduleID->schedule[i]);
 	}
 
-	free(calendarID->calendar);
+	free(scheduleID->schedule);
 	free(ID);
 	ID = NULL;
 }
 
 /* Get a column value. Cache the last used row internally to speed up lookup.*/
-double getCalendarValue(void * ID, const int column, const double modelicaTime) {
-	WeeklyCalendar* calendarID = (WeeklyCalendar*)ID;
+double getScheduleValue(void * ID, const int column, const double modelicaTime) {
+	WeeklySchedule* scheduleID = (WeeklySchedule*)ID;
 	/*extrapolation for weeks that are outside of the user-defined range*/
-	double t = modelicaTime - calendarID->t_offset;
+	double t = modelicaTime - scheduleID->t_offset;
 	const double weekLen = 7 * 24 * 3600;
 	double time = fmod(t - weekLen * floor(t / weekLen), weekLen);
 	int i;
 	const int columnIndex = column - 1; /* Since we do not store the time indices in the data table*/
 
-	if (column < 0 || column > calendarID->n_cols_in - 1) {
+	if (column < 0 || column > scheduleID->n_cols_in - 1) {
 		ModelicaFormatError("The requested column index '%i' is outside of the table range.", column + 1);
 	}
 	if (column == 0 ) {
@@ -382,30 +382,30 @@ double getCalendarValue(void * ID, const int column, const double modelicaTime) 
 	}
 
 
-	if (time == calendarID->previousTimestamp) {
-		i = calendarID->previousIndex;
-	} else if (time > calendarID->calendar[calendarID->previousIndex]->time) {
-		for (i = calendarID->previousIndex; i < calendarID->n_rowsUnpacked - 1; i ++) {
-			if (calendarID->calendar[i + 1]->time > time) {
+	if (time == scheduleID->previousTimestamp) {
+		i = scheduleID->previousIndex;
+	} else if (time > scheduleID->schedule[scheduleID->previousIndex]->time) {
+		for (i = scheduleID->previousIndex; i < scheduleID->n_rowsUnpacked - 1; i ++) {
+			if (scheduleID->schedule[i + 1]->time > time) {
 				break;
 			}
 		}
 	} else {
-		for (i = calendarID->previousIndex; i > 0; i--) {
-			if (calendarID->calendar[i - 1]->time < time) {
+		for (i = scheduleID->previousIndex; i > 0; i--) {
+			if (scheduleID->schedule[i - 1]->time < time) {
 				i = i - 1;
 				break;
 			}
 		}
 		/* if time is smaller than the first row, wrap back to the end of the week*/
-		if (i == 0 && calendarID->calendar[0]->time > time) {
-			i = calendarID->n_rowsUnpacked - 1;
+		if (i == 0 && scheduleID->schedule[0]->time > time) {
+			i = scheduleID->n_rowsUnpacked - 1;
 		}
 	}
-	calendarID->previousIndex = i;
-	calendarID->previousTimestamp = time;
+	scheduleID->previousIndex = i;
+	scheduleID->previousTimestamp = time;
 
-	return calendarID->calendar[i]->data[columnIndex];
+	return scheduleID->schedule[i]->data[columnIndex];
 }
 
 

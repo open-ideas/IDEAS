@@ -1,15 +1,15 @@
 within IDEAS.Utilities.IO.Files.BaseClasses;
-class WeeklyCalendarObject "Class that loads a weekly calendar"
+class WeeklyScheduleObject "Class that loads a weekly schedule"
 extends ExternalObject;
   function constructor
     "Verify whether a file writer with  the same path exists and cache variable keys"
     extends Modelica.Icons.Function;
     input String fileName "Name of the file, including extension";
     input Real t_offset "";
-    output WeeklyCalendarObject weeklyCalendar "Pointer to the weekly calendar";
-    external"C" weeklyCalendar = weeklyCalendarInit(fileName, t_offset)
+    output WeeklyScheduleObject weeklySchedule "Pointer to the weekly schedule";
+    external"C" weeklySchedule = weeklyScheduleInit(fileName, t_offset)
     annotation (
-      Include="#include <WeeklyCalendar.c>",
+      Include="#include <WeeklySchedule.c>",
       IncludeDirectory="modelica://IDEAS/Resources/C-Sources");
 
     annotation(Documentation(info="<html>
@@ -21,9 +21,9 @@ c
   end constructor;
 
   function destructor "Release storage and close the external object, write data if needed"
-    input WeeklyCalendarObject weeklyCalendar "Pointer to file writer object";
-    external "C" weeklyCalendarFree(weeklyCalendar)
-    annotation(Include=" #include <WeeklyCalendar.c>",
+    input WeeklyScheduleObject weeklySchedule "Pointer to file writer object";
+    external "C" weeklyScheduleFree(weeklySchedule)
+    annotation(Include=" #include <WeeklySchedule.c>",
     IncludeDirectory="modelica://IDEAS/Resources/C-Sources");
   annotation(Documentation(info="<html>
 </html>"));
@@ -39,4 +39,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end WeeklyCalendarObject;
+end WeeklyScheduleObject;

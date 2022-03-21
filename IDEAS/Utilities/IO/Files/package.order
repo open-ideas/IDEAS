@@ -1,6 +1,6 @@
 CSVWriter
 CombiTimeTableWriter
 JSONWriter
+WeeklySchedule
 Examples
 BaseClasses
-WeeklyCalendar
