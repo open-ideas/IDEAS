@@ -372,10 +372,15 @@ double getCalendarValue(void * ID, const int column, const double modelicaTime) 
 	const double weekLen = 7 * 24 * 3600;
 	double time = fmod(t - weekLen * floor(t / weekLen), weekLen);
 	int i;
+	const int columnIndex = column - 1; /* Since we do not store the time indices in the data table*/
 
 	if (column < 0 || column > calendarID->n_cols_in - 1) {
 		ModelicaFormatError("The requested column index '%i' is outside of the table range.", column + 1);
 	}
+	if (column == 0 ) {
+		ModelicaFormatError("The column index 1 is not a data column and is reserved for 'time'. It should not be read.");
+	}
+
 
 	if (time == calendarID->previousTimestamp) {
 		i = calendarID->previousIndex;
@@ -400,7 +405,7 @@ double getCalendarValue(void * ID, const int column, const double modelicaTime) 
 	calendarID->previousIndex = i;
 	calendarID->previousTimestamp = time;
 
-	return calendarID->calendar[i]->data[column];
+	return calendarID->calendar[i]->data[columnIndex];
 }
 
 

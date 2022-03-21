@@ -1,7 +1,7 @@
 within IDEAS.Utilities.IO.Files;
 model WeeklyCalendar "Weekly calendar model"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Integer[:] columns = {1,2,3,4}
+  parameter Integer[:] columns = {2,3,4,5}
     "Columns that should be loaded from file";
   parameter Modelica.SIunits.Time t_offset = 0
     "Timestamp that corresponds to Monday midnight";
