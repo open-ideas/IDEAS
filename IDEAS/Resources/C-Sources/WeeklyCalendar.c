@@ -60,7 +60,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 
 	fp = fopen(name, "r");
 	if (fp == NULL) {
-		ModelicaFormatError("Failed to open file");
+		ModelicaFormatError("Failed to weekly schedule '%s'", name);
 	}
 
 	/* Identify 'tokens' by splitting on (one ore more) whitespace characters.*/
@@ -79,11 +79,11 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 			if (feof(fp)) {
 				break; /* exit the while loop*/
 			} else {
-				ModelicaFormatError("Error while reading file.");
+				ModelicaFormatError("Error while reading file '%s'.", name);
 			}
 		}{
 			if (index >= bufLen - 2) {
-				ModelicaFormatError("Buffer overflow");
+				ModelicaFormatError("Buffer overflow when reading weekly schedule '%s'.", name);
 			}
 
 
@@ -124,46 +124,46 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 					int ncharsCol;
 
 					if (strncmp("tab1(", token, 4) != 0) {
-						ModelicaFormatError("Incorrect header. It should start with 'tab1('.");
+						ModelicaFormatError("Incorrect header when reading weekly schedule '%s'. It should start with 'tab1('.", name);
 					}
 
 					source = token + 5;
 					ncharsRow = strcspn(source, ",");
 
 					if (tokenLen == ncharsRow + 5 ) {
-						ModelicaFormatError("Incorrect header. No comma was found in the header.");
+						ModelicaFormatError("Incorrect header when reading weekly schedule '%s'. No comma was found in the header.", name);
 					}
 					strncpy(buff2, source, ncharsRow);
 					buff2[ncharsRow] = '\0';
 
 					if (sscanf(buff2, "%i", &calendarID->n_rows_in) != 1) {
-						ModelicaFormatError("Error in intenger conversion in header while parsing %s.", buff2);
+						ModelicaFormatError("Error in intenger conversion in header while parsing %s in weekly schedule '%s'.", buff2, name);
 					}
 
 					source = source + ncharsRow + 1;
 					ncharsCol = strcspn(source, ")");
 					if (tokenLen == ncharsCol + ncharsRow + 5 + 1) {
-						ModelicaFormatError("Incorrect header. No closing colon was found in the header.");
+						ModelicaFormatError("Incorrect header when reading weekly schedule '%s'. No closing colon was found in the header.", name);
 					} else if (tokenLen > ncharsCol + ncharsRow + 5 + 1 + 1) {
-						ModelicaFormatError("Incorrect header. It has trailing characters: '%s'.", token + ncharsRow + ncharsCol + 7);
+						ModelicaFormatError("Incorrect header when reading weekly schedule '%s'. It has trailing characters: '%s'.", name, token + ncharsRow + ncharsCol + 7);
 					}
 					strncpy(buff2, source, ncharsCol);
 					buff2[ncharsCol] = '\0';
 					if (sscanf(buff2, "%i", &calendarID->n_cols_in) != 1) {
-						ModelicaFormatError("Error in integer conversion in header while parsing %s.", buff2);
+						ModelicaFormatError("Error in integer conversion in header while parsing %s in weekly schedule '%s'..", buff2, name);
 					}
 					if (calendarID->n_cols_in < 2) {
-						ModelicaFormatError("Illegal number of columns '%i'.", calendarID->n_cols_in);
+						ModelicaFormatError("Illegal number of columns '%i' when reading weekly schedule '%s'.", calendarID->n_cols_in, name);
 					}
 					if (calendarID->n_rows_in < 1) {
-						ModelicaFormatError("Illegal number of rows '%i'.", calendarID->n_rows_in);
+						ModelicaFormatError("Illegal number of rows '%i' when reading weekly schedule '%s'.", calendarID->n_rows_in, name);
 					}
 					isHeaderLine = 0;
 					foundHeader = 1;
 					rules = calloc(sizeof(TimeDataTuple *), calendarID->n_rows_in);
 					n_rulesInMem = calendarID->n_rows_in;
 				} else if (foundHeader == 0) {
-					ModelicaFormatError("Illegal file format, no header was found.");
+					ModelicaFormatError("Illegal file format, no header was found when reading weekly schedule '%s'.", name);
 				} else if (tokensInLine == 0) {
 					/* 0 tokens have been found on this line, so we're parsing a date/time*/
 					const int ncharsDays = strcspn(token, ":");
@@ -175,10 +175,10 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 						strncpy(buff2, token + ncharsDays + 1, ncharsHour);
 						buff2[ncharsHour] = '\0';
 						if (sscanf(buff2, "%lf", &val) != 1) {
-							ModelicaFormatError("Error in float conversion in hours. Found token %s with length %i", buff2, ncharsHour);
+							ModelicaFormatError("Error in float conversion in hours when reading weekly schedule '%s'. Found token %s with length %i", name, buff2, ncharsHour);
 						}
 						if (val > 24 || val < 0) {
-							ModelicaFormatError("Unexpected value for hour: '%lf', should be between 0 and 24.", val);
+							ModelicaFormatError("Unexpected value for hour: '%lf' when reading weekly schedule '%s', should be between 0 and 24.", val, name);
 						}
 						timeStamp += val * 3600;
 
@@ -187,10 +187,10 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 							strncpy(buff2, token + ncharsDays + ncharsHour + 2, ncharsMinutes);
 							buff2[ncharsMinutes] = '\0';
 							if (sscanf(buff2, "%lf", &val) != 1) {
-								ModelicaFormatError("Error in float conversion in minutes.");
+								ModelicaFormatError("Error in float conversion in minutes when reading weekly schedule '%s'.", name);
 							}
 							if (val > 60 || val < 0) {
-								ModelicaFormatError("Unexpected value for minute: '%lf', should be between 0 and 60.", val);
+								ModelicaFormatError("Unexpected value for minute: '%lf' when reading weekly schedule '%s', should be between 0 and 60.", val, name);
 							}
 							timeStamp += val * 60;
 
@@ -199,10 +199,10 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 								strncpy(buff2, token + ncharsDays + ncharsHour + ncharsMinutes + 3, ncharsSeconds);
 								buff2[ncharsSeconds] = '\0';
 								if (sscanf(buff2, "%lf", &val) != 1) {
-									ModelicaFormatError("Error in float conversion in seconds.");
+									ModelicaFormatError("Error in float conversion in seconds when reading weekly schedule '%s'.", name);
 								}
 								if (val > 60 || val < 0) {
-									ModelicaFormatError("Unexpected value for seconds: '%lf', should be between 0 and 60.", val);
+									ModelicaFormatError("Unexpected value for seconds: '%lf' when reading weekly schedule '%s', should be between 0 and 60.", val, name);
 								}
 								timeStamp += val;
 							}
@@ -219,7 +219,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 						int nchars = strcspn(startIndex, ",");
 
 						if (nchars != 3 ) {
-							ModelicaFormatError("Unexpected day formatting: %s.", startIndex);
+							ModelicaFormatError("Unexpected day formatting when reading weekly schedule '%s': %s.", name, startIndex);
 						}
 
 						if (strncmp("mon", startIndex, 3) == 0) {
@@ -237,7 +237,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 						} else if (strncmp("sun", startIndex, 3) == 0) {
 							t_day = 6 * 3600 * 24;
 						} else {
-							ModelicaFormatError("Unexpected day format: %s.", startIndex);
+							ModelicaFormatError("Unexpected day format when reading weekly schedule '%s': %s.", name, startIndex);
 						}
 
 						/* expand the memory if the initially assigned memory block does not suffice*/
@@ -245,7 +245,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 							n_rulesInMem += calendarID->n_rows_in;
 							rules = realloc(rules, sizeof(TimeDataTuple*) * n_rulesInMem);
 							if (rules == NULL) {
-								ModelicaFormatError("Failed to reallocate memory.");
+								ModelicaFormatError("Failed to reallocate memory when reading weekly schedule '%s'.", name);
 							}
 						}
 
@@ -272,14 +272,14 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 
 					/* a token has been found on this line before, so we're parsing some numerical data*/
 					if (tokensInLine >= calendarID->n_cols_in) {
-						ModelicaFormatError("Too many columns on row %i.", line);
+						ModelicaFormatError("Too many columns on row %i when reading weekly schedule '%s'.", line, name);
 					}
 
 					if (sscanf(token, "%lf", &val) != 1) {
 						if (token[0] == '-') {
 							val = HUGE_VAL; /*convert the wildcard in a double representation*/
 						} else {
-							ModelicaFormatError("Invalid format for float %s.", token);
+							ModelicaFormatError("Invalid format for float %s  when reading weekly schedule '%s'.", token, name);
 						}
 
 					}
@@ -290,13 +290,13 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 
 					tokensInLine++;
 				} else {
-					ModelicaFormatError("Logic error"); /*should not be able to end up here*/
+					ModelicaFormatError("Logic error when reading weekly schedule '%s'.", name); /*should not be able to end up here*/
 				}
 				free(buff2);
 			}
 			if (c == '\n') { /*reset some internal variables*/
 				if (tokensInLine > 0 && tokensInLine != calendarID->n_cols_in) {
-					ModelicaFormatError("Incorrect number of columns on line %i.", line);
+					ModelicaFormatError("Incorrect number of columns on line %i when reading weekly schedule '%s'.", line, name);
 				}
 				line++;
 				tokensInLine = 0;
@@ -308,7 +308,7 @@ void* weeklyCalendarInit(const char* name, const double t_offset) {
 	fclose(fp);
 
 	if (n_rowsPacked != calendarID->n_rows_in) {
-		ModelicaFormatError("Incorrect number of rows: %i instead of %i.", n_rowsPacked, calendarID->n_rows_in);
+		ModelicaFormatError("Incorrect number of rows when reading weekly schedule '%s': %i instead of %i.", name, n_rowsPacked, calendarID->n_rows_in);
 	}
 
 	/* sort all data by time stamp*/
