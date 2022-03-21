@@ -61,7 +61,7 @@ protected
         rotation=270,
         origin={64,58})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFloLat(final
-      alpha=0)
+      alpha=0) if hasVap
     "Prescribed heat flow rate for latent heat gain corresponding to water vapor mass flow rate"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
@@ -173,6 +173,11 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+March 21, 2022 by Filip Jorissen:<br/>
+Disabled latent heat gains when the medium contains no water.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1251\">#1251</a>.
+</li>
 <li>
 November 21, 2020 by Filip Jorissen:<br/>
 Avoiding warnings for one port sensors.
