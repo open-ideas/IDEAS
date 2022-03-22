@@ -27,6 +27,7 @@
 #include <string.h>
 #include <math.h>
 #include "WeeklySchedule.h"
+#include "ModelicaUtilities.h"
 
 #ifndef WEEKCAL_c
 #define WEEKCAL_c
