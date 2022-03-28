@@ -261,7 +261,7 @@ equation
     annotation (Line(points={{46.6,-42},{12,-42}}, color={0,0,127}));
   connect(Tbot.port, volBot.heatPort);
  annotation (
-      __Dymola_choicesAllMatching=true,
+      choicesAllMatching=true,
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

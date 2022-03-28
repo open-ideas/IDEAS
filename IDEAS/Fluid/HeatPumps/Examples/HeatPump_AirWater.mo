@@ -3,7 +3,7 @@ model HeatPump_AirWater
   "General example and tester for a modulating air-to-water heat pump"
   extends Modelica.Icons.Example;
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
 
     IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,

@@ -39,7 +39,7 @@ model OuterWall "Opaque building envelope construction"
     final azi=aziInt)
     "Building shade model"
     annotation (Placement(transformation(extent={{-72,-8},{-62,12}})),
-      __Dymola_choicesAllMatching=true,
+      choicesAllMatching=true,
       Dialog(tab="Advanced",group="Shading"));
 
 
