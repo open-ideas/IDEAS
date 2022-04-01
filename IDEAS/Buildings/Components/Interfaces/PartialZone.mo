@@ -251,7 +251,7 @@ model Setq50 "q50 computation for zones"
     annotation(Evaluate=true);
   final parameter Modelica.SIunits.Area defaultArea[nSurf](each fixed=false)
     "The surface area for which default q50 is computed";
-  parameter Real v50_custom[nSurf](fixed=false)
+  parameter Real v50_custom[nSurf](each fixed=false)
     "custom assigned v50 value, else zero";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
