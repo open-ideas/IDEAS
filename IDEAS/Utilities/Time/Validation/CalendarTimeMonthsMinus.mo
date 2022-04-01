@@ -4,7 +4,7 @@ model CalendarTimeMonthsMinus
   extends IDEAS.Utilities.Time.Validation.CalendarTimeMonths;
 
   annotation (
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Utilities/Time/Validation/CalendarTimeMonthsMinus.mos"
+    __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Utilities/Time/Validation/CalendarTimeMonthsMinus.mos"
         "Simulate and plot"),
   Documentation(
     info="<html>

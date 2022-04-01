@@ -14,7 +14,7 @@ IntegerReplicator
 IntegratorWithReset
 InverseXRegularized
 MovingAverage
-Polynominal
+Polynomial
 PowerLinearized
 QuadraticLinear
 RegNonZeroPower
