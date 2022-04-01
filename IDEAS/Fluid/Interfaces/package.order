@@ -7,6 +7,7 @@ FlowPort_a
 FlowPort_b
 FourPortHeatMassExchanger
 IdealSource
+LumpedVolumeDeclarations
 OnOffInterface
 PartialEightPortInterface
 PartialFourPort
@@ -23,6 +24,5 @@ StaticTwoPortHeatMassExchanger
 TwoPortHeatMassExchanger
 EightPortFlowResistanceParameters
 FourPortFlowResistanceParameters
-LumpedVolumeDeclarations
 TwoPortFlowResistanceParameters
 Examples

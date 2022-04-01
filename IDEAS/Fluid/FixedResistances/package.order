@@ -4,6 +4,7 @@ Junction
 LosslessPipe
 ParallelPressureDrop
 PlugFlowPipe
+PlugFlowPipeDiscretized
 PressureDrop
 Examples
 Validation
