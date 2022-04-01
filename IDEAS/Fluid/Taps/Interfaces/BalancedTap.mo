@@ -24,7 +24,7 @@ public
   Modelica.Fluid.Interfaces.FluidPort_b port_cold(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation (
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort THot(
     redeclare package Medium = Medium,

@@ -13,7 +13,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   replaceable package MediumAir =
       IDEAS.Media.Air
       "Air medium model" annotation (
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   replaceable parameter IDEAS.Airflow.AHU.BaseClasses.Adsolair14200 per
     constrainedby IDEAS.Airflow.AHU.BaseClasses.AdsolairData

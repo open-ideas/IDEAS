@@ -3,7 +3,7 @@ package UsersGuide "User's Guide"
 extends Modelica.Icons.Information;
 
 
-annotation (__Dymola_DocumentationClass=true, Documentation(info="<html>
+annotation (DocumentationClass=true, Documentation(info="<html>
 <p>
 The Photovoltaic Package implements everything that has to do with a distributed PV system itself.
 </p>

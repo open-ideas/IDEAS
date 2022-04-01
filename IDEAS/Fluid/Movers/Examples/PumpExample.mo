@@ -17,7 +17,7 @@ model PumpExample "Example of how a pump can be used"
         Medium)
     annotation (Placement(transformation(extent={{82,-10},{62,10}})));
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
 
   Modelica.Blocks.Sources.Sine sine(f=0.001)
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));

@@ -102,13 +102,6 @@ model SingleZoneResidentialHydronicHeatPump
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
-  Utilities.IO.SignalExchange.Read reaHeaPumY(description="Block for reading the heat pump modulating signal",
-      y(unit="1")) "Read heat pump modulating signal"
-    annotation (Placement(transformation(extent={{180,140},{200,160}})));
-  Utilities.IO.SignalExchange.Read reaPum(description=
-        "Control signal for emission cirquit pump", y(unit="1"))
-    "Read control signal for emission circuit pump"
-    annotation (Placement(transformation(extent={{22,100},{42,120}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.6,
@@ -239,9 +232,6 @@ model SingleZoneResidentialHydronicHeatPump
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={202,110})));
-  Utilities.IO.SignalExchange.Read reaFan(description="Control signal for fan",
-      y(unit="1")) "Read control signal for fan"
-    annotation (Placement(transformation(extent={{222,100},{242,120}})));
   Modelica.Blocks.Sources.RealExpression yFan(y=if heaPum.com.isOn then 1 else 0)
     "Control input signal to fan"
     annotation (Placement(transformation(extent={{160,100},{180,120}})));
@@ -283,18 +273,10 @@ model SingleZoneResidentialHydronicHeatPump
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={30,150})));
-  Utilities.IO.SignalExchange.Read reaTSet(description=
-        "Zone operative temperature setpoint", y(unit="K"))
-    "Read zone temperature setpoint"
-    annotation (Placement(transformation(extent={{60,140},{80,160}})));
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(ovePum.y, reaPum.u)
-    annotation (Line(points={{13,110},{20,110}}, color={0,0,127}));
-  connect(realToInteger.u, reaPum.y)
-    annotation (Line(points={{50,110},{43,110}}, color={0,0,127}));
   connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
           40},{-52,14},{-58,14}},
                               color={0,0,127}));
@@ -314,9 +296,6 @@ equation
     annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
-  connect(reaHeaPumY.y, heaPum.y) annotation (Line(points={{201,150},{292,150},
-          {292,-24},{127,-24},{127,-2}},
-                                    color={0,0,127}));
   connect(yPum.y, ovePum.u)
     annotation (Line(points={{-19,110},{-10,110}}, color={0,0,127}));
   connect(realToInteger.y, pum.stage) annotation (Line(points={{73,110},{80,110},
@@ -338,10 +317,6 @@ equation
     annotation (Line(points={{70,-31},{70,-50},{98,-50}}, color={0,0,127}));
   connect(heaPumCOP.y, reaCOP.u)
     annotation (Line(points={{181,-50},{198,-50}}, color={0,0,127}));
-  connect(oveFan.y, reaFan.u)
-    annotation (Line(points={{213,110},{220,110}}, color={0,0,127}));
-  connect(realToInteger2.u, reaFan.y)
-    annotation (Line(points={{250,110},{243,110}}, color={0,0,127}));
   connect(yFan.y, oveFan.u)
     annotation (Line(points={{181,110},{190,110}}, color={0,0,127}));
   connect(fan.port_a, outAir.ports[1])
@@ -354,8 +329,6 @@ equation
           {-170,136},{-162,136}}, color={0,0,127}));
   connect(offSetUno.y, addUno.u1) annotation (Line(points={{-179,70},{-172,70},
           {-172,56},{-162,56}}, color={0,0,127}));
-  connect(oveHeaPumY.y, reaHeaPumY.u)
-    annotation (Line(points={{161,150},{178,150}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,80},{-52,80},{
           -52,150},{-22,150}}, color={255,0,255}));
   connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
@@ -382,10 +355,6 @@ equation
       thickness=0.5));
   connect(switch1.y, oveTSet.u)
     annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
-  connect(oveTSet.y, reaTSet.u)
-    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
-  connect(reaTSet.y, conPI.u_s)
-    annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
   connect(TSetCoo.y, reaTSetCoo.u)
     annotation (Line(points={{-179,10},{-162,10}}, color={0,0,127}));
   connect(TSetHea.y, reaTSetHea.u) annotation (Line(points={{-179,-30},{-172,
@@ -394,6 +363,14 @@ equation
           {-170,-60},{-220,-60},{-220,44},{-162,44}}, color={0,0,127}));
   connect(TSetHea.y, addOcc.u2) annotation (Line(points={{-179,-30},{-170,-30},
           {-170,-60},{-220,-60},{-220,124},{-162,124}}, color={0,0,127}));
+  connect(oveTSet.y, conPI.u_s)
+    annotation (Line(points={{41,150},{98,150}}, color={0,0,127}));
+  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{161,150},{290,150},{
+          290,-30},{127,-30},{127,-2}}, color={0,0,127}));
+  connect(oveFan.y, realToInteger2.u)
+    annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
+  connect(ovePum.y, realToInteger.u)
+    annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=1728000,
@@ -684,12 +661,6 @@ is depicted as controller C2 in Figure 1.
 <code>reaCOP_y</code> [1] [min=None, max=None]: Heat pump COP
 </li>
 <li>
-<code>reaFan_y</code> [1] [min=None, max=None]: Control signal for fan
-</li>
-<li>
-<code>reaHeaPumY_y</code> [1] [min=None, max=None]: Block for reading the heat pump modulating signal
-</li>
-<li>
 <code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power of the heat pump evaporator fan
 </li>
 <li>
@@ -697,9 +668,6 @@ is depicted as controller C2 in Figure 1.
 </li>
 <li>
 <code>reaPPumEmi_y</code> [W] [min=None, max=None]: Emission circuit pump electrical power
-</li>
-<li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for emission cirquit pump
 </li>
 <li>
 <code>reaQFloHea_y</code> [W] [min=None, max=None]: Floor heating thermal power released to the zone
@@ -718,9 +686,6 @@ is depicted as controller C2 in Figure 1.
 </li>
 <li>
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>reaTSet_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint
 </li>
 <li>
 <code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature to radiant floor
@@ -911,6 +876,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 2, 2021, by David Blum:<br/>
+Remove read blocks for control signals.
+This is for
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/364\">BOPTEST issue #364</a>. 
+</li>
 <li>
 June 23, 2021, by David Blum:<br/>
 Add schematics to documentation.

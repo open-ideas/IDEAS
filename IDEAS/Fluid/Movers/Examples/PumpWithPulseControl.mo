@@ -19,7 +19,7 @@ model PumpWithPulseControl "Example of how a pump can be used"
         Medium)
     annotation (Placement(transformation(extent={{68,-10},{48,10}})));
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
 
   Modelica.Blocks.Sources.Pulse pulse(period=3600)
     annotation (Placement(transformation(extent={{-42,40},{-22,60}})));

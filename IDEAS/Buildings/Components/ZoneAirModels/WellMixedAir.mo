@@ -59,13 +59,18 @@ protected
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={64,58})));
+        origin={64,66})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFloLat(final
-      alpha=0)
+      alpha=0) if hasVap
     "Prescribed heat flow rate for latent heat gain corresponding to water vapor mass flow rate"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={64,22})));
+        origin={64,38})));
+  Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heaFloSen
+    "Latent heat flow rate measurement" annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={64,14})));
 protected
   constant Real s[:]= {
   if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
@@ -126,7 +131,7 @@ equation
   end if;
 
   E=vol.U;
-  QGai=preHeaFloLat.Q_flow;
+  QGai=heaFloSen.Q_flow;
   for i in 1:nSurf loop
     connect(vol.heatPort, ports_surf[i]) annotation (Line(points={{10,
             -1.33227e-15},{10,-20},{-40,-20},{-40,0},{-100,0}},
@@ -148,12 +153,9 @@ equation
           18,6},{18,40},{108,40}},
                 color={0,0,127}));
   connect(gaiLat.y, preHeaFloLat.Q_flow)
-    annotation (Line(points={{64,47},{64,32}}, color={0,0,127}));
+    annotation (Line(points={{64,55},{64,48}}, color={0,0,127}));
   connect(gaiLat.u, mWat_flow)
-    annotation (Line(points={{64,70},{64,80},{108,80}}, color={0,0,127}));
-  connect(preHeaFloLat.port, vol.heatPort) annotation (Line(points={{64,12},{64,
-          0},{20,0},{20,-20},{10,-20},{10,0}},
-                                 color={191,0,0}));
+    annotation (Line(points={{64,78},{64,80},{108,80}}, color={0,0,127}));
   connect(senRelHum.phi, phi)
     annotation (Line(points={{51,-40},{110,-40}},          color={0,0,127}));
   connect(port_b, vol.ports[2]) annotation (Line(points={{-60,100},{-60,10},{
@@ -172,9 +174,18 @@ equation
                           color={0,127,255}));
   connect(senPPM.ppm, ppm)
     annotation (Line(points={{71,-20},{110,-20}}, color={0,0,127}));
+  connect(preHeaFloLat.port, heaFloSen.port_a)
+    annotation (Line(points={{64,28},{64,24}}, color={191,0,0}));
+  connect(heaFloSen.port_b, vol.heatPort) annotation (Line(points={{64,4},{64,0},
+          {20,0},{20,-20},{10,-20},{10,0}}, color={191,0,0}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+March 21, 2022 by Filip Jorissen:<br/>
+Disabled latent heat gains when the medium contains no water.
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1251\">#1251</a>.
+</li>
 <li>
 November 21, 2020 by Filip Jorissen:<br/>
 Avoiding warnings for one port sensors.

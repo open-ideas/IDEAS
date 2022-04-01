@@ -3,7 +3,7 @@ model HeatPump_WaterWaterTSet
   "Test of a heat pump using a temperature setpoint"
   extends Modelica.Icons.Example;
     package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
 
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)

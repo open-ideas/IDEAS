@@ -3,7 +3,7 @@ model n50Test "n50 consistency check for OnePort"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air
     "Air medium"
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   inner BoundaryConditions.SimInfoManager sim(Va=0,interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 

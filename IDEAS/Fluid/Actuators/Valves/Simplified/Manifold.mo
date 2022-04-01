@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified;
 model Manifold "Radiant manifold"
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   parameter Boolean[6] open={true,true,true,true,true,true};
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)

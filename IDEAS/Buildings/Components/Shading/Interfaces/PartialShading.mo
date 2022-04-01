@@ -6,6 +6,8 @@ partial model PartialShading "Window shading partial"
   parameter Modelica.Units.SI.Angle azi "Window azimuth angle"
     annotation (Dialog(group="Window properties"));
 
+  Modelica.SIunits.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
+    "Total solar irradiatiance";
   Modelica.Blocks.Interfaces.RealInput HDirTil
     "Direct solar illuminance on surface" annotation (Placement(
         transformation(extent={{-80,30},{-40,70}}), iconTransformation(extent={
@@ -94,6 +96,10 @@ partial model PartialShading "Window shading partial"
           smooth=Smooth.None)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+March 2, 2022 by Filip Jorissen:<br/>
+Added HSha output for the total solar irradiance.
+</li>
 <li>
 July 18, 2016 by Filip Jorissen:<br/>
 Cleaned up implementation and documentation.

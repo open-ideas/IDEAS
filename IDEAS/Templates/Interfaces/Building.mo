@@ -37,7 +37,7 @@ model Building
   replaceable IDEAS.Templates.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid
     constrainedby IDEAS.Templates.Interfaces.BaseClasses.CausalInhomeFeeder
     "Inhome low-voltage electricity grid system" annotation (Placement(
-        transformation(extent={{32,-10},{52,10}})), __Dymola_choicesAllMatching=
+        transformation(extent={{32,-10},{52,10}})), choicesAllMatching=
        true);
 
   replaceable IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem ventilationSystem(

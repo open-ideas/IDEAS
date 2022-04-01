@@ -2,7 +2,7 @@ within IDEAS.Fluid.Actuators.Valves.Simplified.Examples;
 model ThreeWayValveMotor
   extends Modelica.Icons.Example;
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pumpFlow1(
     redeclare package Medium = Medium,
