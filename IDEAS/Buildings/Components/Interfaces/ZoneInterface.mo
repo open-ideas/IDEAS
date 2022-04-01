@@ -95,7 +95,7 @@ initial equation
   for i in 1:nPorts loop
     assert(cardinality(ports[i])<=2,
       "Each element of ports should have zero or one external connections but " +
-      getInstanceName() +".ports[" + String(i) + "] has " + String(cardinality(ports[i]) - 1) + "." +
+      getInstanceName() +".ports[" + String(i) + "] has a different number." +
       " This can cause air to mix at the fluid port, without entering the zone, which is usually unintended.
       Instead, increase nPorts and create a separate connection.",
       level=AssertionLevel.warning);
@@ -160,16 +160,19 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+April 1, 2022, Filip Jorissen:<br/>
+Removed cardinality operator from error message.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1253\">#1253</a>.
+</li>
+<li>
 September 17, 2020, Filip Jorissen:<br/>
 Modified default Medium.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 Revised implementation of icon for
