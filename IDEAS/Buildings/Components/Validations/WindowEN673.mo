@@ -11,10 +11,10 @@ model WindowEN673 "Verifies U value of a glazing record"
   parameter SI.Temperature TOut=273.15
     "Fixed exterior temperature";
 
-  Modelica.SIunits.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow/
-      (TZone - TOut)/windowEN673.A;
-  Modelica.SIunits.CoefficientOfHeatTransfer U_default=window.layMul.port_a.Q_flow/
-      (TZone - TOut)/window.A;
+  Modelica.Units.SI.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow
+      /(TZone - TOut)/windowEN673.A;
+  Modelica.Units.SI.CoefficientOfHeatTransfer U_default=window.layMul.port_a.Q_flow
+      /(TZone - TOut)/window.A;
 
   IDEAS.Buildings.Components.Window windowEN673(
     inc=IDEAS.Types.Tilt.Wall,

@@ -1,14 +1,14 @@
 within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model ExteriorConvection "exterior surface convection"
 
-  parameter Modelica.SIunits.Area A "surface area";
+  parameter Modelica.Units.SI.Area A "surface area";
   parameter Boolean linearise = false "Use constant convection coefficient"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer hConExtLin = 18.3
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hConExtLin=18.3
     "Fixed exterior convection coefficient used when linearising equations"
-     annotation(Dialog(enable=linearize));
-  parameter Modelica.SIunits.Angle inc "Surface inclination";
-  parameter Modelica.SIunits.Angle azi "Surface azimuth";
+    annotation (Dialog(enable=linearize));
+  parameter Modelica.Units.SI.Angle inc "Surface inclination";
+  parameter Modelica.Units.SI.Angle azi "Surface azimuth";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Connector for solid part"
@@ -22,11 +22,11 @@ model ExteriorConvection "exterior surface convection"
     annotation (Placement(transformation(extent={{-120,-110},{-80,-70}})));
 
 protected
-  Modelica.SIunits.CoefficientOfHeatTransfer hNatConvExt
+  Modelica.Units.SI.CoefficientOfHeatTransfer hNatConvExt
     "Heat transfer coefficient for natural convection" annotation ();
-  Modelica.SIunits.CoefficientOfHeatTransfer hSmooth
+  Modelica.Units.SI.CoefficientOfHeatTransfer hSmooth
     "Heat transfer coefficient for a smooth (glass) surface" annotation ();
-  Modelica.SIunits.CoefficientOfHeatTransfer hConExt
+  Modelica.Units.SI.CoefficientOfHeatTransfer hConExt
     "Heat transfer coefficient for combined forced and natural convection"
     annotation ();
 
@@ -43,7 +43,7 @@ protected
   constant Real R=1 "Roughness factor (value of 1 recommended)";
 
   Real C "TARP coeff";
-  Modelica.SIunits.TemperatureDifference dT
+  Modelica.Units.SI.TemperatureDifference dT
     "Surface temperature minus outdoor air temperature" annotation ();
 
 

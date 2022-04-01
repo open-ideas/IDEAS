@@ -18,15 +18,15 @@ protected
     ovGap=shaPro.ovGap,
     hFin=shaPro.hFin,
     finDep=shaPro.finDep,
-    finGap=shaPro.finGap) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box
+    finGap=shaPro.finGap)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box
     "Box shading model"                                                           annotation (Placement(transformation(extent={{-16,80},{-6,100}})));
   IDEAS.Buildings.Components.Shading.BuildingShade buildingShade(
     L=shaPro.L,
     dh=shaPro.dh,
     hWin=shaPro.hWin,
-    azi=azi) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.BuildingShade
+    azi=azi)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.BuildingShade
     "Building shade model"
     annotation (Placement(transformation(extent={{-16,60},{-6,80}})));
   IDEAS.Buildings.Components.Shading.Overhang overhang(
@@ -36,8 +36,8 @@ protected
     wRight=shaPro.wRight,
     dep=shaPro.ovDep,
     gap=shaPro.ovGap,
-    azi=azi) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Overhang
+    azi=azi)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Overhang
     "Overhang model"
     annotation (Placement(transformation(extent={{-16,40},{-6,60}})));
   IDEAS.Buildings.Components.Shading.OverhangAndScreen overhangAndScreen(
@@ -48,14 +48,14 @@ protected
     dep=shaPro.ovDep,
     gap=shaPro.ovGap,
     shaCorr=shaPro.shaCorr,
-    azi=azi) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndScreen
+    azi=azi)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndScreen
     "Overhang and screen model"
     annotation (Placement(transformation(extent={{-16,20},{-6,40}})));
   IDEAS.Buildings.Components.Shading.Screen screen(
     azi=azi,
-    shaCorr=shaPro.shaCorr) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen
+    shaCorr=shaPro.shaCorr)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen
     "Screen model"                                 annotation (Placement(transformation(extent={{-16,0},{-6,20}})));
   IDEAS.Buildings.Components.Shading.SideFins sideFins(
     azi=azi,
@@ -63,12 +63,12 @@ protected
     wWin=shaPro.wWin,
     hFin=shaPro.hFin,
     dep=shaPro.finDep,
-    gap=shaPro.finGap) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
+    gap=shaPro.finGap)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
     "Side fin model"
     annotation (Placement(transformation(extent={{-16,-20},{-6,0}})));
-  IDEAS.Buildings.Components.Shading.None none(azi=azi) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.None
+  IDEAS.Buildings.Components.Shading.None none(azi=azi)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.None
     "No shading model"
     annotation (Placement(transformation(extent={{-16,-40},{-6,-20}})));
 
@@ -106,8 +106,8 @@ protected
     wRight=shaPro.wRight,
     dep=shaPro.ovDep,
     gap=shaPro.ovGap,
-    azi=azi) if
-    shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndHorizontalFins
+    azi=azi)
+ if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndHorizontalFins
     "Overhang and horizontal fins model"
     annotation (Placement(transformation(extent={{-16,120},{-6,140}})));
 equation

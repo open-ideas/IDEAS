@@ -2,13 +2,13 @@ within IDEAS.LIDEAS.Examples;
 model ZoneWithInputsCreateOutputs "Model to create an input file for running the linearized model zoneLineariseWithInputs in a non-modelica environment environment"
   extends ZoneWithInputsLinearise(sim(lineariseDymola=false, createOutputs=true));
   Modelica.Blocks.Sources.Sine occQRad[2](
-    freqHz=1/12/3600,
+    f=1/12/3600,
     startTime=7200,
     amplitude=20,
     offset=20) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-144},{60,-124}})));
   Modelica.Blocks.Sources.Sine occQCon[2](
-    freqHz=1/6/3600,
+    f=1/6/3600,
     amplitude=60,
     offset=60) "fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-114},{60,-94}})));

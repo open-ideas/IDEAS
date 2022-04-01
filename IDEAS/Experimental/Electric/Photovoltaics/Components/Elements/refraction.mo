@@ -1,10 +1,10 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components.Elements;
 model refraction "incidence angle modifier (IAM)"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real K=4 "glazing extinction coefficient, /m";
-  parameter Modelica.SIunits.Length d=2*10^(-3) "pane thickness, m";
+  parameter Modelica.Units.SI.Length d=2*10^(-3) "pane thickness, m";
   parameter Real n=1.526 "refractve index";
   final parameter Real Tau_null=exp(-K*d)
     "transmittance of the cover for incdence angle perpendicular to pane";
@@ -15,8 +15,8 @@ model refraction "incidence angle modifier (IAM)"
     annotation (Placement(transformation(extent={{-120,40},{-80,80}})));
 
 protected
-  Modelica.SIunits.Angle angRef "refracted angle of the incedence beam";
-  Modelica.SIunits.TransmissionCoefficient Tau
+  Modelica.Units.SI.Angle angRef "refracted angle of the incedence beam";
+  Modelica.Units.SI.TransmissionCoefficient Tau
     "transmittance of the cover for incdence angle";
 
 algorithm

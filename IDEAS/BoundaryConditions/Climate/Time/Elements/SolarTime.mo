@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Climate.Time.Elements;
 model SolarTime
 
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealInput timLoc(quantity="Time", unit="s")
     annotation (Placement(transformation(extent={{-120,20},{-80,60}})));
@@ -11,9 +11,9 @@ extends Modelica.Blocks.Interfaces.BlockIcon;
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 protected
-  Modelica.SIunits.Angle Bt;
-  Modelica.SIunits.Time delta "difference of solar time to local time";
-  Modelica.SIunits.Time nDay "Zero-based day number in seconds";
+  Modelica.Units.SI.Angle Bt;
+  Modelica.Units.SI.Time delta "difference of solar time to local time";
+  Modelica.Units.SI.Time nDay "Zero-based day number in seconds";
 
 algorithm
   nDay := timSim;

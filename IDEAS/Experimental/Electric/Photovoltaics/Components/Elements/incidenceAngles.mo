@@ -1,10 +1,10 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components.Elements;
 model incidenceAngles "incidence angle modifier (IAM)"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Angle inc "inclination";
-  parameter Modelica.SIunits.Angle azi "azimuth";
+  parameter Modelica.Units.SI.Angle inc "inclination";
+  parameter Modelica.Units.SI.Angle azi "azimuth";
 
   Modelica.Blocks.Interfaces.RealOutput angIncDir "Incidence Angle"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));

@@ -222,16 +222,16 @@ block ReaderTMY3 "Reader for TMY3 weather data"
     Evaluate=true,
     Dialog(tab="Advanced", group="Sky temperature"));
 
-  final parameter Modelica.Units.SI.Angle lon(displayUnit="deg") =
+  final parameter Modelica.Units.SI.Angle lon(displayUnit="deg")=
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getLongitudeTMY3(filNam)
     "Longitude";
-  final parameter Modelica.Units.SI.Angle lat(displayUnit="deg") =
+  final parameter Modelica.Units.SI.Angle lat(displayUnit="deg")=
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getLatitudeTMY3(filNam)
     "Latitude";
-  final parameter Modelica.Units.SI.Time timZon(displayUnit="h") =
+  final parameter Modelica.Units.SI.Time timZon(displayUnit="h")=
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeZoneTMY3(filNam)
     "Time zone";
-  final parameter Modelica.Units.SI.Length alt(displayUnit="m") =
+  final parameter Modelica.Units.SI.Length alt(displayUnit="m")=
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getAltitudeLocationTMY3(
     filNam) "Location altitude above sea level";
 

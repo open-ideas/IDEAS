@@ -3,16 +3,16 @@ model ZoneWithInputsLinearise
   "Example of how to add controlled and prescribed inputs to the linearised model and how to add outputs."
   extends ZoneLinearise;
   parameter Boolean validation = false "Set to true to keep the prescribed heat flows even when sim.linearize is false. This is used for models in LIDEAS.Validation.";
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloCon[nZones] if  sim.linearise or validation
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloCon[nZones]  if sim.linearise or validation
     "Convective heat flow from control inputs"
     annotation (Placement(transformation(extent={{78,50},{58,70}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloRad[nZones] if  sim.linearise or validation
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloRad[nZones]  if sim.linearise or validation
     "Radiative heat flow from control inputs"
     annotation (Placement(transformation(extent={{78,30},{58,50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloTabs[nEmb] if  sim.linearise or validation
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preQFloTabs[nEmb]  if sim.linearise or validation
     "Embedded heat flow from control inputs"
     annotation (Placement(transformation(extent={{80,10},{60,30}})));
-  input Components.BaseClasses.Inputs ctrlInputs if  sim.linearise "Control inputs" annotation (
+  input Components.BaseClasses.Inputs ctrlInputs  if sim.linearise "Control inputs" annotation (
       Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -22,13 +22,13 @@ model ZoneWithInputsLinearise
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={100,-10})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow occQFloCon[nZones] if  sim.linearise or validation
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow occQFloCon[nZones]  if sim.linearise or validation
     "Convective heat flow for occupancy"
     annotation (Placement(transformation(extent={{84,-70},{64,-50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow occQFloRad[nZones] if  sim.linearise or validation
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow occQFloRad[nZones]  if sim.linearise or validation
     "Radiative heat flow for occupancy"
     annotation (Placement(transformation(extent={{84,-90},{64,-70}})));
-  input Components.BaseClasses.Prescribed prescribedIn if  sim.linearise
+  input Components.BaseClasses.Prescribed prescribedIn  if sim.linearise
     "Prescribed inputs which do not depend on the model states value (e.g. heat flow from occupancy)"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},

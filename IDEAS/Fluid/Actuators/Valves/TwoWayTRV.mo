@@ -12,23 +12,28 @@ model TwoWayTRV "Two way thermostatic radiator valve"
   extends IDEAS.Fluid.Actuators.BaseClasses.ValveParameters(
     rhoStd=Medium.density_pTX(101325, 273.15+4, Medium.X_default));
 
-  parameter Modelica.SIunits.Temperature TSet = 294.15 "Temperature set point";
-  parameter Modelica.SIunits.Temperature P(displayUnit="K") = 2 "Proportional band of valve";
+  parameter Modelica.Units.SI.Temperature TSet=294.15 "Temperature set point";
+  parameter Modelica.Units.SI.Temperature P(displayUnit="K") = 2
+    "Proportional band of valve";
 
   parameter Boolean use_inputFilter=true
     "= true, if opening is filtered with a 2nd order CriticalDamping filter"
     annotation(Dialog(tab="Dynamics", group="Filtered opening"));
-  parameter Modelica.SIunits.Time riseTime=1200
+  parameter Modelica.Units.SI.Time riseTime=1200
     "Rise time of the filter (time to reach 99.6 % of an opening step)"
-    annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
+    annotation (Dialog(
+      tab="Dynamics",
+      group="Filtered opening",
+      enable=use_inputFilter));
   parameter Modelica.Blocks.Types.Init init=Modelica.Blocks.Types.Init.InitialOutput
     "Type of initialization (no init/steady state/initial state/initial output)"
     annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
   parameter Real y_start=1 "Initial value of control signal"
     annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
-  parameter Modelica.SIunits.PressureDifference dpFixed_nominal(displayUnit="Pa", min=0) = 0
-    "Pressure drop of pipe and other resistances that are in series"
-     annotation(Dialog(group = "Nominal condition"));
+  parameter Modelica.Units.SI.PressureDifference dpFixed_nominal(
+    displayUnit="Pa",
+    min=0) = 0 "Pressure drop of pipe and other resistances that are in series"
+    annotation (Dialog(group="Nominal condition"));
 
   parameter Real l(min=1e-10, max=1) = 0.0001
     "Valve leakage, l=Kv(y=0)/Kv(y=1)";
@@ -37,17 +42,18 @@ model TwoWayTRV "Two way thermostatic radiator valve"
     "= true, use m_flow = f(dp) else dp = f(m_flow)"
     annotation (Evaluate=true, Dialog(tab="Advanced"));
 
-  final parameter Modelica.SIunits.PressureDifference dp_nominal(displayUnit="Pa")=dpValve_nominal + dpFixed_nominal
+  final parameter Modelica.Units.SI.PressureDifference dp_nominal(displayUnit=
+        "Pa") = dpValve_nominal + dpFixed_nominal
     "Pressure drop at nominal mass flow rate"
-    annotation(Dialog(group = "Nominal condition"));
+    annotation (Dialog(group="Nominal condition"));
   constant Boolean homotopyInitialization = true "= true, use homotopy method"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Boolean linearized = false
     "= true, use linear relation between m_flow and dp for any flow rate"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
 
-  final parameter Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)=deltaM * abs(m_flow_nominal)
-    "Turbulent flow if |m_flow| >= m_flow_turbulent";
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_turbulent(min=0) =
+    deltaM*abs(m_flow_nominal) "Turbulent flow if |m_flow| >= m_flow_turbulent";
 
   IDEAS.Fluid.Actuators.Valves.TwoWayLinear val(
     redeclare package Medium = Medium,
@@ -87,12 +93,14 @@ model TwoWayTRV "Two way thermostatic radiator valve"
 protected
   parameter Medium.ThermodynamicState sta_default=
      Medium.setState_pTX(T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
-  parameter Modelica.SIunits.DynamicViscosity eta_default=Medium.dynamicViscosity(sta_default)
+  parameter Modelica.Units.SI.DynamicViscosity eta_default=
+      Medium.dynamicViscosity(sta_default)
     "Dynamic viscosity, used to compute transition to turbulent flow regime";
 
-  final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_pos = abs(m_flow_nominal)
-    "Absolute value of nominal flow rate";
-  final parameter Modelica.SIunits.PressureDifference dp_nominal_pos(displayUnit="Pa") = abs(dp_nominal)
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_pos=abs(
+      m_flow_nominal) "Absolute value of nominal flow rate";
+  final parameter Modelica.Units.SI.PressureDifference dp_nominal_pos(
+      displayUnit="Pa") = abs(dp_nominal)
     "Absolute value of nominal pressure difference";
 
 equation

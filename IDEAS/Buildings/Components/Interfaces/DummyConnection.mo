@@ -3,16 +3,14 @@ model DummyConnection "Source generator/sink for propsbus"
   parameter Boolean isZone = false "Set to true when connecting to a surface";
   parameter Real A=1 "Surface area"
     annotation(Dialog(enable=not isZone));
-  parameter Modelica.SIunits.HeatFlowRate surfCon=0
-    "Fixed heat flow rate for surfCon"
-    annotation(Dialog(enable=not isZone));
-  parameter Modelica.SIunits.HeatFlowRate iSolDir=0
-    "Fixed heat flow rate for iSolDir"
-    annotation(Dialog(enable=not isZone));
-  parameter Modelica.SIunits.HeatFlowRate iSolDif=0
-    "Fixed heat flow rate for iSolDif"
-    annotation(Dialog(enable=not isZone));
-  parameter Modelica.SIunits.Temperature T = 293.15 "Fixed temperature for surfRad, or zone when isZone";
+  parameter Modelica.Units.SI.HeatFlowRate surfCon=0
+    "Fixed heat flow rate for surfCon" annotation (Dialog(enable=not isZone));
+  parameter Modelica.Units.SI.HeatFlowRate iSolDir=0
+    "Fixed heat flow rate for iSolDir" annotation (Dialog(enable=not isZone));
+  parameter Modelica.Units.SI.HeatFlowRate iSolDif=0
+    "Fixed heat flow rate for iSolDif" annotation (Dialog(enable=not isZone));
+  parameter Modelica.Units.SI.Temperature T=293.15
+    "Fixed temperature for surfRad, or zone when isZone";
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
@@ -21,8 +19,8 @@ model DummyConnection "Source generator/sink for propsbus"
     numIncAndAziInBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[3](
-      Q_flow={surfCon,iSolDif,iSolDir}) if
-                         not isZone
+      Q_flow={surfCon,iSolDif,iSolDir})
+                      if not isZone
     annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
   Modelica.Blocks.Sources.Constant area(k=A) if not isZone
     annotation (Placement(transformation(extent={{0,40},{20,60}})));
@@ -32,26 +30,26 @@ model DummyConnection "Source generator/sink for propsbus"
   Modelica.Blocks.Sources.Constant QTra(k=A) if not isZone
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
 
-  Modelica.Blocks.Sources.Constant azi(k=IDEAS.Types.Azimuth.S) if      not isZone
+  Modelica.Blocks.Sources.Constant azi(k=IDEAS.Types.Azimuth.S)      if not isZone
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
-  Modelica.Blocks.Sources.Constant inc(k=IDEAS.Types.Tilt.Floor) if     not isZone
+  Modelica.Blocks.Sources.Constant inc(k=IDEAS.Types.Tilt.Floor)     if not isZone
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=T)
     annotation (Placement(transformation(extent={{-70,-16},{-50,4}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow QGai(Q_flow=0) if
-                         not isZone
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow QGai(Q_flow=0)
+                      if not isZone
     annotation (Placement(transformation(extent={{-40,-30},{-20,-10}})));
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy
     prescribedEnergy if not isZone
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
   Modelica.Blocks.Sources.Constant zero(k=0) if not isZone
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow QRad(Q_flow=0) if
-                         isZone
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow QRad(Q_flow=0)
+                      if isZone
     annotation (Placement(transformation(extent={{-40,-64},{-20,-44}})));
-  Modelica.Blocks.Sources.Constant q50_zone(k=0) if  isZone
+  Modelica.Blocks.Sources.Constant q50_zone(k=0)  if isZone
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
-  Modelica.Blocks.Sources.BooleanConstant custom_n50(k=false) if  isZone
+  Modelica.Blocks.Sources.BooleanConstant custom_n50(k=false)  if isZone
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
   Modelica.Blocks.Sources.BooleanConstant custom_q50(k=false) if not isZone
     annotation (Placement(transformation(extent={{-80,-130},{-60,-110}})));

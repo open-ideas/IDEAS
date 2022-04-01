@@ -6,10 +6,7 @@ model Screen "Controllable exterior screen"
   parameter Real shaCorr=0.24 "Shortwave transmittance of shortwave radiation";
 
 protected
-  Modelica.Blocks.Nonlinear.Limiter limiter(
-    uMax=1,
-    uMin=0,
-    limitsAtInit=true);
+  Modelica.Blocks.Nonlinear.Limiter limiter(uMax=1, uMin=0);
 
 equation
   HShaDirTil = HDirTil*(1 - limiter.y);

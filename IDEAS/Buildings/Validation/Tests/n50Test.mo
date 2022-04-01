@@ -12,7 +12,7 @@ model n50Test "n50 consistency check for OnePort"
       p=Medium.p_default,
       X=Medium.X_default)
     "State of the medium at the medium default properties";
-  parameter Modelica.SIunits.Density rho_default=Medium.density(sta_default)
+  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
     "Density at the medium default properties";
 
   Real ach = -bou.ports[1].m_flow/rho_default/simpleZone.V*3600 "Effective air change rate";

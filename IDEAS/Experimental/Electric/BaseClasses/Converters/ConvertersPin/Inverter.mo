@@ -1,11 +1,11 @@
 within IDEAS.Experimental.Electric.BaseClasses.Converters.ConvertersPin;
 model Inverter "Inverter (DC to AC)"
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 extends Partials.Converter;
 
   parameter Boolean inverter = true "Inverter: true / Rectifier: false";
 
-  Modelica.SIunits.ActivePower Plos;
+  Modelica.Units.SI.ActivePower Plos;
 
 equation
   pAC + eff*pDC = 0;

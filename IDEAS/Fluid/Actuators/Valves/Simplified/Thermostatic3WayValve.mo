@@ -12,7 +12,7 @@ model Thermostatic3WayValve "Thermostatic 3-way valve with hot and cold side"
     annotation(Dialog(tab="Advanced"));
   parameter Real y_start(min=0, max=1) = 0 "Initial valve opening"
     annotation(Dialog(enable=dynamicValve,tab="Dynamics", group="Filter"));
-  parameter Modelica.SIunits.Temperature dT_nominal = 50
+  parameter Modelica.Units.SI.Temperature dT_nominal=50
     "Nominal/maximum temperature difference between inlet ports, used for regularization";
 
   Modelica.Blocks.Interfaces.RealInput TMixedSet
@@ -28,11 +28,14 @@ model Thermostatic3WayValve "Thermostatic 3-way valve with hot and cold side"
     "Fraction of nominal mass flow rate"
     annotation (Placement(transformation(extent={{74,-60},{34,-40}})));
 
-  Modelica.SIunits.MassFlowRate m_flow_a2(min=0)
+  Modelica.Units.SI.MassFlowRate m_flow_a2(min=0)
     "mass flowrate of part_a2 to the mixing point";
 protected
-  Modelica.SIunits.SpecificEnthalpy h_set = Medium.specificEnthalpy(Medium.setState_pTX(port_b.p, TMixedSet, vol.Xi))
-    "Specific enthalpy of the temperature setpoint";
+  Modelica.Units.SI.SpecificEnthalpy h_set=Medium.specificEnthalpy(
+      Medium.setState_pTX(
+      port_b.p,
+      TMixedSet,
+      vol.Xi)) "Specific enthalpy of the temperature setpoint";
   Real k(start=0.5)
     "Unbounded help variable for determining fraction of each flow";
   Real k_state(start=y_start) "Variable for introducing a state";

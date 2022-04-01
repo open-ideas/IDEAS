@@ -3,25 +3,24 @@ model Bidirectional_1phase
 extends Modelica.Icons.Example;
   Converters.ConvertersPin.BidirectionalConverter bidirectionalConverter(eff=0.95)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Resistor resistor(
-            useHeatPort=false, R_ref=50)
-                               annotation (Placement(transformation(
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Resistor resistor(
+      useHeatPort=false, R_ref=50) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-50,0})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.VoltageSensor
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.VoltageSensor
     voltageSensor annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-40,-20})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.VoltageSensor
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.VoltageSensor
     voltageSensor1 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,-20})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
     f=50,
     V=230,

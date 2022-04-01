@@ -2,17 +2,19 @@ within ;
 package IDEAS "Integrated District Energy Assessment Simulation"
 
 extends Modelica.Icons.Package;
-import SI = Modelica.SIunits;
+import      Modelica.Units.SI;
 
 annotation (
-  uses(Modelica(version="3.2.3")),
+  uses(Modelica(version="4.0.0")),
   Icon(graphics),
-  version="2.2.1",
+  version="3.0.0",
   versionDate="2021-06-09",
   dateModified = "2021-06-09",
   conversion(
  from(version={"0.2"},
-      script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos")),
+      script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos",
+      to="2.2.1"), from(version="2.2.1", script=
+          "modelica://IDEAS/Resources/Scripts/ConvertFromIDEAS_2.2.1.mos")),
   Documentation(info="<html>
 <p>Licensed by KU Leuven and 3E</p>
 <p>Copyright &copy; 2013-2023, KU Leuven and 3E. </p>

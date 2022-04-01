@@ -5,12 +5,12 @@ model HeatRadiation "radiative heat exchange between two temperatures"
   parameter Boolean linearise = true
     "If true, linearise radiative heat transfer"
     annotation(Evaluate=true, Dialog(group="Linearisation"));
-  parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
+  parameter Modelica.Units.SI.Temperature Tzone_nom=295.15
     "Nominal temperature of environment, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
-  parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
+    annotation (Dialog(group="Linearisation", enable=linearise));
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom=-2
     "Nominal temperature difference between solid and air, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
+    annotation (Dialog(group="Linearisation", enable=linearise));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
@@ -18,7 +18,8 @@ model HeatRadiation "radiative heat exchange between two temperatures"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 protected
-  parameter Modelica.SIunits.ThermalConductance coeffLin = 1/R*(2*Tzone_nom+dT_nom)*(Tzone_nom^2+(Tzone_nom+dT_nom)^2)
+  parameter Modelica.Units.SI.ThermalConductance coeffLin=1/R*(2*Tzone_nom +
+      dT_nom)*(Tzone_nom^2 + (Tzone_nom + dT_nom)^2)
     "Coefficient allowing less overhead for evaluation functions. This implementation is an approximation of the real linearization f(u)_lin = df/du|(u=u_bar) * (u-u_bar) + f|u_bar. The accuracy of it has been checked.";
   parameter Real coeffNonLin(unit="W/K4") = 1/R
     "Coefficient allowing less overhead for evaluation functions.";

@@ -2,11 +2,9 @@ within IDEAS.Experimental.Electric.BaseClasses.AC;
 model Con1PlusNTo1
   "Converts the single-phase plus Neutral to single-phase representation to wich powers can be connected"
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    twoWire[2]
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin twoWire[2]
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    oneWire[1]
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin oneWire[1]
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 equation

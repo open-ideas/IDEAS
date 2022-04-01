@@ -26,10 +26,13 @@ model HeatingSchedule "Heating schedule for twin house experiments"
     annotation (Placement(transformation(extent={{92,-102},{136,-58}})));
 protected
   final parameter Real[6] Schedule= if exp == 1 then {20044800,20800000,22119000,22637400,3.1536e7,3.16e7} else {8467200,9.187e6,9.7352e6,10198800,11494800,12013200};
-  final parameter Modelica.SIunits.Temperature Tinit1=303.15;
-  final parameter Modelica.SIunits.Temperature Tinit1N = (if exp== 1 then Tinit1 else 295.15);
-  final parameter Modelica.SIunits.Temperature Tinit2=if exp == 1 then 298.15 else 303.15;
-  final parameter Modelica.SIunits.Temperature Tinit2N = (if exp== 1 then Tinit2 else 295.15);
+  final parameter Modelica.Units.SI.Temperature Tinit1=303.15;
+  final parameter Modelica.Units.SI.Temperature Tinit1N=(if exp == 1 then
+      Tinit1 else 295.15);
+  final parameter Modelica.Units.SI.Temperature Tinit2=if exp == 1 then 298.15
+       else 303.15;
+  final parameter Modelica.Units.SI.Temperature Tinit2N=(if exp == 1 then
+      Tinit2 else 295.15);
   final parameter String filename = if exp==1 and bui== 1 then "MeasurementTwinHouseN2Exp1.txt" elseif exp==2 and bui==1 then "MeasurementTwinHouseN2Exp2.txt" else "MeasurementTwinHouseO5.txt";
 
 equation

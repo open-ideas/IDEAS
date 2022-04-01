@@ -41,8 +41,7 @@ public
   Modelica.Blocks.Sources.Sine sine(
     amplitude=Modelica.Constants.pi/4,
     offset=Modelica.Constants.pi/4,
-    freqHz=1/30000)
-    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+    f=1/30000) annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   Modelica.Blocks.Sources.Pulse pulse(period=3600*4)
     annotation (Placement(transformation(extent={{40,-20},{60,0}})));
   Shading.HorizontalFins horizontalFinsOpen(

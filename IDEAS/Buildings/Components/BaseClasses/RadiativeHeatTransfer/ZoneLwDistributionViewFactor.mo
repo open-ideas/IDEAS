@@ -4,21 +4,21 @@ model ZoneLwDistributionViewFactor
 
   parameter Integer nSurf(min=1) "number of surfaces in contact with the zone";
 
-  parameter Modelica.SIunits.Angle incCeiling = IDEAS.Types.Tilt.Ceiling;
-  parameter Modelica.SIunits.Angle incFloor = IDEAS.Types.Tilt.Floor;
-  parameter Modelica.SIunits.Angle incWall = IDEAS.Types.Tilt.Wall;
-  parameter Modelica.SIunits.Angle aziSouth = IDEAS.Types.Azimuth.S;
+  parameter Modelica.Units.SI.Angle incCeiling=IDEAS.Types.Tilt.Ceiling;
+  parameter Modelica.Units.SI.Angle incFloor=IDEAS.Types.Tilt.Floor;
+  parameter Modelica.Units.SI.Angle incWall=IDEAS.Types.Tilt.Wall;
+  parameter Modelica.Units.SI.Angle aziSouth=IDEAS.Types.Azimuth.S;
   final parameter Integer numAzi = 4;
 
-  parameter Modelica.SIunits.Length hZone "Distance between floor and ceiling";
+  parameter Modelica.Units.SI.Length hZone "Distance between floor and ceiling";
   parameter Boolean linearise = true "Linearise radiative heat exchange"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
+  parameter Modelica.Units.SI.Temperature Tzone_nom=295.15
     "Nominal temperature of environment, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
-  parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
+    annotation (Dialog(group="Linearisation", enable=linearise));
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom=-2
     "Nominal temperature difference between solid and air, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
+    annotation (Dialog(group="Linearisation", enable=linearise));
 
   parameter Real[nSurf,nSurf] vieFac(each fixed=false)
     "Emissivity weighted viewfactor from surface to surface"
@@ -57,7 +57,8 @@ model ZoneLwDistributionViewFactor
 
 
 protected
-  parameter Modelica.SIunits.ThermalConductance coeffLin = 1*(2*Tzone_nom+dT_nom)*(Tzone_nom^2+(Tzone_nom+dT_nom)^2)
+  parameter Modelica.Units.SI.ThermalConductance coeffLin=1*(2*Tzone_nom +
+      dT_nom)*(Tzone_nom^2 + (Tzone_nom + dT_nom)^2)
     "Coefficient allowing less overhead for evaluation functions. This implementation is an approximation of the real linearization f(u)_lin = df/du|(u=u_bar) * (u-u_bar) + f|u_bar. The accuracy of it has been checked.";
   parameter Real[2+numAzi] Atot(each fixed=false)
     "Total surface area per orientation";
@@ -69,7 +70,7 @@ protected
 
   parameter Integer index1(fixed=false);
   parameter Integer index2(fixed=false);
-  parameter Modelica.SIunits.Area[nSurf] Afloor(each fixed = false);
+  parameter Modelica.Units.SI.Area[nSurf] Afloor(each fixed=false);
 initial algorithm
   //initialise surface area to zero
   Atot :=zeros(2 + numAzi);

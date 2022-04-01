@@ -13,6 +13,6 @@ model BranchLenTyp
 
   //  parameter IDEAS.Electric.Data.Interfaces.Cable typ = IDEAS.Electric.Data.Cables.PvcAl16()
   //    "Cable type";
-  parameter Modelica.SIunits.Length len=10 "Cable length";
+  parameter Modelica.Units.SI.Length len=10 "Cable length";
 
 end BranchLenTyp;

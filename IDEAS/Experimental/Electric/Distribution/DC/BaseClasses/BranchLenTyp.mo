@@ -5,5 +5,5 @@ model BranchLenTyp
   parameter Real mulFac=1;
   parameter Data.Interfaces.DirectCurrent.Cable typ=
       Data.Cables.DirectCurrent.PvcAl35();
-  parameter Modelica.SIunits.Length len=10;
+  parameter Modelica.Units.SI.Length len=10;
 end BranchLenTyp;

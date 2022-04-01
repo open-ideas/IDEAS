@@ -3,7 +3,7 @@ model BatterySystemGeneral
   extends DC.Partials.BatterySystem;
 
   // Variables
-  Modelica.SIunits.Power Pnet "Power available to charge/discharge battery";
+  Modelica.Units.SI.Power Pnet "Power available to charge/discharge battery";
 
   // Models
   Modelica.Electrical.Analog.Interfaces.NegativePin pin annotation (Placement(transformation(extent={{-106,-10},{-86,10}},

@@ -15,14 +15,14 @@ model OuterWall "Opaque building envelope construction"
   parameter Boolean hasBuildingShade = false
     "=true, to enable computation of shade cast by opposite building or object"
     annotation(Dialog(group="Building shade"));
-  parameter Modelica.SIunits.Length L(min=0)=0
+  parameter Modelica.Units.SI.Length L(min=0) = 0
     "Distance between object and wall, perpendicular to wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length dh(min=-hWal)=0
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length dh(min=-hWal) = 0
     "Height difference between top of object and top of wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length hWal(min=0)=0 "Wall height"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length hWal(min=0) = 0 "Wall height"
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
@@ -83,8 +83,8 @@ protected
     Cs=Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then 1 else 2) if
-    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+         then 1 else 2)
+ if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 initial equation

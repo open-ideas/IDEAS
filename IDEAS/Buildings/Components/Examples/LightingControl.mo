@@ -15,13 +15,13 @@ model LightingControl
       IDEAS.Buildings.Components.LightingControl.Input ligCtr)
     "Zone with input for lighting control"
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
-  IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneBlock(redeclare
-      IDEAS.Buildings.Components.LightingType.LED ligTyp,           redeclare
+  IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneBlock(
+      redeclare IDEAS.Buildings.Components.LightingType.LED ligTyp, redeclare
       IDEAS.Buildings.Components.LightingControl.CustomBlock ligCtr(redeclare
         Modelica.Blocks.Sources.Sine singleOutput(
-        freqHz=0.001,
+        f=0.001,
         amplitude=1,
-        offset=1)))                "Zone with block replaceable for lighting control"
+        offset=1))) "Zone with block replaceable for lighting control"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Blocks.Sources.Ramp ramp(
     duration=1000,

@@ -21,7 +21,7 @@ protected
   IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(numSolBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
     annotation (Placement(transformation(extent={{-78,80},{-58,100}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFlo(final
-      alpha=0) if                                                                 sim.computeConservationOfEnergy
+      alpha=0)                                                                 if sim.computeConservationOfEnergy
     "Prescribed heat flow rate for conservation of energy check" annotation (
       Placement(transformation(
         extent={{10,-10},{-10,10}},

@@ -11,8 +11,8 @@ public
   replaceable parameter IDEAS.Experimental.Electric.Data.Interfaces.GridType grid(Pha=3)
     "Choose a grid Layout" annotation (choicesAllMatching=true);
 
-  parameter Modelica.SIunits.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j "Voltage"
-              annotation (choices(
+  parameter Modelica.Units.SI.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j
+    "Voltage" annotation (choices(
       choice=(230*1) + 0*MCM.j "100% at HVpin of transformer",
       choice=(230*1.02) + 0*MCM.j "102% at HVpin of transformer",
       choice=(230*1.05) + 0*MCM.j "105% at HVpin of transformer",
@@ -33,33 +33,33 @@ public
         __Dymola_radioButtons=true));
 
   /***Output total power***/
-  output Modelica.SIunits.ActivePower PGriTot=gridOnly3P.PGriTot;
-  output Modelica.SIunits.ComplexPower SGriTot=gridOnly3P.SGriTot;
-  output Modelica.SIunits.ReactivePower QGriTot=gridOnly3P.QGriTot;
-  output Modelica.SIunits.ActivePower PGriTotPha[3]=gridOnly3P.PGriTotPha;
-  output Modelica.SIunits.ComplexPower SGriTotPha[3]=gridOnly3P.SGriTotPha;
-  output Modelica.SIunits.ReactivePower QGriTotPha[3]=gridOnly3P.QGriTotPha;
+  output Modelica.Units.SI.ActivePower PGriTot=gridOnly3P.PGriTot;
+  output Modelica.Units.SI.ComplexPower SGriTot=gridOnly3P.SGriTot;
+  output Modelica.Units.SI.ReactivePower QGriTot=gridOnly3P.QGriTot;
+  output Modelica.Units.SI.ActivePower PGriTotPha[3]=gridOnly3P.PGriTotPha;
+  output Modelica.Units.SI.ComplexPower SGriTotPha[3]=gridOnly3P.SGriTotPha;
+  output Modelica.Units.SI.ReactivePower QGriTotPha[3]=gridOnly3P.QGriTotPha;
 
-  output Modelica.SIunits.Voltage Vabs[3, Nodes]=gridOnly3P.Vabs;
+  output Modelica.Units.SI.Voltage Vabs[3,Nodes]=gridOnly3P.Vabs;
 
   /***Output the Losses***/
-  output Modelica.SIunits.ActivePower PLosBra[3, Nodes]=gridOnly3P.PLosBra;
-  output Modelica.SIunits.ActivePower PLosNeu[Nodes]=gridOnly3P.PLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosPha[3]=gridOnly3P.PGriLosPha;
-  output Modelica.SIunits.ActivePower PGriLosNeu=gridOnly3P.PGriLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosPhaTot=gridOnly3P.PGriLosPhaTot;
-  output Modelica.SIunits.ActivePower PGriLosTot=gridOnly3P.PGriLosTot;
+  output Modelica.Units.SI.ActivePower PLosBra[3,Nodes]=gridOnly3P.PLosBra;
+  output Modelica.Units.SI.ActivePower PLosNeu[Nodes]=gridOnly3P.PLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosPha[3]=gridOnly3P.PGriLosPha;
+  output Modelica.Units.SI.ActivePower PGriLosNeu=gridOnly3P.PGriLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosPhaTot=gridOnly3P.PGriLosPhaTot;
+  output Modelica.Units.SI.ActivePower PGriLosTot=gridOnly3P.PGriLosTot;
 
   /***And the Transformer losses if present***/
-  output Modelica.SIunits.ActivePower traLosP0=transformer_MvLv.traLosP0;
-  output Modelica.SIunits.ActivePower traLosPtot=transformer_MvLv.traLosPTot;
+  output Modelica.Units.SI.ActivePower traLosP0=transformer_MvLv.traLosP0;
+  output Modelica.Units.SI.ActivePower traLosPtot=transformer_MvLv.traLosPTot;
 
-  output Modelica.SIunits.ComplexCurrent[3] Ibranch0={gridOnly3P.branch[p, 1].i
+  output Modelica.Units.SI.ComplexCurrent[3] Ibranch0={gridOnly3P.branch[p, 1].i
       for p in 1:3};
-  output Modelica.SIunits.Current Ibranch0Abs[3]={Modelica.ComplexMath.'abs'(
+  output Modelica.Units.SI.Current Ibranch0Abs[3]={Modelica.ComplexMath.abs(
       Ibranch0[i]) for i in 1:3};
-  output Modelica.SIunits.ComplexCurrent Ineutral0=gridOnly3P.neutral[1].i;
-  output Modelica.SIunits.Current Ineutral0Abs=Modelica.ComplexMath.'abs'(
+  output Modelica.Units.SI.ComplexCurrent Ineutral0=gridOnly3P.neutral[1].i;
+  output Modelica.Units.SI.Current Ineutral0Abs=Modelica.ComplexMath.abs(
       Ineutral0);
 
 protected
@@ -69,7 +69,7 @@ protected
     gridOnly3P.grid.nNodes]
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 public
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[3,
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[3,
     gridOnly3P.grid.nNodes] gridNodes3P
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
