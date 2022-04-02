@@ -1,10 +1,11 @@
-IDEAS v2.2.1
+IDEAS v2.2.2
 ============
 [![Build Status](https://app.travis-ci.com/open-ideas/IDEAS.svg?branch=master)](https://app.travis-ci.com/open-ideas/IDEAS)
 
 Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level.
 
 ## Release history
++ April 2nd, 2022: IDEAS v2.2.2 has been released. This is the final release before updating MSL 4.0.0 and it includes only small updates over v2.2.2.
 + September 20th, 2021: IDEAS v2.2.1 has been released.
 + June 9th, 2021: IDEAS v2.2 has been released.
 + February 28th, 2019: IDEAS v2.1 has been released.
