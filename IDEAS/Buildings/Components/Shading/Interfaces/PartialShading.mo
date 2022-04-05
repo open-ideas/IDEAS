@@ -6,7 +6,7 @@ partial model PartialShading "Window shading partial"
   parameter Modelica.Units.SI.Angle azi "Window azimuth angle"
     annotation (Dialog(group="Window properties"));
 
-  Modelica.SIunits.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
+  Modelica.Units.SI.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
     "Total solar irradiatiance";
   Modelica.Blocks.Interfaces.RealInput HDirTil
     "Direct solar illuminance on surface" annotation (Placement(
