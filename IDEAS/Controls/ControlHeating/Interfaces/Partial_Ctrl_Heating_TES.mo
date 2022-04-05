@@ -7,9 +7,9 @@ partial model Partial_Ctrl_Heating_TES
   in order to be complete controller.  
   
 
-  input Modelica.SIunits.Temperature TTankTop 
+  input Modelica.Units.SI.Temperature TTankTop 
     "Top (or near top) tank temperature";
-  input Modelica.SIunits.Temperature TTankBot 
+  input Modelica.Units.SI.Temperature TTankBot 
     "Bottom (or near bottom) tank temperature";
 
   */
