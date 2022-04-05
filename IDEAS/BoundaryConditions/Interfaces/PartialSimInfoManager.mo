@@ -199,8 +199,7 @@ partial model PartialSimInfoManager
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
     "Bus for windows in case of linearisation";
-  Modelica.Blocks.Routing.RealPassThrough solTim
-    "Solar time"
+  Modelica.Blocks.Routing.RealPassThrough solTim "Solar time"
     annotation (Placement(transformation(extent={{-86,-2},{-78,6}})));
   IDEAS.BoundaryConditions.WeatherData.Bus weaDatBus
     "Weather data bus connectable to weaBus connector from Buildings Library"
@@ -217,6 +216,8 @@ partial model PartialSimInfoManager
     "Port for summing surface areas of all surfaces"
     annotation (Placement(transformation(extent={{70,-110},{90,-90}})));
 
+  Modelica.Blocks.Routing.RealPassThrough alt "Altitude"
+    annotation (Placement(transformation(extent={{-86,-22},{-78,-14}})));
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
 
@@ -311,7 +312,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(relativeAirMass.relAirMas, skyBrightness.relAirMas) annotation (Line(
-      points={{-39,70},{-38,70},{-38,74},{-32,74}},
+      points={{-39,70},{-38,70},{-38,76},{-32,76}},
       color={0,0,127},
       smooth=Smooth.None));
 
@@ -430,16 +431,17 @@ equation
       smooth=Smooth.None));
   connect(skyBrightnessCoefficients.zen, angZen.y)
     annotation (Line(points={{-2,84},{-77.6,84}}, color={0,0,127}));
-  connect(skyBrightness.HDifHor,HDifHor. y) annotation (Line(points={{-32,66},{-70,
-          66},{-70,98},{-77.6,98}}, color={0,0,127}));
-  connect(relativeAirMass.zen, angZen.y) annotation (Line(points={{-62,70},{-68,
-          70},{-68,84},{-77.6,84}}, color={0,0,127}));
+  connect(skyBrightness.HDifHor,HDifHor. y) annotation (Line(points={{-32,70},{-70,
+          70},{-70,98},{-77.6,98}}, color={0,0,127}));
+  connect(relativeAirMass.zen, angZen.y) annotation (Line(points={{-62,64},{-68,
+          64},{-68,84},{-77.6,84}}, color={0,0,127}));
   connect(skyClearness.zen, angZen.y) annotation (Line(points={{-62,104},{-68,104},
           {-68,84},{-77.6,84}}, color={0,0,127}));
   connect(skyClearness.HDifHor,HDifHor. y) annotation (Line(points={{-62,110},{-70,
           110},{-70,98},{-77.6,98}},color={0,0,127}));
-  connect(skyClearness.HGloHor,HGloHor. y) annotation (Line(points={{-62,116},{-72,
-          116},{-72,112},{-77.6,112}},color={0,0,127}));
+  connect(skyClearness.HDirNor,HDirNor. y) annotation (Line(points={{-62,116},{
+          -72,116},{-72,44},{-77.6,44}},
+                                      color={0,0,127}));
   connect(solTim.u, weaDatBus.solTim)
     annotation (Line(points={{-86.8,2},{-100,2},{-100,-10}},color={0,0,127}));
   connect(angZen.u, weaDatBus.solZen) annotation (Line(points={{-86.8,84},{-100,
@@ -481,6 +483,16 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(alt.u, weaDatBus.alt) annotation (Line(points={{-86.8,-18},{-100,-18},
+          {-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(alt.y, relativeAirMass.alt) annotation (Line(points={{-77.6,-18},{-66,
+          -18},{-66,68},{-62,68},{-62,76}}, color={0,0,127}));
+  connect(solTim.y, skyBrightness.solTim) annotation (Line(points={{-77.6,2},{
+          -68,2},{-68,4},{-32,4},{-32,64}}, color={0,0,127}));
     annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
