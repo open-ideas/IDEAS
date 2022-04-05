@@ -162,7 +162,7 @@ protected
 
 model PowerLaw_q50
 
-    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
+    extends IDEAS.Airflow.Multizone.Coefficient_m_flow(
       m=0.5,
       k=A*coeff); //mass flow form of orifice equation
 
@@ -336,9 +336,11 @@ equation
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+    Diagram(graphics,
+            coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
+    Icon(graphics,
+         coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
 <li>
