@@ -171,8 +171,7 @@ model PowerLaw_q50
     "Leaked volume flow rate per unit A at 50Pa";
   final parameter Real coeff = (q50/3600)/(50^m)
     "Conversion coefficient";
-equation
-  v= V_flow/A;
+
   annotation (Icon(graphics={
         Text(
           extent={{-100,100},{-40,60}},

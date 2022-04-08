@@ -19,8 +19,8 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
   Modelica.Units.SI.Efficiency eta={-6.017763e-11,2.130271e-8,-3.058709e-6,
-      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i
-       in 0:6} "Boiler efficiency";
+      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i in
+          0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
     "Temperature within validity range of correlation";
 
@@ -52,7 +52,6 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
   Fluid.Movers.FlowControlled_dp           pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
     use_inputFilter=false,
     redeclare package Medium = MediumWater,

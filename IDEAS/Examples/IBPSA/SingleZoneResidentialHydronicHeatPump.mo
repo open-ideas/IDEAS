@@ -115,7 +115,6 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
@@ -237,7 +236,6 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{160,100},{180,120}})));
   Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
     use_inputFilter=false,
     dp_nominal=100,
@@ -320,7 +318,7 @@ equation
   connect(yFan.y, oveFan.u)
     annotation (Line(points={{181,110},{190,110}}, color={0,0,127}));
   connect(fan.port_a, outAir.ports[1])
-    annotation (Line(points={{220,40},{240,40},{240,12}},color={0,127,255}));
+    annotation (Line(points={{220,40},{240,40},{240,9}}, color={0,127,255}));
   connect(realToInteger2.y, fan.stage) annotation (Line(points={{273,110},{280,110},
           {280,60},{210,60},{210,52}}, color={255,127,0}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{199,49},{190,49},{190,80},
@@ -345,7 +343,7 @@ equation
           -90,88},{-82,88}}, color={0,0,127}));
   connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
           60},{-100,60},{-100,80},{-82,80}}, color={0,0,127}));
-  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,8},{240,
+  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,11},{240,
           -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));

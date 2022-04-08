@@ -48,7 +48,6 @@ model ConstantAirFlowRecup
     m_flow_nominal=n ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    each massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     each use_inputFilter=false,
     each inputType=IDEAS.Fluid.Types.InputType.Constant)
     "Fan with constant flow rate"

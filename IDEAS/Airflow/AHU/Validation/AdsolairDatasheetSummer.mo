@@ -73,10 +73,10 @@ equation
   connect(V_flow_env.y, From_m3PerhSup.V_flow)
     annotation (Line(points={{79.3,47},{66.2,47},{66.2,17}}, color={0,0,127}));
   connect(dp_set.y, adsolair58.dpSet[1])
-    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,20.9}},
+    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,19.85}},
                                                             color={0,0,127}));
   connect(dp_set.y, adsolair58.dpSet[2])
-    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,19.5}},
+    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,20.55}},
                                                             color={0,0,127}));
   connect(T_set.y, adsolair58.Tset)
     annotation (Line(points={{-25.3,87},{-2.8,87},{-2.8,20.2}},

@@ -10,12 +10,10 @@ partial model PartialHeatPump "Heat pump partial"
     vol1(mSenFac=mSenFac,
       V=heatPumpData.m1/rho1_nominal,
       energyDynamics=energyDynamics,
-      massDynamics=massDynamics,
       prescribedHeatFlowRate=true),
     redeclare IDEAS.Fluid.MixingVolumes.MixingVolume vol2(mSenFac=mSenFac,
       V=heatPumpData.m2/rho2_nominal,
       energyDynamics=energyDynamics,
-      massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
   extends IDEAS.Fluid.HeatPumps.Interfaces.ModulationSecurity(
     T_max = heatPumpData.T_cond_max,
@@ -193,7 +191,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(T_out_cond.T, copTable.u1) annotation (Line(
-      points={{-40,-40},{-86,-40},{-86,0},{-76,0}},
+      points={{-41,-40},{-86,-40},{-86,0},{-76,0}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TEvapInExp.y, powerTable.u2) annotation (Line(

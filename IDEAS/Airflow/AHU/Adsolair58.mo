@@ -104,8 +104,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     redeclare package Medium2 = MediumAir,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dp2_nominal=1,
-    vol2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-        massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
+    vol2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
     constrainedby IDEAS.Fluid.Interfaces.PartialFourPortInterface
     "Replaceable model for adding heat exchanger at supply outlet"
     annotation (Dialog(group="Advanced"),Placement(transformation(extent={{-72,-36},{-92,-16}})));
@@ -141,11 +140,11 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     m_flow_small=m_flow_small,
     redeclare package Medium1 = MediumAir,
     redeclare package Medium2 = MediumAir,
+    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m1_flow_nominal=m1_flow_nominal,
     m2_flow_nominal=m2_flow_nominal,
     eps_adia_on=per.eps_adia_on,
     eps_adia_off=per.eps_adia_off,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     tau=tau,
     UA_adia_on=per.UA_adia_on,
     UA_adia_off=per.UA_adia_off,
@@ -195,7 +194,6 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     riseTime=600,
     use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m1_flow_nominal,
     prescribeSystemPressure=true)   "Top fan"
     annotation (Placement(transformation(extent={{-50,10},{-30,30}})));
@@ -240,7 +238,6 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     riseTime=600,
     use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m2_flow_nominal,
     prescribeSystemPressure=true)   "Bottom fan"
     annotation (Placement(transformation(extent={{-30,-30},{-50,-10}})));
@@ -455,7 +452,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(fanTop.P, sum.u[2]) annotation (Line(
-      points={{-29,29},{-58,29},{-58,76},{76.4,76},{76.4,89.36}},
+      points={{-29,29},{-58,29},{-58,76},{76.4,76},{76.4,89.68}},
       color={0,0,127},
       smooth=Smooth.None,
       visible=false));
@@ -465,7 +462,7 @@ equation
       smooth=Smooth.None,
       visible=false));
   connect(com.P, sum.u[4]) annotation (Line(
-      points={{40,51.8},{26,51.8},{26,90.64},{76.4,90.64}},
+      points={{40,51.8},{26,51.8},{26,90.32},{76.4,90.32}},
       color={0,0,127},
       visible=false));
   connect(fanTop.port_b, resTop.port_a) annotation (Line(
@@ -494,22 +491,22 @@ equation
       smooth=Smooth.None,
       visible=false));
   connect(IEH.port_b1, con.ports[1]) annotation (Line(points={{64,7.2},{62,7.2},
-          {62,8},{72,8},{72,36.4}}, color={0,127,255}));
+          {62,8},{72,8},{72,35.7}}, color={0,127,255}));
   connect(con.ports[2], valRecupTop.port_a)
-    annotation (Line(points={{72,33.6},{72,44},{78,44}}, color={0,127,255}));
+    annotation (Line(points={{72,34.3},{72,44},{78,44}}, color={0,127,255}));
   connect(valBypassTop.port_a, resTop.port_b) annotation (Line(points={{78,66},{
           0,66},{0,20}},          color={0,127,255}));
   connect(IEH.port_a1, resTop.port_b)
     annotation (Line(points={{10,7.2},{0,7.2},{0,20}}, color={0,127,255}));
   connect(IEH.port_b2, eva.ports[1]) annotation (Line(points={{10,-25.2},{10,-44},
-          {11.6,-44}}, color={0,127,255}));
+          {10.8,-44}}, color={0,127,255}));
   connect(valRecupBot.port_b, IEH.port_a2) annotation (Line(points={{72,-26},{67,
           -26},{67,-25.2},{64,-25.2}}, color={0,127,255}));
   connect(valBypassBottom.port_b, TSupIn.port_a)
     annotation (Line(points={{72,-68},{64,-68},{34,-68}}, color={0,127,255}));
   connect(TSupIn.port_b, resBot.port_a) annotation (Line(points={{22,-68},{0,-68},
           {0,-20}},   color={0,127,255}));
-  connect(eva.ports[2], resBot.port_a) annotation (Line(points={{8.4,-44},{0,-44},
+  connect(eva.ports[2], resBot.port_a) annotation (Line(points={{9.2,-44},{0,-44},
           {0,-20}},        color={0,127,255}));
   connect(theConEva.port_a, fixedTemperature.port)
     annotation (Line(points={{-76,0},{-100,0},{-100,6}}, color={191,0,0}));
@@ -523,7 +520,7 @@ equation
       points={{-64,10},{-24,10},{-24,12},{56,12},{56,42}},
       color={191,0,0},
       visible=false));
-  connect(PPum.y, sum.u[5]) annotation (Line(points={{61,88},{76.4,88},{76.4,91.28}},
+  connect(PPum.y, sum.u[5]) annotation (Line(points={{61,88},{76.4,88},{76.4,90.64}},
         color={0,0,127}));
   connect(booleanConstant.y, valBypassTop.addPreDro) annotation (Line(points={{60.5,75},
           {68,75},{68,74.48},{82.8,74.48}},        color={255,0,255}));
@@ -532,8 +529,8 @@ equation
           255,0,255}));
   connect(valBypassBottom.addPreDro, valRecupBot.addPreDro) annotation (Line(
         points={{83.2,-59.52},{83.2,-37.76},{83.2,-17.52}}, color={255,0,255}));
-  connect(PUnit.y, sum.u[1]) annotation (Line(points={{61,96},{62,96},{62,88.72},
-          {76.4,88.72}}, color={0,0,127}));
+  connect(PUnit.y, sum.u[1]) annotation (Line(points={{61,96},{62,96},{62,89.36},
+          {76.4,89.36}}, color={0,0,127}));
   connect(com.port_a, eva.heatPort)
     annotation (Line(points={{22,42},{18,42},{18,-52}}, color={191,0,0}));
   connect(IEH.TOutBot, com.TinEva) annotation (Line(points={{66.16,-32.76},{34,-32.76},

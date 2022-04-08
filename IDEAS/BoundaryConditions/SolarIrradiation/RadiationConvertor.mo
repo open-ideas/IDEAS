@@ -46,8 +46,7 @@ model RadiationConvertor
     "Diffuse radiation on a horizontal surface" annotation (Placement(
         transformation(extent={{100,70},{120,90}}), iconTransformation(extent={{
             100,70},{120,90}})));
-  Modelica.Blocks.Interfaces.RealInput solHouAng
-    "Solar hour angle"
+  Modelica.Blocks.Interfaces.RealInput solHouAng "Solar hour angle"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}}),
         iconTransformation(extent={{-140,-100},{-100,-60}})));
   Modelica.Blocks.Interfaces.RealOutput solZen
@@ -55,27 +54,30 @@ model RadiationConvertor
     annotation (Placement(transformation(extent={{100,10},{120,30}}),
         iconTransformation(extent={{100,10},{120,30}})));
 
-   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.ZenithAngle zenAng(final lat=
-       lat) "Zenith angle"
+   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.ZenithAngle zenAng "Zenith angle"
     annotation (Placement(transformation(extent={{0,20},{20,0}})));
+  Modelica.Blocks.Sources.Constant constLat(k=lat) "Constant for lat"
+    annotation (Placement(transformation(extent={{-76,-72},{-56,-52}})));
+  Modelica.Blocks.Interfaces.RealInput solTim "Solar time" annotation (
+      Placement(transformation(extent={{-140,-130},{-100,-90}}),
+        iconTransformation(extent={{-140,-180},{-100,-140}})));
+  Modelica.Blocks.Interfaces.RealInput alt "Altitude above sea level"
+    annotation (Placement(transformation(extent={{-140,-160},{-100,-120}}),
+        iconTransformation(extent={{-140,-140},{-100,-100}})));
 protected
   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.IncidenceAngle incSouth(
-    final lat=lat,
     final til=vertical,
     azi=south) "Incidence angle of the south oriented sensor"
     annotation (Placement(transformation(extent={{0,-30},{20,-50}})));
   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.IncidenceAngle incWest(
-    final lat=lat,
     final til=vertical,
     azi=west) "Incidence angle of the west oriented sensor"
     annotation (Placement(transformation(extent={{0,-54},{20,-74}})));
   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.IncidenceAngle incEast(
-    final lat=lat,
     final til=vertical,
     azi=east) "Incidence angle of the east oriented sensor"
     annotation (Placement(transformation(extent={{0,-80},{20,-100}})));
   IDEAS.BoundaryConditions.SolarGeometry.BaseClasses.IncidenceAngle incHor(
-    final lat=lat,
     azi=south,
     final til=horizontal) "Incidence angle on horizontal surface"
     annotation (Placement(transformation(extent={{0,-4},{20,-24}})));
@@ -287,9 +289,6 @@ equation
           {-92,74}}, color={0,0,127}));
   connect(solDifHorGuess.u, gainDif.y)
     annotation (Line(points={{-2,80},{-9,80}},         color={0,0,127}));
-  connect(skyClearness.HGloHor, HGloHorGuess.y) annotation (Line(points={{40.4,-74.8},
-          {32,-74.8},{32,50},{-50,50},{-50,56},{-48.3,56}},
-                                                color={0,0,127}));
   connect(skyClearness.HDifHor, solDifHorGuess.y) annotation (Line(points={{40.4,
           -70},{34,-70},{34,80},{21,80}},     color={0,0,127}));
   connect(skyClearness.skyCle, skyBriCoe.skyCle) annotation (Line(points={{58.8,
@@ -299,9 +298,9 @@ equation
     annotation (Line(points={{98,-96},{30,-96},{30,-65.2},{40.4,-65.2}},
                                                   color={0,0,127}));
   connect(relativeAirMass.relAirMas, skyBrightness.relAirMas) annotation (Line(
-        points={{58.8,-92},{62,-92},{62,-87.8},{64.6,-87.8}}, color={0,0,127}));
+        points={{58.8,-92},{62,-92},{62,-89.2},{64.6,-89.2}}, color={0,0,127}));
   connect(skyBrightness.HDifHor, skyClearness.HDifHor) annotation (Line(points={{64.6,
-          -82.2},{34,-82.2},{34,-70},{40.4,-70}},             color={0,0,127}));
+          -85},{34,-85},{34,-70},{40.4,-70}},                 color={0,0,127}));
   connect(subGro[1].u1, HEast) annotation (Line(
       points={{118,16},{118,66},{-6,66},{-6,90},{-120,90}},
       color={0,0,127},
@@ -327,9 +326,26 @@ equation
   connect(Hmin1.y, HDifHor) annotation (Line(points={{106.7,-19},{108,-19},{108,
           -18},{110,-18},{110,80},{110,80}}, color={0,0,127}));
   connect(relativeAirMass.zen, skyClearness.zen) annotation (Line(points={{40.4,
-          -92},{30,-92},{30,-65.2},{40.4,-65.2}}, color={0,0,127}));
+          -87.2},{30,-87.2},{30,-65.2},{40.4,-65.2}},
+                                                  color={0,0,127}));
   connect(skyBriCoe.skyBri, skyBrightness.skyBri) annotation (Line(points={{98,-90},
           {80.7,-90},{80.7,-85}}, color={0,0,127}));
+  connect(zenAng.lat, constLat.y) annotation (Line(points={{-2,10},{-6,10},{-6,-62},
+          {-55,-62}}, color={0,0,127}));
+  connect(incSouth.lat, constLat.y) annotation (Line(points={{-2,-40},{-6,-40},{
+          -6,-62},{-55,-62}}, color={0,0,127}));
+  connect(incWest.lat, constLat.y) annotation (Line(points={{-2,-64},{-6,-64},{-6,
+          -62},{-55,-62}}, color={0,0,127}));
+  connect(incEast.lat, constLat.y) annotation (Line(points={{-2,-90},{-6,-90},{-6,
+          -62},{-55,-62}}, color={0,0,127}));
+  connect(skyBrightness.solTim, solTim) annotation (Line(points={{64.6,-80.8},{64.6,
+          -110},{-120,-110}}, color={0,0,127}));
+  connect(relativeAirMass.alt, alt) annotation (Line(points={{40.4,-96.8},{30,-96.8},
+          {30,-140},{-120,-140}}, color={0,0,127}));
+  connect(skyClearness.HDirNor, HDirMaxGuess.y) annotation (Line(points={{40.4,-74.8},
+          {40.4,-74},{-16,-74},{-16,-20}}, color={0,0,127}));
+  connect(incHor.lat, constLat.y) annotation (Line(points={{-2,-14},{-6,-14},{
+          -6,-62},{-55,-62}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{160,100}},
         initialScale=0.1)),               Icon(coordinateSystem(

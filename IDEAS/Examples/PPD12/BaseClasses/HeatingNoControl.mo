@@ -16,8 +16,8 @@ partial model HeatingNoControl "Ppd 12 example model without control"
   parameter Modelica.Units.SI.Temperature TSet2=303.15 "Temperature set point";
 
   Modelica.Units.SI.Efficiency eta={-6.017763e-11,2.130271e-8,-3.058709e-6,
-      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i
-       in 0:6} "Boiler efficiency";
+      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i in
+          0:6} "Boiler efficiency";
   Real TCorr=min(max(senTemRet.T - 273.15, 25), 75)
     "Temperature within validity range of correlation";
   Modelica.Units.SI.Power QGas=hea.Q_flow/eta;
@@ -107,7 +107,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
   IDEAS.Fluid.Movers.FlowControlled_dp pump(
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
     redeclare package Medium = MediumWater,
     allowFlowReversal=false,
@@ -130,7 +129,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     annotation (Placement(transformation(extent={{400,-200},{380,-180}})));
   IDEAS.Fluid.FixedResistances.Junction spl(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package Medium = MediumWater,
     m_flow_nominal={m_flow_nominal,m_flow_nominal,m_flow_nominal},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -140,7 +138,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     annotation (Placement(transformation(extent={{240,-120},{220,-100}})));
   IDEAS.Fluid.FixedResistances.Junction spl1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package Medium = MediumWater,
     m_flow_nominal={m_flow_nominal,m_flow_nominal,m_flow_nominal},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -150,7 +147,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     annotation (Placement(transformation(extent={{280,-120},{260,-100}})));
   IDEAS.Fluid.FixedResistances.Junction spl2(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package Medium = MediumWater,
     m_flow_nominal={m_flow_nominal,m_flow_nominal,m_flow_nominal},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -160,7 +156,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     annotation (Placement(transformation(extent={{130,-120},{110,-100}})));
   IDEAS.Fluid.FixedResistances.Junction spl3(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package Medium = MediumWater,
     m_flow_nominal={m_flow_nominal,m_flow_nominal,m_flow_nominal},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -170,7 +165,6 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     annotation (Placement(transformation(extent={{100,-120},{80,-100}})));
   IDEAS.Fluid.FixedResistances.Junction spl4(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package Medium = MediumWater,
     m_flow_nominal={m_flow_nominal,m_flow_nominal,m_flow_nominal},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -307,15 +301,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
-      points={{-48,-36.5},{-76,-36.5},{-76,41}},
+      points={{-48,-37.25},{-76,-37.25},{-76,41}},
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[2], com1.propsBus_a) annotation (Line(
-      points={{-48,-37.5},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
+      points={{-48,-37.75},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(out1.propsBus_a, Diner.proBusExt[3]) annotation (Line(
-      points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
+      points={{-91,-89.8333},{-91,-38.25},{-48,-38.25}},
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
@@ -323,7 +317,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
-      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-38.75}},
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
@@ -335,7 +329,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusExt[1], cei1.propsBus_a) annotation (Line(
-      points={{142,61},{144,61},{144,80},{79.1667,80}},
+      points={{142,60.5},{144,60.5},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
   connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
@@ -351,7 +345,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
-      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59.5}},
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
@@ -379,7 +373,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(winBed3.propsBus_a, bedRoom3.proBusExt[1]) annotation (Line(
-      points={{307,2.16667},{307,21.3333},{282,21.3333}},
+      points={{307,2.16667},{307,20.6667},{282,20.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof1.propsBus_a, bedRoom3.proBusExt[2]) annotation (Line(
@@ -391,7 +385,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_a, bedRoom3.proBusExt[3]) annotation (Line(
-      points={{191.167,-10},{282,-10},{282,18.6667}},
+      points={{191.167,-10},{282,-10},{282,19.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
@@ -468,49 +462,53 @@ equation
           {100,-110}}, color={0,127,255}));
   connect(spl3.port_2, spl4.port_1)
     annotation (Line(points={{80,-110},{70,-110}}, color={0,127,255}));
-  connect(senTemRadBed1.T, valBed1.T) annotation (Line(points={{49,-148},{49.4,-148},
-          {49.4,-140}}, color={0,0,127}));
+  connect(senTemRadBed1.T, valBed1.T) annotation (Line(points={{49,-147.3},{49.4,
+          -147.3},{49.4,-140}},
+                        color={0,0,127}));
   connect(senTemRadBed1.port, radBed1.heatPortCon) annotation (Line(points={{49,
           -162},{49,-168},{52.8,-168}}, color={191,0,0}));
   connect(valBed1.port_a, spl4.port_3) annotation (Line(points={{60,-130},{60,-130},
           {60,-120}}, color={0,127,255}));
   connect(valBed1.port_b, radBed1.port_a) annotation (Line(points={{60,-150},{60,
           -155},{60,-160}}, color={0,127,255}));
-  connect(senTemRadBat2.T, valBat2.T) annotation (Line(points={{79,-148},{79.4,-148},
-          {79.4,-140}}, color={0,0,127}));
+  connect(senTemRadBat2.T, valBat2.T) annotation (Line(points={{79,-147.3},{79.4,
+          -147.3},{79.4,-140}},
+                        color={0,0,127}));
   connect(valBat2.port_b, radBat2.port_a) annotation (Line(points={{90,-150},{90,
           -150},{90,-160}}, color={0,127,255}));
   connect(radBat2.heatPortCon, senTemRadBat2.port) annotation (Line(points={{82.8,
           -168},{79,-168},{79,-162}}, color={191,0,0}));
   connect(valBat2.port_a, spl3.port_3) annotation (Line(points={{90,-130},{90,-125},
           {90,-120}}, color={0,127,255}));
-  connect(senTemRadBat1.T, valBat1.T) annotation (Line(points={{109,-148},{109.4,
-          -148},{109.4,-140}}, color={0,0,127}));
+  connect(senTemRadBat1.T, valBat1.T) annotation (Line(points={{109,-147.3},{109.4,
+          -147.3},{109.4,-140}},
+                               color={0,0,127}));
   connect(valBat1.port_a, spl2.port_3)
     annotation (Line(points={{120,-130},{120,-120}}, color={0,127,255}));
   connect(valBat1.port_b, radBat1.port_a) annotation (Line(points={{120,-150},{120,
           -150},{120,-160}}, color={0,127,255}));
   connect(senTemRadBat1.port, radBat1.heatPortCon) annotation (Line(points={{109,
           -162},{108,-162},{108,-168},{112.8,-168}}, color={191,0,0}));
-  connect(senTemRadBat3.T, valBed2.T) annotation (Line(points={{219,-148},{219.4,
-          -148},{219.4,-140}}, color={0,0,127}));
+  connect(senTemRadBat3.T, valBed2.T) annotation (Line(points={{219,-147.3},{219.4,
+          -147.3},{219.4,-140}},
+                               color={0,0,127}));
   connect(valBed2.port_a, spl.port_3)
     annotation (Line(points={{230,-130},{230,-120}}, color={0,127,255}));
   connect(valBed2.port_b, radBed2.port_a) annotation (Line(points={{230,-150},{230,
           -150},{230,-160}}, color={0,127,255}));
   connect(senTemRadBat3.port, radBed2.heatPortCon) annotation (Line(points={{219,
           -162},{219,-168},{222.8,-168}}, color={191,0,0}));
-  connect(senTemRadBat4.T, valBed3.T) annotation (Line(points={{259,-148},{259.4,
-          -148},{259.4,-140}}, color={0,0,127}));
+  connect(senTemRadBat4.T, valBed3.T) annotation (Line(points={{259,-147.3},{259.4,
+          -147.3},{259.4,-140}},
+                               color={0,0,127}));
   connect(radBed3.port_a, valBed3.port_b) annotation (Line(points={{270,-160},{270,
           -155},{270,-150}}, color={0,127,255}));
   connect(valBed3.port_a, spl1.port_3) annotation (Line(points={{270,-130},{270,
           -120}},            color={0,127,255}));
   connect(senTemRadBat4.port, radBed3.heatPortCon) annotation (Line(points={{259,
           -162},{260,-162},{260,-168},{262.8,-168}}, color={191,0,0}));
-  connect(senTemGnd.T, valGnd.T) annotation (Line(points={{-51,-148},{-50.6,
-          -148},{-50.6,-140}},
-                         color={0,0,127}));
+  connect(senTemGnd.T, valGnd.T) annotation (Line(points={{-51,-147.3},{-50.6,-147.3},
+          {-50.6,-140}}, color={0,0,127}));
   connect(valGnd.port_a, spl4.port_2) annotation (Line(points={{-40,-130},{-40,-110},
           {50,-110}}, color={0,127,255}));
   connect(senTemGnd.port, radGnd.heatPortCon) annotation (Line(points={{-51,
