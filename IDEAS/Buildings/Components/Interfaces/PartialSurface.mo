@@ -162,9 +162,9 @@ protected
 
 model PowerLaw_q50
 
-    extends IDEAS.Airflow.Multizone.Coefficient_m_flow(
+    extends IDEAS.Airflow.Multizone.Coefficient_V_flow(
       m=0.5,
-      k=A*coeff); //mass flow form of orifice equation
+      C=A*coeff); //mass flow form of orifice equation
 
     parameter Modelica.Units.SI.Area A "Surface area";
   parameter Real q50(unit="m3/(h.m2)")
