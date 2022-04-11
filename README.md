@@ -1,7 +1,5 @@
 IDEAS v3.0.0
 ============
-[![Build Status](https://app.travis-ci.com/open-ideas/IDEAS.svg?branch=master)](https://app.travis-ci.com/open-ideas/IDEAS)
-
 Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level. This Modelica library is currently developed and maintained by the Thermal Systems Simulation (The SySi, [the.sysi.be](http://the.sysi.be)) research group of KU Leuven and includes contributions by the Building Physics research group, IEA EBC Annex 60, IBPSA project 1 and 3E. 
 
 ## Release history
