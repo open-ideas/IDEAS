@@ -96,7 +96,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     constrainedby IDEAS.Airflow.AHU.BaseClasses.AdsolairControllerInterface
     "Adsolair controller model"
     annotation (Dialog(group="Advanced"),Placement(transformation(extent={{-44,56},{-24,76}})));
-  replaceable IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger hexSupOut(
+  replaceable DummyExchanger hexSupOut(
     m1_flow_nominal=m2_flow_nominal,
     m2_flow_nominal=1,
     dp1_nominal=0,
@@ -105,7 +105,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dp2_nominal=1,
     vol2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
-    constrainedby IDEAS.Fluid.Interfaces.PartialFourPortInterface
+    constrainedby IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger
     "Replaceable model for adding heat exchanger at supply outlet"
     annotation (Dialog(group="Advanced"),Placement(transformation(extent={{-72,-36},{-92,-16}})));
   replaceable IDEAS.Airflow.AHU.BaseClasses.SimpleCompressorTable com(
@@ -385,6 +385,19 @@ protected
         origin={-70,10})));
   Modelica.Blocks.Interfaces.BooleanInput on_internal
     "Needed to connect to conditional connector";
+    model DummyExchanger
+      "Heat exchanger that sets absolute pressure for unconnected ports"
+      extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger;
+      Fluid.Sources.Boundary_pT bou(redeclare package Medium = Medium2, nPorts=1)
+        "Sets absolute pressure for unconnected ports" annotation (Placement(
+            transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=270,
+            origin={-90,-10})));
+    equation
+      connect(bou.ports[1], port_b2) annotation (Line(points={{-90,-20},{-74,-20},{-74,
+              -60},{-100,-60}}, color={0,127,255}));
+    end DummyExchanger;
 
 model TwoWayEqualPercentageAdd
     "Damper with possibility for adding fixed pressure drop using boolean input"
@@ -674,6 +687,10 @@ equation
     __Dymola_experimentSetupOutput(events=false),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 11, 2022, by Filip Jorissen:<br/>
+Added dummy heat exchanger implementation for avoiding singularity after MSL4 update.
+</li>
 <li>
 January 26, 2018, by Filip Jorissen:<br/>
 Improved adsolair controller performance.
