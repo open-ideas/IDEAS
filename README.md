@@ -14,7 +14,7 @@ Modelica model environment for Integrated District Energy Assessment Simulations
 + September 2nd, 2015: IDEAS v0.3 has been released.
 
 ## Contributions and community
-We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, support us by adding a star at the top right of our Github page.
+We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, you can support us by adding a star at the top right of our Github page.
 
 ## Tool support
 Our goal is to provide support for Dymola and OpenModelica. Consequantly, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
