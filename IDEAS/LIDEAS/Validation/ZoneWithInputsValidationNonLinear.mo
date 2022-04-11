@@ -146,11 +146,6 @@ public
 initial equation
   stateSpace.x =  {
 groFlo.airModel.vol.T,
-window.heaCapGlaInt.T,
-window.heaCapFraIn.T,
-window.heaCapFraExt.T,
-window.heaCapGlaExt.T,
-firFlo.airModel.vol.T,
 commonWall.layMul.monLay[1].monLayDyn.T[1],
 commonWall.layMul.monLay[1].monLayDyn.T[2],
 commonWall.layMul.monLay[2].monLayDyn.T[1],
@@ -164,6 +159,10 @@ floor.layMul.monLay[2].monLayDyn.T[1],
 floor.layMul.monLay[3].monLayDyn.T[1],
 floor.layMul.monLay[4].monLayDyn.T[1],
 floor.layMul.monLay[5].monLayDyn.T[1],
+window.heaCapGlaInt.T,
+window.heaCapFraIn.T,
+window.heaCapFraExt.T,
+window.heaCapGlaExt.T,
 slabOnGround.layMul.monLay[1].monLayDyn.T[1],
 slabOnGround.layMul.monLay[1].monLayDyn.T[2],
 slabOnGround.layMul.monLay[2].monLayDyn.T[1],
@@ -185,6 +184,7 @@ outerWall.layMul.monLay[1].monLayDyn.T[2],
 outerWall.layMul.monLay[2].monLayDyn.T[1],
 outerWall.layMul.monLay[3].monLayDyn.T[1],
 outerWall.layMul.monLay[3].monLayDyn.T[2],
+firFlo.airModel.vol.T,
 commonWall1.layMul.monLay[1].monLayDyn.T[1],
 commonWall1.layMul.monLay[1].monLayDyn.T[2],
 commonWall1.layMul.monLay[2].monLayDyn.T[1],
@@ -214,8 +214,8 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(preInp.y, stateSpace.u) annotation (Line(points={{-49,110},{-45.5,110},
-          {-42,110}}, color={0,0,127}));
+  connect(preInp.y, stateSpace.u) annotation (Line(points={{-49,110},{-42,110}},
+                      color={0,0,127}));
   connect(ctrlInputTestCon.y, preQFloCon.Q_flow)
     annotation (Line(points={{38.6,60},{58,60},{78,60}}, color={0,0,127}));
   connect(ctrlInputTestRad.y, preQFloRad.Q_flow)
