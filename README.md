@@ -1,6 +1,6 @@
 IDEAS v3.0.0
 ============
-Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level. This Modelica library is currently developed and maintained by the Thermal Systems Simulation (The SySi, [the.sysi.be](http://the.sysi.be)) research group of KU Leuven and includes contributions by the [Building Physics research group](https://bwk.kuleuven.be/bwf), [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 60](https://iea-annex60.org), [the electrical engineering department](https://www.esat.kuleuven.be/english) and [3E](https://3e.eu). 
+Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level. This Modelica library is currently developed and maintained by the [Thermal Systems Simulation (The SySi)](http://the.sysi.be) research group of KU Leuven and includes contributions by the [Building Physics research group](https://bwk.kuleuven.be/bwf), [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 60](https://iea-annex60.org), [the electrical engineering department](https://www.esat.kuleuven.be/english) and [3E](https://3e.eu). 
 
 ## Release history
 + April 11th, 2022: IDEAS v3.0.0 has been released. This includes an update to MSL 4.0.0.
