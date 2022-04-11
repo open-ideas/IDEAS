@@ -1,10 +1,10 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer;
 model ExteriorHeatRadiation
   "longwave radiative heat exchange of an exterior surface with the environment"
-  parameter Modelica.SIunits.Area A "Surface area of heat exchange surface";
-  parameter Modelica.SIunits.Temperature Tenv_nom = 280
+  parameter Modelica.Units.SI.Area A "Surface area of heat exchange surface";
+  parameter Modelica.Units.SI.Temperature Tenv_nom=280
     "Nominal temperature of environment"
-    annotation(Dialog(group="Linearisation", enable=linearise));
+    annotation (Dialog(group="Linearisation", enable=linearise));
   parameter Boolean linearise=true "If true, linearise radiative heat transfer";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a

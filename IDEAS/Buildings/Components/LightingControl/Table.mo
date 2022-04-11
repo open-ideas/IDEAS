@@ -33,11 +33,11 @@ block Table "Lighting control read from CombiTimeTable"
     annotation (Dialog(group="Table data interpretation"));
   parameter Real offset[:]={0} "Offsets of output signals"
     annotation (Dialog(group="Table data interpretation"));
-  parameter Modelica.SIunits.Time startTime=0
+  parameter Modelica.Units.SI.Time startTime=0
     "Output = offset for time < startTime"
     annotation (Dialog(group="Table data interpretation"));
-  parameter Modelica.SIunits.Time timeScale(
-    min=Modelica.Constants.eps)=1 "Time scale of first table column"
+  parameter Modelica.Units.SI.Time timeScale(min=Modelica.Constants.eps) = 1
+    "Time scale of first table column"
     annotation (Dialog(group="Table data interpretation"), Evaluate=true);
 
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(

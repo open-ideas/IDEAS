@@ -1,4 +1,4 @@
-within IDEAS.Fluid.HeatExchangers;
+﻿within IDEAS.Fluid.HeatExchangers;
 model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     final allowFlowReversal1=false,
@@ -11,7 +11,7 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
     annotation(Dialog(enable=not use_eNTU));
   parameter Boolean use_eNTU = true "Use NTU method for efficiency calculation"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Time tau = 60
+  parameter Modelica.Units.SI.Time tau=60
     "Thermal time constant of the heat exchanger";
   parameter Real UA_adia_on
     "UA value when using evaporative cooling, used when use_eNTU = true"
@@ -63,7 +63,7 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
        quantity=Medium2.extraPropertiesNames) = fill(1E-2, Medium2.nC)
     "Nominal value of trace substances. (Set to typical order of magnitude.)"
    annotation (Dialog(tab="Initialization", group = "Medium 2", enable=Medium2.nC > 0));
-  parameter Modelica.SIunits.MassFlowRate m_flow_small=1E-4*abs(volTop.m_flow_nominal)
+  parameter Modelica.Units.SI.MassFlowRate m_flow_small=1E-4*abs(volTop.m_flow_nominal)
     "Small mass flow rate for regularization of zero flow";
 
   parameter Boolean simplifiedMassBalance=true
@@ -71,8 +71,8 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
   constant Boolean prescribeTBot = false
     "=True, for validation. Need this option to avoid warnings.";
 
-  Modelica.SIunits.Power Q;
-  Modelica.SIunits.Energy E=volTop.U+volBot.U;
+  Modelica.Units.SI.Power Q;
+  Modelica.Units.SI.Energy E=volTop.U + volBot.U;
   Modelica.Blocks.Interfaces.BooleanInput adiabaticOn
     "Activate adiabatic cooling"
     annotation (Placement(transformation(extent={{120,-16},{88,16}})));
@@ -124,14 +124,20 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
    Real Xw_in_bot= Xi_bot_in[1] "Water mass fraction of bottom stream";
 
 protected
-  final parameter Modelica.SIunits.Density rho_default=Medium1.density(
-     Medium1.setState_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=Medium1.density(
+      Medium1.setState_pTX(
       T=Medium1.T_default,
       p=Medium1.p_default,
       X=Medium1.X_default[1:Medium1.nXi]))
     "Density, used to compute fluid mass";
-  Modelica.SIunits.Temperature T_bot_in=Medium2.temperature_phX(p=port_a2.p, h=inStream(port_a2.h_outflow), X=inStream(port_a2.Xi_outflow));
-  Modelica.SIunits.Temperature T_top_in=Medium1.temperature_phX(p=port_a1.p, h=inStream(port_a1.h_outflow), X=inStream(port_a1.Xi_outflow));
+  Modelica.Units.SI.Temperature T_bot_in=Medium2.temperature_phX(
+      p=port_a2.p,
+      h=inStream(port_a2.h_outflow),
+      X=inStream(port_a2.Xi_outflow));
+  Modelica.Units.SI.Temperature T_top_in=Medium1.temperature_phX(
+      p=port_a1.p,
+      h=inStream(port_a1.h_outflow),
+      X=inStream(port_a1.Xi_outflow));
   Medium1.MassFraction Xi_top_in[Medium1.nXi] = inStream(port_a1.Xi_outflow)
     "Species vector, needed because indexed argument for the operator inStream is not supported";
   Medium1.MassFraction Xi_bot_in[Medium2.nXi] = inStream(port_a2.Xi_outflow)
@@ -155,10 +161,10 @@ protected
     "Absolute humidity for saturated bottom outlet air";
   Real Xw_out_top=min(if adiabaticOn then max(Xw_80_Tout_top,Xw_in_top) else Xw_in_top, Xw_sat_Tout_top);
   Real Xw_out_bot=min(Xw_in_bot, Xw_sat_Tout_bot);
-  Modelica.SIunits.Temperature T_top_in_wet =  if adiabaticOn then  wetBulIn.TWetBul else T_top_in
-    "Temperature of the wet/dry HEX at extracted air inlet";
+  Modelica.Units.SI.Temperature T_top_in_wet=if adiabaticOn then wetBulIn.TWetBul
+       else T_top_in "Temperature of the wet/dry HEX at extracted air inlet";
   //splicefunction required for disabling heat transfer for low mass flow rates
-  Modelica.SIunits.Power Qmax "Maximum heat transfer, including latent heat";
+  Modelica.Units.SI.Power Qmax "Maximum heat transfer, including latent heat";
   Real C_top "Heat capacity rate of top stream";
   Real C_bot "Heat capacity rate of bottom stream";
   Real C_min = min(C_top,C_bot);

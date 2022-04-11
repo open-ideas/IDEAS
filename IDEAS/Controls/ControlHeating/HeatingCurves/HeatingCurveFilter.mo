@@ -6,33 +6,32 @@ block HeatingCurveFilter
   Model extended from Buildings library with a first order filter to 
   filter the ambient temperature
   */
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real m=1.3 "Exponent for heat transfer";
-  parameter Modelica.SIunits.Temperature TSup_nominal "Supply temperature"
+  parameter Modelica.Units.SI.Temperature TSup_nominal "Supply temperature"
     annotation (Dialog(group="Nominal conditions"));
-  parameter Modelica.SIunits.Temperature TSupMin=273.15 + 30 if minSup
-    "Minimum supply temperature if enabled"
-    annotation(Dialog(enable=minSup));
+  parameter Modelica.Units.SI.Temperature TSupMin=273.15 + 30 if minSup
+    "Minimum supply temperature if enabled" annotation (Dialog(enable=minSup));
   parameter Boolean minSup=true
     "= true, to set a lower bound on the supply temperature";
-  parameter Modelica.SIunits.Temperature TRet_nominal "Return temperature"
+  parameter Modelica.Units.SI.Temperature TRet_nominal "Return temperature"
     annotation (Dialog(group="Nominal conditions"));
-  parameter Modelica.SIunits.Temperature TRoo_nominal=293.15 "Room temperature"
-    annotation (Dialog(group="Nominal conditions"));
-  parameter Modelica.SIunits.Temperature TOut_nominal "Outside temperature"
+  parameter Modelica.Units.SI.Temperature TRoo_nominal=293.15
+    "Room temperature" annotation (Dialog(group="Nominal conditions"));
+  parameter Modelica.Units.SI.Temperature TOut_nominal "Outside temperature"
     annotation (Dialog(group="Nominal conditions"));
 
   parameter Boolean use_TRoo_in=false
     "Get the room temperature set point from the input connector" annotation (
     Evaluate=true,
     choices(checkBox=true));
-  parameter Modelica.SIunits.Temperature TRoo=293.15
+  parameter Modelica.Units.SI.Temperature TRoo=293.15
     "Fixed value of room air temperature set point if use_TRoo_in=false"
     annotation (Evaluate=true, Dialog(enable=not use_TRoo_in));
-  parameter Modelica.SIunits.TemperatureDifference dTOutHeaBal=8
+  parameter Modelica.Units.SI.TemperatureDifference dTOutHeaBal=8
     "Offset for heating curve";
-  parameter Modelica.SIunits.Time timeFilter=86400
+  parameter Modelica.Units.SI.Time timeFilter=86400
     "Time constant for filter on ambient temperature";
   Modelica.Blocks.Interfaces.RealInput TRoo_in(
     final quantity="ThermodynamicTemperature",
@@ -64,7 +63,7 @@ block HeatingCurveFilter
         choice(redeclare IDEAS.BaseClasses.Math.MovingAverage filter(period=
               timeFilter))), Placement(transformation(extent={{-42,50},{-22,70}})));
 protected
-  parameter Modelica.SIunits.Temperature TOutOffSet_nominal=TOut_nominal +
+  parameter Modelica.Units.SI.Temperature TOutOffSet_nominal=TOut_nominal +
       dTOutHeaBal
     "Effective outside temperature for heat transfer at nominal conditions (takes into account room heat gains)";
 
@@ -74,7 +73,7 @@ protected
     displayUnit="degC",
     min=0) "Needed to connect to conditional connector";
   Real qRel "Relative heat load = Q_flow/Q_flow_nominal";
-  Modelica.SIunits.Temperature TOutOffSet
+  Modelica.Units.SI.Temperature TOutOffSet
     "Effective outside temperature for heat transfer (takes into account room heat gains)";
   Real TSup_internal "Internal variable for more readable code";
 equation

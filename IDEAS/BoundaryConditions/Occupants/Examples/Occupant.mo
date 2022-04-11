@@ -5,7 +5,7 @@ model Occupant "Tester for occupant models"
 
   Templates.Interfaces.DummyInHomeGrid dummyInHomeGrid
     annotation (Placement(transformation(extent={{14,-4},{34,16}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
     f=50,
     V=230,
@@ -13,12 +13,12 @@ model Occupant "Tester for occupant models"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={80,-20})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{70,-70},{90,-50}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heatCapacitor(C=1e20)
     annotation (Placement(transformation(extent={{-80,14},{-60,34}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.PowerSensor
-    powerSensor annotation (Placement(transformation(extent={{46,-4},{66,16}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.PowerSensor powerSensor
+    annotation (Placement(transformation(extent={{46,-4},{66,16}})));
   inner SimInfoManager sim(
     redeclare IDEAS.Climate.Meteo.Files.min60 detail,
     redeclare IDEAS.Climate.Meteo.Locations.Uccle city,

@@ -10,14 +10,14 @@ replaceable parameter IDEAS.Experimental.Electric.Data.Interfaces.GridType grid(
   IDEAS.Experimental.Electric.BaseClasses.AC.Con1PlusNTo1 con1PlusNTo1_1[grid_1P.grid.nNodes]
     annotation (Placement(transformation(extent={{32,-2},{52,18}})));
 public
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[grid_1P.grid.nNodes] gridNodes1P
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[grid_1P.grid.nNodes]
+    gridNodes1P
     annotation (Placement(transformation(extent={{90,-2},{110,18}})));
-Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-                GridConnection(i(
-                          im(  each start=0)))
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin
+    GridConnection(i(im(each start=0)))
     annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
-Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin
-                Ground(i( im(  each start=0)))
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin Ground(i(
+        im(each start=0)))
     annotation (Placement(transformation(extent={{-110,-30},{-90,-10}})));
 equation
 

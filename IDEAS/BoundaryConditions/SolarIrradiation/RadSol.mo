@@ -1,11 +1,11 @@
 within IDEAS.BoundaryConditions.SolarIrradiation;
 model RadSol "Block that computes surface-dependent environment data"
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real rho=0.2 "Ground reflectance";
-  parameter Modelica.SIunits.Angle inc(displayUnit="degree") "inclination";
-  parameter Modelica.SIunits.Angle azi(displayUnit="degree") "azimuth";
-  parameter Modelica.SIunits.Angle lat(displayUnit="degree") "latitude";
+  parameter Modelica.Units.SI.Angle inc(displayUnit="degree") "inclination";
+  parameter Modelica.Units.SI.Angle azi(displayUnit="degree") "azimuth";
+  parameter Modelica.Units.SI.Angle lat(displayUnit="degree") "latitude";
   parameter Boolean remDefVals = false "Remove default signal values";
   parameter Boolean outputAngles=true "Set to false when linearising only";
 
@@ -71,8 +71,8 @@ protected
   Modelica.Blocks.Sources.Constant dummyValAzi(k=0) if not remDefVals
     "angAzi dummy value when not needed"
     annotation (Placement(transformation(extent={{48,-98},{60,-86}})));
-  Modelica.Blocks.Sources.Constant dummyValTenv(k=Modelica.Constants.inf) if
-                                                     not remDefVals
+  Modelica.Blocks.Sources.Constant dummyValTenv(k=Modelica.Constants.inf)
+                                                  if not remDefVals
     "Tenv dummy value when not needed"
     annotation (Placement(transformation(extent={{48,-76},{60,-64}})));
 

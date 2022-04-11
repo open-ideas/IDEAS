@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Validation.Cases;
 model Case640
-Modelica.SIunits.Temperature TSen = building.TSensor[1];
+  Modelica.Units.SI.Temperature TSen=building.TSensor[1];
 
   extends IDEAS.Buildings.Validation.Cases.Case600(
     redeclare replaceable BaseClasses.HeatingSystem.ThermostatSetback

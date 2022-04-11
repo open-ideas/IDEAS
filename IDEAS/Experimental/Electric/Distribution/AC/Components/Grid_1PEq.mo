@@ -9,28 +9,28 @@ public
   IDEAS.Experimental.Electric.Distribution.AC.BaseClasses.Branch branch[Nodes](R=
         Modelica.ComplexMath.real(Z), X=Modelica.ComplexMath.imag(Z))  annotation (Placement(transformation(extent={{0,-4},{20,16}})));
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin TraPin
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin TraPin
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[Nodes]
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[Nodes]
     node annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  Modelica.SIunits.ActivePower PGriTot;
-  Modelica.SIunits.ComplexPower SGriTot;
-  Modelica.SIunits.ReactivePower QGriTot;
+  Modelica.Units.SI.ActivePower PGriTot;
+  Modelica.Units.SI.ComplexPower SGriTot;
+  Modelica.Units.SI.ReactivePower QGriTot;
 
   //parameter Boolean Loss = true
   //    "if true, PLosBra and PGriLosTot gives branch and Grid losses";
-  Modelica.SIunits.ActivePower PLosBra[Nodes];
-  Modelica.SIunits.ActivePower PGriLosTot;
+  Modelica.Units.SI.ActivePower PLosBra[Nodes];
+  Modelica.Units.SI.ActivePower PGriLosTot;
 
-  Modelica.SIunits.Voltage Vabs[Nodes];
-  Modelica.SIunits.Voltage VMax=max(Vabs);
-  Modelica.SIunits.Voltage VMin=min(Vabs);
+  Modelica.Units.SI.Voltage Vabs[Nodes];
+  Modelica.Units.SI.Voltage VMax=max(Vabs);
+  Modelica.Units.SI.Voltage VMin=min(Vabs);
 
 protected
   parameter Integer nodeMatrix[Nodes, Nodes]=grid.nodeMatrix;
-  parameter Modelica.SIunits.ComplexImpedance[Nodes] Z=grid.Z;
+  parameter Modelica.Units.SI.ComplexImpedance[Nodes] Z=grid.Z;
   parameter Integer Nodes=grid.nNodes;
 
 equation
@@ -54,12 +54,12 @@ equation
   end for;
 
   for x in 1:Nodes loop
-    Vabs[x] = Modelica.ComplexMath.'abs'(node[x].v);
+    Vabs[x] =Modelica.ComplexMath.abs(node[x].v);
   end for;
 
   //if Loss then
   for x in 1:Nodes loop
-    PLosBra[x] = branch[x].R*(Modelica.ComplexMath.'abs'(branch[x].i))^2;
+    PLosBra[x] =branch[x].R*(Modelica.ComplexMath.abs(branch[x].i))^2;
   end for;
   PGriLosTot = ones(Nodes)*PLosBra;
   //end if;

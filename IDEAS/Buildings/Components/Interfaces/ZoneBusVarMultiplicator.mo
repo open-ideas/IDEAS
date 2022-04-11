@@ -32,13 +32,13 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
     annotation (Placement(transformation(extent={{8,-324},{-12,-304}})));
 protected
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
-      redeclare package Medium = Medium,                                 final k=k) if
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+      redeclare package Medium = Medium,                                 final k=k)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Mass flow rate multiplier for port 2"
     annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(
-      redeclare package Medium = Medium,                                 final k=k) if
-        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+      redeclare package Medium = Medium,                                 final k=k)
+     if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"

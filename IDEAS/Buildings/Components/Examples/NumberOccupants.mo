@@ -15,17 +15,16 @@ model NumberOccupants
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zoneBlock(
     useOccNumInput=false,
-    redeclare Occupants.CustomBlock occNum(
-        redeclare Modelica.Blocks.Sources.Sine
-        singleOutput(
+    redeclare Occupants.CustomBlock occNum(redeclare
+        Modelica.Blocks.Sources.Sine singleOutput(
         amplitude=2,
-        freqHz=0.001,
+        f=0.001,
         offset=2)),
     redeclare IDEAS.Buildings.Components.LightingType.LED ligTyp,
     redeclare IDEAS.Buildings.Components.LightingControl.CustomBlock ligCtr(
         redeclare Modelica.Blocks.Sources.Sine singleOutput(
         amplitude=2,
-        freqHz=0.001,
+        f=0.001,
         offset=2))) "Zone with block replaceable for number of occupants"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Blocks.Sources.Ramp ramp(

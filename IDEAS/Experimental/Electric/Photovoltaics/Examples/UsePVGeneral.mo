@@ -5,17 +5,16 @@ extends Modelica.Icons.Example;
     annotation (Placement(transformation(extent={{-80,46},{-60,66}})));
   PvSystemGeneralFromFile pvSystemGeneralFromFile(PNom=20*230.153)
     annotation (Placement(transformation(extent={{-80,-14},{-60,6}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(f=50, V=230) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={30,-24})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{20,-74},{40,-54}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.PowerSensor
-    powerSensorPV
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.PowerSensor powerSensorPV
     annotation (Placement(transformation(extent={{-20,46},{0,66}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.PowerSensor
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.PowerSensor
     powerSensorPVFile
     annotation (Placement(transformation(extent={{-20,-14},{0,6}})));
   inner IDEAS.BoundaryConditions.SimInfoManager sim

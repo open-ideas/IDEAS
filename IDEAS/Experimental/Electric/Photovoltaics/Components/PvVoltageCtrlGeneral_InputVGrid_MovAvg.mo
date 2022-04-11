@@ -3,7 +3,7 @@ model PvVoltageCtrlGeneral_InputVGrid_MovAvg
   "Basic controller based on moving average, with fixed shut down time, with RealInput for grid voltage"
   import IDEAS;
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real VMax=264.5;
   parameter Real VMax600=253;

@@ -1,9 +1,8 @@
 within IDEAS.Experimental.Electric.BaseClasses.DC;
 model WattsLawPlug "For use  with loads."
   parameter Integer nLoads=1;
-  Modelica.Electrical.MultiPhase.Interfaces.NegativePlug vi(m=
-        1) annotation (Placement(transformation(extent={{90,-10},{110,10}},
-          rotation=0)));
+  Modelica.Electrical.Polyphase.Interfaces.NegativePlug vi(m=1) annotation (
+      Placement(transformation(extent={{90,-10},{110,10}}, rotation=0)));
   Modelica.Blocks.Interfaces.RealInput[nLoads] P annotation (Placement(
         transformation(extent={{-120,20},{-80,60}}), iconTransformation(extent={{-100,40},
             {-80,60}})));

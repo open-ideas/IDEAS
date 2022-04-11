@@ -6,7 +6,7 @@ model SinePower
   parameter Real offset=0
     "How many watts offset is there? 1 watt offset = 2 watts more consumption than production";
   parameter Real period=1 "How many days is one period for the simulation?";
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin nodes
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin nodes
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Real P=wattsLaw.P;
 
@@ -20,7 +20,7 @@ protected
   Modelica.Blocks.Sources.Sine sine(
     amplitude=amplitude,
     offset=offset,
-    freqHz=freq,
+    f=freq,
     phase=1.5707963267949)
     annotation (Placement(transformation(extent={{-72,76},{-52,96}})));
   parameter Real freq=1/(86400*period);

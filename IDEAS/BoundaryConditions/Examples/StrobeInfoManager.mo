@@ -1,6 +1,5 @@
 within IDEAS.BoundaryConditions.Examples;
 model StrobeInfoManager "Unit test for SimInfoManager"
-  import IDEAS;
   extends Modelica.Icons.Example;
   inner IDEAS.BoundaryConditions.Occupants.Extern.StrobeInfoManager strobe(
     nOcc=10,
@@ -11,8 +10,7 @@ model StrobeInfoManager "Unit test for SimInfoManager"
     FilNam_QRad="QRad.txt",
     FilNam_TSet="sh_day.txt",
     FilNam_TSet2="sh_night.txt",
-    filDir=Modelica.Utilities.Files.loadResource("modelica://IDEAS") +
-        "/Resources/strobe/",
+    filDir=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/strobe/"),
     startTime(displayUnit="d") = 0)
     annotation (Placement(transformation(extent={{-10,-12},{10,8}})));
   annotation (

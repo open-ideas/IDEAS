@@ -5,10 +5,9 @@ partial model PartialInterzonalAirFlown50
     IDEAS.Buildings.Components.InterzonalAirFlow.BaseClasses.PartialInterzonalAirFlowBoundary(
       nPorts=2+nPortsExt, bou(nPorts=2));
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_airLea=
-    V*rho_default/3600*n50_int/n50toAch
-    "Nominal mass flow of air leakage"
-    annotation(Dialog(tab="Advanced"));
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_airLea=V*rho_default/
+      3600*n50_int/n50toAch "Nominal mass flow of air leakage"
+    annotation (Dialog(tab="Advanced"));
 
   Modelica.Blocks.Sources.RealExpression reaExpMflo(y=m_flow_nominal_airLea)
     annotation (Placement(transformation(extent={{-52,-54},{-30,-34}})));
@@ -26,8 +25,8 @@ protected
       T=Medium.T_default,
       p=Medium.p_default,
       X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
-  final parameter Modelica.SIunits.Density rho_default = Medium.density(
-    state=state_default) "Medium default density";
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=
+      state_default) "Medium default density";
 
 equation
   connect(reaExpMflo.y, airInfiltration.m_flow_in) annotation (Line(points={{-28.9,

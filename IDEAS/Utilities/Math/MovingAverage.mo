@@ -3,7 +3,7 @@ block MovingAverage "Calculates the moving average of a Real input"
 
   extends Modelica.Blocks.Interfaces.SISO;
 
-  parameter Modelica.SIunits.Time period=1
+  parameter Modelica.Units.SI.Time period=1
     "Period over wich running average is to be computed";
 
   parameter Real resetIntegral(min=10) = 1000000

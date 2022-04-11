@@ -11,7 +11,8 @@ model RunningMeanTemperatureEN15251
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
 protected
-  parameter Modelica.SIunits.Time t_start(fixed=false) "Start time of the model";
+  parameter Modelica.Units.SI.Time t_start(fixed=false)
+    "Start time of the model";
   parameter Real coeTRm[7] = {1, 0.8, 0.6, 0.5, 0.4, 0.3, 0.2}./3.8
     "weighTAmb.yg coefficient for the running average";
   discrete Real[7] TAveDay(each unit="K",each displayUnit = "degC")

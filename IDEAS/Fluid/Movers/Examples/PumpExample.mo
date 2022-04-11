@@ -1,14 +1,14 @@
 within IDEAS.Fluid.Movers.Examples;
 model PumpExample "Example of how a pump can be used"
-  import IDEAS;
   extends Modelica.Icons.Example;
+  package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
+    annotation (choicesAllMatching=true);
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=100,
     m_flow_nominal=1,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
           annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium =
         Medium)
@@ -16,10 +16,8 @@ model PumpExample "Example of how a pump can be used"
   IDEAS.Fluid.Sources.Boundary_pT bou1(nPorts=1, redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{82,-10},{62,10}})));
-  package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (choicesAllMatching=true);
 
-  Modelica.Blocks.Sources.Sine sine(freqHz=0.001)
+  Modelica.Blocks.Sources.Sine sine(f=0.001)
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
   IDEAS.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));

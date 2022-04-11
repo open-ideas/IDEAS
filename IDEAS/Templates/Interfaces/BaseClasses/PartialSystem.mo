@@ -10,10 +10,8 @@ partial model PartialSystem "General partial for electricity-based systems"
   parameter Integer nLoads(min=0) = 0
     "Number of electric loads. If zero, all electric equations disappear.";
 
-  Modelica.Electrical.QuasiStationary.MultiPhase.Interfaces.PositivePlug
-    plugLoad(m=1) if
-       hasElectric
-      "Electricity connection to the Inhome feeder"
+  Modelica.Electrical.QuasiStatic.Polyphase.Interfaces.PositivePlug plugLoad(m=
+        1) if hasElectric "Electricity connection to the Inhome feeder"
     annotation (Placement(transformation(extent={{190,-10},{210,10}})));
   IDEAS.Experimental.Electric.BaseClasses.AC.WattsLawPlug wattsLawPlug(
     each numPha=1,
@@ -24,9 +22,9 @@ protected
     "Removes electric equations when false";
   final parameter Integer nLoads_min=max(1, nLoads);
 
-  Modelica.SIunits.Power[nLoads_min] P = zeros(nLoads_min)
+  Modelica.Units.SI.Power[nLoads_min] P=zeros(nLoads_min)
     "Active power for each of the loads";
-  Modelica.SIunits.Power[nLoads_min] Q = zeros(nLoads_min)
+  Modelica.Units.SI.Power[nLoads_min] Q=zeros(nLoads_min)
     "Passive power for each of the loads";
   Modelica.Blocks.Sources.RealExpression[nLoads_min] P_val(y=P)
     "Active power"

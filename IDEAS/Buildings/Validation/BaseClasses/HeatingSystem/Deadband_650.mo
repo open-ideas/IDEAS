@@ -3,15 +3,16 @@ model Deadband_650 "BESTEST deadband heating system"
   extends IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
     final nEmbPorts = 0, final nLoads=1, final nTemSen = nZones);
 
-  parameter Modelica.SIunits.Volume[nZones] VZones;
+  parameter Modelica.Units.SI.Volume[nZones] VZones;
   parameter Real mSenFac = 5 "Correction factor for thermal mass in zone";
   parameter Real[nZones] C = VZones * mSenFac * 1012 * 1.204;
 
 protected
   IDEAS.BoundaryConditions.Occupants.Components.Schedule occ(occupancy=3600*{7,18},
       firstEntryOccupied=true) "Occupancy shedule";
-  parameter Modelica.SIunits.Temperature Tcool=300.15 "Cooling on above 27degC";
-  parameter Modelica.SIunits.Power Pmax = 40*230
+  parameter Modelica.Units.SI.Temperature Tcool=300.15
+    "Cooling on above 27degC";
+  parameter Modelica.Units.SI.Power Pmax=40*230
     "Maximum power that can be provided by feeder: 40A fuse";
 
 equation

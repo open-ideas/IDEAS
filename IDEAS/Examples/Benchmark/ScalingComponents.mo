@@ -3,11 +3,13 @@ model ScalingComponents
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air "Medium model";
   parameter Integer n(min=3) = 3 "Number of sides of the polygon";
-  parameter Modelica.SIunits.Length a = 3 "Polygon apothem";
-  parameter Modelica.SIunits.Length l = 2*a*tan(Modelica.Constants.pi/n)
+  parameter Modelica.Units.SI.Length a=3 "Polygon apothem";
+  parameter Modelica.Units.SI.Length l=2*a*tan(Modelica.Constants.pi/n)
     "Polygon side length";
-  parameter Modelica.SIunits.Area A = l*gF.hZone "Surface area corresponding to one polygon side";
-  parameter Modelica.SIunits.Area Afloor = a*n*l/2 "Floor and ceiling surface areas";
+  parameter Modelica.Units.SI.Area A=l*gF.hZone
+    "Surface area corresponding to one polygon side";
+  parameter Modelica.Units.SI.Area Afloor=a*n*l/2
+    "Floor and ceiling surface areas";
 
   Buildings.Components.Zone gF(
     V=Afloor*gF.hZone,

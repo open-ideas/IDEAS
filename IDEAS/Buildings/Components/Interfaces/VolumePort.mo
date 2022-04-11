@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector VolumePort "Port for summing zone volumes"
-  Modelica.SIunits.Volume V_tot "Total volume";
-  flow Modelica.SIunits.Volume V "Volume";
+  Modelica.Units.SI.Volume V_tot "Total volume";
+  flow Modelica.Units.SI.Volume V "Volume";
   annotation (Documentation(info="<html>
 
 </html>"));

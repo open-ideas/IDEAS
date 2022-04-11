@@ -4,8 +4,8 @@ model ExtConvForcedCoeff
   exterior surface as a function of wind speed and direction"
   extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Angle inc "Surface inclination";
-  parameter Modelica.SIunits.Angle azi "Surface azimuth";
+  parameter Modelica.Units.SI.Angle inc "Surface inclination";
+  parameter Modelica.Units.SI.Angle azi "Surface azimuth";
 
   Modelica.Blocks.Interfaces.RealOutput hForcedConExt
     "Forced flow convective heat transfer coefficient at exterior surface" annotation (Placement(transformation(
@@ -31,7 +31,8 @@ protected
   constant Real a_leeward=3.55 "MoWiTT coeff for leeward conditions";
   constant Real b_leeward=0.617 "MoWiTT coeff for leeward conditions";
 
-  constant Modelica.SIunits.Angle WindwardVsLeeward=Modelica.SIunits.Conversions.from_deg(100)
+  constant Modelica.Units.SI.Angle WindwardVsLeeward=
+      Modelica.Units.Conversions.from_deg(100)
     "Angle at which windward vs leeward transition occurs in MoWiTT model";
   constant Real cosWindwardVsLeeward=Modelica.Math.cos(WindwardVsLeeward)
     "Cosine of transition angle";

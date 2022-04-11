@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Occupants.Components.BaseClasses;
 block PredictedPercentageDissatisfied "predicted percentage of dissatisfied"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealInput PMV "predicted mean vote"
     annotation (Placement(transformation(extent={{-120,40},{-80,80}})));

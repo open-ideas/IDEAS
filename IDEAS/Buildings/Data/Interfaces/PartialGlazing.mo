@@ -15,7 +15,8 @@ record PartialGlazing "Template used for deprecated glazing types"
   parameter Real SwTransDif
     "Transmitted solar radiation as function of angle of incidence";
 
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer U_value "Design U-value. (Only used for calculation Qdesign)";
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer U_value
+    "Design U-value. (Only used for calculation Qdesign)";
   parameter Real g_value
     "Design g-value. (Not used in calculation, only informative)";
   parameter Boolean checkLowPerformanceGlazing = true

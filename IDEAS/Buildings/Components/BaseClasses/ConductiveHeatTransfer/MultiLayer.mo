@@ -1,8 +1,8 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer;
 model MultiLayer "multiple material layers in series"
 
-  parameter Modelica.SIunits.Area A "total multilayer area";
-  parameter Modelica.SIunits.Angle inc
+  parameter Modelica.Units.SI.Area A "total multilayer area";
+  parameter Modelica.Units.SI.Angle inc
     "Inclinination angle of the multilayer at port_a";
   parameter Integer nLay(min=1) "number of layers";
   parameter IDEAS.Buildings.Data.Interfaces.Material[nLay] mats
@@ -10,15 +10,14 @@ model MultiLayer "multiple material layers in series"
   parameter Integer nGain = 0 "Number of gains";
   parameter Boolean linIntCon=false
     "Linearise interior convection inside air layers / cavities in walls";
-  final parameter Modelica.SIunits.ThermalInsulance R=sum(monLay.R)
+  final parameter Modelica.Units.SI.ThermalInsulance R=sum(monLay.R)
     "total specific thermal resistance";
-  final parameter Modelica.SIunits.HeatCapacity C = sum(mats.d.*mats.rho.*mats.c*A)
-    "Total heat capacity of the layers"
-    annotation(Evaluate=true);
+  final parameter Modelica.Units.SI.HeatCapacity C=sum(mats.d .* mats.rho .*
+      mats.c*A) "Total heat capacity of the layers" annotation (Evaluate=true);
 
-  parameter Modelica.SIunits.Temperature T_start[nLay]=ones(nLay)*293.15
+  parameter Modelica.Units.SI.Temperature T_start[nLay]=ones(nLay)*293.15
     "Start temperature from port_b to port_a"
-    annotation(Evaluate=true, Dialog(group="Dynamics"));
+    annotation (Evaluate=true, Dialog(group="Dynamics"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(group="Dynamics"));
@@ -33,7 +32,7 @@ model MultiLayer "multiple material layers in series"
     annotation(Dialog(enable=linIntCon));
   parameter Boolean checkCoatings = false
     "Check whether air layers have a coating";
-  Modelica.SIunits.Energy E = sum(monLay.E);
+  Modelica.Units.SI.Energy E=sum(monLay.E);
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer[nLay]
     monLay(

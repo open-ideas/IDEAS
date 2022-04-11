@@ -64,7 +64,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{400,160},{380,180}})));
   IDEAS.Fluid.FixedResistances.Junction spl5(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
@@ -74,7 +73,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{240,120},{220,140}})));
   IDEAS.Fluid.FixedResistances.Junction spl6(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
@@ -84,7 +82,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{200,120},{180,140}})));
   IDEAS.Fluid.FixedResistances.Junction spl7(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     redeclare package Medium = MediumAir,
@@ -94,7 +91,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,180},{160,200}})));
   IDEAS.Fluid.FixedResistances.Junction spl8(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
@@ -120,7 +116,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{300,180},{320,200}})));
   Fluid.FixedResistances.Junction       spl9(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
@@ -130,7 +125,6 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{260,180},{280,200}})));
   Fluid.FixedResistances.Junction       spl10(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     m_flow_nominal={m_flow_nominal_air,m_flow_nominal_air,m_flow_nominal_air},
@@ -153,15 +147,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
-      points={{-48,-36.5},{-76,-36.5},{-76,41}},
+      points={{-48,-37.25},{-76,-37.25},{-76,41}},
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[2], com1.propsBus_a) annotation (Line(
-      points={{-48,-37.5},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
+      points={{-48,-37.75},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(out1.propsBus_a, Diner.proBusExt[3]) annotation (Line(
-      points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
+      points={{-91,-89.8333},{-91,-38.25},{-48,-38.25}},
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
@@ -169,7 +163,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
-      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-38.75}},
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
@@ -181,7 +175,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusExt[1], cei1.propsBus_a) annotation (Line(
-      points={{142,61},{144,61},{144,80},{79.1667,80}},
+      points={{142,60.5},{144,60.5},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
   connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
@@ -197,7 +191,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
-      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59.5}},
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
@@ -225,7 +219,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(winBed3.propsBus_a, bedRoom3.proBusExt[1]) annotation (Line(
-      points={{307,2.16667},{307,21.3333},{282,21.3333}},
+      points={{307,2.16667},{307,20.6667},{282,20.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof1.propsBus_a, bedRoom3.proBusExt[2]) annotation (Line(
@@ -237,19 +231,17 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_a, bedRoom3.proBusExt[3]) annotation (Line(
-      points={{191.167,-10},{282,-10},{282,18.6667}},
+      points={{191.167,-10},{282,-10},{282,19.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
       points={{182.833,-10},{76.2,-10},{76.2,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(fanSup.port_a, bouAir.ports[1]) annotation (Line(points={{360,128},{
-          380,128},{380,172}},
-                           color={0,127,255}));
-  connect(fanRet.port_b, bouAir.ports[2]) annotation (Line(points={{360,190},{
-          380,190},{380,168}},
-                           color={0,127,255}));
+  connect(fanSup.port_a, bouAir.ports[1]) annotation (Line(points={{360,128},{380,
+          128},{380,169}}, color={0,127,255}));
+  connect(fanRet.port_b, bouAir.ports[2]) annotation (Line(points={{360,190},{380,
+          190},{380,171}}, color={0,127,255}));
   connect(spl5.port_3, bedRoom2.port_b) annotation (Line(points={{230,120},{230,
           58},{272,58},{272,62}},                color={0,127,255}));
   connect(spl6.port_3, bedRoom3.ports[2]) annotation (Line(points={{190,120},{190,

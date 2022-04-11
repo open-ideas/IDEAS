@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy;
 connector EnergyPort "Port for adding up energy"
-  flow Modelica.SIunits.Energy E "Energy port";
-  Modelica.SIunits.Energy Etot "Energy port";
+  flow Modelica.Units.SI.Energy E "Energy port";
+  Modelica.Units.SI.Energy Etot "Energy port";
   annotation (Documentation(info="<html>
 <p>
 This connector is used to add up all internal energy terms of the model in the SimInfoManager.

@@ -3,7 +3,8 @@ partial record Frame "Template record for window frames"
   extends Modelica.Icons.MaterialProperty;
 
   parameter Boolean present=true;
-  parameter Modelica.SIunits.ThermalConductance U_value=1.1 "U-value window frame";
+  parameter Modelica.Units.SI.ThermalConductance U_value=1.1
+    "U-value window frame";
 
   replaceable parameter IDEAS.Buildings.Components.ThermalBridges.None briTyp "Thermal bridge type";
   replaceable parameter IDEAS.Buildings.Data.Interfaces.Material mat(

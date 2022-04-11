@@ -21,8 +21,8 @@ model PvVoltageCtrlGeneral "Basic controller, with fixed shut down time"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}}),
         iconTransformation(extent={{90,-70},{110,-50}})));
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin pin[
-    numPha] annotation (Placement(transformation(extent={{50,-110},{70,-90}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin pin[numPha]
+    annotation (Placement(transformation(extent={{50,-110},{70,-90}})));
 
 protected
   Real VGrid;
@@ -30,7 +30,7 @@ protected
     "system is off until time>restartTime";
 
 equation
-  VGrid = max(Modelica.ComplexMath.'abs'(pin.v));
+  VGrid =max(Modelica.ComplexMath.abs(pin.v));
   when {VGrid > VMax,time > pre(restartTime)} then
     if VGrid > VMax then
       switch = false;

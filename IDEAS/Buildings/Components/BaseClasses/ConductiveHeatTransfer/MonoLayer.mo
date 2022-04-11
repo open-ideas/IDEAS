@@ -1,14 +1,14 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer;
 model MonoLayer "single material layer"
 
-  parameter Modelica.SIunits.Area A "Layer surface area";
+  parameter Modelica.Units.SI.Area A "Layer surface area";
   parameter IDEAS.Buildings.Data.Interfaces.Material mat
     "Layer material properties";
-  parameter Modelica.SIunits.Angle inc
+  parameter Modelica.Units.SI.Angle inc
     "Inclinination angle of the layer at port_a";
-  parameter Modelica.SIunits.Emissivity epsLw_a
+  parameter Modelica.Units.SI.Emissivity epsLw_a
     "Longwave emissivity of material connected at port_a";
-  parameter Modelica.SIunits.Emissivity epsLw_b
+  parameter Modelica.Units.SI.Emissivity epsLw_b
     "Longwave emissivity on material connected at port_b";
 
   parameter Boolean linIntCon=false
@@ -16,15 +16,15 @@ model MonoLayer "single material layer"
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=if mat.glass then Modelica.Fluid.Types.Dynamics.SteadyState else Modelica.Fluid.Types.Dynamics.FixedInitial
     "Static (steady state) or transient (dynamic) thermal conduction model"
     annotation(Evaluate=true, Dialog(tab = "Dynamics", group="Equations"));
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the states";
   parameter Boolean checkCoating = false
     "Throw if an air cavity does not have a coating";
-  final parameter Modelica.SIunits.ThermalInsulance R = mat.R
+  final parameter Modelica.Units.SI.ThermalInsulance R=mat.R
     "Total specific thermal resistance";
   final parameter Boolean isDynamic = dynamicLayer and realLayer and not airLayer;
 
-  Modelica.SIunits.Energy E = E_internal;
+  Modelica.Units.SI.Energy E=E_internal;
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Port for connections between layers"
@@ -54,11 +54,11 @@ model MonoLayer "single material layer"
     epsLw_b=epsLw_b,
     linearise=linIntCon,
     dT_nominal=dT_nom_air,
-    checkCoating=checkCoating) if                 realLayer and airLayer
+    checkCoating=checkCoating)                 if realLayer and airLayer
     annotation (Placement(transformation(extent={{-20,30},{0,50}})));
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayerStatic
-    monLaySta(R=R/A) if
-       realLayer and not dynamicLayer and not airLayer
+    monLaySta(R=R/A)
+    if realLayer and not dynamicLayer and not airLayer
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
 
 protected

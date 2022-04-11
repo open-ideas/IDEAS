@@ -5,7 +5,7 @@ model Gain "BESTEST fixed internal gains by occupants"
     final nLoads=1);
 
 protected
-  parameter Modelica.SIunits.HeatFlowRate QNom = 200 "Baseload internal gain";
+  parameter Modelica.Units.SI.HeatFlowRate QNom=200 "Baseload internal gain";
 
 equation
   for i in 1:nZones loop

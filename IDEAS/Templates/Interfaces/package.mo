@@ -3,6 +3,6 @@ package Interfaces "Partials"
 
 
 extends Modelica.Icons.InterfacesPackage;
-import SI = Modelica.SIunits;
+import      Modelica.Units.SI;
 
 end Interfaces;

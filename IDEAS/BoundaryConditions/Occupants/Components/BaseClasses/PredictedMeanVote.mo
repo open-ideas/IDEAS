@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Occupants.Components.BaseClasses;
 block PredictedMeanVote "predicted mean vote"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealOutput PMV "predicted mean vote"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
@@ -26,10 +26,10 @@ block PredictedMeanVote "predicted mean vote"
         rotation=-90,
         origin={20,100})));
 
-  parameter Modelica.SIunits.Area Adu=1.77 "DuBois Area";
-  parameter Modelica.SIunits.Efficiency Eta=0.1
+  parameter Modelica.Units.SI.Area Adu=1.77 "DuBois Area";
+  parameter Modelica.Units.SI.Efficiency Eta=0.1
     "external mechanical efficiency of the body";
-  parameter Modelica.SIunits.HeatFlowRate Met=120 "Metabolic rate";
+  parameter Modelica.Units.SI.HeatFlowRate Met=120 "Metabolic rate";
   parameter Real RelHum=0.50 "Relative humidity";
   parameter Boolean Linear=true;
 
@@ -39,9 +39,9 @@ block PredictedMeanVote "predicted mean vote"
 
 protected
   Real Conv "convective surface coefficient";
-  Modelica.SIunits.Temperature DTr4
+  Modelica.Units.SI.Temperature DTr4
     "Linearized or not linearized radiative delta T^4";
-  Modelica.SIunits.Pressure Pvp "partial water vapour pressure";
+  Modelica.Units.SI.Pressure Pvp "partial water vapour pressure";
 
 algorithm
   if Linear then

@@ -1,7 +1,10 @@
 within IDEAS.Airflow.AHU.BaseClasses;
 model From_m3Pers "Conversion of m3/s to kg/s"
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium "Medium model";
-  Modelica.SIunits.Density rho = Medium.density(Medium.setState_pTX(Medium.p_default, T, Medium.X_default));
+  Modelica.Units.SI.Density rho=Medium.density(Medium.setState_pTX(
+      Medium.p_default,
+      T,
+      Medium.X_default));
   Modelica.Blocks.Interfaces.RealInput V_flow "Volumetric flow rate"
     annotation (Placement(transformation(extent={{-124,-60},{-84,-20}})));
   Modelica.Blocks.Interfaces.RealOutput m_flow "Mass flow rate"

@@ -5,6 +5,6 @@ extends Modelica.Icons.MaterialProperty;
     IDEAS.Experimental.Electric.BaseClasses.Types.CharacteristicResistance RCha
     "Characteristic Resistance of the Cable";
 
-parameter Modelica.SIunits.ElectricCurrent In
+  parameter Modelica.Units.SI.ElectricCurrent In
     "Nominal Electrical Current Fused";
 end Cable;

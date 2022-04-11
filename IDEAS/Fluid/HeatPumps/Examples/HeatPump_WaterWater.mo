@@ -20,7 +20,7 @@ model HeatPump_WaterWater
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Blocks.Sources.Sine sine(
     offset=273.15 + 50,
-    freqHz=1/500,
+    f=1/500,
     amplitude=5,
     startTime=0)
     annotation (Placement(transformation(extent={{100,50},{80,70}})));
@@ -47,7 +47,7 @@ model HeatPump_WaterWater
   Modelica.Blocks.Sources.Sine sine1(
     amplitude=4,
     offset=273.15 + 10,
-    freqHz=1/300,
+    f=1/300,
     startTime=0)
     annotation (Placement(transformation(extent={{-122,46},{-102,66}})));
   replaceable HP_WaterWater_OnOff heatPump(

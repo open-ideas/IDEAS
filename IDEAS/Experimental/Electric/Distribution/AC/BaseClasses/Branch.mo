@@ -1,14 +1,14 @@
 within IDEAS.Experimental.Electric.Distribution.AC.BaseClasses;
 model Branch
 
-  extends Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.OnePort(i(
+  extends Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.OnePort(    i(
         re(start=0), im(start=0)));
-  Modelica.SIunits.ActivePower Plos;
+  Modelica.Units.SI.ActivePower Plos;
 
   parameter Boolean heatLosses=false "Set to true to calculate heatlosses";
-  parameter Modelica.SIunits.Resistance R=0.0057;
-  parameter Modelica.SIunits.Reactance X=0.0039;
-  final parameter Modelica.SIunits.ComplexImpedance Z=Complex(R, X);
+  parameter Modelica.Units.SI.Resistance R=0.0057;
+  parameter Modelica.Units.SI.Reactance X=0.0039;
+  final parameter Modelica.Units.SI.ComplexImpedance Z=Complex(R, X);
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a if heatLosses annotation (
       Placement(transformation(extent={{10,10},{30,30}}), iconTransformation(
@@ -25,7 +25,7 @@ model Branch
         origin={20,-50})));
 equation
   v = Z*i;
-  Plos = R*Modelica.ComplexMath.'abs'(i)^2;
+  Plos =R*Modelica.ComplexMath.abs(i)^2;
 
   connect(port_a, prescribedHeatFlow.port) annotation (Line(
       points={{20,20},{20,0}},
