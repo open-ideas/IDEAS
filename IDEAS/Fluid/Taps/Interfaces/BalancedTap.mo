@@ -2,15 +2,15 @@ within IDEAS.Fluid.Taps.Interfaces;
 partial model BalancedTap "partial DHW model"
   import IDEAS;
 
-  parameter Modelica.SIunits.Temperature TDHWSet(max=273.15 + 60) = 273.15 + 45
-    "DHW temperature setpoint";
-  parameter Modelica.SIunits.Temperature TCold=273.15 + 10
+  parameter Modelica.Units.SI.Temperature TDHWSet(max=273.15 + 60) = 273.15 +
+    45 "DHW temperature setpoint";
+  parameter Modelica.Units.SI.Temperature TCold=273.15 + 10
     "Nominal cold water temperature";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=1
     "Nominal mass flow rate";
 
 protected
-  Modelica.SIunits.MassFlowRate mFlo60C "DHW flow rate at 60 degC";
+  Modelica.Units.SI.MassFlowRate mFlo60C "DHW flow rate at 60 degC";
   parameter SI.Time tau=30
     "Tin time constant of temperature sensor at nominal flow rate";
 
@@ -24,7 +24,7 @@ public
   Modelica.Fluid.Interfaces.FluidPort_b port_cold(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation (
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort THot(
     redeclare package Medium = Medium,
@@ -49,7 +49,7 @@ public
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem
     annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
 
-  Modelica.SIunits.Temperature TDHW_actual = min(THot.T,TDHWSet);
+  Modelica.Units.SI.Temperature TDHW_actual=min(THot.T, TDHWSet);
   Modelica.Blocks.Sources.RealExpression mFloCor(y=mFlo60C*(273.15 + 60 - TCold)
         /(TDHWSet - TCold)) "Corrected desired mass flow rate for TDHWSet"
     annotation (Placement(transformation(extent={{-84,76},{-22,96}})));

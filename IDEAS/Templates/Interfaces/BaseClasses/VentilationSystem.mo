@@ -11,7 +11,7 @@ partial model VentilationSystem
     "Number of conditioned thermal building zones";
   parameter Real[nZones] VZones "Conditioned volumes of the zones";
 
-  parameter Modelica.SIunits.Power[ nZones] Q_design=zeros(nZones)
+  parameter Modelica.Units.SI.Power[nZones] Q_design=zeros(nZones)
     "Design heat loss due to ventilation";//must be calculated depending on the case
   Modelica.Blocks.Interfaces.RealInput[nZones] TSensor(final quantity="ThermodynamicTemperature",unit="K",displayUnit="degC", min=0)
     "Sensor temperature of the zones" annotation (Placement(transformation(

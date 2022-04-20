@@ -13,35 +13,37 @@ model SlabOnGround "opaque floor on ground slab"
     layMul(disableInitPortB=true),
     q50_zone(v50_surf=0));
 
-  parameter Modelica.SIunits.Length PWall=4*sqrt(A)
+  parameter Modelica.Units.SI.Length PWall=4*sqrt(A)
     "Total floor slab perimeter";
-  parameter Modelica.SIunits.Temperature TeAvg=273.15 + 10.8
+  parameter Modelica.Units.SI.Temperature TeAvg=273.15 + 10.8
     "Annual average outdoor temperature";
-  parameter Modelica.SIunits.Temperature TiAvg=273.15 + 22
+  parameter Modelica.Units.SI.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature";
-  parameter Modelica.SIunits.TemperatureDifference dTeAvg = 4
+  parameter Modelica.Units.SI.TemperatureDifference dTeAvg=4
     "Amplitude of variation of monthly average outdoor temperature";
-  parameter Modelica.SIunits.TemperatureDifference dTiAvg = 2
+  parameter Modelica.Units.SI.TemperatureDifference dTiAvg=2
     "Amplitude of variation of monthly average indoor temperature";
   parameter Boolean linearise=sim.lineariseDymola
     "= true, if heat flow to ground should be linearized"
     annotation(Dialog(tab="Convection"));
-  Modelica.SIunits.HeatFlowRate Qm = if not linearise then UEqui*A*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(m - 1 - beta)) else
-    sum({UEqui*A*(TiAvg - TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(i- 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(i - 1 - beta)) for i in 1:12})/12
-    "Two-dimensional correction for edge flow";
+  Modelica.Units.SI.HeatFlowRate Qm=if not linearise then UEqui*A*(TiAvg -
+      TeAvg) - Lpi*dTiAvg*cos(2*3.1415/12*(m - 1 + alfa)) + Lpe*dTeAvg*cos(2*
+      3.1415/12*(m - 1 - beta)) else sum({UEqui*A*(TiAvg - TeAvg) - Lpi*dTiAvg*
+      cos(2*3.1415/12*(i - 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(i - 1 -
+      beta)) for i in 1:12})/12 "Two-dimensional correction for edge flow";
 
 //Calculation of heat loss based on ISO 13370
   IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=1e-10) if
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    final m_flow=1e-10)
+    if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
   IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0) if
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    final m_flow=0)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
@@ -50,10 +52,11 @@ protected
   final parameter Real U_value=1/(1/6 + sum(constructionType.mats.R) + 0)
     "Floor theoretical U-value";
 
-  final parameter Modelica.SIunits.Length B=A/(0.5*PWall + 1E-10)
+  final parameter Modelica.Units.SI.Length B=A/(0.5*PWall + 1E-10)
     "Characteristic dimension of the slab on ground";
-  final parameter Modelica.SIunits.Length dt=sum(constructionType.mats.d) + ground1.k*1/U_value
-    "Equivalent thickness";//Thickness of basement walls assumed to be as the thickness of the slab
+  final parameter Modelica.Units.SI.Length dt=sum(constructionType.mats.d) +
+      ground1.k*1/U_value "Equivalent thickness";
+                           //Thickness of basement walls assumed to be as the thickness of the slab
   final parameter Real UEqui=if (dt<B) then (2*ground1.k/(Modelica.Constants.pi*B+dt)*Modelica.Math.log(Modelica.Constants.pi*B/dt+1)) else (ground1.k/(0.457*B + dt))
     "Equivalent thermal transmittance coefficient";
   final parameter Real alfa=1.5 - 12/(2*3.14)*atan(dt/(dt + delta));

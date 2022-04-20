@@ -2,12 +2,10 @@ within IDEAS.Experimental.Electric.BaseClasses.AC;
 model Con3PlusNTo3
   "Converts the 3 phases plus Neutral to 3 phases representation to wich powers can be connected"
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    fourWire[4]
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin fourWire[4]
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    threeWire[3]
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin threeWire[
+    3] annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 equation
   for i in 1:3 loop

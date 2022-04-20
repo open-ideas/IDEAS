@@ -6,12 +6,12 @@ model ISO13790
     nZones=1,
     nLoads=1);
 
-  parameter Modelica.SIunits.Area[nZones] AFloor=ones(nZones)*100
+  parameter Modelica.Units.SI.Area[nZones] AFloor=ones(nZones)*100
     "Floor area of different zones";
 
 protected
-  final parameter Modelica.SIunits.Time interval=3600 "Time interval";
-  final parameter Modelica.SIunits.Time period=86400/interval
+  final parameter Modelica.Units.SI.Time interval=3600 "Time interval";
+  final parameter Modelica.Units.SI.Time period=86400/interval
     "Number of intervals per repetition";
   final parameter Real[3] QDay(unit="W/m2") = {8,20,2}
     "Specific power for dayzone";

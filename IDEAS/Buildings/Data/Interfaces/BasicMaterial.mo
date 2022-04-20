@@ -2,9 +2,10 @@ within IDEAS.Buildings.Data.Interfaces;
 record BasicMaterial
   "Template record for properties of building materials"
   extends Modelica.Icons.MaterialProperty;
-  parameter Modelica.SIunits.ThermalConductivity k "Thermal conductivity";
-  parameter Modelica.SIunits.SpecificHeatCapacity c "Specific thermal capacity";
-  parameter Modelica.SIunits.Density rho "Density";
+  parameter Modelica.Units.SI.ThermalConductivity k "Thermal conductivity";
+  parameter Modelica.Units.SI.SpecificHeatCapacity c
+    "Specific thermal capacity";
+  parameter Modelica.Units.SI.Density rho "Density";
 
 
   annotation (Documentation(info="<html>

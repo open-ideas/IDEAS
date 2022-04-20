@@ -6,7 +6,7 @@ model Bui "Base model"
     nEmb=0,
     ATrans=1,
     VZones={gF.V});
-  constant Modelica.SIunits.Angle aO = 0 "Angle offset for detailed experiments";
+  constant Modelica.Units.SI.Angle aO=0 "Angle offset for detailed experiments";
 
   IDEAS.Buildings.Components.Zone gF(
     mSenFac=0.822,

@@ -3,59 +3,60 @@ model Overhang "Roof overhangs"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
                                                              final controlled=false);
 
-  parameter Modelica.SIunits.Length hWin(min=0) "Window height"
-    annotation(Dialog(group="Window properties"));
-  parameter Modelica.SIunits.Length wWin(min=0) "Window width"
-    annotation(Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
+    annotation (Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length wWin(min=0) "Window width"
+    annotation (Dialog(group="Window properties"));
 
-  parameter Modelica.SIunits.Length wLeft(min=0)
+  parameter Modelica.Units.SI.Length wLeft(min=0)
     "Left overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length wRight(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length wRight(min=0)
     "Right overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length dep(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length dep(min=0)
     "Overhang depth perpendicular to the wall plane"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length gap(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length gap(min=0)
     "Distance between window upper edge and overhang lower edge"
-    annotation(Dialog(group="Overhang properties"));
+    annotation (Dialog(group="Overhang properties"));
   final parameter Real fraSunDifSky(final min=0,final max=1, final unit="1") = 1-vieAngOverhang/(0.5*Modelica.Constants.pi)
     "Fraction of window area exposed to diffuse sun light";
 
   Real fraSunDir(final min=0,final max=1, final unit="1")
     "Fraction of window area exposed to direct sun light";
 protected
-  final parameter Modelica.SIunits.Area AWin= hWin*wWin "Window area";
-  parameter Modelica.SIunits.Length tmpH[4](fixed=false)
+  final parameter Modelica.Units.SI.Area AWin=hWin*wWin "Window area";
+  parameter Modelica.Units.SI.Length tmpH[4](fixed=false)
     "Height rectangular sections used for superposition";
-  final parameter Modelica.SIunits.Angle vieAngOverhang = atan(dep/(gap+hWin/2)) "Viewing angle of overhang";
+  final parameter Modelica.Units.SI.Angle vieAngOverhang=atan(dep/(gap + hWin/2))
+    "Viewing angle of overhang";
 
-  Modelica.SIunits.Length w
+  Modelica.Units.SI.Length w
     "Either wL or wR, depending on the sun relative to the wall azimuth";
-  Modelica.SIunits.Length tmpW[4]
+  Modelica.Units.SI.Length tmpW[4]
     "Width of rectangular sections used for superpositions";
-  Modelica.SIunits.Length del_L = wWin/100
+  Modelica.Units.SI.Length del_L=wWin/100
     "Fraction of window dimension over which min-max functions are smoothened";
-  Modelica.SIunits.Length x1
+  Modelica.Units.SI.Length x1
     "Horizontal distance between window side edge and shadow corner";
-  Modelica.SIunits.Length x2[4]
+  Modelica.Units.SI.Length x2[4]
     "Horizontal distance between window side edge and point where shadow line and window lower edge intersects";
-  Modelica.SIunits.Length y1
+  Modelica.Units.SI.Length y1
     "Vertical distance between overhang and shadow lower edge";
-  Modelica.SIunits.Length y2[4]
+  Modelica.Units.SI.Length y2[4]
     "Window height (vertical distance corresponding to x2)";
   Real shdwTrnglRtio "ratio of y1 and x1";
-  Modelica.SIunits.Area area[4]
+  Modelica.Units.SI.Area area[4]
     "Shaded areas of the sections used in superposition";
-  Modelica.SIunits.Area shdArea "Shaded area calculated from equations";
-  Modelica.SIunits.Area crShdArea "Final value for shaded area";
-  Modelica.SIunits.Area crShdArea1
+  Modelica.Units.SI.Area shdArea "Shaded area calculated from equations";
+  Modelica.Units.SI.Area crShdArea "Final value for shaded area";
+  Modelica.Units.SI.Area crShdArea1
     "Corrected for the sun behind the surface/wall";
-  Modelica.SIunits.Area crShdArea2 "Corrected for the sun below horizon";
+  Modelica.Units.SI.Area crShdArea2 "Corrected for the sun below horizon";
 
-  Modelica.SIunits.Angle alt = (Modelica.Constants.pi/2) - angZen;
-  Modelica.SIunits.Angle verAzi
+  Modelica.Units.SI.Angle alt=(Modelica.Constants.pi/2) - angZen;
+  Modelica.Units.SI.Angle verAzi
     "Angle between projection of sun's rays and normal to vertical surface";
 
 initial equation

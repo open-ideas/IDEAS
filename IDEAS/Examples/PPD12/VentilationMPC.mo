@@ -13,7 +13,7 @@ model VentilationMPC
     columns={2,3,4,5,6,7,8,9}) "Table reader for off-line computed mpc results"
     annotation (Placement(transformation(extent={{-100,180},{-60,220}})));
 
-  Modelica.SIunits.Energy EGas "Total gas energy use";
+  Modelica.Units.SI.Energy EGas "Total gas energy use";
   Modelica.Blocks.Continuous.Integrator EHea(k=1/3600000) "Heater energy"
     annotation (Placement(transformation(extent={{360,-60},{380,-40}})));
 initial equation

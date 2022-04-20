@@ -1,9 +1,9 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer;
 model MonoLayerDynamic "Dynamic layer for uniform solid."
 
-  parameter Modelica.SIunits.Area A "Layer area";
+  parameter Modelica.Units.SI.Area A "Layer area";
   parameter IDEAS.Buildings.Data.Interfaces.Material mat "Layer material";
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the states";
   parameter Integer nStaMin(min=1) = 2 "Minimum number of states";
 
@@ -13,7 +13,7 @@ model MonoLayerDynamic "Dynamic layer for uniform solid."
   final parameter Boolean present=mat.d > Modelica.Constants.small;
   final parameter Integer nSta=max(nStaMin, mat.nSta) "Number of states";
   final parameter Real R=mat.R "Total specific thermal resistance";
-  final parameter Modelica.SIunits.HeatCapacity Ctot=A*mat.rho*mat.c*mat.d
+  final parameter Modelica.Units.SI.HeatCapacity Ctot=A*mat.rho*mat.c*mat.d
     "Total heat capacity";
   // This option is for solving problems when connecting a
   // fixed temperature boundary to a state when linearising a model.
@@ -27,20 +27,19 @@ protected
     then nSta
     else max(nSta - 1, 1)
     "Number of thermal resistances";
-  final parameter Modelica.SIunits.ThermalConductance[nRes] G=
-    fill(nRes*A/R, nRes);
-  final parameter Modelica.SIunits.HeatCapacity[nSta] C=Ctot*
-    (if nSta <= 2 or addRes_b
-    then ones(nSta)/nSta
-    else cat(
+  final parameter Modelica.Units.SI.ThermalConductance[nRes] G=fill(nRes*A/R,
+      nRes);
+  final parameter Modelica.Units.SI.HeatCapacity[nSta] C=Ctot*(if nSta <= 2 or
+      addRes_b then ones(nSta)/nSta else cat(
       1,
       {0.5},
       ones(nSta - 2),
       {0.5})/(nSta - 1));
   final parameter Real[nSta] Cinv(each unit="K/J") = ones(nSta) ./ C
     "Dummy parameter for efficiently handling check for division by zero";
-  Modelica.SIunits.Temperature[nSta] T(each start=T_start) "Temperature at the states";
-  Modelica.SIunits.HeatFlowRate[nRes] Q_flow
+  Modelica.Units.SI.Temperature[nSta] T(each start=T_start)
+    "Temperature at the states";
+  Modelica.Units.SI.HeatFlowRate[nRes] Q_flow
     "Heat flow rate from state i to i-1";
 
 public

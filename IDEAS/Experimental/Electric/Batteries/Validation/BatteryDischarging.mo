@@ -1,8 +1,8 @@
 within IDEAS.Experimental.Electric.Batteries.Validation;
 model BatteryDischarging
 extends Modelica.Icons.Example;
-Modelica.SIunits.Power Pnet=1000;
-output Modelica.SIunits.Efficiency SoC = batterySystemGeneral.battery.SoC_out;
+  Modelica.Units.SI.Power Pnet=1000;
+  output Modelica.Units.SI.Efficiency SoC=batterySystemGeneral.battery.SoC_out;
 
 protected
   Distribution.AC.Grid_3P gridGeneral(redeclare

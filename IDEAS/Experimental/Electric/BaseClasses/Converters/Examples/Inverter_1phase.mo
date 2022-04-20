@@ -1,7 +1,7 @@
 within IDEAS.Experimental.Electric.BaseClasses.Converters.Examples;
 model Inverter_1phase
 extends Modelica.Icons.Example;
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{-70,-60},{-50,-40}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
@@ -10,23 +10,22 @@ extends Modelica.Icons.Example;
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={56,0})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Resistor resistor(
-            useHeatPort=false, R_ref=50)
-                               annotation (Placement(transformation(
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Resistor resistor(
+      useHeatPort=false, R_ref=50) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-30,0})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.VoltageSensor
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.VoltageSensor
     voltageSensor annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-20,-20})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sensors.VoltageSensor
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sensors.VoltageSensor
     voltageSensor1 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-60,-20})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
     f=50,
     V=230,

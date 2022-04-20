@@ -6,11 +6,11 @@ model Partial3WayValve "Partial for 3-way valves"
   parameter Real l = 0.001
     "Valve leakage, minimum fraction of flow rate passing through ports 
     a";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
     "Nominal mass flow rate";
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal";
-  final parameter Modelica.SIunits.Mass m = m_flow_nominal*tau
+  final parameter Modelica.Units.SI.Mass m=m_flow_nominal*tau
     "Fluid content of the mixing valve";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(

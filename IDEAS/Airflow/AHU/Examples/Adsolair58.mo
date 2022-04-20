@@ -6,7 +6,7 @@ model Adsolair58 "Adsolair58 example model"
 
   replaceable package Medium = IDEAS.Media.Air;
   replaceable package MediumWater = IDEAS.Media.Water "Heating medium";
-  parameter Modelica.SIunits.Pressure dp_nominal=100 "Constant output value";
+  parameter Modelica.Units.SI.Pressure dp_nominal=100 "Constant output value";
   parameter SI.MassFlowRate m_flow_nominal=0.3 "Nominal air mass flow rate";
   Adsolair58HeaCoi             adsolair58(
     redeclare package MediumAir = Medium,

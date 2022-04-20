@@ -3,9 +3,8 @@ model WattsLawPlug "For use  with loads."
   parameter Integer numPha=1 "Choose the number of phases" annotation (choices(
         choice=1 "single phase", choice=3 "symmetrical 3 phase"));
   parameter Integer nLoads=1;
-  Modelica.Electrical.QuasiStationary.MultiPhase.Interfaces.NegativePlug vi(m=
-        numPha) annotation (Placement(transformation(extent={{90,-10},{110,10}},
-          rotation=0)));
+  Modelica.Electrical.QuasiStatic.Polyphase.Interfaces.NegativePlug vi(m=numPha)
+    annotation (Placement(transformation(extent={{90,-10},{110,10}}, rotation=0)));
   Modelica.Blocks.Interfaces.RealInput[nLoads] P annotation (Placement(
         transformation(extent={{-90,20},{-50,60}}),  iconTransformation(extent={{-70,40},
             {-50,60}})));

@@ -1,7 +1,7 @@
 within IDEAS.Airflow.AHU.BaseClasses;
 model AdsolairController
   extends IDEAS.Airflow.AHU.BaseClasses.AdsolairControllerInterface;
-  parameter Modelica.SIunits.Time tau=60
+  parameter Modelica.Units.SI.Time tau=60
     "Thermal time constant at nominal flow rate";
 
   Modelica.Blocks.Sources.BooleanExpression onAdiaExp(
@@ -34,10 +34,9 @@ model AdsolairController
     Ti=120,
     yMax=1,
     yMin=0,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
+    initType=Modelica.Blocks.Types.Init.InitialState,
     y_off=0,
-    useKIn=true)
-    "PI controller for dampers"
+    useKIn=true) "PI controller for dampers"
     annotation (Placement(transformation(extent={{30,0},{40,10}})));
   Modelica.Blocks.Math.Abs absdT
     "Absolute temperature difference between inlet streams"

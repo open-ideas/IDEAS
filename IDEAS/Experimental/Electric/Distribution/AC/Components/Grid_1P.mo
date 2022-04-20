@@ -3,15 +3,13 @@ model Grid_1P "Single-phase grid"
 replaceable parameter IDEAS.Experimental.Electric.Data.Interfaces.GridType grid(Pha=1)
     "Choose a grid layout" annotation (choicesAllMatching=true);
 
-Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[
-                               2,Nodes] node
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-                GridConnection(i(
-                          im(  each start=0)))
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[2,Nodes]
+    node annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin
+    GridConnection(i(im(each start=0)))
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin
-                Ground(i( im(  each start=0)))
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin Ground(i(
+        im(each start=0)))
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
 
   IDEAS.Experimental.Electric.Distribution.AC.BaseClasses.Branch branch[Nodes](R=
@@ -20,22 +18,22 @@ Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin
   IDEAS.Experimental.Electric.Distribution.AC.BaseClasses.Branch neutral[Nodes](R=
         Modelica.ComplexMath.real(Z), X=Modelica.ComplexMath.imag(Z)) annotation (Placement(transformation(extent={{-4,-58},
             {16,-38}})));
-  Modelica.SIunits.ActivePower PGriTot;
-  Modelica.SIunits.ComplexPower SGriTot;
-  Modelica.SIunits.ReactivePower QGriTot;
+  Modelica.Units.SI.ActivePower PGriTot;
+  Modelica.Units.SI.ComplexPower SGriTot;
+  Modelica.Units.SI.ReactivePower QGriTot;
 
-  output Modelica.SIunits.ActivePower PLosBra[Nodes];
-  output Modelica.SIunits.ActivePower PLosNeu[Nodes];
-  output Modelica.SIunits.ActivePower PGriLosPha;
-  output Modelica.SIunits.ActivePower PGriLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosTot;
+  output Modelica.Units.SI.ActivePower PLosBra[Nodes];
+  output Modelica.Units.SI.ActivePower PLosNeu[Nodes];
+  output Modelica.Units.SI.ActivePower PGriLosPha;
+  output Modelica.Units.SI.ActivePower PGriLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosTot;
 
   parameter Integer Nodes=grid.nNodes;
   parameter Integer nodeMatrix[Nodes,Nodes] = grid.nodeMatrix;
-  parameter Modelica.SIunits.ComplexImpedance[Nodes] Z = grid.Z;
+  parameter Modelica.Units.SI.ComplexImpedance[Nodes] Z=grid.Z;
 
 //Absolute voltages at the nodes
- output Modelica.SIunits.Voltage Vabs[Nodes];
+  output Modelica.Units.SI.Voltage Vabs[Nodes];
 
 equation
   /***Connecting all neutral connectors (=4th row of nodes)***/
@@ -79,7 +77,7 @@ equation
 
 /*** Calculating the absolute node voltages ***/
   for x in 1:Nodes loop
-    Vabs[x] = Modelica.ComplexMath.'abs'(node[1, x].v - node[2, x].v);
+    Vabs[x] =Modelica.ComplexMath.abs(node[1, x].v - node[2, x].v);
   end for;
 
 /***Calculating all power phase powers***/
@@ -89,8 +87,8 @@ equation
   QGriTot = Modelica.ComplexMath.imag(SGriTot);
 
 for x in 1:Nodes loop
-  PLosBra[x] = branch[x].R*(Modelica.ComplexMath.'abs'(branch[x].i))^2;
-  PLosNeu[x] = neutral[x].R*(Modelica.ComplexMath.'abs'(neutral[x].i))^2;
+  PLosBra[x] =branch[x].R*(Modelica.ComplexMath.abs(branch[x].i))^2;
+  PLosNeu[x] =neutral[x].R*(Modelica.ComplexMath.abs(neutral[x].i))^2;
 end for;
   PGriLosPha = ones(Nodes)*PLosBra[:];
   PGriLosNeu = ones(Nodes)*PLosNeu[:];

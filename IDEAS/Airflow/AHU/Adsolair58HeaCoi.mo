@@ -16,7 +16,7 @@ model Adsolair58HeaCoi
       show_T=true), redeclare BaseClasses.AdsolairControllerHeaCoi adsCon);
   replaceable package MediumHeating =
       Modelica.Media.Water.ConstantPropertyLiquidWater
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
     redeclare package Medium = MediumHeating)
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));

@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Occupants.Components.BaseClasses;
 block CloValue "clothing"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealOutput RClo "clothing thermal resistance"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));

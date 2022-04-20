@@ -1,7 +1,7 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components.Elements;
 model PvSerie
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Real amount=2;
 

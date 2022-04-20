@@ -1,10 +1,10 @@
-IDEAS v2.2.1
+IDEAS v3.0.0
 ============
-[![Build Status](https://app.travis-ci.com/open-ideas/IDEAS.svg?branch=master)](https://app.travis-ci.com/open-ideas/IDEAS)
-
-Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level.
+Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level. This Modelica library was originally developed by KU Leuven and [3E](https://3e.eu) and is currently developed and maintained by the [Thermal Systems Simulation (The SySi)](http://the.sysi.be) research group of KU Leuven. It includes significant contributions by the [Building Physics and Sustainable Design Section](https://bwk.kuleuven.be/bwf) of KU Leuven, the [Building Physics Research Group](https://www.ugent.be/ea/architectuur/en/research/research-groups/building-physics) of UGent, [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 60](https://iea-annex60.org) and the [Electrical Energy Systems and Applications Section](https://www.esat.kuleuven.be/electa) of KU Leuven. 
 
 ## Release history
++ April 11th, 2022: IDEAS v3.0.0 has been released. This includes an update to MSL 4.0.0.
++ April 2nd, 2022: IDEAS v2.2.2 has been released. This is the final release before updating MSL 4.0.0.
 + September 20th, 2021: IDEAS v2.2.1 has been released.
 + June 9th, 2021: IDEAS v2.2 has been released.
 + February 28th, 2019: IDEAS v2.1 has been released.
@@ -13,12 +13,17 @@ Modelica model environment for Integrated District Energy Assessment Simulations
    February 16th 2018: A [paper describing IDEAS v1.0](http://www.tandfonline.com/doi/full/10.1080/19401493.2018.1428361) has been published on line.
 + September 2nd, 2015: IDEAS v0.3 has been released.
 
+## Contributions and community
+We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, you can support us by adding a star at the top right of our Github page.
+
+## Tool support
+Our goal is to provide support for Dymola and OpenModelica. Consequantly, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
+
 ## Release notes
 [This is a link to detailed release notes.](https://github.com/open-ideas/IDEAS/blob/master/ReleaseNotes.md)
 
-## Backwards compatibility:
-IDEAS 2.0 is not backwards compatible with IDEAS 1.0, although the required changes should be limited or non-existent for most users.
-In the future we hope to provide automated Dymola conversion scripts when making releases.
+## Unit tests
+The library is unit tested using BuildingsPy. Automated unit tests have been removed since the required services are no longer freely available. The master branch is still unit tested manually. See IDEAS/RunUnitTests.py to run the unit tests yourself.
 
 ## License
 IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.eu) under a [BSD 3 license](https://htmlpreview.github.io/?https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html).

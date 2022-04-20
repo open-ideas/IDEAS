@@ -1,8 +1,7 @@
 within IDEAS.Buildings.Components.Interfaces;
 model SetArea "Block for communicating the surface area of the surface to the SimInfoManager"
   extends Modelica.Blocks.Icons.Block;
-  parameter Modelica.SIunits.Area A
-    "Surface area";
+  parameter Modelica.Units.SI.Area A "Surface area";
   parameter Boolean use_custom_q50
     "Custom q50 value";
   IDEAS.Buildings.Components.Interfaces.AreaPort areaPort
@@ -18,7 +17,7 @@ model SetArea "Block for communicating the surface area of the surface to the Si
 protected
   parameter Real v50_custom(unit="m3/h",fixed=false)
     "v50 if flow is custom, else 0";
-  parameter Modelica.SIunits.Area A_def_q50 = if use_custom_q50 then 0 else A;
+  parameter Modelica.Units.SI.Area A_def_q50=if use_custom_q50 then 0 else A;
 
 initial equation
   if not use_custom_q50 and not use_custom_n50 then

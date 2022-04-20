@@ -17,9 +17,8 @@ model ThreeWayValveMotor
   parameter Boolean show_T = false
       "= true, if actual temperature at port is computed"
       annotation(Dialog(tab="Advanced",group="Diagnostics"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
-    "Nominal mass flow rate"
-    annotation(Dialog(group = "Nominal condition"));
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
+    "Nominal mass flow rate" annotation (Dialog(group="Nominal condition"));
   parameter Real l(min=1e-10, max=1) = 0.0001
     "Valve leakage, l=Kv(y=0)/Kv(y=1)";
 
@@ -38,12 +37,11 @@ protected
   model IdealSource
     extends IDEAS.Fluid.Movers.BaseClasses.IdealSource;
 
-    parameter Modelica.SIunits.MassFlowRate m_flow_nominal
-      "Nominal mass flow rate"
-      annotation(Dialog(group = "Nominal condition"));
-    parameter Modelica.SIunits.MassFlowRate m_flow_small(min=0) = 1E-4*abs(m_flow_nominal)
-      "Small mass flow rate for regularization of zero flow"
-      annotation(Dialog(tab = "Advanced"));
+    parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
+      "Nominal mass flow rate" annotation (Dialog(group="Nominal condition"));
+    parameter Modelica.Units.SI.MassFlowRate m_flow_small(min=0) = 1E-4*abs(
+      m_flow_nominal) "Small mass flow rate for regularization of zero flow"
+      annotation (Dialog(tab="Advanced"));
     parameter Boolean show_T = false
       "= true, if actual temperature at port is computed"
       annotation(Dialog(tab="Advanced",group="Diagnostics"));
@@ -51,18 +49,19 @@ protected
     Medium.ThermodynamicState sta_a=
         Medium.setState_phX(port_a.p,
                             noEvent(actualStream(port_a.h_outflow)),
-                            noEvent(actualStream(port_a.Xi_outflow))) if
-           show_T "Medium properties in port_a";
+                            noEvent(actualStream(port_a.Xi_outflow)))
+        if show_T "Medium properties in port_a";
 
     Medium.ThermodynamicState sta_b=
         Medium.setState_phX(port_b.p,
                             noEvent(actualStream(port_b.h_outflow)),
-                            noEvent(actualStream(port_b.Xi_outflow))) if
-            show_T "Medium properties in port_b";
+                            noEvent(actualStream(port_b.Xi_outflow)))
+         if show_T "Medium properties in port_b";
   protected
-    final parameter Modelica.SIunits.MassFlowRate _m_flow_start = 0
+    final parameter Modelica.Units.SI.MassFlowRate _m_flow_start=0
       "Start value for m_flow, used to avoid a warning if not set in m_flow, and to avoid m_flow.start in parameter window";
-    final parameter Modelica.SIunits.PressureDifference _dp_start(displayUnit="Pa") = 0
+    final parameter Modelica.Units.SI.PressureDifference _dp_start(displayUnit=
+          "Pa") = 0
       "Start value for dp, used to avoid a warning if not set in dp, and to avoid dp.start in parameter window";
   end IdealSource;
 

@@ -14,7 +14,7 @@ extends Modelica.Icons.Example;
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource1(
     f=50,
     V=230,
@@ -22,29 +22,28 @@ extends Modelica.Icons.Example;
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,-10})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground2
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground2
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource2(
     f=50,
     V=230,
-    phi(displayUnit="rad") = 2*Modelica.Constants.pi/3)
-           annotation (Placement(transformation(
+    phi(displayUnit="rad") = 2*Modelica.Constants.pi/3) annotation (Placement(
+        transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-50,-22})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground3
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground3
     annotation (Placement(transformation(extent={{-60,-72},{-40,-52}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource3(
     f=50,
     V=230,
-    phi=4*Modelica.Constants.pi/3)
-           annotation (Placement(transformation(
+    phi=4*Modelica.Constants.pi/3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-30,-30})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground4
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground4
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
 equation
   connect(aCDC_Singlephase.pin_pDC, resistor.n) annotation (Line(

@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples;
 model MonoLayer "Unit test for mono layer model"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Area A=10 "total multilayer area";
+  parameter Modelica.Units.SI.Area A=10 "total multilayer area";
   parameter IDEAS.Buildings.Data.Constructions.CavityWallPartialFill cavityWallData
     "Record containing data for cavity wall"
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));

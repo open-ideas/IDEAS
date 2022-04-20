@@ -3,9 +3,9 @@ partial record PartialOccupancyType
   "Record for defining the type (i.e. properties) of the occupants, used in InternalGains and Comfort models"
   extends Modelica.Icons.Record;
 
-  parameter Modelica.SIunits.Power QlatPp(min=0)
+  parameter Modelica.Units.SI.Power QlatPp(min=0)
     "Latent heat production per person";
-  parameter Modelica.SIunits.Power QsenPp(min=0)
+  parameter Modelica.Units.SI.Power QsenPp(min=0)
     "Sensible heat production per person";
   parameter Real radFra(min=0,max=1) = 0.6
     "Radiant fraction of sensible heat exchange, default based on Ashrae fundamentals chap 18.4 for low air velocity, used for computing radiative and convective sensible heat flow rate fractions";

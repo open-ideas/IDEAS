@@ -4,13 +4,12 @@ model Grid_3P "Three-fase grid cable-structure"
     "Choose a grid Layout (with 3 phaze values)"
     annotation (choicesAllMatching=true);
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[4,
-    Nodes] node
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin TraPin[
-    3](i(im(each start=0)))
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[4,Nodes]
+    node annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin TraPin[3](
+      i(im(each start=0)))
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin TraGnd
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin TraGnd
     annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
 
   IDEAS.Experimental.Electric.Distribution.AC.BaseClasses.Branch branch[3,Nodes](
@@ -18,34 +17,34 @@ model Grid_3P "Three-fase grid cable-structure"
   IDEAS.Experimental.Electric.Distribution.AC.BaseClasses.Branch neutral[Nodes](R=
         Modelica.ComplexMath.real(Z), X=Modelica.ComplexMath.imag(Z)) annotation (Placement(transformation(extent={{0,-50},
             {20,-30}})));
-  Modelica.SIunits.ActivePower PGriTot;
-  Modelica.SIunits.ComplexPower SGriTot;
-  Modelica.SIunits.ReactivePower QGriTot;
-  Modelica.SIunits.ActivePower PGriTotPha[3];
-  Modelica.SIunits.ComplexPower SGriTotPha[3];
-  Modelica.SIunits.ReactivePower QGriTotPha[3];
+  Modelica.Units.SI.ActivePower PGriTot;
+  Modelica.Units.SI.ComplexPower SGriTot;
+  Modelica.Units.SI.ReactivePower QGriTot;
+  Modelica.Units.SI.ActivePower PGriTotPha[3];
+  Modelica.Units.SI.ComplexPower SGriTotPha[3];
+  Modelica.Units.SI.ReactivePower QGriTotPha[3];
 
   //parameter Boolean Loss = true
   //"if true, PLosBra and PGriLosTot gives branch and Grid losses";
-  output Modelica.SIunits.ActivePower PLosBra[3, Nodes];
-  output Modelica.SIunits.ActivePower PLosNeu[Nodes];
-  output Modelica.SIunits.ActivePower PGriLosPha[3];
-  output Modelica.SIunits.ActivePower PGriLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosPhaTot;
-  output Modelica.SIunits.ActivePower PGriLosTot;
+  output Modelica.Units.SI.ActivePower PLosBra[3,Nodes];
+  output Modelica.Units.SI.ActivePower PLosNeu[Nodes];
+  output Modelica.Units.SI.ActivePower PGriLosPha[3];
+  output Modelica.Units.SI.ActivePower PGriLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosPhaTot;
+  output Modelica.Units.SI.ActivePower PGriLosTot;
 
 protected
   parameter Integer Nodes=grid.nNodes;
   parameter Integer nodeMatrix[Nodes, Nodes]=grid.nodeMatrix;
-  parameter Modelica.SIunits.ComplexImpedance[Nodes] Z=grid.Z;
-  parameter Modelica.SIunits.Resistance[3, Nodes] R3={Modelica.ComplexMath.real(
+  parameter Modelica.Units.SI.ComplexImpedance[Nodes] Z=grid.Z;
+  parameter Modelica.Units.SI.Resistance[3,Nodes] R3={Modelica.ComplexMath.real(
       Z) for i in 1:3};
-  parameter Modelica.SIunits.Reactance[3, Nodes] X3={Modelica.ComplexMath.imag(
+  parameter Modelica.Units.SI.Reactance[3,Nodes] X3={Modelica.ComplexMath.imag(
       Z) for i in 1:3};
   //  parameter SI.ComplexVoltage[3] Vsource3={Vsource*(cos(c.pi*2*i/3)+MCM.j*sin(c.pi*2*i/6)) for i in 1:3};
 
   //Absolute voltages at the nodes
-  output Modelica.SIunits.Voltage Vabs[3, Nodes];
+  output Modelica.Units.SI.Voltage Vabs[3,Nodes];
 equation
   /***Connecting all neutral connectors (=4th row of nodes)***/
   connect(TraGnd, neutral[1].pin_p) annotation (Line(points={{-100,-60},{-56,
@@ -87,7 +86,7 @@ equation
   /*** Calculating the absolute node voltages ***/
   for z in 1:3 loop
     for x in 1:Nodes loop
-      Vabs[z, x] = Modelica.ComplexMath.'abs'(node[z, x].v - node[4, x].v);
+      Vabs[z, x] =Modelica.ComplexMath.abs(node[z, x].v - node[4, x].v);
     end for;
   end for;
 
@@ -106,13 +105,13 @@ equation
   //if Loss then
   for z in 1:3 loop
     for x in 1:Nodes loop
-      PLosBra[z, x] = branch[z, x].R*(Modelica.ComplexMath.'abs'(branch[z, x].i))
-        ^2;
+      PLosBra[z, x] =branch[z, x].R*(Modelica.ComplexMath.abs(branch[z, x].i))^
+        2;
     end for;
     PGriLosPha[z] = ones(Nodes)*PLosBra[z, :];
   end for;
   for x in 1:Nodes loop
-    PLosNeu[x] = neutral[x].R*(Modelica.ComplexMath.'abs'(neutral[x].i))^2;
+    PLosNeu[x] =neutral[x].R*(Modelica.ComplexMath.abs(neutral[x].i))^2;
   end for;
   PGriLosNeu = ones(Nodes)*PLosNeu;
   PGriLosPhaTot = ones(3)*PGriLosPha;

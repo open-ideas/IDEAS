@@ -13,9 +13,9 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-  parameter Modelica.SIunits.Temperature T_fixed=294.15
+  parameter Modelica.Units.SI.Temperature T_fixed=294.15
     "Fixed boundary temperature"
-    annotation(Dialog(group="Boundary conditions",enable=use_T_fixed));
+    annotation (Dialog(group="Boundary conditions", enable=use_T_fixed));
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
@@ -32,7 +32,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
         transformation(extent={{-120,-30},{-100,-10}}),
                                                     iconTransformation(extent={{-120,
             -30},{-100,-10}})));
-  Modelica.Blocks.Math.Product proPreT if  use_T_in or use_T_fixed "Product for linearisation"
+  Modelica.Blocks.Math.Product proPreT  if use_T_in or use_T_fixed "Product for linearisation"
     annotation (Placement(transformation(extent={{-86,26},{-74,14}})));
   Modelica.Blocks.Math.Product proPreQ if use_Q_in "Product for linearisation"
     annotation (Placement(transformation(extent={{-86,-14},{-74,-26}})));
@@ -43,23 +43,23 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   Fluid.Sources.MassFlowSource_T       boundary1(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=1e-10) if
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    final m_flow=1e-10)
+    if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
   Fluid.Sources.MassFlowSource_T       boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0) if
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    final m_flow=0)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preFlo(final alpha=0) if
-                       use_Q_in "Prescribed heat flow rate"
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preFlo(final alpha=0)
+                    if use_Q_in "Prescribed heat flow rate"
     annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem if
-                             use_T_in or use_T_fixed "Prescribed temperature"
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem
+                          if use_T_in or use_T_fixed "Prescribed temperature"
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
   IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(final numSolBus=sim.numIncAndAziInBus,
       outputAngles=sim.outputAngles)                  "Weather bus"

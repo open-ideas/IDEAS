@@ -1,7 +1,6 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector WindowBus
   "Bus containing inputs/outputs for linear window model"
-  extends Modelica.Icons.SignalBus;
   parameter Integer nLay = 3 "Number of window layers";
 
   RealConnector[nLay] AbsQFlow(start=fill(100,nLay)) annotation ();
@@ -23,5 +22,30 @@ First implementation
 <p>
 Specialized connector
 </p>
-</html>"));
+</html>"), Icon(graphics={
+          Rectangle(
+            lineColor={255,204,51},
+            lineThickness=0.5,
+            extent={{-20,-2},{20,2}}),
+          Polygon(
+            fillColor={255,215,136},
+            fillPattern=FillPattern.Solid,
+            points={{-80,50},{80,50},{100,30},{80,-40},{60,-50},{-60,-50},{-80,
+              -40},{-100,30}},
+            smooth=Smooth.Bezier),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-65,15},{-55,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-5,15},{5,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{55,15},{65,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-35,-25},{-25,-15}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{25,-25},{35,-15}})}));
 end WindowBus;

@@ -5,7 +5,7 @@ partial model PartialOpaqueSurface
   replaceable parameter IDEAS.Buildings.Data.Interfaces.Construction constructionType
     constrainedby IDEAS.Buildings.Data.Interfaces.Construction
     "Building component material structure" annotation (
-    __Dymola_choicesAllMatching=true,
+    choicesAllMatching=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(group="Construction details"));
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
