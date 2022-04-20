@@ -2,8 +2,8 @@ within IDEAS.BoundaryConditions.Occupants.Standards;
 model None "No occupants, constant set point temperature."
   extends IDEAS.Templates.Interfaces.BaseClasses.Occupant(
                                                 final nLoads=0, nZones=1);
-  parameter Modelica.SIunits.Temperature TSet_val[nZones] = fill(273.15 + 17, nZones)
-    "Set point temperature";
+  parameter Modelica.Units.SI.Temperature TSet_val[nZones]=fill(273.15 + 17,
+      nZones) "Set point temperature";
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[nZones](
      each Q_flow=0)
     annotation (Placement(transformation(extent={{-54,-30},{-74,-10}})));

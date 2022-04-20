@@ -7,8 +7,8 @@ model PVSystemGeneral "PV system with separate shut-down controller"
 
   parameter Integer prod=1;
 
-  parameter Modelica.SIunits.Time timeOff=300;
-  parameter Modelica.SIunits.Voltage VMax=253
+  parameter Modelica.Units.SI.Time timeOff=300;
+  parameter Modelica.Units.SI.Voltage VMax=253
     "Max grid voltage for operation of the PV system";
 
   parameter Integer numPha=1;
@@ -19,9 +19,8 @@ model PVSystemGeneral "PV system with separate shut-down controller"
       Data.PvPanels.SanyoHIP230HDE1() "Choose a Photovoltaic panel to be used"
     annotation (choicesAllMatching=true);
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin pin[
-    numPha] annotation (Placement(transformation(extent={{92,30},{112,50}},
-          rotation=0)));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin pin[numPha]
+    annotation (Placement(transformation(extent={{92,30},{112,50}}, rotation=0)));
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})));

@@ -3,9 +3,9 @@ model ZoneExample
   "Example model demonstrating how zones may be connected to surfaces"
   package Medium = IDEAS.Media.Air;
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Length l = 4 "Room length";
-  parameter Modelica.SIunits.Length w = 4 "Room width";
-  parameter Modelica.SIunits.Length h = 2.7 "Room height";
+  parameter Modelica.Units.SI.Length l=4 "Room length";
+  parameter Modelica.Units.SI.Length w=4 "Room width";
+  parameter Modelica.Units.SI.Length h=2.7 "Room height";
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
                                               "Data reader"
     annotation (Placement(transformation(extent={{-96,76},{-76,96}})));

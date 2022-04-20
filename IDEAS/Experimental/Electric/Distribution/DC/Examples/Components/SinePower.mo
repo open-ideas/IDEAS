@@ -20,7 +20,7 @@ protected
   Modelica.Blocks.Sources.Sine sine(
     amplitude=amplitude,
     offset=offset,
-    freqHz=freq,
+    f=freq,
     phase=1.5707963267949)
     annotation (Placement(transformation(extent={{-72,76},{-52,96}})));
   parameter Real freq=1/(86400*period);

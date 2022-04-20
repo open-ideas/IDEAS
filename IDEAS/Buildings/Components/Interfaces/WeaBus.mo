@@ -1,6 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector WeaBus "Data bus that stores weather data"
-  extends Modelica.Icons.SignalBus;
   parameter Integer numSolBus;
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
 
@@ -48,7 +47,32 @@ connector WeaBus "Data bus that stores weather data"
             100}}), graphics={Rectangle(
           extent={{-20,2},{22,-2}},
           lineColor={255,204,51},
-          lineThickness=0.5)}),
+          lineThickness=0.5),
+          Rectangle(
+            lineColor={255,204,51},
+            lineThickness=0.5,
+            extent={{-20,-2},{20,2}}),
+          Polygon(
+            fillColor={255,215,136},
+            fillPattern=FillPattern.Solid,
+            points={{-80,50},{80,50},{100,30},{80,-40},{60,-50},{-60,-50},{-80,-40},
+              {-100,30}},
+            smooth=Smooth.Bezier),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-65,15},{-55,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-5,15},{5,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{55,15},{65,25}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{-35,-25},{-25,-15}}),
+          Ellipse(
+            fillPattern=FillPattern.Solid,
+            extent={{25,-25},{35,-15}})}),
     Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
             100}})),
     Documentation(info="<html>

@@ -13,7 +13,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   replaceable package MediumAir =
       IDEAS.Media.Air
       "Air medium model" annotation (
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   replaceable parameter IDEAS.Airflow.AHU.BaseClasses.Adsolair14200 per
     constrainedby IDEAS.Airflow.AHU.BaseClasses.AdsolairData
@@ -29,15 +29,15 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   final parameter Boolean allowFlowReversal=false
     "Flow reversal is not supported"
     annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_small=m1_flow_nominal/50
+  parameter Modelica.Units.SI.MassFlowRate m_flow_small=m1_flow_nominal/50
     "Small mass flow rate for regularization of zero flow"
-    annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.Time tau=60
+    annotation (Dialog(tab="Advanced"));
+  parameter Modelica.Units.SI.Time tau=60
     "Thermal time constant of evaporator, condensor and heat recovery unit at nominal flow rate"
-    annotation(Dialog(group="Advanced"));
-  parameter Modelica.SIunits.Pressure dp_fouling_top=0
+    annotation (Dialog(group="Advanced"));
+  parameter Modelica.Units.SI.Pressure dp_fouling_top=0
     "Nominal pressure drop in top channel due to filter fouling";
-  parameter Modelica.SIunits.Pressure dp_fouling_bot=0
+  parameter Modelica.Units.SI.Pressure dp_fouling_bot=0
     "Nominal pressure drop in bottom channel due to filter fouling";
   parameter Real alpha = 0.5
     "Pressure recovery factor for fixed pressure drop in bottom bypass channel"
@@ -47,7 +47,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     annotation(Dialog(group="Advanced"));
 
   //EQUATIONS
-  Modelica.SIunits.Energy E=IEH.E + eva.U + con.U;
+  Modelica.Units.SI.Energy E=IEH.E + eva.U + con.U;
   Real BPF=min(1, max(0, IDEAS.Utilities.Math.Functions.spliceFunction(
       x=abs(IEH.TOutBot - eva.heatPort.T) - 0.2,
       pos=(eva.heatPort.T - com.Teva)*
@@ -62,7 +62,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     "Water fraction at saturation in evaporator at refrigerant temperature";
   Real x_out=BPF*IEH.port_b2.Xi_outflow[1] + (1 - BPF)*min(X_sat_evap, IEH.port_b2.Xi_outflow[
       1]) "Outlet water mass fraction based on BPF";
-  Modelica.SIunits.MassFlowRate m_condens=IEH.port_a2.m_flow*(IEH.port_b2.Xi_outflow[
+  Modelica.Units.SI.MassFlowRate m_condens=IEH.port_a2.m_flow*(IEH.port_b2.Xi_outflow[
       1] - x_out) "Water condensation mass flow rate in the evaporator.";
 
   // PORTS
@@ -96,7 +96,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     constrainedby IDEAS.Airflow.AHU.BaseClasses.AdsolairControllerInterface
     "Adsolair controller model"
     annotation (Dialog(group="Advanced"),Placement(transformation(extent={{-44,56},{-24,76}})));
-  replaceable IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger hexSupOut(
+  replaceable DummyExchanger hexSupOut(
     m1_flow_nominal=m2_flow_nominal,
     m2_flow_nominal=1,
     dp1_nominal=0,
@@ -104,9 +104,8 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     redeclare package Medium2 = MediumAir,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dp2_nominal=1,
-    vol2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-        massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
-    constrainedby IDEAS.Fluid.Interfaces.PartialFourPortInterface
+    vol2(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
+    constrainedby IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger
     "Replaceable model for adding heat exchanger at supply outlet"
     annotation (Dialog(group="Advanced"),Placement(transformation(extent={{-72,-36},{-92,-16}})));
   replaceable IDEAS.Airflow.AHU.BaseClasses.SimpleCompressorTable com(
@@ -141,11 +140,11 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     m_flow_small=m_flow_small,
     redeclare package Medium1 = MediumAir,
     redeclare package Medium2 = MediumAir,
+    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m1_flow_nominal=m1_flow_nominal,
     m2_flow_nominal=m2_flow_nominal,
     eps_adia_on=per.eps_adia_on,
     eps_adia_off=per.eps_adia_off,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     tau=tau,
     UA_adia_on=per.UA_adia_on,
     UA_adia_off=per.UA_adia_off,
@@ -195,7 +194,6 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     riseTime=600,
     use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m1_flow_nominal,
     prescribeSystemPressure=true)   "Top fan"
     annotation (Placement(transformation(extent={{-50,10},{-30,30}})));
@@ -240,7 +238,6 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     riseTime=600,
     use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m2_flow_nominal,
     prescribeSystemPressure=true)   "Bottom fan"
     annotation (Placement(transformation(extent={{-30,-30},{-50,-10}})));
@@ -368,8 +365,8 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     annotation (Placement(transformation(extent={{40,86},{60,106}})));
 
 protected
-  final parameter Modelica.SIunits.Density rho_default=MediumAir.density(
-     MediumAir.setState_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=MediumAir.density(
+      MediumAir.setState_pTX(
       T=MediumAir.T_default,
       p=MediumAir.p_default,
       X=MediumAir.X_default[1:MediumAir.nXi]))
@@ -388,18 +385,31 @@ protected
         origin={-70,10})));
   Modelica.Blocks.Interfaces.BooleanInput on_internal
     "Needed to connect to conditional connector";
+    model DummyExchanger
+      "Heat exchanger that sets absolute pressure for unconnected ports"
+      extends IDEAS.Fluid.Interfaces.FourPortHeatMassExchanger;
+      Fluid.Sources.Boundary_pT bou(redeclare package Medium = Medium2, nPorts=1)
+        "Sets absolute pressure for unconnected ports" annotation (Placement(
+            transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=270,
+            origin={-90,-10})));
+    equation
+      connect(bou.ports[1], port_b2) annotation (Line(points={{-90,-20},{-74,-20},{-74,
+              -60},{-100,-60}}, color={0,127,255}));
+    end DummyExchanger;
 
 model TwoWayEqualPercentageAdd
     "Damper with possibility for adding fixed pressure drop using boolean input"
   extends IDEAS.Fluid.Actuators.BaseClasses.PartialTwoWayValveKv(
     dpValve_nominal= k1^2*m_flow_nominal^2/2/Medium.density(sta_default)/A^2,
     phi=sqrt(1/(1/((l+(1-l)*(c*{y_actual^3, y_actual^2, y_actual}))^2) + (if addPreDro then 1/yAdd^2 else 0))));
-  parameter Modelica.SIunits.Pressure dpAdd
+    parameter Modelica.Units.SI.Pressure dpAdd
       "Additional pressure drop when addPreDro is true";
   parameter Real k1(min=0)= 0.45
       "Flow coefficient for y=1, k1 = pressure drop divided by dynamic pressure"
   annotation(Dialog(tab="Damper coefficients"));
-  parameter Modelica.SIunits.Area A "Damper face area";
+    parameter Modelica.Units.SI.Area A "Damper face area";
   Modelica.Blocks.Interfaces.BooleanInput addPreDro
       "Add additional pressure drop"
                                    annotation (Placement(transformation(
@@ -455,7 +465,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(fanTop.P, sum.u[2]) annotation (Line(
-      points={{-29,29},{-58,29},{-58,76},{76.4,76},{76.4,89.36}},
+      points={{-29,29},{-58,29},{-58,76},{76.4,76},{76.4,89.68}},
       color={0,0,127},
       smooth=Smooth.None,
       visible=false));
@@ -465,7 +475,7 @@ equation
       smooth=Smooth.None,
       visible=false));
   connect(com.P, sum.u[4]) annotation (Line(
-      points={{40,51.8},{26,51.8},{26,90.64},{76.4,90.64}},
+      points={{40,51.8},{26,51.8},{26,90.32},{76.4,90.32}},
       color={0,0,127},
       visible=false));
   connect(fanTop.port_b, resTop.port_a) annotation (Line(
@@ -494,22 +504,22 @@ equation
       smooth=Smooth.None,
       visible=false));
   connect(IEH.port_b1, con.ports[1]) annotation (Line(points={{64,7.2},{62,7.2},
-          {62,8},{72,8},{72,36.4}}, color={0,127,255}));
+          {62,8},{72,8},{72,35.7}}, color={0,127,255}));
   connect(con.ports[2], valRecupTop.port_a)
-    annotation (Line(points={{72,33.6},{72,44},{78,44}}, color={0,127,255}));
+    annotation (Line(points={{72,34.3},{72,44},{78,44}}, color={0,127,255}));
   connect(valBypassTop.port_a, resTop.port_b) annotation (Line(points={{78,66},{
           0,66},{0,20}},          color={0,127,255}));
   connect(IEH.port_a1, resTop.port_b)
     annotation (Line(points={{10,7.2},{0,7.2},{0,20}}, color={0,127,255}));
   connect(IEH.port_b2, eva.ports[1]) annotation (Line(points={{10,-25.2},{10,-44},
-          {11.6,-44}}, color={0,127,255}));
+          {10.8,-44}}, color={0,127,255}));
   connect(valRecupBot.port_b, IEH.port_a2) annotation (Line(points={{72,-26},{67,
           -26},{67,-25.2},{64,-25.2}}, color={0,127,255}));
   connect(valBypassBottom.port_b, TSupIn.port_a)
     annotation (Line(points={{72,-68},{64,-68},{34,-68}}, color={0,127,255}));
   connect(TSupIn.port_b, resBot.port_a) annotation (Line(points={{22,-68},{0,-68},
           {0,-20}},   color={0,127,255}));
-  connect(eva.ports[2], resBot.port_a) annotation (Line(points={{8.4,-44},{0,-44},
+  connect(eva.ports[2], resBot.port_a) annotation (Line(points={{9.2,-44},{0,-44},
           {0,-20}},        color={0,127,255}));
   connect(theConEva.port_a, fixedTemperature.port)
     annotation (Line(points={{-76,0},{-100,0},{-100,6}}, color={191,0,0}));
@@ -523,7 +533,7 @@ equation
       points={{-64,10},{-24,10},{-24,12},{56,12},{56,42}},
       color={191,0,0},
       visible=false));
-  connect(PPum.y, sum.u[5]) annotation (Line(points={{61,88},{76.4,88},{76.4,91.28}},
+  connect(PPum.y, sum.u[5]) annotation (Line(points={{61,88},{76.4,88},{76.4,90.64}},
         color={0,0,127}));
   connect(booleanConstant.y, valBypassTop.addPreDro) annotation (Line(points={{60.5,75},
           {68,75},{68,74.48},{82.8,74.48}},        color={255,0,255}));
@@ -532,8 +542,8 @@ equation
           255,0,255}));
   connect(valBypassBottom.addPreDro, valRecupBot.addPreDro) annotation (Line(
         points={{83.2,-59.52},{83.2,-37.76},{83.2,-17.52}}, color={255,0,255}));
-  connect(PUnit.y, sum.u[1]) annotation (Line(points={{61,96},{62,96},{62,88.72},
-          {76.4,88.72}}, color={0,0,127}));
+  connect(PUnit.y, sum.u[1]) annotation (Line(points={{61,96},{62,96},{62,89.36},
+          {76.4,89.36}}, color={0,0,127}));
   connect(com.port_a, eva.heatPort)
     annotation (Line(points={{22,42},{18,42},{18,-52}}, color={191,0,0}));
   connect(IEH.TOutBot, com.TinEva) annotation (Line(points={{66.16,-32.76},{34,-32.76},
@@ -677,6 +687,10 @@ equation
     __Dymola_experimentSetupOutput(events=false),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 11, 2022, by Filip Jorissen:<br/>
+Added dummy heat exchanger implementation for avoiding singularity after MSL4 update.
+</li>
 <li>
 January 26, 2018, by Filip Jorissen:<br/>
 Improved adsolair controller performance.

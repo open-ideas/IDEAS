@@ -6,7 +6,7 @@ partial record PartialLighting
   parameter Real radFra(min=0,max=1)
     "Radiant fraction of lighting heat exchange";
 
-  parameter Modelica.SIunits.LuminousEfficacy K
+  parameter Modelica.Units.SI.LuminousEfficacy K
     "Luminous efficacy, specifies the lm/W (lumen per watt) of the installed lighting";
 
 protected

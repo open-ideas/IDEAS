@@ -1,9 +1,9 @@
 within IDEAS.BoundaryConditions.Climate.Time.BaseClasses;
 block TimeZone
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Time timZonSta "standard time zone";
+  parameter Modelica.Units.SI.Time timZonSta "standard time zone";
   parameter Boolean DST=true;
   parameter Integer yr "depcited year";
 
@@ -12,9 +12,9 @@ block TimeZone
   Modelica.Blocks.Interfaces.RealOutput timZon "calendar time"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  parameter Modelica.SIunits.Time DSTstart=86400*(31 + 28 + 31 - rem(5*yr/4 + 4,
-      7)) + 2*3600;
-  parameter Modelica.SIunits.Time DSTend=86400*(31 + 28 + 31 + 30 + 31 + 30 +
+  parameter Modelica.Units.SI.Time DSTstart=86400*(31 + 28 + 31 - rem(5*yr/4 +
+      4, 7)) + 2*3600;
+  parameter Modelica.Units.SI.Time DSTend=86400*(31 + 28 + 31 + 30 + 31 + 30 +
       31 + 31 + 30 + 31 - rem(5*yr/4 + 1, 7)) + 2*3600;
   // Source : http://www.webexhibits.org/daylightsaving/i.html
 

@@ -41,24 +41,30 @@ public
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  final parameter Modelica.SIunits.Power QInf_design=1012*1.204*V/3600*n50_int/n50toAch*(273.15
-       + 21 - sim.Tdes)
+  final parameter Modelica.Units.SI.Power QInf_design=1012*1.204*V/3600*n50_int
+      /n50toAch*(273.15 + 21 - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
-  final parameter Modelica.SIunits.Power QRH_design=A*fRH
+  final parameter Modelica.Units.SI.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";
-  final parameter Modelica.SIunits.Power Q_design(fixed=false)
+  final parameter Modelica.Units.SI.Power Q_design(fixed=false)
     "Total design heat losses for the zone";
   parameter Medium.Temperature T_start=Medium.T_default
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
   parameter Real fRH=11
     "Reheat factor for calculation of design heat load, (EN 12831, table D.10 Annex D)" annotation(Dialog(tab="Advanced",group="Design heat load"));
-  parameter Modelica.SIunits.Temperature Tzone_nom=295.15
+  parameter Modelica.Units.SI.Temperature Tzone_nom=295.15
     "Nominal zone temperature, used for linearising radiative heat exchange"
-    annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
-  parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
+    annotation (Dialog(
+      tab="Advanced",
+      group="Radiative heat exchange",
+      enable=linIntRad));
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom=-2
     "Nominal temperature difference between zone walls, used for linearising radiative heat exchange"
-    annotation(Dialog(tab="Advanced", group="Radiative heat exchange", enable=linIntRad));
+    annotation (Dialog(
+      tab="Advanced",
+      group="Radiative heat exchange",
+      enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
@@ -160,11 +166,11 @@ public
     Dialog(tab="Advanced", group="Lighting"),
     Placement(transformation(extent={{40,52},{20,72}})));
 
-  Modelica.SIunits.Power QTra_design=sum(propsBusInt.QTra_design)
+  Modelica.Units.SI.Power QTra_design=sum(propsBusInt.QTra_design)
     "Total design transmission heat losses for the zone";
   Modelica.Blocks.Interfaces.RealOutput TAir(unit="K") = airModel.TAir;
   Modelica.Blocks.Interfaces.RealOutput TRad(unit="K") = radDistr.TRad;
-  Modelica.SIunits.Energy E = airModel.E;
+  Modelica.Units.SI.Energy E=airModel.E;
 
   replaceable IDEAS.Buildings.Components.LightingControl.Fixed ligCtr
     constrainedby
@@ -204,7 +210,7 @@ protected
     radDistrLw(nSurf=nSurf, final linearise=linIntRad or sim.linearise,
     Tzone_nom=Tzone_nom,
     dT_nom=dT_nom,
-    final simVieFac=simVieFac) if                not calculateViewFactor
+    final simVieFac=simVieFac)                if not calculateViewFactor
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
@@ -219,7 +225,7 @@ protected
       final hZone=hZone,
     linearise=linIntRad or sim.linearise,
     Tzone_nom=Tzone_nom,
-    dT_nom=dT_nom) if       calculateViewFactor annotation (Placement(
+    dT_nom=dT_nom)       if calculateViewFactor annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
@@ -240,8 +246,7 @@ model Setq50 "q50 computation for zones"
     "Number of surfaces";
   parameter Real n50
     "n50 value";
-  parameter Modelica.SIunits.Volume V
-    "Zone volume";
+    parameter Modelica.Units.SI.Volume V "Zone volume";
   parameter Real q50_corr;
   parameter Boolean use_custom_n50 = false
     " = true, to set custom n50 value for this zone";
@@ -249,9 +254,9 @@ model Setq50 "q50 computation for zones"
   parameter Boolean allSurfacesCustom(fixed=false)
     "Boolean indicating whether all connected surfaces are custom"
     annotation(Evaluate=true);
-  final parameter Modelica.SIunits.Area defaultArea[nSurf](each fixed=false)
-    "The surface area for which default q50 is computed";
-  parameter Real v50_custom[nSurf](fixed=false)
+    final parameter Modelica.Units.SI.Area defaultArea[nSurf](each fixed=false)
+      "The surface area for which default q50 is computed";
+  parameter Real v50_custom[nSurf](each fixed=false)
     "custom assigned v50 value, else zero";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]

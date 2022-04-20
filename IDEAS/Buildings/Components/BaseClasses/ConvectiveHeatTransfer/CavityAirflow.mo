@@ -4,23 +4,23 @@ model CavityAirflow "Model for air flow through a cavity"
     "=true, to linearise the relation between heat flow rate and temperature difference";
 
   parameter Real CD=0.65 "Discharge coefficient";
-  parameter Modelica.SIunits.Length h = 2
+  parameter Modelica.Units.SI.Length h=2
     "Height of (rectangular) cavity in wall";
-  parameter Modelica.SIunits.Length w = 1
+  parameter Modelica.Units.SI.Length w=1
     "Width of (rectangular) cavity in wall";
-  parameter Modelica.SIunits.Acceleration g = Modelica.Constants.g_n
+  parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n
     "Gravity, for computation of buoyancy";
-  parameter Modelica.SIunits.Pressure p = 101300
+  parameter Modelica.Units.SI.Pressure p=101300
     "Absolute pressure for computation of buoyancy";
-  parameter Modelica.SIunits.Density rho = p/r/T
+  parameter Modelica.Units.SI.Density rho=p/r/T
     "Nominal density for computation of buoyancy mass flow rate";
-  parameter Modelica.SIunits.SpecificHeatCapacity c_p = 1013
-   "Nominal heat capacity for computation of buoyancy heat flow rate";
-  parameter Modelica.SIunits.Temperature T = 293
-   "Nominal temperature for linearising heat flow rate";
-  parameter Modelica.SIunits.TemperatureDifference dT = 1
-   "Nominal temperature difference when linearising heat flow rate"
-   annotation(Dialog(enable=linearise));
+  parameter Modelica.Units.SI.SpecificHeatCapacity c_p=1013
+    "Nominal heat capacity for computation of buoyancy heat flow rate";
+  parameter Modelica.Units.SI.Temperature T=293
+    "Nominal temperature for linearising heat flow rate";
+  parameter Modelica.Units.SI.TemperatureDifference dT=1
+    "Nominal temperature difference when linearising heat flow rate"
+    annotation (Dialog(enable=linearise));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Port for connections between layers"
@@ -40,11 +40,8 @@ protected
   // G = dotm * c_p
   final parameter Real coeff1 = CD*c_p*rho*w*h/2*sqrt(0.5*g*h) "Bernoulli-based thermal conductance";
   final parameter Real coeff2 = sqrt(abs(1-T/(T+dT)));
-  Modelica.SIunits.ThermalConductance G=
-    coeff1*(if linearise
-           then coeff2
- else
-    sqrt(abs(1-port_a.T/port_b.T)));
+  Modelica.Units.SI.ThermalConductance G=coeff1*(if linearise then coeff2 else
+      sqrt(abs(1 - port_a.T/port_b.T)));
     // We don't need a regularisation for the square root since this
     // equation should not end up in an algebraic loop
     // when used correctly in IDEAS.

@@ -12,7 +12,6 @@ model EmbeddedPipeDp "Testing pressure drop of embeddedpipe"
     dp_nominal = 0,
     m_flow(start=12*24/3600),
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=303.15)
     annotation (Placement(transformation(extent={{-36,-14},{-16,6}})));
   Modelica.Blocks.Sources.Pulse pulse(
@@ -57,7 +56,7 @@ model EmbeddedPipeDp "Testing pressure drop of embeddedpipe"
 equation
 
   connect(bou.ports[1], pump.port_a) annotation (Line(
-      points={{100,-58},{100,-76},{-52,-76},{-52,-4},{-36,-4}},
+      points={{100,-61},{100,-76},{-52,-76},{-52,-4},{-36,-4}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pulse.y, firstOrder1.u) annotation (Line(
@@ -69,7 +68,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou.ports[2], embeddedPipe.port_b) annotation (Line(
-      points={{100,-62},{100,-6},{84,-6}},
+      points={{100,-59},{100,-6},{84,-6}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(firstOrder1.y, pump.m_flow_in)

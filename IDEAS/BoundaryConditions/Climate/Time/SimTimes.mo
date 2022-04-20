@@ -1,13 +1,13 @@
 within IDEAS.BoundaryConditions.Climate.Time;
 block SimTimes
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Angle lon(displayUnit="deg") = 4.317 "longitude";
-  parameter Modelica.SIunits.Time timZonSta=3600 "standard time zone";
+  parameter Modelica.Units.SI.Angle lon(displayUnit="deg") = 4.317 "longitude";
+  parameter Modelica.Units.SI.Time timZonSta=3600 "standard time zone";
   parameter Boolean DST=false "take into account daylight saving time";
   parameter Integer yr=2010 "depcited year for DST only";
-  parameter Modelica.SIunits.Time delay=0
+  parameter Modelica.Units.SI.Time delay=0
     "Delay [s] for simulations not starting on the first of january";
 
   Modelica.Blocks.Interfaces.RealOutput timSol "solar time"

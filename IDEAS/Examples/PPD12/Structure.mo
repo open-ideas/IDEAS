@@ -9,34 +9,40 @@ model Structure "Ppd 12 example model"
   replaceable package MediumWater = IDEAS.Media.Water;
 
   // GEOMETRY
-  parameter Modelica.SIunits.Length hFloor0=2.9 "Height of ground floor";
-  parameter Modelica.SIunits.Length hFloor1=2.7 "Height of first floor";
-  parameter Modelica.SIunits.Length hFloor2=2.5 "Height of second floor";
-  parameter Modelica.SIunits.Length lHallway=8 "Length of hallway";
-  parameter Modelica.SIunits.Length wHallwayAvg=(wHallway1+wHallway2)/2 "Hallway width";
-  parameter Modelica.SIunits.Length wHallway1=1.1 "Hallway width";
-  parameter Modelica.SIunits.Length wHallway2=1.4 "Hallway width";
-  parameter Modelica.SIunits.Length wZon=(wZonStr+wBathroom)/2 "Avg living width";
-  parameter Modelica.SIunits.Length wZonStr=3.2 "Living width at street";
-  parameter Modelica.SIunits.Length wBuilding = 4.6;
-  parameter Modelica.SIunits.Length wBathroom = 2.85;
-  parameter Modelica.SIunits.Length lDiner = 3;
-  parameter Modelica.SIunits.Length wBedroom = 4.4;
-  parameter Modelica.SIunits.Length wDiner = 4.5;
-  parameter Modelica.SIunits.Length lPorch = 2;
-  parameter Modelica.SIunits.Length wPorch = wBuilding-wKitchen;
-  parameter Modelica.SIunits.Length wKitchen = 1.4;
-  parameter Modelica.SIunits.Length lHalfBuilding = 3.75;
-  parameter Modelica.SIunits.Length lBuilding = 8;
+  parameter Modelica.Units.SI.Length hFloor0=2.9 "Height of ground floor";
+  parameter Modelica.Units.SI.Length hFloor1=2.7 "Height of first floor";
+  parameter Modelica.Units.SI.Length hFloor2=2.5 "Height of second floor";
+  parameter Modelica.Units.SI.Length lHallway=8 "Length of hallway";
+  parameter Modelica.Units.SI.Length wHallwayAvg=(wHallway1 + wHallway2)/2
+    "Hallway width";
+  parameter Modelica.Units.SI.Length wHallway1=1.1 "Hallway width";
+  parameter Modelica.Units.SI.Length wHallway2=1.4 "Hallway width";
+  parameter Modelica.Units.SI.Length wZon=(wZonStr + wBathroom)/2
+    "Avg living width";
+  parameter Modelica.Units.SI.Length wZonStr=3.2 "Living width at street";
+  parameter Modelica.Units.SI.Length wBuilding=4.6;
+  parameter Modelica.Units.SI.Length wBathroom=2.85;
+  parameter Modelica.Units.SI.Length lDiner=3;
+  parameter Modelica.Units.SI.Length wBedroom=4.4;
+  parameter Modelica.Units.SI.Length wDiner=4.5;
+  parameter Modelica.Units.SI.Length lPorch=2;
+  parameter Modelica.Units.SI.Length wPorch=wBuilding - wKitchen;
+  parameter Modelica.Units.SI.Length wKitchen=1.4;
+  parameter Modelica.Units.SI.Length lHalfBuilding=3.75;
+  parameter Modelica.Units.SI.Length lBuilding=8;
 
-  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=23.6;
-  parameter Modelica.SIunits.Angle north = IDEAS.Types.Azimuth.N + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.NonSI.Angle_deg angDelta=23.6;
+  parameter Modelica.Units.SI.Angle north=IDEAS.Types.Azimuth.N +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle south = IDEAS.Types.Azimuth.S + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle south=IDEAS.Types.Azimuth.S +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle west = IDEAS.Types.Azimuth.W + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle west=IDEAS.Types.Azimuth.W +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle east = IDEAS.Types.Azimuth.E + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle east=IDEAS.Types.Azimuth.E +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
 
 

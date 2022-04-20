@@ -5,9 +5,9 @@ extends Modelica.Icons.MaterialProperty;
 parameter Integer nNodes( min=1);
 //parameter Integer nodeMatrix[size(nodeMatrix,1),:];
 parameter Integer nodeMatrix[nNodes,nNodes];
-parameter Modelica.SIunits.Resistance R[nNodes];
+  parameter Modelica.Units.SI.Resistance R[nNodes];
 
 protected
-parameter Modelica.SIunits.ComplexImpedance Z[nNodes](re=R,each im=0);
+  parameter Modelica.Units.SI.ComplexImpedance Z[nNodes](re=R, each im=0);
 
 end GridImp;

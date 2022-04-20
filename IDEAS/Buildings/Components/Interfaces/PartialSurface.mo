@@ -7,34 +7,33 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
-  parameter Modelica.SIunits.Angle inc = sim.incOpts[incOpt]
+  parameter Modelica.Units.SI.Angle inc=sim.incOpts[incOpt]
     "Custom inclination (tilt) angle of the wall, default wall"
-    annotation(Dialog(enable=incOpt==4));
+    annotation (Dialog(enable=incOpt == 4));
   parameter Integer aziOpt = 5
     "Azimuth angle option from simInfoManager, or custom using azi"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
-  parameter Modelica.SIunits.Angle azi=sim.aziOpts[aziOpt]
+  parameter Modelica.Units.SI.Angle azi=sim.aziOpts[aziOpt]
     "Custom azimuth angle of the wall, default south"
-    annotation(Dialog(enable=aziOpt==5));
-  parameter Modelica.SIunits.Area A
-    "Component surface area";
+    annotation (Dialog(enable=aziOpt == 5));
+  parameter Modelica.Units.SI.Area A "Component surface area";
   parameter Real nWin = 1
     "Use this factor to scale the component to nWin identical components"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Power QTra_design
+  parameter Modelica.Units.SI.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
-    annotation (Dialog(group="Design power",tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T_start=293.15
+    annotation (Dialog(group="Design power", tab="Advanced"));
+  parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
-    annotation(Dialog(tab="Dynamics", group="Initial condition"));
+    annotation (Dialog(tab="Dynamics", group="Initial condition"));
 
-  parameter Modelica.SIunits.Temperature TRef_a=291.15
+  parameter Modelica.Units.SI.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-    annotation (Dialog(group="Design power",tab="Advanced"));
+    annotation (Dialog(group="Design power", tab="Advanced"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_a=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
@@ -92,8 +91,8 @@ partial model PartialSurface "Partial model for building envelope component"
     m=0.65,
     A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then A/2 else A,
-    final q50=q50_internal) if
-                  add_cracks and
+    final q50=q50_internal)
+               if add_cracks and
        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
     annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
@@ -102,8 +101,8 @@ partial model PartialSurface "Partial model for building envelope component"
     final forceErrorControlOnFlow=false,
     m=0.65,
     A=A/2,
-    final q50=q50_internal) if
-                  add_cracks and
+    final q50=q50_internal)
+               if add_cracks and
        sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
@@ -120,16 +119,10 @@ partial model PartialSurface "Partial model for building envelope component"
 protected
   parameter Boolean add_cracks = true
     "Add cracks";
-  final parameter Modelica.SIunits.Angle aziInt=
-    if aziOpt==5
-    then azi
-    else sim.aziOpts[aziOpt]
-      "Azimuth angle";
-  final parameter Modelica.SIunits.Angle incInt=
-    if incOpt==4
-    then inc
-    else sim.incOpts[incOpt]
-      "Inclination angle";
+  final parameter Modelica.Units.SI.Angle aziInt=if aziOpt == 5 then azi else
+      sim.aziOpts[aziOpt] "Azimuth angle";
+  final parameter Modelica.Units.SI.Angle incInt=if incOpt == 4 then inc else
+      sim.incOpts[incOpt] "Inclination angle";
   Modelica.Blocks.Sources.RealExpression QDesign(y=QTra_design);
 
   Modelica.Blocks.Sources.RealExpression aziExp(y=aziInt)
@@ -169,18 +162,16 @@ protected
 
 model PowerLaw_q50
 
-    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
+    extends IDEAS.Airflow.Multizone.Coefficient_V_flow(
       m=0.5,
-      k=A*coeff); //mass flow form of orifice equation
+      C=A*coeff); //mass flow form of orifice equation
 
-  parameter Modelica.SIunits.Area A
-    "Surface area";
+    parameter Modelica.Units.SI.Area A "Surface area";
   parameter Real q50(unit="m3/(h.m2)")
     "Leaked volume flow rate per unit A at 50Pa";
   final parameter Real coeff = (q50/3600)/(50^m)
     "Conversion coefficient";
-equation
-  v= V_flow/A;
+
   annotation (Icon(graphics={
         Text(
           extent={{-100,100},{-40,60}},
@@ -344,9 +335,11 @@ equation
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+    Diagram(graphics,
+            coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
+    Icon(graphics,
+         coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
 <li>

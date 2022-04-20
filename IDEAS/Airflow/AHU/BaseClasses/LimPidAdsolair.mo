@@ -14,11 +14,11 @@ model LimPidAdsolair
     annotation(Evaluate=true);
   parameter Real k(min=0, unit="1") = 1 "Gain of controller"
     annotation(Dialog(enable=not useKIn));
-  parameter Modelica.SIunits.Time Ti(min=Modelica.Constants.small)=0.5
+  parameter Modelica.Units.SI.Time Ti(min=Modelica.Constants.small) = 0.5
     "Time constant of Integrator block" annotation (Dialog(enable=
           controllerType == Modelica.Blocks.Types.SimpleController.PI or
           controllerType == Modelica.Blocks.Types.SimpleController.PID));
-  parameter Modelica.SIunits.Time Td(min=0)=0.1
+  parameter Modelica.Units.SI.Time Td(min=0) = 0.1
     "Time constant of Derivative block" annotation (Dialog(enable=
           controllerType == Modelica.Blocks.Types.SimpleController.PD or
           controllerType == Modelica.Blocks.Types.SimpleController.PID));
@@ -36,10 +36,9 @@ model LimPidAdsolair
     "The higher Nd, the more ideal the derivative block"
        annotation(Dialog(enable=controllerType==.Modelica.Blocks.Types.SimpleController.PD or
                                 controllerType==.Modelica.Blocks.Types.SimpleController.PID));
-  parameter Modelica.Blocks.Types.InitPID initType= Modelica.Blocks.Types.InitPID.DoNotUse_InitialIntegratorState
+  parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.InitialState
     "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
-                                     annotation(Evaluate=true,
-      Dialog(group="Initialization"));
+    annotation (Evaluate=true, Dialog(group="Initialization"));
       // Removed as the Limiter block no longer uses this parameter.
       // parameter Boolean limitsAtInit = true
       //  "= false, if limits are ignored during initialization"
@@ -55,7 +54,7 @@ model LimPidAdsolair
                          enable=controllerType==.Modelica.Blocks.Types.SimpleController.PD or
                                 controllerType==.Modelica.Blocks.Types.SimpleController.PID));
   parameter Real y_start=0 "Initial value of output"
-    annotation(Dialog(enable=initType == Modelica.Blocks.Types.InitPID.InitialOutput, group=
+    annotation(Dialog(enable=initType == Modelica.Blocks.Types.Init.InitialOutput,    group=
           "Initialization"));
   parameter Boolean strict=true "= true, if strict limits with noEvent(..)"
     annotation (Evaluate=true, choices(checkBox=true), Dialog(tab="Advanced"));
@@ -88,8 +87,8 @@ model LimPidAdsolair
     y_start=y_start,
     reverseActing=true)
     annotation (Placement(transformation(extent={{20,20},{40,40}})));
-  Modelica.Blocks.Interfaces.BooleanInput revActIn if
-                                                    useRevActIn
+  Modelica.Blocks.Interfaces.BooleanInput revActIn
+                                                 if useRevActIn
     "Reverse action" annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,

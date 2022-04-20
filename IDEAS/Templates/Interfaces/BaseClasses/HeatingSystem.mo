@@ -8,8 +8,9 @@ partial model HeatingSystem "Partial heating/cooling system"
   //parameter Boolean isCoo=false "=true, if system is able to cool";
   parameter Boolean isDH=false "=true, if the system is connected to a DH grid";
   //parameter Boolean InInterface = false;
-  parameter Modelica.SIunits.Power[nZones] Q_design
-    "Total design heat load for heating system based on heat losses" annotation(Dialog(enable=InInterface));
+  parameter Modelica.Units.SI.Power[nZones] Q_design
+    "Total design heat load for heating system based on heat losses"
+    annotation (Dialog(enable=InInterface));
 
   // --- Ports
   parameter Integer nConvPorts(min=0) = nZones
@@ -28,15 +29,13 @@ partial model HeatingSystem "Partial heating/cooling system"
 
   // *********** Outputs ***********
   // --- Thermal
-  Modelica.SIunits.Power QHeaSys=
-    sum({max(0,-heatPortCon[i].Q_flow) for i in 1:nConvPorts})
-    +sum({max(0,-heatPortRad[i].Q_flow) for i in 1:nRadPorts})
-    +sum({max(0,-heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
+  Modelica.Units.SI.Power QHeaSys=sum({max(0, -heatPortCon[i].Q_flow) for i in
+      1:nConvPorts}) + sum({max(0, -heatPortRad[i].Q_flow) for i in 1:nRadPorts})
+       + sum({max(0, -heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
     "Total thermal power use for space heating";
-  Modelica.SIunits.Power QCooTotal=
-    sum({max(0,heatPortCon[i].Q_flow) for i in 1:nConvPorts})
-    +sum({max(0,heatPortRad[i].Q_flow) for i in 1:nRadPorts})
-    +sum({max(0,heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
+  Modelica.Units.SI.Power QCooTotal=sum({max(0, heatPortCon[i].Q_flow) for i
+       in 1:nConvPorts}) + sum({max(0, heatPortRad[i].Q_flow) for i in 1:
+      nRadPorts}) + sum({max(0, heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
     "Total thermal power use for cooling";
 
   // *********** Interface ***********
@@ -76,13 +75,13 @@ partial model HeatingSystem "Partial heating/cooling system"
 
   // --- fluid
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
-    redeclare package Medium = Medium) if
-       isDH
+    redeclare package Medium = Medium)
+    if isDH
     "Supply water connection to the DH grid"
     annotation (Placement(transformation(extent={{110,-110},{130,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
-    redeclare package Medium = Medium) if
-       isDH
+    redeclare package Medium = Medium)
+    if isDH
     "Return water connection to the DH grid"
     annotation (Placement(transformation(extent={{150,-110},{170,-90}})));
   annotation (

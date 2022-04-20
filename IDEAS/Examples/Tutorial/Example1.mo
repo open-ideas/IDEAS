@@ -3,9 +3,9 @@ model Example1 "First example model containing one zone"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air "Air medium";
 
-  parameter Modelica.SIunits.Length l = 8 "Zone length";
-  parameter Modelica.SIunits.Length w = 4 "Zone width";
-  parameter Modelica.SIunits.Length h = 2.7 "Zone height";
+  parameter Modelica.Units.SI.Length l=8 "Zone length";
+  parameter Modelica.Units.SI.Length w=4 "Zone width";
+  parameter Modelica.Units.SI.Length h=2.7 "Zone height";
 
 
   //SimInfoManager must be 'inner' at the top level
@@ -60,9 +60,9 @@ model Example1 "First example model containing one zone"
     azi=IDEAS.Types.Azimuth.S,
     redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazing)
     "Window model" annotation (Placement(transformation(extent={{-6,-10},{6,10}},
-
         rotation=90,
         origin={-36,-30})));
+
   Buildings.Components.InternalWall floor(
     redeclare Buildings.Validation.Data.Constructions.HeavyFloor
       constructionType,

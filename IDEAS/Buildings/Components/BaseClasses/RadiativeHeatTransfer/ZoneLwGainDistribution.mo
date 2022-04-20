@@ -6,12 +6,11 @@ model ZoneLwGainDistribution
   parameter Boolean lineariseJModelica = false
     "=true, to introduce radiative temperature node"
     annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.Time tau = 120
-    "Time constant for radiative node"
-     annotation(Dialog(enable=lineariseJModelica, tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T_start=296.15
+  parameter Modelica.Units.SI.Time tau=120 "Time constant for radiative node"
+    annotation (Dialog(enable=lineariseJModelica, tab="Advanced"));
+  parameter Modelica.Units.SI.Temperature T_start=296.15
     "Start value of radiative temperature node"
-    annotation(Dialog(tab = "Advanced", enable=lineariseJModelica));
+    annotation (Dialog(tab="Advanced", enable=lineariseJModelica));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir
     "Direct solar radiation gains received through windows"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
@@ -69,14 +68,14 @@ protected
     "Distribution factor for other radiative heat gains irradiation";
   final parameter Real[nSurf] weightFactorTRad(each final fixed=false)
     "Weight factor for radiative temperature computation";
-  final parameter Modelica.SIunits.Area AfloorTot(fixed=false)
+  final parameter Modelica.Units.SI.Area AfloorTot(fixed=false)
     "Total floor surface area";
   final parameter Real ASWotherSurface(fixed=false)
     "Total absorption surface area on surfaces other than the floor";
   final parameter Real fraTotAbsFloor(fixed=false)
     "Fraction of the direct solar irradiation that is absorbed by the floor";
 
-  Modelica.SIunits.Temperature TRad_internal = radSurfTot.T * weightFactorTRad
+  Modelica.Units.SI.Temperature TRad_internal=radSurfTot.T*weightFactorTRad
     "To avoid duplicate operations";
 
 initial equation

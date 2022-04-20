@@ -52,8 +52,8 @@ protected
     annotation (Placement(transformation(extent={{-30,-46},{-10,-26}})));
 
 public
-  BaseClasses.Data.ValidationDataExp2 validationDataExp2_1 if
-                                                             (loadVal and exp == 2)
+  BaseClasses.Data.ValidationDataExp2 validationDataExp2_1
+                                                          if (loadVal and exp == 2)
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
   BaseClasses.Data.ValidationDataN2Exp1 validationDataN2Exp1_1 if (loadVal and exp==1 and bui==1)
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));

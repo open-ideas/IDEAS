@@ -2,10 +2,10 @@ within IDEAS.Buildings.Validation.BaseClasses.VentilationSystem;
 model None "NoneVentilation with constant air flow at constant temperature and no power calculations"
   extends IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(
                                                          nLoads=1);
-  parameter Modelica.SIunits.MassFlowRate m_flow[nZones] = zeros(nZones)
+  parameter Modelica.Units.SI.MassFlowRate m_flow[nZones]=zeros(nZones)
     "Ventilation mass flow rate per zones";
-  parameter Modelica.SIunits.Temperature TSet[nZones] = 22*.ones(nZones) .+ 273.15
-    "Ventilation set point temperature per zone";
+  parameter Modelica.Units.SI.Temperature TSet[nZones]=22*.ones(nZones) .+
+      273.15 "Ventilation set point temperature per zone";
 
   IDEAS.Fluid.Sources.MassFlowSource_T sou[nZones](
     each use_m_flow_in=true,

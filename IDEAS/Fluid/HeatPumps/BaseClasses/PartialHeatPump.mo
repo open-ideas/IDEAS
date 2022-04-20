@@ -10,12 +10,10 @@ partial model PartialHeatPump "Heat pump partial"
     vol1(mSenFac=mSenFac,
       V=heatPumpData.m1/rho1_nominal,
       energyDynamics=energyDynamics,
-      massDynamics=massDynamics,
       prescribedHeatFlowRate=true),
     redeclare IDEAS.Fluid.MixingVolumes.MixingVolume vol2(mSenFac=mSenFac,
       V=heatPumpData.m2/rho2_nominal,
       energyDynamics=energyDynamics,
-      massDynamics=massDynamics,
       prescribedHeatFlowRate=true));
   extends IDEAS.Fluid.HeatPumps.Interfaces.ModulationSecurity(
     T_max = heatPumpData.T_cond_max,
@@ -38,7 +36,7 @@ partial model PartialHeatPump "Heat pump partial"
     "enables an input for modulating the heat pump ideally (no change of COP, just scaling of the electrical and thermal power)"
     annotation (Dialog(tab="Advanced"));
 
-  parameter Modelica.SIunits.Power P_the_nominal=heatPumpData.P_the_nominal
+  parameter Modelica.Units.SI.Power P_the_nominal=heatPumpData.P_the_nominal
     "nominal thermal power of the heat pump"
     annotation (Dialog(enable=use_scaling, tab="Advanced"));
 
@@ -53,11 +51,11 @@ partial model PartialHeatPump "Heat pump partial"
     "=true, compute flow resistance. Set to false to assume no friction"
     annotation (Evaluate=true, Dialog(tab="Flow resistance"));
 
-  Modelica.Blocks.Tables.CombiTable2D powerTable(table=heatPumpData.powerData,
+  Modelica.Blocks.Tables.CombiTable2Ds powerTable(table=heatPumpData.powerData,
       smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments)
     "Interpolation table for finding the electrical power"
     annotation (Placement(transformation(extent={{-74,10},{-54,30}})));
-  Modelica.Blocks.Tables.CombiTable2D copTable(table=heatPumpData.copData,
+  Modelica.Blocks.Tables.CombiTable2Ds copTable(table=heatPumpData.copData,
       smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments)
     annotation (Placement(transformation(extent={{-74,-16},{-54,4}})));
   Modelica.Blocks.Sources.RealExpression QEvap(y=-P_evap)
@@ -77,10 +75,10 @@ partial model PartialHeatPump "Heat pump partial"
   Modelica.Blocks.Sources.RealExpression QCond(y=P_cond)
     annotation (Placement(transformation(extent={{86,-70},{66,-50}})));
 
-  Modelica.SIunits.Power P_el "Electrical power consumption";
-  Modelica.SIunits.Power P_evap "Thermal power of the evaporator (positive)";
-  Modelica.SIunits.Power P_cond "Thermal power of the condensor (positive)";
-  Modelica.SIunits.Temperature TEvapIn "Evaporator inlet temperature";
+  Modelica.Units.SI.Power P_el "Electrical power consumption";
+  Modelica.Units.SI.Power P_evap "Thermal power of the evaporator (positive)";
+  Modelica.Units.SI.Power P_cond "Thermal power of the condensor (positive)";
+  Modelica.Units.SI.Temperature TEvapIn "Evaporator inlet temperature";
   Real cop "COP of the heat pump";
   Modelica.Blocks.Sources.RealExpression PElec(y=P_el)
     annotation (Placement(transformation(extent={{62,18},{82,38}})));
@@ -122,8 +120,8 @@ protected
 
   // ----------------- Modulation of heat pump to work in partial load
 public
-  Modelica.Blocks.Interfaces.RealInput mod(min=0, max=1) if
-                                                           use_modulationSignal
+  Modelica.Blocks.Interfaces.RealInput mod(min=0, max=1)
+                                                        if use_modulationSignal
     "Modulation level" annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
@@ -193,7 +191,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(T_out_cond.T, copTable.u1) annotation (Line(
-      points={{-40,-40},{-86,-40},{-86,0},{-76,0}},
+      points={{-41,-40},{-86,-40},{-86,0},{-76,0}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TEvapInExp.y, powerTable.u2) annotation (Line(

@@ -3,7 +3,7 @@ model BalancedTap
   "DHW consumption with profile reader.  RealInput mDHW60C is not used."
   extends IDEAS.Fluid.Taps.Interfaces.BalancedTap;
 
-  parameter Modelica.SIunits.Volume VDayAvg "Average daily water consumption";
+  parameter Modelica.Units.SI.Volume VDayAvg "Average daily water consumption";
   parameter Integer profileType=1 "Type of the DHW tap profile";
 
   Modelica.Blocks.Tables.CombiTable1Ds table(

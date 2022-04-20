@@ -1,19 +1,19 @@
 within IDEAS.Experimental.Electric.BaseClasses.Converters.ConvertersPower;
 model Converter "Generalized converter model"
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 
 parameter Boolean AC "AC or DC output";
 parameter Real pf(min=0,max=1) = 1 "Converter power factor (output) [%/100]";
 parameter Boolean lagging = true "Lagging pf or not"; // At converter: lagging = Q-consumption by inverter and vice versa.
 
-parameter Modelica.SIunits.Efficiency eff
+  parameter Modelica.Units.SI.Efficiency eff
     "Converter efficiency as a function of the input power [%/100]";
 
-Modelica.SIunits.ActivePower Plos;
+  Modelica.Units.SI.ActivePower Plos;
 
 protected
- Modelica.SIunits.ApparentPower S;
- Modelica.SIunits.ReactivePower Q;
+  Modelica.Units.SI.ApparentPower S;
+  Modelica.Units.SI.ReactivePower Q;
  parameter Real Qsign = if lagging then 1 else -1 "Sign of reactive power";
 
 public
