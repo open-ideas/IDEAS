@@ -197,131 +197,46 @@ model PowerLaw_q50_stack
       parameter Real q50
       "Leaked volume flow rate per unit A at 50Pa";
 
+    Modelica.Units.SI.Density rho "Density in resistance";
+
     Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
                 {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
     Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
                 {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
 
+    outer BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
-    PowerLaw_q50 res1(
+    Airflow.Multizone.Point_m_flow
+        res1(
         redeclare package Medium = Medium,
         final forceErrorControlOnFlow=false,
         m=m,
         useDefaultProperties= not StackEff,
-        A=A,
-      final q50=q50)
+        dpMea_nominal=50,
+        mMea_flow_nominal=A*(q50*rho)/3600)
         "Middle or bottom crack "
-        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+        annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
-
-      DensityColumn               col_a_pos(
+    DensityColumn col_a_pos(
     redeclare package Medium = Medium,
-    h=h_a)                                                                      if StackEff
+    h=h_a)  if StackEff
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-      DensityColumn               col_b_pos(
+    DensityColumn col_b_pos(
     redeclare package Medium = Medium,
-    h=h_b)                                                                      if StackEff
+    h=h_b)  if StackEff
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
 
-  outer BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
-
-  Fluid.FixedResistances.LosslessPipe No_stack_a(
+    Fluid.FixedResistances.LosslessPipe No_stack_a(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600)
-                       if not StackEff
+    m_flow_nominal=q50*1.2/3600) if not StackEff
     annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
-  Fluid.FixedResistances.LosslessPipe No_stack_b(
+    Fluid.FixedResistances.LosslessPipe No_stack_b(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600)
-                       if not StackEff
+    m_flow_nominal=q50*1.2/3600) if not StackEff
     annotation (Placement(transformation(extent={{50,30},{70,50}})));
-
-  model PowerLaw_q50
-
-    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
-      m=0.5,
-      k=A*coeff); //mass flow form of orifice equation
-
-  parameter Modelica.Units.SI.Area A
-    "Surface area";
-  parameter Real q50(unit="m3/(h.m2)")
-    "Leaked volume flow rate per unit A at 50Pa";
-  final parameter Real coeff = (q50/3600)/(50^m)
-    "Conversion coefficient";
-  equation
-  v= V_flow/A;
-  annotation (Icon(graphics={
-        Text(
-          extent={{-100,100},{-40,60}},
-          lineColor={28,108,200},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.None,
-          textString="q50"),
-        Rectangle(
-          extent={{-20,80},{20,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-60,58},{64,46}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-94,4},{-58,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{54,6},{106,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-64,2},{-46,-6}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-82,4},{-46,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-58,36},{66,24}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-58,-54},{66,-66}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-56,-24},{68,-36}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-38,4},{40,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid)}));
-  end PowerLaw_q50;
-
 
   model DensityColumn
   "Vertical shaft with no friction and no storage of heat and mass"
@@ -478,19 +393,21 @@ equation
   connect(port_a, No_stack_a.port_a) annotation (Line(points={{-100,0},{-80,0},{
           -80,40},{-68,40}}, color={0,127,255}));
   connect(No_stack_a.port_b, res1.port_a) annotation (Line(points={{-48,40},{-20,
-          40},{-20,0},{-12,0}}, color={0,127,255}));
-  connect(res1.port_b, No_stack_b.port_a) annotation (Line(points={{8,0},{20,0},
+          40},{-20,0},{-10,0}}, color={0,127,255}));
+  connect(res1.port_b, No_stack_b.port_a) annotation (Line(points={{10,0},{20,0},
           {20,40},{50,40}}, color={0,127,255}));
   connect(No_stack_b.port_b, port_b) annotation (Line(points={{70,40},{80,40},{80,
           0},{100,0}}, color={0,127,255}));
   connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,
           -10},{-60,-10}},                                                      color={0,127,255}));
-  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-40,
-          10},{-40,0},{-12,0}},       color={0,127,255}));
+  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-60,
+          14},{-20,14},{-20,0},{-10,0}},
+                                      color={0,127,255}));
   connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{80,0},{80,
           -10},{60,-10}},                                                     color={0,127,255}));
-  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,10},{34,10},
-          {34,0},{8,0}},       color={0,127,255}));
+  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,10},{60,14},
+          {20,14},{20,0},{10,0}},
+                               color={0,127,255}));
 
     annotation (Icon(graphics={
         Text(
