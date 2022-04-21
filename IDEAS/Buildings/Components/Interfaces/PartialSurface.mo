@@ -7,34 +7,34 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
-  parameter Modelica.SIunits.Angle inc = sim.incOpts[incOpt]
+  parameter Modelica.Units.SI.Angle inc = sim.incOpts[incOpt]
     "Custom inclination (tilt) angle of the wall, default wall"
     annotation(Dialog(enable=incOpt==4));
   parameter Integer aziOpt = 5
     "Azimuth angle option from simInfoManager, or custom using azi"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
-  parameter Modelica.SIunits.Angle azi=sim.aziOpts[aziOpt]
+  parameter Modelica.Units.SI.Angle azi=sim.aziOpts[aziOpt]
     "Custom azimuth angle of the wall, default south"
     annotation(Dialog(enable=aziOpt==5));
-  parameter Modelica.SIunits.Area A
+  parameter Modelica.Units.SI.Area A
     "Component surface area";
   parameter Real nWin = 1
     "Use this factor to scale the component to nWin identical components"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Power QTra_design
+  parameter Modelica.Units.SI.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
     annotation (Dialog(group="Design power",tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
     annotation(Dialog(tab="Dynamics", group="Initial condition"));
 
-  parameter Modelica.SIunits.Temperature TRef_a=291.15
+  parameter Modelica.Units.SI.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
     annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_a=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
@@ -97,8 +97,8 @@ partial model PartialSurface "Partial model for building envelope component"
     A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then A/2 else A,
     h_b= -0.5*hzone_a + 0.25*hVertical +hRef_a,
-    final q50=q50_internal) if
-        add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    final q50=q50_internal)
+     if add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
     annotation (Placement(transformation(extent={{20,-46},{40,-26}})));
 
@@ -108,8 +108,8 @@ partial model PartialSurface "Partial model for building envelope component"
   Medium = Medium,
     A=A/2,
   h_b= -0.5*hzone_a + 0.75*hVertical +hRef_a,
-    final q50=q50_internal) if
-       add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    final q50=q50_internal)
+    if add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
@@ -125,12 +125,12 @@ partial model PartialSurface "Partial model for building envelope component"
 protected
   parameter Boolean add_cracks = true
     "Add cracks";
-  final parameter Modelica.SIunits.Angle aziInt=
+  final parameter Modelica.Units.SI.Angle aziInt=
     if aziOpt==5
     then azi
     else sim.aziOpts[aziOpt]
       "Azimuth angle";
-  final parameter Modelica.SIunits.Angle incInt=
+  final parameter Modelica.Units.SI.Angle incInt=
     if incOpt==4
     then inc
     else sim.incOpts[incOpt]
@@ -185,7 +185,7 @@ model PowerLaw_q50_stack
           __Dymola_choicesAllMatching=true);
 
 
-      parameter Modelica.SIunits.Area A
+      parameter Modelica.Units.SI.Area A
              "Surface area";
 
       parameter Real m=0.65;
@@ -216,11 +216,11 @@ model PowerLaw_q50_stack
 
       DensityColumn               col_a_pos(
     redeclare package Medium = Medium,
-    h=h_a) if                                                                      StackEff
+    h=h_a)                                                                      if StackEff
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
       DensityColumn               col_b_pos(
     redeclare package Medium = Medium,
-    h=h_b) if                                                                      StackEff
+    h=h_b)                                                                      if StackEff
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
 
   outer BoundaryConditions.SimInfoManager sim
@@ -229,14 +229,14 @@ model PowerLaw_q50_stack
   Fluid.FixedResistances.LosslessPipe No_stack_a(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if
-                          not StackEff
+    m_flow_nominal=q50*1.2/3600)
+                       if not StackEff
     annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
   Fluid.FixedResistances.LosslessPipe No_stack_b(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if
-                          not StackEff
+    m_flow_nominal=q50*1.2/3600)
+                       if not StackEff
     annotation (Placement(transformation(extent={{50,30},{70,50}})));
 
   model PowerLaw_q50
@@ -245,7 +245,7 @@ model PowerLaw_q50_stack
       m=0.5,
       k=A*coeff); //mass flow form of orifice equation
 
-  parameter Modelica.SIunits.Area A
+  parameter Modelica.Units.SI.Area A
     "Surface area";
   parameter Real q50(unit="m3/(h.m2)")
     "Leaked volume flow rate per unit A at 50Pa";
@@ -330,7 +330,7 @@ model PowerLaw_q50_stack
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choices(
         choice(redeclare package Medium = IDEAS.Media.Air "Moist air")));
-  parameter Modelica.SIunits.Length h= 3 "Height of shaft";
+  parameter Modelica.Units.SI.Length h= 3 "Height of shaft";
 
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
@@ -345,13 +345,13 @@ model PowerLaw_q50_stack
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{10,-110},{-10,-90}}), iconTransformation(extent={{10,-110},{-10,-90}})));
 
-  Modelica.SIunits.VolumeFlowRate V_flow
+  Modelica.Units.SI.VolumeFlowRate V_flow
     "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
-  Modelica.SIunits.MassFlowRate m_flow
+  Modelica.Units.SI.MassFlowRate m_flow
     "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
-  Modelica.SIunits.PressureDifference dp(displayUnit="Pa")
+  Modelica.Units.SI.PressureDifference dp(displayUnit="Pa")
     "Pressure difference between port_a and port_b";
-  Modelica.SIunits.Density rho "Density in medium column";
+  Modelica.Units.SI.Density rho "Density in medium column";
 
     protected
   Medium.ThermodynamicState sta_b=Medium.setState_phX(

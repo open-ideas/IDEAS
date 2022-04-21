@@ -17,10 +17,10 @@ model InternalWall "interior opaque wall between two zones"
   parameter Boolean linIntCon_b=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation(Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_b=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_b=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Convection"));
-  parameter Modelica.SIunits.Temperature TRef_b=291.15
+  parameter Modelica.Units.SI.Temperature TRef_b=291.15
     "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
      annotation (Dialog(group="Design power",tab="Advanced"));
 
@@ -28,28 +28,28 @@ model InternalWall "interior opaque wall between two zones"
   parameter Boolean hasCavity = false
     "=true, to model open door or cavity in wall"
     annotation(Dialog(group="Cavity or open door"));
-  parameter Modelica.SIunits.Length h = 2
+  parameter Modelica.Units.SI.Length h = 2
     "Height of (rectangular) cavity in wall"
      annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
-  parameter Modelica.SIunits.Length w = 1
+  parameter Modelica.Units.SI.Length w = 1
     "Width of (rectangular) cavity in wall"
      annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
-  parameter Modelica.SIunits.Acceleration g = Modelica.Constants.g_n
+  parameter Modelica.Units.SI.Acceleration g = Modelica.Constants.g_n
     "Gravity, for computation of buoyancy"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Pressure p=101300
+  parameter Modelica.Units.SI.Pressure p=101300
     "Absolute pressure for computation of buoyancy"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Density rho = p/r/T
+  parameter Modelica.Units.SI.Density rho = p/r/T
     "Nominal density for computation of buoyancy mass flow rate"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.SpecificHeatCapacity c_p = 1013
+  parameter Modelica.Units.SI.SpecificHeatCapacity c_p = 1013
    "Nominal heat capacity for computation of buoyancy heat flow rate"
    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T=293
+  parameter Modelica.Units.SI.Temperature T=293
    "Nominal temperature for linearising heat flow rate"
    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.TemperatureDifference dT = 1
+  parameter Modelica.Units.SI.TemperatureDifference dT = 1
    "Nominal temperature difference when linearising heat flow rate"
    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
 
@@ -115,8 +115,8 @@ protected
     rho=rho,
     c_p=c_p,
     T=T,
-    dT=dT) if
-       hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    dT=dT)
+    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 public
@@ -127,15 +127,15 @@ public
     hA=(hzone_a/2) - hRef_a,
     hB=(hzone_b/2) - hRef_b,
     nCom=4,
-    CD=CD) if
-       hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    CD=CD)
+    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,82},{10,102}})));
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
-    CD=CD) if
-       hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+    CD=CD)
+    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 initial equation

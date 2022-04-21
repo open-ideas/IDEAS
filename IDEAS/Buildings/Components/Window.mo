@@ -106,11 +106,11 @@ protected
     "Add lumped thermal capacitor for window glazing";
   final parameter Boolean addCapFra =  fraType.present and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
     "Added lumped thermal capacitor for window frame";
-  final parameter Modelica.SIunits.HeatCapacity Cgla = layMul.C
+  final parameter Modelica.Units.SI.HeatCapacity Cgla = layMul.C
     "Heat capacity of glazing state";
-  final parameter Modelica.SIunits.HeatCapacity Cfra = layMul.C*fraC
+  final parameter Modelica.Units.SI.HeatCapacity Cfra = layMul.C*fraC
     "Heat capacity of frame state";
-  final parameter Modelica.SIunits.Area A_glass = A*(1 - frac);
+  final parameter Modelica.Units.SI.Area A_glass = A*(1 - frac);
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     eCon(
@@ -138,26 +138,26 @@ protected
 
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection
     iConFra(final A=A*frac, final inc=incInt,
-    linearise=linIntCon_a or sim.linearise) if
-                        fraType.present
+    linearise=linIntCon_a or sim.linearise)
+                     if fraType.present
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,60},{40,80}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
     skyRadFra(final A=A*frac, Tenv_nom=sim.Tenv_nom,
-    linearise=linExtRad or sim.linearise) if
-                         fraType.present
+    linearise=linExtRad or sim.linearise)
+                      if fraType.present
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-20,80},{-40,100}})));
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     eConFra(final A=A*frac, linearise=linExtCon or sim.linearise,
     inc=incInt,
-    azi=aziInt) if
-                 fraType.present
+    azi=aziInt)
+              if fraType.present
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-20,60},{-40,80}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(final G=(if
         fraType.briTyp.present then fraType.briTyp.G else 0) + (fraType.U_value)
-        *A*frac) if                fraType.present  annotation (Placement(transformation(extent={{10,60},
+        *A*frac)                if fraType.present  annotation (Placement(transformation(extent={{10,60},
             {-10,80}})));
 
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
@@ -174,20 +174,20 @@ protected
     "Design temperature passthrough since propsBus variables cannot be addressed directly";
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaInt(C=Cgla/2,
       T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
-        start=T_start)) if                                                                             addCapGla
+        start=T_start))                                                                             if addCapGla
     "Heat capacitor for glazing at interior"
     annotation (Placement(transformation(extent={{6,-12},{26,-32}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapFraIn(C=Cfra/2,
       T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
-        start=T_start)) if                                                                             addCapFra
+        start=T_start))                                                                             if addCapFra
     "Heat capacitor for frame at interior"
     annotation (Placement(transformation(extent={{4,100},{24,120}})));
   Modelica.Blocks.Sources.Constant constEpsLwFra(final k=fraType.mat.epsLw)
     "Shortwave emissivity of frame"
     annotation (Placement(transformation(extent={{4,86},{-6,96}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A*frac, epsSw=fraType.mat.epsSw) if
-                        fraType.present
+    solAbs(A=A*frac, epsSw=fraType.mat.epsSw)
+                     if fraType.present
     "Solar absorption model for shortwave radiation"
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
@@ -195,12 +195,12 @@ protected
     annotation (Placement(transformation(extent={{-56,-50},{-50,-44}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapFraExt(C=Cfra/2,
       T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
-        start=T_start)) if                                                                             addCapFra
+        start=T_start))                                                                             if addCapFra
     "Heat capacitor for frame at exterior"
     annotation (Placement(transformation(extent={{-20,100},{0,120}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaExt(C=Cgla/2,
       T(fixed=energyDynamics == Modelica.Fluid.Types.Dynamics.FixedInitial,
-        start=T_start)) if                                                                             addCapGla
+        start=T_start))                                                                             if addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   Fluid.Sources.OutsideAir       outsideAir(
@@ -212,8 +212,8 @@ protected
         outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then 1 else 2) if
-    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+         then 1 else 2)
+ if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
