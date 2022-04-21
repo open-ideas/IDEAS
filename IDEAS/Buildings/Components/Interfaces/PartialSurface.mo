@@ -197,8 +197,6 @@ model PowerLaw_q50_stack
       parameter Real q50
       "Leaked volume flow rate per unit A at 50Pa";
 
-    Modelica.Units.SI.Density rho "Density in resistance";
-
     Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
                 {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
     Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
