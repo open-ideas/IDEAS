@@ -27,7 +27,7 @@ model OutsideAir
     "Sum of atmospheric pressure and wind pressure";
 
 
-protected
+
   parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
   parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
                                                                                                                              annotation(Dialog(group="Wind"));
@@ -35,7 +35,7 @@ protected
     "Height above ground of meteorological wind speed measurement"
     annotation (Dialog(group="Wind"));
 
-
+protected
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
