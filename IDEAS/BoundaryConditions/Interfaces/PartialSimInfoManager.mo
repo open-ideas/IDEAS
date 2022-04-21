@@ -6,34 +6,31 @@ partial model PartialSimInfoManager
     Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Brussels.mos")
     "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="TMY-files (*.TMY);;Text files (*.txt);;All files (*.*)", caption="Select the weather file")));
   parameter Modelica.Units.SI.Angle lat(displayUnit="deg") = weaDat.lat
-    "Latitude of the location"
-    annotation(Dialog(tab="Advanced"));
+    "Latitude of the location" annotation (Dialog(tab="Advanced"));
   parameter Modelica.Units.SI.Angle lon(displayUnit="deg") = weaDat.lon
-    "Longitude of the location"
-    annotation(Dialog(tab="Advanced"));
+    "Longitude of the location" annotation (Dialog(tab="Advanced"));
   parameter Modelica.Units.SI.Time timZon(displayUnit="h") = weaDat.timZon
     "Time zone for which the simulation time t=0 corresponds to midnight, january 1st";
 
 
-  parameter Modelica.Units.SI.Angle incS = IDEAS.Types.Azimuth.S
-    "South inclination"
-    annotation(Dialog(tab="Incidence angles"));
-  parameter Modelica.Units.SI.Angle incW = incS +Modelica.Constants.pi/2
-    "West inclination"
-      annotation(Dialog(tab="Incidence angles"));
-  parameter Modelica.Units.SI.Angle incN = incS +Modelica.Constants.pi
-    "North inclination"
-      annotation(Dialog(tab="Incidence angles"));
-  parameter Modelica.Units.SI.Angle incE = incS +3*Modelica.Constants.pi/2
-    "East inclination"
-      annotation(Dialog(tab="Incidence angles"));
+  parameter Modelica.Units.SI.Angle incS=IDEAS.Types.Azimuth.S
+    "South inclination" annotation (Dialog(tab="Incidence angles"));
+  parameter Modelica.Units.SI.Angle incW=incS + Modelica.Constants.pi/2
+    "West inclination" annotation (Dialog(tab="Incidence angles"));
+  parameter Modelica.Units.SI.Angle incN=incS + Modelica.Constants.pi
+    "North inclination" annotation (Dialog(tab="Incidence angles"));
+  parameter Modelica.Units.SI.Angle incE=incS + 3*Modelica.Constants.pi/2
+    "East inclination" annotation (Dialog(tab="Incidence angles"));
 
-  parameter Modelica.Units.SI.Angle incAndAziInBus[:,:] = {{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,incS},
-                         {IDEAS.Types.Tilt.Wall,incW},{IDEAS.Types.Tilt.Wall,incN},{IDEAS.Types.Tilt.Wall,incE}, {IDEAS.Types.Tilt.Floor,0}}
-                        "Combination of inclination and azimuth which are pre-computed and added to solBus." annotation(Dialog(tab="Incidence angles"));
-  final parameter Modelica.Units.SI.Angle aziOpts[5]={incS, incW, incN, incE, incS}
+  parameter Modelica.Units.SI.Angle incAndAziInBus[:,:]={{IDEAS.Types.Tilt.Ceiling,
+      0},{IDEAS.Types.Tilt.Wall,incS},{IDEAS.Types.Tilt.Wall,incW},{IDEAS.Types.Tilt.Wall,
+      incN},{IDEAS.Types.Tilt.Wall,incE},{IDEAS.Types.Tilt.Floor,0}}
+    "Combination of inclination and azimuth which are pre-computed and added to solBus."
+    annotation (Dialog(tab="Incidence angles"));
+  final parameter Modelica.Units.SI.Angle aziOpts[5]={incS,incW,incN,incE,incS}
     "Inclination options, default south";
-  final parameter Modelica.Units.SI.Angle incOpts[4]={IDEAS.Types.Tilt.Wall, IDEAS.Types.Tilt.Floor, IDEAS.Types.Tilt.Ceiling, IDEAS.Types.Tilt.Wall}
+  final parameter Modelica.Units.SI.Angle incOpts[4]={IDEAS.Types.Tilt.Wall,
+      IDEAS.Types.Tilt.Floor,IDEAS.Types.Tilt.Ceiling,IDEAS.Types.Tilt.Wall}
     "Azimuth options, default wall";
 
   parameter Boolean computeConservationOfEnergy=false
@@ -73,8 +70,9 @@ partial model PartialSimInfoManager
     "= true, if exterior radiative heat transfer for windows should be linearised"
     annotation (Dialog(tab="Linearisation", group="Radiation"));
   parameter Modelica.Units.SI.Energy Emax=1
-    "Error bound for violation of conservation of energy" annotation (Evaluate=true,
-      Dialog(tab="Conservation of energy", enable=strictConservationOfEnergy));
+    "Error bound for violation of conservation of energy" annotation (Evaluate=
+        true, Dialog(tab="Conservation of energy", enable=
+          strictConservationOfEnergy));
   parameter Modelica.Units.SI.Temperature Tenv_nom=280
     "Nominal ambient temperature, only used when linearising equations";
 
@@ -104,14 +102,15 @@ partial model PartialSimInfoManager
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
 
   parameter Modelica.Units.SI.Length H=10 "Building or roof height"
-                                                                   annotation(Dialog(group="Wind"));
+    annotation (Dialog(group="Wind"));
   parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
   parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
                                                                                                                             annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement"
-                                                                                                                 annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hwin=10 "Height above ground of meteorological wind speed measurement"
-                                                                                                           annotation(Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length Hwin=10
+    "Height above ground of meteorological wind speed measurement"
+    annotation (Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement" annotation(Dialog(group="Wind"));
+
 
   parameter Real Cs= (A0*A0)*((H/Hwin)^(2*a)) "Wind speed modifier"
                                                                    annotation(Dialog(group="Wind"));
@@ -191,16 +190,18 @@ partial model PartialSimInfoManager
   final parameter Real q50_def( unit="m3/(h.m2)") = if A_def< Modelica.Constants.small then q50_av else V50_def/A_def;
   final parameter Real q50_av(  unit="m3/(h.m2)") = if A_tot < Modelica.Constants.small then 0 else V50/A_tot "average, not corrected q50";
 
-  final parameter Modelica.Units.SI.Volume V_tot(fixed=false) "Total conditioned building volume";
-  final parameter Modelica.Units.SI.Area A_tot(fixed=false) "Total surface area of OuterWalls and Windows";
+  final parameter Modelica.Units.SI.Volume V_tot(fixed=false)
+    "Total conditioned building volume";
+  final parameter Modelica.Units.SI.Area A_tot(fixed=false)
+    "Total surface area of OuterWalls and Windows";
   final parameter Real V50_custom( unit="m3/h",fixed=false) "Sum of v50 values for components that have a custom assignment";
-  final parameter Modelica.Units.SI.Area A_def( fixed=false) "Total area with default q50, i.e. without custom q50 assignment, or connected to zone with custom n50 assigned";
+  final parameter Modelica.Units.SI.Area A_def(fixed=false)
+    "Total area with default q50, i.e. without custom q50 assignment, or connected to zone with custom n50 assigned";
 
   input IDEAS.Buildings.Components.Interfaces.WindowBus[nWindow] winBusOut(
       each nLay=nLayWin) if createOutputs
     "Bus for windows in case of linearisation";
-  Modelica.Blocks.Routing.RealPassThrough solTim
-    "Solar time"
+  Modelica.Blocks.Routing.RealPassThrough solTim "Solar time"
     annotation (Placement(transformation(extent={{-86,-2},{-78,6}})));
   IDEAS.BoundaryConditions.WeatherData.Bus weaDatBus
     "Weather data bus connectable to weaBus connector from Buildings Library"
@@ -217,6 +218,8 @@ partial model PartialSimInfoManager
     "Port for summing surface areas of all surfaces"
     annotation (Placement(transformation(extent={{70,-110},{90,-90}})));
 
+  Modelica.Blocks.Routing.RealPassThrough alt "Altitude"
+    annotation (Placement(transformation(extent={{-86,-22},{-78,-14}})));
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
 
@@ -438,8 +441,9 @@ equation
           {-68,84},{-77.6,84}}, color={0,0,127}));
   connect(skyClearness.HDifHor,HDifHor. y) annotation (Line(points={{-62,110},{-70,
           110},{-70,98},{-77.6,98}},color={0,0,127}));
-  connect(skyClearness.HGloHor,HGloHor. y) annotation (Line(points={{-62,116},{-72,
-          116},{-72,112},{-77.6,112}},color={0,0,127}));
+  connect(skyClearness.HDirNor,HDirNor. y) annotation (Line(points={{-62,116},{
+          -72,116},{-72,44},{-77.6,44}},
+                                      color={0,0,127}));
   connect(solTim.u, weaDatBus.solTim)
     annotation (Line(points={{-86.8,2},{-100,2},{-100,-10}},color={0,0,127}));
   connect(angZen.u, weaDatBus.solZen) annotation (Line(points={{-86.8,84},{-100,
@@ -481,6 +485,16 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(alt.u, weaDatBus.alt) annotation (Line(points={{-86.8,-18},{-100,-18},
+          {-100,-10}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(alt.y, relativeAirMass.alt) annotation (Line(points={{-77.6,-18},{-66,
+          -18},{-66,68},{-62,68},{-62,76}}, color={0,0,127}));
+  connect(solTim.y, skyBrightness.solTim) annotation (Line(points={{-77.6,2},{
+          -68,2},{-68,4},{-32,4},{-32,64}}, color={0,0,127}));
     annotation (
     defaultComponentName="sim",
     defaultComponentPrefixes="inner",
