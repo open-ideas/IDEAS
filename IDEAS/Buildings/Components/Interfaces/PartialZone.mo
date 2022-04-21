@@ -261,8 +261,8 @@ model Setq50 "q50 computation for zones"
   parameter Real v50_custom[nSurf](each fixed=false)
     "custom assigned v50 value, else zero";
 
-  parameter Modelica.SIunits.Length hZone "Zone height: distance between floor and ceiling";
-  parameter Modelica.SIunits.Length hFloor = 0  "Absolute height of zone floor";
+  parameter Modelica.Units.SI.Length hZone "Zone height: distance between floor and ceiling";
+  parameter Modelica.Units.SI.Length hFloor = 0  "Absolute height of zone floor";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
