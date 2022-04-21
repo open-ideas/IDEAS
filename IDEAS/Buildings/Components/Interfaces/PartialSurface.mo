@@ -214,7 +214,7 @@ model PowerLaw_q50_stack
         m=m,
         useDefaultProperties= not StackEff,
         dpMea_nominal=50,
-        mMea_flow_nominal=A*(q50*rho)/3600)
+      mMea_flow_nominal=A*(q50*1.2)/3600)
         "Middle or bottom crack "
         annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
@@ -230,12 +230,14 @@ model PowerLaw_q50_stack
     Fluid.FixedResistances.LosslessPipe No_stack_a(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if not StackEff
+      m_flow_nominal=A*q50*1.2/3600)
+                                 if not StackEff
     annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
     Fluid.FixedResistances.LosslessPipe No_stack_b(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-    m_flow_nominal=q50*1.2/3600) if not StackEff
+      m_flow_nominal=A*q50*1.2/3600)
+                                 if not StackEff
     annotation (Placement(transformation(extent={{50,30},{70,50}})));
 
   model DensityColumn
