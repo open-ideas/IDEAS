@@ -49,7 +49,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
 8. D. Picard, L. Helsen (2014). Advanced Hybrid Model for Borefield Heat Exchanger Performance Evaluation, an Implementation in Modelica. In Proceedings of the 10th International Modelica Conference. Lund, 857-866.
 9. D. Picard, L. Helsen (2014). A New Hybrid Model For Borefield Heat Exchangers Performance Evaluation. 2014 ASHRAE ANNUAL CONFERENCE: Vol. 120 (2). ASHRAE: Ground Source Heat Pumps: State of the Art Design, Performance and Research. Seattle, 1-8.
 10. Picard D., Jorissen F., Helsen L. (2015). Methodology for Obtaining Linear State Space Building Energy Simulation Models. 11th International Modelica Conference. International Modelica Conference. Paris, 21-23 September 2015 (pp. 51-58).
-10. Jorissen F., Helsen L. (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
+11. F. Jorissen, L. Helsen (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
 
 ### Applications of IDEAS
 1. D. Picard. (2017) Modeling, optimal control and HVAC design of large buildings using ground source heat pump systems. PhD thesis, Arenberg Doctoral School, KU Leuven.
@@ -62,12 +62,26 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
 8. F. Jorissen, L. Helsen,  M. Wetter (2015). Simulation Speed Analysis and Improvements of Modelica Models for Building Energy Simulation. In Proceedings of the 11th International Modelica Conference. Paris, 59-69.
 9. C. Protopapadaki, G. Reynders, D. Saelens (2014). Bottom-up modeling of the Belgian residential building stock: impact of building stock descriptions. In Proceedings of the 9th International Conference on System Simulation in Buildings. Liège.
 10. G. Reynders, J. Diriken, D. Saelens (2014). Bottom-up modeling of the Belgian residential building stock: impact of model complexity. In Proceedings of the 9th International Conference on System Simulation in Buildings. Liège.
+E. Van Kenhove, A. Aertgeerts, J. Laverge, A. Janssens (2015). Energy Efficient Renovation of Heritage Residential Buildings Using Modelica Simulations. In Proceedings of Building Simulation 2015: 14th Conference of IBPSA. Hyderabad, 535–542.
 11. G. Reynders, J. Diriken, D. Saelens (2015). Impact of the heat emission system on the indentification of grey-box models for residential buildings. *Energy Procedia* **78**, 3300-3305, doi: 10.1016/j.egypro.2015.11.740.
 12. I. De Jaeger, G. Reynders, D. Saelens (2017). Impact of spacial accuracy on district energy simulations. *Energy Procedia* **132**, 561-566, doi: 10.1016/j.egypro.2017.09.741
-13. G. Reynders, R. Andriamamonjy, R. Klein, D. Saelens (2017). Towards an IFC-Modelica Tool Facilitating Model Complexity Selection for Building Energy Simulation. In Proceedings of the 15th Conference of the International Building Performance Simulation Association. California.
+13. G. Reynders, R. Andriamamonjy, R. Klein, D. Saelens (2017). Towards an IFC-Modelica Tool Facilitating Model Complexity Selection for Building Energy Simulation. In Proceedings of the 15th Conference of the IBPSA Association Conference. California.
 14. G. Reynders, J. Diriken, D. Saelens (2017). Generic characterization method for energy flexibility: Applied to structural thermal storage in residential buildings. *Applied Energy* **198**, 192-202, doi: 10.1016/j.apenergy.2017.04.061
 15. F. Jorissen. (2018) Toolchain for optimal control and design of energy systems in buildings. PhD thesis, Arenberg Doctoral School, KU Leuven.
-16. Picard D., Sourbron M., Jorissen F., Vana Z., Cigler J., Ferkl L., Helsen L. (2016). Comparison of Model Predictive Control Performance Using Grey-Box and White-Box Controller Models of a Multi-zone Office Building. International High Performance Buildings Conference. International High Performance Buildings Conference. West Lafayette, 11-14 July 2016 (art.nr. 203).
+16. Picard D., Sourbron M., Jorissen F., Vana Z., Cigler J., Ferkl L., Helsen L. (2016). Comparison of Model Predictive Control Performance Using Grey-Box and White-Box Controller Models of a Multi-zone Office Building. International High Performance Buildings Conference. West Lafayette, 11-14 July 2016 (art.nr. 203).
+F. Jorissen, W. Boydens, L. Helsen (2019) Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica. *Journal of Building Performance Simulation
+F. Jorissen, D. Picard, K. Six, L. Helsen (2021) Detailed White-Box Non-Linear Model Predictive Control for Scalable Building HVAC Control. In Proceedings of the 14th Modelica Conference 2021. Online.
+F. Jorissen, D. Picard, L Helsen (2021). Strengths of Non-Linear White-Box MPC for Building HVAC Control. In Proceedings of the 17th IBPSA Association Conference. Bruges, Belgium, 1-3 September 2021.
+A. Erfani Beyzaee, X. Yu, T.M. Kull, P. Bacher, T. Jafarinejad, and S. Roels (2021). Analysis of the impact of predictive models on the quality of the model predictive control for an experimental building. In Proceedings of the 17th IBPSA Association Conference. Bruges, 1-3 September 2021.
+G. Reynders, A. Erfani Beyzaee, D. Saelens (2021). IEA EBC Annex71: Building energy performance assessment based on in-situ measurements.
+D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H. Taxt Walnum, C. Yan, K. Benne, D. Vrabie, M. Wetter, L. Helsen (2021). Building Optimization Testing Framework (BOPTEST) for Simulation-Based Benchmarking of Control Strategies in Buildings. *Journal of Building Performance Simulation* **14** (5), 586–610.
+W. Boydens, S. Feyaerts, A. Vandermeulen, L. Helsen (2021). Control strategy assessment of a small GSHP sourced DH system with end user DHW booster heat pumps. In Proceedings of the 13th IEA Heat Pump Conference. Jeju, art.nr. 301.
+J. Jansen, F. Maertens, W. Boydens, L. Helsen (2021). Living lab 'De Schipjes': a zero-fossil-fuel energy concept in the historic city center of Bruges. In Proceedings of Building Simulation 2021: 17th Conference of IBPSA. Bruges.
+J. Arroyo, C. Manna, F. Spiessens, L. Helsen (2021). An OpenAI-Gym environment for the Building Optimization Testing (BOPTEST) framework. In Proceedings of the 17th IBPSA Association Conference. Bruges, Belgium, 1-3 September 2021.
+J. Arroyo, F. Spiessens, L. Helsen (2022). Comparison of Model Complexities in Optimal Control Tested in a Real Thermally Activated Building System. *Buildings*, **12** (5).
+J. Arroyo, F. Spiessens, L. Helsen (2022). Comparison of Optimal Control Techniques for Building Energy Management. *Frontiers in Built Environment, section Indoor Environment. Research Topic: Artificial Intelligence Applications in Building’s Thermal Management*, **8**.
+J. Arroyo, C. Manna, F. Spiessens, L. Helsen (2022). Reinforced Model Predictive Control (RL-MPC) for Building Energy Management. *Applied Energy*, **309**.
+J. Jansen, L. Helsen (2022). Non-linear model predictive control of a small-scale 4th generation district heating network with on/off heat pumps. In Proceedings of the 2nd International Sustainable Energy Conference. Graz, 204-212.
 
 ### Bibtex entry for citing IDEAS
 Please cite IDEAS using the information below.
