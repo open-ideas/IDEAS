@@ -52,6 +52,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - F. Jorissen, L. Helsen (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
 
 ### Applications of IDEAS
+<font size="-1">
  - D. Picard. (2017) Modeling, optimal control and HVAC design of large buildings using ground source heat pump systems. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - G. Reynders. (2015) Quantifying the impact of building design on the potential of structural storage for active demand response in residential buildings. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - R. De Coninck. (2015) Grey-box based optimal control for thermal systems in buildings - Unlocking energy efficiency and flexibility. PhD thesis, Arenberg Doctoral School, KU Leuven.
@@ -113,7 +114,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - C. Protopapadaki, D. Saelens (sup.) (2018). A Probabilistic Framework Towards Metamodeling the Impact of Residential Heat Pumps and PV on Low-voltage Grids. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - R. Andriamamonjy, R. Klein (sup.), D. Saelens (cosup.) (2018). Automated workflows for building design and operation using openBIM and Modelica. PhD thesis
  - K. Spiliotis (2020) Electrical system architectures for building-integrated PV. Multi-scale, multi-domain modeling and simulation. PhD thesis, Arenberg Doctoral School, KU Leuven.
-
+</font>
 
 ### Bibtex entry for citing IDEAS
 Please cite IDEAS using the information below.
