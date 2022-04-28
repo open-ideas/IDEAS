@@ -16,6 +16,16 @@ Modelica model environment for Integrated District Energy Assessment Simulations
 ## Contributions and community
 We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, you can support us by adding a star at the top right of our Github page.
 
+## Getting started
+The following packages contain examples that can help to get started with IDEAS:
+ - IDEAS.Buildings.Components.Examples (Simple examples of individual features)
+ - IDEAS.Buildings.Examples (Simple examples)
+ - IDEAS.Examples.TwinHouses (The Holzkirchen twin house validation experiment)
+ - IDEAS.Examples.PPD12 (A model of a terraced house, including heating and ventilation.)
+ - IDEAS.Examples.IBPSA (Models for BOPTEST.)
+ - IDEAS.Examples.Tutorial (A tutorial.)  
+See the documentation sections of the respective models for more details.
+
 ## Tool support
 Our goal is to provide support for Dymola and OpenModelica. Consequantly, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
 
