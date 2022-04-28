@@ -82,7 +82,6 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - J. Arroyo, F. Spiessens, L. Helsen (2022). Comparison of Optimal Control Techniques for Building Energy Management. *Frontiers in Built Environment, section Indoor Environment. Research Topic: Artificial Intelligence Applications in Building’s Thermal Management*, **8**.
  - J. Arroyo, C. Manna, F. Spiessens, L. Helsen (2022). Reinforced Model Predictive Control (RL-MPC) for Building Energy Management. *Applied Energy*, **309**.
  - J. Jansen, L. Helsen (2022). Non-linear model predictive control of a small-scale 4th generation district heating network with on/off heat pumps. In Proceedings of the 2nd International Sustainable Energy Conference. Graz, 204-212.
- - B. Merema, D. Saelens, H. Breesch (2022). Demonstration of an MPC framework for all-air systems in non-residential buildings. *Building And Environment*, art.nr. 109053.
  - B. Merema, D. Saelens, H. Breesch (2021). Analysing modelling challenges of smart controlled ventilation systems in educational buildings. *Journal Of Building Performance Simulation* **14** (2), 116-131.
  - S. Meunier, C. Protopapadaki, R. Baetens, D. Saelens (2021). Impact of residential low-carbon technologies on low-voltage grid reinforcements. *Applied Energy* **297**, art.nr. 117057, 1-15.
  - J.E. Goncalves, H. Montazeri, T. van Hooff, D. Saelens (2021). Performance of building integrated photovoltaic facades: Impact of exterior convective heat transfer. *Applied Energy* **287**, art.nr. 116538
@@ -113,6 +112,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - J.E. Gonçalves, D. Saelens (sup.), T.A. J. van Hooff (cosup.) (2021). Understanding the Behaviour of Building Integrated Photovoltaic Facades. Numerical and Experimental Analysis. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - C. Protopapadaki, D. Saelens (sup.) (2018). A Probabilistic Framework Towards Metamodeling the Impact of Residential Heat Pumps and PV on Low-voltage Grids. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - R. Andriamamonjy, R. Klein (sup.), D. Saelens (cosup.) (2018). Automated workflows for building design and operation using openBIM and Modelica. PhD thesis
+ - K. Spiliotis (2020) Electrical system architectures for building-integrated PV. Multi-scale, multi-domain modeling and simulation. PhD thesis, Arenberg Doctoral School, KU Leuven.
 
 
 ### Bibtex entry for citing IDEAS
