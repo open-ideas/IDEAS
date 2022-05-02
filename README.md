@@ -17,7 +17,7 @@ Modelica model environment for Integrated District Energy Assessment Simulations
 We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, you can support us by adding a star at the top right of our Github page.
 
 ## Tool support
-Our goal is to provide support for Dymola and OpenModelica. Consequantly, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
+Our goal is to provide support for Dymola and OpenModelica. Consequently, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
 
 ## Release notes
 [This is a link to detailed release notes.](https://github.com/open-ideas/IDEAS/blob/master/ReleaseNotes.md)
@@ -68,8 +68,9 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - G. Reynders, R. Andriamamonjy, R. Klein, D. Saelens (2017). Towards an IFC-Modelica Tool Facilitating Model Complexity Selection for Building Energy Simulation. In Proceedings of the 15th Conference of the IBPSA Conference. California.
  - G. Reynders, J. Diriken, D. Saelens (2017). Generic characterization method for energy flexibility: Applied to structural thermal storage in residential buildings. *Applied Energy* **198**, 192-202, doi: 10.1016/j.apenergy.2017.04.061
  - F. Jorissen. (2018) Toolchain for optimal control and design of energy systems in buildings. PhD thesis, Arenberg Doctoral School, KU Leuven.
+ - F. Jorissen., W. Boydens, L. Helsen (2019) TACO, an automated toolchain for model predictive control of building systems: implementation and verification. *Journal of Building Performance Simulation* **12** (2). 180-192.
  - Picard D., Sourbron M., Jorissen F., Vana Z., Cigler J., Ferkl L., Helsen L. (2016). Comparison of Model Predictive Control Performance Using Grey-Box and White-Box Controller Models of a Multi-zone Office Building. International High Performance Buildings Conference. West Lafayette, 11-14 July 2016 (art.nr. 203).
- - F. Jorissen, W. Boydens, L. Helsen (2019) Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica. *Journal of Building Performance Simulation
+ - F. Jorissen, W. Boydens, L. Helsen (2019) Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica. *Journal of Building Performance Simulation* **12** (4)
  - F. Jorissen, D. Picard, K. Six, L. Helsen (2021) Detailed White-Box Non-Linear Model Predictive Control for Scalable Building HVAC Control. In Proceedings of the 14th Modelica Conference 2021. Online.
  - F. Jorissen, D. Picard, L Helsen (2021). Strengths of Non-Linear White-Box MPC for Building HVAC Control. In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September 2021.
  - A. Erfani Beyzaee, X. Yu, T.M. Kull, P. Bacher, T. Jafarinejad, and S. Roels (2021). Analysis of the impact of predictive models on the quality of the model predictive control for an experimental building. In Proceedings of the 17th IBPSA Conference. Bruges, 1-3 September 2021.
