@@ -50,6 +50,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - D. Picard, L. Helsen (2014). A New Hybrid Model For Borefield Heat Exchangers Performance Evaluation. 2014 ASHRAE ANNUAL CONFERENCE: Vol. 120 (2). ASHRAE: Ground Source Heat Pumps: State of the Art Design, Performance and Research. Seattle, 1-8.
  - Picard D., Jorissen F., Helsen L. (2015). Methodology for Obtaining Linear State Space Building Energy Simulation Models. 11th International Modelica Conference. International Modelica Conference. Paris, 21-23 September 2015 (pp. 51-58).
  - F. Jorissen, L. Helsen (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
+ - K. De Jonge, F. Jorissen, L. Helsen, J. Laverge (2021).  Wind-Driven Air Flow Modelling in Modelica: Validation and Implementation in the IDEAS Library.  In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September
 
 ### Applications of IDEAS
  - D. Picard. (2017) Modeling, optimal control and HVAC design of large buildings using ground source heat pump systems. PhD thesis, Arenberg Doctoral School, KU Leuven.
