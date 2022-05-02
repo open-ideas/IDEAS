@@ -51,6 +51,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - D. Picard, F. Jorissen, L. Helsen (2015). Methodology for Obtaining Linear State Space Building Energy Simulation Models. 11th International Modelica Conference. International Modelica Conference. Paris, 21-23 September 2015 (pp. 51-58).
  - F. Jorissen, L. Helsen (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
  - K. De Jonge, F. Jorissen, L. Helsen, J. Laverge (2021).  Wind-Driven Air Flow Modelling in Modelica: Validation and Implementation in the IDEAS Library.  In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September
+ - F. Jorissen, M. Wetter, L. Helsen (2018). Simplifications for hydronic system models in modelica. *Journal of Building Performance Simulation* **11** (6). 639-654
 
 ### Applications of IDEAS
  - D. Picard. (2017) Modeling, optimal control and HVAC design of large buildings using ground source heat pump systems. PhD thesis, Arenberg Doctoral School, KU Leuven.
@@ -71,7 +72,7 @@ IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.
  - F. Jorissen. (2018) Toolchain for optimal control and design of energy systems in buildings. PhD thesis, Arenberg Doctoral School, KU Leuven.
  - F. Jorissen., W. Boydens, L. Helsen (2019) TACO, an automated toolchain for model predictive control of building systems: implementation and verification. *Journal of Building Performance Simulation* **12** (2). 180-192.
  - Picard D., Sourbron M., Jorissen F., Vana Z., Cigler J., Ferkl L., Helsen L. (2016). Comparison of Model Predictive Control Performance Using Grey-Box and White-Box Controller Models of a Multi-zone Office Building. International High Performance Buildings Conference. West Lafayette, 11-14 July 2016 (art.nr. 203).
- - F. Jorissen, W. Boydens, L. Helsen (2019) Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica. *Journal of Building Performance Simulation* **12** (4)
+ - F. Jorissen, W. Boydens, L. Helsen (2019) Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica. *Journal of Building Performance Simulation* **12** (4), 445-464
  - F. Jorissen, D. Picard, K. Six, L. Helsen (2021) Detailed White-Box Non-Linear Model Predictive Control for Scalable Building HVAC Control. In Proceedings of the 14th Modelica Conference 2021. Online.
  - F. Jorissen, D. Picard, L Helsen (2021). Strengths of Non-Linear White-Box MPC for Building HVAC Control. In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September 2021.
  - A. Erfani Beyzaee, X. Yu, T.M. Kull, P. Bacher, T. Jafarinejad, and S. Roels (2021). Analysis of the impact of predictive models on the quality of the model predictive control for an experimental building. In Proceedings of the 17th IBPSA Conference. Bruges, 1-3 September 2021.
