@@ -124,6 +124,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{40,30},{20,50}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{80,50},{60,30}})));
@@ -139,9 +140,10 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{0,0},{-20,20}})));
   Fluid.Sensors.TemperatureTwoPort senTemRet(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Return water temperature sensor"
-    annotation (Placement(transformation(extent={{80,-10},{60,-30}})));
+    annotation (Placement(transformation(extent={{60,-10},{80,-30}})));
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
@@ -284,14 +286,10 @@ equation
     annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
           40},{80,40}},               color={0,127,255}));
-  connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
-          -20},{124,0}},        color={0,127,255}));
   connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
         points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
   connect(pum.port_b, floHea.port_a)
     annotation (Line(points={{20,40},{0,40},{0,10}}, color={0,127,255}));
-  connect(floHea.port_b, senTemRet.port_b)
-    annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -369,6 +367,10 @@ equation
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
     annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
+  connect(senTemRet.port_b, heaPum.port_a1)
+    annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
+  connect(senTemRet.port_a, floHea.port_b)
+    annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
   annotation (
     experiment(
       StopTime=1728000,
