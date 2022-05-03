@@ -877,7 +877,7 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </html>", revisions="<html>
 <ul>
 <li>
-May 3, 2023, by David Blum and Filip Jorissen:<br/>
+May 3, 2022, by David Blum and Filip Jorissen:<br/>
 Detect occupancy for set points with threshold strictly larger than 0.
 This is for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1260\"> issue #1260</a>. 
