@@ -260,7 +260,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-80,90},{-60,70}})));
   Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
+  Modelica.Blocks.Sources.Constant const(k=1e-8) "Threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-114,100},{-94,120}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
