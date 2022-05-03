@@ -42,7 +42,7 @@ This record may be used to define material properties.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>April 12, 2022, by Jelger Jansen:<br>Updated documentation.</li>
+<li>May 3, 2022, by Jelger Jansen:<br>Changed symbol for kinematic viscosity to &apos;nu&apos; and corrected some typos.</li>
 <li>November 15, 2016, by Filip Jorissen:<br>Revised documentation for IDEAS 1.0.</li>
 </ul>
 </html>"));
