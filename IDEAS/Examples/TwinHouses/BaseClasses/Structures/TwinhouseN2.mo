@@ -672,43 +672,43 @@ equation
   connect(Bedroom2.propsBus[12], W55.propsBus_a);
   connect(Living.propsBus[18], W55.propsBus_b);
 
-  connect(Living.gainCon.T, TSensor[1]);
+  TSensor[1] = Living.gainCon.T;
   connect(Living.ports[1], port_a[1]);
   connect(Living.ports[2], port_b[1]);
   connect(Living.gainCon, heatPortCon[1]);
   connect(Living.gainRad, heatPortRad[1]);
 
-  connect(Corridor.gainCon.T, TSensor[2]);
+  TSensor[2] = Corridor.gainCon.T;
   connect(Corridor.ports[1], port_a[2]);
   connect(Corridor.ports[2], port_b[2]);
   connect(Corridor.gainCon, heatPortCon[2]);
   connect(Corridor.gainRad, heatPortRad[2]);
 
-  connect(Bathroom.gainCon.T, TSensor[3]);
+  TSensor[3] = Bathroom.gainCon.T;
   connect(Bathroom.ports[1], port_a[3]);
   connect(Bathroom.ports[2], port_b[3]);
   connect(Bathroom.gainCon, heatPortCon[3]);
   connect(Bathroom.gainRad, heatPortRad[3]);
 
-  connect(Bedroom1.gainCon.T, TSensor[4]);
+  TSensor[4] = Bedroom1.gainCon.T;
   connect(Bedroom1.ports[1], port_a[4]);
   connect(Bedroom1.ports[2], port_b[4]);
   connect(Bedroom1.gainCon, heatPortCon[4]);
   connect(Bedroom1.gainRad, heatPortRad[4]);
 
-  connect(Kitchen.gainCon.T, TSensor[5]);
+  TSensor[5] = Kitchen.gainCon.T;
   connect(Kitchen.ports[1], port_a[5]);
   connect(Kitchen.ports[2], port_b[5]);
   connect(Kitchen.gainCon, heatPortCon[5]);
   connect(Kitchen.gainRad, heatPortRad[5]);
 
-  connect(Entrance.gainCon.T, TSensor[6]);
+  TSensor[6] = Entrance.gainCon.T;
   connect(Entrance.ports[1], port_a[6]);
   connect(Entrance.ports[2], port_b[6]);
   connect(Entrance.gainCon, heatPortCon[6]);
   connect(Entrance.gainRad, heatPortRad[6]);
 
-  connect(Bedroom2.gainCon.T, TSensor[7]);
+  TSensor[7] = Bedroom2.gainCon.T;
   connect(Bedroom2.ports[1], port_a[7]);
   connect(Bedroom2.ports[2], port_b[7]);
   connect(Bedroom2.gainCon, heatPortCon[7]);
@@ -737,25 +737,29 @@ equation
           -28,6},{-28,-86},{-31.8,-86}},
                                   color={0,0,127}));
   connect(W28.Ctrl, controlBlind1.y[3]) annotation (Line(points={{-8.33333,6},{
-          -20,6},{-20,-85.3333},{-31.8,-85.3333}},
+          -20,6},{-20,-85.6667},{-31.8,-85.6667}},
                                             color={0,0,127}));
   connect(W29.Ctrl, controlBlind1.y[1]) annotation (Line(points={{6.66667,6},{
-          -14,6},{-14,-86.6667},{-31.8,-86.6667}},
+          -14,6},{-14,-86.3333},{-31.8,-86.3333}},
                                             color={0,0,127}));
   connect(W30.Ctrl, controlBlind1.y[1]) annotation (Line(points={{21.6667,6},{
-          -4,6},{-4,-86.6667},{-31.8,-86.6667}},
+          -4,6},{-4,-86.3333},{-31.8,-86.3333}},
                                            color={0,0,127}));
   connect(W31.Ctrl, controlBlind1.y[1]) annotation (Line(points={{36.6667,6},{
-          14,6},{14,-86.6667},{-31.8,-86.6667}},
+          14,6},{14,-86.3333},{-31.8,-86.3333}},
                                            color={0,0,127}));
   connect(W32.Ctrl, controlBlind1.y[3]) annotation (Line(points={{49.6667,6},{
-          20,6},{20,-85.3333},{-31.8,-85.3333}},
+          20,6},{20,-85.6667},{-31.8,-85.6667}},
                                            color={0,0,127}));
   connect(W33.Ctrl, controlBlind1.y[2]) annotation (Line(points={{64.6667,6},{
           24,6},{24,-86},{-31.8,-86}},
                                  color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+May 5, 2022, by Filip Jorissen:<br/>
+Using an equation instead of a connection for defining TSensor for #1265.
+</li>
 <li>
 November 21, 2020, by Filip Jorissen:<br/>
 Using <code>ports</code> instead of <code>port_a</code> and <code>port_b</code>.
