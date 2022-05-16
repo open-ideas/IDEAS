@@ -104,7 +104,8 @@ of the TMY3 weather data reader is used.
 </ul>
 <h4>TMY3 weather data files</h4>
 IDEAS uses TMY3 input files. 
-The default weather file 'Brussels.mos' contains weather information from IWEC for the Brussels region.
+The default weather file 'BEL_VLG_Uccle.064470_TMYx.2007-2021.mos' contains weather information from https://climate.onebuilding.org 
+for the weather station in Uccle, near the Brussels region in Belgium.
 For detailed documentation see 
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 <h4>Interzonal airflow</h4>
