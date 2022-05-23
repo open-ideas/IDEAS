@@ -27,7 +27,7 @@ model Overhang "Roof overhangs"
     "Fraction of window area exposed to direct sun light";
 protected
   final parameter Modelica.Units.SI.Area AWin=hWin*wWin "Window area";
-  parameter Modelica.Units.SI.Length tmpH[4](fixed=false)
+  parameter Modelica.Units.SI.Length[4] tmpH(each fixed=false)
     "Height rectangular sections used for superposition";
   final parameter Modelica.Units.SI.Angle vieAngOverhang=atan(dep/(gap + hWin/2))
     "Viewing angle of overhang";

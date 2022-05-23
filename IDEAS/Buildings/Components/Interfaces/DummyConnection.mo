@@ -15,6 +15,7 @@ model DummyConnection "Source generator/sink for propsbus"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus zoneBus(
+    redeclare package Medium = IDEAS.Media.Air,
     outputAngles=sim.outputAngles,
     numIncAndAziInBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
@@ -143,6 +144,12 @@ equation
           smooth=Smooth.None)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 23, 2022, by Filip Jorissen:<br/>
+Added missing medium declaration.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 November 21, 2020, by Filip Jorissen:<br/>
 Added connections for interzonal airflow.

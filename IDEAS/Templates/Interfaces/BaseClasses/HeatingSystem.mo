@@ -9,8 +9,7 @@ partial model HeatingSystem "Partial heating/cooling system"
   parameter Boolean isDH=false "=true, if the system is connected to a DH grid";
   //parameter Boolean InInterface = false;
   parameter Modelica.Units.SI.Power[nZones] Q_design
-    "Total design heat load for heating system based on heat losses"
-    annotation (Dialog(enable=InInterface));
+    "Total design heat load for heating system based on heat losses";
 
   // --- Ports
   parameter Integer nConvPorts(min=0) = nZones
@@ -33,8 +32,8 @@ partial model HeatingSystem "Partial heating/cooling system"
       1:nConvPorts}) + sum({max(0, -heatPortRad[i].Q_flow) for i in 1:nRadPorts})
        + sum({max(0, -heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
     "Total thermal power use for space heating";
-  Modelica.Units.SI.Power QCooTotal=sum({max(0, heatPortCon[i].Q_flow) for i
-       in 1:nConvPorts}) + sum({max(0, heatPortRad[i].Q_flow) for i in 1:
+  Modelica.Units.SI.Power QCooTotal=sum({max(0, heatPortCon[i].Q_flow) for i in
+          1:nConvPorts}) + sum({max(0, heatPortRad[i].Q_flow) for i in 1:
       nRadPorts}) + sum({max(0, heatPortEmb[i].Q_flow) for i in 1:nEmbPorts})
     "Total thermal power use for cooling";
 
