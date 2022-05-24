@@ -51,19 +51,19 @@ partial model HeatingSystem "Partial heating/cooling system"
 
   // --- Sensor
   Modelica.Blocks.Interfaces.RealInput[nTemSen] TSensor(
-    final quantity="ThermodynamicTemperature",
-    unit="K",
-    displayUnit="degC",
-    min=0) "Sensor temperature" annotation (Placement(transformation(
+    each final quantity="ThermodynamicTemperature",
+    each unit="K",
+    each displayUnit="degC",
+    each min=0) "Sensor temperature" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
         origin={-204,-60})));
 
   Modelica.Blocks.Interfaces.RealInput[nZones] TSet(
-    final quantity="ThermodynamicTemperature",
-    unit="K",
-    displayUnit="degC",
-    min=0) "Setpoint temperature for the zones" annotation (Placement(
+    each final quantity="ThermodynamicTemperature",
+    each unit="K",
+    each displayUnit="degC",
+    each min=0) "Setpoint temperature for the zones" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
