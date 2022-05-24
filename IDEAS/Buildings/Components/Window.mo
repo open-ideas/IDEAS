@@ -100,18 +100,6 @@ model Window "Multipane window"
   Modelica.Blocks.Math.Gain gainDif(k=A*(1 - frac))
     "Gain for diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-36,-50},{-32,-46}})));
-protected
-  final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
-    "Average window U-value";
-  final parameter Boolean addCapGla =  windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    "Add lumped thermal capacitor for window glazing";
-  final parameter Boolean addCapFra =  fraType.present and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    "Added lumped thermal capacitor for window frame";
-  final parameter Modelica.Units.SI.HeatCapacity Cgla=layMul.C
-    "Heat capacity of glazing state";
-  final parameter Modelica.Units.SI.HeatCapacity Cfra=layMul.C*fraC
-    "Heat capacity of frame state";
-  final parameter Modelica.Units.SI.Area A_glass=A*(1 - frac);
 
   IDEAS.Airflow.Multizone.TrickleVent trickleVent(
     redeclare package Medium = Medium,
@@ -171,6 +159,18 @@ protected
     inc=incInt,
     azi=aziInt)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
+protected
+  final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
+    "Average window U-value";
+  final parameter Boolean addCapGla =  windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+    "Add lumped thermal capacitor for window glazing";
+  final parameter Boolean addCapFra =  fraType.present and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+    "Added lumped thermal capacitor for window frame";
+  final parameter Modelica.Units.SI.HeatCapacity Cgla=layMul.C
+    "Heat capacity of glazing state";
+  final parameter Modelica.Units.SI.HeatCapacity Cfra=layMul.C*fraC
+    "Heat capacity of frame state";
+  final parameter Modelica.Units.SI.Area A_glass=A*(1 - frac);
   Modelica.Blocks.Routing.RealPassThrough Tdes
     "Design temperature passthrough since propsBus variables cannot be addressed directly";
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaInt(C=Cgla/2,
