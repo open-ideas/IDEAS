@@ -96,11 +96,11 @@ model SingleZoneResidentialHydronicHeatPump
                                                      y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
-        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 1e-8 then
+        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
-        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
+        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -876,6 +876,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 3, 2022, by David Blum and Filip Jorissen:<br/>
+Detect occupancy for set points with threshold strictly larger than 0.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1260\"> issue #1260</a>. 
+</li>
 <li>
 December 2, 2021, by David Blum:<br/>
 Remove read blocks for control signals.
