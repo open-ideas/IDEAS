@@ -680,13 +680,12 @@ equation
           fillPattern=FillPattern.Solid),
         Line(points={{0,80},{80,-80}}, color={0,0,0}),
         Line(points={{80,80},{0,-80}}, color={0,0,0})}),
-    experiment(
-      StopTime=3000,
-      Tolerance=0.001,
-      __Dymola_Algorithm="Lsodar"),
-    __Dymola_experimentSetupOutput(events=false),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation for #1254.
+</li>
 <li>
 April 11, 2022, by Filip Jorissen:<br/>
 Added dummy heat exchanger implementation for avoiding singularity after MSL4 update.
