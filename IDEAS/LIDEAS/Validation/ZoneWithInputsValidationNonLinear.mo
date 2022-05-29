@@ -114,9 +114,9 @@ prescribedOut.QRad[2]}) "Precomputed input values"
     initType=Modelica.Blocks.Types.Init.NoInit) "State space model"
     annotation (Placement(transformation(extent={{-40,100},{-20,120}})));
 protected
-  final parameter Integer[2] Bsize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Bsize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "B") "Size of B matrix of state space model";
-  final parameter Integer[2] Csize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Csize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "C") "Size of C matrix of state space model";
 public
   Modelica.Blocks.Sources.Sine ctrlInputTestCon[nZones](
@@ -252,6 +252,11 @@ equation
         "Linearize, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 29, 2022, by Filip Jorissen:<br/>
+Using full path for readMatrixSize for OM compatibility for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1254>#1254</a>.
+</li>
 <li>
 December 11, 2019, by Filip Jorissen:<br/>
 Revised input list for
