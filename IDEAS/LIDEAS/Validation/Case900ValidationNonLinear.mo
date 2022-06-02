@@ -63,10 +63,10 @@ model Case900ValidationNonLinear "Model to validate the linearization method by 
   final parameter Integer nPreInp = size(preInp,1) "Number of precomputed inputs";
   final parameter Integer nOut = Csize[1] "Number of precomputed outputs";
    Modelica.Blocks.Continuous.StateSpace stateSpace(
-     A=readMatrix(fileName=fileName, matrixName="A", rows=nSta, columns = nSta),
-     B=readMatrix(fileName=fileName, matrixName="B", rows=nSta, columns = nInp),
-     C=readMatrix(fileName=fileName, matrixName="C", rows=nOut, columns=nSta),
-     D=readMatrix(fileName=fileName, matrixName="D", rows=nOut, columns=nInp),
+     A= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="A", nrow=nSta, ncol = nSta),
+     B= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="B", nrow=nSta, ncol = nInp),
+     C= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="C", nrow=nOut, ncol=nSta),
+     D= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="D", nrow=nOut, ncol=nInp),
      x_start=x_start,
     initType=Modelica.Blocks.Types.Init.InitialState) "State space model"
      annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
@@ -153,9 +153,9 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-May 29, 2022, by Filip Jorissen:<br/>
-Using full path for readMatrixSize for OM compatibility for
-issue <a href=https://github.com/open-ideas/IDEAS/issues/1254>#1254</a>.
+June 2nd, 2022, by Filip Jorissen:<br/>
+Using MSL functions for readMatrixSize and readMatrix for OM compatibility for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1284>#1284</a>.
 </li>
 <li>
 December 11, 2019, by Filip Jorissen:<br/>
