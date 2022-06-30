@@ -42,14 +42,17 @@ model OuterWall "Opaque building envelope construction"
       choicesAllMatching=true,
       Dialog(tab="Advanced",group="Shading"));
 
-
-
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
     annotation (Dialog(tab="Airflow", group="Wind Pressure"));
   parameter Real Habs=1
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+  IDEAS.BoundaryConditions.SolarIrradiation.RadSolData radSolData(
+    inc=incInt,
+    azi=aziInt,
+    useLinearisation=sim.lineariseDymola)
+    annotation (Placement(transformation(extent={{-100,-6},{-80,14}})));
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -67,11 +70,6 @@ protected
     extRad(               linearise=linExtRad or sim.linearise, final A=A)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
-  BoundaryConditions.SolarIrradiation.RadSolData radSolData(
-    inc=incInt,
-    azi=aziInt,
-    useLinearisation=sim.lineariseDymola)
-    annotation (Placement(transformation(extent={{-100,-6},{-80,14}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"

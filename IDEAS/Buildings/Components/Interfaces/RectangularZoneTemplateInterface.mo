@@ -515,12 +515,7 @@ partial model RectangularZoneTemplateInterface
         rotation=180,
         origin={-120,100})));
 
-protected
-  constant Real r = 287 "Gas constant";
-  final parameter Modelica.Units.SI.Angle aziAInt=if aziOpt == 5 then aziA
-       else sim.aziOpts[aziOpt] "Internal azimuth angle";
-  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
-    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
+
   IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
@@ -852,7 +847,6 @@ protected
     final hasCavity=false)
  if hasInt "Internal wall contained within the zone"
     annotation (Placement(transformation(extent={{-176,20},{-164,40}})));
-public
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA[nExtA](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
@@ -961,6 +955,11 @@ public
     "Floor node for embedded heat gain if case of floor heating or CCA."
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 protected
+  constant Real r = 287 "Gas constant";
+  final parameter Modelica.Units.SI.Angle aziAInt=if aziOpt == 5 then aziA
+       else sim.aziOpts[aziOpt] "Internal azimuth angle";
+  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
+    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
   final parameter Boolean hasBouA=
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
   final parameter Boolean hasBouB=

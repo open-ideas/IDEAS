@@ -1,9 +1,10 @@
 ## IDEAS v3.0.0
-IDEAS 3 has been released on April 11th, 2022. It includes:
+IDEAS 3 has been released on May 3rd, 2022. It includes:
  - A conversion of IDEAS v2.2.2 to MSL 4.0.0. 
  - An update of IBPSA models to commit f36e99e064c162dc9772137e7d9990f52b6f59c9. 
  - Support for Dymola 2022x.
  - An update of the default weather file for #1239.
+ - An update of the README.md on the front page of GitHub.
 
 ## IDEAS v2.2.2
 IDEAS 2.2.2 has been released on April 2nd, 2022. It is the final release that supports the Modelica Standard v3.3 and MSL v3 before updating to MSL 4.0.0. Only few changes were performed. Most importantly, some compatibility fixes for OpenModelica were added.

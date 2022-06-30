@@ -32,8 +32,14 @@ equation
       color={85,170,255},
       smooth=Smooth.None));
   annotation (
-    Diagram(graphics),
-    experiment(StopTime=1.2096e+006, Interval=600),
-    __Dymola_experimentSetupOutput,
-    uses(IDEAS(version="1.0.0")));
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation to avoid failing OMC tests.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
+</ul>
+</html>"));
 end TestGridGeneral;

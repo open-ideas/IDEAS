@@ -28,8 +28,6 @@ model EmbeddedPipeDp "Testing pressure drop of embeddedpipe"
     computeFlowResistance=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     annotation (Placement(transformation(extent={{64,-16},{84,4}})));
-  BaseClasses.RadSlaCha_ValidationEmpa radSlaCha_ValidationEmpa
-    annotation (Placement(transformation(extent={{-90,-96},{-70,-76}})));
 
   Sources.Boundary_ph bou(nPorts=2, redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{120,-70},{100,-50}})));
@@ -46,7 +44,7 @@ model EmbeddedPipeDp "Testing pressure drop of embeddedpipe"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={42,50})));
-  BaseClasses.NakedTabs nakedTabs(radSlaCha=radSlaCha_ValidationEmpa,
+  BaseClasses.NakedTabs nakedTabs(redeclare BaseClasses.RadSlaCha_ValidationEmpa radSlaCha,
     C1(each T(fixed=true)),
     C2(each T(fixed=true)))
     annotation (Placement(transformation(extent={{62,16},{82,36}})));
