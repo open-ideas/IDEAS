@@ -91,26 +91,26 @@ prescribedOut.QRad[2]}) "Precomputed input values"
     "Number of precomputed inputs";
   final parameter Integer nOut=Csize[1] "Number of precomputed outputs";
   Modelica.Blocks.Continuous.StateSpace stateSpace(
-    A=readMatrix(
+    A=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="A",
-        rows=nSta,
-        columns=nSta),
-    B=readMatrix(
+        nrow=nSta,
+        ncol=nSta),
+    B=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="B",
-        rows=nSta,
-        columns=nInp),
-    C=readMatrix(
+        nrow=nSta,
+        ncol=nInp),
+    C=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="C",
-        rows=nOut,
-        columns=nSta),
-    D=readMatrix(
+        nrow=nOut,
+        ncol=nSta),
+    D=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="D",
-        rows=nOut,
-        columns=nInp),
+        nrow=nOut,
+        ncol=nInp),
     initType=Modelica.Blocks.Types.Init.NoInit) "State space model"
     annotation (Placement(transformation(extent={{-40,100},{-20,120}})));
 protected
