@@ -247,6 +247,7 @@ equation
       StopTime=1000000,
       __Dymola_NumberOfIntervals=1000,
       Tolerance=1e-06),
+    __OpenModelica_commandLineOptions = "--allowNonStandardModelica=protectedAccess",
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/LIDEAS/Validation/ZoneWithInputsValidationNonLinear.mos"
         "Linearize, simulate and plot"),
