@@ -7,8 +7,7 @@ partial model PartialShading "Window shading partial"
   parameter Modelica.Units.SI.Area A_frame "Surface area of the frame";
   parameter Modelica.Units.SI.Angle inc "Surface inclination";
   parameter Modelica.Units.SI.Temperature Tenv_nom=280
-    "Nominal temperature of environment"
-    annotation (Dialog(group="Linearisation", enable=linRad));
+    "Nominal temperature of environment";
   parameter Modelica.Units.SI.Emissivity epsSw_frame
     "Short wave solar absorption coefficient of the frame";
   parameter Modelica.Units.SI.Emissivity epsLw_frame
@@ -21,8 +20,9 @@ partial model PartialShading "Window shading partial"
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.Angle azi "Window azimuth angle"
     annotation (Dialog(group="Window properties"));
-  
+
   parameter Boolean haveBoundaryPorts = true "Include ports for setting boundary conditions";
+  final parameter Boolean haveFrame = A_frame*epsLw_frame > 0 "Frame enabled";
 
   Modelica.Units.SI.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
     "Total solar irradiatiance";
@@ -74,19 +74,22 @@ partial model PartialShading "Window shading partial"
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={0,-100})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_frame if haveBoundaryPorts annotation(
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_frame if haveBoundaryPorts and haveFrame annotation (
     Placement(visible = true, transformation(origin = {100, 160}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(extent = {{40, 170}, {60, 190}}, rotation = 0)));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_glazing if haveBoundaryPorts annotation(
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_glazing if haveBoundaryPorts annotation (
     Placement(visible = true, transformation(origin = {100, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(extent = {{40, 130}, {60, 150}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput TEnv(displayUnit = "degC", unit = "K") "Environment temperature" annotation(
+  Modelica.Blocks.Interfaces.RealInput TEnv(displayUnit = "degC", unit = "K") if haveBoundaryPorts
+  "Environment temperature" annotation (
     Placement(visible = true, transformation(origin = {-60, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-50, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput Te(displayUnit = "degC", unit = "K") annotation(
+  Modelica.Blocks.Interfaces.RealInput Te(displayUnit = "degC", unit = "K") if haveBoundaryPorts
+   annotation (
     Placement(visible = true, transformation(extent = {{-80, 110}, {-40, 150}}, rotation = 0), iconTransformation(origin = {-50, 140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit = "W/(m2.K)") annotation(
+  Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit = "W/(m2.K)") if haveBoundaryPorts
+   annotation (
     Placement(visible = true, transformation(extent = {{-80, 90}, {-40, 130}}, rotation = 0), iconTransformation(origin = {-50, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  annotation(
+  annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),
-    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}}), graphics = {Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-50, 80}, {0, 60}, {4, 60}, {4, -20}, {-50, 0}, {-50, 80}}), Polygon(fillColor = {179, 179, 179}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{4, 40}, {50, 20}, {50, -32}, {20, -20}, {4, -20}, {4, 40}}), Line(points = {{0, 60}, {20, 60}, {20, 80}, {50, 80}}, color = {95, 95, 95}), Line(points = {{0, -20}, {20, -20}, {20, -70}, {20, -70}, {50, -70}}, color = {95, 95, 95}), Line(points = {{0, 60}, {0, 66}, {0, 100}, {50, 100}}, color = {95, 95, 95}), Line(points = {{0, -20}, {0, -90}, {50, -90}}, color = {95, 95, 95}), Line(points = {{4, 60}, {4, -20}}, thickness = 0.5)}),
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}}), graphics={  Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-50, 80}, {0, 60}, {4, 60}, {4, -20}, {-50, 0}, {-50, 80}}), Polygon(fillColor = {179, 179, 179}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{4, 40}, {50, 20}, {50, -32}, {20, -20}, {4, -20}, {4, 40}}), Line(points = {{0, 60}, {20, 60}, {20, 80}, {50, 80}}, color = {95, 95, 95}), Line(points = {{0, -20}, {20, -20}, {20, -70}, {20, -70}, {50, -70}}, color = {95, 95, 95}), Line(points = {{0, 60}, {0, 66}, {0, 100}, {50, 100}}, color = {95, 95, 95}), Line(points = {{0, -20}, {0, -90}, {50, -90}}, color = {95, 95, 95}), Line(points = {{4, 60}, {4, -20}}, thickness = 0.5)}),
     Documentation(revisions = "<html>
 <ul>
 <li>
