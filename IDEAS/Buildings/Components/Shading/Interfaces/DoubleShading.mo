@@ -5,6 +5,7 @@ model DoubleShading "Two shading components in series"
         stateShading2.controlled);
   replaceable PartialShading stateShading1
   constrainedby PartialShading(
+    haveFrame=haveFrame,
     A_glazing=A_glazing,
     A_frame=A_frame,
     inc=inc,
@@ -19,6 +20,7 @@ model DoubleShading "Two shading components in series"
     annotation (Placement(transformation(extent={{-28,-18},{-18,2}})));
   replaceable PartialShading stateShading2
   constrainedby PartialShading(
+    haveFrame=haveFrame,
     A_glazing=A_glazing,
     A_frame=A_frame,
     inc=inc,

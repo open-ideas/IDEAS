@@ -22,7 +22,7 @@ partial model PartialShading "Window shading partial"
     annotation (Dialog(group="Window properties"));
 
   parameter Boolean haveBoundaryPorts = true "Include ports for setting boundary conditions";
-  final parameter Boolean haveFrame = A_frame*epsLw_frame > 0 "Frame enabled";
+  parameter Boolean haveFrame = A_frame*epsLw_frame > 0 "Frame enabled";
 
   Modelica.Units.SI.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
     "Total solar irradiatiance";

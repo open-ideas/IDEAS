@@ -54,20 +54,20 @@ model Window "Multipane window"
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame "Window frame type"
     annotation (choicesAllMatching=true, Dialog(group=
           "Construction details"));
-  replaceable IDEAS.Buildings.Components.Shading.None shaType 
-    constrainedby
-    Shading.Interfaces.PartialShading(
-     A_frame = A * frac, 
-      A_glazing = A * (1 - frac), 
-      Tenv_nom = sim.Tenv_nom, 
-      epsLw_frame = fraType.mat.epsLw, 
-      epsLw_glazing = layMul.parEpsLw_b, 
-      epsSw_frame = fraType.mat.epsSw, 
-      inc = incInt, 
-      linCon = linExtCon or sim.linearise, 
+  replaceable IDEAS.Buildings.Components.Shading.None shaType
+    constrainedby Shading.Interfaces.PartialShading(
+      haveFrame=fraType.present and A*frac > 0,
+      A_frame = A * frac,
+      A_glazing = A * (1 - frac),
+      Tenv_nom = sim.Tenv_nom,
+      epsLw_frame = fraType.mat.epsLw,
+      epsLw_glazing = layMul.parEpsLw_b,
+      epsSw_frame = fraType.mat.epsSw,
+      inc = incInt,
+      linCon = linExtCon or sim.linearise,
       linRad = linExtRad or sim.linearise,
-      final azi=aziInt) "First shading type" annotation(
-    Placement(visible = true, transformation(origin = {-63, -49.4895}, extent = {{-11, -13.9877}, {11, 27.9754}}, rotation = 0)) ,
+      final azi=aziInt) "First shading type" annotation (
+    Placement(visible = true, transformation(origin = {-63, -49.4895}, extent = {{-11, -13.9877}, {11, 27.9754}}, rotation = 0)),
       choicesAllMatching=true, Dialog(group="Construction details"));
 
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
@@ -196,73 +196,82 @@ initial equation
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
 
-
+  assert(not (not fraType.present and frac > 0), "In " + getInstanceName() +
+    ": You may have intended to model a frame since the parameter 'frac' is larger than zero. However, no frame type is configured such that no frame will be modelled. This may be a mistake. Set frac=0 to avoid this warning if this is intentional.",
+    level=AssertionLevel.warning);
 equation
-  connect(solWin.iSolDir, propsBusInt.iSolDir) annotation(
+  connect(solWin.iSolDir, propsBusInt.iSolDir) annotation (
     Line(points = {{-2, -60}, {-2, -70}, {56.09, -70}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
-  connect(solWin.iSolDif, propsBusInt.iSolDif) annotation(
+  connect(solWin.iSolDif, propsBusInt.iSolDif) annotation (
     Line(points = {{2, -60}, {2, -70}, {56.09, -70}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
-  connect(solWin.iSolAbs, layMul.port_gain) annotation(
+  connect(solWin.iSolAbs, layMul.port_gain) annotation (
     Line(points = {{0, -40}, {0, -10}}, color = {191, 0, 0}, smooth = Smooth.None));
-  connect(shaType.Ctrl, Ctrl) annotation(
-    Line(points = {{-63, -61}, {-50, -61}, {-50, -110}}, color = {0, 0, 127}));
-  connect(iConFra.port_b, propsBusInt.surfCon) annotation(
+  connect(shaType.Ctrl, Ctrl) annotation (
+    Line(points={{-63,-63.4772},{-50,-63.4772},{-50,-110}},
+                                                         color = {0, 0, 127}));
+  connect(iConFra.port_b, propsBusInt.surfCon) annotation (
     Line(points = {{40, 70}, {46, 70}, {46, 19.91}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
-  connect(layFra.port_a, iConFra.port_a) annotation(
+  connect(layFra.port_a, iConFra.port_a) annotation (
     Line(points = {{10, 70}, {20, 70}}, color = {191, 0, 0}, smooth = Smooth.None));
-  connect(radSolData.angInc, shaType.angInc) annotation(
-    Line(points = {{-79.4, -54}, {-72.7, -54}, {-72.7, -53}, {-68.5, -53}}, color = {0, 0, 127}));
-  connect(radSolData.angAzi, shaType.angAzi) annotation(
-    Line(points = {{-79.4, -58}, {-74.95, -58}, {-74.95, -59}, {-68.5, -59}}, color = {0, 0, 127}));
-  connect(radSolData.angZen, shaType.angZen) annotation(
-    Line(points = {{-79.4, -56}, {-68.5, -56}}, color = {0, 0, 127}));
+  connect(radSolData.angInc, shaType.angInc) annotation (
+    Line(points={{-79.4,-54},{-72.7,-54},{-72.7,-55.0846},{-68.5,-55.0846}},color = {0, 0, 127}));
+  connect(radSolData.angAzi, shaType.angAzi) annotation (
+    Line(points={{-79.4,-58},{-74.95,-58},{-74.95,-60.6797},{-68.5,-60.6797}},color = {0, 0, 127}));
+  connect(radSolData.angZen, shaType.angZen) annotation (
+    Line(points={{-79.4,-56},{-74,-56},{-74,-57.8821},{-68.5,-57.8821}},
+                                                color = {0, 0, 127}));
   connect(Tdes.u, radSolData.Tdes);
-  connect(shaType.iAngInc, solWin.angInc) annotation(
-    Line(points = {{-57.5, -53}, {-34, -53}, {-34, -54}, {-10, -54}}, color = {0, 0, 127}));
-  connect(heaCapGlaInt.port, layMul.port_a) annotation(
+  connect(shaType.iAngInc, solWin.angInc) annotation (
+    Line(points={{-57.5,-55.0846},{-34,-55.0846},{-34,-54},{-10,-54}},color = {0, 0, 127}));
+  connect(heaCapGlaInt.port, layMul.port_a) annotation (
     Line(points = {{16, -12}, {16, 0}, {10, 0}}, color = {191, 0, 0}));
-  connect(heaCapFraIn.port, layFra.port_a) annotation(
+  connect(heaCapFraIn.port, layFra.port_a) annotation (
     Line(points = {{14, 100}, {14, 70}, {10, 70}}, color = {191, 0, 0}));
-  connect(gainDir.y, solWin.solDir) annotation(
-    Line(points = {{-26, -44}, {-10, -44}}, color = {0, 0, 127}));
-  connect(gainDif.y, solWin.solDif) annotation(
+  connect(gainDir.y, solWin.solDir) annotation (
+    Line(points={{-25.8,-44},{-10,-44}},    color = {0, 0, 127}));
+  connect(gainDif.y, solWin.solDif) annotation (
     Line(points = {{-31.8, -48}, {-22, -48}, {-10, -48}}, color = {0, 0, 127}));
-  connect(radSolData.HDirTil, shaType.HDirTil) annotation(
-    Line(points = {{-79.4, -46}, {-78, -46}, {-78, -39}, {-68.5, -39}}, color = {0, 0, 127}));
-  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation(
-    Line(points = {{-79.4, -48}, {-73.2, -48}, {-73.2, -42}, {-68.5, -42}}, color = {0, 0, 127}));
-  connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation(
-    Line(points = {{-79.4, -50}, {-73.2, -50}, {-73.2, -45}, {-68.5, -45}}, color = {0, 0, 127}));
-  connect(shaType.HShaGroDifTil, solDif.u2) annotation(
-    Line(points = {{-57.5, -45}, {-52.25, -45}, {-52.25, -46}, {-47, -46}}, color = {0, 0, 127}));
-  connect(solDif.u1, shaType.HShaSkyDifTil) annotation(
-    Line(points = {{-47, -42}, {-57.5, -42}}, color = {0, 0, 127}));
-  connect(gainDif.u, solDif.y) annotation(
-    Line(points = {{-36.4, -48}, {-38, -48}, {-38, -44}}, color = {0, 0, 127}));
-  connect(gainDir.u, shaType.HShaDirTil) annotation(
-    Line(points = {{-30, -44}, {-30.95, -44}, {-30.95, -39}, {-57.5, -39}}, color = {0, 0, 127}));
-  connect(layFra.port_b, heaCapFraExt.port) annotation(
+  connect(radSolData.HDirTil, shaType.HDirTil) annotation (
+    Line(points={{-79.4,-46},{-78,-46},{-78,-41.0969},{-68.5,-41.0969}},color = {0, 0, 127}));
+  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (
+    Line(points={{-79.4,-48},{-73.2,-48},{-73.2,-43.8944},{-68.5,-43.8944}},color = {0, 0, 127}));
+  connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (
+    Line(points={{-79.4,-50},{-73.2,-50},{-73.2,-46.692},{-68.5,-46.692}},  color = {0, 0, 127}));
+  connect(shaType.HShaGroDifTil, solDif.u2) annotation (
+    Line(points={{-57.5,-46.692},{-52.25,-46.692},{-52.25,-46.4},{-46.8,-46.4}},
+                                                                            color = {0, 0, 127}));
+  connect(solDif.u1, shaType.HShaSkyDifTil) annotation (
+    Line(points={{-46.8,-41.6},{-50,-41.6},{-50,-42},{-52,-42},{-52,-43.8944},{
+          -57.5,-43.8944}},                   color = {0, 0, 127}));
+  connect(gainDif.u, solDif.y) annotation (
+    Line(points={{-36.4,-48},{-37.6,-48},{-37.6,-44}},    color = {0, 0, 127}));
+  connect(gainDir.u, shaType.HShaDirTil) annotation (
+    Line(points={{-30.4,-44},{-30.95,-44},{-30.95,-41.0969},{-57.5,-41.0969}},
+                                                                            color = {0, 0, 127}));
+  connect(layFra.port_b, heaCapFraExt.port) annotation (
     Line(points = {{-10, 70}, {-10, 100}}, color = {191, 0, 0}));
-  connect(heaCapGlaExt.port, layMul.port_b) annotation(
+  connect(heaCapGlaExt.port, layMul.port_b) annotation (
     Line(points = {{-10, -12}, {-10, 0}}, color = {191, 0, 0}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation(
+  connect(res1.port_a, outsideAir.ports[1]) annotation (
     Line(points = {{20, -40}, {16, -40}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation(
+  connect(res2.port_a, outsideAir.ports[2]) annotation (
     Line(points = {{20, -60}, {16, -60}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
-  connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation(
+  connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation (
     Line(points = {{20, -78}, {16, -78}, {16, -92}, {-2, -92}, {-2, -90}, {-20, -90}}, color = {0, 127, 255}));
-  connect(trickleVent.port_b, propsBusInt.port_1) annotation(
+  connect(trickleVent.port_b, propsBusInt.port_1) annotation (
     Line(points = {{40, -78}, {50, -78}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
-  connect(radSolData.Te, shaType.Te) annotation(
-    Line(points = {{-80, -64}, {-68.5, -64}, {-68.5, -28}}, color = {0, 0, 127}));
-  connect(shaType.port_frame, layFra.port_b) annotation(
-    Line(points = {{-57.5, -22}, {-44, -22}, {-44, 70}, {-10, 70}}, color = {191, 0, 0}));
-  connect(shaType.port_glazing, layMul.port_b) annotation(
-    Line(points = {{-57.5, -28}, {-40, -28}, {-40, 0}, {-10, 0}}, color = {191, 0, 0}));
-  connect(radSolData.Tenv, shaType.TEnv) annotation(
-    Line(points = {{-80, -52}, {-76, -52}, {-76, -34}, {-68.5, -34}}, color = {0, 0, 127}));
-  connect(shaType.hForcedConExt, radSolData.hForcedConExt) annotation(
-    Line(points = {{-68, -30}, {-76, -30}, {-76, -62}, {-80, -62}}, color = {0, 0, 127}));
+  connect(radSolData.Te, shaType.Te) annotation (
+    Line(points={{-79.4,-64},{-68.5,-64},{-68.5,-29.9067}}, color = {0, 0, 127}));
+  connect(shaType.port_frame, layFra.port_b) annotation (
+    Line(points={{-57.5,-24.3116},{-44,-24.3116},{-44,70},{-10,70}},color = {191, 0, 0}));
+  connect(shaType.port_glazing, layMul.port_b) annotation (
+    Line(points={{-57.5,-29.9067},{-40,-29.9067},{-40,0},{-10,0}},color = {191, 0, 0}));
+  connect(radSolData.Tenv, shaType.TEnv) annotation (
+    Line(points={{-79.4,-52},{-76,-52},{-76,-35.5018},{-68.5,-35.5018}},
+                                                                      color = {0, 0, 127}));
+  connect(shaType.hForcedConExt, radSolData.hForcedConExt) annotation (
+    Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
+                                                                    color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, 100}}),
