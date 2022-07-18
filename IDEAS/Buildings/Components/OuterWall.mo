@@ -269,7 +269,7 @@ The correct shading parameter values should then be passed through the redeclara
 <li>
 July 18, 2022, by Filip Jorissen:<br/>
 Revised code for supporting new shading model.
-See <a href="https://github.com/open-ideas/IDEAS/issues/1270">
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">
 #1270</a>
 </li>
 <li>
