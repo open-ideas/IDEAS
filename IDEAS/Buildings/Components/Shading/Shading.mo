@@ -66,11 +66,11 @@ protected
     gap=shaPro.finGap)
  if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
     "Side fin model"
-    annotation (Placement(transformation(extent={{-16,-20},{-6,0}})));
+    annotation (Placement(visible = true, transformation(extent = {{-16, -20}, {-6, 0}}, rotation = 0)));
   IDEAS.Buildings.Components.Shading.None none(azi=azi)
  if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.None
     "No shading model"
-    annotation (Placement(transformation(extent={{-16,-40},{-6,-20}})));
+    annotation (Placement(visible = true, transformation(extent = {{-16, -40}, {-6, -20}}, rotation = 0)));
 
   IDEAS.Buildings.Components.Shading.BoxAndScreen boxAndScreen(
     azi=azi,
@@ -93,7 +93,7 @@ protected
     t=shaPro.t,
     beta = shaPro.beta,
     use_betaInput=shaPro.use_betaInput) if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.HorizontalFins "Horizontal fins model"
-    annotation (Placement(transformation(extent={{-16,100},{-6,120}})));
+    annotation (Placement(visible = true, transformation(extent = {{-16, 100}, {-6, 120}}, rotation = 0)));
   IDEAS.Buildings.Components.Shading.OverhangAndHorizontalFins overhangAndHorizontalFins(
     s=shaPro.s,
     w=shaPro.w,
@@ -129,8 +129,8 @@ equation
     annotation (Line(points={{-16,36},{-60,36},{-60,50}}, color={0,0,127}));
   connect(screen.HDirTil, HDirTil)
     annotation (Line(points={{-16,16},{-60,16},{-60,50}}, color={0,0,127}));
-  connect(sideFins.HDirTil, HDirTil)
-    annotation (Line(points={{-16,-4},{-60,-4},{-60,50}}, color={0,0,127}));
+  connect(sideFins.HDirTil, HDirTil) annotation(
+    Line(points = {{-16, -4}, {-60, -4}, {-60, 50}}, color = {0, 0, 127}));
   connect(box.HSkyDifTil, HSkyDifTil)
     annotation (Line(points={{-16,94},{-60,94},{-60,30}}, color={0,0,127}));
   connect(buildingShade.HSkyDifTil, HSkyDifTil)
@@ -141,8 +141,8 @@ equation
     annotation (Line(points={{-16,34},{-60,34},{-60,30}}, color={0,0,127}));
   connect(screen.HSkyDifTil, HSkyDifTil)
     annotation (Line(points={{-16,14},{-60,14},{-60,30}}, color={0,0,127}));
-  connect(sideFins.HSkyDifTil, HSkyDifTil)
-    annotation (Line(points={{-16,-6},{-60,-6},{-60,30}}, color={0,0,127}));
+  connect(sideFins.HSkyDifTil, HSkyDifTil) annotation(
+    Line(points = {{-16, -6}, {-60, -6}, {-60, 30}}, color = {0, 0, 127}));
   connect(box.angInc, angInc)
     annotation (Line(points={{-16,86},{-60,86},{-60,-50}}, color={0,0,127}));
   connect(buildingShade.angInc, angInc)
@@ -153,8 +153,8 @@ equation
     annotation (Line(points={{-16,26},{-60,26},{-60,-50}}, color={0,0,127}));
   connect(screen.angInc, angInc)
     annotation (Line(points={{-16,6},{-60,6},{-60,-50}}, color={0,0,127}));
-  connect(sideFins.angInc, angInc)
-    annotation (Line(points={{-16,-14},{-60,-14},{-60,-50}}, color={0,0,127}));
+  connect(sideFins.angInc, angInc) annotation(
+    Line(points = {{-16, -14}, {-60, -14}, {-60, -50}}, color = {0, 0, 127}));
   connect(box.angZen, angZen) annotation (Line(points={{-16,84},{-24,84},{-60,84},
           {-60,-70}},          color={0,0,127}));
   connect(buildingShade.angZen, angZen) annotation (Line(points={{-16,64},{-24,64},
@@ -165,8 +165,8 @@ equation
     annotation (Line(points={{-16,24},{-60,24},{-60,-70}}, color={0,0,127}));
   connect(screen.angZen, angAzi) annotation (Line(points={{-16,4},{-24,4},{-60,4},
           {-60,-90}},         color={0,0,127}));
-  connect(sideFins.angZen, angZen) annotation (Line(points={{-16,-16},{-24,-16},
-          {-60,-16},{-60,-70}},           color={0,0,127}));
+  connect(sideFins.angZen, angZen) annotation(
+    Line(points = {{-16, -16}, {-24, -16}, {-60, -16}, {-60, -70}}, color = {0, 0, 127}));
   connect(box.angAzi, angAzi)
     annotation (Line(points={{-16,82},{-60,82},{-60,-90}}, color={0,0,127}));
   connect(buildingShade.angAzi, angAzi)
@@ -177,8 +177,8 @@ equation
     annotation (Line(points={{-16,22},{-60,22},{-60,-90}}, color={0,0,127}));
   connect(screen.angAzi, angAzi)
     annotation (Line(points={{-16,2},{-60,2},{-60,-90}}, color={0,0,127}));
-  connect(sideFins.angAzi, angAzi)
-    annotation (Line(points={{-16,-18},{-60,-18},{-60,-90}}, color={0,0,127}));
+  connect(sideFins.angAzi, angAzi) annotation(
+    Line(points = {{-16, -18}, {-60, -18}, {-60, -90}}, color = {0, 0, 127}));
   connect(box.HShaDirTil, HShaDirTil)
     annotation (Line(points={{-6,96},{40,96},{40,50}}, color={0,0,127}));
   connect(buildingShade.HShaDirTil, HShaDirTil)
@@ -189,8 +189,8 @@ equation
     annotation (Line(points={{-6,36},{40,36},{40,50}}, color={0,0,127}));
   connect(screen.HShaDirTil, HShaDirTil)
     annotation (Line(points={{-6,16},{40,16},{40,50}}, color={0,0,127}));
-  connect(sideFins.HShaDirTil, HShaDirTil)
-    annotation (Line(points={{-6,-4},{40,-4},{40,50}}, color={0,0,127}));
+  connect(sideFins.HShaDirTil, HShaDirTil) annotation(
+    Line(points = {{-6, -4}, {40, -4}, {40, 50}}, color = {0, 0, 127}));
   connect(box.HShaSkyDifTil, HShaSkyDifTil)
     annotation (Line(points={{-6,94},{40,94},{40,30}}, color={0,0,127}));
   connect(buildingShade.HShaSkyDifTil, HShaSkyDifTil)
@@ -201,10 +201,10 @@ equation
     annotation (Line(points={{-6,34},{40,34},{40,30}}, color={0,0,127}));
   connect(screen.HShaSkyDifTil, HShaSkyDifTil)
     annotation (Line(points={{-6,14},{40,14},{40,30}}, color={0,0,127}));
-  connect(sideFins.HShaSkyDifTil, HShaSkyDifTil)
-    annotation (Line(points={{-6,-6},{40,-6},{40,30}}, color={0,0,127}));
-  connect(sideFins.iAngInc, iAngInc)
-    annotation (Line(points={{-6,-14},{40,-14},{40,-50}}, color={0,0,127}));
+  connect(sideFins.HShaSkyDifTil, HShaSkyDifTil) annotation(
+    Line(points = {{-6, -6}, {40, -6}, {40, 30}}, color = {0, 0, 127}));
+  connect(sideFins.iAngInc, iAngInc) annotation(
+    Line(points = {{-6, -14}, {40, -14}, {40, -50}}, color = {0, 0, 127}));
   connect(screen.iAngInc, iAngInc)
     annotation (Line(points={{-6,6},{40,6},{40,-50}}, color={0,0,127}));
   connect(overhangAndScreen.iAngInc, iAngInc)
@@ -260,8 +260,8 @@ equation
     annotation (Line(points={{-16,32},{-60,32},{-60,10}}, color={0,0,127}));
   connect(screen.HGroDifTil, HGroDifTil)
     annotation (Line(points={{-16,12},{-60,12},{-60,10}}, color={0,0,127}));
-  connect(sideFins.HGroDifTil, HGroDifTil) annotation (Line(points={{-16,-8},{
-          -30,-8},{-60,-8},{-60,10}}, color={0,0,127}));
+  connect(sideFins.HGroDifTil, HGroDifTil) annotation(
+    Line(points = {{-16, -8}, {-30, -8}, {-60, -8}, {-60, 10}}, color = {0, 0, 127}));
   connect(none.HGroDifTil, HGroDifTil) annotation (Line(points={{-16,-28},{-32,
           -28},{-60,-28},{-60,10}}, color={0,0,127}));
   connect(boxAndScreen.HGroDifTil, HGroDifTil)
@@ -276,14 +276,14 @@ equation
     annotation (Line(points={{-6,32},{40,32},{40,10}}, color={0,0,127}));
   connect(screen.HShaGroDifTil, HShaGroDifTil)
     annotation (Line(points={{-6,12},{40,12},{40,10}}, color={0,0,127}));
-  connect(sideFins.HShaGroDifTil, HShaGroDifTil)
-    annotation (Line(points={{-6,-8},{40,-8},{40,10}}, color={0,0,127}));
+  connect(sideFins.HShaGroDifTil, HShaGroDifTil) annotation(
+    Line(points = {{-6, -8}, {40, -8}, {40, 10}}, color = {0, 0, 127}));
   connect(none.HShaGroDifTil, HShaGroDifTil)
     annotation (Line(points={{-6,-28},{40,-28},{40,10}}, color={0,0,127}));
   connect(boxAndScreen.HShaGroDifTil, HShaGroDifTil)
     annotation (Line(points={{-6,-50},{40,-50},{40,10}}, color={0,0,127}));
-  connect(horizontalFins.Ctrl, Ctrl) annotation (Line(points={{-11,100},{-10,100},
-          {-10,-110}}, color={0,0,127}, visible=false));
+  connect(horizontalFins.Ctrl, Ctrl) annotation (Line( visible=false,points={{-11,100},{-10,100},
+          {-10,-110}}, color={0,0,127}));
   connect(horizontalFins.iAngInc, iAngInc)
     annotation (Line(points={{-6,106},{40,106},{40,-50}}, color={0,0,127}));
   connect(horizontalFins.HShaGroDifTil, HShaGroDifTil) annotation (Line(points={
@@ -326,8 +326,52 @@ equation
           -16,136},{-38,136},{-60,136},{-60,50}}, color={0,0,127}));
   connect(overhangAndHorizontalFins.angZen, angZen)
     annotation (Line(points={{-16,124},{-60,124},{-60,-70}}, color={0,0,127}));
+  connect(boxAndScreen.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, -48}, {100, -48}, {100, 120}}, color = {191, 0, 0}));
+  connect(port_glazing, none.port_glazing) annotation(
+    Line(points = {{100, 120}, {100, -26}, {-8, -26}}, color = {191, 0, 0}));
+  connect(sideFins.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, -6}, {100, -6}, {100, 120}}, color = {191, 0, 0}));
+  connect(screen.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 14}, {100, 14}, {100, 120}}, color = {191, 0, 0}));
+  connect(overhangAndScreen.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 34}, {100, 34}, {100, 120}}, color = {191, 0, 0}));
+  connect(overhang.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 54}, {100, 54}, {100, 120}}, color = {191, 0, 0}));
+  connect(buildingShade.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 74}, {100, 74}, {100, 120}}, color = {191, 0, 0}));
+  connect(box.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 94}, {100, 94}, {100, 120}}, color = {191, 0, 0}));
+  connect(horizontalFins.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 114}, {100, 114}, {100, 120}}, color = {191, 0, 0}));
+  connect(overhangAndHorizontalFins.port_glazing, port_glazing) annotation(
+    Line(points = {{-8, 134}, {100, 134}, {100, 120}}, color = {191, 0, 0}));
+  connect(overhangAndHorizontalFins.port_frame, port_frame) annotation(
+    Line(points = {{-8, 138}, {80, 138}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(horizontalFins.port_frame, port_frame) annotation(
+    Line(points = {{-8, 118}, {80, 118}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(box.port_frame, port_frame) annotation(
+    Line(points = {{-8, 98}, {80, 98}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(buildingShade.port_frame, port_frame) annotation(
+    Line(points = {{-8, 78}, {80, 78}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(overhang.port_frame, port_frame) annotation(
+    Line(points = {{-8, 58}, {80, 58}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(screen.port_frame, port_frame) annotation(
+    Line(points = {{-8, 18}, {80, 18}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(overhangAndScreen.port_frame, port_frame) annotation(
+    Line(points = {{-8, 38}, {80, 38}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(none.port_frame, port_frame) annotation(
+    Line(points = {{-8, -22}, {80, -22}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(sideFins.port_frame, port_frame) annotation(
+    Line(points = {{-8, -2}, {80, -2}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(boxAndScreen.port_frame, port_frame) annotation(
+    Line(points = {{-8, -44}, {80, -44}, {80, 160}, {100, 160}}, color = {191, 0, 0}));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 Aug 2 2018, by Iago Cupeiro:<br/>
 Added missing beta parameter.
@@ -354,6 +398,6 @@ See <a href=\"https://github.com/open-ideas/IDEAS/pull/818\">
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-100,-100},{100,140}})),
-    Icon(coordinateSystem(extent={{-100,-100},{100,140}})));
+    Diagram(coordinateSystem(extent={{-100,-100},{100,200}})),
+    Icon(coordinateSystem(extent={{-100,-100},{100,200}})));
 end Shading;

@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model Box "Both side fins and overhang"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
                                                              final controlled=false);
 
   parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
@@ -122,6 +122,10 @@ and IDEAS.Buildings.Components.Shading.SideFins.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed

@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model SideFins "Vertical side fins next to windows"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
                                                              final controlled=false);
 
   // Window properties
@@ -117,6 +117,10 @@ towards the window.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Added computation of diffuse solar shading.

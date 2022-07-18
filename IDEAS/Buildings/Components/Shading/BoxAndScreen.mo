@@ -35,7 +35,8 @@ model BoxAndScreen "Box and screen shading"
   extends IDEAS.Buildings.Components.Shading.Interfaces.DoubleShading(
       redeclare IDEAS.Buildings.Components.Shading.Screen stateShading1(
         azi=azi,
-        shaCorr=shaCorr),
+        shaCorr=shaCorr,
+        haveBoundaryPorts=false),
       redeclare IDEAS.Buildings.Components.Shading.Box stateShading2(
         azi=azi,
         hWin=hWin,
@@ -53,11 +54,19 @@ initial equation
     assert(ovDep > 0, "The depth of the overhang must be larger than zero, if this is not the case: just use Shading.Screen.");
     assert(finDep > 0, "The depth of the side fins must be larger than zero, if this is not the case: just use Shading.OverhangAndScreen.");
 
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Documentation(info="<html>
+  equation
+  connect(stateShading2.port_frame, port_frame) annotation(
+    Line(points = {{4, 0}, {4, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(stateShading2.port_glazing, port_glazing) annotation(
+    Line(points = {{4, -4}, {6, -4}, {6, 120}, {100, 120}}, color = {191, 0, 0}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),  Documentation(info="<html>
 <p>This model describes the transient behaviour of solar irradiance on a window below a non-fixed horizontal or vertical overhang combined with a controllable screen.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 July 2015, by Filip Jorissenr:<br/>
 Now extending from IDEAS.Buildings.Components.Interfaces.DoubleShading.
@@ -67,5 +76,6 @@ December 2014, by Filip Jorissenr:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}}, preserveAspectRatio = false)));
 end BoxAndScreen;

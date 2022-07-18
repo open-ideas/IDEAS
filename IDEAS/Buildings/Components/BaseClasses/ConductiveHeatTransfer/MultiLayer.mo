@@ -32,6 +32,11 @@ model MultiLayer "multiple material layers in series"
     annotation(Dialog(enable=linIntCon));
   parameter Boolean checkCoatings = false
     "Check whether air layers have a coating";
+  final parameter Modelica.Units.SI.Emissivity parEpsSw_a = mats[nLay].epsSw_a;
+  final parameter Modelica.Units.SI.Emissivity parEpsSw_b =  mats[1].epsSw_b;
+  final parameter Modelica.Units.SI.Emissivity parEpsLw_a =  mats[nLay].epsLw_a;
+  final parameter Modelica.Units.SI.Emissivity parEpsLw_b =  mats[1].epsLw_b;
+
   Modelica.Units.SI.Energy E=sum(monLay.E);
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer[nLay]

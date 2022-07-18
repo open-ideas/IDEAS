@@ -12,14 +12,14 @@ model ExteriorConvection "exterior surface convection"
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Connector for solid part"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(visible = true, transformation(extent = {{-110, -10}, {-90, 10}}, rotation = 0), iconTransformation(extent = {{-110, -10}, {-90, 10}}, rotation = 0)));
 
   Modelica.Blocks.Interfaces.RealInput Te(unit="K",displayUnit="degC")
     "Ambient temperature"
-    annotation (Placement(transformation(extent={{-120,-68},{-80,-28}})));
+    annotation (Placement(visible = true, transformation(origin = {120, 0}, extent = {{20, -20}, {-20, 20}}, rotation = 0), iconTransformation(origin = {120, 4}, extent = {{20, -20}, {-20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit="W/(m2.K)")
     "Exterior convective heat transfer coefficient"
-    annotation (Placement(transformation(extent={{-120,-110},{-80,-70}})));
+    annotation (Placement(visible = true, transformation(origin = {120, -40}, extent = {{20, -20}, {-20, 20}}, rotation = 0), iconTransformation(origin = {120, -40}, extent = {{20, -20}, {-20, 20}}, rotation = 0)));
 
 protected
   Modelica.Units.SI.CoefficientOfHeatTransfer hNatConvExt
@@ -84,12 +84,7 @@ equation
   port_a.Q_flow = A * hConExt * dT;
 
   annotation (
-    Icon(graphics={
-        Rectangle(
-          extent={{-90,80},{-60,-80}},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
+    Icon(graphics={Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-90, 80}, {-60, -80}}),
         Line(points={{-60,20},{76,20}}, color={191,0,0}),
         Line(points={{-34,80},{-34,-80}}, color={0,127,255}),
         Line(points={{-60,-20},{76,-20}}, color={191,0,0}),
@@ -108,14 +103,7 @@ equation
         Line(points={{40,-80},{50,-60}}, color={0,127,255}),
         Line(points={{76,-80},{66,-60}}, color={0,127,255}),
         Line(points={{76,-80},{86,-60}}, color={0,127,255}),
-        Text(
-          extent={{-150,-90},{150,-130}},
-          textString="%name",
-          lineColor={0,0,255}),
-        Line(
-          points={{-60,80},{-60,-80}},
-          color={0,0,0},
-          thickness=0.5)}),
+        Line(points = {{-60, 80}, {-60, -80}}, thickness = 0.5)}),
     Documentation(info="<html>
 <p>
 The exterior convective heat transfer is computed using 

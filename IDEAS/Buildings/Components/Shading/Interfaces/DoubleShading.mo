@@ -11,6 +11,9 @@ model DoubleShading "Two shading components in series"
     annotation (Placement(transformation(extent={{-4,-18},{6,2}})));
 
 equation
+  assert(not (stateShading1.haveBoundaryPorts and stateShading2.haveBoundaryPorts), 
+    "In " + getInstanceName() + ": haveBoundaryPorts must be disabled for either of the two shading devices, or for both.");
+    //in case of both: implement a custom thermal model
   connect(stateShading1.angInc, angInc) annotation (Line(points={{-28,-12},{-34,
           -12},{-34,-50},{-60,-50}}, color={0,0,127}));
   connect(stateShading1.angAzi, angAzi) annotation (Line(points={{-28,-16},{-30,
@@ -47,8 +50,7 @@ equation
     annotation (Line(points={{-18,-6},{-12,-6},{-4,-6}}, color={0,0,127}));
   connect(HDirTil, stateShading1.HDirTil) annotation (Line(points={{-60,50},{
           -32,50},{-32,-2},{-28,-2}}, color={0,0,127}));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})), Documentation(revisions="<html>
+  annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
 <li>
 July 18, 2016 by Filip Jorissen:<br/>
@@ -61,5 +63,6 @@ First implementation.
 </ul>
 </html>", info="<html>
 <p>This model can be extended or used if two shading models need to be combined.</p>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}}, preserveAspectRatio = false)));
 end DoubleShading;

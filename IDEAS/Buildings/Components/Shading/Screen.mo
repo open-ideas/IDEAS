@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model Screen "Controllable exterior screen"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
                                                              final controlled=true);
 
   parameter Real shaCorr=0.24 "Shortwave transmittance of shortwave radiation";
@@ -17,7 +17,7 @@ equation
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,
           -50},{40,-50}}, color={0,0,127}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
 <p>
 Shading model of a controllable screen. 
@@ -26,6 +26,10 @@ A fraction <code>shaCorr</code> is converted into diffuse light that enters the 
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed
@@ -38,5 +42,6 @@ July 18, 2016 by Filip Jorissen:<br/>
 Cleaned up implementation and documentation.
 </li>
 </ul>
-</html>"));
+</html>"),
+  Diagram(coordinateSystem(extent = {{-100, -100}, {100, 200}})));
 end Screen;
