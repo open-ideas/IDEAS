@@ -11,7 +11,7 @@ partial model PartialShadingDevice
     A = A_frame,
     azi = azi,
     inc = inc,
-    linearise = linRad) if haveBoundaryPorts and haveFrame annotation (
+    linearise = linCon) if haveBoundaryPorts and haveFrame annotation (
     Placement(visible = true, transformation(origin = {0, 176}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption solAbs(
   A = A_frame,
