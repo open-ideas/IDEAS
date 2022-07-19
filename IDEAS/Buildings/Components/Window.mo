@@ -72,13 +72,13 @@ model Window "Multipane window"
 
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
-      Placement(transformation(
-        extent={{20,-20},{-20,20}},
-        rotation=-90,
-        origin={-50,-110}), iconTransformation(
-        extent={{10,-10},{-10,10}},
-        rotation=-90,
-        origin={-40,-100})));
+      Placement(visible = true,transformation(
+        
+        origin={-50,-110},extent={{20,-20},{-20,20}},
+        rotation=-90), iconTransformation(
+        
+        origin={-40,-100},extent={{10,-10},{-10,10}},
+        rotation=-90)));
 
 
 
@@ -181,12 +181,10 @@ protected
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   Fluid.Sources.OutsideAir       outsideAir(
     redeclare package Medium = Medium,
-    final table=coeffsCp,
-    final azi=aziInt,
     Cs=Cs,
-    Habs=Habs,
+    Habs=Habs, azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2))
+         then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2), table = coeffsCp, use_TDryBul_in = true)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
@@ -207,7 +205,7 @@ equation
   connect(solWin.iSolAbs, layMul.port_gain) annotation (
     Line(points = {{0, -40}, {0, -10}}, color = {191, 0, 0}, smooth = Smooth.None));
   connect(shaType.Ctrl, Ctrl) annotation (
-    Line(points={{-63,-63.4772},{-50,-63.4772},{-50,-110}},
+    Line(points={{-63,-63.4772},{-50, -63.4772},{-50, -110}},
                                                          color = {0, 0, 127}));
   connect(iConFra.port_b, propsBusInt.surfCon) annotation (
     Line(points = {{40, 70}, {46, 70}, {46, 19.91}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
@@ -272,6 +270,8 @@ equation
   connect(shaType.hForcedConExt, radSolData.hForcedConExt) annotation (
     Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
                                                                     color = {0, 0, 127}));
+  connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation(
+    Line(points = {{-42, -90}, {-46, -90}, {-46, -48}, {-58, -48}}, color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, 100}}),
