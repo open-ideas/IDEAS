@@ -59,6 +59,8 @@ initial equation
     Line(points = {{4, 0}, {4, 160}, {100, 160}}, color = {191, 0, 0}));
   connect(stateShading2.port_glazing, port_glazing) annotation(
     Line(points = {{4, -4}, {6, -4}, {6, 120}, {100, 120}}, color = {191, 0, 0}));
+  connect(stateShading2.TDryBul, TDryBul) annotation(
+    Line(points = {{4, -12}, {40, -12}, {40, -10}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),  Documentation(info="<html>
 <p>This model describes the transient behaviour of solar irradiance on a window below a non-fixed horizontal or vertical overhang combined with a controllable screen.</p>
 </html>", revisions="<html>

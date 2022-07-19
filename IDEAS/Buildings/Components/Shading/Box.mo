@@ -51,6 +51,7 @@ model Box "Both side fins and overhang"
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
     linCon=linCon,
+    haveFrame=haveFrame,
     linRad=linRad,
     final azi=azi,
     haveBoundaryPorts=false,
@@ -70,6 +71,7 @@ model Box "Both side fins and overhang"
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
     linCon=linCon,
+    haveFrame=haveFrame,
     linRad=linRad,
     final azi=azi,
     haveBoundaryPorts=true,
@@ -148,6 +150,8 @@ equation
           110},{-22,110},{-22,34.6667},{-1.5,34.6667}}, color={0,0,127}));
   connect(TEnv, sideFins.TEnv) annotation (Line(points={{-60,90},{-26,90},{-26,
           33.3333},{-1.5,33.3333}}, color={0,0,127}));
+  connect(sideFins.TDryBul, TDryBul) annotation(
+    Line(points = {{4, 26}, {40, 26}, {40, -10}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,200}})),  Documentation(info="<html>
 <p>

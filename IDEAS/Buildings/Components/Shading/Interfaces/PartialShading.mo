@@ -86,8 +86,9 @@ partial model PartialShading "Window shading partial"
   Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit = "W/(m2.K)") if haveBoundaryPorts
    annotation (
     Placement(visible = true, transformation(extent = {{-80, 90}, {-40, 130}}, rotation = 0), iconTransformation(origin = {-50, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput TDryBul "Exterior surface air temperature" annotation(
+  Modelica.Blocks.Interfaces.RealOutput TDryBul if haveBoundaryPorts "Exterior surface air temperature" annotation(
     Placement(visible = true, transformation(extent = {{20, -30}, {60, 10}}, rotation = 0), iconTransformation(extent = {{40, -10}, {60, 10}}, rotation = 0)));
+    
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}}), graphics={  Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-50, 80}, {0, 60}, {4, 60}, {4, -20}, {-50, 0}, {-50, 80}}), Polygon(fillColor = {179, 179, 179}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{4, 40}, {50, 20}, {50, -32}, {20, -20}, {4, -20}, {4, 40}}), Line(points = {{0, 60}, {20, 60}, {20, 80}, {50, 80}}, color = {95, 95, 95}), Line(points = {{0, -20}, {20, -20}, {20, -70}, {20, -70}, {50, -70}}, color = {95, 95, 95}), Line(points = {{0, 60}, {0, 66}, {0, 100}, {50, 100}}, color = {95, 95, 95}), Line(points = {{0, -20}, {0, -90}, {50, -90}}, color = {95, 95, 95}), Line(points = {{4, 60}, {4, -20}}, thickness = 0.5)}),
