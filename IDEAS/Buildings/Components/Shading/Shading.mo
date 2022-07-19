@@ -16,11 +16,14 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     hWin=shaPro.hWin,
     wWin=shaPro.wWin,
     wLeft=shaPro.wLeft,
@@ -40,10 +43,13 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     L=shaPro.L,
     dh=shaPro.dh,
     hWin=shaPro.hWin,
@@ -59,10 +65,13 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     hWin=shaPro.hWin,
     wWin=shaPro.wWin,
     wLeft=shaPro.wLeft,
@@ -81,10 +90,13 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     hWin=shaPro.hWin,
     wWin=shaPro.wWin,
     wLeft=shaPro.wLeft,
@@ -104,11 +116,14 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     shaCorr=shaPro.shaCorr)
  if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen
     "Screen model"                                 annotation (Placement(transformation(extent={{-16,0},{-6,20}})));
@@ -120,11 +135,14 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     hWin=shaPro.hWin,
     wWin=shaPro.wWin,
     hFin=shaPro.hFin,
@@ -141,10 +159,13 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,                             azi=azi,
     haveBoundaryPorts=true,
-    haveFrame=haveFrame)
+    haveFrame=haveFrame,
+    final hSha=hSha)
  if shaPro.shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.None
     "No shading model"
     annotation (Placement(visible = true, transformation(extent = {{-16, -40}, {-6, -20}}, rotation = 0)));
@@ -157,11 +178,14 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     hWin=shaPro.hWin,
     wWin=shaPro.wWin,
     wLeft=shaPro.wLeft,
@@ -182,11 +206,14 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     s=shaPro.s,
     w=shaPro.w,
     t=shaPro.t,
@@ -201,10 +228,13 @@ protected
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    final g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     haveBoundaryPorts=true,
     haveFrame=haveFrame,
+    final hSha=hSha,
     s=shaPro.s,
     w=shaPro.w,
     t=shaPro.t,
@@ -643,6 +673,32 @@ equation
         color={0,0,127}));
   connect(TEnv, boxAndScreen.TEnv) annotation (Line(points={{-60,90},{-60,94},{
           -18,94},{-18,-48.6667},{-13.5,-48.6667}},         color={0,0,127}));
+
+  connect(overhangAndHorizontalFins.TDryBul, TDryBul) annotation (Line(points={{-8.5,
+          126.667},{40,126.667},{40,-10}},
+                                   color={0,0,127}));
+  connect(horizontalFins.TDryBul, TDryBul) annotation (Line(points={{-8.5,
+          106.667},{40,106.667},{40,-10}},
+                                   color={0,0,127}));
+  connect(box.TDryBul, TDryBul) annotation (Line(points={{-8.5,86.6667},{40,
+          86.6667},{40,-10}},      color={0,0,127}));
+  connect(buildingShade.TDryBul, TDryBul) annotation (Line(points={{-8.5,
+          66.6667},{40,66.6667},{40,-10}},
+                                   color={0,0,127}));
+  connect(overhang.TDryBul, TDryBul) annotation (Line(points={{-8.5,46.6667},{
+          40,46.6667},{40,-10}},   color={0,0,127}));
+  connect(overhangAndScreen.TDryBul, TDryBul) annotation (Line(points={{-8.5,
+          26.6667},{40,26.6667},{40,-10}},
+                                   color={0,0,127}));
+  connect(screen.TDryBul, TDryBul) annotation (Line(points={{-8.5,6.66667},{40,
+          6.66667},{40,-10}},      color={0,0,127}));
+  connect(none.TDryBul, TDryBul) annotation (Line(points={{-8.5,-33.3333},{40,
+          -33.3333},{40,-10}},     color={0,0,127}));
+  connect(sideFins.TDryBul, TDryBul) annotation (Line(points={{-8.5,-13.3333},{
+          40,-13.3333},{40,-10}},  color={0,0,127}));
+  connect(boxAndScreen.TDryBul, TDryBul) annotation (Line(points={{-8.5,
+          -55.3333},{40,-55.3333},{40,-10}},
+                                   color={0,0,127}));
 
   annotation (Documentation(revisions="<html>
 <ul>

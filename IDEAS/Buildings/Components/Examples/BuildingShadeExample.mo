@@ -8,6 +8,7 @@ model BuildingShadeExample
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
+    g_glazing=0,
     azi=azi.k,
     haveBoundaryPorts=false,
     hWin=hWin.k,
@@ -26,7 +27,8 @@ public
     inc=0,
     epsSw_frame=1,
     epsLw_frame=1,
-    epsLw_glazing=1,azi=azi.k,
+    epsLw_glazing=1,
+    g_glazing=0,    azi=azi.k,
     haveBoundaryPorts=false)
     annotation (Placement(transformation(extent={{-24,60},{-14,80}})));
   Shading.Overhang overhang(
@@ -36,6 +38,7 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
+    g_glazing=0,
     azi=azi.k,
     haveBoundaryPorts=false,
     hWin=hWin.k,
@@ -56,7 +59,8 @@ public
     inc=0,
     epsSw_frame=1,
     epsLw_frame=1,
-    epsLw_glazing=1,    azi=azi.k,
+    epsLw_glazing=1,
+    g_glazing=0,        azi=azi.k,
     haveBoundaryPorts=false)
     annotation (Placement(transformation(extent={{-24,-60},{-14,-40}})));
   Modelica.Blocks.Sources.Cosine ctrl(
@@ -71,6 +75,7 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
+    g_glazing=0,
     azi=azi.k,
     haveBoundaryPorts=false,
     hWin=hWin.k,
@@ -86,6 +91,7 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
+    g_glazing=0,
     haveBoundaryPorts=false,
     s=0.2,
     w=0.1,
