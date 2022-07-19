@@ -54,11 +54,18 @@ initial equation
     assert(ovDep > 0, "The depth of the overhang must be larger than zero, if this is not the case: just use Shading.Screen.");
     assert(finDep > 0, "The depth of the side fins must be larger than zero, if this is not the case: just use Shading.OverhangAndScreen.");
 
-  equation
-  connect(stateShading2.port_frame, port_frame) annotation(
-    Line(points = {{4, 0}, {4, 160}, {100, 160}}, color = {191, 0, 0}));
-  connect(stateShading2.port_glazing, port_glazing) annotation(
-    Line(points = {{4, -4}, {6, -4}, {6, 120}, {100, 120}}, color = {191, 0, 0}));
+equation
+  connect(stateShading2.port_frame, port_frame) annotation (
+    Line(points={{3.5,0.666667},{3.5,160},{100,160}},
+                                                  color = {191, 0, 0}));
+  connect(stateShading2.port_glazing, port_glazing) annotation (
+    Line(points={{3.5,-2},{6,-2},{6,120},{100,120}},        color = {191, 0, 0}));
+  connect(Te, stateShading2.Te) annotation (Line(points={{-60,130},{-6,130},{-6,
+          -2},{-1.5,-2}}, color={0,0,127}));
+  connect(hForcedConExt, stateShading2.hForcedConExt) annotation (Line(points={
+          {-60,110},{-8,110},{-8,-3.33333},{-1.5,-3.33333}}, color={0,0,127}));
+  connect(TEnv, stateShading2.TEnv) annotation (Line(points={{-60,90},{-10,90},
+          {-10,-4.66667},{-1.5,-4.66667}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),  Documentation(info="<html>
 <p>This model describes the transient behaviour of solar irradiance on a window below a non-fixed horizontal or vertical overhang combined with a controllable screen.</p>
 </html>", revisions="<html>
