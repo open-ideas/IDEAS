@@ -4,10 +4,10 @@ model ScreenComparison "Comparison between a model with and without screen"
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Validation.Cases.Case900Template zoneWithScreen(
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
     fracA=0.15,
     shaTypA(
       shaType=IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen,
-
       hWin=3,
       wWin=4,
       shaCorr=0.05),
@@ -19,6 +19,7 @@ model ScreenComparison "Comparison between a model with and without screen"
     annotation (Placement(transformation(extent={{-88,-44},{-68,-24}})));
 
   Validation.Cases.Case900Template zoneWithoutScreen(
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
     fracA=0.15,
     shaTypA(
       shaType=IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.None,
