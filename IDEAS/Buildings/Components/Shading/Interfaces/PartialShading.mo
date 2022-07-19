@@ -14,6 +14,10 @@ partial model PartialShading "Window shading partial"
     "Long wave solar absorption coefficient of the frame";
   parameter Modelica.Units.SI.Emissivity epsLw_glazing
     "Long wave solar absorption coefficient of the glazing";
+  parameter Modelica.Units.SI.Emissivity epsSw_shading = 0.5
+    "Short wave emissivity of the shading object";
+  parameter Real g_glazing(min=0,max=1)
+    "Nominal shading coefficient of the glazing";
   parameter Boolean linCon = false "Linearise convective heat transfer"
     annotation(Evaluate=true);
   parameter Boolean linRad = false "Linearise radiative heat transfer"
@@ -23,9 +27,15 @@ partial model PartialShading "Window shading partial"
 
   parameter Boolean haveBoundaryPorts = true "Include ports for setting boundary conditions";
   parameter Boolean haveFrame = A_frame*epsLw_frame > 0 "Frame enabled";
+  parameter Modelica.Units.SI.ThermalConductance hSha = 30 "Equivalent thermal conductance of the shading device";
 
   Modelica.Units.SI.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
-    "Total solar irradiatiance";
+    "Total shaded solar irradiance";
+  Modelica.Units.SI.Irradiance H = HDirTil + HSkyDifTil + HGroDifTil
+    "Total unshaded solar irradiance";
+  // This assumes a heat balance between the outdoor air and the shading device only.
+  Modelica.Units.SI.Temperature TSha = Te + (H - HSha) * epsSw_shading /hSha
+    "Simplified static heat balance to compute the shading object temperature";
   Modelica.Blocks.Interfaces.RealInput HDirTil
     "Direct solar illuminance on surface" annotation (Placement(
         transformation(extent={{-80,30},{-40,70}}), iconTransformation(extent={

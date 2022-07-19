@@ -63,6 +63,7 @@ model Window "Multipane window"
       epsLw_frame = fraType.mat.epsLw,
       epsLw_glazing = layMul.parEpsLw_b,
       epsSw_frame = fraType.mat.epsSw,
+      g_glazing=glazing.g_value,
       inc = incInt,
       linCon = linExtCon or sim.linearise,
       linRad = linExtRad or sim.linearise,

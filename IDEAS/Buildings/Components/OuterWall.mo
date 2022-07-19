@@ -32,14 +32,15 @@ model OuterWall "Opaque building envelope construction"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
-    A_glazing=0,
-    A_frame=0,
-    inc=inc,
-    Tenv_nom=sim.Tenv_nom,
-    epsSw_frame=1,
-    epsLw_frame=1,
-    epsLw_glazing=1,
-    haveBoundaryPorts=false,
+    final A_glazing=0,
+    final A_frame=0,
+    final inc=inc,
+    final g_glazing=0,
+    final Tenv_nom=sim.Tenv_nom,
+    final epsSw_frame=1,
+    final epsLw_frame=1,
+    final epsLw_glazing=1,
+    final haveBoundaryPorts=false,
     final L=L,
     final dh=dh,
     final hWin=hWal) if hasBuildingShade

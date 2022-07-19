@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading.Interfaces;
 partial model PartialShadingDevice
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(TDryBul=Te+(HDirTil + HSkyDifTil + HGroDifTil)/30/2);
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(TDryBul=Te);
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation skyRadFra(
     A = A_frame,
     Tenv_nom = Tenv_nom,
