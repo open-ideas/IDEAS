@@ -13,6 +13,7 @@ model DoubleShading "Two shading components in series"
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
     azi=azi)
@@ -22,6 +23,7 @@ model DoubleShading "Two shading components in series"
   constrainedby PartialShading(
     haveFrame=haveFrame,
     A_glazing=A_glazing,
+    g_glazing=g_glazing,
     A_frame=A_frame,
     inc=inc,
     Tenv_nom=Tenv_nom,
