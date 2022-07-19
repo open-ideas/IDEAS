@@ -27,7 +27,8 @@ partial model PartialShading "Window shading partial"
 
   parameter Boolean haveBoundaryPorts = true "Include ports for setting boundary conditions";
   parameter Boolean haveFrame = A_frame*epsLw_frame > 0 "Frame enabled";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hSha = 30 "Equivalent thermal conductance of the shading device";
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hSha = 12
+    "Equivalent thermal conductance of the shading device";
 
   Modelica.Units.SI.Irradiance HSha = HShaDirTil + HShaSkyDifTil + HShaGroDifTil
     "Total shaded solar irradiance";
