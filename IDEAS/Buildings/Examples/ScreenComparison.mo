@@ -9,10 +9,12 @@ model ScreenComparison "Comparison between a model with and without screen"
       shaType=IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen,
 
       hWin=3,
-      wWin=4),
+      wWin=4,
+      shaCorr=0.05),
     redeclare IDEAS.Buildings.Data.Frames.AluminumInsulated fraTypA)
     "Zone with a screen for its window"
     annotation (Placement(transformation(extent={{-40,-12},{-20,8}})));
+
   Modelica.Blocks.Sources.Constant screenCtrl(k=1) "Screen control signal"
     annotation (Placement(transformation(extent={{-88,-44},{-68,-24}})));
 
