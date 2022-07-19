@@ -2,14 +2,17 @@ within IDEAS.Buildings.Components.Shading;
 model Screen "Controllable exterior screen"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
     TSha = TShaScreen,
-    TDryBul_internal= limiter.y*TSha + (1-limiter.y)*Te_internal,
+    TDryBul_internal = limiter.y*TSha + (1-limiter.y)*Te_internal,
     epsSw_shading = 1 - shaCorr,
-    final controlled=true);
+    final controlled = true,
+    TEnvExpr(y = TEnv_screen),
+    TeExpr(y = TDryBul_internal));
 
   parameter Real shaCorr(min=0, max=1) = 0.24
     "Shortwave transmittance of the screen";
 
 protected
+  Modelica.Units.SI.Temperature TEnv_screen = limiter.y*TSha + (1-limiter.y)*TEnv_internal;
   Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)
     "Limits the control signal to avoid incorrect use by the user";
   // This assumes that the window rejects 1-g_glazing of the incoming solar irradation is entirely converted into sensible heat
