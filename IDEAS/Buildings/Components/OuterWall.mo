@@ -32,13 +32,22 @@ model OuterWall "Opaque building envelope construction"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
+    final A_glazing=0,
+    final A_frame=0,
+    final inc=inc,
+    final g_glazing=0,
+    final Tenv_nom=sim.Tenv_nom,
+    final epsSw_frame=1,
+    final epsLw_frame=1,
+    final epsLw_glazing=1,
+    final haveBoundaryPorts=false,
     final L=L,
     final dh=dh,
     final hWin=hWal) if hasBuildingShade
   constrainedby IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
     final azi=aziInt)
     "Building shade model"
-    annotation (Placement(transformation(extent={{-72,-8},{-62,12}})),
+    annotation (Placement(transformation(extent={{-72,28},{-62,48}})),
       choicesAllMatching=true,
       Dialog(tab="Advanced",group="Shading"));
 
@@ -63,13 +72,14 @@ protected
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-22,-28},{-42,-8}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A, epsSw=layMul.mats[1].epsSw_b)
+    solAbs(A=A, epsSw=layMul.parEpsSw_b)
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-22,-8},{-42,12}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
-    extRad(               linearise=linExtRad or sim.linearise, final A=A)
+    extRad(               linearise=linExtRad or sim.linearise, final A=A,
+    epsLw=layMul.parEpsLw_b)
     "determination of radiant heat exchange with the environment and sky"
-    annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
+    annotation (Placement(transformation(extent={{-42,12},{-22,32}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
@@ -110,39 +120,36 @@ equation
       points={{-22,22},{-18,22},{-18,0},{-10,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(layMul.iEpsLw_b,extRad. epsLw) annotation (Line(
-      points={{-10,8},{-16,8},{-16,25.4},{-22,25.4}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(radSolData.Tenv,extRad. Tenv) annotation (Line(
-      points={{-79.4,2},{-70,2},{-70,38},{-22,38},{-22,28}},
+      points={{-79.4,2},{-70,2},{-70,22},{-42,22}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(extCon.Te, radSolData.Te) annotation (Line(
-      points={{-22,-22.8},{-79.4,-22.8},{-79.4,-10}},
+      points={{-44,-17.6},{-79.4,-17.6},{-79.4,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u, radSolData.Tdes);
   connect(solDif.y, solAbs.solDif) annotation (Line(points={{-45.6,4},{-42,4}},
                                color={0,0,127}));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,0},{-76,0},{-76,-2},{-72,-2}},
+      points={{-79.4,0},{-76,0},{-76,32},{-69.5,32}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-4},{-78,-4},{-78,-6},{-72,-6}},
+      points={{-79.4,-4},{-78,-4},{-78,29.3333},{-69.5,29.3333}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-2},{-76,-2},{-76,-4},{-72,-4}},
+      points={{-79.4,-2},{-76,-2},{-76,30.6667},{-69.5,30.6667}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,8},
-          {-76,8},{-76,8},{-72,8}},            color={0,0,127}));
+          {-76,8},{-76,38.6667},{-69.5,38.6667}},
+                                               color={0,0,127}));
   connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{-79.4,6},
-          {-76,6},{-76,6},{-72,6}},                  color={0,0,127}));
+          {-76,6},{-76,37.3333},{-69.5,37.3333}},    color={0,0,127}));
   connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{-79.4,4},
-          {-76,4},{-76,4},{-72,4}},                  color={0,0,127}));
+          {-74,4},{-74,36},{-69.5,36}},              color={0,0,127}));
   if not hasBuildingShade then
     connect(solDif.u1, radSolData.HSkyDifTil) annotation (Line(points={{-54.8,6.4},
             {-55.3,6.4},{-55.3,6},{-79.4,6}},
@@ -155,14 +162,15 @@ equation
                                                    color={0,0,127}));
   end if;
   connect(shaType.HShaDirTil, solAbs.solDir)
-    annotation (Line(points={{-62,8},{-42,8}},           color={0,0,127}));
-  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-62,6},{
-          -54.8,6},{-54.8,6.4}},   color={0,0,127}));
-  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-62,4},{
-          -56,4},{-56,1.6},{-54.8,1.6}},   color={0,0,127}));
+    annotation (Line(points={{-64.5,38.6667},{-54,38.6667},{-54,8},{-42,8}},
+                                                         color={0,0,127}));
+  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-64.5,
+          37.3333},{-54.8,37.3333},{-54.8,6.4}},
+                                   color={0,0,127}));
+  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-64.5,36},
+          {-56,36},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
-          -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
-                                                           color={0,0,127}));
+          -8.2},{-46,-8.2},{-46,-22},{-44,-22}},           color={0,0,127}));
   connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
           -40},{16,-50},{-80,-50}}, color={0,127,255}));
   connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
@@ -259,6 +267,12 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022, by Filip Jorissen:<br/>
+Revised code for supporting new shading model.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">
+#1270</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
