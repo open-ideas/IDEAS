@@ -94,18 +94,12 @@ model Window "Multipane window"
   parameter SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
     "Pressure drop at nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-protected
-  final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
-    "Average window U-value";
-  final parameter Boolean addCapGla =  windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    "Add lumped thermal capacitor for window glazing";
-  final parameter Boolean addCapFra =  fraType.present and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    "Added lumped thermal capacitor for window frame";
-  final parameter Modelica.Units.SI.HeatCapacity Cgla=layMul.C
-    "Heat capacity of glazing state";
-  final parameter Modelica.Units.SI.HeatCapacity Cfra=layMul.C*fraC
-    "Heat capacity of frame state";
-  final parameter Modelica.Units.SI.Area A_glass=A*(1 - frac);
+  Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
+    "Gain for direct solar irradiation"
+    annotation (Placement(transformation(extent={{-42,-46},{-38,-42}})));
+  Modelica.Blocks.Math.Gain gainDif(k=A*(1 - frac))
+    "Gain for diffuse solar irradiation"
+    annotation (Placement(transformation(extent={{-36,-50},{-32,-46}})));
 
   IDEAS.Airflow.Multizone.TrickleVent trickleVent(
     redeclare package Medium = Medium,
@@ -165,12 +159,18 @@ protected
     inc=incInt,
     azi=aziInt)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
-  Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
-    "Gain for direct solar irradiation"
-    annotation (Placement(transformation(extent={{-42,-46},{-38,-42}})));
-  Modelica.Blocks.Math.Gain gainDif(k=A*(1 - frac))
-    "Gain for diffuse solar irradiation"
-    annotation (Placement(transformation(extent={{-36,-50},{-32,-46}})));
+protected
+  final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
+    "Average window U-value";
+  final parameter Boolean addCapGla =  windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+    "Add lumped thermal capacitor for window glazing";
+  final parameter Boolean addCapFra =  fraType.present and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+    "Added lumped thermal capacitor for window frame";
+  final parameter Modelica.Units.SI.HeatCapacity Cgla=layMul.C
+    "Heat capacity of glazing state";
+  final parameter Modelica.Units.SI.HeatCapacity Cfra=layMul.C*fraC
+    "Heat capacity of frame state";
+  final parameter Modelica.Units.SI.Area A_glass=A*(1 - frac);
   Modelica.Blocks.Routing.RealPassThrough Tdes
     "Design temperature passthrough since propsBus variables cannot be addressed directly";
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCapGlaInt(C=Cgla/2,
@@ -211,7 +211,7 @@ protected
     Cs=Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then 1 else 2)
+         then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2))
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
@@ -430,6 +430,12 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 September 21, 2021 by Filip Jorissen:<br/>
 Added trickle vent support.

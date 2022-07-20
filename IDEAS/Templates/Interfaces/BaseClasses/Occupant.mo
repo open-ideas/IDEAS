@@ -15,10 +15,10 @@ partial model Occupant
           extent={{-210,-30},{-190,-10}}),iconTransformation(extent={{-210,-30},
             {-190,-10}})));
   Modelica.Blocks.Interfaces.RealOutput[nZones] TSet(
-    final quantity="ThermodynamicTemperature",
-    unit="K",
-    displayUnit="degC",
-    min=0) "Setpoint temperature for the zones" annotation (Placement(
+    each final quantity="ThermodynamicTemperature",
+    each unit="K",
+    each displayUnit="degC",
+    each min=0) "Setpoint temperature for the zones" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,

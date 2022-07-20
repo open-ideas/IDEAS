@@ -1,0 +1,10 @@
+simulateModel("IDEAS.Buildings.Examples.ScreenComparison", startTime=1e7, stopTime=1.2e7, method="Lsodar", tolerance=1e-06, resultFile="ScreenComparison");
+
+createPlot(id=1, 
+y={"sim.Te", "zoneWithScreen.TSensor", "zoneWithoutScreen.TSensor"}, 
+range={10000000.0, 12000000, 274.0, 294.0}, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}, {0,255,0}});
+

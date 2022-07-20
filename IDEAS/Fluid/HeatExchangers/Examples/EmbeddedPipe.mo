@@ -15,7 +15,7 @@ model EmbeddedPipe "Testing the floorheating according to Koschenz, par. 4.5.1"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={30,50})));
-  BaseClasses.NakedTabs nakedTabs(radSlaCha=radSlaCha_ValidationEmpa,
+  BaseClasses.NakedTabs nakedTabs(redeclare BaseClasses.RadSlaCha_ValidationEmpa radSlaCha,
     C1(each T(fixed=true)),
     C2(each T(fixed=true)))
     annotation (Placement(transformation(extent={{50,16},{70,36}})));
@@ -27,8 +27,7 @@ model EmbeddedPipe "Testing the floorheating according to Koschenz, par. 4.5.1"
     computeFlowResistance=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  BaseClasses.RadSlaCha_ValidationEmpa radSlaCha_ValidationEmpa
-    annotation (Placement(transformation(extent={{-90,-96},{-70,-76}})));
+
   Modelica.Blocks.Sources.RealExpression convTabs(y=11)
     "\"convection coefficient for the tabs\""
     annotation (Placement(transformation(extent={{-22,40},{-2,60}})));

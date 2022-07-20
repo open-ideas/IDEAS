@@ -47,12 +47,18 @@ partial model Structure "Partial model for building structure models"
     "Construction nodes for heat gains by embedded layers" annotation (
       Placement(transformation(extent={{140,50},{160,70}}), iconTransformation(
           extent={{140,50},{160,70}})));
-  Modelica.Blocks.Interfaces.RealOutput[nZones] TSensor(final quantity="ThermodynamicTemperature",unit="K",displayUnit="degC", min=0)
+  Modelica.Blocks.Interfaces.RealOutput[nZones] TSensor(
+    each final quantity="ThermodynamicTemperature",
+    each unit="K",
+    each displayUnit="degC",
+    each min=0)
     "Sensor temperature of the zones"
     annotation (Placement(transformation(extent={{146,-70},{166,-50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b[nZones] port_b(redeclare package Medium = Medium) if useFluPor
+  Modelica.Fluid.Interfaces.FluidPort_b[nZones] port_b(
+    redeclare each package Medium = Medium) if useFluPor
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_a[nZones] port_a(redeclare package Medium = Medium) if useFluPor
+  Modelica.Fluid.Interfaces.FluidPort_a[nZones] port_a(
+    redeclare each package Medium = Medium) if useFluPor
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-150,-100},
@@ -76,6 +82,10 @@ partial model Structure "Partial model for building structure models"
           preserveAspectRatio=false, extent={{-150,-100},{150,100}}), graphics),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 23, 2022, by Filip Jorissen:<br/>
+Fixed missing each for #1273.
+</li>
 <li>
 March 8, 2017, by Filip Jorissen:<br/>
 Added option for removing fluid ports.

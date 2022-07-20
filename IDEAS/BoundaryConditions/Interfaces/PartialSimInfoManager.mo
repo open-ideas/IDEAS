@@ -1,10 +1,10 @@
-within IDEAS.BoundaryConditions.Interfaces;
+﻿within IDEAS.BoundaryConditions.Interfaces;
 partial model PartialSimInfoManager
   "Partial providing structure for SimInfoManager"
 
   parameter String filNam=
-    Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Brussels.mos")
-    "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="TMY-files (*.TMY);;Text files (*.txt);;All files (*.*)", caption="Select the weather file")));
+    Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/BEL_VLG_Uccle.064470_TMYx.2007-2021.mos")
+    "File name of TMY3 weather file" annotation(Dialog(loadSelector(filter="mos-files (*.mos);;TMY-files (*.TMY);;All files (*.*)", caption="Select the weather file")));
   parameter Modelica.Units.SI.Angle lat(displayUnit="deg") = weaDat.lat
     "Latitude of the location" annotation (Dialog(tab="Advanced"));
   parameter Modelica.Units.SI.Angle lon(displayUnit="deg") = weaDat.lon
@@ -575,6 +575,12 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+April 28, 2022 by Filip Jorissen:<br/>
+Changed the default weather file to BEL_VLG_Uccle.064470_TMYx.2007-2021.mos.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1239\">
+#1239</a> for more details.
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

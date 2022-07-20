@@ -87,11 +87,14 @@ equation
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(
-      StartTime=1.5e+007,
-      StopTime=2.35872e+007,
-      Interval=900,
-      Tolerance=1e-006),
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Twinhouses/BuildingN2_Exp1.mos"
-        "Simulate and plot"));
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation to avoid failing OMC tests.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
+</ul>
+</html>"));
 end PartialTwinHouse;
