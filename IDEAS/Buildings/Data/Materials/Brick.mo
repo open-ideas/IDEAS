@@ -12,7 +12,8 @@ Thermal properties of heavy bricks for exterior masonry. The values are based on
 </html>", revisions="<html>
 <ul>
 <li>
-May 3, 2022, by Jelger Jansen:<br>Created one brick type for exterior masonry. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1245\">#1245</a>.
+May 3, 2022, by Jelger Jansen:<br/>
+Created one brick type for exterior masonry. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1245\">#1245</a>.
 </li>
 </ul>
 </html>"));
