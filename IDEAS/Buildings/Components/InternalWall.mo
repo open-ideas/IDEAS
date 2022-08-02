@@ -138,7 +138,7 @@ public
     redeclare package Medium = Medium,
     A=w*h,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+    if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 equation
@@ -262,6 +262,12 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Activating thermal model when using OnePorts.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1291\">
+#1291</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
