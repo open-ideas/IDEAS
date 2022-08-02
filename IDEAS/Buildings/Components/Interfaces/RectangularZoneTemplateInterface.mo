@@ -414,18 +414,18 @@ partial model RectangularZoneTemplateInterface
       enable=hasCavityD,
       tab="Face D",
       group="Cavity or open door"));
-  parameter Boolean hasCavityCei = false
-    "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Ceiling", group="Cavity or open door", enable=(bouTypeCei==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
-  parameter Modelica.Units.SI.Length hCei(min=0) = 2
-    "Height of (rectangular) cavity in internal wall" annotation (Dialog(
-      enable=hasCavityCei,
-      tab="Ceiling",
+  parameter Boolean hasCavityFlo = false
+    "=true, to model open door or cavity in internal floor"
+    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypeFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+  parameter Modelica.Units.SI.Length bFlo(min=0) = 2
+    "Breadth of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
       group="Cavity or open door"));
-  parameter Modelica.Units.SI.Length wCei(min=0) = 1
-    "Width of (rectangular) cavity in internal wall" annotation (Dialog(
-      enable=hasCavityCei,
-      tab="Ceiling",
+  parameter Modelica.Units.SI.Length wFlo(min=0) = 1
+    "Width of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
       group="Cavity or open door"));
   parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n
     "Gravity, for computation of buoyancy" annotation (Dialog(
@@ -839,9 +839,9 @@ partial model RectangularZoneTemplateInterface
     dT_nominal_a=dT_nominal_intA,
     redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
-    hasCavity=hasCavityCei,
-    h=hCei,
-    w=wCei,
+    hasCavity=hasCavityFlo,
+    h=hFlo,
+    w=wFlo,
     dT_nominal_b=dT_nominal_intB)
  if hasIntFlo
     "Internal wall for zone floor"
