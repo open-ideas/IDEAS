@@ -123,7 +123,7 @@ protected
     c_p=c_p,
     T=T,
     dT=dT)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 public
@@ -138,12 +138,13 @@ public
     redeclare package Medium = Medium,
     A=w*h,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
-    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
+    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
+    level=AssertionLevel.warning);
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
       points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
       color={191,0,0},
