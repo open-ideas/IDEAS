@@ -840,7 +840,7 @@ partial model RectangularZoneTemplateInterface
     redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
     hasCavity=hasCavityFlo,
-    h=hFlo,
+    h=bFlo,
     w=wFlo,
     dT_nominal_b=dT_nominal_intB)
  if hasIntFlo
