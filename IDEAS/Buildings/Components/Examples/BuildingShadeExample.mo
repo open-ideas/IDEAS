@@ -28,7 +28,8 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
-    g_glazing=0,    azi=azi.k,
+    g_glazing=0,    
+    azi=azi.k,
     haveBoundaryPorts=false)
     annotation (Placement(transformation(extent={{-24,60},{-14,80}})));
   Shading.Overhang overhang(
