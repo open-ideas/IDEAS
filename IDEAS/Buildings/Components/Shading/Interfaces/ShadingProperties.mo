@@ -2,7 +2,10 @@ within IDEAS.Buildings.Components.Shading.Interfaces;
 record ShadingProperties
   "Default: no shading"
   extends Modelica.Icons.Record;
-  parameter Boolean controlled = false
+  parameter Boolean controlled = shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen or shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.BoxAndScreen or shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndScreen
     "if true, shading has a control input"
     annotation(Evaluate=true,
                Dialog(enable= (shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen or
@@ -65,8 +68,8 @@ record ShadingProperties
            or shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box)));
   parameter Modelica.Units.SI.Length finGap(
     min=0,
-    start=0) = 0.01 "Vertical distance between side fin and window" annotation
-    (Dialog(group="Side fin properties", enable=(shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
+    start=0) = 0.01 "Vertical distance between side fin and window" annotation (
+     Dialog(group="Side fin properties", enable=(shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
            or shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box)));
 
   parameter Modelica.Units.SI.Length L(

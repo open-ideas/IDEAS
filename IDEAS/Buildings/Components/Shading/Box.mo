@@ -50,11 +50,14 @@ model Box "Both side fins and overhang"
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    g_glazing=g_glazing,
     linCon=linCon,
     haveFrame=haveFrame,
     linRad=linRad,
     final azi=azi,
     haveBoundaryPorts=false,
+    hSha=hSha,
     final hWin=hWin,
     final wWin=wWin,
     final wLeft=wLeft,
@@ -70,11 +73,14 @@ model Box "Both side fins and overhang"
     epsSw_frame=epsSw_frame,
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    g_glazing=g_glazing,
     linCon=linCon,
     haveFrame=haveFrame,
     linRad=linRad,
     final azi=azi,
     haveBoundaryPorts=true,
+    hSha=hSha,
     final hWin=hWin,
     final wWin=wWin,
     final hFin=hFin,
@@ -146,12 +152,12 @@ equation
           {14,36},{14,120},{100,120}}, color={191,0,0}));
   connect(Te, sideFins.Te) annotation (Line(points={{-60,130},{-14,130},{-14,36},
           {-1.5,36}}, color={0,0,127}));
-  connect(hForcedConExt, sideFins.hForcedConExt) annotation (Line(points={{-60,
-          110},{-22,110},{-22,34.6667},{-1.5,34.6667}}, color={0,0,127}));
+  connect(hForcedConExt, sideFins.hForcedConExt) annotation (Line(points={{-60,110},
+          {-22,110},{-22,34.6667},{-1.5,34.6667}},      color={0,0,127}));
   connect(TEnv, sideFins.TEnv) annotation (Line(points={{-60,90},{-26,90},{-26,
           33.3333},{-1.5,33.3333}}, color={0,0,127}));
-  connect(sideFins.TDryBul, TDryBul) annotation(
-    Line(points = {{4, 26}, {40, 26}, {40, -10}}, color = {0, 0, 127}));
+  connect(TDryBul, sideFins.TDryBul) annotation (Line(points={{40,-10},{3.5,-10},
+          {3.5,26.6667}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,200}})),  Documentation(info="<html>
 <p>
