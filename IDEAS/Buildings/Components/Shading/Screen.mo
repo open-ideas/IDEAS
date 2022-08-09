@@ -12,7 +12,8 @@ model Screen "Controllable exterior screen"
     "Shortwave transmittance of the screen";
 
 protected
-  Modelica.Units.SI.Temperature TEnv_screen = limiter.y*TSha + (1-limiter.y)*TEnv_internal;
+  Modelica.Units.SI.Temperature TEnv_screen = limiter.y*TSha + (1-limiter.y)*TEnv_internal
+    "Assuming the environment temperature is a weighted average of the shading device temperature and the ambient temperature";
   Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)
     "Limits the control signal to avoid incorrect use by the user";
   // This assumes that the window rejects 1-g_glazing of the incoming solar irradation is entirely converted into sensible heat

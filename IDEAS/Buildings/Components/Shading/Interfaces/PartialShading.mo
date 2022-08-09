@@ -14,7 +14,7 @@ partial model PartialShading "Window shading partial"
     "Long wave solar absorption coefficient of the frame";
   parameter Modelica.Units.SI.Emissivity epsLw_glazing
     "Long wave solar absorption coefficient of the glazing";
-  parameter Modelica.Units.SI.Emissivity epsSw_shading = 0.5
+  parameter Modelica.Units.SI.Emissivity epsSw_shading
     "Short wave emissivity of the shading object";
   parameter Real g_glazing(min=0,max=1)
     "Nominal shading coefficient of the glazing";
