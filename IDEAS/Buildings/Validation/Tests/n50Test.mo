@@ -20,7 +20,8 @@ model n50Test "n50 consistency check for OnePort"
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone simpleZone(
     redeclare package Medium = Medium,
     n50=3,
-    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState))
+    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    hasWinA=true)
     annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
 
   IDEAS.Fluid.Sources.Boundary_pT bou(

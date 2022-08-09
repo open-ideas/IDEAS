@@ -4,7 +4,7 @@ model OutsideAir
   extends IDEAS.Fluid.Sources.BaseClasses.PartialSource(final verifyInputs=true);
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
-
+  parameter Boolean use_TDryBul_in = false "= true, to overwrite the dry bulb temperature";
   parameter Real table[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,-0.35; 270,-0.3; 315,0.1; 360,0.4] "Cp at different angles of attack";
   parameter Modelica.Units.SI.Angle azi "Surface azimuth (South:0, West:pi/2)"
     annotation (choicesAllMatching=true);
@@ -25,8 +25,9 @@ model OutsideAir
 
   Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
     "Sum of atmospheric pressure and wind pressure";
-
-
+  Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
+    "Optional override input for the dry bulb temperature" annotation(
+    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 protected
   parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
   parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
@@ -131,7 +132,11 @@ equation
   connect(p_link.y,p_in_internal);
 
   // must use sim.weaBus.Te for linearisation
-  T_in_internal = sim.weaBus.Te;
+  if (use_TDryBul_in) then
+    connect(TDryBul_in, T_in_internal);
+  else
+   T_in_internal = sim.weaBus.Te;
+  end if;
 
   C_in_internal = {if i==1 then sim.CEnv.y  else 0 for i in s};
 
@@ -204,6 +209,10 @@ with exception of boundary pressure, do not have an effect.
 </html>",
 revisions="<html>
 <ul>
+<li>
+July 21, 2022 by Filip Jorissen:<br/>
+Added optional dry bulb temperature input for #1270.
+</li>
 <li>
 September 21, 2019 by Filip Jorissen:<br/>
 First implementation.

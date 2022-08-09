@@ -44,6 +44,10 @@ initial equation
 </html>", revisions="<html>
 <ul>
 <li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
+<li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed
 ports <code>HDirTil</code> etc.
