@@ -90,6 +90,11 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
 <li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated example after modified component connectors for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
+<li>
 July 18, 2016 by Filip Jorissen:<br/>
 Cleaned up implementation and documentation.
 </li>

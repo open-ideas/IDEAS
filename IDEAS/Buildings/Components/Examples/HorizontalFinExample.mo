@@ -175,6 +175,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated example after modified component connectors for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
+<li>
 March 18, 2019, by Filip Jorissen:<br/>
 First implementation for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/992\">#992</a>.
