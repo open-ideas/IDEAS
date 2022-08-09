@@ -28,7 +28,8 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
-    g_glazing=0,    azi=azi.k,
+    g_glazing=0,    
+    azi=azi.k,
     haveBoundaryPorts=false)
     annotation (Placement(transformation(extent={{-24,60},{-14,80}})));
   Shading.Overhang overhang(
@@ -60,7 +61,8 @@ public
     epsSw_frame=1,
     epsLw_frame=1,
     epsLw_glazing=1,
-    g_glazing=0,        azi=azi.k,
+    g_glazing=0,
+    azi=azi.k,
     haveBoundaryPorts=false)
     annotation (Placement(transformation(extent={{-24,-60},{-14,-40}})));
   Modelica.Blocks.Sources.Cosine ctrl(
@@ -226,6 +228,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated example after modified component connectors for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
 <li>
 March 23, 2018 by Filip Jorissen:<br/>
 Added test for horizontal fin model.

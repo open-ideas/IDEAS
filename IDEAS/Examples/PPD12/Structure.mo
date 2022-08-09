@@ -268,29 +268,29 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,26},{120,6}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate stairWay(
-    aziA=east,
+    
     redeclare package Medium = MediumAir,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    hasWinA=true,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypA,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
-    w=lHalfBuilding,
-    h=hFloor1,
-    nSurfExt=0,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    l=wHallway2,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
-    A_winA=1.09*1.69,
-    fracA=0.1,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall
       conTypFlo,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypC,
+    A_winA=1.09*1.69,aziA=east,
+    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
+    fracA=0.1,
+    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    hasWinA=true,
+    l=wHallway2,
+    mSenFac=1,
     n50=n50,
-    mSenFac=1)
+    nSurfExt=0,
+    w=lHalfBuilding, wFlo = 0.8)
     "Stairway"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
@@ -322,30 +322,30 @@ model Structure "Ppd 12 example model"
     "Master bedroom"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
-    aziA=east,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
-    l=wBedroom,
-    w=lHalfBuilding,
-    h=hFloor1,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.Roof conTypCei,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     redeclare IDEAS.Examples.PPD12.Data.Floor conTypFlo,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    hasWinA=true,
-    A_winA=1.1*0.73,
-    fracA=0.15,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
-    nSurfExt=3,
+    A_winA=1.1*0.73,aziA=east,
+    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     calculateViewFactor=false,
+    fracA=0.15,
+    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    hasWinA=true,
+    l=wBedroom,
+    mSenFac=1,
     n50=n50,
-    mSenFac=1)
+    nSurfExt=3,
+    w=lHalfBuilding, wFlo = 0.8)
     "Master bedroom"
     annotation (Placement(transformation(extent={{280,40},{260,20}})));
 
@@ -509,6 +509,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Added cavity in internal floors to represent staircases.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1293\">#1293</a>.
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Fixed floor type in hallway.

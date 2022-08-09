@@ -1,14 +1,18 @@
 within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model ExteriorConvection "exterior surface convection"
 
-  parameter Modelica.Units.SI.Area A "surface area";
-  parameter Boolean linearise = false "Use constant convection coefficient"
+  parameter Modelica.Units.SI.Area A 
+    "Heat exchange surface area";
+  parameter Boolean linearise = false 
+    "Use constant convection coefficient"
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer hConExtLin=18.3
     "Fixed exterior convection coefficient used when linearising equations"
     annotation (Dialog(enable=linearise));
-  parameter Modelica.Units.SI.Angle inc "Surface inclination";
-  parameter Modelica.Units.SI.Angle azi "Surface azimuth";
+  parameter Modelica.Units.SI.Angle inc 
+    "Surface inclination angle";
+  parameter Modelica.Units.SI.Angle azi 
+    "Surface azimuth angle";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Connector for solid part"
@@ -45,9 +49,6 @@ protected
   Real C "TARP coeff";
   Modelica.Units.SI.TemperatureDifference dT
     "Surface temperature minus outdoor air temperature" annotation ();
-
-
-
 equation
 
   // Assign empirical coefficient according to flow regime.
@@ -134,6 +135,11 @@ than 1 are discouraged as there appears to be little physical basis for this fac
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated documentation and revised interface for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Major rewrite.  Convection coefficients now calculated by surface to consider 
