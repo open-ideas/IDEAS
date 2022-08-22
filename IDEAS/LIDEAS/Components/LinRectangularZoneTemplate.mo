@@ -141,7 +141,7 @@ replaceable
       U_value=glazingB.U_value,
       g_value=glazingB.g_value),
     A=A_winB,
-    frac=fraB,
+    frac=fracB,
     azi=aziB,
     T_start=T_start,
     linIntCon_a=linIntCon,

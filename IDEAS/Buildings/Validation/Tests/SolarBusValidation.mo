@@ -18,6 +18,12 @@ model SolarBusValidation
 </html>", revisions="<html>
 <ul>
 <li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
+<li>
 February 25, 2015, by Filip Jorissen:<br/>
 First implementation.
 </li>

@@ -91,32 +91,32 @@ prescribedOut.QRad[2]}) "Precomputed input values"
     "Number of precomputed inputs";
   final parameter Integer nOut=Csize[1] "Number of precomputed outputs";
   Modelica.Blocks.Continuous.StateSpace stateSpace(
-    A=readMatrix(
+    A=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="A",
-        rows=nSta,
-        columns=nSta),
-    B=readMatrix(
+        nrow=nSta,
+        ncol=nSta),
+    B=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="B",
-        rows=nSta,
-        columns=nInp),
-    C=readMatrix(
+        nrow=nSta,
+        ncol=nInp),
+    C=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="C",
-        rows=nOut,
-        columns=nSta),
-    D=readMatrix(
+        nrow=nOut,
+        ncol=nSta),
+    D=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="D",
-        rows=nOut,
-        columns=nInp),
+        nrow=nOut,
+        ncol=nInp),
     initType=Modelica.Blocks.Types.Init.NoInit) "State space model"
     annotation (Placement(transformation(extent={{-40,100},{-20,120}})));
 protected
-  final parameter Integer[2] Bsize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Bsize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "B") "Size of B matrix of state space model";
-  final parameter Integer[2] Csize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Csize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "C") "Size of C matrix of state space model";
 public
   Modelica.Blocks.Sources.Sine ctrlInputTestCon[nZones](
@@ -155,7 +155,9 @@ commonWall.layMul.monLay[3].monLayDyn.T[2],
 commonWall.layMul.monLay[3].monLayDyn.T[3],
 floor.layMul.monLay[1].monLayDyn.T[1],
 floor.layMul.monLay[1].monLayDyn.T[2],
+floor.layMul.monLay[1].monLayDyn.T[3],
 floor.layMul.monLay[2].monLayDyn.T[1],
+floor.layMul.monLay[2].monLayDyn.T[2],
 floor.layMul.monLay[3].monLayDyn.T[1],
 floor.layMul.monLay[4].monLayDyn.T[1],
 floor.layMul.monLay[5].monLayDyn.T[1],
@@ -247,11 +249,17 @@ equation
       StopTime=1000000,
       __Dymola_NumberOfIntervals=1000,
       Tolerance=1e-06),
+    __OpenModelica_commandLineOptions = "--allowNonStandardModelica=protectedAccess",
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/LIDEAS/Validation/ZoneWithInputsValidationNonLinear.mos"
         "Linearize, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 29, 2022, by Filip Jorissen:<br/>
+Using full path for readMatrixSize for OM compatibility for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1254>#1254</a>.
+</li>
 <li>
 December 11, 2019, by Filip Jorissen:<br/>
 Revised input list for

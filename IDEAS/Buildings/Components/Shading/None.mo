@@ -1,8 +1,7 @@
 within IDEAS.Buildings.Components.Shading;
 model None "No solar shading"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
                                                              final controlled=false);
-
 equation
   connect(angInc, iAngInc) annotation (Line(
       points={{-60,-50},{-16,-50},{-16,-50},{40,-50}},
@@ -14,9 +13,12 @@ equation
           {-17,30},{40,30}}, color={0,0,127}));
   connect(HGroDifTil, HShaGroDifTil) annotation (Line(points={{-60,10},{-14,10},
           {-14,10},{40,10}}, color={0,0,127}));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})), Documentation(revisions="<html>
+  annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed
@@ -31,5 +33,6 @@ Cleaned up implementation and documentation.
 </ul>
 </html>", info="<html>
 <p>Use this model if you want no solar shading to be computed.</p>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}}, preserveAspectRatio = false)));
 end None;

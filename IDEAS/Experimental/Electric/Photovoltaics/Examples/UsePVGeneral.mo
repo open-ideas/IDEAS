@@ -63,7 +63,14 @@ equation
       color={85,170,255},
       smooth=Smooth.None));
   annotation (
-    Diagram(graphics),
-    experiment(StopTime=3.1536e+007, Interval=600),
-    __Dymola_experimentSetupOutput);
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation to avoid failing OMC tests.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
+</ul>
+</html>"));
 end UsePVGeneral;

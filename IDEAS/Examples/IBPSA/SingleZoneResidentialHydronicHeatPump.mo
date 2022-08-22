@@ -96,11 +96,11 @@ model SingleZoneResidentialHydronicHeatPump
                                                      y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
-        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 1e-8 then
+        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
-        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
+        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -124,6 +124,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{40,30},{20,50}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{80,50},{60,30}})));
@@ -139,9 +140,10 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{0,0},{-20,20}})));
   Fluid.Sensors.TemperatureTwoPort senTemRet(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Return water temperature sensor"
-    annotation (Placement(transformation(extent={{80,-10},{60,-30}})));
+    annotation (Placement(transformation(extent={{60,-10},{80,-30}})));
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
@@ -258,7 +260,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-80,90},{-60,70}})));
   Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
+  Modelica.Blocks.Sources.Constant const(k=1e-8) "Threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-114,100},{-94,120}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
@@ -284,14 +286,10 @@ equation
     annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
           40},{80,40}},               color={0,127,255}));
-  connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
-          -20},{124,0}},        color={0,127,255}));
   connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
         points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
   connect(pum.port_b, floHea.port_a)
     annotation (Line(points={{20,40},{0,40},{0,10}}, color={0,127,255}));
-  connect(floHea.port_b, senTemRet.port_b)
-    annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -369,6 +367,10 @@ equation
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
     annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
+  connect(senTemRet.port_b, heaPum.port_a1)
+    annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
+  connect(senTemRet.port_a, floHea.port_b)
+    annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
   annotation (
     experiment(
       StopTime=1728000,
@@ -874,6 +876,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 3, 2022, by David Blum and Filip Jorissen:<br/>
+Detect occupancy for set points with threshold strictly larger than 0.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1260\"> issue #1260</a>. 
+</li>
 <li>
 December 2, 2021, by David Blum:<br/>
 Remove read blocks for control signals.

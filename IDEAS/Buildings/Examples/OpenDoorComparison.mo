@@ -2,6 +2,8 @@ within IDEAS.Buildings.Examples;
 model OpenDoorComparison
   "Comparison of two-zones models with and without an open door/cavity model"
   extends Modelica.Icons.Example;
+  inner BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{-100,82},{-80,102}})));
   Validation.Cases.Case900Template zone1_a(bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)
     "Zone with an internal wall without cavity"
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
@@ -17,6 +19,7 @@ model OpenDoorComparison
   Validation.Cases.Case900Template zone2_b(bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
       hasWinA=false) "Zone with a connection to internal wall of zone1_b"
     annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
+
 equation
   connect(zone2_a.proBusD[1], zone1_a.proBusB[1]) annotation (Line(
       points={{20.4,43},{0,43},{0,56},{-21,56}},
@@ -40,6 +43,12 @@ equation
 "),     Rectangle(extent={{-60,-80},{60,-20}}, lineColor={28,108,200})}),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 May 23, 2018 by Filip Jorissen:<br/>
 First implementation

@@ -1,7 +1,8 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer;
 model MultiLayer "multiple material layers in series"
 
-  parameter Modelica.Units.SI.Area A "total multilayer area";
+  parameter Modelica.Units.SI.Area A 
+    "total multilayer area";
   parameter Modelica.Units.SI.Angle inc
     "Inclinination angle of the multilayer at port_a";
   parameter Integer nLay(min=1) "number of layers";
@@ -14,7 +15,6 @@ model MultiLayer "multiple material layers in series"
     "total specific thermal resistance";
   final parameter Modelica.Units.SI.HeatCapacity C=sum(mats.d .* mats.rho .*
       mats.c*A) "Total heat capacity of the layers" annotation (Evaluate=true);
-
   parameter Modelica.Units.SI.Temperature T_start[nLay]=ones(nLay)*293.15
     "Start temperature from port_b to port_a"
     annotation (Evaluate=true, Dialog(group="Dynamics"));
@@ -32,7 +32,17 @@ model MultiLayer "multiple material layers in series"
     annotation(Dialog(enable=linIntCon));
   parameter Boolean checkCoatings = false
     "Check whether air layers have a coating";
-  Modelica.Units.SI.Energy E=sum(monLay.E);
+  final parameter Modelica.Units.SI.Emissivity parEpsSw_a = mats[nLay].epsSw_a
+    "Shortwave emissivity parameter for face a";
+  final parameter Modelica.Units.SI.Emissivity parEpsSw_b =  mats[1].epsSw_b
+    "Shortwave emissivity parameter for face b";
+  final parameter Modelica.Units.SI.Emissivity parEpsLw_a =  mats[nLay].epsLw_a
+    "Longwave emissivity parameter for face a";
+  final parameter Modelica.Units.SI.Emissivity parEpsLw_b =  mats[1].epsLw_b
+    "Longwave emissivity parameter for face b";
+
+  Modelica.Units.SI.Energy E=sum(monLay.E)
+    "Total internal energy";
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer[nLay]
     monLay(
@@ -55,26 +65,28 @@ model MultiLayer "multiple material layers in series"
     annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_gain[nLay]
-    "port for gains by embedded active layers"
+    "Port for gains by embedded layers"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
+    "Thermal connector for face a of the layers"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b(T(start=289.15))
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
+    "Thermal connector for face b of the layers"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput iEpsLw_b
-    "output of the interior emissivity for radiative heat losses"
+    "Output of the longwave emissivity of port b"
     annotation (Placement(transformation(extent={{90,70},{110,90}})));
   Modelica.Blocks.Interfaces.RealOutput iEpsSw_b
-    "output of the interior emissivity for radiative heat losses"
+    "Output of the shortwave emissivity of port b"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
   Modelica.Blocks.Interfaces.RealOutput iEpsLw_a
-    "output of the interior emissivity for radiative heat losses"
+    "Output of the shortwave emissivity of port a"
     annotation (Placement(transformation(extent={{-90,70},{-110,90}})));
   Modelica.Blocks.Interfaces.RealOutput iEpsSw_a
-    "output of the interior emissivity for radiative heat losses"
+    "Output of the shortwave emissivity of port a"
     annotation (Placement(transformation(extent={{-90,30},{-110,50}})));
   Modelica.Blocks.Interfaces.RealOutput area=A
-    "output of the interior emissivity for radiative heat losses" annotation (
+    "Output connector for the surface area of each face" annotation (
       Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
@@ -163,6 +175,11 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated documentation and added parameters for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
 Updated with <code>checkCoatings</code> for issue

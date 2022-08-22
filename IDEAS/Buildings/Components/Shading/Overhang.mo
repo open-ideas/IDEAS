@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model Overhang "Roof overhangs"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
                                                              final controlled=false);
 
   parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
@@ -27,7 +27,7 @@ model Overhang "Roof overhangs"
     "Fraction of window area exposed to direct sun light";
 protected
   final parameter Modelica.Units.SI.Area AWin=hWin*wWin "Window area";
-  parameter Modelica.Units.SI.Length tmpH[4](fixed=false)
+  parameter Modelica.Units.SI.Length[4] tmpH(each fixed=false)
     "Height rectangular sections used for superposition";
   final parameter Modelica.Units.SI.Angle vieAngOverhang=atan(dep/(gap + hWin/2))
     "Viewing angle of overhang";
@@ -115,6 +115,10 @@ and wLeft and wRight are respectively the horizontal overhang widths.
 <p><img alt=\"illustration\" src=\"modelica://IDEAS/Resources/Images/Buildings/Components/Shading/Overhang.png\"/></p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Added computation of diffuse solar shading.
