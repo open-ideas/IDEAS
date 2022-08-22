@@ -2,7 +2,10 @@ within IDEAS.Buildings.Components.Shading.Interfaces;
 record ShadingProperties
   "Default: no shading"
   extends Modelica.Icons.Record;
-  parameter Boolean controlled = false
+  parameter Boolean controlled = shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen or shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.BoxAndScreen or shaType==
+      IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.OverhangAndScreen
     "if true, shading has a control input"
     annotation(Evaluate=true,
                Dialog(enable= (shaType==IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Screen or
@@ -65,8 +68,8 @@ record ShadingProperties
            or shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box)));
   parameter Modelica.Units.SI.Length finGap(
     min=0,
-    start=0) = 0.01 "Vertical distance between side fin and window" annotation
-    (Dialog(group="Side fin properties", enable=(shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
+    start=0) = 0.01 "Vertical distance between side fin and window" annotation (
+     Dialog(group="Side fin properties", enable=(shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.SideFins
            or shaType == IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.Box)));
 
   parameter Modelica.Units.SI.Length L(
@@ -109,6 +112,11 @@ record ShadingProperties
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 9, 2022, by Filip Jorissen:<br/>
+Revised default value of 'controlled'  for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
 <li>
 Aug 2 2018, by Iago Cupeiro:<br/>
 Corrected initialization bug in assert

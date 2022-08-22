@@ -8,11 +8,11 @@ partial model BalancedTap "partial DHW model"
     "Nominal cold water temperature";
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=1
     "Nominal mass flow rate";
-
-protected
-  Modelica.Units.SI.MassFlowRate mFlo60C "DHW flow rate at 60 degC";
   parameter SI.Time tau=30
     "Tin time constant of temperature sensor at nominal flow rate";
+protected
+  Modelica.Units.SI.MassFlowRate mFlo60C "DHW flow rate at 60 degC";
+
 
 public
   Modelica.Fluid.Interfaces.FluidPort_a port_hot(redeclare package Medium = Medium)
@@ -105,9 +105,9 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(idealSource.port_b, vol.ports[1])
-    annotation (Line(points={{50,0},{68,0}}, color={0,127,255}));
+    annotation (Line(points={{50,0},{69,0}}, color={0,127,255}));
   connect(vol.ports[2], port_cold)
-    annotation (Line(points={{72,0},{100,0}}, color={0,127,255}));
+    annotation (Line(points={{71,0},{100,0}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=
@@ -189,6 +189,12 @@ An example of this model is given in
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>2013 June, Roel De Coninck: documentation.</li>
 <li>2012 September, Roel De Coninck, simplification of equations.</li>
 <li>2012 August, Roel De Coninck, first implementation.</li>

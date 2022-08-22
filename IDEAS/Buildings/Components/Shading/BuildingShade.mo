@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.Shading;
 model BuildingShade
   "Component for modeling shade cast by distant objects such as buildings and treelines"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(
     final controlled=false);
 
   parameter Modelica.Units.SI.Length L(min=0)
@@ -65,8 +65,7 @@ equation
   connect(HGroDifTil, HShaGroDifTil)
     annotation (Line(points={{-60,10},{40,10},{40,10}}, color={0,0,127}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}}),
-        graphics),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
 <p>
 This model computes the shading cast by a building (or other object) at 
@@ -96,6 +95,10 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 September 22, 2019 by Filip Jorissen:<br/>
 Added assert that checks validity of parameter <code>fraSunDifSky</code>.
@@ -146,5 +149,6 @@ June 12, 2015, by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+  Diagram(coordinateSystem(extent = {{-100, -100}, {100, 200}})));
 end BuildingShade;

@@ -40,6 +40,8 @@ public
     annotation (Placement(transformation(extent={{96,-150},{116,-130}})));
   Modelica.Blocks.Interfaces.RealOutput Tdes "Design tempearture"
     annotation (Placement(transformation(extent={{96,-170},{116,-150}})));
+  parameter Boolean solDataInBus = numMatches==1
+    "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
@@ -49,8 +51,7 @@ protected
           then 1
           else 0 for i in 1:sim.numIncAndAziInBus})
     annotation(Evaluate=true);
-  final parameter Boolean solDataInBus = numMatches==1
-    "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
+
   final parameter Integer solDataIndex=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
              and (IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
@@ -189,6 +190,12 @@ If the correct data is not contained by the bus, custom solar data is calculated
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 August 12, 2020, by Filip Jorissen:<br/>
 Using precomputed data for ceilings/floors even if azimuth angle mismatches.

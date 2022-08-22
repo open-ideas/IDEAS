@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Shading;
 model HorizontalFins "Horizontal fin shading with 2 control input options"
-  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final controlled=use_betaInput or use_displacementInput);
+  extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShadingDevice(final controlled=use_betaInput or use_displacementInput);
 
   parameter Modelica.Units.SI.Length s(min=0) "Vertical spacing between fins";
   parameter Modelica.Units.SI.Length w(min=0) "Fin width";
@@ -88,7 +88,7 @@ equation
   connect(HGroDifTil, HShaGroDifTil);
 
     annotation (
-    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-50,-100},{50,100}})),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
 <p>
 Shading model for exterior horizontal fins in front of a window,
@@ -141,6 +141,10 @@ The implementation is illustrated using this figure:
 </html>", revisions="<html>
 <ul>
 <li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
+<li>
 November 10, 2019 by Filip Jorissen:<br/>
 Added simplified computation for diffuse solar shading.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/874\">#874</a>.
@@ -156,5 +160,6 @@ April, 2017 by Iago Cupeiro:<br/>
 Cleaned up implementation and documentation.
 </li>
 </ul>
-</html>"));
+</html>"),
+  Diagram(coordinateSystem(extent = {{-100, -100}, {100, 200}})));
 end HorizontalFins;
