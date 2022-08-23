@@ -429,7 +429,7 @@ Each propsbus needs to be connected to a zone, which may be the same zone.
 </p>
 <p>
 Note that this model is not symmetric: the convection equations depend on the inclination <code>inc</code>,
-which is turned 180 degrees between both side. The value of <code>inc</code> is applied to the right side of the model.
+which is turned 180 degrees between both side. The value of <code>inc</code> is applied to the right side of the model (propsBus_a).
 </p>
 <p>
 Parameter <code>hasCavity</code> can be set to <code>true</code> to simulate heat transfer
