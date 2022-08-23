@@ -314,6 +314,8 @@ initial equation
     hzone_b = propsBus_b.hzone;
     hfloor_b= propsBus_b.hfloor;
 equation
+  //assert(inc==0 and hfloor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+  //assert(inc==pi() and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
     level=AssertionLevel.warning);
