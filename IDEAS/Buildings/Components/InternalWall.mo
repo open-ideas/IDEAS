@@ -85,6 +85,7 @@ model InternalWall "interior opaque wall between two zones"
 
 
 protected
+  parameter Real Ope_hvert= sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
   constant Real r = 287 "Gas constant";
@@ -130,7 +131,7 @@ public
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
     wOpe=w,
-    hOpe=h,
+    hOpe=Ope_hvert,
     hA=(hzone_a/2) - hRef_a,
     hB=(hzone_b/2) - hRef_b,
     nCom=4,
