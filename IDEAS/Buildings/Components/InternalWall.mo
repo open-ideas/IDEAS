@@ -301,13 +301,13 @@ This makes port_a not nececarilly always the top port.
   end DensityColumn;
 
 
-  DensityColumn   col_a_pos(redeclare package Medium = Medium, h=-0.5*hzone_a +
-        0.5*Ope_hvert + Ope_hRef_a)
+  DensityColumn   col_b_pos(redeclare package Medium = Medium, h=-0.5*hzone_b +
+        0.5*Ope_hvert + hRef_b)
     if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
-  DensityColumn col_b_pos(
-      redeclare package Medium = Medium, h=-0.5*hzone_b + 0.5*Ope_hvert +
-        Ope_hRef_b)                             if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+  DensityColumn col_a_pos(redeclare package Medium = Medium, h=-0.5*hzone_a + 0.5
+        *Ope_hvert + hRef_a)     if hasCavity and sim.interZonalAirFlowType ==
+    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     annotation (Placement(transformation(extent={{16,42},{36,62}})));
 
 initial equation
@@ -374,13 +374,13 @@ equation
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
 
-  connect(col_a_pos.port_b, propsBus_b.port_1) annotation (Line(points={{-30,42},
+  connect(col_b_pos.port_b, propsBus_b.port_1) annotation (Line(points={{-30,42},
           {-30,20},{-44,20},{-44,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(col_a_pos.port_a, resDoor.port_a)
+  connect(col_b_pos.port_a, resDoor.port_a)
     annotation (Line(points={{-30,62},{-30,68},{-10,68}}, color={0,127,255}));
-  connect(col_b_pos.port_b, propsBusInt.port_1) annotation (Line(points={{26,42},
+  connect(col_a_pos.port_b, propsBusInt.port_1) annotation (Line(points={{26,42},
           {26,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(col_b_pos.port_a, resDoor.port_b)
+  connect(col_a_pos.port_a, resDoor.port_b)
     annotation (Line(points={{26,62},{26,68},{10,68}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
