@@ -74,13 +74,7 @@ model InternalWall "interior opaque wall between two zones"
   final parameter Real hzone_b(fixed=false);
   final parameter Real hfloor_b(fixed=false);
 
-  parameter Real hRef_b=if inc == 0 then hzone_b else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
-
-  parameter Real Ope_hvert= if inc==Modelica.Constants.pi or inc==0 then 0 else h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
-  parameter Real Ope_hRef_a= if inc==0 then hzone_a else 0 "Height above the zone floor at propsbus_a. Height where the opening starts"
-                                                                                                                                       annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
-  parameter Real Ope_hRef_b= if inc==0 then hzone_b else 0 "Height above the zone floor at propsbus_b. Height where the opening starts"
-                                                                                                                                       annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
+  parameter Real hRef_b=if inc==pi() then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
 
 
 
