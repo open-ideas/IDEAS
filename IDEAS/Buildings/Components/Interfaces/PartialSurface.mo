@@ -58,7 +58,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Real hVertical=if inc==Modelica.Constants.pi or inc==0 then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
   parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  "
                                                                                                                                                                                    annotation(Evaluate=true);
-  parameter Real Habs=hfloor_a+hRef_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
+  parameter Real Habs_surf=hfloor_a+hRef_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
