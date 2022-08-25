@@ -74,7 +74,7 @@ model InternalWall "interior opaque wall between two zones"
   final parameter Real hzone_b(fixed=false);
   final parameter Real hfloor_b(fixed=false);
 
-  parameter Real hRef_b=if inc==pi() then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  parameter Real hRef_b=if inc== Modelica.Constants.pi then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
 
 
 
@@ -158,7 +158,7 @@ initial equation
     hfloor_b= propsBus_b.hfloor;
 equation
   //assert(inc==0 and hfloor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
-  //assert(inc==pi() and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+  //assert(inc==Modelica.Constants.pi and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
     level=AssertionLevel.warning);
