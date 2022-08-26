@@ -268,7 +268,6 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,26},{120,6}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate stairWay(
-    
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypA,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
@@ -293,6 +292,7 @@ model Structure "Ppd 12 example model"
     w=lHalfBuilding, wFlo = 0.8)
     "Stairway"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
+
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
     aziA=east,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -306,7 +306,7 @@ model Structure "Ppd 12 example model"
     fracC=0.15,
     l=wBedroom,
     w=lHalfBuilding,
-    h=hFloor1,
+    h=hFloor2,
     A_winC=1.1*0.66 + 1.1*1.54,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall18 conTypC,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
@@ -322,7 +322,6 @@ model Structure "Ppd 12 example model"
     "Master bedroom"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
-    
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
@@ -339,7 +338,7 @@ model Structure "Ppd 12 example model"
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     calculateViewFactor=false,
     fracA=0.15,
-    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    h=hFloor2, bFlo = 2, hasCavityFlo = true,
     hasWinA=true,
     l=wBedroom,
     mSenFac=1,
