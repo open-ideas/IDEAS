@@ -128,7 +128,7 @@ public
     hOpe=Ope_hvert,
     hA=(hzone_a/2) - hRef_a,
     hB=(hzone_b/2) - hRef_b,
-    nCom=4,
+    nCom=if Ope_hvert==0 then 2 else 4,
     CD=CD)
     if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "2-port model for open door"
