@@ -2,6 +2,6 @@ Heating
 Structure
 VentilationMPC
 VentilationRBC
-Structure_2Port
+StructureExt_2Port
 Data
 BaseClasses
