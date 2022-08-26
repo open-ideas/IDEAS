@@ -48,10 +48,10 @@ partial model PartialSurface "Partial model for building envelope component"
     "check to disable the default q50 computation and to assign a custom q50 value"
     annotation (choices(checkBox=true),Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
   parameter Real custom_q50(unit="m3/(h.m2)") = 2
-    "Envelope air tightness"
+    "Surface air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
-    "Envelope air tightness";
+    "Surface air tightness";
 
   final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Real hfloor_a( fixed=false);
