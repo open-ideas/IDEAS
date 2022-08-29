@@ -74,8 +74,8 @@ model Structure "Ppd 12 example model"
     inc=IDEAS.Types.Tilt.Floor) "Floor between hallway and bedroom 1"
     annotation (Placement(transformation(extent={{70,68},{80,88}})));
   IDEAS.Buildings.Components.Window winBed3(
-    hVertical=1.2*sin(inc),
-    hRef_a=hzone_a + 1,
+    hVertical=1.2*sin(winBed3.inc),
+    hRef_a=winBed3.hzone_a + 1,
     frac=0.1,
     azi=east,
     redeclare IDEAS.Examples.PPD12.Data.PvcInsulated fraType,
@@ -91,8 +91,8 @@ model Structure "Ppd 12 example model"
     inc=(IDEAS.Types.Tilt.Wall + IDEAS.Types.Tilt.Ceiling)/2,
     A=wBedroom*lHalfBuilding*sqrt(2)/2,
     redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
-    hVertical=lHalfBuilding*tan(inc),
-    hRef_a=hzone_a)
+    hVertical=lHalfBuilding*tan(Roof2.inc),
+    hRef_a=Roof2.hRef_a)
     "Roof, east side"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -358,8 +358,8 @@ model Structure "Ppd 12 example model"
     azi=west,
     A=wBedroom*lHalfBuilding*sqrt(2),
     redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
-    hVertical=lHalfBuilding*tan(inc),
-    hRef_a=hzone_a)
+    hVertical=lHalfBuilding*tan(Roof1.inc),
+    hRef_a=Roof1.hzone_a)
     "Roof, west side"                     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
