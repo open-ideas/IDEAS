@@ -29,14 +29,14 @@ model OutsideAir
   Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
     "Optional override input for the dry bulb temperature" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-protected
 
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
   parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-                                                                                                                             annotation(Dialog(group="Wind"));
+                                                                                                                             annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
   parameter Modelica.Units.SI.Length Hwin=sim.Hwin
     "Height above ground of meteorological wind speed measurement"
-    annotation (Dialog(group="Wind"));
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
 
 protected
   constant Integer s[:]= {
@@ -221,4 +221,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end OutsideAir;
+end OutsideAir;end OutsideAir;
