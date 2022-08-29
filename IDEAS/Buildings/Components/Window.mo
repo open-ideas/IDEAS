@@ -26,9 +26,13 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A_glass*nWin),
+    hRef_a=if inc == 0 then hzone_a else (hzone_a - hVertical)/2,
+    hVertical=if inc == Modelica.Constants.pi or inc == 0 then 0 else min(hzone_a, sqrt(A)),
     q50_zone(v50_surf=q50_internal*A_glass),
-    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass),
-    res2(A=A_glass/2));
+    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass,
+          h_a=(Habs - sim.Hpres) + 0.25*hVertical),
+    res2(A=A_glass/2,
+          h_a=(Habs - sim.Hpres) - 0.25*hVertical));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -74,10 +78,8 @@ model Window "Multipane window"
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
       Placement(visible = true,transformation(
-        
         origin={-50,-110},extent={{20,-20},{-20,20}},
         rotation=-90), iconTransformation(
-        
         origin={-40,-100},extent={{10,-10},{-10,10}},
         rotation=-90)));
 
@@ -104,7 +106,7 @@ model Window "Multipane window"
                        "Wind speed modifier"
         annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
-  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
+  final parameter Real Habs(fixed=false)
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
 
@@ -198,14 +200,19 @@ protected
     Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
         outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
-    Habs=Habs, final azi = aziInt,
+    Habs=Habs,
+    final azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2), table = coeffsCp, use_TDryBul_in = true)
+         then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2),
+    table = coeffsCp,
+    use_TDryBul_in = true)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
+
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
+  Habs =hfloor_a + hRef_a + (hVertical/2);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
@@ -267,7 +274,7 @@ equation
   connect(heaCapGlaExt.port, layMul.port_b) annotation (
     Line(points = {{-10, -12}, {-10, 0}}, color = {191, 0, 0}));
   connect(res1.port_a, outsideAir.ports[1]) annotation (
-    Line(points = {{20, -40}, {16, -40}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
+    Line(points={{20,-36},{16,-36},{16,-90},{-20,-90}},          color = {0, 127, 255}));
   connect(res2.port_a, outsideAir.ports[2]) annotation (
     Line(points = {{20, -60}, {16, -60}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
   connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation (
@@ -286,12 +293,15 @@ equation
   connect(shaType.hForcedConExt, radSolData.hForcedConExt) annotation (
     Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
                                                                     color = {0, 0, 127}));
-  connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation(
-    Line(points = {{-42, -90}, {-46, -90}, {-46, -48}, {-58, -48}}, color = {0, 0, 127}));
+  connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
+    Line(points={{-42,-90},{-46,-90},{-46,-49.4895},{-57.5,-49.4895}},
+                                                                    color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
-        graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, 100}}),
-        Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-46, 60}, {50, 24}, {50, -50}, {-30, -20}, {-46, -20}, {-46, 60}}),
+        graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
+            fillPattern =                                                                          FillPattern.Solid, extent = {{-50, -90}, {50, 100}}),
+        Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None,
+            fillPattern =                                                              FillPattern.Solid, points = {{-46, 60}, {50, 24}, {50, -50}, {-30, -20}, {-46, -20}, {-46, 60}}),
         Line(
           points={{-50,60},{-30,60},{-30,80},{50,80}},
           color={175,175,175}),
