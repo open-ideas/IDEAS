@@ -83,15 +83,28 @@ model Window "Multipane window"
 
 
 
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
-      "Cp at different angles of attack"
-      annotation(Dialog(tab="Airflow",group="Wind"));
+          replaceable parameter
+    IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
+    constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
+    "Tables with wind pressure coefficients for walls, floors and roofs"
+    annotation (
+    __Dymola_choicesAllMatching=true,
+    Placement(transformation(extent={{-34,78},{-30,82}})),
+    Dialog(tab="Airflow", group="Wind Pressure"));
+
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+      "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
+      annotation(Dialog(tab="Airflow", group="Wind Pressure"));
+
+  parameter Boolean Use_custom_Cs = false
+    "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
+    annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
+
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(tab="Airflow", group="Wind"));
+        annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
-  parameter Real Habs=1
+  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
 
@@ -182,8 +195,10 @@ protected
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   Fluid.Sources.OutsideAir       outsideAir(
     redeclare package Medium = Medium,
-    Cs=Cs,
-    Habs=Habs, azi = aziInt,
+    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
+        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
+    Habs=Habs, final azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2), table = coeffsCp, use_TDryBul_in = true)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
