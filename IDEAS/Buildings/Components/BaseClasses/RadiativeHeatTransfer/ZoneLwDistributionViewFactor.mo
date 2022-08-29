@@ -55,7 +55,9 @@ model ZoneLwDistributionViewFactor
         rotation=270,
         origin={-60,-104})));
 
-
+  parameter Real[2+numAzi,2+numAzi] vieFacTot(each fixed=false)
+    "Emissivity weighted viewfactor from total of surfaces to each other"
+    annotation(Dialog(tab="Advanced"));
 protected
   parameter Modelica.Units.SI.ThermalConductance coeffLin=1*(2*Tzone_nom +
       dT_nom)*(Tzone_nom^2 + (Tzone_nom + dT_nom)^2)
@@ -63,9 +65,7 @@ protected
   parameter Real[2+numAzi] Atot(each fixed=false)
     "Total surface area per orientation";
 
-  parameter Real[2+numAzi,2+numAzi] vieFacTot(each fixed=false)
-    "Emissivity weighted viewfactor from total of surfaces to each other"
-    annotation(Dialog(tab="Advanced"));
+
   parameter Real lWall(fixed = false);
 
   parameter Integer index1(fixed=false);

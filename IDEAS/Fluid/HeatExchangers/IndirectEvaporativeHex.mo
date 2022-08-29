@@ -198,15 +198,13 @@ protected
         origin={32,-4})));
   Modelica.Blocks.Math.Gain negate(k=-1) "For minus sign"
     annotation (Placement(transformation(extent={{-46,-26},{-34,-14}})));
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulIn(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXiProtected  wetBulIn(
     TDryBul=T_top_in,
     p=port_a1.p,
     Xi=Xi_top_in[1:Medium1.nXi],
     redeclare package Medium = Medium1)
     "Wet bulb temperature based on wet channel inlet conditions";
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulOut(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXiProtected  wetBulOut(
     TDryBul=volTop.heatPort.T,
     p=port_a1.p,
     Xi=volTop.ports[1].Xi_outflow[1:Medium1.nXi],
@@ -215,6 +213,13 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature Tbot(T=273.15 + 21.4) if prescribeTBot
     "This override the temperature of the IEH outlet for validation purposes";
+
+  model TWetBul_TDryBulXiProtected
+    "Model for accessing protected variable"
+    extends IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi(final approximateWetBulb = false);
+    Real XiSatOut = XiSat "Water vapor mass fraction at saturation";
+
+  end TWetBul_TDryBulXiProtected;
 equation
   assert(port_a1.m_flow>-m_flow_small or allowFlowReversal1, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
   assert(port_a2.m_flow>-m_flow_small or allowFlowReversal2, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
@@ -222,7 +227,7 @@ equation
     // model from: Liu, Z., Allen, W., & Modera, M. (2013). Simplified thermal modeling of indirect evaporative heat exchangers. HVAC&R Research, 19(March), 37–41. doi:10.1080/10789669.2013.763653
     Qmax=C_min*(T_bot_in-T_top_in_wet);
     C_top = port_a1.m_flow*(if adiabaticOn
-                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSat,1-wetBulOut.XiSat}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSat,1-wetBulIn.XiSat})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
+                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSatOut,1-wetBulOut.XiSatOut}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSatOut,1-wetBulIn.XiSatOut})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
                             else Medium1.specificHeatCapacityCp(Medium1.setState_pTX(Medium1.p_default, Medium1.T_default, Medium1.X_default)));
     C_bot = port_a2.m_flow*Medium2.specificHeatCapacityCp(Medium2.setState_pTX(Medium2.p_default, Medium2.T_default, Medium2.X_default));
     Q = Qmax*(if use_eNTU then eps_NTU else (if adiabaticOn then eps_adia_on else eps_adia_off));
@@ -243,24 +248,24 @@ equation
     annotation (Line(points={{40,-88},{10,-88},{10,-50}},
                                                         color={191,0,0}));
   connect(temperatureSensor.T, TOutBot)
-    annotation (Line(points={{60,-88},{108,-88}}, color={0,0,127}));
+    annotation (Line(points={{61,-88},{108,-88}}, color={0,0,127}));
   connect(theCon.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
           -14},{32,-50},{10,-50}}, color={191,0,0}));
   connect(theCon.port_b, volTop.heatPort)
     annotation (Line(points={{32,6},{32,6},{32,50},{10,50}}, color={191,0,0}));
 
   connect(port_a2, volBot.ports[1])
-    annotation (Line(points={{100,-60},{2,-60}},         color={0,127,255}));
-  connect(volBot.ports[2], port_b2) annotation (Line(points={{-2,-60},{-2,-60},
-          {-100,-60}}, color={0,127,255}));
+    annotation (Line(points={{100,-60},{1,-60}},         color={0,127,255}));
+  connect(volBot.ports[2], port_b2) annotation (Line(points={{-1,-60},{-1,-60},{
+          -100,-60}},  color={0,127,255}));
   connect(negate.y, preHeaFloBot.Q_flow)
     annotation (Line(points={{-33.4,-20},{-14,-20}}, color={0,0,127}));
   connect(negate.u, Qexp.y) annotation (Line(points={{-47.2,-20},{-56,-20},{-56,
           0},{-63.4,0}},   color={0,0,127}));
   connect(port_a1, volTop.ports[1])
-    annotation (Line(points={{-100,60},{2,60}}, color={0,127,255}));
+    annotation (Line(points={{-100,60},{1,60}}, color={0,127,255}));
   connect(volTop.ports[2], port_b1)
-    annotation (Line(points={{-2,60},{-2,60},{100,60}}, color={0,127,255}));
+    annotation (Line(points={{-1,60},{-1,60},{100,60}}, color={0,127,255}));
   connect(mFloAdiTop.y, volTop.mWat_flow)
     annotation (Line(points={{38.6,42},{12,42}}, color={0,0,127}));
   connect(mFloAdiBot.y, volBot.mWat_flow)
@@ -455,6 +460,12 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Added access to protected variable XiSat.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 April 7, 2020, by Filip Jorissen:<br/>
 Replaced thermal resistor by thermal conductor to avoid division.

@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.Shading;
 model Box "Both side fins and overhang"
   extends IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
-                                                             final controlled=false);
+    final controlled=false);
 
   parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
     annotation (Dialog(group="Window properties"));
@@ -43,7 +43,21 @@ model Box "Both side fins and overhang"
     "Fraction of window area exposed to diffuse sun light";
 
   IDEAS.Buildings.Components.Shading.Overhang overhang(
+    A_glazing=A_glazing,
+    A_frame=A_frame,
+    inc=inc,
+    Tenv_nom=Tenv_nom,
+    epsSw_frame=epsSw_frame,
+    epsLw_frame=epsLw_frame,
+    epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    g_glazing=g_glazing,
+    linCon=linCon,
+    haveFrame=haveFrame,
+    linRad=linRad,
     final azi=azi,
+    haveBoundaryPorts=false,
+    hSha=hSha,
     final hWin=hWin,
     final wWin=wWin,
     final wLeft=wLeft,
@@ -52,7 +66,21 @@ model Box "Both side fins and overhang"
     final gap=ovGap)
     annotation (Placement(transformation(extent={{-2,60},{8,80}})));
   IDEAS.Buildings.Components.Shading.SideFins sideFins(
+    A_glazing=A_glazing,
+    A_frame=A_frame,
+    inc=inc,
+    Tenv_nom=Tenv_nom,
+    epsSw_frame=epsSw_frame,
+    epsLw_frame=epsLw_frame,
+    epsLw_glazing=epsLw_glazing,
+    epsSw_shading=epsSw_shading,
+    g_glazing=g_glazing,
+    linCon=linCon,
+    haveFrame=haveFrame,
+    linRad=linRad,
     final azi=azi,
+    haveBoundaryPorts=true,
+    hSha=hSha,
     final hWin=hWin,
     final wWin=wWin,
     final hFin=hFin,
@@ -78,43 +106,60 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(overhang.angZen, angZen) annotation (Line(
-      points={{-2,64},{-30,64},{-30,-70},{-60,-70}},
+      points={{0.5,62.6667},{-30,62.6667},{-30,-70},{-60,-70}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(sideFins.angInc, angInc) annotation (Line(
-      points={{-4,26},{-32,26},{-32,-50},{-60,-50}},
+      points={{-1.5,24},{-32,24},{-32,-50},{-60,-50}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(sideFins.angZen, angZen) annotation (Line(
-      points={{-4,24},{-30,24},{-30,-70},{-60,-70}},
+      points={{-1.5,22.6667},{-30,22.6667},{-30,-70},{-60,-70}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(sideFins.angAzi, angAzi) annotation (Line(
-      points={{-4,22},{-28,22},{-28,-90},{-60,-90}},
+      points={{-1.5,21.3333},{-28,21.3333},{-28,-90},{-60,-90}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(overhang.angAzi, angAzi) annotation (Line(
-      points={{-2,62},{-28,62},{-28,-90},{-60,-90}},
+      points={{0.5,61.3333},{-28,61.3333},{-28,-90},{-60,-90}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(overhang.angInc, angInc) annotation (Line(
-      points={{-2,66},{-32,66},{-32,-50},{-60,-50}},
+      points={{0.5,64},{-32,64},{-32,-50},{-60,-50}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(HDirTil, overhang.HDirTil) annotation (Line(points={{-60,50},{-40,50},
-          {-40,76},{-2,76}}, color={0,0,127}));
+          {-40,70.6667},{0.5,70.6667}},
+                             color={0,0,127}));
   connect(HDirTil, sideFins.HDirTil) annotation (Line(points={{-60,50},{-40,50},
-          {-40,36},{-4,36}}, color={0,0,127}));
-  connect(HSkyDifTil, overhang.HSkyDifTil) annotation (Line(points={{-60,30},{-38,
-          30},{-38,74},{-2,74}}, color={0,0,127}));
-  connect(HSkyDifTil, sideFins.HSkyDifTil) annotation (Line(points={{-60,30},{-38,
-          30},{-38,34},{-4,34}}, color={0,0,127}));
+          {-40,30.6667},{-1.5,30.6667}},
+                             color={0,0,127}));
+  connect(HSkyDifTil, overhang.HSkyDifTil) annotation (Line(points={{-60,30},{
+          -38,30},{-38,69.3333},{0.5,69.3333}},
+                                 color={0,0,127}));
+  connect(HSkyDifTil, sideFins.HSkyDifTil) annotation (Line(points={{-60,30},{
+          -38,30},{-38,29.3333},{-1.5,29.3333}},
+                                 color={0,0,127}));
   connect(HGroDifTil, overhang.HGroDifTil) annotation (Line(points={{-60,10},{-36,
-          10},{-36,72},{-2,72}}, color={0,0,127}));
+          10},{-36,68},{0.5,68}},color={0,0,127}));
   connect(HGroDifTil, sideFins.HGroDifTil) annotation (Line(points={{-60,10},{-36,
-          10},{-36,32},{-4,32}}, color={0,0,127}));
+          10},{-36,28},{-1.5,28}},
+                                 color={0,0,127}));
+  connect(sideFins.port_frame, port_frame) annotation (Line(points={{3.5,
+          38.6667},{12,38.6667},{12,160},{100,160}}, color={191,0,0}));
+  connect(sideFins.port_glazing, port_glazing) annotation (Line(points={{3.5,36},
+          {14,36},{14,120},{100,120}}, color={191,0,0}));
+  connect(Te, sideFins.Te) annotation (Line(points={{-60,130},{-14,130},{-14,36},
+          {-1.5,36}}, color={0,0,127}));
+  connect(hForcedConExt, sideFins.hForcedConExt) annotation (Line(points={{-60,110},
+          {-22,110},{-22,34.6667},{-1.5,34.6667}},      color={0,0,127}));
+  connect(TEnv, sideFins.TEnv) annotation (Line(points={{-60,90},{-26,90},{-26,
+          33.3333},{-1.5,33.3333}}, color={0,0,127}));
+  connect(TDryBul, sideFins.TDryBul) annotation (Line(points={{40,-10},{3.5,-10},
+          {3.5,26.6667}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Documentation(info="<html>
+            -100},{100,200}})),  Documentation(info="<html>
 <p>
 Shading model that simulates a combination of both side fins and a overhang. 
 The implementation is a combination of both IDEAS.Buildings.Components.Shading.Overhang 
@@ -122,6 +167,10 @@ and IDEAS.Buildings.Components.Shading.SideFins.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed
@@ -134,5 +183,7 @@ July 18, 2016 by Filip Jorissen:<br/>
 Cleaned up implementation and documentation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            200}})));
 end Box;

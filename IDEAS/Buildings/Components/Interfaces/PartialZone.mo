@@ -18,13 +18,6 @@ model PartialZone "Building zone model"
   parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
   final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
-
-protected
-  parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
-    "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
-    annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
-
-public
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Airflow", group="Air model"));
@@ -182,10 +175,24 @@ public
     Placement(transformation(extent={{80,52},{60,72}})));
 
 
+  IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistributionViewFactor
+    zoneLwDistributionViewFactor(
+      nSurf=nSurf,
+      final hZone=hZone,
+    linearise=linIntRad or sim.linearise,
+    Tzone_nom=Tzone_nom,
+    dT_nom=dT_nom)       if calculateViewFactor annotation (Placement(
+        transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=270,
+        origin={-30,-10})));
 
 
 
 protected
+  parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
+    "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
+    annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
     elseif sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then nSurf
@@ -218,18 +225,6 @@ protected
         origin={-50,-10})));
   Modelica.Blocks.Math.Sum add(nin=2, k={0.5,0.5}) "Operative temperature"
     annotation (Placement(transformation(extent={{84,14},{96,26}})));
-
-  IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistributionViewFactor
-    zoneLwDistributionViewFactor(
-      nSurf=nSurf,
-      final hZone=hZone,
-    linearise=linIntRad or sim.linearise,
-    Tzone_nom=Tzone_nom,
-    dT_nom=dT_nom)       if calculateViewFactor annotation (Placement(
-        transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=270,
-        origin={-30,-10})));
 
   Setq50 setq50(
     nSurf=nSurf,
@@ -343,7 +338,7 @@ end for;
       color={191,0,0},
       smooth=Smooth.None));
   connect(radDistr.TRad, add.u[1]) annotation (Line(
-      points={{-40,-50},{-6,-50},{-6,19.4},{82.8,19.4}},
+      points={{-40,-50},{-6,-50},{-6,19.7},{82.8,19.7}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(propsBusInt[1:nSurf].area, radDistr.area[1:nSurf]) annotation (Line(
@@ -447,7 +442,7 @@ end for;
   connect(airModel.ports_air[1], gainCon) annotation (Line(points={{-20,30},{2,30},
           {2,-30},{100,-30}}, color={191,0,0}));
   connect(airModel.TAir, add.u[2]) annotation (Line(points={{-19,24},{-10,24},{-10,
-          20.6},{82.8,20.6}},  color={0,0,127}));
+          20.3},{82.8,20.3}},  color={0,0,127}));
   connect(radDistr.azi[1:nSurf], propsBusInt[1:nSurf].azi) annotation (Line(
         points={{-60,-42},{-70,-42},{-80,-42},{-80,39.9},{-80.1,39.9}}, color={
           0,0,127}), Text(
@@ -535,6 +530,12 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 29, 2022, by Filip Jorissen:<br/>
+Unprotected component for OM compatibility.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

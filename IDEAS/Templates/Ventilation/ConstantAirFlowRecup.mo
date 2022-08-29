@@ -6,7 +6,7 @@ model ConstantAirFlowRecup
     P = sum(n .* VZones/3600)*sysPres/fanEff/motEff / nLoads_min .*ones(nLoads_min),
     nLoads=1);
 
-  parameter Real[nZones] n(unit="m3/h")
+  parameter Real[nZones] n
     "Air change rate (Air changes per hour ACH)";
   final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=sum(n)/3600*
       1.204 "total ventilation mass flow rate";

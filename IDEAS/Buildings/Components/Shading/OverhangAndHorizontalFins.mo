@@ -42,7 +42,8 @@ model OverhangAndHorizontalFins "Roof overhang and horizontal fins"
       w=w,
       t=t,
       use_betaInput=use_betaInput,
-      beta=beta),
+      beta=beta,
+      haveBoundaryPorts=false),
       redeclare IDEAS.Buildings.Components.Shading.Overhang stateShading2(
         azi=azi,
         hWin=hWin,
@@ -56,17 +57,26 @@ initial equation
 
     assert(dep > 0, "The depth of the overhang must be larger than zero, if this is not the case: just use Shading.Screen.");
 
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),  Documentation(info="<html>
+  equation
+  connect(stateShading2.port_frame, port_frame) annotation(
+    Line(points = {{4, 0}, {4, 160}, {100, 160}}, color = {191, 0, 0}));
+  connect(stateShading2.port_glazing, port_glazing) annotation(
+    Line(points = {{4, -4}, {6, -4}, {6, 120}, {100, 120}}, color = {191, 0, 0}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),  Documentation(info="<html>
 <p>
 Shading model for a combination of overhang and horizontal fins.
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
+<li>
 March 23 2018, by Filip Jorissenr:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}}, preserveAspectRatio = false)));
 end OverhangAndHorizontalFins;

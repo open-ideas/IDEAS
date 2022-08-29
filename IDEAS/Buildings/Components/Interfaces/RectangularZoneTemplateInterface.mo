@@ -414,6 +414,19 @@ partial model RectangularZoneTemplateInterface
       enable=hasCavityD,
       tab="Face D",
       group="Cavity or open door"));
+  parameter Boolean hasCavityFlo = false
+    "=true, to model open door or cavity in internal floor"
+    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypeFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+  parameter Modelica.Units.SI.Length bFlo(min=0) = 2
+    "Breadth of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wFlo(min=0) = 1
+    "Width of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
+      group="Cavity or open door"));
   parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n
     "Gravity, for computation of buoyancy" annotation (Dialog(
       enable=hasCavity,
@@ -487,6 +500,7 @@ partial model RectangularZoneTemplateInterface
   parameter SI.Length PWall = (if hasOutA then lA else 0) + (if hasOutB then lB else 0) + (if hasOutC then lC else 0) + (if hasOutD then lD else 0)
     "Total floor slab perimeter length" annotation(Dialog(tab="Advanced", group="SlabOnGround", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
 
+
   parameter Boolean hasEmb = false
     "Set to true if floor is equipped with floor heating or concrete core activation"
   annotation(Dialog(tab="Floor", group="Floor heating / CCA",
@@ -515,12 +529,7 @@ partial model RectangularZoneTemplateInterface
         rotation=180,
         origin={-120,100})));
 
-protected
-  constant Real r = 287 "Gas constant";
-  final parameter Modelica.Units.SI.Angle aziAInt=if aziOpt == 5 then aziA
-       else sim.aziOpts[aziOpt] "Internal azimuth angle";
-  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
-    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
+
   IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
@@ -830,6 +839,9 @@ protected
     dT_nominal_a=dT_nominal_intA,
     redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
+    hasCavity=hasCavityFlo,
+    h=bFlo,
+    w=wFlo,
     dT_nominal_b=dT_nominal_intB)
  if hasIntFlo
     "Internal wall for zone floor"
@@ -852,7 +864,6 @@ protected
     final hasCavity=false)
  if hasInt "Internal wall contained within the zone"
     annotation (Placement(transformation(extent={{-176,20},{-164,40}})));
-public
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA[nExtA](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
@@ -961,6 +972,11 @@ public
     "Floor node for embedded heat gain if case of floor heating or CCA."
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 protected
+  constant Real r = 287 "Gas constant";
+  final parameter Modelica.Units.SI.Angle aziAInt=if aziOpt == 5 then aziA
+       else sim.aziOpts[aziOpt] "Internal azimuth angle";
+  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
+    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
   final parameter Boolean hasBouA=
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
   final parameter Boolean hasBouB=
@@ -1497,6 +1513,13 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Added cavity support for horizontal internal walls (floor/ceiling)
+for supporting staircases.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1294\">
+#1294</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

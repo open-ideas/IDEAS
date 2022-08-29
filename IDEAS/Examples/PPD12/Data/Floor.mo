@@ -7,6 +7,6 @@ record Floor "Ppd12 floor with suspended gypsum ceiling"
       IDEAS.Buildings.Data.Materials.Air(d=0.075),
       IDEAS.Buildings.Data.Insulation.Glasswool(d=0.05),
       IDEAS.Buildings.Data.Materials.Air(d=0.15),
-      IDEAS.Buildings.Data.Materials.Timber(d=0.022)});
+      IDEAS.Buildings.Data.Materials.Plywood(d=0.022)});
 
 end Floor;

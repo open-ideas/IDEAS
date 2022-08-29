@@ -1,25 +1,29 @@
 within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model ExteriorConvection "exterior surface convection"
 
-  parameter Modelica.Units.SI.Area A "surface area";
-  parameter Boolean linearise = false "Use constant convection coefficient"
+  parameter Modelica.Units.SI.Area A 
+    "Heat exchange surface area";
+  parameter Boolean linearise = false 
+    "Use constant convection coefficient"
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer hConExtLin=18.3
     "Fixed exterior convection coefficient used when linearising equations"
-    annotation (Dialog(enable=linearize));
-  parameter Modelica.Units.SI.Angle inc "Surface inclination";
-  parameter Modelica.Units.SI.Angle azi "Surface azimuth";
+    annotation (Dialog(enable=linearise));
+  parameter Modelica.Units.SI.Angle inc 
+    "Surface inclination angle";
+  parameter Modelica.Units.SI.Angle azi 
+    "Surface azimuth angle";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     "Connector for solid part"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(visible = true, transformation(extent = {{-110, -10}, {-90, 10}}, rotation = 0), iconTransformation(extent = {{-110, -10}, {-90, 10}}, rotation = 0)));
 
   Modelica.Blocks.Interfaces.RealInput Te(unit="K",displayUnit="degC")
     "Ambient temperature"
-    annotation (Placement(transformation(extent={{-120,-68},{-80,-28}})));
+    annotation (Placement(visible = true, transformation(origin = {120, 0}, extent = {{20, -20}, {-20, 20}}, rotation = 0), iconTransformation(origin = {120, 4}, extent = {{20, -20}, {-20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput hForcedConExt(unit="W/(m2.K)")
     "Exterior convective heat transfer coefficient"
-    annotation (Placement(transformation(extent={{-120,-110},{-80,-70}})));
+    annotation (Placement(visible = true, transformation(origin = {120, -40}, extent = {{20, -20}, {-20, 20}}, rotation = 0), iconTransformation(origin = {120, -40}, extent = {{20, -20}, {-20, 20}}, rotation = 0)));
 
 protected
   Modelica.Units.SI.CoefficientOfHeatTransfer hNatConvExt
@@ -45,9 +49,6 @@ protected
   Real C "TARP coeff";
   Modelica.Units.SI.TemperatureDifference dT
     "Surface temperature minus outdoor air temperature" annotation ();
-
-
-
 equation
 
   // Assign empirical coefficient according to flow regime.
@@ -84,12 +85,7 @@ equation
   port_a.Q_flow = A * hConExt * dT;
 
   annotation (
-    Icon(graphics={
-        Rectangle(
-          extent={{-90,80},{-60,-80}},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
+    Icon(graphics={Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-90, 80}, {-60, -80}}),
         Line(points={{-60,20},{76,20}}, color={191,0,0}),
         Line(points={{-34,80},{-34,-80}}, color={0,127,255}),
         Line(points={{-60,-20},{76,-20}}, color={191,0,0}),
@@ -108,14 +104,7 @@ equation
         Line(points={{40,-80},{50,-60}}, color={0,127,255}),
         Line(points={{76,-80},{66,-60}}, color={0,127,255}),
         Line(points={{76,-80},{86,-60}}, color={0,127,255}),
-        Text(
-          extent={{-150,-90},{150,-130}},
-          textString="%name",
-          lineColor={0,0,255}),
-        Line(
-          points={{-60,80},{-60,-80}},
-          color={0,0,0},
-          thickness=0.5)}),
+        Line(points = {{-60, 80}, {-60, -80}}, thickness = 0.5)}),
     Documentation(info="<html>
 <p>
 The exterior convective heat transfer is computed using 
@@ -146,6 +135,11 @@ than 1 are discouraged as there appears to be little physical basis for this fac
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 9, 2022, by Filip Jorissen:<br/>
+Updated documentation and revised interface for issue
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.
+</li>
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Major rewrite.  Convection coefficients now calculated by surface to consider 

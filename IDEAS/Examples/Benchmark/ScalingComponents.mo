@@ -53,6 +53,8 @@ model ScalingComponents
         extent={{-5.5,-9.49999},{5.5,9.49997}},
         rotation=90,
         origin={8.5,-16.5})));
+  inner BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 equation
   connect(roof.propsBus_a, gF.propsBus[1]) annotation (Line(
       points={{-83.4,-11.9167},{-83.4,28},{40,28}},
@@ -77,6 +79,13 @@ equation
     experiment(StopTime=3.15e+07),
     Documentation(revisions="<html>
 <ul>
+
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 March 10, 2017 by Filip Jorissen:<br/>
 First implementation.

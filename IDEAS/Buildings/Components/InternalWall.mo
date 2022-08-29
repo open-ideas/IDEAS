@@ -116,7 +116,7 @@ protected
     c_p=c_p,
     T=T,
     dT=dT)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 public
@@ -143,7 +143,8 @@ initial equation
     hfloor_b= propsBus_b.hfloor;
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
-    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt));
+    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
+    level=AssertionLevel.warning);
   connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
       points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
       color={191,0,0},
@@ -262,6 +263,12 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Activating thermal model when using OnePorts.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1291\">
+#1291</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
