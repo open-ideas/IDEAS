@@ -92,7 +92,7 @@ model Structure "Ppd 12 example model"
     A=wBedroom*lHalfBuilding*sqrt(2)/2,
     redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
     hVertical=lHalfBuilding*tan(Roof2.inc),
-    hRef_a=Roof2.hRef_a)
+    hRef_a=Roof2.hzone_a)
     "Roof, east side"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
