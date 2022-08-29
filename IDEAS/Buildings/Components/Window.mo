@@ -7,9 +7,6 @@ model Window "Multipane window"
           "Construction details"));
 
   extends IDEAS.Buildings.Components.Interfaces.PartialSurface(
-    hRef_a=if inc == 0 then hzone_a else (hzone_a - hVertical)/2,
-    hVertical=if inc == Modelica.Constants.pi or inc == 0 then 0 else min(
-        hzone_a, sqrt(A)),
     dT_nominal_a=-3,
     intCon_a(final A=
            A*(1 - frac),
@@ -30,9 +27,8 @@ model Window "Multipane window"
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A_glass*nWin),
     q50_zone(v50_surf=q50_internal*A_glass),
-    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass, h_a=(
-          Habs - sim.Hpres) + 0.25*hVertical),
-    res2(A=A_glass/2, h_a=(Habs - sim.Hpres) - 0.25*hVertical));
+    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass),
+    res2(A=A_glass/2));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -58,7 +54,6 @@ model Window "Multipane window"
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame "Window frame type"
     annotation (choicesAllMatching=true, Dialog(group=
           "Construction details"));
-
   replaceable IDEAS.Buildings.Components.Shading.None shaType
     constrainedby Shading.Interfaces.PartialShading(
       haveFrame=fraType.present and A*frac > 0,
@@ -76,7 +71,6 @@ model Window "Multipane window"
     Placement(visible = true, transformation(origin = {-63, -49.4895}, extent = {{-11, -13.9877}, {11, 27.9754}}, rotation = 0)),
       choicesAllMatching=true, Dialog(group="Construction details"));
 
-
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
       Placement(visible = true,transformation(
@@ -89,7 +83,7 @@ model Window "Multipane window"
 
 
 
-  replaceable parameter
+          replaceable parameter
     IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
     constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
     "Tables with wind pressure coefficients for walls, floors and roofs"
@@ -105,12 +99,13 @@ model Window "Multipane window"
   parameter Boolean Use_custom_Cs = false
     "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
     annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
+
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+        annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
   final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
-    "Absolute height of the ambient boundary for correcting the wind speed"
+    "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
 
 
@@ -136,7 +131,6 @@ model Window "Multipane window"
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal) if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None "Trickle vent"
     annotation (Placement(transformation(extent={{20,-88},{40,-68}})));
-
   replaceable
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.SwWindowResponse
     solWin(
@@ -201,8 +195,10 @@ protected
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   Fluid.Sources.OutsideAir       outsideAir(
     redeclare package Medium = Medium,
-    Cs=Cs,
-    Habs=Habs, azi = aziInt,
+    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
+        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
+    Habs=Habs, final azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2), table = coeffsCp, use_TDryBul_in = true)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
@@ -211,14 +207,13 @@ protected
 initial equation
   QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
 
-
-
+  assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
 
   assert(not (not fraType.present and frac > 0), "In " + getInstanceName() +
     ": You may have intended to model a frame since the parameter 'frac' is larger than zero. However, no frame type is configured such that no frame will be modelled. This may be a mistake. Set frac=0 to avoid this warning if this is intentional.",
     level=AssertionLevel.warning);
 equation
-
   connect(solWin.iSolDir, propsBusInt.iSolDir) annotation (
     Line(points = {{-2, -60}, {-2, -70}, {56.09, -70}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
   connect(solWin.iSolDif, propsBusInt.iSolDif) annotation (
@@ -348,6 +343,9 @@ The parameter <code>n</code> may be used to scale the window to <code>n</code> i
 For example, if a wall has 10 identical windows with identical shading, this parameter
 can be used to simulate 10 windows by scaling the model of a single window.
 </p>
+<p>
+The parameter tab Airflow lists optional parameters for adding a self regulating trickle vent.
+</p>
 <h4>Validation</h4>
 <p>
 To verify the U-value of your glazing system implementation,
@@ -357,7 +355,6 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </html>", revisions="<html>
 <ul>
 <li>
-
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
@@ -369,7 +366,6 @@ Added trickle vent support.
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1232\">#1232</a>.
 </li>
 <li>
-
 August 12, 2020 by Filip Jorissen:<br/>
 No longer using connector and initial equation for <code>epsSw</code>.
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1162\">#1162</a>.
