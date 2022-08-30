@@ -52,7 +52,7 @@ model AdsolairDatasheetSummer
     "Relative humidity of evaporator outlet, for checking with reference result"
     annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
 initial equation
-  der(adsolair58.IEH.volBot.dynBal.mXi)=zeros(MediumAir.nXi);
+  der(adsolair58.IEH.volBot.Xi)=zeros(MediumAir.nXi);
 equation
   connect(RH_room.y, XiEnv.phi) annotation (Line(points={{-99.3,7},{-94,7},{-94,
           8.4},{-87.2,8.4}}, color={0,0,127}));
@@ -73,10 +73,10 @@ equation
   connect(V_flow_env.y, From_m3PerhSup.V_flow)
     annotation (Line(points={{79.3,47},{66.2,47},{66.2,17}}, color={0,0,127}));
   connect(dp_set.y, adsolair58.dpSet[1])
-    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,20.9}},
+    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,19.85}},
                                                             color={0,0,127}));
   connect(dp_set.y, adsolair58.dpSet[2])
-    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,19.5}},
+    annotation (Line(points={{-25.3,67},{-7.6,67},{-7.6,20.55}},
                                                             color={0,0,127}));
   connect(T_set.y, adsolair58.Tset)
     annotation (Line(points={{-25.3,87},{-2.8,87},{-2.8,20.2}},
@@ -102,6 +102,10 @@ equation
 <p>Note that the inlet conditions of the evaporator are overwritten by custom equations!</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2022, by Filip Jorissen:<br/>
+Refactored access of protected variable for #1254.
+</li>
 <li>
 October 11, 2016, by Filip Jorissen:<br/>
 Added first implementation.

@@ -2,9 +2,8 @@ within IDEAS.Experimental.Electric.BaseClasses.AC;
 model WattsLaw "For use  with loads"
   parameter Integer numPha=1 "Choose the number of phases" annotation (choices(
         choice=1 "Single-phase", choice=3 "Symmetrical three-phase"));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin[numPha]
-    vi annotation (Placement(transformation(extent={{90,-10},{110,10}},
-          rotation=0)));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin[numPha] vi
+    annotation (Placement(transformation(extent={{90,-10},{110,10}}, rotation=0)));
   Modelica.Blocks.Interfaces.RealInput P(start=0) annotation (Placement(
         transformation(extent={{-90,20},{-50,60}}),  iconTransformation(extent={{-70,40},
             {-50,60}})));

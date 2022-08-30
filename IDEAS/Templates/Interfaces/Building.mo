@@ -9,9 +9,10 @@ model Building
 
   parameter Boolean standAlone=true;
 
-  final parameter Modelica.SIunits.Temperature T_start = 293.15
+  final parameter Modelica.Units.SI.Temperature T_start=293.15
     "Operative zonal start temperatures";
-  final parameter Modelica.SIunits.Power[building.nZones] Q_design = building.Q_design+ventilationSystem.Q_design
+  final parameter Modelica.Units.SI.Power[building.nZones] Q_design=building.Q_design
+       + ventilationSystem.Q_design
     "Total design heat load for heating system based on heat losses";
 
   replaceable IDEAS.Templates.Interfaces.BaseClasses.Structure building(
@@ -36,7 +37,7 @@ model Building
   replaceable IDEAS.Templates.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid
     constrainedby IDEAS.Templates.Interfaces.BaseClasses.CausalInhomeFeeder
     "Inhome low-voltage electricity grid system" annotation (Placement(
-        transformation(extent={{32,-10},{52,10}})), __Dymola_choicesAllMatching=
+        transformation(extent={{32,-10},{52,10}})), choicesAllMatching=
        true);
 
   replaceable IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem ventilationSystem(
@@ -46,28 +47,27 @@ model Building
       final nZones=building.nZones, final VZones=building.VZones)
     "Ventilation system" annotation (Placement(transformation(extent={{-20,20},
             {20,40}})), choicesAllMatching=true);
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    plugFeeder(v(re(start=230), im(start=0))) if not standAlone
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin plugFeeder(
+      v(re(start=230), im(start=0))) if not standAlone
     "Electricity connection to the district feeder"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
-    pin_n(reference(gamma(fixed=true,start=0))),
+    pin_n(reference(gamma(fixed=true, start=0))),
     f=50,
     V=230,
     phi=0) if standAlone annotation (Placement(transformation(
         extent={{-8,-8},{8,8}},
         rotation=90,
         origin={70,-12})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground if
-    standAlone
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground if standAlone
     annotation (Placement(transformation(extent={{62,-40},{78,-24}})));
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-        Medium) if                               heatingSystem.isDH
+        Medium)                               if heatingSystem.isDH
     annotation (Placement(transformation(extent={{-30,-110},{-10,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-        Medium) if                                heatingSystem.isDH
+        Medium)                                if heatingSystem.isDH
     annotation (Placement(transformation(extent={{10,-110},{30,-90}})));
   final parameter Boolean InInterface = true;
 

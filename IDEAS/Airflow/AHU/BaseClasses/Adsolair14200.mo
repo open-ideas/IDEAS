@@ -45,13 +45,13 @@ record Adsolair14200
     A_byp_bot_min=0.15*w_unit,
     UA_adia_on=14000,
     UA_adia_off=23000);
-  constant Modelica.SIunits.Pressure dp_filter_fresh = 33;
-  constant Modelica.SIunits.Pressure dp_filter_pulsion = 70;
-  constant Modelica.SIunits.Pressure dp_filter_dumped = 46;
-  constant Modelica.SIunits.Pressure dp_evaporator = 63;
-  constant Modelica.SIunits.Pressure dp_condenser = 76;
-  constant Modelica.SIunits.Length w_unit = 1.7 "Unit width";
-  constant Modelica.SIunits.Length w_blade = 1.2/10 "Width single damper blade";
+  constant Modelica.Units.SI.Pressure dp_filter_fresh=33;
+  constant Modelica.Units.SI.Pressure dp_filter_pulsion=70;
+  constant Modelica.Units.SI.Pressure dp_filter_dumped=46;
+  constant Modelica.Units.SI.Pressure dp_evaporator=63;
+  constant Modelica.Units.SI.Pressure dp_condenser=76;
+  constant Modelica.Units.SI.Length w_unit=1.7 "Unit width";
+  constant Modelica.Units.SI.Length w_blade=1.2/10 "Width single damper blade";
   annotation (Documentation(revisions="<html>
 <ul>
 <li>

@@ -5,9 +5,9 @@ model PotentialSensor
   Modelica.Blocks.Interfaces.RealOutput VGrid(start=0) annotation (Placement(
         transformation(extent={{98,-10},{118,10}}), iconTransformation(extent={
             {94,-10},{114,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin vi
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}}, rotation=
-           0)));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin vi
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}}, rotation
+          =0)));
 equation
 
   VGrid =  (vi.v.re^2 + vi.v.im^2)^0.5;

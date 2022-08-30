@@ -3,7 +3,7 @@ model n50Test "n50 consistency check for OnePort"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air
     "Air medium"
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   inner BoundaryConditions.SimInfoManager sim(Va=0,interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
@@ -12,7 +12,7 @@ model n50Test "n50 consistency check for OnePort"
       p=Medium.p_default,
       X=Medium.X_default)
     "State of the medium at the medium default properties";
-  parameter Modelica.SIunits.Density rho_default=Medium.density(sta_default)
+  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
     "Density at the medium default properties";
 
   Real ach = -bou.ports[1].m_flow/rho_default/simpleZone.V*3600 "Effective air change rate";
@@ -20,7 +20,8 @@ model n50Test "n50 consistency check for OnePort"
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone simpleZone(
     redeclare package Medium = Medium,
     n50=3,
-    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState))
+    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    hasWinA=true)
     annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
 
   IDEAS.Fluid.Sources.Boundary_pT bou(

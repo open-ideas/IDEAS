@@ -7,7 +7,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
 
-  parameter Modelica.SIunits.Power QDesign=0
+  parameter Modelica.Units.SI.Power QDesign=0
     "Overrules QNom if different from 0. Design heat load, typically at -8 or -10 degC in Belgium.  ";
   parameter Real fraLosDesNom=0.68
     "Ratio of power at design conditions over power at 2/35degC";

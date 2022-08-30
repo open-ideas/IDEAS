@@ -1,7 +1,7 @@
 within IDEAS.Experimental.Electric.Batteries.Examples;
 model TestBatteryDC
 extends Modelica.Icons.Example;
-Modelica.SIunits.Power Pnet;
+  Modelica.Units.SI.Power Pnet;
 
   Modelica.Blocks.Sources.Ramp ramp2(
     duration=1500,

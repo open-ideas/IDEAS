@@ -27,7 +27,7 @@ model StrobeInfoManager
     "File with (main) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
   parameter String FilNam_TSet2 = "none.txt"
     "File with (secondary) space heating setpoint profiles (in K)" annotation (Dialog(group="StROBe", enable=StROBe));
-  parameter Modelica.SIunits.Time startTime=0
+  parameter Modelica.Units.SI.Time startTime=0
     "Output = offset for time < startTime";
 
   parameter Boolean PHp = false "Boolean to read heat pump load profiles" annotation (Dialog(group="Heat pumps"));
@@ -40,7 +40,7 @@ model StrobeInfoManager
     annotation (Dialog(group="Photovoltaics", enable=PPv));
   parameter Integer nPv = 33 "Number of photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
-  parameter Modelica.SIunits.Power P_nominal=1000
+  parameter Modelica.Units.SI.Power P_nominal=1000
     "Nominal power of the photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
 
@@ -53,8 +53,8 @@ public
         filDir + FilNam_QCon),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-40,-34},{-26,-20}})));
   Modelica.Blocks.Sources.CombiTimeTable tabQRad(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -64,8 +64,8 @@ public
         filDir + FilNam_QRad),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-36,-38},{-22,-24}})));
   Modelica.Blocks.Sources.CombiTimeTable tabTSet(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -75,8 +75,8 @@ public
         filDir + FilNam_TSet),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-40,18},{-26,32}})));
   Modelica.Blocks.Sources.CombiTimeTable tabP(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -86,8 +86,8 @@ public
         filDir + FilNam_P),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe_P
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe_P
     annotation (Placement(transformation(extent={{-40,-58},{-26,-44}})));
   Modelica.Blocks.Sources.CombiTimeTable tabQ(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -97,8 +97,8 @@ public
         filDir + FilNam_Q),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-36,-62},{-22,-48}})));
   Modelica.Blocks.Sources.CombiTimeTable tabDHW(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -108,8 +108,8 @@ public
         filDir + FilNam_mDHW),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-40,40},{-26,54}})));
   Modelica.Blocks.Sources.CombiTimeTable tabPPv(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -119,8 +119,8 @@ public
         filDir + FilNam_PPv),
     columns=2:nPv + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                          PPv
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                       if PPv
     annotation (Placement(transformation(extent={{-40,-8},{-26,6}})));
   Modelica.Blocks.Sources.CombiTimeTable tabTSet2(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -130,8 +130,8 @@ public
         filDir + FilNam_TSet2),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           StROBe
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if StROBe
     annotation (Placement(transformation(extent={{-36,14},{-22,28}})));
   Modelica.Blocks.Sources.CombiTimeTable tabPHp(
     final smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
@@ -141,8 +141,8 @@ public
         filDir + FilNam_PHp),
     columns=2:nOcc + 1,
     startTime=startTime,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic) if
-                           PHp
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+                        if PHp
     annotation (Placement(transformation(extent={{-36,-12},{-22,2}})));
 
   // Conditional connectors

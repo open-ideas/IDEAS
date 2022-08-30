@@ -1,7 +1,7 @@
 within IDEAS.Utilities.Time;
 model Clock
   "Computation of hour and day assuming 'time' equals the epoch time stamp and without daylight savings"
-  parameter Modelica.SIunits.Time timZon = 0 "Time zone";
+  parameter Modelica.Units.SI.Time timZon=0 "Time zone";
 
   Modelica.Blocks.Sources.RealExpression hourExp(y=mod((time + timZon)/3600, 24))
     "Hour computation"

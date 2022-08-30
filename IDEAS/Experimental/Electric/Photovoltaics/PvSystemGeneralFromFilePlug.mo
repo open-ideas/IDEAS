@@ -5,15 +5,15 @@ model PvSystemGeneralFromFilePlug
   parameter Real PNom "Nominal power, in Wp";
   parameter Integer prod=1;
 
-  parameter Modelica.SIunits.Time timeOff=300;
-  parameter Modelica.SIunits.Voltage VMax=253
+  parameter Modelica.Units.SI.Time timeOff=300;
+  parameter Modelica.Units.SI.Voltage VMax=253
     "Max grid voltage for operation of the PV system";
 
   parameter Integer numPha=1;
   output Real PInit;
   output Real PFinal;
-  Modelica.Electrical.QuasiStationary.MultiPhase.Interfaces.PositivePlug plug(m=
-       numPha) annotation (Placement(transformation(extent={{92,30},{112,50}},
+  Modelica.Electrical.QuasiStatic.Polyphase.Interfaces.PositivePlug plug(m=
+        numPha) annotation (Placement(transformation(extent={{92,30},{112,50}},
           rotation=0)));
 
   IDEAS.Experimental.Electric.Photovoltaics.Components.ForInputFiles.SimpleDCAC_effP

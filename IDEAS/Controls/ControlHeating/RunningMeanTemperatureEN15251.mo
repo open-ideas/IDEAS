@@ -11,7 +11,8 @@ model RunningMeanTemperatureEN15251
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
 protected
-  parameter Modelica.SIunits.Time t_start(fixed=false) "Start time of the model";
+  parameter Modelica.Units.SI.Time t_start(fixed=false)
+    "Start time of the model";
   parameter Real coeTRm[7] = {1, 0.8, 0.6, 0.5, 0.4, 0.3, 0.2}./3.8
     "weighTAmb.yg coefficient for the running average";
   discrete Real[7] TAveDay(each unit="K",each displayUnit = "degC")
@@ -43,7 +44,6 @@ equation
   end when;
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics),
-    experiment(StopTime=864000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
         graphics={
@@ -66,6 +66,12 @@ equation
           textString="EN15251")}),
 Documentation(revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 April 17, 2018, by Damien Picard:<br/>
 Add t_start in sample to compute correctly for non zero initial time.<br/>

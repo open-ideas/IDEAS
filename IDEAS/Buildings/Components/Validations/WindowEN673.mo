@@ -11,10 +11,10 @@ model WindowEN673 "Verifies U value of a glazing record"
   parameter SI.Temperature TOut=273.15
     "Fixed exterior temperature";
 
-  Modelica.SIunits.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow/
-      (TZone - TOut)/windowEN673.A;
-  Modelica.SIunits.CoefficientOfHeatTransfer U_default=window.layMul.port_a.Q_flow/
-      (TZone - TOut)/window.A;
+  Modelica.Units.SI.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow
+      /(TZone - TOut)/windowEN673.A;
+  Modelica.Units.SI.CoefficientOfHeatTransfer U_default=window.layMul.port_a.Q_flow
+      /(TZone - TOut)/window.A;
 
   IDEAS.Buildings.Components.Window windowEN673(
     inc=IDEAS.Types.Tilt.Wall,
@@ -27,11 +27,12 @@ model WindowEN673 "Verifies U value of a glazing record"
     linIntCon_a=false,
     linExtCon=false,
     linExtRad=false,
-    eCon(linearise=true, hConExtLin=25),
-    skyRad(
-      Tenv_nom=0,
-      linearise=true,
-      heaRad(dT_nom=0)),
+    shaType(
+      eCon(linearise=true, hConExtLin=25),
+      skyRad(
+        Tenv_nom=0,
+        linearise=true,
+        heaRad(dT_nom=0))),
     intCon_a(dT_nominal=3.759),
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare Data.Glazing.Ins2Ar2020 glazing)
@@ -115,29 +116,29 @@ initial equation
 equation
 
   connect(windowEN673.propsBus_a, zone.propsBus[1]) annotation (Line(
-      points={{-5,-8},{18,-8},{18,-4.33333},{20,-4.33333}},
+      points={{-5,-8},{18,-8},{18,-6.83333},{20,-6.83333}},
       color={255,204,51},
       thickness=0.5));
   connect(zone.propsBus[2], boundaryWall.propsBus_a) annotation (Line(
-      points={{20,-5},{20,52},{-5,52}},
+      points={{20,-6.5},{20,52},{-5,52}},
       color={255,204,51},
       thickness=0.5));
   connect(boundaryWall1.propsBus_a, zone.propsBus[3]) annotation (Line(
-      points={{45,52},{20,52},{20,-5.66667}},
+      points={{45,52},{20,52},{20,-6.16667}},
       color={255,204,51},
       thickness=0.5));
   connect(boundaryWall2.propsBus_a, zone.propsBus[4]) annotation (Line(
-      points={{45,20},{20,20},{20,-6.33333}},
+      points={{45,20},{20,20},{20,-5.83333}},
       color={255,204,51},
       thickness=0.5));
   connect(boundaryWall3.propsBus_a, zone.propsBus[5]) annotation (Line(
-      points={{-5,20},{20,20},{20,-7}},
+      points={{-5,20},{20,20},{20,-5.5}},
       color={255,204,51},
       thickness=0.5));
   connect(TFix.port, zone.gainCon) annotation (Line(points={{60,-10},{50,-10},{50,
           -13},{40,-13}}, color={191,0,0}));
   connect(window.propsBus_a, zone.propsBus[6]) annotation (Line(
-      points={{-5,-28},{20,-28},{20,-7.66667}},
+      points={{-5,-28},{20,-28},{20,-5.16667}},
       color={255,204,51},
       thickness=0.5));
   annotation (experiment(

@@ -8,8 +8,8 @@ model Schedule "Single schedule with look-ahead"
     "Occupancy table, each entry switching occupancy on or off";
   parameter Boolean firstEntryOccupied=true
     "Set to true if first entry in occupancy denotes a changed from unoccupied to occupied";
-  parameter Modelica.SIunits.Time startTime=0 "Start time of periodicity";
-  parameter Modelica.SIunits.Time endTime=86400 "End time of periodicity";
+  parameter Modelica.Units.SI.Time startTime=0 "Start time of periodicity";
+  parameter Modelica.Units.SI.Time endTime=86400 "End time of periodicity";
 
   Modelica.Blocks.Interfaces.RealOutput tNexNonOcc
     "Time until next non-occupancy"
@@ -21,7 +21,7 @@ model Schedule "Single schedule with look-ahead"
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
 
 protected
-  final parameter Modelica.SIunits.Time period=endTime - startTime;
+  final parameter Modelica.Units.SI.Time period=endTime - startTime;
   final parameter Integer nRow=size(occupancy, 1);
 
   output Integer nexStaInd "Next index when occupancy starts";
@@ -31,11 +31,11 @@ protected
     "Counter for the period in which the next occupancy starts";
   output Integer iPerSto
     "Counter for the period in which the next occupancy stops";
-  output Modelica.SIunits.Time schTim
+  output Modelica.Units.SI.Time schTim
     "Time in schedule (not exceeding max. schedule time)";
-  output Modelica.SIunits.Time tMax "Maximum time in schedule";
-  output Modelica.SIunits.Time tOcc "Time when next occupancy starts";
-  output Modelica.SIunits.Time tNonOcc "Time when next non-occupancy starts";
+  output Modelica.Units.SI.Time tMax "Maximum time in schedule";
+  output Modelica.Units.SI.Time tOcc "Time when next occupancy starts";
+  output Modelica.Units.SI.Time tNonOcc "Time when next non-occupancy starts";
 
 initial algorithm
   tOcc := if firstEntryOccupied then occupancy[1] else  time;

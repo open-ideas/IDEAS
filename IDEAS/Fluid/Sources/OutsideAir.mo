@@ -4,34 +4,41 @@ model OutsideAir
   extends IDEAS.Fluid.Sources.BaseClasses.PartialSource(final verifyInputs=true);
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim "SimInfoManager";
-
+  parameter Boolean use_TDryBul_in = false "= true, to overwrite the dry bulb temperature";
   parameter Real table[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,-0.35; 270,-0.3; 315,0.1; 360,0.4] "Cp at different angles of attack";
-  parameter Modelica.SIunits.Angle azi "Surface azimuth (South:0, West:pi/2)"  annotation (choicesAllMatching=true);
+  parameter Modelica.Units.SI.Angle azi "Surface azimuth (South:0, West:pi/2)"
+    annotation (choicesAllMatching=true);
 
   parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
-  parameter Modelica.SIunits.Length Habs=10
-                                           "Absolute height of boundary for correcting the wind speed" annotation(Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length Habs=10
+    "Absolute height of boundary for correcting the wind speed"
+    annotation (Dialog(group="Wind"));
 
 
-  constant Modelica.SIunits.Density rho = 1.2 "Air density";
-  Modelica.SIunits.Angle alpha "Wind incidence angle (0: normal to wall)";
+  constant Modelica.Units.SI.Density rho=1.2 "Air density";
+  Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
 
-  Modelica.SIunits.Pressure pWin(displayUnit="Pa")
+  Modelica.Units.SI.Pressure pWin(displayUnit="Pa")
     "Change in pressure due to wind force";
 
   Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
     "Sum of atmospheric pressure and wind pressure";
 
+  Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
+    "Optional override input for the dry bulb temperature" annotation(
+    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+
+
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+                                                                                                                             annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Modelica.Units.SI.Length Hwin=sim.Hwin
+    "Height above ground of meteorological wind speed measurement"
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
 
 protected
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
-  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-                                                                                                                             annotation(Dialog(group="Wind"));
-  parameter Modelica.SIunits.Length Hwin=sim.Hwin "Height above ground of meteorological wind speed measurement" annotation(Dialog(group="Wind"));
-
-
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
@@ -54,7 +61,8 @@ protected
 function windPressureProfile
   "Function for the cubic spline interpolation of table input of a windpressureprofile"
 
-  input Modelica.SIunits.Angle u "independent variable, wind incidence angle";
+    input Modelica.Units.SI.Angle u
+      "independent variable, wind incidence angle";
   input Real table[:,:];
 
   output Real z "Dependent variable without monotone interpolation, CpAct";
@@ -108,7 +116,8 @@ algorithm
         y2d=d[i + 1]);
    annotation(Inline=false);
 end windPressureProfile;
-  Modelica.SIunits.Angle surOut = azi-Modelica.Constants.pi   "Angle of surface that is used to compute angle of attack of wind";
+  Modelica.Units.SI.Angle surOut=azi - Modelica.Constants.pi
+    "Angle of surface that is used to compute angle of attack of wind";
   Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
   Modelica.Blocks.Interfaces.RealInput winDir( final unit="rad",displayUnit="deg") = sim.Vdir "Wind direction from weather bus";
 equation
@@ -125,7 +134,11 @@ equation
   connect(p_link.y,p_in_internal);
 
   // must use sim.weaBus.Te for linearisation
-  T_in_internal = sim.weaBus.Te;
+  if (use_TDryBul_in) then
+    connect(TDryBul_in, T_in_internal);
+  else
+   T_in_internal = sim.weaBus.Te;
+  end if;
 
   C_in_internal = {if i==1 then sim.CEnv.y  else 0 for i in s};
 
@@ -198,6 +211,10 @@ with exception of boundary pressure, do not have an effect.
 </html>",
 revisions="<html>
 <ul>
+<li>
+July 21, 2022 by Filip Jorissen:<br/>
+Added optional dry bulb temperature input for #1270.
+</li>
 <li>
 September 21, 2019 by Filip Jorissen:<br/>
 First implementation.

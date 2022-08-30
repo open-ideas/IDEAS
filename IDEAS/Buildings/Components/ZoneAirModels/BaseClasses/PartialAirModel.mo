@@ -10,11 +10,11 @@ partial model PartialAirModel "Partial for air models"
   parameter Integer nSurf "Number of connected surfaces";
   parameter Integer nSeg(min=1)=1 "Number of air segments";
   parameter Integer nPorts "Number of fluid port connections to zone air volume";
-  parameter Modelica.SIunits.Volume Vtot "Total zone air volume";
+  parameter Modelica.Units.SI.Volume Vtot "Total zone air volume";
   parameter Boolean allowFlowReversal=true
      "= false to simplify equations, assuming, but not enforcing, no flow reversal"
     annotation(Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
     "Nominal flow rate of the ventilation system";
   Modelica.Blocks.Interfaces.RealOutput E(unit="J") "Model internal energy";
   Modelica.Blocks.Interfaces.RealOutput QGai(unit="J/s") "Model internal energy";
@@ -71,9 +71,10 @@ protected
       T=Medium.T_default,
       p=Medium.p_default,
       X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
-  final parameter Modelica.SIunits.Density rho_default = Medium.density(
-    state=state_default) "Medium default density";
-  final parameter Modelica.SIunits.SpecificHeatCapacity cp_default = Medium.specificHeatCapacityCp(state=state_default);
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=
+      state_default) "Medium default density";
+  final parameter Modelica.Units.SI.SpecificHeatCapacity cp_default=
+      Medium.specificHeatCapacityCp(state=state_default);
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>

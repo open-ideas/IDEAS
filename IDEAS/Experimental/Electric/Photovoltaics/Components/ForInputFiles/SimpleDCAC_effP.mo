@@ -2,7 +2,7 @@ within IDEAS.Experimental.Electric.Photovoltaics.Components.ForInputFiles;
 class SimpleDCAC_effP
 
   //  Real eff;
-  Modelica.SIunits.ApparentPower S;
+  Modelica.Units.SI.ApparentPower S;
   final parameter Real cosphi=1;
   //For now
 

@@ -5,10 +5,9 @@ protected
   parameter Integer numPVPha=(if PVPha == 4 then 3 else 1);
 
 public
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin PVside[
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin PVside[
     numPVPha] annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    GridSide[3]
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin GridSide[3]
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 equation
   if PVPha == 4 then

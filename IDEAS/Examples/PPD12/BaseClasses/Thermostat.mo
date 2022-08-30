@@ -2,8 +2,10 @@ within IDEAS.Examples.PPD12.BaseClasses;
 model Thermostat
   extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Temperature THigh=273.15+21 "Temperature set point during high temperature period";
-  parameter Modelica.SIunits.Temperature TLow=273.15+16 "Temperature set point during low temperature period";
+  parameter Modelica.Units.SI.Temperature THigh=273.15 + 21
+    "Temperature set point during high temperature period";
+  parameter Modelica.Units.SI.Temperature TLow=273.15 + 16
+    "Temperature set point during low temperature period";
 
   Modelica.Blocks.Interfaces.RealInput u
     annotation (Placement(transformation(extent={{-126,-20},{-86,20}})));

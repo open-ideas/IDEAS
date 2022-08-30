@@ -23,8 +23,8 @@ model LinRectangularZoneTemplate
   final parameter Integer lastWindowIndex = indexWinCei + (if hasWinCei then 1 else 0)
     "Index of the last window of the zone";
 
-  Modelica.Blocks.Interfaces.RealInput ctrlA if
-                                               shaTypA.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlA
+                                            if shaTypA.controlled
     "Control input for windows in face A, if controlled"
     annotation (Placement(transformation(extent={{11,-11},{-11,11}},
         rotation=-90,
@@ -32,16 +32,16 @@ model LinRectangularZoneTemplate
         extent={{-11,-11},{11,11}},
         rotation=-90,
         origin={84,112})));
-  Modelica.Blocks.Interfaces.RealInput ctrlB if
-                                               shaTypB.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlB
+                                            if shaTypB.controlled
     "Control input for windows in face B, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
         rotation=-90,
         origin={-155,-111}), iconTransformation(extent={{123,-99},{101,-77}},
           rotation=0)));
-  Modelica.Blocks.Interfaces.RealInput ctrlC if
-                                               shaTypC.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlC
+                                            if shaTypC.controlled
     "Control input for windows in face C, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -50,8 +50,8 @@ model LinRectangularZoneTemplate
         extent={{11,-11},{-11,11}},
         rotation=-90,
         origin={-88,-112})));
-  Modelica.Blocks.Interfaces.RealInput ctrlD if
-                                               shaTypD.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlD
+                                            if shaTypD.controlled
     "Control input for windows in face D, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -60,8 +60,8 @@ model LinRectangularZoneTemplate
         extent={{11,-11},{-11,11}},
         rotation=180,
         origin={-112,72})));
-  Modelica.Blocks.Interfaces.RealInput ctrlCei if
-                                               shaTypCei.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlCei
+                                            if shaTypCei.controlled
     "Control input for windows in ceiling, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -110,8 +110,8 @@ replaceable
             U_value=fraTypA.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinA,
-    indexWindow=indexWinA) if
-       hasWinA constrainedby IDEAS.LIDEAS.Components.LinWindow(
+    indexWindow=indexWinA)
+    if hasWinA constrainedby IDEAS.LIDEAS.Components.LinWindow(
        azi=aziAInt,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -141,7 +141,7 @@ replaceable
       U_value=glazingB.U_value,
       g_value=glazingB.g_value),
     A=A_winB,
-    frac=fraB,
+    frac=fracB,
     azi=aziB,
     T_start=T_start,
     linIntCon_a=linIntCon,
@@ -166,8 +166,8 @@ replaceable
     fraType(present=fraTypB.present, U_value=fraTypB.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinB,
-    indexWindow=indexWinB) if
-       hasWinB constrainedby IDEAS.LIDEAS.Components.LinWindow(
+    indexWindow=indexWinB)
+    if hasWinB constrainedby IDEAS.LIDEAS.Components.LinWindow(
        azi=aziB,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -224,8 +224,8 @@ replaceable
     fraType(present=fraTypC.present, U_value=fraTypC.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinC,
-    indexWindow=indexWinC) if
-       hasWinC constrainedby IDEAS.LIDEAS.Components.LinWindow(
+    indexWindow=indexWinC)
+    if hasWinC constrainedby IDEAS.LIDEAS.Components.LinWindow(
        azi=aziC,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -281,8 +281,8 @@ replaceable
     fraType(present=fraTypD.present, U_value=fraTypD.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinD,
-    indexWindow=indexWinD) if
-       hasWinD constrainedby IDEAS.LIDEAS.Components.LinWindow(
+    indexWindow=indexWinD)
+    if hasWinD constrainedby IDEAS.LIDEAS.Components.LinWindow(
        azi=aziD,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -338,8 +338,8 @@ replaceable
     fraType(present=fraTypCei.present, U_value=fraTypCei.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinCei,
-    indexWindow=indexWinCei) if
-       hasWinCei constrainedby IDEAS.LIDEAS.Components.LinWindow(
+    indexWindow=indexWinCei)
+    if hasWinCei constrainedby IDEAS.LIDEAS.Components.LinWindow(
        azi=aziCei,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,

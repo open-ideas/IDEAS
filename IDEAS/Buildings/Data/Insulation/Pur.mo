@@ -1,18 +1,23 @@
 within IDEAS.Buildings.Data.Insulation;
 record Pur = IDEAS.Buildings.Data.Interfaces.Insulation (
-    k=0.020,
-    c=1470,
-    rho=30,
+    k=0.025,
+    c=1500,
+    rho=40,
     epsLw=0.8,
-    epsSw=0.8) "Polyurethane foam, PUR" annotation (Documentation(info="<html>
+    epsSw=0.8) "Polyurethane foam, PUR (medium density)" annotation (Documentation(info="<html>
 <p>
-Polyurethane (PUR) insulation thermal properties.
+Polyurethane (PUR) insulation thermal properties. 
+The values are based on those in the ASHRAE 2017 Handbook of Fundamentals, Chapter 26.
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
+May 3, 2022, by Jelger Jansen:<br/>
+Updated thermal properties. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1245\">#1245</a>.
+</li>
+<li>
 November 15, 2016, by Filip Jorissen:<br/>
-Revised documentation for IDEAS 1.0.
+Revised documentation for IDEAS 1.0. 
 </li>
 </ul>
 </html>"));

@@ -7,7 +7,7 @@ extends Modelica.Icons.Example;
   Modelica.Blocks.Sources.Sine sine(
     amplitude=36,
     offset=230,
-    freqHz=0.85e-2)
+    f=0.85e-2)
     annotation (Placement(transformation(extent={{-80,-26},{-60,-6}})));
   Modelica.Blocks.Sources.Constant const(k=300)
     annotation (Placement(transformation(extent={{-88,48},{-68,68}})));

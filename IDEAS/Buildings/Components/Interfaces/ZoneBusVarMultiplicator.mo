@@ -32,13 +32,13 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
     annotation (Placement(transformation(extent={{8,-324},{-12,-304}})));
 protected
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
-      redeclare package Medium = Medium,                                 final k=k) if
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+      redeclare package Medium = Medium,                                 final k=k)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Mass flow rate multiplier for port 2"
     annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(
-      redeclare package Medium = Medium,                                 final k=k) if
-        sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+      redeclare package Medium = Medium,                                 final k=k)
+     if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
@@ -80,6 +80,11 @@ protected
   Modelica.Blocks.Routing.BooleanPassThrough use_custom_q50
     "0 if the surface has a custom q50"
     annotation (Placement(transformation(extent={{-12,-296},{8,-276}})));
+  Modelica.Blocks.Routing.RealPassThrough hzone "zone height"
+    annotation (Placement(transformation(extent={{8,-356},{-12,-336}})));
+  Modelica.Blocks.Routing.RealPassThrough hFloor
+    "Absolute height of the zone floor"
+    annotation (Placement(transformation(extent={{8,-384},{-12,-364}})));
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -162,6 +167,14 @@ equation
   connect(use_custom_n50.y, propsBus_a.use_custom_n50) annotation (Line(points={{-13,
           -314},{-100,-314},{-100,0.1},{-100.1,0.1}},
                                                 color={255,0,255}));
+  connect(hzone.u, propsBus_b.hzone) annotation (Line(points={{10,-346},{100,
+          -346},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(hzone.y, propsBus_a.hzone) annotation (Line(points={{-13,-346},{-100,
+          -346},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(hFloor.u, propsBus_b.hfloor) annotation (Line(points={{10,-374},{100,
+          -374},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(hFloor.y, propsBus_a.hfloor) annotation (Line(points={{-13,-374},{
+          -100,-374},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(

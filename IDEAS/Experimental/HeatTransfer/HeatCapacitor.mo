@@ -1,8 +1,9 @@
 within IDEAS.Experimental.HeatTransfer;
 model HeatCapacitor "Lumped thermal element storing heat"
-  parameter Modelica.SIunits.HeatCapacity C "Heat capacity of element (= cp*m)";
+  parameter Modelica.Units.SI.HeatCapacity C
+    "Heat capacity of element (= cp*m)";
   parameter Boolean outputE = false;
-  Modelica.SIunits.Temperature T "Temperature of element";
+  Modelica.Units.SI.Temperature T "Temperature of element";
   Modelica.Blocks.Interfaces.RealOutput E = C*T if outputE;
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port annotation (

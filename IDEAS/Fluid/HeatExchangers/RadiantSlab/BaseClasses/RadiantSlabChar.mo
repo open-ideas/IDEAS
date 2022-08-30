@@ -15,22 +15,22 @@ record RadiantSlabChar
   parameter Boolean tabs = true
     "true if the model is used for tabs, false if the model is used for floor heating. This is used for the correction factor of the thermal resistances in EmbeddedPipe";
 
-  parameter Modelica.SIunits.Length T(
+  parameter Modelica.Units.SI.Length T(
     min=0.15,
     max=0.3) = 0.2 "Pipe spacing, limits imposed by prEN 15377-3 p22";
-  parameter Modelica.SIunits.Length d_a=0.02 "External diameter of the pipe";
-  parameter Modelica.SIunits.Length s_r=0.0025 "Thickness of the pipe wall";
-  parameter Modelica.SIunits.ThermalConductivity lambda_r=0.35
+  parameter Modelica.Units.SI.Length d_a=0.02 "External diameter of the pipe";
+  parameter Modelica.Units.SI.Length s_r=0.0025 "Thickness of the pipe wall";
+  parameter Modelica.Units.SI.ThermalConductivity lambda_r=0.35
     "Thermal conductivity of the material of the pipe";
-  parameter Modelica.SIunits.Length S_1=0.1
+  parameter Modelica.Units.SI.Length S_1=0.1
     "Thickness of the concrete/screed ABOVE the pipe layer";
-  parameter Modelica.SIunits.Length S_2=0.1
+  parameter Modelica.Units.SI.Length S_2=0.1
     "Thickness of the concrete/screed UNDER the pipe layer";
-  parameter Modelica.SIunits.ThermalConductivity lambda_b=1.8
+  parameter Modelica.Units.SI.ThermalConductivity lambda_b=1.8
     "Thermal conductivity of the concrete or screed layer";
-  parameter Modelica.SIunits.SpecificHeatCapacity c_b=840
+  parameter Modelica.Units.SI.SpecificHeatCapacity c_b=840
     "Thermal capacity of the concrete/screed material";
-  parameter Modelica.SIunits.Density rho_b=2100
+  parameter Modelica.Units.SI.Density rho_b=2100
     "Density of the concrete/screed layer";
   constant Integer n1=3 "Number of discrete capacities in upper layer";
   constant Integer n2=3 "Number of discrete capacities in lower layer";
@@ -38,9 +38,9 @@ record RadiantSlabChar
   parameter Integer nParCir=1 "number of circuit in parallel";
 
   // Extra parameters for floor heating
-  parameter Modelica.SIunits.ThermalConductivity lambda_i = 0.036
+  parameter Modelica.Units.SI.ThermalConductivity lambda_i=0.036
     "heat conductivity of the isolation";
-  parameter Modelica.SIunits.Length d_i = 0.05 "Thickness of the insulation";
+  parameter Modelica.Units.SI.Length d_i=0.05 "Thickness of the insulation";
   final parameter Real alp2 = lambda_i / d_i
     "help variable for resistance calculation";
 

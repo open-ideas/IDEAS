@@ -1,8 +1,8 @@
 within IDEAS.BoundaryConditions.SolarIrradiation;
 model RadiationConvertorSimplified
   "Converts east-south-west radiation into diffuse and direct component, without complex algebraic loop"
-  extends Modelica.Blocks.Interfaces.BlockIcon;
-  parameter Modelica.SIunits.Angle lat "Latitude";
+  extends Modelica.Blocks.Icons.Block;
+  parameter Modelica.Units.SI.Angle lat "Latitude";
 
   parameter Real lon "Longitude";
   parameter Real[3] rho = {0.3, 0.3, 0.3} "Ground reflectance for east, south, west";
@@ -34,11 +34,14 @@ model RadiationConvertorSimplified
     annotation (Placement(transformation(extent={{-124,-86},{-84,-46}})));
 
 protected
-  final parameter Modelica.SIunits.Angle south = IDEAS.Types.Azimuth.S;
-  final parameter Modelica.SIunits.Angle east = south + Modelica.SIunits.Conversions.from_deg(270);
-  final parameter Modelica.SIunits.Angle west = south + Modelica.SIunits.Conversions.from_deg(90);
-  final parameter Modelica.SIunits.Angle vertical = IDEAS.Types.Tilt.Wall;
-  final parameter Modelica.SIunits.Angle horizontal = Modelica.SIunits.Conversions.from_deg(0);
+  final parameter Modelica.Units.SI.Angle south=IDEAS.Types.Azimuth.S;
+  final parameter Modelica.Units.SI.Angle east=south +
+      Modelica.Units.Conversions.from_deg(270);
+  final parameter Modelica.Units.SI.Angle west=south +
+      Modelica.Units.Conversions.from_deg(90);
+  final parameter Modelica.Units.SI.Angle vertical=IDEAS.Types.Tilt.Wall;
+  final parameter Modelica.Units.SI.Angle horizontal=
+      Modelica.Units.Conversions.from_deg(0);
   Modelica.Blocks.Sources.RealExpression HDirSouth(y=(HSouth - HDifHor/2 -
         rhoGai[2].y/2)*IDEAS.Utilities.Math.Functions.inverseXRegularized(cos(
         incSouth.incAng), 0.01))

@@ -1,6 +1,6 @@
 within IDEAS.Experimental.Electric.Batteries;
 model Battery
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
 // Inputs and Outputs
   Modelica.Blocks.Interfaces.RealInput PFlow "Active power exchange"
@@ -11,28 +11,30 @@ model Battery
         extent={{-20,-20},{20,20}},
         rotation=180,
         origin={-100,-30})));
-  Modelica.SIunits.Power P "Active power exchange";
+  Modelica.Units.SI.Power P "Active power exchange";
 
 // Parameters
 protected
-parameter Modelica.SIunits.Efficiency eta_out;
-parameter Modelica.SIunits.Efficiency eta_in;
-parameter Modelica.SIunits.Efficiency eta_d;
-parameter Modelica.SIunits.Efficiency eta_c;
-parameter Modelica.SIunits.Efficiency delta_sd;
-parameter Modelica.SIunits.Efficiency SoC_start;
-parameter Modelica.SIunits.Conversions.NonSIunits.Energy_kWh EBat;
+  parameter Modelica.Units.SI.Efficiency eta_out;
+  parameter Modelica.Units.SI.Efficiency eta_in;
+  parameter Modelica.Units.SI.Efficiency eta_d;
+  parameter Modelica.Units.SI.Efficiency eta_c;
+  parameter Modelica.Units.SI.Efficiency delta_sd;
+  parameter Modelica.Units.SI.Efficiency SoC_start;
+  parameter Modelica.Units.NonSI.Energy_kWh EBat;
 
 // Variables
 public
-  Modelica.SIunits.ActivePower PExch "Power exchange = Energy exchange";
-  Modelica.SIunits.Efficiency SoC(start=SoC_start,min=0,max=1)
-    "State of Charge of battery capacity in [%/100]";
-  Modelica.SIunits.Efficiency dSoC "Change in SoC in time interval";
+  Modelica.Units.SI.ActivePower PExch "Power exchange = Energy exchange";
+  Modelica.Units.SI.Efficiency SoC(
+    start=SoC_start,
+    min=0,
+    max=1) "State of Charge of battery capacity in [%/100]";
+  Modelica.Units.SI.Efficiency dSoC "Change in SoC in time interval";
 
-  Modelica.SIunits.ActivePower PlosCha
+  Modelica.Units.SI.ActivePower PlosCha
     "Power losses (converters) during charging";
-  Modelica.SIunits.ActivePower PlosDisCha
+  Modelica.Units.SI.ActivePower PlosDisCha
     "Power losses (converters) during discharging";
 
 equation

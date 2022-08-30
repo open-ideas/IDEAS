@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Climate.Time.Elements;
 model SimulationTime
 
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealOutput timSim
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));

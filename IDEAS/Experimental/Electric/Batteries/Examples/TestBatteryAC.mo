@@ -1,7 +1,7 @@
 within IDEAS.Experimental.Electric.Batteries.Examples;
 model TestBatteryAC
 extends Modelica.Icons.Example;
-Modelica.SIunits.Power Pnet;
+  Modelica.Units.SI.Power Pnet;
 
   AC.BatterySystemGeneral batterySystemGeneral(
     redeclare Data.Batteries.LiIon                technology,

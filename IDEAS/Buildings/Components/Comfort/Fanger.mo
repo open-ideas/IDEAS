@@ -7,11 +7,11 @@ model Fanger
   Modelica.Blocks.Interfaces.RealOutput PPD "PPD [0.05...1]"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 
-  parameter Modelica.SIunits.HeatFlux W(max=0)=0
+  parameter Modelica.Units.SI.HeatFlux W(max=0) = 0
     "Rate of mechanical work accomplished (must be non-positive, typically equal to 0)";
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer hRad(
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hRad(
     min=0,
-    max=10)=0.8*4.7 "Radiative heat transfer coefficient";
+    max=10) = 0.8*4.7 "Radiative heat transfer coefficient";
 
   parameter Boolean use_vAir_in=false
     "Get the air velocity from the input connector"
@@ -30,23 +30,23 @@ model Fanger
     annotation(Evaluate=true, HideResult=true,
     Dialog(group="Conditional inputs"));
 
-  parameter Modelica.SIunits.Velocity vAir= 0.05 "Fixed value for air velocity"
-     annotation (Dialog(enable = not use_vAir_in, group="Conditional inputs"));
-  parameter Modelica.SIunits.HeatFlux M = (occupancyType.QsenPp + occupancyType.QlatPp)/1.9
+  parameter Modelica.Units.SI.Velocity vAir=0.05 "Fixed value for air velocity"
+    annotation (Dialog(enable=not use_vAir_in, group="Conditional inputs"));
+  parameter Modelica.Units.SI.HeatFlux M=(occupancyType.QsenPp + occupancyType.QlatPp)
+      /1.9
     "Fixed value for metabolic rate, assumes skin surface area of 1.9 m2"
-     annotation (Dialog(enable = not use_M_in, group="Conditional inputs"));
+    annotation (Dialog(enable=not use_M_in, group="Conditional inputs"));
   parameter Real ICl = occupancyType.ICl
     "Fixed value for clothing insulation in units of clo (summer=0.5; winter=0.9)"
      annotation (Dialog(enable = not use_ICl_in, group="Conditional inputs"));
-  parameter Modelica.SIunits.Pressure pAir = 101325
+  parameter Modelica.Units.SI.Pressure pAir=101325
     "Fixed value for air pressure"
-     annotation (Dialog(enable = not use_pAir_in, group="Conditional inputs"));
+    annotation (Dialog(enable=not use_pAir_in, group="Conditional inputs"));
 
-  Modelica.SIunits.Temperature TOpe "Operative temperature";
-  Modelica.SIunits.Temperature TClo "Surface temperature of clothing";
-  Modelica.SIunits.Temperature TSki(
-    min=273.15+10,
-    max=273.15+42) "Skin temperature";
+  Modelica.Units.SI.Temperature TOpe "Operative temperature";
+  Modelica.Units.SI.Temperature TClo "Surface temperature of clothing";
+  Modelica.Units.SI.Temperature TSki(min=273.15 + 10, max=273.15 + 42)
+    "Skin temperature";
 
   Modelica.Blocks.Interfaces.RealInput pAir_in(
     final quantity="Pressure",
@@ -59,8 +59,8 @@ model Fanger
     annotation (Placement(transformation(extent={{
             -120,-80},{-100,-60}}), iconTransformation(extent={{-120,-80},{-100,
             -60}})));
-  Modelica.Blocks.Interfaces.RealInput vAir_in if
-       use_vAir_in "Air velocity" annotation (
+  Modelica.Blocks.Interfaces.RealInput vAir_in
+    if use_vAir_in "Air velocity" annotation (
       Placement(transformation(extent={{-120,-20},{-100,0}}),
         iconTransformation(extent={{-120,-20},{-100,0}})));
   Modelica.Blocks.Interfaces.RealInput M_in(
@@ -72,21 +72,18 @@ model Fanger
       Placement(transformation(extent={{-120,-50},{-100,-30}}),
         iconTransformation(extent={{-120,-50},{-100,-30}})));
 
-  Modelica.SIunits.CoefficientOfHeatTransfer hCom(
-    min=0,
-    max=10) "Combined heat transfer coefficient";
+  Modelica.Units.SI.CoefficientOfHeatTransfer hCom(min=0, max=10)
+    "Combined heat transfer coefficient";
 
-  Modelica.SIunits.CoefficientOfHeatTransfer hCon(
-    min=0,
-    max=10) "Convective heat transfer coefficient";
+  Modelica.Units.SI.CoefficientOfHeatTransfer hCon(min=0, max=10)
+    "Convective heat transfer coefficient";
 
-  Modelica.SIunits.Pressure pSte(
-    min=0,
-    max=3000) "Partial pressure of water vapor in ambient air";
+  Modelica.Units.SI.Pressure pSte(min=0, max=3000)
+    "Partial pressure of water vapor in ambient air";
 
-  Modelica.SIunits.HeatFlux L "Thermal load of the body";
+  Modelica.Units.SI.HeatFlux L "Thermal load of the body";
   Real fCl(min=0) "Clothing area factor (61)";
-  Modelica.SIunits.ThermalInsulance RCl "Thermal resistance of clothing (10)";
+  Modelica.Units.SI.ThermalInsulance RCl "Thermal resistance of clothing (10)";
 
 protected
   IDEAS.Utilities.Psychrometrics.X_pTphi steRat
@@ -163,9 +160,8 @@ equation
         - 0.0173*M_in_internal*(5.87 - pSte*1E-3)
         - 0.0014*M_in_internal*(307.15 - TAir);
 
-  TClo = Modelica.SIunits.Conversions.from_degC(35.7 - 0.0275 * (M_in_internal-W)
-                 - RCl * (  (M_in_internal-W)
-                 + aux));
+  TClo =Modelica.Units.Conversions.from_degC(35.7 - 0.0275*(M_in_internal - W)
+     - RCl*((M_in_internal - W) + aux));
   // heat load on body, see (58)
   L = (M_in_internal - W)
       - 3.96*1e-8*fCl*(TClo^4 - TRad^4)

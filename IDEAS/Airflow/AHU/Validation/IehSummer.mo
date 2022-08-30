@@ -3,7 +3,7 @@ model IehSummer
   "Validation of indirect evaporative heat exchanger using summer data set"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   IDEAS.Fluid.Sources.Boundary_pT bui(
     nPorts=1,
     redeclare package Medium = Medium) "Building"

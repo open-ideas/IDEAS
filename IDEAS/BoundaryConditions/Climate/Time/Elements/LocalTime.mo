@@ -1,9 +1,9 @@
 within IDEAS.BoundaryConditions.Climate.Time.Elements;
 model LocalTime
 
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 
-parameter Modelica.SIunits.Angle lon(displayUnit="deg") "longitude";
+  parameter Modelica.Units.SI.Angle lon(displayUnit="deg") "longitude";
 
   Modelica.Blocks.Interfaces.RealInput timZon "time zone"
     annotation (Placement(transformation(extent={{-120,20},{-80,60}})));

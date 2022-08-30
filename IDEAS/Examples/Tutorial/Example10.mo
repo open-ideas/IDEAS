@@ -3,11 +3,9 @@ model Example10 "Speeding up the code"
   extends Example9(
     fanRet(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       use_inputFilter=false),
     fanSup(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       use_inputFilter=false),
     vavRet1(use_inputFilter=false),
     vavSup1(use_inputFilter=false),
@@ -17,12 +15,10 @@ model Example10 "Speeding up the code"
     val1(allowFlowReversal=false, from_dp=true),
     pumpSec(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       use_inputFilter=false),
     pumpPrim(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       use_inputFilter=false),
     rectangularZoneTemplate1(

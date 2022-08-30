@@ -10,11 +10,11 @@ partial model Partial_Ctrl_Heating
   parameter SI.Temperature TRoo_nominal = 273.15 + 21
     "Room temperature at nominal condition";
   parameter SI.Temperature TSupNom "Nominal heating curve supply temperature";
-  parameter Modelica.SIunits.TemperatureDifference dTSupRetNom=10
+  parameter Modelica.Units.SI.TemperatureDifference dTSupRetNom=10
     "Nominal difference between supply and return water temperatures";
-  parameter Modelica.SIunits.TemperatureDifference dTHeaterSet(min=0) = 2
+  parameter Modelica.Units.SI.TemperatureDifference dTHeaterSet(min=0) = 2
     "Difference between heating curve setpoint and heater setpoint";
-  parameter Modelica.SIunits.Time timeFilter=43200
+  parameter Modelica.Units.SI.Time timeFilter=43200
     "Time constant for filter on ambient temperature";
   parameter SI.Temperature TSupMin=273.15 + 30
     "Minimum supply temperature if enabled";
@@ -22,7 +22,7 @@ partial model Partial_Ctrl_Heating
     "true to limit the supply temperature on the lower side";
   parameter SI.TemperatureDifference dTOutHeaBal=0 "Offset for heating curve";
   parameter SI.Temperature TOut_nominal=273.15 - 8 "Outside temperature";
-  parameter Modelica.SIunits.TemperatureDifference corFac_val = 0
+  parameter Modelica.Units.SI.TemperatureDifference corFac_val=0
     "correction term for TSet of the heating curve";
 
   HeatingCurves.HeatingCurveFilter heatingCurve(

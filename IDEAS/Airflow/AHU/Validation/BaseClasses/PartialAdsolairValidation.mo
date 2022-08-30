@@ -43,9 +43,9 @@ partial model PartialAdsolairValidation
     annotation (Placement(transformation(extent={{-86,6},{-74,18}})));
 equation
   connect(From_m3PerhSup.m_flow, env.m_flow_in) annotation (Line(points={{55.7,15},
-          {46,15},{46,12},{38,12}},     color={0,0,127}));
+          {46,15},{46,12},{40,12}},     color={0,0,127}));
   connect(From_m3PerhRet.m_flow, zone.m_flow_in) annotation (Line(points={{-73.7,
-          31},{-72,31},{-72,24},{-70,24},{-66,24}}, color={0,0,127}));
+          31},{-72,31},{-72,24},{-68,24},{-68,24}}, color={0,0,127}));
   connect(XiEnv.X, zone.X_in) annotation (Line(points={{-73.4,12},{-72,12},{-68,
           12}},                   color={0,0,127}));
   connect(XiEnv.T, zone.T_in) annotation (Line(points={{-87.2,12},{-90,12},{-90,
@@ -54,27 +54,23 @@ equation
           33},{-90,32},{-90,12},{-87.2,12}},
                                            color={0,0,127}));
   connect(zone.ports[1], adsolair58.port_a1)
-    annotation (Line(points={{-46,16},{-32,16},{-18,16}}, color={0,127,255}));
-  connect(adsolair58.port_b2, sinkAir.ports[1]) annotation (Line(points={{-18,4},
-          {-18,-20},{-18,-32},{20,-32}}, color={0,127,255}));
-  connect(adsolair58.port_b1, sinkAir.ports[2]) annotation (Line(points={{2,16},
-          {10,16},{10,-28},{20,-28}}, color={0,127,255}));
+    annotation (Line(points={{-46,16},{-22,16},{-22,16}}, color={0,127,255}));
+  connect(adsolair58.port_b2, sinkAir.ports[1]) annotation (Line(points={{-22,4},
+          {-22,-20},{-22,-29},{20,-29}}, color={0,127,255}));
+  connect(adsolair58.port_b1, sinkAir.ports[2]) annotation (Line(points={{2,16},{
+          10,16},{10,-31},{20,-31}},  color={0,127,255}));
   connect(adsolair58.port_a2, env.ports[1])
     annotation (Line(points={{2,4},{10,4},{18,4}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
-    experiment(
-      StartTime=500000,
-      StopTime=850000,
-      __Dymola_NumberOfIntervals=20000,
-      __Dymola_fixedstepsize=20,
-      __Dymola_Algorithm="Lsodar"),
-    __Dymola_experimentSetupOutput,
-    __Dymola_Commands,
     Documentation(info="<html>
 <p>Validation of electrical power consumption for fans using known pressures and valve set points</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation for #1254.
+</li>
 <li>
 October 11, 2016, by Filip Jorissen:<br/>
 Added first implementation.

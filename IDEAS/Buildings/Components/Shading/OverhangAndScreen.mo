@@ -1,23 +1,23 @@
 within IDEAS.Buildings.Components.Shading;
 model OverhangAndScreen "Roof overhangs and screen shading"
 
-  parameter Modelica.SIunits.Length hWin(min=0) "Window height"
-    annotation(Dialog(group="Window properties"));
-  parameter Modelica.SIunits.Length wWin(min=0) "Window width"
-    annotation(Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length hWin(min=0) "Window height"
+    annotation (Dialog(group="Window properties"));
+  parameter Modelica.Units.SI.Length wWin(min=0) "Window width"
+    annotation (Dialog(group="Window properties"));
 
-  parameter Modelica.SIunits.Length wLeft(min=0)
+  parameter Modelica.Units.SI.Length wLeft(min=0)
     "Left overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length wRight(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length wRight(min=0)
     "Right overhang width measured from the window corner"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length dep(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length dep(min=0)
     "Overhang depth perpendicular to the wall plane"
-    annotation(Dialog(group="Overhang properties"));
-  parameter Modelica.SIunits.Length gap(min=0)
+    annotation (Dialog(group="Overhang properties"));
+  parameter Modelica.Units.SI.Length gap(min=0)
     "Distance between window upper edge and overhang lower edge"
-    annotation(Dialog(group="Overhang properties"));
+    annotation (Dialog(group="Overhang properties"));
 
   parameter Real shaCorr=0.24 "Shortwave transmittance of shortwave radiation";
 
@@ -43,6 +43,10 @@ initial equation
 <p>This model describes the transient behaviour of solar irradiance on a window below a non-fixed horizontal or vertical overhang combined with a controllable screen.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022 by Filip Jorissen:<br/>
+Refactored for #1270 for including thermal effect of screens.
+</li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>
 Revised implementation for renamed

@@ -4,7 +4,9 @@ model OuterWall "Opaque building envelope construction"
      setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
-     QTra_design(fixed=false));
+     QTra_design(fixed=false),
+    res1(h_a=(Habs - sim.Hpres) + 0.25*hVertical),
+    res2(h_a=(Habs - sim.Hpres) - 0.25*hVertical));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -15,41 +17,67 @@ model OuterWall "Opaque building envelope construction"
   parameter Boolean hasBuildingShade = false
     "=true, to enable computation of shade cast by opposite building or object"
     annotation(Dialog(group="Building shade"));
-  parameter Modelica.SIunits.Length L(min=0)=0
+  parameter Modelica.Units.SI.Length L(min=0) = 0
     "Distance between object and wall, perpendicular to wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length dh(min=-hWal)=0
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length dh(min=-hWal) = 0
     "Height difference between top of object and top of wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length hWal(min=0)=0 "Wall height"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length hWal(min=0) = 0 "Wall height"
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+
+  replaceable parameter
+    IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
+    constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
+    "Table with default table for wind pressure coefficients for walls, floors and roofs"
+    annotation (
+    __Dymola_choicesAllMatching=true,
+    Placement(transformation(extent={{-34,78},{-30,82}})),
+    Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
+    final A_glazing=0,
+    final A_frame=0,
+    final inc=inc,
+    final g_glazing=0,
+    final Tenv_nom=sim.Tenv_nom,
+    final epsSw_frame=1,
+    final epsLw_frame=1,
+    final epsLw_glazing=1,
+    final haveBoundaryPorts=false,
     final L=L,
     final dh=dh,
     final hWin=hWal) if hasBuildingShade
   constrainedby IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
     final azi=aziInt)
     "Building shade model"
-    annotation (Placement(transformation(extent={{-72,-8},{-62,12}})),
-      __Dymola_choicesAllMatching=true,
+    annotation (Placement(transformation(extent={{-72,28},{-62,48}})),
+      choicesAllMatching=true,
       Dialog(tab="Advanced",group="Shading"));
 
 
-
+  parameter Boolean Use_custom_Cs = false
+    "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
+    annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real Habs=1
-    "Absolute height of boundary for correcting the wind speed"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+    annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
+    "Absolute height of the center of the surface for correcting the wind speed, used in TwoPort implementation"
+    annotation (Dialog(tab="Airflow", group="Wind"));
+
+  IDEAS.BoundaryConditions.SolarIrradiation.RadSolData radSolData(
+    inc=incInt,
+    azi=aziInt,
+    useLinearisation=sim.lineariseDymola)
+    annotation (Placement(transformation(extent={{-100,-6},{-80,14}})));
+
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -60,18 +88,14 @@ protected
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-22,-28},{-42,-8}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
-    solAbs(A=A, epsSw=layMul.mats[1].epsSw_b)
+    solAbs(A=A, epsSw=layMul.parEpsSw_b)
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-22,-8},{-42,12}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
-    extRad(               linearise=linExtRad or sim.linearise, final A=A)
+    extRad(               linearise=linExtRad or sim.linearise, final A=A,
+    epsLw=layMul.parEpsLw_b)
     "determination of radiant heat exchange with the environment and sky"
-    annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
-  BoundaryConditions.SolarIrradiation.RadSolData radSolData(
-    inc=incInt,
-    azi=aziInt,
-    useLinearisation=sim.lineariseDymola)
-    annotation (Placement(transformation(extent={{-100,-6},{-80,14}})));
+    annotation (Placement(transformation(extent={{-42,12},{-22,32}})));
   Modelica.Blocks.Routing.RealPassThrough Tdes "Design temperature passthrough";
   Modelica.Blocks.Math.Add solDif(final k1=1, final k2=1)
     "Sum of ground and sky diffuse solar irradiation"
@@ -80,11 +104,13 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    Cs=Cs,
+    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
+        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then 1 else 2) if
-    sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+         then 1 else 2)
+ if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 initial equation
@@ -112,39 +138,36 @@ equation
       points={{-22,22},{-18,22},{-18,0},{-10,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(layMul.iEpsLw_b,extRad. epsLw) annotation (Line(
-      points={{-10,8},{-16,8},{-16,25.4},{-22,25.4}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(radSolData.Tenv,extRad. Tenv) annotation (Line(
-      points={{-79.4,2},{-70,2},{-70,38},{-22,38},{-22,28}},
+      points={{-79.4,2},{-70,2},{-70,22},{-42,22}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(extCon.Te, radSolData.Te) annotation (Line(
-      points={{-22,-22.8},{-79.4,-22.8},{-79.4,-10}},
+      points={{-44,-17.6},{-79.4,-17.6},{-79.4,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u, radSolData.Tdes);
   connect(solDif.y, solAbs.solDif) annotation (Line(points={{-45.6,4},{-42,4}},
                                color={0,0,127}));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-79.4,0},{-76,0},{-76,-2},{-72,-2}},
+      points={{-79.4,0},{-76,0},{-76,32},{-69.5,32}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-79.4,-4},{-78,-4},{-78,-6},{-72,-6}},
+      points={{-79.4,-4},{-78,-4},{-78,29.3333},{-69.5,29.3333}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-79.4,-2},{-76,-2},{-76,-4},{-72,-4}},
+      points={{-79.4,-2},{-76,-2},{-76,30.6667},{-69.5,30.6667}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,8},
-          {-76,8},{-76,8},{-72,8}},            color={0,0,127}));
+          {-76,8},{-76,38.6667},{-69.5,38.6667}},
+                                               color={0,0,127}));
   connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{-79.4,6},
-          {-76,6},{-76,6},{-72,6}},                  color={0,0,127}));
+          {-76,6},{-76,37.3333},{-69.5,37.3333}},    color={0,0,127}));
   connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{-79.4,4},
-          {-76,4},{-76,4},{-72,4}},                  color={0,0,127}));
+          {-74,4},{-74,36},{-69.5,36}},              color={0,0,127}));
   if not hasBuildingShade then
     connect(solDif.u1, radSolData.HSkyDifTil) annotation (Line(points={{-54.8,6.4},
             {-55.3,6.4},{-55.3,6},{-79.4,6}},
@@ -157,16 +180,18 @@ equation
                                                    color={0,0,127}));
   end if;
   connect(shaType.HShaDirTil, solAbs.solDir)
-    annotation (Line(points={{-62,8},{-42,8}},           color={0,0,127}));
-  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-62,6},{
-          -54.8,6},{-54.8,6.4}},   color={0,0,127}));
-  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-62,4},{
-          -56,4},{-56,1.6},{-54.8,1.6}},   color={0,0,127}));
+    annotation (Line(points={{-64.5,38.6667},{-54,38.6667},{-54,8},{-42,8}},
+                                                         color={0,0,127}));
+  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-64.5,
+          37.3333},{-54.8,37.3333},{-54.8,6.4}},
+                                   color={0,0,127}));
+  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-64.5,36},
+          {-56,36},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
-          -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
-                                                           color={0,0,127}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
-          -40},{16,-50},{-80,-50}}, color={0,127,255}));
+          -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},color={0,0,127}));
+  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-36},{
+          16,-36},{16,-50},{-80,-50}},color={0,127,255}));
+
   connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
           -60},{16,-50},{-80,-50}}, color={0,127,255}));
   annotation (
@@ -261,6 +286,12 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 18, 2022, by Filip Jorissen:<br/>
+Revised code for supporting new shading model.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">
+#1270</a>
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

@@ -6,6 +6,7 @@ Heater_T
 IndirectEvaporativeHex
 PrescribedOutlet
 SensibleCooler_T
+WetCoilEffectivenessNTU
 ActiveBeams
 RadiantSlab
 Radiators

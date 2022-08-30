@@ -7,9 +7,9 @@ model StrobeInfoManager
 
   parameter String filDir = Modelica.Utilities.Files.loadResource("modelica://IDEAS") + "/Inputs/"
     "Directory containing the data files, default under IDEAS/Inputs/";
-  final parameter Modelica.SIunits.Time timZonSta(displayUnit="h") = sim.timZonSta
+  final parameter Modelica.Units.SI.Time timZonSta(displayUnit="h") = sim.timZonSta
     "standard time zone";
-  final parameter Modelica.SIunits.Angle lon(displayUnit="deg") = sim.lon;
+  final parameter Modelica.Units.SI.Angle lon(displayUnit="deg") = sim.lon;
 
   parameter Integer nOcc=33 "Number of occupant profiles to be read";
 
@@ -44,7 +44,7 @@ model StrobeInfoManager
     annotation (Dialog(group="Photovoltaics", enable=PPv));
   parameter Integer nPv = 33 "Number of photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
-  parameter Modelica.SIunits.Power P_nominal=1000
+  parameter Modelica.Units.SI.Power P_nominal=1000
     "Nominal power of the photovoltaic profiles"
     annotation (Dialog(group="Photovoltaics", enable=PPv));
 

@@ -7,7 +7,7 @@ partial model PartialLightingGains "Partial model for lighting internal gains"
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
   parameter IDEAS.Buildings.Components.RoomType.Generic rooTyp
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  parameter  Modelica.SIunits.Area A "Area of the zone";
+  parameter Modelica.Units.SI.Area A "Area of the zone";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portCon
     "Port for convective sensible heat transfer due to occupants"
     annotation (Placement(transformation(extent={{90,10},{110,30}})));
@@ -18,8 +18,8 @@ partial model PartialLightingGains "Partial model for lighting internal gains"
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFlo(
     final alpha=0) if sim.computeConservationOfEnergy
     "Prescribed energy heat flow for conservation of energy check";
-  Modelica.Blocks.Sources.RealExpression Qgai(y=-portCon.Q_flow-portRad.Q_flow) if
-       sim.computeConservationOfEnergy;
+  Modelica.Blocks.Sources.RealExpression Qgai(y=-portCon.Q_flow-portRad.Q_flow)
+    if sim.computeConservationOfEnergy;
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portRad
     "Port for radiative sensible heat transfer due to occupants"
     annotation (Placement(transformation(extent={{90,-30},{110,-10}})));

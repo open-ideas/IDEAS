@@ -7,34 +7,34 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
-  parameter Modelica.SIunits.Angle inc = sim.incOpts[incOpt]
+  parameter Modelica.Units.SI.Angle inc = sim.incOpts[incOpt]
     "Custom inclination (tilt) angle of the wall, default wall"
     annotation(Dialog(enable=incOpt==4));
   parameter Integer aziOpt = 5
     "Azimuth angle option from simInfoManager, or custom using azi"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
-  parameter Modelica.SIunits.Angle azi=sim.aziOpts[aziOpt]
+  parameter Modelica.Units.SI.Angle azi=sim.aziOpts[aziOpt]
     "Custom azimuth angle of the wall, default south"
     annotation(Dialog(enable=aziOpt==5));
-  parameter Modelica.SIunits.Area A
+  parameter Modelica.Units.SI.Area A
     "Component surface area";
   parameter Real nWin = 1
     "Use this factor to scale the component to nWin identical components"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Power QTra_design
+  parameter Modelica.Units.SI.Power QTra_design
     "Design heat losses at reference temperature of the boundary space"
     annotation (Dialog(group="Design power",tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T_start=293.15
+  parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
     annotation(Dialog(tab="Dynamics", group="Initial condition"));
 
-  parameter Modelica.SIunits.Temperature TRef_a=291.15
+  parameter Modelica.Units.SI.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
     annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal_a=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_a=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial
@@ -45,13 +45,20 @@ partial model PartialSurface "Partial model for building envelope component"
     "Medium in the component"
     annotation(Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   parameter Boolean use_custom_q50=false
-    "set to true to disable the default q50 computation and to assign a custom q50 value"
-    annotation (Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
-  parameter Real custom_q50 = 2
-    "Envelope air tightness"
+    "check to disable the default q50 computation and to assign a custom q50 value"
+    annotation (choices(checkBox=true),Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
+  parameter Real custom_q50(unit="m3/(h.m2)") = 2
+    "Surface air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
-  final parameter Real q50_internal(fixed=false)
-    "Envelope air tightness";
+  final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
+    "Surface air tightness";
+
+  final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
+  final parameter Real hfloor_a( fixed=false);
+  parameter Real hVertical=if inc==Modelica.Constants.pi or inc==0 then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
+  parameter Real hRef_a= if inc==0 then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  "
+                                                                                                                                                                                   annotation(Evaluate=true);
+  final parameter Real Habs_surf=hfloor_a+hRef_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
@@ -86,25 +93,24 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  PowerLaw_q50 res1(
+  PowerLaw_q50_stack res1(
   redeclare package Medium = Medium,
-    final forceErrorControlOnFlow=false,
-    m=0.65,
     A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then A/2 else A,
-    final q50=q50_internal) if
-                  add_cracks and
-       sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    h_b= -0.5*hzone_a + 0.25*hVertical +hRef_a,
+    final q50=q50_internal)
+     if add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Middle or bottom crack "
-    annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
-  PowerLaw_q50 res2(
-  redeclare package Medium = Medium,
-    final forceErrorControlOnFlow=false,
-    m=0.65,
+    annotation (Placement(transformation(extent={{20,-46},{40,-26}})));
+
+
+  PowerLaw_q50_stack res2(
+  redeclare package
+  Medium = Medium,
     A=A/2,
-    final q50=q50_internal) if
-                  add_cracks and
-       sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+  h_b= -0.5*hzone_a + 0.75*hVertical +hRef_a,
+    final q50=q50_internal)
+    if add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Top crack"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
 
@@ -120,12 +126,12 @@ partial model PartialSurface "Partial model for building envelope component"
 protected
   parameter Boolean add_cracks = true
     "Add cracks";
-  final parameter Modelica.SIunits.Angle aziInt=
+  final parameter Modelica.Units.SI.Angle aziInt=
     if aziOpt==5
     then azi
     else sim.aziOpts[aziOpt]
       "Azimuth angle";
-  final parameter Modelica.SIunits.Angle incInt=
+  final parameter Modelica.Units.SI.Angle incInt=
     if incOpt==4
     then inc
     else sim.incOpts[incOpt]
@@ -167,21 +173,97 @@ protected
     "Block that contributes surface area to the siminfomanager"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
-model PowerLaw_q50
 
-    extends IDEAS.Airflow.Multizone.BaseClasses.PowerLawResistance(
-      m=0.5,
-      k=A*coeff); //mass flow form of orifice equation
 
-  parameter Modelica.SIunits.Area A
-    "Surface area";
-  parameter Real q50(unit="m3/(h.m2)")
-    "Leaked volume flow rate per unit A at 50Pa";
-  final parameter Real coeff = (q50/3600)/(50^m)
-    "Conversion coefficient";
+
+
+
+
+model PowerLaw_q50_stack
+
+    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium  constrainedby
+      Modelica.Media.Interfaces.PartialMedium                                                  annotation (
+          __Dymola_choicesAllMatching=true);
+
+
+      parameter Modelica.Units.SI.Area A
+             "Surface area";
+
+      parameter Real m=0.65;
+      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
+
+
+      parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
+      parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
+      parameter Real q50
+      "Leaked volume flow rate per unit A at 50Pa";
+
+    Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
+                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
+    Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
+                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
+
+    outer BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+
+    Airflow.Multizone.Point_m_flow
+        res1(
+        redeclare package Medium = Medium,
+        final forceErrorControlOnFlow=false,
+        m=m,
+        useDefaultProperties= not StackEff,
+        dpMea_nominal=50,
+      mMea_flow_nominal=A*(q50*1.2)/3600)
+        "Middle or bottom crack "
+        annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+
+    Airflow.Multizone.BaseClasses.ReversibleDensityColumn
+                  col_a_pos(
+    redeclare package Medium = Medium,
+    h=h_a)  if StackEff
+    annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
+    Airflow.Multizone.BaseClasses.ReversibleDensityColumn
+                  col_b_pos(
+    redeclare package Medium = Medium,
+    h=h_b)  if StackEff
+    annotation (Placement(transformation(extent={{50,-10},{70,10}})));
+
+    Fluid.FixedResistances.LosslessPipe No_stack_a(
+    redeclare package Medium = Medium,
+    allowFlowReversal=true,
+      m_flow_nominal=A*q50*1.2/3600)
+                                 if not StackEff
+    annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
+    Fluid.FixedResistances.LosslessPipe No_stack_b(
+    redeclare package Medium = Medium,
+    allowFlowReversal=true,
+      m_flow_nominal=A*q50*1.2/3600)
+                                 if not StackEff
+    annotation (Placement(transformation(extent={{50,30},{70,50}})));
+
+
 equation
-  v= V_flow/A;
-  annotation (Icon(graphics={
+
+  connect(port_a, No_stack_a.port_a) annotation (Line(points={{-100,0},{-80,0},{
+          -80,40},{-68,40}}, color={0,127,255}));
+  connect(No_stack_a.port_b, res1.port_a) annotation (Line(points={{-48,40},{-20,
+          40},{-20,0},{-10,0}}, color={0,127,255}));
+  connect(res1.port_b, No_stack_b.port_a) annotation (Line(points={{10,0},{20,0},
+          {20,40},{50,40}}, color={0,127,255}));
+  connect(No_stack_b.port_b, port_b) annotation (Line(points={{70,40},{80,40},{80,
+          0},{100,0}}, color={0,127,255}));
+  connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,
+          -10},{-60,-10}},                                                      color={0,127,255}));
+  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-60,
+          14},{-20,14},{-20,0},{-10,0}},
+                                      color={0,127,255}));
+  connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{80,0},{80,
+          -10},{60,-10}},                                                     color={0,127,255}));
+  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,10},{60,14},
+          {20,14},{20,0},{10,0}},
+                               color={0,127,255}));
+
+    annotation (Icon(graphics={
         Text(
           extent={{-100,100},{-40,60}},
           lineColor={28,108,200},
@@ -248,7 +330,10 @@ equation
           pattern=LinePattern.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}));
-end PowerLaw_q50;
+end PowerLaw_q50_stack;
+
+
+
 
 model Q50_parameterToConnector "Converts parameter values into connectors for propsBus"
   extends Modelica.Blocks.Icons.Block;
@@ -269,15 +354,20 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
   Modelica.Blocks.Interfaces.BooleanOutput using_custom_q50 = use_custom_q50
     "Output indicating whether a custom q50 value should be considered by the zone"
    annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
+  Modelica.Blocks.Interfaces.RealInput dummy_h[2]
+      "Dummy connectors for hzone and hfloor"
+      annotation (Placement(transformation(extent={{-126,14},{-86,54}})));
   annotation (Icon(graphics={Rectangle(
           extent={{-82,80},{78,-80}},
           lineColor={28,108,200},
           fillColor={145,167,175},
           fillPattern=FillPattern.Forward)}));
 end Q50_parameterToConnector;
+
 initial equation
   q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
-
+  hzone_a=propsBusInt.hzone;
+  hfloor_a=propsBusInt.hfloor;
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
@@ -288,7 +378,6 @@ equation
       points={{56.09,19.91},{46,19.91},{46,0},{40,0}},
       color={191,0,0},
       smooth=Smooth.None));
-
   connect(layMul.port_a, propsBusInt.surfRad) annotation (Line(
       points={{10,0},{16,0},{16,19.91},{56.09,19.91}},
       color={191,0,0},
@@ -328,8 +417,8 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-40},{50,
-          -40},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-36},{50,
+          -36},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
           -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(setArea.areaPort, sim.areaPort);
@@ -343,6 +432,10 @@ equation
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
+  connect(q50_zone.dummy_h[1], propsBusInt.hzone) annotation (Line(points={{79.4,
+          -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
+  connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
+          -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

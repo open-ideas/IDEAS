@@ -3,9 +3,9 @@ model Example5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";
 
-  parameter Modelica.SIunits.Length l = 8 "Zone length";
-  parameter Modelica.SIunits.Length w = 4 "Zone width";
-  parameter Modelica.SIunits.Length h = 2.7 "Zone height";
+  parameter Modelica.Units.SI.Length l=8 "Zone length";
+  parameter Modelica.Units.SI.Length w=4 "Zone width";
+  parameter Modelica.Units.SI.Length h=2.7 "Zone height";
 
   inner BoundaryConditions.SimInfoManager       sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));

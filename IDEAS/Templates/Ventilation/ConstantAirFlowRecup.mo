@@ -6,23 +6,23 @@ model ConstantAirFlowRecup
     P = sum(n .* VZones/3600)*sysPres/fanEff/motEff / nLoads_min .*ones(nLoads_min),
     nLoads=1);
 
-  parameter Real[nZones] n(unit="m3/h")
+  parameter Real[nZones] n
     "Air change rate (Air changes per hour ACH)";
-  final parameter Modelica.SIunits.MassFlowRate m_flow_nominal = sum(n) / 3600 * 1.204
-    "total ventilation mass flow rate";
-  parameter Modelica.SIunits.Time tau = 30
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=sum(n)/3600*
+      1.204 "total ventilation mass flow rate";
+  parameter Modelica.Units.SI.Time tau=30
     "time constant of the ventilation system";
 
-  parameter Modelica.SIunits.Efficiency recupEff(
+  parameter Modelica.Units.SI.Efficiency recupEff(
     min=0,
     max=1) = 0.84 "Efficiency of heat recuperation";
 
-  parameter Modelica.SIunits.Pressure sysPres=150
+  parameter Modelica.Units.SI.Pressure sysPres=150
     "Total static and dynamic pressure drop, Pa";
-  parameter Modelica.SIunits.Efficiency fanEff(
+  parameter Modelica.Units.SI.Efficiency fanEff(
     min=0,
     max=1) = 0.85 "Fan efficiency";
-  parameter Modelica.SIunits.Efficiency motEff(
+  parameter Modelica.Units.SI.Efficiency motEff(
     min=0,
     max=1) = 0.80 "Motor efficiency";
 
@@ -48,7 +48,6 @@ model ConstantAirFlowRecup
     m_flow_nominal=n ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    each massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     each use_inputFilter=false,
     each inputType=IDEAS.Fluid.Types.InputType.Constant)
     "Fan with constant flow rate"

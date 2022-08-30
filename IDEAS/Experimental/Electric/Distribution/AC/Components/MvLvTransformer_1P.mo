@@ -13,8 +13,8 @@ model MvLvTransformer_1P
 
   parameter Real gridFreq=50
     "Grid frequency: should normally not be changed when simulating belgian grids!";
-  parameter Modelica.SIunits.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j "Voltage"
-              annotation (choices(
+  parameter Modelica.Units.SI.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j
+    "Voltage" annotation (choices(
       choice=(230*1) + 0*MCM.j "100% at HVpin of transformer",
       choice=(230*1.02) + 0*MCM.j "102% at HVpin of transformer",
       choice=(230*1.05) + 0*MCM.j "105% at HVpin of transformer",
@@ -22,31 +22,35 @@ model MvLvTransformer_1P
       choice=(230*0.95) + 0*MCM.j "95% at HVpin of transformer",
       choice=(230*0.9) + 0*MCM.j "90% at HVpin of transformer"));
 
-   final parameter Modelica.SIunits.HeatFlowRate traLosQRef=
-       transformer.P0 + Modelica.ComplexMath.real(transformer.Zd)*(transformer.Sn/3/Modelica.ComplexMath.real(VSource))^2
-       + Modelica.ComplexMath.real(transformer.Zi)*(transformer.Sn/3/Modelica.ComplexMath.real(VSource))^2
-       + Modelica.ComplexMath.real(transformer.Z0)*(transformer.Sn/3/Modelica.ComplexMath.real(VSource))^2 if  traTCal;
+  final parameter Modelica.Units.SI.HeatFlowRate traLosQRef=transformer.P0 +
+      Modelica.ComplexMath.real(transformer.Zd)*(transformer.Sn/3/
+      Modelica.ComplexMath.real(VSource))^2 + Modelica.ComplexMath.real(
+      transformer.Zi)*(transformer.Sn/3/Modelica.ComplexMath.real(VSource))^2
+       + Modelica.ComplexMath.real(transformer.Z0)*(transformer.Sn/3/
+      Modelica.ComplexMath.real(VSource))^2 if traTCal;
 
-   final parameter Modelica.SIunits.HeatCapacity CHs = transformer.tauHs/(RHs+RTo) if  traTCal;
-   final parameter Modelica.SIunits.ThermalResistance RHs = (transformer.THs-transformer.TTo)/traLosQRef if  traTCal;
-   final parameter Modelica.SIunits.HeatCapacity CTo = transformer.tauTo/RTo if  traTCal;
-   final parameter Modelica.SIunits.ThermalResistance RTo = (transformer.TTo-transformer.TRef)/traLosQRef if  traTCal;
+  final parameter Modelica.Units.SI.HeatCapacity CHs=transformer.tauHs/(RHs +
+      RTo) if traTCal;
+  final parameter Modelica.Units.SI.ThermalResistance RHs=(transformer.THs -
+      transformer.TTo)/traLosQRef if traTCal;
+  final parameter Modelica.Units.SI.HeatCapacity CTo=transformer.tauTo/RTo
+    if traTCal;
+  final parameter Modelica.Units.SI.ThermalResistance RTo=(transformer.TTo -
+      transformer.TRef)/traLosQRef if traTCal;
 
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-                  pin_lv_p
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin pin_lv_p
     annotation (Placement(transformation(extent={{90,50},{110,70}}),
         iconTransformation(extent={{90,50},{110,70}})));
 
 // Output ----------------------------------------------------------------------
 
-  Modelica.SIunits.ActivePower traLosP0 = transformer.P0
+  Modelica.Units.SI.ActivePower traLosP0=transformer.P0
     "No-load losses (can be assumed constant)";
-  Modelica.SIunits.ActivePower traLosPTot = transformer.P0 + phase1.Plos
+  Modelica.Units.SI.ActivePower traLosPTot=transformer.P0 + phase1.Plos
     "Total losses in transformer";
-   Modelica.SIunits.Temperature THs = capHotSpot.T if  traTCal
+  Modelica.Units.SI.Temperature THs=capHotSpot.T if traTCal
     "Hottest spot temperature";
-   Modelica.SIunits.Temperature TTo = capOil.T if  traTCal
-    "Top oil temperature";
+  Modelica.Units.SI.Temperature TTo=capOil.T if traTCal "Top oil temperature";
 
 protected
   parameter Boolean traHeatLosses = traTCal
@@ -56,50 +60,51 @@ protected
         Modelica.ComplexMath.imag(transformer.Zd)/3,
     heatLosses=traHeatLosses)
     annotation (Placement(transformation(extent={{-10,50},{10,30}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
-    V=Modelica.ComplexMath.'abs'(VSource),
+    V=Modelica.ComplexMath.abs(VSource),
     phi=Modelica.ComplexMath.arg(VSource),
     f=gridFreq) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,14})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-90,-20})));
-   IDEAS.Experimental.HeatTransfer.HeatCapacitor capHotSpot(C=CHs) if  traTCal        annotation (
+   IDEAS.Experimental.HeatTransfer.HeatCapacitor capHotSpot(C=CHs)  if traTCal        annotation (
        Placement(transformation(
          extent={{-10,-10},{10,10}},
          rotation=-90,
          origin={22,4})));
-   IDEAS.Experimental.HeatTransfer.HeatCapacitor capOil(C=CTo) if  traTCal        annotation (Placement(
+   IDEAS.Experimental.HeatTransfer.HeatCapacitor capOil(C=CTo)  if traTCal        annotation (Placement(
          transformation(
          extent={{-10,-10},{10,10}},
          rotation=-90,
          origin={22,-16})));
-   IDEAS.Experimental.HeatTransfer.ThermalResistor resOil(R=RHs) if  traTCal        annotation (Placement(
+   IDEAS.Experimental.HeatTransfer.ThermalResistor resOil(R=RHs)  if traTCal        annotation (Placement(
          transformation(
          extent={{-10,-10},{10,10}},
          rotation=-90,
          origin={12,-6})));
-   IDEAS.Experimental.HeatTransfer.ThermalResistor resOut(R=RTo) if  traTCal        annotation (Placement(
+   IDEAS.Experimental.HeatTransfer.ThermalResistor resOut(R=RTo)  if traTCal        annotation (Placement(
          transformation(
          extent={{-10,-10},{10,10}},
          rotation=-90,
          origin={12,-26})));
-   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature T_Bou if  traTCal annotation (
+   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature T_Bou  if traTCal annotation (
       Placement(transformation(
          extent={{10,-10},{-10,10}},
          rotation=-90,
          origin={12,-46})));
-   Modelica.Blocks.Sources.RealExpression realExpr(y=sim.Te) if  traTCal annotation (
+   Modelica.Blocks.Sources.RealExpression realExpr(y=sim.Te)  if traTCal annotation (
        Placement(transformation(
          extent={{-10,-10},{10,10}},
          rotation=90,
          origin={12,-80})));
-  outer BoundaryConditions.SimInfoManager sim if
-                                traTCal
+  outer BoundaryConditions.SimInfoManager sim
+                             if traTCal
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 equation
 

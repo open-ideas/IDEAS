@@ -4,12 +4,12 @@ model ZoneLwDistribution "internal longwave radiative heat exchange"
   parameter Integer nSurf(min=1) "Number of surfaces connected to the zone";
   parameter Boolean simVieFac = false "Simplify view factor computation";
   parameter Boolean linearise=true "Linearise radiative heat exchange";
-  parameter Modelica.SIunits.Temperature Tzone_nom = 295.15
+  parameter Modelica.Units.SI.Temperature Tzone_nom=295.15
     "Nominal temperature of environment, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
-  parameter Modelica.SIunits.TemperatureDifference dT_nom = -2
+    annotation (Dialog(group="Linearisation", enable=linearise));
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom=-2
     "Nominal temperature difference between solid and air, used for linearisation"
-    annotation(Dialog(group="Linearisation", enable=linearise));
+    annotation (Dialog(group="Linearisation", enable=linearise));
 
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nSurf] port_a

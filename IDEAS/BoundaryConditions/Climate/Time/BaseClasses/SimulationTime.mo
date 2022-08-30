@@ -1,9 +1,9 @@
 within IDEAS.BoundaryConditions.Climate.Time.BaseClasses;
 model SimulationTime
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
-  parameter Modelica.SIunits.Time delay = 0
+  parameter Modelica.Units.SI.Time delay=0
     "Delay [s] for simulations not starting on the first of january";
 
   Modelica.Blocks.Interfaces.RealOutput timSim

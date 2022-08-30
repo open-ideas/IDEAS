@@ -7,25 +7,25 @@ partial model Partial_Ctrl_Heating_TES
   in order to be complete controller.  
   
 
-  input Modelica.SIunits.Temperature TTankTop 
+  input Modelica.Units.SI.Temperature TTankTop 
     "Top (or near top) tank temperature";
-  input Modelica.SIunits.Temperature TTankBot 
+  input Modelica.Units.SI.Temperature TTankBot 
     "Bottom (or near bottom) tank temperature";
 
   */
   extends IDEAS.Controls.ControlHeating.Interfaces.Partial_Ctrl_Heating;
 
- parameter Modelica.SIunits.TemperatureDifference dTSafetyTop=3
+  parameter Modelica.Units.SI.TemperatureDifference dTSafetyTop=3
     "Safety margin on top temperature setpoint" annotation (Evaluate=false);
-  parameter Modelica.SIunits.TemperatureDifference dTSafetyBot=dTSafetyTop
+  parameter Modelica.Units.SI.TemperatureDifference dTSafetyBot=dTSafetyTop
     "Safety margin on bottom temperature setpoint";
-  parameter Modelica.SIunits.TemperatureDifference dTHPTankSet(min=0) = 2
+  parameter Modelica.Units.SI.TemperatureDifference dTHPTankSet(min=0) = 2
     "Difference between tank setpoint and heat pump setpoint";
 
   parameter Boolean DHW=true "if true, the system has to foresee DHW";
-  parameter Modelica.SIunits.Temperature TDHWSet=273.15+60
+  parameter Modelica.Units.SI.Temperature TDHWSet=273.15 + 60
     "Setpoint temperature for the DHW outlet";
-  parameter Modelica.SIunits.Temperature TColdWaterNom=273.15 + 10
+  parameter Modelica.Units.SI.Temperature TColdWaterNom=273.15 + 10
     "Nominal tap (cold) water temperature";
 
   // --- Interface
@@ -45,15 +45,16 @@ partial model Partial_Ctrl_Heating_TES
   // --- Variables
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
-  Modelica.SIunits.Temperature TBotSet(start=283.15)
+  Modelica.Units.SI.Temperature TBotSet(start=283.15)
     "Bottom temperature setpoint";
-  Modelica.SIunits.Temperature TTopSet(start=283.15) "Top temperature setpoint";
-  Modelica.SIunits.Temperature TBotEmpty(start=283.15)
+  Modelica.Units.SI.Temperature TTopSet(start=283.15)
+    "Top temperature setpoint";
+  Modelica.Units.SI.Temperature TBotEmpty(start=283.15)
     "Temperature in bottom corresponding to SOC = 0";
   Real SOC(start=0);
 
 protected
-  Modelica.SIunits.Temperature THPSet;
+  Modelica.Units.SI.Temperature THPSet;
 public
   Modelica.Blocks.Sources.RealExpression realExpression1(y=THPSet)
     annotation (Placement(transformation(extent={{40,30},{60,50}})));

@@ -122,6 +122,9 @@ model EmbeddedPipeNDiscr
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={30,-72})));
+  inner BoundaryConditions.SimInfoManager       sim
+    "Simulation information manager for climate data"
+    annotation (Placement(transformation(extent={{-100,100},{-80,120}})));
 equation
   connect(boundary.ports[1], embeddedPipe.port_a) annotation (Line(
       points={{-40,52},{-10,52}},

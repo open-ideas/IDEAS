@@ -3,13 +3,13 @@ model ZoneWithInputsValidationNonLinear "Model to validate the linearization met
   extends Examples.ZoneWithInputsLinearise(sim(lineariseDymola=false,
         createOutputs=true), validation=true);
   Modelica.Blocks.Sources.Sine occQRad[2](
-    each freqHz=1/12/3600,
+    each f=1/12/3600,
     each startTime=7200,
     each amplitude=20,
     each offset=20) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-144},{60,-124}})));
   Modelica.Blocks.Sources.Sine occQCon[2](
-    each freqHz=1/6/3600,
+    each f=1/6/3600,
     each amplitude=80,
     each offset=80) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{40,-114},{60,-94}})));
@@ -91,46 +91,46 @@ prescribedOut.QRad[2]}) "Precomputed input values"
     "Number of precomputed inputs";
   final parameter Integer nOut=Csize[1] "Number of precomputed outputs";
   Modelica.Blocks.Continuous.StateSpace stateSpace(
-    A=readMatrix(
+    A=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="A",
-        rows=nSta,
-        columns=nSta),
-    B=readMatrix(
+        nrow=nSta,
+        ncol=nSta),
+    B=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="B",
-        rows=nSta,
-        columns=nInp),
-    C=readMatrix(
+        nrow=nSta,
+        ncol=nInp),
+    C=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="C",
-        rows=nOut,
-        columns=nSta),
-    D=readMatrix(
+        nrow=nOut,
+        ncol=nSta),
+    D=Modelica.Utilities.Streams.readRealMatrix(
         fileName=fileName,
         matrixName="D",
-        rows=nOut,
-        columns=nInp),
+        nrow=nOut,
+        ncol=nInp),
     initType=Modelica.Blocks.Types.Init.NoInit) "State space model"
     annotation (Placement(transformation(extent={{-40,100},{-20,120}})));
 protected
-  final parameter Integer[2] Bsize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Bsize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "B") "Size of B matrix of state space model";
-  final parameter Integer[2] Csize=readMatrixSize(fileName=fileName, matrixName=
+  final parameter Integer[2] Csize=Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName=
        "C") "Size of C matrix of state space model";
 public
   Modelica.Blocks.Sources.Sine ctrlInputTestCon[nZones](
-    each freqHz=1/1/3600,
+    each f=1/1/3600,
     each amplitude=30,
     each offset=30) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,54},{38,66}})));
   Modelica.Blocks.Sources.Sine ctrlInputTestRad[nZones](
-    each freqHz=1/2/3600,
+    each f=1/2/3600,
     each amplitude=40,
     each offset=40) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,34},{38,46}})));
   Modelica.Blocks.Sources.Sine ctrlInputTestEmb[nEmb](
-    each freqHz=1/16/3600,
+    each f=1/16/3600,
     each amplitude=60,
     each offset=60) "Fake occupancy gains"
     annotation (Placement(transformation(extent={{26,14},{38,26}})));
@@ -146,11 +146,6 @@ public
 initial equation
   stateSpace.x =  {
 groFlo.airModel.vol.T,
-window.heaCapGlaInt.T,
-window.heaCapFraIn.T,
-window.heaCapFraExt.T,
-window.heaCapGlaExt.T,
-firFlo.airModel.vol.T,
 commonWall.layMul.monLay[1].monLayDyn.T[1],
 commonWall.layMul.monLay[1].monLayDyn.T[2],
 commonWall.layMul.monLay[2].monLayDyn.T[1],
@@ -160,10 +155,16 @@ commonWall.layMul.monLay[3].monLayDyn.T[2],
 commonWall.layMul.monLay[3].monLayDyn.T[3],
 floor.layMul.monLay[1].monLayDyn.T[1],
 floor.layMul.monLay[1].monLayDyn.T[2],
+floor.layMul.monLay[1].monLayDyn.T[3],
 floor.layMul.monLay[2].monLayDyn.T[1],
+floor.layMul.monLay[2].monLayDyn.T[2],
 floor.layMul.monLay[3].monLayDyn.T[1],
 floor.layMul.monLay[4].monLayDyn.T[1],
 floor.layMul.monLay[5].monLayDyn.T[1],
+window.heaCapGlaInt.T,
+window.heaCapFraIn.T,
+window.heaCapFraExt.T,
+window.heaCapGlaExt.T,
 slabOnGround.layMul.monLay[1].monLayDyn.T[1],
 slabOnGround.layMul.monLay[1].monLayDyn.T[2],
 slabOnGround.layMul.monLay[2].monLayDyn.T[1],
@@ -185,6 +186,7 @@ outerWall.layMul.monLay[1].monLayDyn.T[2],
 outerWall.layMul.monLay[2].monLayDyn.T[1],
 outerWall.layMul.monLay[3].monLayDyn.T[1],
 outerWall.layMul.monLay[3].monLayDyn.T[2],
+firFlo.airModel.vol.T,
 commonWall1.layMul.monLay[1].monLayDyn.T[1],
 commonWall1.layMul.monLay[1].monLayDyn.T[2],
 commonWall1.layMul.monLay[2].monLayDyn.T[1],
@@ -214,8 +216,8 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(preInp.y, stateSpace.u) annotation (Line(points={{-49,110},{-45.5,110},
-          {-42,110}}, color={0,0,127}));
+  connect(preInp.y, stateSpace.u) annotation (Line(points={{-49,110},{-42,110}},
+                      color={0,0,127}));
   connect(ctrlInputTestCon.y, preQFloCon.Q_flow)
     annotation (Line(points={{38.6,60},{58,60},{78,60}}, color={0,0,127}));
   connect(ctrlInputTestRad.y, preQFloRad.Q_flow)
@@ -247,11 +249,17 @@ equation
       StopTime=1000000,
       __Dymola_NumberOfIntervals=1000,
       Tolerance=1e-06),
+    __OpenModelica_commandLineOptions = "--allowNonStandardModelica=protectedAccess",
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/LIDEAS/Validation/ZoneWithInputsValidationNonLinear.mos"
         "Linearize, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 29, 2022, by Filip Jorissen:<br/>
+Using full path for readMatrixSize for OM compatibility for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1254>#1254</a>.
+</li>
 <li>
 December 11, 2019, by Filip Jorissen:<br/>
 Revised input list for
