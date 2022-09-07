@@ -126,7 +126,7 @@ protected
 
 public
   final parameter Boolean useDooOpe=hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and inc<>0 and inc<>Modelica.Constants.pi;
-  final parameter Boolean useResDoor=hasCavity and not useDooOpe;
+  final parameter Boolean useResDoor=hasCavity and not useDooOpe and not sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None;
 
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
