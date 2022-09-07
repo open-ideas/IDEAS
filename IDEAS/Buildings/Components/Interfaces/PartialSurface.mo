@@ -123,6 +123,13 @@ partial model PartialSurface "Partial model for building envelope component"
 
 
 
+  Modelica.Fluid.Fittings.MultiPort multiPort1(redeclare package Medium = Medium,
+      nPorts_b=1) if add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    annotation (Placement(transformation(extent={{48,-42},{44,-30}})));
+  Modelica.Fluid.Fittings.MultiPort multiPort2(redeclare package Medium = Medium,
+      nPorts_b=1) if add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    annotation (Placement(transformation(extent={{50,-64},{46,-54}})));
+
 protected
   parameter Boolean add_cracks = true
     "Add cracks";
@@ -417,10 +424,6 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-36},{50,
-          -36},{50,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
-          -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(setArea.areaPort, sim.areaPort);
   connect(q50_zone.v50, propsBusInt.v50) annotation (Line(points={{79,-58},{56,-58},
           {56,-20},{56.09,-20},{56.09,19.91}},               color={0,0,127}));
@@ -436,6 +439,14 @@ equation
           -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
   connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
           -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
+  connect(multiPort1.port_a, propsBusInt.port_1) annotation (Line(points={{48,-36},
+          {48,20},{56.09,20},{56.09,19.91}},          color={0,127,255}));
+  connect(multiPort2.port_a, propsBusInt.port_2) annotation (Line(points={{50,-59},
+          {50,20},{56.09,20},{56.09,19.91}},          color={0,127,255}));
+  connect(res1.port_b, multiPort1.ports_b[1]) annotation (Line(points={{40,-36},
+          {44,-36}},                   color={0,127,255}));
+  connect(res2.port_b, multiPort2.ports_b[1]) annotation (Line(points={{40,-60},
+          {46,-60},{46,-59}},          color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

@@ -11,7 +11,9 @@ model InternalWall "interior opaque wall between two zones"
     final QTra_design=U_value*A*(TRef_a - TRef_b),
     q50_zone(v50_surf=0),
     res1(h_a=-0.5*hzone_b + 0.25*hVertical + hRef_b),
-    res2(h_a=-0.5*hzone_b + 0.75*hVertical + hRef_b));
+    res2(h_a=-0.5*hzone_b + 0.75*hVertical + hRef_b),
+    multiPort1(nPorts_b=if hasCavity then 2 else 1),
+    multiPort2(nPorts_b=if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then 2 else 1));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -200,10 +202,6 @@ equation
   connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,40},
           {46,40},{46,19.91},{56.09,19.91}},
                                            color={191,0,0}));
-  connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,86},{
-          38,86},{38,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,98},{
-          42,98},{42,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(dooOpe.port_a1, propsBus_b.port_2) annotation (Line(points={{-10,98},{
           -42,98},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,86},{
@@ -221,10 +219,15 @@ equation
           {-30,20},{-44,20},{-44,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(col_b_pos.port_a, resDoor.port_a)
     annotation (Line(points={{-30,62},{-30,68},{-10,68}}, color={0,127,255}));
-  connect(col_a_pos.port_b, propsBusInt.port_1) annotation (Line(points={{26,42},
-          {26,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(col_a_pos.port_a, resDoor.port_b)
     annotation (Line(points={{26,62},{26,68},{10,68}}, color={0,127,255}));
+  connect(dooOpe.port_b1, multiPort1.ports_b[2])
+    annotation (Line(points={{10,98},{44,98},{44,-36}}, color={0,127,255}));
+  connect(dooOpe.port_a2, multiPort2.ports_b[2])
+    annotation (Line(points={{10,86},{42,86},{42,-59},{46,-59}},
+                                                        color={0,127,255}));
+  connect(col_a_pos.port_b, multiPort1.ports_b[2]) annotation (Line(points={{26,42},
+          {26,28},{44,28},{44,-36}},     color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
