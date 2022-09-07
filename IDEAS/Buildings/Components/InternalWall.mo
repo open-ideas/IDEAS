@@ -13,7 +13,7 @@ model InternalWall "interior opaque wall between two zones"
     res1(h_a=-0.5*hzone_b + 0.25*hVertical + hRef_b),
     res2(h_a=-0.5*hzone_b + 0.75*hVertical + hRef_b),
     multiPort1(nPorts_b=if hasCavity then 2 else 1),
-    multiPort2(nPorts_b=if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then 2 else 1));
+    multiPort2(nPorts_b=if useDooOpe then 2 else 1));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -123,7 +123,11 @@ protected
     if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
+
 public
+  final parameter Boolean useDooOpe=hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and inc<>0 and inc<>Modelica.Constants.pi;
+  final parameter Boolean useResDoor=hasCavity and not useDooOpe;
+
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
     wOpe=w,
@@ -132,14 +136,14 @@ public
     hB=(hzone_b/2) - hRef_b,
     nCom=if Ope_hvert==0 then 2 else 4,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    if useDooOpe
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,82},{10,102}})));
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+    if useResDoor
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 
@@ -147,23 +151,20 @@ public
   Airflow.Multizone.BaseClasses.ReversibleDensityColumn
                   col_b_pos(redeclare package Medium = Medium, h=-0.5*hzone_b +
         0.5*Ope_hvert + hRef_b)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
+    if useResDoor    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
   Airflow.Multizone.BaseClasses.ReversibleDensityColumn
                 col_a_pos(redeclare package Medium = Medium, h=-0.5*hzone_a + 0.5
-        *Ope_hvert + hRef_a)     if hasCavity and sim.interZonalAirFlowType ==
-    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-    annotation (Placement(transformation(extent={{16,42},{36,62}})));
+        *Ope_hvert + hRef_a)
+        if useResDoor    annotation (Placement(transformation(extent={{16,42},{36,62}})));
 
   Modelica.Fluid.Fittings.MultiPort multiPort_b1(redeclare package Medium = Medium,
-      nPorts_b=if hasCavity then 2  else 1)  if add_cracks and sim.interZonalAirFlowType
-     <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+      nPorts_b=if hasCavity then 2  else 1)
+      if add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     annotation (Placement(transformation(extent={{-70,22},{-66,34}})));
+
   Modelica.Fluid.Fittings.MultiPort multiPort_b2( redeclare package Medium = Medium,
-      nPorts_b=if hasCavity and sim.interZonalAirFlowType
-         == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 2
-         else 1)  if add_cracks and sim.interZonalAirFlowType
-     == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+      nPorts_b=if useDooOpe then 2 else 1)
+        if add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-70,6},{-66,16}})));
 
 initial equation
@@ -222,11 +223,10 @@ equation
     annotation (Line(points={{-30,62},{-30,68},{-10,68}}, color={0,127,255}));
   connect(col_a_pos.port_a, resDoor.port_b)
     annotation (Line(points={{26,62},{26,68},{10,68}}, color={0,127,255}));
-  connect(dooOpe.port_b1, multiPort1.ports_b[2])
-    annotation (Line(points={{10,98},{44,98},{44,-36}}, color={0,127,255}));
-  connect(dooOpe.port_a2, multiPort2.ports_b[2])
-    annotation (Line(points={{10,86},{42,86},{42,-59},{46,-59}},
+  connect(dooOpe.port_b1, multiPort1.ports_b[2])    annotation (Line(points={{10,98},{44,98},{44,-36}}, color={0,127,255}));
+  connect(dooOpe.port_a2, multiPort2.ports_b[2])    annotation (Line(points={{10,86},{42,86},{42,-59},{46,-59}},
                                                         color={0,127,255}));
+
   connect(col_a_pos.port_b, multiPort1.ports_b[2]) annotation (Line(points={{26,42},
           {26,28},{44,28},{44,-36}},     color={0,127,255}));
   connect(res2.port_a, multiPort_b2.ports_b[1]) annotation (Line(points={{20,-60},
