@@ -60,8 +60,8 @@ equation
 
   V_flow = m_flow/Medium.density(sta_b);
 
-  dp = if h > 0 then port_a.p - port_b.p else -port_a.p + port_b.p;
-  dp = -abs(h)*rho*Modelica.Constants.g_n;
+  dp = port_a.p - port_b.p;
+  dp=-h*rho*Modelica.Constants.g_n;
 
   // Isenthalpic state transformation (no storage and no loss of energy)
   port_a.h_outflow = inStream(port_b.h_outflow);
