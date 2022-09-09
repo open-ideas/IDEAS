@@ -32,8 +32,7 @@ model Window "Multipane window"
     res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass,
           h_a=(Habs - sim.Hpres) + 0.25*hVertical),
     res2(A=A_glass/2,
-          h_a=(Habs - sim.Hpres) - 0.25*hVertical),
-    multiPort1(nPorts_b=if use_trickle_vent then 2 else 1));
+          h_a=(Habs - sim.Hpres) - 0.25*hVertical));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -280,6 +279,8 @@ equation
     Line(points = {{20, -60}, {16, -60}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
   connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation (
     Line(points = {{20, -78}, {16, -78}, {16, -92}, {-2, -92}, {-2, -90}, {-20, -90}}, color = {0, 127, 255}));
+  connect(trickleVent.port_b, propsBusInt.port_1) annotation (
+    Line(points = {{40, -78}, {50, -78}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
   connect(radSolData.Te, shaType.Te) annotation (
     Line(points={{-79.4,-64},{-68.5,-64},{-68.5,-29.9067}}, color = {0, 0, 127}));
   connect(shaType.port_frame, layFra.port_b) annotation (
@@ -295,8 +296,6 @@ equation
   connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
     Line(points={{-42,-90},{-46,-90},{-46,-49.4895},{-57.5,-49.4895}},
                                                                     color = {0, 0, 127}));
-  connect(trickleVent.port_b, multiPort1.ports_b[2]) annotation (Line(points={{40,
-          -78},{44,-78},{44,-29},{46,-29}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
