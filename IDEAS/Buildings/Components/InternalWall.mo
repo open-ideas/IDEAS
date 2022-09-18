@@ -12,6 +12,7 @@ model InternalWall "interior opaque wall between two zones"
     q50_zone(v50_surf=0),
     res1(h_a=-0.5*hzone_b + 0.25*hVertical + hRef_b),
     res2(h_a=-0.5*hzone_b + 0.75*hVertical + hRef_b));
+
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -121,7 +122,11 @@ protected
     if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
+
 public
+  final parameter Boolean useDooOpe=hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and inc<>0 and inc<>Modelica.Constants.pi;
+  final parameter Boolean useResDoor=hasCavity and not useDooOpe and not sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None;
+
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
     redeclare package Medium = Medium,
     wOpe=w,
@@ -130,14 +135,14 @@ public
     hB=(hzone_b/2) - hRef_b,
     nCom=if Ope_hvert==0 then 2 else 4,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    if useDooOpe
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,82},{10,102}})));
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
     CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+    if useResDoor
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 
@@ -145,13 +150,11 @@ public
   Airflow.Multizone.BaseClasses.ReversibleDensityColumn
                   col_b_pos(redeclare package Medium = Medium, h=-0.5*hzone_b +
         0.5*Ope_hvert + hRef_b)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
+    if useResDoor    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
   Airflow.Multizone.BaseClasses.ReversibleDensityColumn
                 col_a_pos(redeclare package Medium = Medium, h=-0.5*hzone_a + 0.5
-        *Ope_hvert + hRef_a)     if hasCavity and sim.interZonalAirFlowType ==
-    IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-    annotation (Placement(transformation(extent={{16,42},{36,62}})));
+        *Ope_hvert + hRef_a)
+        if useResDoor    annotation (Placement(transformation(extent={{16,42},{36,62}})));
 
 initial equation
     hzone_b = propsBus_b.hzone;
@@ -200,6 +203,7 @@ equation
   connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,40},
           {46,40},{46,19.91},{56.09,19.91}},
                                            color={191,0,0}));
+
   connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,86},{
           38,86},{38,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,98},{
@@ -212,19 +216,19 @@ equation
           -36},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
           -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
+
   connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{56,
           -58},{56,20.1},{-100.1,20.1}},   color={0,0,127}));
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
 
-  connect(col_b_pos.port_b, propsBus_b.port_1) annotation (Line(points={{-30,42},
-          {-30,20},{-44,20},{-44,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(col_b_pos.port_a, resDoor.port_a)
     annotation (Line(points={{-30,62},{-30,68},{-10,68}}, color={0,127,255}));
   connect(col_a_pos.port_b, propsBusInt.port_1) annotation (Line(points={{26,42},
           {26,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(col_a_pos.port_a, resDoor.port_b)
     annotation (Line(points={{26,62},{26,68},{10,68}}, color={0,127,255}));
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
