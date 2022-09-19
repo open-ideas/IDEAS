@@ -75,7 +75,7 @@ model InternalWall "interior opaque wall between two zones"
   final parameter Real hzone_b(fixed=false);
   final parameter Real hfloor_b(fixed=false);
 
-  parameter Real hRef_b=if inc== Modelica.Constants.pi then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  parameter Real hRef_b=if IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi,0.01) then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
 
 
 
