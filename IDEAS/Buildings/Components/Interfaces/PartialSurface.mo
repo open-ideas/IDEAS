@@ -180,65 +180,59 @@ protected
 
 
 model PowerLaw_q50_stack
-
-    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium  constrainedby
-      Modelica.Media.Interfaces.PartialMedium                                                  annotation (
+  "Power law pressure drop with integrated stack effect"
+    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
+    constrainedby Modelica.Media.Interfaces.PartialMedium
+     annotation (
           __Dymola_choicesAllMatching=true);
-
-
-      parameter Modelica.Units.SI.Area A
-             "Surface area";
-
-      parameter Real m=0.65;
-      final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
-
-
-      parameter Real h_a=0 "column height, height at port_a" annotation (Dialog(group="Flow Path"));
-      parameter Real h_b=0 "column height, height at port_b" annotation (Dialog(group="Flow Path"));
-      parameter Real q50
-      "Leaked volume flow rate per unit A at 50Pa";
-
-    Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{-110,-10},
-                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =Medium) annotation (Placement(transformation(rotation=0, extent={{90,-10},
-                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
-
-    outer BoundaryConditions.SimInfoManager sim
+  outer BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
-    Airflow.Multizone.Point_m_flow
-        res1(
-        redeclare package Medium = Medium,
-        final forceErrorControlOnFlow=false,
-        m=m,
-        useDefaultProperties= not StackEff,
-        dpMea_nominal=50,
-      mMea_flow_nominal=A*(q50*1.2)/3600)
-        "Middle or bottom crack "
-        annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+  parameter Modelica.Units.SI.Area A "Surface area";
+  parameter Real m=0.65 "Flow exponent";
+  parameter Real h_a=0 "Column height, height at port_a" annotation (Dialog(group="Flow Path"));
+  parameter Real h_b=0 "Column height, height at port_b" annotation (Dialog(group="Flow Path"));
+  parameter Real q50 "Leaked volume flow rate per unit A at 50Pa";
+  final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
 
-    Airflow.Multizone.BaseClasses.ReversibleDensityColumn
-                  col_a_pos(
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(
+    redeclare package Medium =Medium)
+    "Port a" annotation (Placement(transformation(rotation=0, extent={{-110,-10},
+                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(
+    redeclare package Medium =Medium)
+    "Port b" annotation (Placement(transformation(rotation=0, extent={{90,-10},
+                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
+  IDEAS.Airflow.Multizone.Point_m_flow res1(
+    redeclare package Medium = Medium,
+    final forceErrorControlOnFlow=false,
+    m=m,
+    useDefaultProperties= not StackEff,
+    dpMea_nominal=50,
+    mMea_flow_nominal=A*(q50*1.2)/3600)
+    "Middle or bottom crack "
+     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_a_pos(
     redeclare package Medium = Medium,
     h=h_a)  if StackEff
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-    Airflow.Multizone.BaseClasses.ReversibleDensityColumn
-                  col_b_pos(
+
+  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_b_pos(
     redeclare package Medium = Medium,
     h=h_b)  if StackEff
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
 
-    Fluid.FixedResistances.LosslessPipe No_stack_a(
+  IDEAS.Fluid.FixedResistances.LosslessPipe No_stack_a(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-      m_flow_nominal=A*q50*1.2/3600)
-                                 if not StackEff
+    m_flow_nominal=A*q50*1.2/3600)
+    if not StackEff
     annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
-    Fluid.FixedResistances.LosslessPipe No_stack_b(
+  IDEAS.Fluid.FixedResistances.LosslessPipe No_stack_b(
     redeclare package Medium = Medium,
     allowFlowReversal=true,
-      m_flow_nominal=A*q50*1.2/3600)
-                                 if not StackEff
+    m_flow_nominal=A*q50*1.2/3600)
+    if not StackEff
     annotation (Placement(transformation(extent={{50,30},{70,50}})));
 
 
