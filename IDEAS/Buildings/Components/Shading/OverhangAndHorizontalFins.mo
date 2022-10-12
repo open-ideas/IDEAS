@@ -57,17 +57,17 @@ initial equation
 
     assert(dep > 0, "The depth of the overhang must be larger than zero, if this is not the case: just use Shading.Screen.");
 
-  equation
-  connect(stateShading2.port_frame, port_frame) annotation(
-    Line(points = {{4, 0}, {4, 160}, {100, 160}}, color = {191, 0, 0}));
-  connect(stateShading2.port_glazing, port_glazing) annotation(
-    Line(points = {{4, -4}, {6, -4}, {6, 120}, {100, 120}}, color = {191, 0, 0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),  Documentation(info="<html>
 <p>
 Shading model for a combination of overhang and horizontal fins.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 12, 2022, by Filip Jorissen:<br/>
+Revised default connections between shading components when using DoubleShading. See
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1299\">#1299</a>.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for #1270 for including thermal effect of screens.
