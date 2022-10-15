@@ -2,6 +2,7 @@ within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
+    add_cracks=not useDooOpe,
     custom_q50=if inc==0 or inc == Modelica.Constants.pi then 0 else 2,
     final nWin=1,
     dT_nominal_a=1,
@@ -138,6 +139,7 @@ public
     if useDooOpe
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,82},{10,102}})));
+    
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
@@ -145,16 +147,14 @@ public
     if useResDoor
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
-
-
-  Airflow.Multizone.BaseClasses.ReversibleDensityColumn
-                  col_b_pos(redeclare package Medium = Medium, h=-0.5*hzone_b +
-        0.5*Ope_hvert + hRef_b)
+  Airflow.Multizone.BaseClasses.ReversibleDensityColumn  col_b_pos(
+    redeclare package Medium = Medium, 
+    h=-0.5*hzone_b +  0.5*Ope_hvert + hRef_b)
     if useResDoor    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
-  Airflow.Multizone.BaseClasses.ReversibleDensityColumn
-                col_a_pos(redeclare package Medium = Medium, h=-0.5*hzone_a + 0.5
-        *Ope_hvert + hRef_a)
-        if useResDoor    annotation (Placement(transformation(extent={{16,42},{36,62}})));
+  Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_a_pos(
+    redeclare package Medium = Medium, 
+    h=-0.5*hzone_a + 0.5 *Ope_hvert + hRef_a)
+    if useResDoor    annotation (Placement(transformation(extent={{16,42},{36,62}})));
 
 initial equation
     hzone_b = propsBus_b.hzone;
