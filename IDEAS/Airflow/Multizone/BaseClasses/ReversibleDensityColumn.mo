@@ -1,44 +1,49 @@
 within IDEAS.Airflow.Multizone.BaseClasses;
 model ReversibleDensityColumn
   "Vertical shaft with no friction and no storage of heat and mass, reversible because it can handle negative column heights"
-
-  replaceable package Medium =
-    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choices(
+  replaceable package Medium = IDEAS.Media.Air
+  "Medium in the component"
+   annotation (choices(
         choice(redeclare package Medium = IDEAS.Media.Air "Moist air")));
-  parameter Modelica.Units.SI.Length h=3 "Height of shaft";
+  parameter Modelica.Units.SI.Length h = 3 "Height of shaft";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
-redeclare package Medium = Medium,
-p(start=Medium.p_default))
-"Fluid connector a (positive design flow direction is from port_a to port_b)"
+    redeclare package Medium = Medium,
+    p(start=Medium.p_default))
+    "Fluid connector a (positive design flow direction is from port_a to port_b)"
 annotation (Placement(transformation(extent={{-10,90},{10,110}}),
     iconTransformation(extent={{-10,90},{10,110}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
-redeclare package Medium = Medium,
-p(start=Medium.p_default))
-"Fluid connector b (positive design flow direction is from port_a to port_b)"
+    redeclare package Medium = Medium,
+    p(start=Medium.p_default))
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
 annotation (Placement(transformation(extent={{10,-110},{-10,-90}}), iconTransformation(extent={{10,-110},{-10,-90}})));
 
-  Modelica.Units.SI.VolumeFlowRate V_flow
-"Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
-  Modelica.Units.SI.MassFlowRate m_flow
-"Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
-  Modelica.Units.SI.PressureDifference dp(displayUnit="Pa")
-"Pressure difference between port_a and port_b";
-  Modelica.Units.SI.Density rho "Density in medium column";
+  Modelica.Units.SI.VolumeFlowRate V_flow = m_flow/Medium.density(sta_b)
+    "Volume flow rate at inflowing port (positive when flow from port_a to port_b)";
+  Modelica.Units.SI.MassFlowRate m_flow = port_a.m_flow
+    "Mass flow rate from port_a to port_b (m_flow > 0 is design flow direction)";
+  Modelica.Units.SI.PressureDifference dp(displayUnit="Pa") = port_a.p - port_b.p
+    "Pressure difference between port_a and port_b";
+  Modelica.Units.SI.Density rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
+      p=Medium.p_default,
+      T=Medium.temperature(Medium.setState_phX(
+        port_b.p,
+        inStream(port_b.h_outflow),
+        Xi)),
+      X_w=if Medium.nXi == 0 then 0 else Xi[1])
+      "Density in medium column";
 
 protected
   Medium.ThermodynamicState sta_b=Medium.setState_phX(
-  port_b.p,
-  actualStream(port_b.h_outflow),
-  actualStream(port_b.Xi_outflow)) "Medium properties in port_a";
-  Medium.MassFraction Xi[Medium.nXi] "Mass fraction used to compute density";
+    port_b.p,
+    actualStream(port_b.h_outflow),
+    actualStream(port_b.Xi_outflow))
+    "Medium properties in port_a";
+  Medium.MassFraction Xi[Medium.nXi] = inStream(port_b.Xi_outflow)
+    "Mass fraction used to compute density";
 
 equation
-  // Design direction of mass flow rate
-  m_flow = port_a.m_flow;
-
   // Pressure difference between ports
   // Xi is computed first as it is used in two expression, and in one
   // of them only one component is used.
@@ -49,18 +54,6 @@ equation
   // of a medium that takes enthalpy as an argument would be dangerous
   // as different media can have different datum for the enthalpy.
 
-  Xi = inStream(port_b.Xi_outflow);
-  rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
-      p=Medium.p_default,
-      T=Medium.temperature(Medium.setState_phX(
-        port_b.p,
-        inStream(port_b.h_outflow),
-        Xi)),
-      X_w=if Medium.nXi == 0 then 0 else Xi[1]);
-
-  V_flow = m_flow/Medium.density(sta_b);
-
-  dp = port_a.p - port_b.p;
   dp=-h*rho*Modelica.Constants.g_n;
 
   // Isenthalpic state transformation (no storage and no loss of energy)
