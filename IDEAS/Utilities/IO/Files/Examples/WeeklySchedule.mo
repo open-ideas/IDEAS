@@ -3,7 +3,7 @@ model WeeklySchedule "Weekly schedule example"
   extends Modelica.Icons.Example;
   IDEAS.Utilities.IO.Files.WeeklySchedule weeklySchedule(
     columns={2,3,4,5},
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/schedule.txt"))
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/schedule.txt"), tableOnFile = true)
     "Weekly schedule example"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   annotation (
