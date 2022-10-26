@@ -5,7 +5,7 @@ model WeeklySchedule "Weekly schedule model"
     "Columns that should be loaded from file";
   parameter String fileName
     "Filename";
-  parameter Modelica.SIunits.Time t_offset = 0
+  parameter Modelica.Units.SI.Time t_offset = 0
     "Timestamp that corresponds to Monday midnight";
 
   Modelica.Blocks.Interfaces.RealOutput[n_columns] y = {getCalendarValue(cal, iCol-1, time) for iCol in columns} "Outputs"
