@@ -12,13 +12,13 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "Number of surfaces adjacent to and heat exchanging with the zone";
   parameter Integer nPorts(min=0)=2
     "Number of ports for ventilation connections";
-  parameter Modelica.SIunits.Volume V "Total zone air volume"
-    annotation(Dialog(group="Building physics"));
-  parameter Modelica.SIunits.Length hZone = 2.8
+  parameter Modelica.Units.SI.Volume V "Total zone air volume"
+    annotation (Dialog(group="Building physics"));
+  parameter Modelica.Units.SI.Length hZone=2.8
     "Zone height: distance between floor and ceiling"
-    annotation(Dialog(group="Building physics"));
-  parameter Modelica.SIunits.Area A = V/hZone "Total conditioned floor area"
-    annotation(Dialog(group="Building physics"));
+    annotation (Dialog(group="Building physics"));
+  parameter Modelica.Units.SI.Area A=V/hZone "Total conditioned floor area"
+    annotation (Dialog(group="Building physics"));
   parameter Boolean useOccNumInput
     "=false, to remove icon of yOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
@@ -26,9 +26,9 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "=false, to remove icon of lightCtrl"
     annotation(Dialog(tab="Advanced",group="Lighting"));
   //default ACH=2 for ventilation
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal = V * 1.2*2/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=V*1.2*2/3600
     "Nominal flow rate of the air flow system fluid ports"
-    annotation(Dialog(tab="Airflow",group="Air model"));
+    annotation (Dialog(tab="Airflow", group="Air model"));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
     "Internal zone node for radiative heat gains"
@@ -95,7 +95,7 @@ initial equation
   for i in 1:nPorts loop
     assert(cardinality(ports[i])<=2,
       "Each element of ports should have zero or one external connections but " +
-      getInstanceName() +".ports[" + String(i) + "] has " + String(cardinality(ports[i]) - 1) + "." +
+      getInstanceName() +".ports[" + String(i) + "] has a different number." +
       " This can cause air to mix at the fluid port, without entering the zone, which is usually unintended.
       Instead, increase nPorts and create a separate connection.",
       level=AssertionLevel.warning);
@@ -160,16 +160,19 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+April 1, 2022, Filip Jorissen:<br/>
+Removed cardinality operator from error message.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1253\">#1253</a>.
+</li>
+<li>
 September 17, 2020, Filip Jorissen:<br/>
 Modified default Medium.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 Revised implementation of icon for

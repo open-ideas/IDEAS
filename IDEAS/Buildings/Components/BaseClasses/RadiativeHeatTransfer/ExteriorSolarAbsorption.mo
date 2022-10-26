@@ -1,9 +1,8 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer;
 model ExteriorSolarAbsorption
   "Shortwave radiation absorption on an exterior surface"
-  parameter Modelica.SIunits.Area A
-    "Surface area";
-  parameter Modelica.SIunits.Emissivity epsSw
+  parameter Modelica.Units.SI.Area A "Surface area";
+  parameter Modelica.Units.SI.Emissivity epsSw
     "Short wave solar absorption coefficient";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
@@ -17,7 +16,7 @@ model ExteriorSolarAbsorption
     annotation (Placement(transformation(extent={{120,0},{80,40}})));
 
 protected
-  parameter Modelica.SIunits.Area ASw = - A*epsSw "Constant folding";
+  parameter Modelica.Units.SI.Area ASw=-A*epsSw "Constant folding";
 
 equation
   port_a.Q_flow = ASw*(solDir + solDif);

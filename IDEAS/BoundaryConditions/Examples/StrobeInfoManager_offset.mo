@@ -12,8 +12,7 @@ model StrobeInfoManager_offset
     FilNam_QRad="QRad.txt",
     FilNam_TSet="sh_day.txt",
     FilNam_TSet2="sh_night.txt",
-    filDir=Modelica.Utilities.Files.loadResource("modelica://IDEAS") +
-        "/Resources/strobe/",
+    filDir=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/strobe/"),
     startTime(displayUnit="d") = -864000)
     annotation (Placement(transformation(extent={{-10,-12},{10,8}})));
   annotation (

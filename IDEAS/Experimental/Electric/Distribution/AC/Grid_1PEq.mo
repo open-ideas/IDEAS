@@ -11,8 +11,8 @@ public
   replaceable parameter IDEAS.Experimental.Electric.Data.Interfaces.GridType grid(Pha=1)
     "Choose a grid Layout" annotation (choicesAllMatching=true);
 
-  parameter Modelica.SIunits.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j "Voltage"
-              annotation (choices(
+  parameter Modelica.Units.SI.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j
+    "Voltage" annotation (choices(
       choice=(230*1) + 0*MCM.j "100% at HVpin of transformer",
       choice=(230*1.02) + 0*MCM.j "102% at HVpin of transformer",
       choice=(230*1.05) + 0*MCM.j "105% at HVpin of transformer",
@@ -34,27 +34,28 @@ Components.MvLvTransformer_1P transformer_MvLv(transformer=transformer, traTCal=
   /***Everything related to the transfomer***/
 
   /***Output the cable losses of the grid***/
-  Modelica.SIunits.ActivePower PLosBra[Nodes]=gridOnly1P.PLosBra;
-  Modelica.SIunits.ActivePower PGriLosTot=gridOnly1P.PGriLosTot;
+  Modelica.Units.SI.ActivePower PLosBra[Nodes]=gridOnly1P.PLosBra;
+  Modelica.Units.SI.ActivePower PGriLosTot=gridOnly1P.PGriLosTot;
 
-  Modelica.SIunits.Voltage Vabs[Nodes]=gridOnly1P.Vabs;
+  Modelica.Units.SI.Voltage Vabs[Nodes]=gridOnly1P.Vabs;
 
   /***Output the losses of the trafo if presen***/
-  Modelica.SIunits.ActivePower traLosP0=transformer_MvLv.traLosP0;
-  Modelica.SIunits.ActivePower traLosPtot=transformer_MvLv.traLosPTot;
+  Modelica.Units.SI.ActivePower traLosP0=transformer_MvLv.traLosP0;
+  Modelica.Units.SI.ActivePower traLosPtot=transformer_MvLv.traLosPTot;
 
   /***Output the total power exchange of the grid***/
-  Modelica.SIunits.ActivePower PGriTot=gridOnly1P.PGriTot;
-  Modelica.SIunits.ComplexPower SGriTot=gridOnly1P.SGriTot;
-  Modelica.SIunits.ReactivePower QGriTot=gridOnly1P.QGriTot;
+  Modelica.Units.SI.ActivePower PGriTot=gridOnly1P.PGriTot;
+  Modelica.Units.SI.ComplexPower SGriTot=gridOnly1P.SGriTot;
+  Modelica.Units.SI.ReactivePower QGriTot=gridOnly1P.QGriTot;
 
-  Modelica.SIunits.ComplexCurrent Ibranch0=gridOnly1P.branch[1].i;
-  Modelica.SIunits.Current Ibranch0Abs=Modelica.ComplexMath.'abs'(Ibranch0);
+  Modelica.Units.SI.ComplexCurrent Ibranch0=gridOnly1P.branch[1].i;
+  Modelica.Units.SI.Current Ibranch0Abs=Modelica.ComplexMath.abs(Ibranch0);
 protected
   parameter Integer Nodes=grid.nNodes;
 
 public
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[gridOnly1P.grid.nNodes] gridNodes1P
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[gridOnly1P.grid.nNodes]
+    gridNodes1P
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 equation

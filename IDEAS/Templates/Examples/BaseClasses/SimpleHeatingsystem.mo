@@ -2,10 +2,11 @@ within IDEAS.Templates.Examples.BaseClasses;
 partial model SimpleHeatingsystem
   "Example model of a structure coupled to a heating system"
   extends Modelica.Icons.Example;
+  final parameter Integer nZones=structure.nZones "Number of zones";
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  final parameter Integer nZones=structure.nZones "Number of zones";
+
   replaceable IDEAS.Templates.Heating.BaseClasses.HysteresisHeating heating
     constrainedby IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
     final nZones=nZones,
@@ -15,7 +16,7 @@ partial model SimpleHeatingsystem
   replaceable IDEAS.Templates.Structure.Case900 structure constrainedby
     IDEAS.Templates.Interfaces.BaseClasses.Structure "Building structure"
     annotation (Placement(transformation(extent={{-54,0},{-20,22}})),
-      __Dymola_choicesAllMatching=true);
+      choicesAllMatching=true);
 
   Modelica.Blocks.Sources.Constant TSet(k=273.15 + 22)
     "Temperature set point for zone"
@@ -29,12 +30,6 @@ equation
     annotation (Line(points={{21,-30},{40,-30},{40,-0.22}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
-    experiment(
-      StopTime=200000,
-      Interval=900,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
-    __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>
 Model that demonstrates the use of the 
@@ -43,6 +38,12 @@ IDEAS.Templates.Heating.IdealRadiatorHeating</a>.
 </p>
 </html>",     revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 May 2, 2019 by Filip Jorissen:<br/>
 Revised <code>constrainedby</code> for OpenModelica compatibility.

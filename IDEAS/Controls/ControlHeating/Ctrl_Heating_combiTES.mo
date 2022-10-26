@@ -3,7 +3,7 @@ model Ctrl_Heating_combiTES
   "Heating curve control for heating based on a combi tank (DHW + heating)"
   extends Interfaces.Partial_Ctrl_Heating_TES;
 
-  Modelica.SIunits.Temperature TTankEmiOutSet
+  Modelica.Units.SI.Temperature TTankEmiOutSet
     "Setpoint for the tank layer at outlet to emission";
 
   Modelica.Blocks.Interfaces.RealInput TTankEmiOut(final quantity="ThermodynamicTemperature",unit="K",displayUnit="degC", min=0)

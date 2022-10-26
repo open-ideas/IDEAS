@@ -13,7 +13,7 @@ partial block PartialLightingControl
   Modelica.Blocks.Interfaces.RealInput ligCtr if useCtrInput
     "External lighting control input"
     annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
-  Modelica.Blocks.Interfaces.RealInput nOcc if   useOccInput
+  Modelica.Blocks.Interfaces.RealInput nOcc   if useOccInput
     "Number of occupants"
     annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(

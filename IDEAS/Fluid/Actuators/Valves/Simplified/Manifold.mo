@@ -1,7 +1,7 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified;
 model Manifold "Radiant manifold"
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
-    annotation (__Dymola_choicesAllMatching=true);
+    annotation (choicesAllMatching=true);
   parameter Boolean[6] open={true,true,true,true,true,true};
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
@@ -9,33 +9,27 @@ model Manifold "Radiant manifold"
             0), iconTransformation(extent={{-110,40},{-90,60}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium = Medium)
-    if
-    open[1] annotation (Placement(transformation(extent={{-48,-50},{-28,-30}},
+ if open[1] annotation (Placement(transformation(extent={{-48,-50},{-28,-30}},
           rotation=0), iconTransformation(extent={{-80,-50},{-60,-30}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium = Medium)
-    if
-    open[2] annotation (Placement(transformation(extent={{-30,-50},{-10,-30}},
+ if open[2] annotation (Placement(transformation(extent={{-30,-50},{-10,-30}},
           rotation=0), iconTransformation(extent={{-40,-50},{-20,-30}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b3(redeclare package Medium = Medium)
-    if
-    open[3] annotation (Placement(transformation(extent={{-10,-50},{10,-30}},
+ if open[3] annotation (Placement(transformation(extent={{-10,-50},{10,-30}},
           rotation=0), iconTransformation(extent={{0,-50},{20,-30}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b4(redeclare package Medium = Medium)
-    if
-    open[4] annotation (Placement(transformation(extent={{10,-50},{30,-30}},
+ if open[4] annotation (Placement(transformation(extent={{10,-50},{30,-30}},
           rotation=0), iconTransformation(extent={{40,-50},{60,-30}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b5(redeclare package Medium = Medium)
-    if
-    open[5] annotation (Placement(transformation(extent={{30,-50},{50,-30}},
+ if open[5] annotation (Placement(transformation(extent={{30,-50},{50,-30}},
           rotation=0), iconTransformation(extent={{80,-50},{100,-30}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b6(redeclare package Medium = Medium)
-    if
-    open[6] annotation (Placement(transformation(extent={{50,-50},{70,-30}},
+ if open[6] annotation (Placement(transformation(extent={{50,-50},{70,-30}},
           rotation=0), iconTransformation(extent={{120,-50},{140,-30}})));
 
 equation

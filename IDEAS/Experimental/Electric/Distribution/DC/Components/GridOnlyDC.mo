@@ -12,18 +12,18 @@ Modelica.Electrical.Analog.Interfaces.PositivePin GridConnection[2]
   BaseClasses.Branch branch[Nodes](R=R);
   BaseClasses.Branch neutral[Nodes](R=R);
 
-  output Modelica.SIunits.ActivePower PGriTot;
-  output Modelica.SIunits.ActivePower PLosBra[Nodes]=branch.Plos;
-  output Modelica.SIunits.ActivePower PLosNeu[Nodes]=neutral.Plos;
-  output Modelica.SIunits.ActivePower PGriLosPha;
-  output Modelica.SIunits.ActivePower PGriLosNeu;
-  output Modelica.SIunits.ActivePower PGriLosTot;
+  output Modelica.Units.SI.ActivePower PGriTot;
+  output Modelica.Units.SI.ActivePower PLosBra[Nodes]=branch.Plos;
+  output Modelica.Units.SI.ActivePower PLosNeu[Nodes]=neutral.Plos;
+  output Modelica.Units.SI.ActivePower PGriLosPha;
+  output Modelica.Units.SI.ActivePower PGriLosNeu;
+  output Modelica.Units.SI.ActivePower PGriLosTot;
 
   parameter Integer Nodes=grid.nNodes;
   parameter Integer nodeMatrix[Nodes,Nodes] = grid.nodeMatrix;
-  parameter Modelica.SIunits.Resistance[Nodes] R = grid.R;
+  parameter Modelica.Units.SI.Resistance[Nodes] R=grid.R;
 
-  output Modelica.SIunits.Voltage Vabs[Nodes];
+  output Modelica.Units.SI.Voltage Vabs[Nodes];
 
 equation
 /***Connecting all neutral connectors (=4th row of nodes)***/

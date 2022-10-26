@@ -17,11 +17,13 @@ model NightVentilation "BESTEST nightventilation system"
     annotation (Placement(transformation(extent={{-10,-8},{-30,12}})));
 
 protected
-  parameter Modelica.SIunits.Pressure pAmb= 83200 "Ambient pressure is 83kPa";
-  parameter Modelica.SIunits.SpecificHeatCapacity r= 287 "Gas constant";
-  parameter Modelica.SIunits.VolumeFlowRate dotV = 1703.16/3600 "Volumetric flow rate";
-  Modelica.SIunits.Density rho = pAmb/sim.Te/r "Density";
-  Modelica.SIunits.MassFlowRate m_flow = dotV*rho "Mass flow rate that enters the building";
+  parameter Modelica.Units.SI.Pressure pAmb=83200 "Ambient pressure is 83kPa";
+  parameter Modelica.Units.SI.SpecificHeatCapacity r=287 "Gas constant";
+  parameter Modelica.Units.SI.VolumeFlowRate dotV=1703.16/3600
+    "Volumetric flow rate";
+  Modelica.Units.SI.Density rho=pAmb/sim.Te/r "Density";
+  Modelica.Units.SI.MassFlowRate m_flow=dotV*rho
+    "Mass flow rate that enters the building";
 
   Boolean ventilate = not occ.occupied;
 

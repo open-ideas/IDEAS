@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Climate.Time.BaseClasses;
 model CalendarTime
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   parameter Boolean ifSolCor;
 

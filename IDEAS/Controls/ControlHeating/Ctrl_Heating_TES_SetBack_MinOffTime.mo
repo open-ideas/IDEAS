@@ -3,7 +3,7 @@ model Ctrl_Heating_TES_SetBack_MinOffTime
   "Heating curve control for heating based on a water storage tank, temperature set back + minimum off-time"
   extends Interfaces.Partial_Ctrl_Heating_TES;
 
-  parameter Modelica.SIunits.Time timeOff=60*15;
+  parameter Modelica.Units.SI.Time timeOff=60*15;
   Real debug(start=-1);
   Real smoothed;
 

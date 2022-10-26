@@ -7,8 +7,8 @@ model EmbeddedPipe
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar
     "Properties of the floor heating or TABS, if present"
     annotation (choicesAllMatching=true);
-  final parameter Modelica.SIunits.Length pipeDiaInt = RadSlaCha.d_a - 2*RadSlaCha.s_r
-    "Pipe internal diameter";
+  final parameter Modelica.Units.SI.Length pipeDiaInt=RadSlaCha.d_a - 2*
+      RadSlaCha.s_r "Pipe internal diameter";
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(allowFlowReversal=false);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     dp_nominal=Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
@@ -21,37 +21,40 @@ model EmbeddedPipe
       diameter=pipeDiaInt,
       roughness=roughness,
       m_flow_small=m_flow_small/nParCir));
-  parameter Modelica.SIunits.Area A_floor "Floor/tabs surface area";
+  parameter Modelica.Units.SI.Area A_floor "Floor/tabs surface area";
   parameter Integer nDiscr(min=1) = 1
     "Number of series discretisations along the flow direction"
     annotation(Evaluate=true);
   parameter Real nParCir(min=1) = 1 "Number of parallel circuits in the tabs"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Length roughness(min=0) = 2.5e-5
+  parameter Modelica.Units.SI.Length roughness(min=0) = 2.5e-5
     "Absolute roughness of pipe, with a default for a smooth steel pipe"
-    annotation(Dialog(tab="Flow resistance"));
-  parameter Modelica.SIunits.Length L_floor = A_floor^(1/2)
+    annotation (Dialog(tab="Flow resistance"));
+  parameter Modelica.Units.SI.Length L_floor=A_floor^(1/2)
     "Floor length - along the pipe direction"
-    annotation(Dialog(tab="Flow resistance"));
+    annotation (Dialog(tab="Flow resistance"));
   parameter Real N_pipes = A_floor/L_floor/RadSlaCha.T - 1
     "Number of parallel pipes in the slab"
 annotation(Dialog(tab="Flow resistance"));
-  parameter Modelica.SIunits.Length pipeBendEqLen = 2*(N_pipes-1)*(2.267*RadSlaCha.T/2/pipeDiaInt+6.18)*pipeDiaInt
+  parameter Modelica.Units.SI.Length pipeBendEqLen=2*(N_pipes - 1)*(2.267*
+      RadSlaCha.T/2/pipeDiaInt + 6.18)*pipeDiaInt
     "Pipe bends equivalent length, default according to Fox and McDonald (chapter 8.7, twice the linearized losses of a 90 degree bend)"
-annotation(Dialog(tab="Flow resistance"));
-  parameter Modelica.SIunits.Length pipeEqLen = pipeBendEqLen + (L_floor-2*RadSlaCha.T)*N_pipes
+    annotation (Dialog(tab="Flow resistance"));
+  parameter Modelica.Units.SI.Length pipeEqLen=pipeBendEqLen + (L_floor - 2*
+      RadSlaCha.T)*N_pipes
     "Total pipe equivalent length, default assuming 180 dg turns starting at RadSlaCha.T from the end of the slab"
-annotation(Dialog(tab="Flow resistance"));
-  parameter Modelica.SIunits.MassFlowRate m_flowMin = m_flow_nominal*0.5
+    annotation (Dialog(tab="Flow resistance"));
+  parameter Modelica.Units.SI.MassFlowRate m_flowMin=m_flow_nominal*0.5
     "Minimal flowrate when in operation - used for validity check"
-    annotation(Dialog(group="Nominal condition"));
+    annotation (Dialog(group="Nominal condition"));
 
-  final parameter Modelica.SIunits.ThermalInsulance R_r_val=RadSlaCha.T*log(RadSlaCha.d_a
-      /pipeDiaInt)/(2*Modelica.Constants.pi*RadSlaCha.lambda_r)
+  final parameter Modelica.Units.SI.ThermalInsulance R_r_val=RadSlaCha.T*log(
+      RadSlaCha.d_a/pipeDiaInt)/(2*Modelica.Constants.pi*RadSlaCha.lambda_r)
     "Fix resistance value of thermal conduction through pipe wall * surface of floor between 2 pipes (see RadSlaCha documentation)";
   //Calculation of the resistance from the outer pipe wall to the center of the tabs / floorheating. eqn 4-25 Koschenz
-  final parameter Modelica.SIunits.ThermalInsulance R_x_val=RadSlaCha.T*(log(RadSlaCha.T
-      /(3.14*RadSlaCha.d_a)) + corr)/(2*Modelica.Constants.pi*RadSlaCha.lambda_b)
+  final parameter Modelica.Units.SI.ThermalInsulance R_x_val=RadSlaCha.T*(log(
+      RadSlaCha.T/(3.14*RadSlaCha.d_a)) + corr)/(2*Modelica.Constants.pi*
+      RadSlaCha.lambda_b)
     "Fix resistance value of thermal conduction from pipe wall to layer";
   final parameter Real corr = if RadSlaCha.tabs then 0 else
     sum( -(RadSlaCha.alp2/RadSlaCha.lambda_b * RadSlaCha.T - 2*3.14*s)/(RadSlaCha.alp2/RadSlaCha.lambda_b * RadSlaCha.T + 2*3.14*s)*exp(-4*3.14*s/RadSlaCha.T*RadSlaCha.S_2)/s for s in 1:10) "correction factor for the floor heating according to Multizone Building modeling with Type56 and TRNBuild (see documentation). 
@@ -65,33 +68,38 @@ annotation(Dialog(tab="Flow resistance"));
   parameter Boolean linearized = false
     "= true, use linear relation between m_flow and dp for any flow rate"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
-  parameter Modelica.SIunits.ThermalInsulance R_c = 1/(RadSlaCha.lambda_b/RadSlaCha.S_1 + RadSlaCha.lambda_b/RadSlaCha.S_2)
+  parameter Modelica.Units.SI.ThermalInsulance R_c=1/(RadSlaCha.lambda_b/
+      RadSlaCha.S_1 + RadSlaCha.lambda_b/RadSlaCha.S_2)
     "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
-    annotation(Dialog(group="Thermal"));
+    annotation (Dialog(group="Thermal"));
 
-  Modelica.SIunits.Temperature[nDiscr] Tin = cat(1, {senTemIn.T}, vol[1:nDiscr-1].heatPort.T);
-  Modelica.SIunits.Power[nDiscr] Q "Thermal power going into tabs";
+  Modelica.Units.SI.Temperature[nDiscr] Tin=cat(
+      1,
+      {senTemIn.T},
+      vol[1:nDiscr - 1].heatPort.T);
+  Modelica.Units.SI.Power[nDiscr] Q "Thermal power going into tabs";
   //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
   // for laminar flow Nu_D = 4 is assumed: correlation for heat transfer constant heat flow and constant wall temperature
-  Modelica.SIunits.ThermalInsulance R_w_val= IDEAS.Utilities.Math.Functions.spliceFunction(
-    x=rey-(reyHi+reyLo)/2,
-    pos=RadSlaCha.T^0.13/8/Modelica.Constants.pi*abs((pipeDiaInt/(m_flowSpLimit*L_r)))^0.87,
-    neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
-    deltax=(reyHi-reyLo)/2)
+  Modelica.Units.SI.ThermalInsulance R_w_val=
+      IDEAS.Utilities.Math.Functions.spliceFunction(
+      x=rey - (reyHi + reyLo)/2,
+      pos=RadSlaCha.T^0.13/8/Modelica.Constants.pi*abs((pipeDiaInt/(
+        m_flowSpLimit*L_r)))^0.87,
+      neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
+      deltax=(reyHi - reyLo)/2)
     "Flow dependent resistance value of convective heat transfer inside pipe for both turbulent and laminar heat transfer.";
-  Modelica.SIunits.ThermalInsulance R_t
+  Modelica.Units.SI.ThermalInsulance R_t
     "Total equivalent specific resistivity as defined by Koschenz in eqn 4-59";
-  Modelica.SIunits.ThermalConductance G_t
-    "Equivalent thermal conductance";
-  Modelica.SIunits.ThermalConductance G_max
+  Modelica.Units.SI.ThermalConductance G_t "Equivalent thermal conductance";
+  Modelica.Units.SI.ThermalConductance G_max
     "Maximum thermal conductance based on mass flow rate";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b[nDiscr] heatPortEmb
     "Port to the core of a floor heating/concrete activation"
     annotation (Placement(transformation(extent={{-10,90},{10,110}}),
         iconTransformation(extent={{-10,90},{10,110}})));
   //Reynold number Re = ( (m_flow / rho / A) * D * rho )  / mu / numParCir.
-  Modelica.SIunits.ReynoldsNumber rey=
-    m_flow/nParCir/A_pipe*pipeDiaInt/mu_default "Reynolds number";
+  Modelica.Units.SI.ReynoldsNumber rey=m_flow/nParCir/A_pipe*pipeDiaInt/
+      mu_default "Reynolds number";
 
   IDEAS.Fluid.MixingVolumes.MixingVolume[nDiscr] vol(each nPorts=2, each m_flow_nominal = m_flow_nominal, each V=m/nDiscr/rho_default,
     redeclare each package Medium = Medium,
@@ -147,40 +155,45 @@ annotation(Dialog(tab="Flow resistance"));
     tau=0) "Sensor for inlet temperature"
            annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
 protected
-  final parameter Modelica.SIunits.Length L_r=A_floor/RadSlaCha.T/nParCir
+  final parameter Modelica.Units.SI.Length L_r=A_floor/RadSlaCha.T/nParCir
     "Length of one of the parallel circuits";
-  final parameter Modelica.SIunits.Area A_pipe=
-    Modelica.Constants.pi/4*pipeDiaInt^2
-    "Pipe internal cross section surface area";
+  final parameter Modelica.Units.SI.Area A_pipe=Modelica.Constants.pi/4*
+      pipeDiaInt^2 "Pipe internal cross section surface area";
   final parameter Medium.ThermodynamicState sta_default=
      Medium.setState_pTX(T=Medium.T_default, p=Medium.p_default, X=Medium.X_default);
-  final parameter Modelica.SIunits.Density rho_default = Medium.density(sta_default);
-  final parameter Modelica.SIunits.DynamicViscosity mu_default = Medium.dynamicViscosity(sta_default)
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(
+      sta_default);
+  final parameter Modelica.Units.SI.DynamicViscosity mu_default=
+      Medium.dynamicViscosity(sta_default)
     "Dynamic viscosity at nominal condition";
-  final parameter Modelica.SIunits.SpecificHeatCapacity cp_default = Medium.specificHeatCapacityCp(sta_default)
+  final parameter Modelica.Units.SI.SpecificHeatCapacity cp_default=
+      Medium.specificHeatCapacityCp(sta_default)
     "Heat capacity at nominal condition";
-  final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_pos = abs(m_flow_nominal)
-    "Absolute value of nominal flow rate";
-  final parameter Modelica.SIunits.MassFlowRate m_flow_turbulent =  mu_default*pipeDiaInt/4*Modelica.Constants.pi*reyHi
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_pos=abs(
+      m_flow_nominal) "Absolute value of nominal flow rate";
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_turbulent=mu_default*
+      pipeDiaInt/4*Modelica.Constants.pi*reyHi
     "Turbulent flow if |m_flow| >= m_flow_turbulent";
-  final parameter Modelica.SIunits.Pressure dp_nominal_pos = abs(dp_nominal)
+  final parameter Modelica.Units.SI.Pressure dp_nominal_pos=abs(dp_nominal)
     "Absolute value of nominal pressure";
-  final parameter Modelica.SIunits.ReynoldsNumber reyLo=2700
+  final parameter Modelica.Units.SI.ReynoldsNumber reyLo=2700
     "Reynolds number where transition to turbulence starts"
-    annotation(Evaluate=true);
-  final parameter Modelica.SIunits.ReynoldsNumber reyHi=4000
+    annotation (Evaluate=true);
+  final parameter Modelica.Units.SI.ReynoldsNumber reyHi=4000
     "Reynolds number where transition to turbulence ends"
-    annotation(Evaluate=true);
+    annotation (Evaluate=true);
   final parameter Real deltaXR = m_flow_nominal/A_floor*cp_default/1000
     "Transition threshold for regularization function";
-  final parameter Modelica.SIunits.ThermalInsulance R_w_val_min=
-    IDEAS.Utilities.Math.Functions.spliceFunction(x=m_flowMin/nParCir/A_pipe*pipeDiaInt/mu_default-(reyHi+reyLo)/2,
-      pos=RadSlaCha.T^0.13/8/Modelica.Constants.pi*abs((pipeDiaInt/(m_flow_nominal/A_floor*L_r)))^0.87,
+  final parameter Modelica.Units.SI.ThermalInsulance R_w_val_min=
+      IDEAS.Utilities.Math.Functions.spliceFunction(
+      x=m_flowMin/nParCir/A_pipe*pipeDiaInt/mu_default - (reyHi + reyLo)/2,
+      pos=RadSlaCha.T^0.13/8/Modelica.Constants.pi*abs((pipeDiaInt/(
+        m_flow_nominal/A_floor*L_r)))^0.87,
       neg=RadSlaCha.T/(4*Medium.thermalConductivity(sta_default)*Modelica.Constants.pi),
-      deltax=(reyHi-reyLo)/2)
+      deltax=(reyHi - reyLo)/2)
     "Lowest value for R_w that is expected for the set mass flow rate";
-  final parameter Modelica.SIunits.Mass m(start=1) = A_pipe*L_r*rho_default*nParCir
-    "Mass of medium for the complete circuit";
+  final parameter Modelica.Units.SI.Mass m(start=1) = A_pipe*L_r*rho_default*
+    nParCir "Mass of medium for the complete circuit";
   Real m_flowSp(unit="kg/(m2.s)")=port_a.m_flow/(A_floor/nDiscr)
     "mass flow rate per unit floor area";
   Real m_flowSpLimit

@@ -9,34 +9,40 @@ model Structure "Ppd 12 example model"
   replaceable package MediumWater = IDEAS.Media.Water;
 
   // GEOMETRY
-  parameter Modelica.SIunits.Length hFloor0=2.9 "Height of ground floor";
-  parameter Modelica.SIunits.Length hFloor1=2.7 "Height of first floor";
-  parameter Modelica.SIunits.Length hFloor2=2.5 "Height of second floor";
-  parameter Modelica.SIunits.Length lHallway=8 "Length of hallway";
-  parameter Modelica.SIunits.Length wHallwayAvg=(wHallway1+wHallway2)/2 "Hallway width";
-  parameter Modelica.SIunits.Length wHallway1=1.1 "Hallway width";
-  parameter Modelica.SIunits.Length wHallway2=1.4 "Hallway width";
-  parameter Modelica.SIunits.Length wZon=(wZonStr+wBathroom)/2 "Avg living width";
-  parameter Modelica.SIunits.Length wZonStr=3.2 "Living width at street";
-  parameter Modelica.SIunits.Length wBuilding = 4.6;
-  parameter Modelica.SIunits.Length wBathroom = 2.85;
-  parameter Modelica.SIunits.Length lDiner = 3;
-  parameter Modelica.SIunits.Length wBedroom = 4.4;
-  parameter Modelica.SIunits.Length wDiner = 4.5;
-  parameter Modelica.SIunits.Length lPorch = 2;
-  parameter Modelica.SIunits.Length wPorch = wBuilding-wKitchen;
-  parameter Modelica.SIunits.Length wKitchen = 1.4;
-  parameter Modelica.SIunits.Length lHalfBuilding = 3.75;
-  parameter Modelica.SIunits.Length lBuilding = 8;
+  parameter Modelica.Units.SI.Length hFloor0=2.9 "Height of ground floor";
+  parameter Modelica.Units.SI.Length hFloor1=2.7 "Height of first floor";
+  parameter Modelica.Units.SI.Length hFloor2=2.5 "Height of second floor";
+  parameter Modelica.Units.SI.Length lHallway=8 "Length of hallway";
+  parameter Modelica.Units.SI.Length wHallwayAvg=(wHallway1 + wHallway2)/2
+    "Hallway width";
+  parameter Modelica.Units.SI.Length wHallway1=1.1 "Hallway width";
+  parameter Modelica.Units.SI.Length wHallway2=1.4 "Hallway width";
+  parameter Modelica.Units.SI.Length wZon=(wZonStr + wBathroom)/2
+    "Avg living width";
+  parameter Modelica.Units.SI.Length wZonStr=3.2 "Living width at street";
+  parameter Modelica.Units.SI.Length wBuilding=4.6;
+  parameter Modelica.Units.SI.Length wBathroom=2.85;
+  parameter Modelica.Units.SI.Length lDiner=3;
+  parameter Modelica.Units.SI.Length wBedroom=4.4;
+  parameter Modelica.Units.SI.Length wDiner=4.5;
+  parameter Modelica.Units.SI.Length lPorch=2;
+  parameter Modelica.Units.SI.Length wPorch=wBuilding - wKitchen;
+  parameter Modelica.Units.SI.Length wKitchen=1.4;
+  parameter Modelica.Units.SI.Length lHalfBuilding=3.75;
+  parameter Modelica.Units.SI.Length lBuilding=8;
 
-  parameter Modelica.SIunits.Conversions.NonSIunits.Angle_deg angDelta=23.6;
-  parameter Modelica.SIunits.Angle north = IDEAS.Types.Azimuth.N + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.NonSI.Angle_deg angDelta=23.6;
+  parameter Modelica.Units.SI.Angle north=IDEAS.Types.Azimuth.N +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle south = IDEAS.Types.Azimuth.S + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle south=IDEAS.Types.Azimuth.S +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle west = IDEAS.Types.Azimuth.W + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle west=IDEAS.Types.Azimuth.W +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
-  parameter Modelica.SIunits.Angle east = IDEAS.Types.Azimuth.E + Modelica.SIunits.Conversions.from_deg(angDelta)
+  parameter Modelica.Units.SI.Angle east=IDEAS.Types.Azimuth.E +
+      Modelica.Units.Conversions.from_deg(angDelta)
     "Azimuth of the wall, i.e. 0deg denotes South";
 
 
@@ -262,29 +268,29 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,26},{120,6}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate stairWay(
-    aziA=east,
+    
     redeclare package Medium = MediumAir,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    hasWinA=true,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypA,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
-    w=lHalfBuilding,
-    h=hFloor1,
-    nSurfExt=0,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    l=wHallway2,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
-    A_winA=1.09*1.69,
-    fracA=0.1,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall
       conTypFlo,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypC,
+    A_winA=1.09*1.69,aziA=east,
+    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
+    fracA=0.1,
+    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    hasWinA=true,
+    l=wHallway2,
+    mSenFac=1,
     n50=n50,
-    mSenFac=1)
+    nSurfExt=0,
+    w=lHalfBuilding, wFlo = 0.8)
     "Stairway"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
@@ -316,30 +322,30 @@ model Structure "Ppd 12 example model"
     "Master bedroom"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
-    aziA=east,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
-    l=wBedroom,
-    w=lHalfBuilding,
-    h=hFloor1,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.Roof conTypCei,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     redeclare IDEAS.Examples.PPD12.Data.Floor conTypFlo,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
-    hasWinA=true,
-    A_winA=1.1*0.73,
-    fracA=0.15,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
-    nSurfExt=3,
+    A_winA=1.1*0.73,aziA=east,
+    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     calculateViewFactor=false,
+    fracA=0.15,
+    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    hasWinA=true,
+    l=wBedroom,
+    mSenFac=1,
     n50=n50,
-    mSenFac=1)
+    nSurfExt=3,
+    w=lHalfBuilding, wFlo = 0.8)
     "Master bedroom"
     annotation (Placement(transformation(extent={{280,40},{260,20}})));
 
@@ -503,6 +509,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Added cavity in internal floors to represent staircases.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1293\">#1293</a>.
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Fixed floor type in hallway.

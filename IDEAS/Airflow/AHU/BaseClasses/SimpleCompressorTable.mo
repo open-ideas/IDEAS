@@ -5,20 +5,21 @@ model SimpleCompressorTable
     Qh_exp(y=tempMod*(P_refrig.y)*mod*onInt.y + P_exp.y),
     Qc_exp(y=-tempMod*P_refrig.y*mod*onInt.y),
     P_exp(y=tempMod*P_comp.y*(fraPmin + mod*(1 - fraPmin))*onInt.y));
-  parameter Modelica.SIunits.Temperature T_max = 273.15+50
+  parameter Modelica.Units.SI.Temperature T_max=273.15 + 50
     "Maximum temperature at condensor";
-  parameter Modelica.SIunits.Temperature T_min = 273.15-20
+  parameter Modelica.Units.SI.Temperature T_min=273.15 - 20
     "Minimum temperature at evaporator";
   parameter Real fraPmin = 0.1;
   parameter Boolean modulatingCompressor = true
     "Simulate the compressor as if it were modulating: non-physical but less events";
-  parameter Modelica.SIunits.Temperature modulatingRange = 5
+  parameter Modelica.Units.SI.Temperature modulatingRange=5
     "Range from temperature bounds where modulation starts";
   parameter Boolean smoothTmpPro = false
     "if true, use smooth temperature protection";
-  parameter Modelica.SIunits.TemperatureDifference dT_nom_eva = 10.6
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom_eva=10.6
     "Nominal temperature difference between evaporator air inlet and refrigerant";
-  parameter Modelica.SIunits.HeatCapacity C "Heat capacity of at condensor heat port";
+  parameter Modelica.Units.SI.HeatCapacity C
+    "Heat capacity of at condensor heat port";
   Real tempMod = if smoothTmpPro then
                   IDEAS.Utilities.Math.Functions.spliceFunction(x=min(limit1.y,limit2.y)/modulatingRange-1, pos=1, neg=0, deltax=1)
                  else 1
@@ -64,17 +65,17 @@ public
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={-84,90})));
-  Modelica.Blocks.Tables.CombiTable2D P_refrig(                         table=[0,
-        253.15,258.15,263.15,268.15,273.15,278.15,280.15,283.15,295.65; 303.15,11750,
-        15400,19650,24450,29700,35250,37550,41050,44000; 313.15,10300,13200,16900,
-        21300,26300,31750,34050,37600,40600; 323.15,10,100,14300,18050,22550,27650,
+  Modelica.Blocks.Tables.CombiTable2Ds P_refrig(table=[0,253.15,258.15,263.15,
+        268.15,273.15,278.15,280.15,283.15,295.65; 303.15,11750,15400,19650,
+        24450,29700,35250,37550,41050,44000; 313.15,10300,13200,16900,21300,
+        26300,31750,34050,37600,40600; 323.15,10,100,14300,18050,22550,27650,
         29850,33300,36300], smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
     "Combitable for refrigeration powers"
     annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
-  Modelica.Blocks.Tables.CombiTable2D P_comp(                                                                      table=[0,
-        253.15,258.15,263.15,268.15,273.15,278.15,280.15,283.15,295.65; 303.15,4800,
-        4870,4920,4980,5050,5170,5240,5350,5470; 313.15,6410,6510,6580,6630,6690,
-        6780,6820,6900,6990; 323.15,10,100,8200,8290,8360,8440,8480,8550,8610],
+  Modelica.Blocks.Tables.CombiTable2Ds P_comp(table=[0,253.15,258.15,263.15,
+        268.15,273.15,278.15,280.15,283.15,295.65; 303.15,4800,4870,4920,4980,
+        5050,5170,5240,5350,5470; 313.15,6410,6510,6580,6630,6690,6780,6820,
+        6900,6990; 323.15,10,100,8200,8290,8360,8440,8480,8550,8610],
       smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
     "Combitable for compressor powers"
     annotation (Placement(transformation(extent={{-20,-82},{0,-62}})));

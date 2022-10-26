@@ -8,7 +8,8 @@ partial model HysteresisHeating
     final nTemSen = nZones,
     final nLoads=0);
   parameter Real dTHys=2 "Temperature difference for hysteresis controller";
-  parameter Modelica.SIunits.Power[nZones] QNom(each min=0) = fill(5000,nZones)
+  parameter Modelica.Units.SI.Power[nZones] QNom(each min=0) = fill(5000,
+    nZones)
     "Nominal power, power that is injected when the heating system is on";
   parameter Real COP = 3
     "Coefficient of performance, conversion factor for thermal power to electrical power";

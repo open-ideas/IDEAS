@@ -20,7 +20,7 @@ model ConstantAirFlowRecup
     annotation (Placement(transformation(extent={{-38,-10},{-2,8}})));
   IDEAS.Templates.Interfaces.BaseClasses.CausalInhomeFeeder causalInhomeFeeder
     annotation (Placement(transformation(extent={{16,-10},{36,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(
     f=50,
     V=230,
@@ -29,7 +29,7 @@ model ConstantAirFlowRecup
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={58,-30})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{48,-80},{68,-60}})));
 
 equation

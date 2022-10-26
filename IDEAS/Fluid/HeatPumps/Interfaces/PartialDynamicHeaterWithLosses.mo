@@ -8,11 +8,11 @@ partial model PartialDynamicHeaterWithLosses
     T_start=293.15,
     redeclare replaceable package Medium = IDEAS.Media.Water);
 
-  parameter Modelica.SIunits.Power QNom "Nominal power";
-  parameter Modelica.SIunits.Time tauHeatLoss=7200
+  parameter Modelica.Units.SI.Power QNom "Nominal power";
+  parameter Modelica.Units.SI.Time tauHeatLoss=7200
     "Time constant of environmental heat losses";
-  parameter Modelica.SIunits.Mass mWater=5 "Mass of water in the condensor";
-  parameter Modelica.SIunits.HeatCapacity cDry=4800
+  parameter Modelica.Units.SI.Mass mWater=5 "Mass of water in the condensor";
+  parameter Modelica.Units.SI.HeatCapacity cDry=4800
     "Capacity of dry material lumped to condensor";
   parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
   parameter SI.Pressure dp_nominal=0 "Pressure";
@@ -49,12 +49,12 @@ partial model PartialDynamicHeaterWithLosses
     redeclare package Medium = Medium) "Fluid outlet"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));
 
-  final parameter Modelica.SIunits.ThermalConductance UALoss=mWater*vol.mSenFac/tauHeatLoss
-      "Thermal conductance, computed based on time constant and thermal mass";
+  final parameter Modelica.Units.SI.ThermalConductance UALoss=mWater*vol.mSenFac
+      /tauHeatLoss
+    "Thermal conductance, computed based on time constant and thermal mass";
 
 protected
-  final parameter Modelica.SIunits.Density rho_default=
-    Medium.density_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density_pTX(
       p=Medium.p_default,
       T=Medium.T_default,
       X=Medium.X_default) "Default medium density";

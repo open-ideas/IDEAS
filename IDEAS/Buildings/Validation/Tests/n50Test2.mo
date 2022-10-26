@@ -11,7 +11,7 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
       p=Medium.p_default,
       X=Medium.X_default)
     "State of the medium at the medium default properties";
-  parameter Modelica.SIunits.Density rho_default=Medium.density(sta_default)
+  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
     "Density at the medium default properties";
   parameter Boolean disableAssert = false;
 

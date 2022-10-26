@@ -11,7 +11,6 @@ model Example6 "Extension of example 5 that adds a heating system"
     redeclare package Medium2 = MediumWater,
     datHeaPum=
         Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A(),
-
     scaling_factor=0.025,
     dp1_nominal=10000,
     dp2_nominal=10000,
@@ -22,6 +21,7 @@ model Example6 "Extension of example 5 that adds a heating system"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={190,10})));
+
   Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,

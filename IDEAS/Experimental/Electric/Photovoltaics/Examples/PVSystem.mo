@@ -11,9 +11,9 @@ model PVSystem
     amount=20,
     inc=inc,
     azi=azi) annotation (Placement(transformation(extent={{-38,4},{-18,24}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Basic.Ground ground
+  Modelica.Electrical.QuasiStatic.SinglePhase.Basic.Ground ground
     annotation (Placement(transformation(extent={{30,-50},{50,-30}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Sources.VoltageSource
+  Modelica.Electrical.QuasiStatic.SinglePhase.Sources.VoltageSource
     voltageSource(f=50, V=230) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,

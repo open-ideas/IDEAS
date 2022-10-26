@@ -9,9 +9,9 @@ partial model Partial_Ctrl_SolarThermal
 
   */
 
-  parameter Modelica.SIunits.TemperatureDifference dTStart=10
+  parameter Modelica.Units.SI.TemperatureDifference dTStart=10
     "Nominal dT for starting the pump";
-  parameter Modelica.SIunits.TemperatureDifference dTStop=3
+  parameter Modelica.Units.SI.TemperatureDifference dTStop=3
     "Nominal dT for stopping the pump";
   Modelica.Blocks.Interfaces.RealInput TSafety "Temperature not to be exceeded"
     annotation (Placement(transformation(extent={{-126,40},{-86,80}}),
@@ -24,7 +24,7 @@ partial model Partial_Ctrl_SolarThermal
     "Bottom (or near bottom) tank temperature"
     annotation (Placement(transformation(extent={{-120,-40},{-80,0}}),
         iconTransformation(extent={{-110,-50},{-90,-30}})));
-  parameter Modelica.SIunits.Temperature TSafetyMax
+  parameter Modelica.Units.SI.Temperature TSafetyMax
     "Maximum temperature for TSafety";
 
   Modelica.Blocks.Interfaces.RealOutput onOff(start=0) "onoff signal as Real"

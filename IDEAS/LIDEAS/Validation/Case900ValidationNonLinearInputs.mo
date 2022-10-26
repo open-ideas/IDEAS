@@ -27,15 +27,15 @@ model Case900ValidationNonLinearInputs "Model to validate the linearization meth
     annotation (Placement(transformation(extent={{-68,-10},{-48,10}})));
 public
   Modelica.Blocks.Sources.Sine QCon(
-    freqHz=1/1/3600,
+    f=1/1/3600,
     amplitude=1,
-    offset=1)  "Fake convective gains"
+    offset=1) "Fake convective gains"
     annotation (Placement(transformation(extent={{-100,14},{-88,26}})));
 public
   Modelica.Blocks.Sources.Sine QRad(
-    freqHz=1/6/3600,
+    f=1/6/3600,
     amplitude=1,
-    offset=1)        "Fake radiative gains"
+    offset=1) "Fake radiative gains"
     annotation (Placement(transformation(extent={{-100,-6},{-88,6}})));
   Modelica.Blocks.Math.Gain gainCon(k=500) "Gain to scale convective gain"
     annotation (Placement(transformation(extent={{-82,16},{-74,24}})));
@@ -71,6 +71,7 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=100000, Tolerance=1e-06),
+    __OpenModelica_commandLineOptions = "--allowNonStandardModelica=protectedAccess",
     __Dymola_Commands(file="Resources/Scripts/Dymola/LIDEAS/Validation/Case900ValidationNonLinearInputs.mos"
         "Linearise, simulate and plot"),
     Documentation(revisions="<html>

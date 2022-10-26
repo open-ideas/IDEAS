@@ -63,17 +63,17 @@ model Case900ValidationNonLinear "Model to validate the linearization method by 
   final parameter Integer nPreInp = size(preInp,1) "Number of precomputed inputs";
   final parameter Integer nOut = Csize[1] "Number of precomputed outputs";
    Modelica.Blocks.Continuous.StateSpace stateSpace(
-     A=readMatrix(fileName=fileName, matrixName="A", rows=nSta, columns = nSta),
-     B=readMatrix(fileName=fileName, matrixName="B", rows=nSta, columns = nInp),
-     C=readMatrix(fileName=fileName, matrixName="C", rows=nOut, columns=nSta),
-     D=readMatrix(fileName=fileName, matrixName="D", rows=nOut, columns=nInp),
+     A= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="A", nrow=nSta, ncol = nSta),
+     B= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="B", nrow=nSta, ncol = nInp),
+     C= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="C", nrow=nOut, ncol=nSta),
+     D= Modelica.Utilities.Streams.readRealMatrix(fileName=fileName, matrixName="D", nrow=nOut, ncol=nInp),
      x_start=x_start,
     initType=Modelica.Blocks.Types.Init.InitialState) "State space model"
      annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 protected
   parameter Real x_start[nSta](each fixed=false) "Initial state values";
-  final parameter Integer[2] Bsize = readMatrixSize(fileName=fileName, matrixName="B") "Size of B matrix of state space model";
-  final parameter Integer[2] Csize = readMatrixSize(fileName=fileName, matrixName="C") "Size of C matrix of state space model";
+  final parameter Integer[2] Bsize = Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName="B") "Size of B matrix of state space model";
+  final parameter Integer[2] Csize = Modelica.Utilities.Streams.readMatrixSize(fileName=fileName, matrixName="C") "Size of C matrix of state space model";
 
 public
   Modelica.Blocks.Math.UnitConversions.To_degC TRecZon
@@ -146,12 +146,18 @@ equation
           {60,70},{60,-34},{78,-34}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
+    __OpenModelica_commandLineOptions = "--allowNonStandardModelica=protectedAccess",
     experiment(StopTime=100000, Tolerance=1e-06),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/LIDEAS/Validation/Case900ValidationNonLinear.mos"
         "Linearise, simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+June 2nd, 2022, by Filip Jorissen:<br/>
+Using MSL functions for readMatrixSize and readMatrix for OM compatibility for
+issue <a href=https://github.com/open-ideas/IDEAS/issues/1284>#1284</a>.
+</li>
 <li>
 December 11, 2019, by Filip Jorissen:<br/>
 Revised input list for

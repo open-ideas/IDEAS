@@ -1,6 +1,6 @@
 within IDEAS.Experimental.Electric.Batteries.Control;
 model BatteryCtrlGeneral
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
 protected
   parameter Integer numPha=1 "Number of phases";
@@ -28,19 +28,19 @@ public
          origin={-100,-30})));
 
 // Parameters battery
-  parameter Modelica.SIunits.Efficiency DOD_max;
-  parameter Modelica.SIunits.Conversions.NonSIunits.Energy_kWh EBat;
+  parameter Modelica.Units.SI.Efficiency DOD_max;
+  parameter Modelica.Units.NonSI.Energy_kWh EBat;
   // Total battery capacity in [kW.h]
-  parameter Modelica.SIunits.Efficiency eta_out;
-  parameter Modelica.SIunits.Efficiency eta_in;
-  parameter Modelica.SIunits.Efficiency eta_d;
-  parameter Modelica.SIunits.Efficiency eta_c;
+  parameter Modelica.Units.SI.Efficiency eta_out;
+  parameter Modelica.Units.SI.Efficiency eta_in;
+  parameter Modelica.Units.SI.Efficiency eta_d;
+  parameter Modelica.Units.SI.Efficiency eta_c;
   parameter Real e_c;
   parameter Real e_d;
 
 // Variables
-  Modelica.SIunits.Power P "Power available to be charged/discharged";
-  Modelica.SIunits.Power PBat "Actual power flow to/from battery";
+  Modelica.Units.SI.Power P "Power available to be charged/discharged";
+  Modelica.Units.SI.Power PBat "Actual power flow to/from battery";
 
 equation
   // Limiting powers when battery almost full/empty

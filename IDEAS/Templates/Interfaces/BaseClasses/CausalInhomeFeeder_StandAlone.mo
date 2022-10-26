@@ -4,22 +4,21 @@ model CausalInhomeFeeder_StandAlone
 
   // Building characteristics  //////////////////////////////////////////////////////////////////////////
 
-  parameter Modelica.SIunits.Length len=10 "Cable length to district feeder";
+  parameter Modelica.Units.SI.Length len=10 "Cable length to district feeder";
 
   // Interfaces  ///////////////////////////////////////////////////////////////////////////////////////
 
-  Modelica.Electrical.QuasiStationary.MultiPhase.Interfaces.PositivePlug
-    nodeSingle(m=1)
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin
-    pinSingle annotation (Placement(transformation(extent={{90,-10},{110,10}}),
+  Modelica.Electrical.QuasiStatic.Polyphase.Interfaces.PositivePlug nodeSingle(
+      m=1) annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin pinSingle
+    annotation (Placement(transformation(extent={{90,-10},{110,10}}),
         iconTransformation(extent={{90,-10},{110,10}})));
 
   // Components  ///////////////////////////////////////////////////////////////////////////////////////
 
 protected
-  Modelica.Electrical.QuasiStationary.MultiPhase.Basic.PlugToPin_p plugToPin_p(
-      m=1) "Plug-to-pin conversion" annotation (Placement(transformation(
+  Modelica.Electrical.QuasiStatic.Polyphase.Basic.PlugToPin_p plugToPin_p(m=1)
+    "Plug-to-pin conversion" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-80,0})));

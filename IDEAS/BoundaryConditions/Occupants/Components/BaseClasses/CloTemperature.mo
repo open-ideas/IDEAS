@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.Occupants.Components.BaseClasses;
 block CloTemperature "clothing surface temperature"
 
-  extends Modelica.Blocks.Interfaces.BlockIcon;
+  extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealOutput Tclo "clothing surface temperature"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
@@ -26,12 +26,12 @@ block CloTemperature "clothing surface temperature"
         rotation=-90,
         origin={20,100})));
 
-  parameter Modelica.SIunits.Area Adu=1.77 "DuBois Area";
-  parameter Modelica.SIunits.Efficiency Eta=0.1
+  parameter Modelica.Units.SI.Area Adu=1.77 "DuBois Area";
+  parameter Modelica.Units.SI.Efficiency Eta=0.1
     "external mechanical efficiency of the body";
-  parameter Modelica.SIunits.HeatFlowRate Met=120 "Metabolic rate";
+  parameter Modelica.Units.SI.HeatFlowRate Met=120 "Metabolic rate";
   parameter Boolean Linear=true;
-  parameter Modelica.SIunits.Velocity VelVen=0.2;
+  parameter Modelica.Units.SI.Velocity VelVen=0.2;
 
   constant Real Cb=5.67 "black body constant";
   constant Real b=0.82 "linearization fit";

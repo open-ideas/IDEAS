@@ -1,11 +1,11 @@
 within IDEAS.Experimental.Electric.BaseClasses.Converters.ConvertersPin;
 model BidirectionalConverter "Bidirectional AC/DC converter"
-extends Modelica.Blocks.Interfaces.BlockIcon;
+extends Modelica.Blocks.Icons.Block;
 extends Partials.Converter;
 
   Boolean inverter "Inverter: true / Rectifier: false";
 
-  Modelica.SIunits.ActivePower Plos;
+  Modelica.Units.SI.ActivePower Plos;
 
 equation
  // converter mode: aan de hand van DC-vermogenteken beslissen of je in invertor of gelijkrichter mode zit

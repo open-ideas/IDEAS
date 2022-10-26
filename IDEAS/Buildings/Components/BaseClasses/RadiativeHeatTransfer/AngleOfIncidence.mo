@@ -8,6 +8,6 @@ model AngleOfIncidence "Incidence angle radians to degrees conversion"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 equation
-  angIncDeg = Modelica.SIunits.Conversions.to_deg(angInc);
+  angIncDeg =Modelica.Units.Conversions.to_deg(angInc);
 
 end AngleOfIncidence;

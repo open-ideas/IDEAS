@@ -1,4 +1,4 @@
-within IDEAS.Fluid.HeatExchangers;
+﻿within IDEAS.Fluid.HeatExchangers;
 model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     final allowFlowReversal1=false,
@@ -11,7 +11,7 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
     annotation(Dialog(enable=not use_eNTU));
   parameter Boolean use_eNTU = true "Use NTU method for efficiency calculation"
     annotation(Evaluate=true);
-  parameter Modelica.SIunits.Time tau = 60
+  parameter Modelica.Units.SI.Time tau=60
     "Thermal time constant of the heat exchanger";
   parameter Real UA_adia_on
     "UA value when using evaporative cooling, used when use_eNTU = true"
@@ -63,7 +63,7 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
        quantity=Medium2.extraPropertiesNames) = fill(1E-2, Medium2.nC)
     "Nominal value of trace substances. (Set to typical order of magnitude.)"
    annotation (Dialog(tab="Initialization", group = "Medium 2", enable=Medium2.nC > 0));
-  parameter Modelica.SIunits.MassFlowRate m_flow_small=1E-4*abs(volTop.m_flow_nominal)
+  parameter Modelica.Units.SI.MassFlowRate m_flow_small=1E-4*abs(volTop.m_flow_nominal)
     "Small mass flow rate for regularization of zero flow";
 
   parameter Boolean simplifiedMassBalance=true
@@ -71,8 +71,8 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
   constant Boolean prescribeTBot = false
     "=True, for validation. Need this option to avoid warnings.";
 
-  Modelica.SIunits.Power Q;
-  Modelica.SIunits.Energy E=volTop.U+volBot.U;
+  Modelica.Units.SI.Power Q;
+  Modelica.Units.SI.Energy E=volTop.U + volBot.U;
   Modelica.Blocks.Interfaces.BooleanInput adiabaticOn
     "Activate adiabatic cooling"
     annotation (Placement(transformation(extent={{120,-16},{88,16}})));
@@ -124,14 +124,20 @@ model IndirectEvaporativeHex "Indirect evaporative heat exchanger"
    Real Xw_in_bot= Xi_bot_in[1] "Water mass fraction of bottom stream";
 
 protected
-  final parameter Modelica.SIunits.Density rho_default=Medium1.density(
-     Medium1.setState_pTX(
+  final parameter Modelica.Units.SI.Density rho_default=Medium1.density(
+      Medium1.setState_pTX(
       T=Medium1.T_default,
       p=Medium1.p_default,
       X=Medium1.X_default[1:Medium1.nXi]))
     "Density, used to compute fluid mass";
-  Modelica.SIunits.Temperature T_bot_in=Medium2.temperature_phX(p=port_a2.p, h=inStream(port_a2.h_outflow), X=inStream(port_a2.Xi_outflow));
-  Modelica.SIunits.Temperature T_top_in=Medium1.temperature_phX(p=port_a1.p, h=inStream(port_a1.h_outflow), X=inStream(port_a1.Xi_outflow));
+  Modelica.Units.SI.Temperature T_bot_in=Medium2.temperature_phX(
+      p=port_a2.p,
+      h=inStream(port_a2.h_outflow),
+      X=inStream(port_a2.Xi_outflow));
+  Modelica.Units.SI.Temperature T_top_in=Medium1.temperature_phX(
+      p=port_a1.p,
+      h=inStream(port_a1.h_outflow),
+      X=inStream(port_a1.Xi_outflow));
   Medium1.MassFraction Xi_top_in[Medium1.nXi] = inStream(port_a1.Xi_outflow)
     "Species vector, needed because indexed argument for the operator inStream is not supported";
   Medium1.MassFraction Xi_bot_in[Medium2.nXi] = inStream(port_a2.Xi_outflow)
@@ -155,10 +161,10 @@ protected
     "Absolute humidity for saturated bottom outlet air";
   Real Xw_out_top=min(if adiabaticOn then max(Xw_80_Tout_top,Xw_in_top) else Xw_in_top, Xw_sat_Tout_top);
   Real Xw_out_bot=min(Xw_in_bot, Xw_sat_Tout_bot);
-  Modelica.SIunits.Temperature T_top_in_wet =  if adiabaticOn then  wetBulIn.TWetBul else T_top_in
-    "Temperature of the wet/dry HEX at extracted air inlet";
+  Modelica.Units.SI.Temperature T_top_in_wet=if adiabaticOn then wetBulIn.TWetBul
+       else T_top_in "Temperature of the wet/dry HEX at extracted air inlet";
   //splicefunction required for disabling heat transfer for low mass flow rates
-  Modelica.SIunits.Power Qmax "Maximum heat transfer, including latent heat";
+  Modelica.Units.SI.Power Qmax "Maximum heat transfer, including latent heat";
   Real C_top "Heat capacity rate of top stream";
   Real C_bot "Heat capacity rate of bottom stream";
   Real C_min = min(C_top,C_bot);
@@ -192,15 +198,13 @@ protected
         origin={32,-4})));
   Modelica.Blocks.Math.Gain negate(k=-1) "For minus sign"
     annotation (Placement(transformation(extent={{-46,-26},{-34,-14}})));
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulIn(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXiProtected  wetBulIn(
     TDryBul=T_top_in,
     p=port_a1.p,
     Xi=Xi_top_in[1:Medium1.nXi],
     redeclare package Medium = Medium1)
     "Wet bulb temperature based on wet channel inlet conditions";
-  IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi  wetBulOut(
-    approximateWetBulb=false,
+  TWetBul_TDryBulXiProtected  wetBulOut(
     TDryBul=volTop.heatPort.T,
     p=port_a1.p,
     Xi=volTop.ports[1].Xi_outflow[1:Medium1.nXi],
@@ -209,6 +213,13 @@ protected
 
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature Tbot(T=273.15 + 21.4) if prescribeTBot
     "This override the temperature of the IEH outlet for validation purposes";
+
+  model TWetBul_TDryBulXiProtected
+    "Model for accessing protected variable"
+    extends IDEAS.Utilities.Psychrometrics.TWetBul_TDryBulXi(final approximateWetBulb = false);
+    Real XiSatOut = XiSat "Water vapor mass fraction at saturation";
+
+  end TWetBul_TDryBulXiProtected;
 equation
   assert(port_a1.m_flow>-m_flow_small or allowFlowReversal1, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
   assert(port_a2.m_flow>-m_flow_small or allowFlowReversal2, "Flow reversal occured, for indirect evaporative heat exchanger model is not valid.");
@@ -216,7 +227,7 @@ equation
     // model from: Liu, Z., Allen, W., & Modera, M. (2013). Simplified thermal modeling of indirect evaporative heat exchangers. HVAC&R Research, 19(March), 37–41. doi:10.1080/10789669.2013.763653
     Qmax=C_min*(T_bot_in-T_top_in_wet);
     C_top = port_a1.m_flow*(if adiabaticOn
-                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSat,1-wetBulOut.XiSat}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSat,1-wetBulIn.XiSat})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
+                            then (Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulOut.TWetBul, {wetBulOut.XiSatOut,1-wetBulOut.XiSatOut}))-Medium1.specificEnthalpy(Medium1.setState_pTX(port_a1.p, wetBulIn.TWetBul,  {wetBulIn.XiSatOut,1-wetBulIn.XiSatOut})))*IDEAS.Utilities.Math.Functions.inverseXRegularized(wetBulOut.TWetBul-wetBulIn.TWetBul,0.01)
                             else Medium1.specificHeatCapacityCp(Medium1.setState_pTX(Medium1.p_default, Medium1.T_default, Medium1.X_default)));
     C_bot = port_a2.m_flow*Medium2.specificHeatCapacityCp(Medium2.setState_pTX(Medium2.p_default, Medium2.T_default, Medium2.X_default));
     Q = Qmax*(if use_eNTU then eps_NTU else (if adiabaticOn then eps_adia_on else eps_adia_off));
@@ -237,31 +248,31 @@ equation
     annotation (Line(points={{40,-88},{10,-88},{10,-50}},
                                                         color={191,0,0}));
   connect(temperatureSensor.T, TOutBot)
-    annotation (Line(points={{60,-88},{108,-88}}, color={0,0,127}));
+    annotation (Line(points={{61,-88},{108,-88}}, color={0,0,127}));
   connect(theCon.port_a, volBot.heatPort) annotation (Line(points={{32,-14},{32,
           -14},{32,-50},{10,-50}}, color={191,0,0}));
   connect(theCon.port_b, volTop.heatPort)
     annotation (Line(points={{32,6},{32,6},{32,50},{10,50}}, color={191,0,0}));
 
   connect(port_a2, volBot.ports[1])
-    annotation (Line(points={{100,-60},{2,-60}},         color={0,127,255}));
-  connect(volBot.ports[2], port_b2) annotation (Line(points={{-2,-60},{-2,-60},
-          {-100,-60}}, color={0,127,255}));
+    annotation (Line(points={{100,-60},{1,-60}},         color={0,127,255}));
+  connect(volBot.ports[2], port_b2) annotation (Line(points={{-1,-60},{-1,-60},{
+          -100,-60}},  color={0,127,255}));
   connect(negate.y, preHeaFloBot.Q_flow)
     annotation (Line(points={{-33.4,-20},{-14,-20}}, color={0,0,127}));
   connect(negate.u, Qexp.y) annotation (Line(points={{-47.2,-20},{-56,-20},{-56,
           0},{-63.4,0}},   color={0,0,127}));
   connect(port_a1, volTop.ports[1])
-    annotation (Line(points={{-100,60},{2,60}}, color={0,127,255}));
+    annotation (Line(points={{-100,60},{1,60}}, color={0,127,255}));
   connect(volTop.ports[2], port_b1)
-    annotation (Line(points={{-2,60},{-2,60},{100,60}}, color={0,127,255}));
+    annotation (Line(points={{-1,60},{-1,60},{100,60}}, color={0,127,255}));
   connect(mFloAdiTop.y, volTop.mWat_flow)
     annotation (Line(points={{38.6,42},{12,42}}, color={0,0,127}));
   connect(mFloAdiBot.y, volBot.mWat_flow)
     annotation (Line(points={{46.6,-42},{12,-42}}, color={0,0,127}));
   connect(Tbot.port, volBot.heatPort);
  annotation (
-      __Dymola_choicesAllMatching=true,
+      choicesAllMatching=true,
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -449,6 +460,12 @@ equation
           pattern=LinePattern.Dash)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Added access to protected variable XiSat.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 April 7, 2020, by Filip Jorissen:<br/>
 Replaced thermal resistor by thermal conductor to avoid division.

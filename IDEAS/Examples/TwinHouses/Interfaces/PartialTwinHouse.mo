@@ -52,8 +52,8 @@ protected
     annotation (Placement(transformation(extent={{-30,-46},{-10,-26}})));
 
 public
-  BaseClasses.Data.ValidationDataExp2 validationDataExp2_1 if
-                                                             (loadVal and exp == 2)
+  BaseClasses.Data.ValidationDataExp2 validationDataExp2_1
+                                                          if (loadVal and exp == 2)
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
   BaseClasses.Data.ValidationDataN2Exp1 validationDataN2Exp1_1 if (loadVal and exp==1 and bui==1)
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
@@ -87,11 +87,14 @@ equation
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(
-      StartTime=1.5e+007,
-      StopTime=2.35872e+007,
-      Interval=900,
-      Tolerance=1e-006),
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Twinhouses/BuildingN2_Exp1.mos"
-        "Simulate and plot"));
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Removed experiment annotation to avoid failing OMC tests.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
+</ul>
+</html>"));
 end PartialTwinHouse;

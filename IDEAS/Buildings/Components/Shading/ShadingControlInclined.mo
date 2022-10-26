@@ -4,10 +4,10 @@ model ShadingControlInclined "Shading controller for inclined surfaces"
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
 
-  parameter Modelica.SIunits.Irradiance threshold = 150
+  parameter Modelica.Units.SI.Irradiance threshold=150
     "Shading closed when total external sola irradation is above this threshold";
-  parameter Modelica.SIunits.Angle inc "Inclination angle";
-  parameter Modelica.SIunits.Angle azi "Azimuth angle";
+  parameter Modelica.Units.SI.Angle inc "Inclination angle";
+  parameter Modelica.Units.SI.Angle azi "Azimuth angle";
 
   Modelica.Blocks.Interfaces.RealOutput y "control signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));

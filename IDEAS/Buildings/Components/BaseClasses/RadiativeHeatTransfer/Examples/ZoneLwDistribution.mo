@@ -1,9 +1,9 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.Examples;
 model ZoneLwDistribution
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Length l = 2;
-  parameter Modelica.SIunits.Length b = 2;
-  parameter Modelica.SIunits.Length h = 2;
+  parameter Modelica.Units.SI.Length l=2;
+  parameter Modelica.Units.SI.Length b=2;
+  parameter Modelica.Units.SI.Length h=2;
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
     zonLwDist(nSurf=6, linearise=false)
     "Longwave distribution model using radiant star node"

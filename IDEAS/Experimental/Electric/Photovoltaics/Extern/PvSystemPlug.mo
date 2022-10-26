@@ -2,18 +2,18 @@ within IDEAS.Experimental.Electric.Photovoltaics.Extern;
 model PvSystemPlug
   "PV system with separate shut-down controller and plug connector"
 
-  parameter Modelica.SIunits.Power PNom "Nominal power, in Wp";
+  parameter Modelica.Units.SI.Power PNom "Nominal power, in Wp";
   parameter Integer id=19
     "Which photovoltaic from the read profiles in the SimInfoManager";
-  parameter Modelica.SIunits.Time timeOff=300;
-  parameter Modelica.SIunits.Voltage VMax=248
+  parameter Modelica.Units.SI.Time timeOff=300;
+  parameter Modelica.Units.SI.Voltage VMax=248
     "Max grid voltage for operation of the PV system";
   parameter Integer numPha=1;
 
-  Modelica.SIunits.Power PInit=invertor.P "Initial PV power before curtailing";
-  Modelica.SIunits.Power PFinal=pvVoltageCtrl.PFinal
+  Modelica.Units.SI.Power PInit=invertor.P "Initial PV power before curtailing";
+  Modelica.Units.SI.Power PFinal=pvVoltageCtrl.PFinal
     "Effective PV power after curtailing";
-  Modelica.SIunits.Power PLoss=PInit - PFinal "Effective curtailed PV power";
+  Modelica.Units.SI.Power PLoss=PInit - PFinal "Effective curtailed PV power";
 
   replaceable Components.PvVoltageCtrlGeneral_InputVGrid pvVoltageCtrl(
     VMax=VMax,
@@ -32,9 +32,8 @@ model PvSystemPlug
     annotation (Placement(transformation(extent={{-86,50},{-40,70}})));
   BaseClasses.AC.WattsLawPlug            wattsLaw(numPha=numPha)
     annotation (Placement(transformation(extent={{60,30},{80,50}})));
-  Modelica.Electrical.QuasiStationary.MultiPhase.Interfaces.NegativePlug vi(m=
-        numPha) annotation (Placement(transformation(extent={{90,30},{110,50}},
-          rotation=0)));
+  Modelica.Electrical.QuasiStatic.Polyphase.Interfaces.NegativePlug vi(m=numPha)
+    annotation (Placement(transformation(extent={{90,30},{110,50}}, rotation=0)));
   outer IDEAS.BoundaryConditions.Occupants.Extern.StrobeInfoManager strobe(PPv=true)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
  // A top-level "inner" strobe is required to work, otherwise tabPPv cannot be found

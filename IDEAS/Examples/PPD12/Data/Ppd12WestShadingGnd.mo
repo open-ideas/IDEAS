@@ -5,8 +5,10 @@ record Ppd12WestShadingGnd "Ppd shading model for west side, ground floor"
     shaType=IDEAS.Buildings.Components.Shading.Interfaces.ShadingType.BuildingShade,
     L=10,
     dh=hBui-hTopWin);
-  parameter Modelica.SIunits.Length hBui = 2.9+1.6+2+2.2+1+0.5 "Height of line-of-sight point of opposite building that casts shadow";
-  parameter Modelica.SIunits.Length hTopWin = 2.9 "Height difference between street level and bottom of window";
+  parameter Modelica.Units.SI.Length hBui=2.9 + 1.6 + 2 + 2.2 + 1 + 0.5
+    "Height of line-of-sight point of opposite building that casts shadow";
+  parameter Modelica.Units.SI.Length hTopWin=2.9
+    "Height difference between street level and bottom of window";
     //Shading model representing shading from roof tip (9.3m high, 12m horizontal distance to windows)
     //of the opposite building on the west side
     //window bottom on ground floor is 1.2 m above the ground

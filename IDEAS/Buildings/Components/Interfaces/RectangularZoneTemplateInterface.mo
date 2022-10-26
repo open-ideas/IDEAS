@@ -69,51 +69,60 @@ partial model RectangularZoneTemplateInterface
   parameter Integer aziOpt = 5
     "Azimuth angle option from simInfoManager, or custom using aziA"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "South", choice=2 "West", choice=3 "North", choice=4 "East", choice=5 "Custom"));
-  parameter Modelica.SIunits.Angle aziA=sim.aziOpts[aziOpt]
-    "Azimuth angle of face A"
-    annotation(Dialog(enable=aziOpt==5));
-  parameter Modelica.SIunits.Length l
+  parameter Modelica.Units.SI.Angle aziA=sim.aziOpts[aziOpt]
+    "Azimuth angle of face A" annotation (Dialog(enable=aziOpt == 5));
+  parameter Modelica.Units.SI.Length l
     "Horizontal length of faces A and C. This parameter can be overwritten per surface";
-  parameter Modelica.SIunits.Length w
+  parameter Modelica.Units.SI.Length w
     "Horizontal length of faces B and D. This parameter can be overwritten per surface";
-  parameter Modelica.SIunits.Length lA = l
-    "Horizontal length of face A" annotation(Dialog(tab="Face A", group="Overwrite"));
-  parameter Modelica.SIunits.Length lB = w
-    "Horizontal length of face B" annotation(Dialog(tab="Face B", group="Overwrite"));
-  parameter Modelica.SIunits.Length lC = l
-    "Horizontal length of face C" annotation(Dialog(tab="Face C", group="Overwrite"));
-  parameter Modelica.SIunits.Length lD = w
-    "Horizontal length of face D" annotation(Dialog(tab="Face D", group="Overwrite"));
-  parameter Modelica.SIunits.Length lInt = lA
-    "Horizontal length of internal wall contained within the zone" annotation(Dialog(tab="Internal wall", group="Construction details", enable=hasInt));
-  parameter Modelica.SIunits.Area AZone = w*l
+  parameter Modelica.Units.SI.Length lA=l "Horizontal length of face A"
+    annotation (Dialog(tab="Face A", group="Overwrite"));
+  parameter Modelica.Units.SI.Length lB=w "Horizontal length of face B"
+    annotation (Dialog(tab="Face B", group="Overwrite"));
+  parameter Modelica.Units.SI.Length lC=l "Horizontal length of face C"
+    annotation (Dialog(tab="Face C", group="Overwrite"));
+  parameter Modelica.Units.SI.Length lD=w "Horizontal length of face D"
+    annotation (Dialog(tab="Face D", group="Overwrite"));
+  parameter Modelica.Units.SI.Length lInt=lA
+    "Horizontal length of internal wall contained within the zone" annotation (
+      Dialog(
+      tab="Internal wall",
+      group="Construction details",
+      enable=hasInt));
+  parameter Modelica.Units.SI.Area AZone=w*l
     "Parameter to overwrite the zone surface area"
-                                  annotation(Dialog(tab="Advanced", group="Overwrite"));
-  parameter Modelica.SIunits.Area ACei = w*l "Surface of roof or ceiling (including potential windows)"
-    annotation(Dialog(tab="Ceiling", group="Overwrite"));
+    annotation (Dialog(tab="Advanced", group="Overwrite"));
+  parameter Modelica.Units.SI.Area ACei=w*l
+    "Surface of roof or ceiling (including potential windows)"
+    annotation (Dialog(tab="Ceiling", group="Overwrite"));
 
-  parameter Modelica.SIunits.Length h
+  parameter Modelica.Units.SI.Length h
     "Height between top of floor and bottom of ceiling";
-  parameter Modelica.SIunits.Area A_winA=0
-    "Surface area of window of face A"
-    annotation(Dialog(tab="Face A", group="Window details",
-    enable=hasWinA));
-  parameter Modelica.SIunits.Area A_winB=0
-    "Surface area of window of face B"
-    annotation(Dialog(tab="Face B", group="Window details",
-    enable=hasWinB));
-  parameter Modelica.SIunits.Area A_winC=0
-    "Surface area of window of face C"
-    annotation(Dialog(tab="Face C", group="Window details",
-    enable=hasWinC));
-  parameter Modelica.SIunits.Area A_winD=0
-    "Surface area of window of face D"
-    annotation(Dialog(tab="Face D", group="Window details",
-    enable=hasWinD));
-  parameter Modelica.SIunits.Area A_winCei=0
-    "Surface area of window of ceiling"
-    annotation(Dialog(tab="Ceiling", group="Window details",
-    enable=hasWinCei));
+  parameter Modelica.Units.SI.Area A_winA=0 "Surface area of window of face A"
+    annotation (Dialog(
+      tab="Face A",
+      group="Window details",
+      enable=hasWinA));
+  parameter Modelica.Units.SI.Area A_winB=0 "Surface area of window of face B"
+    annotation (Dialog(
+      tab="Face B",
+      group="Window details",
+      enable=hasWinB));
+  parameter Modelica.Units.SI.Area A_winC=0 "Surface area of window of face C"
+    annotation (Dialog(
+      tab="Face C",
+      group="Window details",
+      enable=hasWinC));
+  parameter Modelica.Units.SI.Area A_winD=0 "Surface area of window of face D"
+    annotation (Dialog(
+      tab="Face D",
+      group="Window details",
+      enable=hasWinD));
+  parameter Modelica.Units.SI.Area A_winCei=0
+    "Surface area of window of ceiling" annotation (Dialog(
+      tab="Ceiling",
+      group="Window details",
+      enable=hasWinCei));
 
   parameter Real fracA=0.15
     "Area fraction of the window frame of face A"
@@ -356,57 +365,101 @@ partial model RectangularZoneTemplateInterface
   parameter Boolean hasCavityA = false
     "=true, to model open door or cavity in internal wall"
     annotation(Dialog(tab="Face A", group="Cavity or open door", enable=(bouTypeA==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
-  parameter Modelica.SIunits.Length hA(min=0) = 2
-    "Height of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityA,tab="Face A", group="Cavity or open door"));
-  parameter Modelica.SIunits.Length wA(min=0) = 1
-    "Width of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityA,tab="Face A", group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length hA(min=0) = 2
+    "Height of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityA,
+      tab="Face A",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wA(min=0) = 1
+    "Width of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityA,
+      tab="Face A",
+      group="Cavity or open door"));
   parameter Boolean hasCavityB = false
     "=true, to model open door or cavity in internal wall"
     annotation(Dialog(tab="Face B", group="Cavity or open door", enable=(bouTypeB==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
-  parameter Modelica.SIunits.Length hB(min=0) = 2
-    "Height of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityB,tab="Face B", group="Cavity or open door"));
-  parameter Modelica.SIunits.Length wB(min=0) = 1
-    "Width of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityB,tab="Face B", group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length hB(min=0) = 2
+    "Height of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityB,
+      tab="Face B",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wB(min=0) = 1
+    "Width of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityB,
+      tab="Face B",
+      group="Cavity or open door"));
   parameter Boolean hasCavityC = false
     "=true, to model open door or cavity in internal wall"
     annotation(Dialog(tab="Face C", group="Cavity or open door", enable=(bouTypeC==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
-  parameter Modelica.SIunits.Length hC(min=0) = 2
-    "Height of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityC,tab="Face C", group="Cavity or open door"));
-  parameter Modelica.SIunits.Length wC(min=0) = 1
-    "Width of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityC,tab="Face C", group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length hC(min=0) = 2
+    "Height of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityC,
+      tab="Face C",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wC(min=0) = 1
+    "Width of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityC,
+      tab="Face C",
+      group="Cavity or open door"));
   parameter Boolean hasCavityD = false
     "=true, to model open door or cavity in internal wall"
     annotation(Dialog(tab="Face D", group="Cavity or open door", enable=(bouTypeD==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
-  parameter Modelica.SIunits.Length hD(min=0) = 2
-    "Height of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityD,tab="Face D", group="Cavity or open door"));
-  parameter Modelica.SIunits.Length wD(min=0) = 1
-    "Width of (rectangular) cavity in internal wall"
-     annotation(Dialog(enable=hasCavityD,tab="Face D", group="Cavity or open door"));
-  parameter Modelica.SIunits.Acceleration g = Modelica.Constants.g_n
-    "Gravity, for computation of buoyancy"
-    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Pressure p = 101300
-    "Absolute pressure for computation of buoyancy"
-    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Density rho = p/r/T
-    "Nominal density for computation of buoyancy mass flow rate"
-    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.SpecificHeatCapacity c_p = 1013
-   "Nominal heat capacity for computation of buoyancy heat flow rate"
-   annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.Temperature T = 293.15
-   "Nominal temperature for linearising heat flow rate"
-   annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Modelica.SIunits.TemperatureDifference dT = 1
-   "Nominal temperature difference when linearising heat flow rate"
-   annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.Length hD(min=0) = 2
+    "Height of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityD,
+      tab="Face D",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wD(min=0) = 1
+    "Width of (rectangular) cavity in internal wall" annotation (Dialog(
+      enable=hasCavityD,
+      tab="Face D",
+      group="Cavity or open door"));
+  parameter Boolean hasCavityFlo = false
+    "=true, to model open door or cavity in internal floor"
+    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypeFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+  parameter Modelica.Units.SI.Length bFlo(min=0) = 2
+    "Breadth of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length wFlo(min=0) = 1
+    "Width of (rectangular) cavity in internal floor" annotation (Dialog(
+      enable=hasCavityFlo,
+      tab="Floor",
+      group="Cavity or open door"));
+  parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n
+    "Gravity, for computation of buoyancy" annotation (Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
+  parameter Modelica.Units.SI.Pressure p=101300
+    "Absolute pressure for computation of buoyancy" annotation (Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
+  parameter Modelica.Units.SI.Density rho=p/r/T
+    "Nominal density for computation of buoyancy mass flow rate" annotation (
+      Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
+  parameter Modelica.Units.SI.SpecificHeatCapacity c_p=1013
+    "Nominal heat capacity for computation of buoyancy heat flow rate"
+    annotation (Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
+  parameter Modelica.Units.SI.Temperature T=293.15
+    "Nominal temperature for linearising heat flow rate" annotation (Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
+  parameter Modelica.Units.SI.TemperatureDifference dT=1
+    "Nominal temperature difference when linearising heat flow rate"
+    annotation (Dialog(
+      enable=hasCavity,
+      group="Cavity or open door",
+      tab="Advanced"));
 
   parameter Boolean hasBuildingShadeA=false
     "=true, to enable computation of shade cast by opposite building or object on OuterWall"
@@ -447,18 +500,19 @@ partial model RectangularZoneTemplateInterface
   parameter SI.Length PWall = (if hasOutA then lA else 0) + (if hasOutB then lB else 0) + (if hasOutC then lC else 0) + (if hasOutD then lD else 0)
     "Total floor slab perimeter length" annotation(Dialog(tab="Advanced", group="SlabOnGround", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
 
+
   parameter Boolean hasEmb = false
     "Set to true if floor is equipped with floor heating or concrete core activation"
   annotation(Dialog(tab="Floor", group="Floor heating / CCA",
             enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
                     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
                     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  final parameter Modelica.SIunits.Angle aziB = aziAInt + Modelica.Constants.pi/2
-    "Azimuth angle of face B";
-  final parameter Modelica.SIunits.Angle aziC = aziAInt + Modelica.Constants.pi
+  final parameter Modelica.Units.SI.Angle aziB=aziAInt + Modelica.Constants.pi/
+      2 "Azimuth angle of face B";
+  final parameter Modelica.Units.SI.Angle aziC=aziAInt + Modelica.Constants.pi
     "Azimuth angle of face C";
-  final parameter Modelica.SIunits.Angle aziD = aziAInt + 3*Modelica.Constants.pi/2
-    "Azimuth angle of face D";
+  final parameter Modelica.Units.SI.Angle aziD=aziAInt + 3*Modelica.Constants.pi
+      /2 "Azimuth angle of face D";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurfExt] proBusExt(
     redeclare each final package Medium = Medium,
@@ -475,15 +529,7 @@ partial model RectangularZoneTemplateInterface
         rotation=180,
         origin={-120,100})));
 
-protected
-  constant Real r = 287 "Gas constant";
-  final parameter Modelica.SIunits.Angle aziAInt=
-     if aziOpt==5
-     then aziA
-     else sim.aziOpts[aziOpt]
-     "Internal azimuth angle";
-  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
-    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
+
   IDEAS.Buildings.Components.BoundaryWall bouA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
       locGain=conTypA.locGain,
@@ -493,8 +539,8 @@ protected
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
     A=AWallANet,
-    redeclare package Medium = Medium) if
-       hasBouA
+    redeclare package Medium = Medium)
+    if hasBouA
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,0},{-110,20}})));
   IDEAS.Buildings.Components.BoundaryWall bouB(
@@ -508,8 +554,8 @@ protected
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
     A=AWallBNet,
-    redeclare package Medium = Medium) if
-       hasBouB
+    redeclare package Medium = Medium)
+    if hasBouB
     "Boundary wall for face A of this zone"
     annotation (Placement(transformation(extent={{-120,-20},{-110,0}})));
   IDEAS.Buildings.Components.BoundaryWall bouC(inc=IDEAS.Types.Tilt.Wall,
@@ -522,8 +568,8 @@ protected
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
     A=AWallCNet,
-    redeclare package Medium = Medium) if
-       hasBouC
+    redeclare package Medium = Medium)
+    if hasBouC
     "Boundary wall for face C of this zone"
     annotation (Placement(transformation(extent={{-120,-40},{-110,-20}})));
   IDEAS.Buildings.Components.BoundaryWall bouD(inc=IDEAS.Types.Tilt.Wall, azi=aziD,
@@ -535,8 +581,8 @@ protected
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
     A=AWallDNet,
-    redeclare package Medium = Medium) if
-       hasBouD
+    redeclare package Medium = Medium)
+    if hasBouD
     "Boundary wall for face D of this zone"
     annotation (Placement(transformation(extent={{-120,-60},{-110,-40}})));
   IDEAS.Buildings.Components.BoundaryWall bouFlo(inc=IDEAS.Types.Tilt.Floor, azi=aziAInt,
@@ -548,8 +594,8 @@ protected
     T_start=T_start,
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
-    redeclare package Medium = Medium) if
-       hasBouFlo
+    redeclare package Medium = Medium)
+    if hasBouFlo
     "Boundary wall for zone floor"
     annotation (Placement(transformation(extent={{-120,-80},{-110,-60}})));
   IDEAS.Buildings.Components.BoundaryWall bouCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziAInt,
@@ -561,8 +607,8 @@ protected
     linIntCon_a=linIntCon,
     dT_nominal_a=dT_nominal_bou,
     A=ACeiNet,
-    redeclare package Medium = Medium) if
-       hasBouCei
+    redeclare package Medium = Medium)
+    if hasBouCei
     "Boundary wall for zone ceiling"
     annotation (Placement(transformation(extent={{-120,-100},{-110,-80}})));
   IDEAS.Buildings.Components.OuterWall outA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
@@ -580,8 +626,8 @@ protected
     final hWal=h,
     final hasBuildingShade=hasBuildingShadeA,
     final L=LShaA,
-    final dh=dhShaA) if
-       hasOutA
+    final dh=dhShaA)
+    if hasOutA
     "Outer wall for face A of this zone"
     annotation (Placement(transformation(extent={{-140,0},{-130,20}})));
   IDEAS.Buildings.Components.OuterWall outB(
@@ -601,8 +647,8 @@ protected
     final hasBuildingShade=hasBuildingShadeB,
     final L=LShaB,
     final dh=dhShaB,
-    final hWal=h) if
-       hasOutB
+    final hWal=h)
+    if hasOutB
     "Outer wall for face B of this zone"
     annotation (Placement(transformation(extent={{-140,-20},{-130,0}})));
   IDEAS.Buildings.Components.OuterWall outC(inc=IDEAS.Types.Tilt.Wall,
@@ -621,8 +667,8 @@ protected
     final hasBuildingShade=hasBuildingShadeC,
     final L=LShaC,
     final dh=dhShaC,
-    final hWal=h) if
-       hasOutC
+    final hWal=h)
+    if hasOutC
     "Outer wall for face C of this zone"
     annotation (Placement(transformation(extent={{-140,-40},{-130,-20}})));
   IDEAS.Buildings.Components.OuterWall outD(inc=IDEAS.Types.Tilt.Wall, azi=aziD,
@@ -640,8 +686,8 @@ protected
     final hasBuildingShade=hasBuildingShadeD,
     final L=LShaD,
     final dh=dhShaD,
-    final hWal=h) if
-       hasOutD
+    final hWal=h)
+    if hasOutD
     "Outer wall for face D of this zone"
     annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
   IDEAS.Buildings.Components.OuterWall outCei(
@@ -657,8 +703,8 @@ protected
     redeclare package Medium = Medium,
     linExtCon=linExtCon,
     linExtRad=linExtRad,
-    A=max(0,ACeiNet)) if
-       hasOutCei
+    A=max(0,ACeiNet))
+    if hasOutCei
     "Outer wall for zone ceiling"
     annotation (Placement(transformation(extent={{-140,-100},{-130,-80}})));
   IDEAS.Buildings.Components.SlabOnGround slaOnGro(
@@ -677,8 +723,8 @@ protected
     dTeAvg=dTeAvg,
     dTiAvg=dTiAvg,
     dT_nominal_a=dT_nominal_sla,
-    PWall=PWall) if
-     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
+    PWall=PWall)
+  if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
     "Slab on ground model for zone floor."
     annotation (Placement(transformation(extent={{-160,-80},{-150,-60}})));
   IDEAS.Buildings.Components.InternalWall intA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
@@ -701,8 +747,8 @@ protected
     c_p=c_p,
     T=T,
     dT=dT,
-    A=lA*h - (if hasCavityA then hA*wA else 0)) if
-    hasIntA
+    A=lA*h - (if hasCavityA then hA*wA else 0))
+ if hasIntA
     "Internal wall for face A of this zone"
     annotation (Placement(transformation(extent={{-176,0},{-164,20}})));
   IDEAS.Buildings.Components.InternalWall intB(
@@ -727,8 +773,8 @@ protected
     hasCavity=hasCavityB,
     h=hB,
     w=wB,
-    A=lB*h - (if hasCavityB then hB*wB else 0)) if
-    hasIntB
+    A=lB*h - (if hasCavityB then hB*wB else 0))
+ if hasIntB
     "Internal wall for face B of this zone"
     annotation (Placement(transformation(extent={{-176,-20},{-164,0}})));
   IDEAS.Buildings.Components.InternalWall intC(inc=IDEAS.Types.Tilt.Wall,
@@ -752,8 +798,8 @@ protected
     hasCavity=hasCavityC,
     h=hC,
     w=wC,
-    A=lC*h - (if hasCavityC then hC*wC else 0)) if
-    hasIntC
+    A=lC*h - (if hasCavityC then hC*wC else 0))
+ if hasIntC
     "Internal wall for face C of this zone"
     annotation (Placement(transformation(extent={{-176,-40},{-164,-20}})));
   IDEAS.Buildings.Components.InternalWall intD(inc=IDEAS.Types.Tilt.Wall, azi=aziD,
@@ -776,8 +822,8 @@ protected
     hasCavity=hasCavityD,
     h=hD,
     w=wD,
-    A=lD*h - (if hasCavityD then hD*wD else 0)) if
-    hasIntD
+    A=lD*h - (if hasCavityD then hD*wD else 0))
+ if hasIntD
     "Internal wall for face D of this zone"
     annotation (Placement(transformation(extent={{-176,-60},{-164,-40}})));
   IDEAS.Buildings.Components.InternalWall intFlo(
@@ -793,8 +839,11 @@ protected
     dT_nominal_a=dT_nominal_intA,
     redeclare package Medium = Medium,
     linIntCon_b=linIntCon,
-    dT_nominal_b=dT_nominal_intB) if
-    hasIntFlo
+    hasCavity=hasCavityFlo,
+    h=bFlo,
+    w=wFlo,
+    dT_nominal_b=dT_nominal_intB)
+ if hasIntFlo
     "Internal wall for zone floor"
     annotation (Placement(transformation(extent={{-176,-80},{-164,-60}})));
 
@@ -812,17 +861,16 @@ protected
     dT_nominal_b=dT_nominal_intA,
     azi=0,
     A=lInt*h,
-    final hasCavity=false) if
-    hasInt "Internal wall contained within the zone"
+    final hasCavity=false)
+ if hasInt "Internal wall contained within the zone"
     annotation (Placement(transformation(extent={{-176,20},{-164,40}})));
-public
   IDEAS.Buildings.Components.Interfaces.ZoneBus proBusA[nExtA](
     redeclare each final package Medium = Medium,
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face A"
     annotation (Placement(transformation(
@@ -838,8 +886,8 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypB == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face B"
     annotation (Placement(transformation(
@@ -855,8 +903,8 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face C"
     annotation (Placement(transformation(
@@ -872,8 +920,8 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of face D"
     annotation (Placement(transformation(
@@ -889,8 +937,8 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface or internalWall of floor"
     annotation (Placement(transformation(
@@ -906,8 +954,8 @@ public
     each final numIncAndAziInBus=sim.numIncAndAziInBus,
     each final outputAngles=sim.outputAngles,
     each final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) if
-    bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
+    each final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+ if bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
     "Propsbus connector for connecting to external surface of ceiling: internal walls should be modelled as the floor of the zone above"
     annotation (Placement(transformation(
         extent={{-20,20},{20,-20}},
@@ -917,13 +965,18 @@ public
         rotation=180,
         origin={-2,60})));
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb] if
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb]
+ if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
     "Floor node for embedded heat gain if case of floor heating or CCA."
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 protected
+  constant Real r = 287 "Gas constant";
+  final parameter Modelica.Units.SI.Angle aziAInt=if aziOpt == 5 then aziA
+       else sim.aziOpts[aziOpt] "Internal azimuth angle";
+  final parameter Integer nGainEmb = conTypFlo.nGain "Number of planes in which CCA or FH pipes are located"
+    annotation(Dialog(tab="Floor", group="Floor heating / CCA"));
   final parameter Boolean hasBouA=
     bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall;
   final parameter Boolean hasBouB=
@@ -981,11 +1034,11 @@ protected
   final parameter Boolean hasNoCei=
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.None;
 
-  parameter Modelica.SIunits.Area AWallANet(fixed=false);
-  parameter Modelica.SIunits.Area AWallBNet(fixed=false);
-  parameter Modelica.SIunits.Area AWallCNet(fixed=false);
-  parameter Modelica.SIunits.Area AWallDNet(fixed=false);
-  parameter Modelica.SIunits.Area ACeiNet(fixed=false);
+  parameter Modelica.Units.SI.Area AWallANet(fixed=false);
+  parameter Modelica.Units.SI.Area AWallBNet(fixed=false);
+  parameter Modelica.Units.SI.Area AWallCNet(fixed=false);
+  parameter Modelica.Units.SI.Area AWallDNet(fixed=false);
+  parameter Modelica.Units.SI.Area ACeiNet(fixed=false);
 
   final parameter Integer indWalA = if hasNoA then 0 else 1;
   final parameter Integer indWalA_end = indWalA + (if bouTypA == IDEAS.Buildings.Components.Interfaces.BoundaryType.External
@@ -1460,6 +1513,13 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 
+<li>
+August 2, 2022, by Filip Jorissen:<br/>
+Added cavity support for horizontal internal walls (floor/ceiling)
+for supporting staircases.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1294\">
+#1294</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

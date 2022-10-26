@@ -3,8 +3,8 @@ model RectangularZoneTemplate
   "Rectangular zone including walls, floor and ceiling"
   extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface;
 
-  Modelica.Blocks.Interfaces.RealInput ctrlA if
-                                               shaTypA.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlA
+                                            if shaTypA.controlled
     "Control input for windows in face A, if controlled"
     annotation (Placement(transformation(extent={{11,-11},{-11,11}},
         rotation=-90,
@@ -12,16 +12,16 @@ model RectangularZoneTemplate
         extent={{-11,-11},{11,11}},
         rotation=-90,
         origin={84,112})));
-  Modelica.Blocks.Interfaces.RealInput ctrlB if
-                                               shaTypB.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlB
+                                            if shaTypB.controlled
     "Control input for windows in face B, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
         rotation=-90,
         origin={-155,-111}), iconTransformation(extent={{123,-99},{101,-77}},
           rotation=0)));
-  Modelica.Blocks.Interfaces.RealInput ctrlC if
-                                               shaTypC.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlC
+                                            if shaTypC.controlled
     "Control input for windows in face C, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -30,8 +30,8 @@ model RectangularZoneTemplate
         extent={{11,-11},{-11,11}},
         rotation=-90,
         origin={-88,-112})));
-  Modelica.Blocks.Interfaces.RealInput ctrlD if
-                                               shaTypD.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlD
+                                            if shaTypD.controlled
     "Control input for windows in face D, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -40,8 +40,8 @@ model RectangularZoneTemplate
         extent={{11,-11},{-11,11}},
         rotation=180,
         origin={-112,72})));
-  Modelica.Blocks.Interfaces.RealInput ctrlCei if
-                                               shaTypCei.controlled
+  Modelica.Blocks.Interfaces.RealInput ctrlCei
+                                            if shaTypCei.controlled
     "Control input for windows in ceiling, if controlled" annotation (Placement(
         transformation(
         extent={{11,-11},{-11,11}},
@@ -90,8 +90,8 @@ replaceable
     fraType(present=fraTypA.present,
             U_value=fraTypA.U_value),
     linExtRad=linExtRadWin,
-    nWin=nWinA) if
-       hasWinA constrainedby Window(
+    nWin=nWinA)
+    if hasWinA constrainedby Window(
        azi=aziAInt,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -145,8 +145,8 @@ replaceable
   shaCorr=shaTypB.shaCorr)),
     fraType(present=fraTypB.present, U_value=fraTypB.U_value),
     linExtRad=linExtRadWin,
-    nWin=nWinB) if
-       hasWinB constrainedby Window(
+    nWin=nWinB)
+    if hasWinB constrainedby Window(
        azi=aziB,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -202,8 +202,8 @@ replaceable
   shaCorr=shaTypC.shaCorr)),
     fraType(present=fraTypC.present, U_value=fraTypC.U_value),
     linExtRad=linExtRadWin,
-    nWin=nWinC) if
-       hasWinC constrainedby Window(
+    nWin=nWinC)
+    if hasWinC constrainedby Window(
        azi=aziC,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -258,8 +258,8 @@ replaceable
   shaCorr=shaTypD.shaCorr)),
     fraType(present=fraTypD.present, U_value=fraTypD.U_value),
     linExtRad=linExtRadWin,
-    nWin=nWinD) if
-       hasWinD constrainedby Window(
+    nWin=nWinD)
+    if hasWinD constrainedby Window(
        azi=aziD,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,
@@ -314,8 +314,8 @@ replaceable
   shaCorr=shaTypCei.shaCorr)),
     fraType(present=fraTypCei.present, U_value=fraTypCei.U_value),
     linExtRad=linExtRadWin,
-    nWin=nWinCei) if
-       hasWinCei constrainedby Window(
+    nWin=nWinCei)
+    if hasWinCei constrainedby Window(
        azi=aziAInt,
        inc=IDEAS.Types.Tilt.Wall,
        T_start=T_start,

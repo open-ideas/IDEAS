@@ -1,7 +1,7 @@
 within IDEAS.BoundaryConditions.SolarIrradiation;
 model RadSolData "Selects or generates correct solar data for this surface"
-  parameter Modelica.SIunits.Angle inc "inclination";
-  parameter Modelica.SIunits.Angle azi "azimuth";
+  parameter Modelica.Units.SI.Angle inc "inclination";
+  parameter Modelica.Units.SI.Angle azi "azimuth";
   parameter Boolean useLinearisation = false
     "Set to true if used for linearisation";
   outer SimInfoManager                          sim
@@ -40,6 +40,8 @@ public
     annotation (Placement(transformation(extent={{96,-150},{116,-130}})));
   Modelica.Blocks.Interfaces.RealOutput Tdes "Design tempearture"
     annotation (Placement(transformation(extent={{96,-170},{116,-150}})));
+  parameter Boolean solDataInBus = numMatches==1
+    "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
@@ -49,8 +51,7 @@ protected
           then 1
           else 0 for i in 1:sim.numIncAndAziInBus})
     annotation(Evaluate=true);
-  final parameter Boolean solDataInBus = numMatches==1
-    "True if the {inc,azi} combination is found in incAndAziInBus" annotation(Evaluate=true);
+
   final parameter Integer solDataIndex=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,1],inc)
              and (IDEAS.Utilities.Math.Functions.isAngle(sim.incAndAziInBus[i,2],azi)
@@ -64,8 +65,8 @@ protected
     final inc=inc,
     final azi=azi,
     final lat=sim.lat,
-    final outputAngles=sim.outputAngles) if
-                      not solDataInBus
+    final outputAngles=sim.outputAngles)
+                   if not solDataInBus
     "determination of incident solar radiation on wall based on inclination and azimuth"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 
@@ -75,8 +76,8 @@ protected
                                      annotation (HideResults=true, Placement(
         transformation(extent={{-60,10},{-20,50}})));
 
-  Modelica.Blocks.Sources.Constant constAngLin(k=1) if
-                                                 solDataInBus and not sim.outputAngles
+  Modelica.Blocks.Sources.Constant constAngLin(k=1)
+                                              if solDataInBus and not sim.outputAngles
     "Dummy inputs when linearising. This avoids unnecessary state space inputs."
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
 equation
@@ -189,6 +190,12 @@ If the correct data is not contained by the bus, custom solar data is calculated
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 <li>
 August 12, 2020, by Filip Jorissen:<br/>
 Using precomputed data for ceilings/floors even if azimuth angle mismatches.

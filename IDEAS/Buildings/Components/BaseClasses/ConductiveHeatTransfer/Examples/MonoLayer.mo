@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples;
 model MonoLayer "Unit test for mono layer model"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Area A=10 "total multilayer area";
+  parameter Modelica.Units.SI.Area A=10 "total multilayer area";
   parameter IDEAS.Buildings.Data.Constructions.CavityWallPartialFill cavityWallData
     "Record containing data for cavity wall"
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
@@ -20,7 +20,7 @@ model MonoLayer "Unit test for mono layer model"
 
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer monoLayerSolid(
     A=A,
-    mat=IDEAS.Buildings.Data.Materials.BrickHe(d=0.3),
+    mat=IDEAS.Buildings.Data.Materials.Brick(d=0.3),
     inc=IDEAS.Types.Tilt.Wall,
     epsLw_a=0.9,
     epsLw_b=0.9,
@@ -44,7 +44,7 @@ model MonoLayer "Unit test for mono layer model"
     annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
   IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.MonoLayer monoLayerSolidStatic(
     A=A,
-    mat=IDEAS.Buildings.Data.Materials.BrickHe(d=0.3),
+    mat=IDEAS.Buildings.Data.Materials.Brick(d=0.3),
     inc=IDEAS.Types.Tilt.Wall,
     epsLw_a=0.9,
     epsLw_b=0.9,
@@ -80,6 +80,10 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+July 20, 2022 by Filip Jorissen:<br/>
+Revised the used brick type for #1245.
+</li>
 <li>
 January 30, 2019 by Filip Jorissen:<br/>
 Revised initial conditions according to new implementation of <code>MultiLayer</code>.

@@ -5,10 +5,14 @@ model SingleZoneResidentialHydronicHeatPump
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+    "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+    "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
@@ -92,11 +96,11 @@ model SingleZoneResidentialHydronicHeatPump
                                                      y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
-        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 1e-8 then
+        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
-        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
+        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -104,14 +108,13 @@ model SingleZoneResidentialHydronicHeatPump
     Ti=8000,
     yMax=1,
     yMin=0,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     use_inputFilter=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
@@ -121,6 +124,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{40,30},{20,50}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{80,50},{60,30}})));
@@ -136,9 +140,10 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{0,0},{-20,20}})));
   Fluid.Sensors.TemperatureTwoPort senTemRet(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Return water temperature sensor"
-    annotation (Placement(transformation(extent={{80,-10},{60,-30}})));
+    annotation (Placement(transformation(extent={{60,-10},{80,-30}})));
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
@@ -233,7 +238,6 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{160,100},{180,120}})));
   Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
     use_inputFilter=false,
     dp_nominal=100,
@@ -256,7 +260,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-80,90},{-60,70}})));
   Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
+  Modelica.Blocks.Sources.Constant const(k=1e-8) "Threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-114,100},{-94,120}})));
   Utilities.IO.SignalExchange.WeatherStation weaSta "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-160,160},{-140,180}})));
@@ -282,14 +286,10 @@ equation
     annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
           40},{80,40}},               color={0,127,255}));
-  connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
-          -20},{124,0}},        color={0,127,255}));
   connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
         points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
   connect(pum.port_b, floHea.port_a)
     annotation (Line(points={{20,40},{0,40},{0,10}}, color={0,127,255}));
-  connect(floHea.port_b, senTemRet.port_b)
-    annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -316,7 +316,7 @@ equation
   connect(yFan.y, oveFan.u)
     annotation (Line(points={{181,110},{190,110}}, color={0,0,127}));
   connect(fan.port_a, outAir.ports[1])
-    annotation (Line(points={{220,40},{240,40},{240,12}},color={0,127,255}));
+    annotation (Line(points={{220,40},{240,40},{240,9}}, color={0,127,255}));
   connect(realToInteger2.y, fan.stage) annotation (Line(points={{273,110},{280,110},
           {280,60},{210,60},{210,52}}, color={255,127,0}));
   connect(fan.P, reaPFan.u) annotation (Line(points={{199,49},{190,49},{190,80},
@@ -341,7 +341,7 @@ equation
           -90,88},{-82,88}}, color={0,0,127}));
   connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
           60},{-100,60},{-100,80},{-82,80}}, color={0,0,127}));
-  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,8},{240,
+  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,11},{240,
           -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
@@ -367,6 +367,10 @@ equation
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
     annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
+  connect(senTemRet.port_b, heaPum.port_a1)
+    annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
+  connect(senTemRet.port_a, floHea.port_b)
+    annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
   annotation (
     experiment(
       StopTime=1728000,
@@ -872,6 +876,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 3, 2022, by David Blum and Filip Jorissen:<br/>
+Detect occupancy for set points with threshold strictly larger than 0.
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1260\"> issue #1260</a>. 
+</li>
 <li>
 December 2, 2021, by David Blum:<br/>
 Remove read blocks for control signals.

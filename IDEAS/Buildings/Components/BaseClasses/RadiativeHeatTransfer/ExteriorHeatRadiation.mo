@@ -1,44 +1,43 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer;
 model ExteriorHeatRadiation
   "longwave radiative heat exchange of an exterior surface with the environment"
-  parameter Modelica.SIunits.Area A "Surface area of heat exchange surface";
-  parameter Modelica.SIunits.Temperature Tenv_nom = 280
+  parameter Modelica.Units.SI.Area A "Surface area of heat exchange surface";
+  parameter Modelica.Units.SI.Temperature Tenv_nom=280
     "Nominal temperature of environment"
-    annotation(Dialog(group="Linearisation", enable=linearise));
+    annotation (Dialog(group="Linearisation", enable=linearise));
   parameter Boolean linearise=true "If true, linearise radiative heat transfer";
+  parameter Modelica.Units.SI.Emissivity epsLw "Long wave emissivity";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(visible = true, transformation(extent = {{90, -10}, {110, 10}}, rotation = 0), iconTransformation(extent = {{90, -10}, {110, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput Tenv
     "Radiative temperature of the environment"
-    annotation (Placement(transformation(extent={{-120,40},{-80,80}})));
+    annotation (Placement(visible = true, transformation(extent = {{-120, -20}, {-80, 20}}, rotation = 0), iconTransformation(extent = {{-120, -20}, {-80, 20}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem
     "Prescribed temperature block"
-    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
-  Modelica.Blocks.Interfaces.RealInput epsLw
-    "Longwave emissivity of the surface"
-    annotation (Placement(transformation(extent={{-120,14},{-80,54}})));
+    annotation (Placement(visible = true, transformation(extent = {{-60, -10}, {-40, 10}}, rotation = 0)));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.HeatRadiation
     heaRad(
     final R=R,
     final Tzone_nom=Tenv_nom,
     dT_nom=5,
     final linearise=linearise) "Component for computing radiative heat "
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+    annotation (Placement(visible = true, transformation(origin = {0, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 
 protected
   parameter Real R(fixed=false);
+
 
 initial equation
   R=1/(Modelica.Constants.sigma*A*epsLw);
 
 equation
-  connect(preTem.port, heaRad.port_b)
-    annotation (Line(points={{10,60},{10,0}}, color={191,0,0}));
-  connect(heaRad.port_a, port_a)
-    annotation (Line(points={{-10,0},{-100,0}}, color={191,0,0}));
-  connect(preTem.T, Tenv)
-    annotation (Line(points={{-12,60},{-56,60},{-100,60}}, color={0,0,127}));
+  connect(preTem.port, heaRad.port_b) annotation(
+    Line(points = {{-40, 0}, {-40, -0.5}, {-18, -0.5}, {-18, 1}, {-10, 1}, {-10, 0}}, color = {191, 0, 0}));
+  connect(heaRad.port_a, port_a) annotation(
+    Line(points = {{10, 0}, {100, 0}}, color = {191, 0, 0}));
+  connect(preTem.T, Tenv) annotation(
+    Line(points = {{-62, 0}, {-100, 0}}, color = {0, 0, 127}));
   annotation (Icon(graphics={
         Line(points={{-40,10},{40,10}}, color={191,0,0}),
         Line(points={{-40,10},{-30,16}}, color={191,0,0}),
@@ -52,24 +51,10 @@ equation
         Line(points={{-40,30},{40,30}}, color={191,0,0}),
         Line(points={{30,24},{40,30}}, color={191,0,0}),
         Line(points={{30,36},{40,30}}, color={191,0,0}),
-        Rectangle(
-          extent={{-90,80},{-60,-80}},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
-        Line(
-          points={{-60,80},{-60,-80}},
-          color={0,0,0},
-          thickness=0.5),
-        Rectangle(
-          extent={{90,80},{60,-80}},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
-        Line(
-          points={{60,80},{60,-80}},
-          color={0,0,0},
-          thickness=0.5)}), Documentation(info="<html>
+        Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-90, 80}, {-60, -80}}),
+        Line(points = {{-60, 80}, {-60, -80}}, thickness = 0.5),
+        Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{90, 80}, {60, -80}}),
+        Line(points = {{60, 80}, {60, -80}}, thickness = 0.5)}), Documentation(info="<html>
 <p>
 Longwave radiation between the surface and environment 
 <img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-AMjoTx5S.png\"/> is determined as

@@ -21,7 +21,7 @@ model HouseConnector
   replaceable parameter IDEAS.Experimental.Electric.Data.Interfaces.Cable typHouBran=
       Data.Cables.PvcAl16() "Cable type used for the connection to the house";
 
-  parameter Modelica.SIunits.Length lenHouBran=10
+  parameter Modelica.Units.SI.Length lenHouBran=10
     "Length of the cable of the connection to the house";
 
   /***This creates the branches. TODO:adjust mulfac to cope with single phase connections and single phase equivalent 3 phase connections,
@@ -33,10 +33,10 @@ Maybe also make sure unused cables have very high impedance so errors will show 
     each mulFac=mulFacZ);
 
   /**This creates the Nodes for the gridconnection and the houseconnection**/
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.NegativePin[
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.NegativePin[
     numPhaGriCon] griCon
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Electrical.QuasiStationary.SinglePhase.Interfaces.PositivePin[
+  Modelica.Electrical.QuasiStatic.SinglePhase.Interfaces.PositivePin[
     numPhaHouCon] houCon annotation (
     Placement(transformation(extent={{90,-10},{110,10}}), iconTransformation(
           extent={{90,-10},{110,10}})),
@@ -50,7 +50,7 @@ Maybe also make sure unused cables have very high impedance so errors will show 
   A 3 phase connection to a 3 phase grid gives a multiplication factor of 1 on all phases**/
 
   /***The Losses in the houseconnection***/
-  Modelica.SIunits.ActivePower PLosHouCon;
+  Modelica.Units.SI.ActivePower PLosHouCon;
 
 protected
   parameter Integer numPhaGriCon=if singlePhaseGrid then 1 else (if

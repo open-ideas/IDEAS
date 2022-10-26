@@ -3,13 +3,15 @@ model Bangbang "BESTEST bang-bang heating system"
   extends IDEAS.Templates.Interfaces.BaseClasses.HeatingSystem(
     final nEmbPorts = 0, final nLoads=1, final nTemSen = nZones);
 
-  parameter Modelica.SIunits.Volume[nZones] VZones;
+  parameter Modelica.Units.SI.Volume[nZones] VZones;
   parameter Real mSenFac = 5 "Correction factor for thermal mass in zone";
   parameter Real[nZones] C = VZones * mSenFac * 1012 * 1.204;
 
 protected
-  parameter Modelica.SIunits.Temperature Theat=293.15 "Heating on below 20degC";
-  parameter Modelica.SIunits.Temperature Tcool=293.15 "Cooling on above 27degC";
+  parameter Modelica.Units.SI.Temperature Theat=293.15
+    "Heating on below 20degC";
+  parameter Modelica.Units.SI.Temperature Tcool=293.15
+    "Cooling on above 27degC";
 
 equation
   for i in 1:nZones loop

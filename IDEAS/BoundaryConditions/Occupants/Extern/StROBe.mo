@@ -8,11 +8,11 @@ model StROBe "StROBe occupant, for multi zone building models"
   outer StrobeInfoManager strobe(final StROBe_P=true, StROBe = true)
     annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
-  parameter Modelica.SIunits.Volume[nZones] VZones "Zone volumes";
+  parameter Modelica.Units.SI.Volume[nZones] VZones "Zone volumes";
   final parameter Real[nZones] fV = VZones/sum(VZones) "Zone volume fractions";
 
 protected
-  Modelica.SIunits.Temperature[nZones] TSet_internal;
+  Modelica.Units.SI.Temperature[nZones] TSet_internal;
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow[nZones] QCon_flow
     annotation (Placement(transformation(extent={{-170,10},{-190,30}})));

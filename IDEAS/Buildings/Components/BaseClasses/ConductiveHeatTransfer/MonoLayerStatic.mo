@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer;
 model MonoLayerStatic "Static layer for uniform solid."
 
-  parameter Modelica.SIunits.ThermalResistance R
+  parameter Modelica.Units.SI.ThermalResistance R
     "Total specific thermal resistance";
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon_a(G=G2)
@@ -19,7 +19,7 @@ model MonoLayerStatic "Static layer for uniform solid."
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
 protected
-  final parameter Modelica.SIunits.ThermalConductance G2 = 2/R;
+  final parameter Modelica.Units.SI.ThermalConductance G2=2/R;
 equation
   connect(theCon_a.port_b, theCon_b.port_a)
     annotation (Line(points={{-40,0},{40,0}}, color={191,0,0}));

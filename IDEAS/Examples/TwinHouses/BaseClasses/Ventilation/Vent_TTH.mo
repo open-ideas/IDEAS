@@ -26,7 +26,6 @@ model Vent_TTH
     each use_T_in=true)
     annotation (Placement(transformation(extent={{-80,-56},{-100,-36}})));
   IDEAS.Fluid.FixedResistances.Junction                         spl(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     tau=300,
     from_dp=false,
     m_flow_nominal={120,-60,-60}*1.204/3600,
@@ -36,7 +35,7 @@ model Vent_TTH
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-144,12},{-124,32}})));
   IDEAS.Fluid.Sources.Boundary_pT bou[5](
     each final nPorts=1,
@@ -54,14 +53,14 @@ model Vent_TTH
 equation
   connect(port_b[1], source[1].ports[1]);
 
-  connect(port_a[2], spl.port_1) annotation (Line(points={{-200,14.2857},{-172,
-          14.2857},{-172,22},{-144,22}},
+  connect(port_a[2], spl.port_1) annotation (Line(points={{-200,17.1429},{-172,
+          17.1429},{-172,22},{-144,22}},
                                 color={0,0,0}));
   connect(spl.port_3, port_b[3]) annotation (Line(points={{-134,12},{-134,
-          -22.8571},{-200,-22.8571}}, color={0,127,255}));
+          -21.4286},{-200,-21.4286}}, color={0,127,255}));
   connect(spl.port_2, port_b[4]) annotation (Line(points={{-124,22},{-110,
           22},{-110,-20},{-200,-20}}, color={0,127,255}));
-  connect(port_a[3], bou[1].ports[1]) annotation (Line(points={{-200,17.1429},{
+  connect(port_a[3], bou[1].ports[1]) annotation (Line(points={{-200,18.5714},{
           -200,53},{-112,53}},      color={0,0,0}));
   connect(port_a[4], bou[2].ports[1]) annotation (Line(points={{-200,20},{-200,
           53},{-112,53}},           color={0,0,0}));
@@ -74,12 +73,12 @@ equation
   connect(from_degC.y, source[1].T_in) annotation (Line(points={{-54.8,-68},{-70,
           -68},{-70,-42},{-78,-42}}, color={0,0,127}));
   connect(port_a[5:7], bou[3:5].ports[1]) annotation (Line(points={{-200,
-          28.5714},{-190,28.5714},{-190,53},{-112,53}},
+          24.2857},{-190,24.2857},{-190,53},{-112,53}},
                                                   color={0,0,0}));
   connect(source1[1:3].ports[1], port_b[5:7]) annotation (Line(points={{-100,
-          -88},{-200,-88},{-200,-11.4286}},                  color={0,127,255}));
-  connect(port_b[2], port_a[1]) annotation (Line(points={{-200,-25.7143},{-200,
-          11.4286}},                 color={0,0,0}));
+          -88},{-200,-88},{-200,-15.7143}},                  color={0,127,255}));
+  connect(port_b[2], port_a[1]) annotation (Line(points={{-200,-22.8571},{-200,
+          15.7143}},                 color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={Line(points={{-194,
               -20},{-152,-20},{-152,-44},{-100,-44}}, color={28,108,200})}));

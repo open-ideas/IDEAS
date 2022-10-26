@@ -30,7 +30,7 @@ model TwinHouseInfoManager
     final fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/measurements/")+filNam3,
     columns= (if exp== 1 then 37:42 else {55,56,58,59,60,61}))
     "input for solGloHor and solDifHor measured at TTH"
-    annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
+    annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
   IDEAS.BoundaryConditions.SolarIrradiation.RadiationConvertor radCon(final lat=lat, final lon=lon,
     rho={radSol[1].rho,radSol[1].rho,radSol[1].rho})
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
@@ -44,18 +44,23 @@ equation
   connect(weaDat.HDirNor_in, radCon.HDirNor);
   connect(weaDat.HDifHor_in, radCon.HDifHor);
 
-  connect(inputSolTTH.y[4], radCon.HEast) annotation (Line(points={{-79,-30},{
-          -36,-30},{-36,-61},{-22,-61}},
+  connect(inputSolTTH.y[4], radCon.HEast) annotation (Line(points={{-79,-90},{
+          -40,-90},{-40,-68},{-38,-68},{-38,-61},{-22,-61}},
                                        color={0,0,127}));
-  connect(inputSolTTH.y[5], radCon.HSouth) annotation (Line(points={{-79,-30},{
-          -38,-30},{-38,-65},{-22,-65}},   color={0,0,127}));
-  connect(inputSolTTH.y[6], radCon.HWest) annotation (Line(points={{-79,-30},{
-          -40,-30},{-40,-69},{-22,-69}},
+  connect(inputSolTTH.y[5], radCon.HSouth) annotation (Line(points={{-79,-90},{
+          -40,-90},{-40,-68},{-38,-68},{-38,-60},{-28,-60},{-28,-65},{-22,-65}},
+                                           color={0,0,127}));
+  connect(inputSolTTH.y[6], radCon.HWest) annotation (Line(points={{-79,-90},{
+          -40,-90},{-40,-69},{-22,-69}},
                                        color={0,0,127}));
   connect(radCon.decAng, solDec.y) annotation (Line(points={{-22,-74},{-42,-74},
           {-42,56},{-77.6,56}}, color={0,0,127}));
   connect(radCon.solHouAng, solHouAng.y) annotation (Line(points={{-22,-78},{
           -44,-78},{-44,70},{-77.6,70}},    color={0,0,127}));
+  connect(solTim.y, radCon.solTim) annotation (Line(points={{-77.6,2},{-70,2},{
+          -70,-86},{-22,-86}}, color={0,0,127}));
+  connect(radCon.alt, relativeAirMass.alt) annotation (Line(points={{-22,-82},{
+          -66,-82},{-66,68},{-62,68},{-62,76}}, color={0,0,127}));
   annotation (
       defaultComponentName="sim",
     defaultComponentPrefixes="inner",

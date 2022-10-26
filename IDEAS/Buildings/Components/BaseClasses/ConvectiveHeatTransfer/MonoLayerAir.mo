@@ -2,30 +2,30 @@ within IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer;
 model MonoLayerAir
   "Heat transfer correlations (convection and radiation) for air cavities"
 
-  parameter Modelica.SIunits.Area A "Surface area";
-  parameter Modelica.SIunits.Angle inc "Inclination of surface at port a";
-  parameter Modelica.SIunits.Length d "Cavity width";
+  parameter Modelica.Units.SI.Area A "Surface area";
+  parameter Modelica.Units.SI.Angle inc "Inclination of surface at port a";
+  parameter Modelica.Units.SI.Length d "Cavity width";
 
-  parameter Modelica.SIunits.Emissivity epsLw_a
+  parameter Modelica.Units.SI.Emissivity epsLw_a
     "Longwave emissivity of material connected at port_a";
-  parameter Modelica.SIunits.Emissivity epsLw_b
+  parameter Modelica.Units.SI.Emissivity epsLw_b
     "Longwave emissivity on material connected at port_b";
-  parameter Modelica.SIunits.TemperatureDifference dT_nominal = 1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal=1
     "Nominal temperature difference, used for linearising Rayleigh number"
-    annotation(Evaluate=true);
-  parameter Modelica.SIunits.ThermalConductivity k = 0.026
+    annotation (Evaluate=true);
+  parameter Modelica.Units.SI.ThermalConductivity k=0.026
     "Thermal conductivity of medium, default for air, T=20C";
 
   parameter Modelica.Media.Interfaces.Types.IsobaricExpansionCoefficient beta=
       3.43e-3
     "Thermal expansion coefficient of medium, default for air, T=20C"
     annotation(Dialog(group="Advanced"));
-  parameter Modelica.SIunits.KinematicViscosity nu = 15e-6
+  parameter Modelica.Units.SI.KinematicViscosity nu=15e-6
     "Kinematic viscosity of medium, default for air, T=20C"
-    annotation(Dialog(group="Advanced"));
-  parameter Modelica.SIunits.ThermalDiffusivity alpha = 22e-6
+    annotation (Dialog(group="Advanced"));
+  parameter Modelica.Units.SI.ThermalDiffusivity alpha=22e-6
     "Thermal diffusivity of medium, default for air, T=300K"
-    annotation(Dialog(group="Advanced"));
+    annotation (Dialog(group="Advanced"));
   parameter Boolean linearise = true
     "Linearise Grashoff number around expected nominal temperature difference"
     annotation(Evaluate=true);
@@ -37,8 +37,8 @@ model MonoLayerAir
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b port_b
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
-  Modelica.SIunits.ThermalConductance G=
-     h*A + A*5.86*(1/((1/epsLw_a) + (1/epsLw_b) - 1));
+  Modelica.Units.SI.ThermalConductance G=h*A + A*5.86*(1/((1/epsLw_a) + (1/
+      epsLw_b) - 1));
   //when linearising we assume that Nu is the average Nu for positive and
   //negative temperature differences
   //Eqn 5 from Hollands
@@ -81,7 +81,7 @@ protected
   "Coefficient for evaluating less operations at run time";
   Real Ra = max(1,(if linearise then abs(dT_nominal) else
     abs(port_a.T-port_b.T))*coeffRa);
-  Modelica.SIunits.CoefficientOfHeatTransfer h = Nu*k/d;
+  Modelica.Units.SI.CoefficientOfHeatTransfer h=Nu*k/d;
 
 public
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb "Internal port"

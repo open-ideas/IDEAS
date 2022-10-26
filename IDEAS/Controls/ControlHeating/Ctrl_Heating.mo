@@ -2,7 +2,7 @@ within IDEAS.Controls.ControlHeating;
 model Ctrl_Heating "Basic heating curve control for heater and mixing valve"
   extends Interfaces.Partial_Ctrl_Heating;
 
-  parameter Modelica.SIunits.TemperatureDifference corFac_val = 0
+  parameter Modelica.Units.SI.TemperatureDifference corFac_val=0
     "correction term for TSet of the heating curve";
   Modelica.Blocks.Math.Add add1
     annotation (Placement(transformation(extent={{62,32},{78,48}})));
