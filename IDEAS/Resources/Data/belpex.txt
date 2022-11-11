@@ -2,7 +2,7 @@
 double tab1(15839,2)
 # Data source: http://my.elexys.be/MarketInformation/SpotBelpex.aspx , downloaded on October 24th 2022.
 #C1 Time in seconds. Time=0 corresponds to January 1st 2021.
-#C2 Price in EUR/kWh.
+#C2 Price in EUR/MWh.
 0	50.87
 3600	48.19
 7200	44.68
