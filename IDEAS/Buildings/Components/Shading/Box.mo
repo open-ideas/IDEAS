@@ -79,7 +79,7 @@ model Box "Both side fins and overhang"
     haveFrame=haveFrame,
     linRad=linRad,
     final azi=azi,
-    haveBoundaryPorts=true,
+    haveBoundaryPorts=haveBoundaryPorts,
     hSha=hSha,
     final hWin=hWin,
     final wWin=wWin,
@@ -167,6 +167,10 @@ and IDEAS.Buildings.Components.Shading.SideFins.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+December 15, 2022 by Filip Jorissen:<br/>
+Bugfix for #1308.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for #1270 for including thermal effect of screens.
