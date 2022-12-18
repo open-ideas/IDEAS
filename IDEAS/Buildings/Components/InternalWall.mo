@@ -61,7 +61,7 @@ model InternalWall "interior opaque wall between two zones"
     outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-                                   "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+    "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
@@ -69,7 +69,6 @@ model InternalWall "interior opaque wall between two zones"
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={-50,20})));
-
 
   parameter Real CD=0.78 "Discharge coefficient of cavity"
     annotation (Dialog(tab="Airflow"));
