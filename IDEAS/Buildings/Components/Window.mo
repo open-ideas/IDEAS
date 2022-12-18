@@ -26,8 +26,8 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A_glass*nWin),
-    hRef_a=if inc == 0 then hzone_a else (hzone_a - hVertical)/2,
-    hVertical=if inc == Modelica.Constants.pi or inc == 0 then 0 else min(hzone_a, sqrt(A)),
+    hRef_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then hzone_a else (hzone_a - hVertical)/2,
+    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then 0 else min(hzone_a, sqrt(A)),
     q50_zone(v50_surf=q50_internal*A_glass),
     res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass,
           h_a=(Habs - sim.Hpres) + 0.25*hVertical),
@@ -94,7 +94,7 @@ model Window "Multipane window"
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
 
-  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
@@ -198,8 +198,10 @@ protected
   Fluid.Sources.OutsideAir       outsideAir(
     redeclare package Medium = Medium,
     Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
-        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
+         then sim.Cs_coeff*Habs 
+         elseif not Use_custom_Cs 
+             then sim.Cs 
+             else Cs,
     Habs=Habs,
     final azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
