@@ -50,13 +50,16 @@ model Structure "Ppd 12 example model"
     inc=IDEAS.Types.Tilt.Wall,
     azi=south,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall constructionType,
-    A=2.3*lPorch) "Common wall on south side"
+    A=2.3*lPorch,
+    redeclare package Medium = MediumAir)
+                  "Common wall on south side"
     annotation (Placement(transformation(extent={{-104,-72},{-94,-52}})));
   IDEAS.Buildings.Components.OuterWall out1(
     inc=IDEAS.Types.Tilt.Wall,
     A=hFloor0*wKitchen,
     azi=east,
-    redeclare IDEAS.Examples.PPD12.Data.OuterWall constructionType)
+    redeclare IDEAS.Examples.PPD12.Data.OuterWall constructionType,
+    redeclare package Medium = MediumAir)
     "Outerwall on east side - kitchen" annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
@@ -65,15 +68,20 @@ model Structure "Ppd 12 example model"
     A=wZon*lHallway/2,
     azi=0,
     redeclare IDEAS.Examples.PPD12.Data.Floor constructionType,
-    inc=IDEAS.Types.Tilt.Floor) "Floor between living and bedroom 1"
-    annotation (Placement(transformation(extent={{94,72},{104,52}})));
+    inc=IDEAS.Types.Tilt.Floor,
+    redeclare package Medium = MediumAir)
+                                "Floor between living and bedroom 1"
+    annotation (Placement(transformation(extent={{94,70},{104,50}})));
   IDEAS.Buildings.Components.InternalWall cei1(
     azi=0,
     A=lHallway*wHallway1,
     redeclare IDEAS.Examples.PPD12.Data.Floor constructionType,
-    inc=IDEAS.Types.Tilt.Floor) "Floor between hallway and bedroom 1"
+    inc=IDEAS.Types.Tilt.Floor,
+    redeclare package Medium = MediumAir)
+                                "Floor between hallway and bedroom 1"
     annotation (Placement(transformation(extent={{70,68},{80,88}})));
   IDEAS.Buildings.Components.Window winBed3(
+    redeclare package Medium = MediumAir,
     hVertical=1.2*sin(winBed3.inc),
     hRef_a=winBed3.hzone_a + 1,
     frac=0.1,
@@ -85,11 +93,12 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(
         extent={{-5,10},{5,-10}},
         rotation=90,
-        origin={305,-2})));
+        origin={305,-4})));
   IDEAS.Buildings.Components.OuterWall Roof2(
     azi=east,
     inc=(IDEAS.Types.Tilt.Wall + IDEAS.Types.Tilt.Ceiling)/2,
     A=wBedroom*lHalfBuilding*sqrt(2)/2,
+    redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
     hVertical=lHalfBuilding*tan(Roof2.inc),
     hRef_a=Roof2.hzone_a)
@@ -97,9 +106,10 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={263,-2})));
+        origin={263,-4})));
   IDEAS.Buildings.Components.OuterWall out2(
     inc=IDEAS.Types.Tilt.Wall,
+    redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall constructionType,
     azi=east,
     A=0.5*wBedroom,
@@ -108,7 +118,7 @@ model Structure "Ppd 12 example model"
       Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={235,-2})));
+        origin={235,-4})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate living(
     h=hFloor0,
@@ -357,21 +367,23 @@ model Structure "Ppd 12 example model"
     inc=(IDEAS.Types.Tilt.Wall + IDEAS.Types.Tilt.Ceiling)/2,
     azi=west,
     A=wBedroom*lHalfBuilding*sqrt(2),
+    redeclare package Medium = MediumAir,
     redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
     hVertical=lHalfBuilding*tan(Roof1.inc),
     hRef_a=Roof1.hzone_a)
     "Roof, west side"                     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={283,-2})));
+        origin={283,-4})));
   IDEAS.Buildings.Components.InternalWall cei3(
     azi=0,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall
       constructionType,
     A=lHallway*wHallway2,
-    inc=IDEAS.Types.Tilt.Floor)
+    inc=IDEAS.Types.Tilt.Floor,
+    redeclare package Medium = MediumAir)
     "Dummy for representing stairway connection between floors"
-    annotation (Placement(transformation(extent={{182,-22},{192,-2}})));
+    annotation (Placement(transformation(extent={{182,-24},{192,-4}})));
 equation
   connect(hallway.proBusD[1], living.proBusB[1]) annotation (Line(
       points={{-72.4,57},{-45,57},{-45,40}},
@@ -382,15 +394,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
-      points={{-48,-36.5},{-76,-36.5},{-76,41}},
+      points={{-48,-37.25},{-76,-37.25},{-76,41}},
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[2], com1.propsBus_a) annotation (Line(
-      points={{-48,-37.5},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
+      points={{-48,-37.75},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(out1.propsBus_a, Diner.proBusExt[3]) annotation (Line(
-      points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
+      points={{-91,-89.8333},{-91,-38.25},{-48,-38.25}},
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
@@ -398,19 +410,19 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
-      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-38.75}},
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
-      points={{130,76},{120,76},{120,60},{103.167,60}},
+      points={{130,76},{120,76},{120,58},{103.167,58}},
       color={255,204,51},
       thickness=0.5));
   connect(cei2.propsBus_b, living.proBusCei[1]) annotation (Line(
-      points={{94.8333,60},{-35.8,60},{-35.8,40}},
+      points={{94.8333,58},{-35.8,58},{-35.8,40}},
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusExt[1], cei1.propsBus_a) annotation (Line(
-      points={{142,61},{144,61},{144,80},{79.1667,80}},
+      points={{142,60.5},{144,60.5},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
   connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
@@ -426,7 +438,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
-      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59.5}},
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
@@ -450,27 +462,27 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(out2.propsBus_a, bedRoom3.proBusA[1]) annotation (Line(
-      points={{233,2.16667},{233,14},{276,14},{276,21}},
+      points={{233,0.166667},{233,14},{276,14},{276,21}},
       color={255,204,51},
       thickness=0.5));
   connect(winBed3.propsBus_a, bedRoom3.proBusExt[1]) annotation (Line(
-      points={{307,2.16667},{307,21.3333},{282,21.3333}},
+      points={{307,0.166667},{307,20.6667},{282,20.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof1.propsBus_a, bedRoom3.proBusExt[2]) annotation (Line(
-      points={{281,2.16667},{281,11.5},{282,11.5},{282,20}},
+      points={{281,0.166667},{281,11.5},{282,11.5},{282,20}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof2.propsBus_a, bedRoom3.proBusCei[1]) annotation (Line(
-      points={{261,2.16667},{261,24},{270.2,24}},
+      points={{261,0.166667},{261,24},{270.2,24}},
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_a, bedRoom3.proBusExt[3]) annotation (Line(
-      points={{191.167,-10},{282,-10},{282,18.6667}},
+      points={{191.167,-12},{282,-12},{282,19.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
-      points={{182.833,-10},{76.2,-10},{76.2,10}},
+      points={{182.833,-12},{76.2,-12},{76.2,10}},
       color={255,204,51},
       thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
