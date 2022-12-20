@@ -3,7 +3,7 @@ model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
     add_cracks=not useDooOpe,
-    custom_q50=if inc==0 or inc == Modelica.Constants.pi then 0 else 2,
+    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(inc,0) or IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then 0 else 2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
@@ -61,7 +61,7 @@ model InternalWall "interior opaque wall between two zones"
     outputAngles=sim.outputAngles,
     final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-                                   "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+    "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
     If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=90,
@@ -70,13 +70,12 @@ model InternalWall "interior opaque wall between two zones"
         rotation=90,
         origin={-50,20})));
 
-
   parameter Real CD=0.78 "Discharge coefficient of cavity"
     annotation (Dialog(tab="Airflow"));
   final parameter Real hzone_b(fixed=false);
   final parameter Real hfloor_b(fixed=false);
 
-  parameter Real hRef_b=if inc== Modelica.Constants.pi then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  parameter Real hRef_b=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then hzone_b else 0  "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
 
 
 
@@ -125,7 +124,7 @@ protected
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
 public
-  final parameter Boolean useDooOpe=hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and inc<>0 and inc<>Modelica.Constants.pi;
+  final parameter Boolean useDooOpe=hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and (not IDEAS.Utilities.Math.Functions.isAngle(inc,0) and not IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi));
   final parameter Boolean useResDoor=hasCavity and not useDooOpe and not sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None;
 
   IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
@@ -134,7 +133,7 @@ public
     hOpe=Ope_hvert,
     hA=(hzone_a/2) - hRef_a,
     hB=(hzone_b/2) - hRef_b,
-    nCom=if Ope_hvert==0 then 2 else 4,
+    nCom=if abs(Ope_hvert)<Modelica.Constants.small then 2 else 4,
     CD=CD)
     if useDooOpe
     "2-port model for open door"
@@ -160,8 +159,8 @@ initial equation
     hzone_b = propsBus_b.hzone;
     hfloor_b= propsBus_b.hfloor;
 equation
-  //assert(inc==0 and hfloor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
-  //assert(inc==Modelica.Constants.pi and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+  //assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hfloor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+  //assert(IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
     level=AssertionLevel.warning);

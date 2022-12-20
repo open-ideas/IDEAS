@@ -37,7 +37,7 @@ model OuterWall "Opaque building envelope construction"
     __Dymola_choicesAllMatching=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  inc==Modelica.Constants.pi then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
@@ -105,8 +105,10 @@ protected
     final table=coeffsCp,
     final azi=aziInt,
     Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then (outsideAir.A0*outsideAir.A0)*((Habs/outsideAir.Hwin)^(2*
-        outsideAir.a)) elseif not Use_custom_Cs then sim.Cs else Cs,
+         then sim.Cs_coeff*Habs 
+         elseif not Use_custom_Cs 
+           then sim.Cs 
+           else Cs,
     Habs=Habs,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2)
