@@ -18,7 +18,9 @@ model DummyConnection "Source generator/sink for propsbus"
   IDEAS.Buildings.Components.Interfaces.ZoneBus zoneBus(
     redeclare package Medium = Medium,
   numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles, use_port_1 = sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, use_port_2 = sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+    outputAngles=sim.outputAngles, 
+    use_port_1 = sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, 
+    use_port_2 = sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[3](
       Q_flow={surfCon,iSolDif,iSolDir})
@@ -148,6 +150,10 @@ equation
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Line(points = {{60, 60}, {-60, -60}}, color = {0, 0, 255}), Line(points = {{-60, 60}, {60, -60}}, color = {0, 0, 255})}),
     Documentation(revisions = "<html>
 <ul>
+<li>
+January 2, 2023, by Filip Jorissen:<br/>
+Added support for stack effect airflow.
+</li>
 <li>
 May 23, 2022, by Filip Jorissen:<br/>
 Added missing medium declaration.
