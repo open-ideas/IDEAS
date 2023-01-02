@@ -92,6 +92,10 @@ For windows see other examples.
 </html>", revisions="<html>
 <ul>
 <li>
+January 2, 2023, by Filip Jorissen:<br/>
+Added support for stack effect airflow.
+</li>
+<li>
 July 19, 2016, by Filip Jorissen:<br/>
 Revised implementation that uses <code>DummyConnections</code>.
 </li>
