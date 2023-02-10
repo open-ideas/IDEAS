@@ -358,7 +358,7 @@ model Structure "Ppd 12 example model"
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     calculateViewFactor=false,
     fracA=0.15,
-    h=hFloor2, bFlo = 2, hasCavityFlo = true,
+    h=hFloor2, bFlo = 2,
     hasWinA=true,
     l=wBedroom,
     mSenFac=1,
@@ -386,7 +386,10 @@ model Structure "Ppd 12 example model"
       constructionType,
     A=lHallway*wHallway2,
     inc=IDEAS.Types.Tilt.Floor,
-    redeclare package Medium = MediumAir)
+    redeclare package Medium = MediumAir,
+    hasCavity=true,
+    h=2,
+    w=0.8)
     "Dummy for representing stairway connection between floors"
     annotation (Placement(transformation(extent={{182,-24},{192,-4}})));
 equation
