@@ -117,8 +117,8 @@ partial model PartialSimInfoManager
   constant Modelica.Units.SI.Density rho_default = 1.2 "Default air density"
     annotation(Dialog(group="Wind"));
 
-  parameter Real Cs= Cs_coeff*H "Wind speed modifier"
-                                                                   annotation(Dialog(group="Wind"));
+  parameter Real Cs=Cs_coeff*(H^(2*a))
+                                "Wind speed modifier"              annotation(Dialog(group="Wind"));
 
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
