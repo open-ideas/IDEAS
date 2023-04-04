@@ -141,6 +141,10 @@ The implementation is illustrated using this figure:
 </html>", revisions="<html>
 <ul>
 <li>
+April 4, 2023 by Jelger Jansen:<br/>
+Updated figure in documentation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1186\">#1186</a>.
+</li>
+<li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for #1270 for including thermal effect of screens.
 </li>
