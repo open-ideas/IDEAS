@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-connector WindowBus
+expandable connector WindowBus
   "Bus containing inputs/outputs for linear window model"
   parameter Integer nLay = 3 "Number of window layers";
 
