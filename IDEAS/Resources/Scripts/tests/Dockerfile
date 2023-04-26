@@ -1,5 +1,5 @@
 # This Dockerfile creates a Docker image with Dymola installed for testing.
-# The Docker context should be set to use the DOCKERPATH of the host where the installation and license
+# The Docker context should be set to use the DYMOLAPATH of the host where the installation and license
 # files should be located.
 # This Dockerfile assumes the host having the following envrionment variables:
 # DYMOLAPATH - points to a directory that contains the Dymola zip installation file and the dymola.lic license file.
