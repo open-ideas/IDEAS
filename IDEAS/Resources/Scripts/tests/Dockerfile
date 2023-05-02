@@ -76,15 +76,8 @@ RUN sed -i 's/"python"/"python3"/' /usr/local/lib/python3.8/dist-packages/buildi
 # Make directory for X display
 RUN mkdir -m 1777 /tmp/.X11-unix
 
-# Replace 1000 with your user / group id
-RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/developer && \
-    mkdir -p /etc/sudoers.d && \
-    echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
-    echo "developer:x:${uid}:" >> /etc/group && \
-    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-    chmod 0440 /etc/sudoers.d/developer && \
-    chown ${uid}:${gid} -R /home/developer
+# Add developer user
+RUN useradd -ms /bin/bash developer
 
 # Activate developer
 USER developer
