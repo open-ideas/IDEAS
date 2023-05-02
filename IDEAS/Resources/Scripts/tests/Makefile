@@ -76,13 +76,11 @@ test-dymola-interactive:
 	cd ${ROOT}/IDEAS --quiet && \
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
-	  		--number-of-processors 3 \
 	  		--single-package ${PACKAGE}
 
 test-dymola-batch:
 	cd ${ROOT}/IDEAS --quiet && \
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
-	  		--number-of-processors 3 \
 	  		--single-package ${PACKAGE} \
 	  		--batch
