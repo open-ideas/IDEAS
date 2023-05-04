@@ -1,0 +1,10 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: self-hosted
+    container:
+      image: dymimg
+    steps:
+      - name: Run tests
+        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.taps\"
