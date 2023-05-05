@@ -55,6 +55,7 @@ exec:
 		-t \
 		${IMG_NAME} \
 		/bin/bash -c "${ARGS} && exit"
+	cd ../../../ && cat failed-simulator-dymola.log
 	make stop
 
 # Set interactive as the default case to activate the testing container
