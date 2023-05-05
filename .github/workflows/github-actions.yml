@@ -1,8 +1,13 @@
 name: CI of IDEAS using GitHub Actions
 on: [push, pull_request]
+env:
+  INTERACTIVE: "false"
 jobs:
   test_job:
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server called tony-de-rekenpony hosted by The Sysis team at KU Leuven"
@@ -16,9 +21,7 @@ jobs:
       - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
-      - name: Change to tests directory and set INTERACTIVE=false
-        run: cd IDEAS/Resources/Scripts/tests && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Actuators
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\"
       - name: Test IDEAS.Fluid.BaseClasses
-        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\"
