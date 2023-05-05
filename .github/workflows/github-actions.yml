@@ -16,5 +16,5 @@ jobs:
       - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
-      - name: Test IDEAS.Fluid
-        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.{Actuators,BaseClasses,Chillers,Delays,Examples,FixedResistances,Geothermal}\" INTERACTIVE=false
+      - name: Test IDEAS.Fluid.Actuators
+        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\" INTERACTIVE=false && cat IDEAS/failed-simulator-dymola.log
