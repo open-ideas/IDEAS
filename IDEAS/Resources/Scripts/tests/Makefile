@@ -48,15 +48,8 @@ run-detached:
 stop:
 	docker stop ${IMG_NAME}
 
-exec-interactive:
-	make run-detached
-	docker exec \
-		-it \
-		${IMG_NAME} \
-		/bin/bash -c "cd ${IMG_HOME} && ${ARGS} && exit"
-	make stop
-
-exec-batch:
+exec:
+	echo "Activating container for testing."
 	make run-detached
 	docker exec \
 		-t \
@@ -65,7 +58,8 @@ exec-batch:
 	make stop
 
 # Set interactive as the default case to activate the testing container
-# INTERACTIVE=true should be used to run tests locally whereas the server will be using INTERACTIVE=false
+# INTERACTIVE=true (default) should be used to run tests locally
+# INTERACTIVE=false should be used to run tests in the server
 INTERACTIVE=true
 
 test-all:
@@ -73,11 +67,9 @@ test-all:
 
 test-dymola:
 	if [ "${INTERACTIVE}" = "true" ]; then \
-  		echo "Activating container for testing." && \
-	  	make exec-interactive ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
+	  	make exec ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
 	else \
-	  	echo "Activating container for testing." && \
-	  	make exec-batch ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
+	  	make exec ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
 	fi;
 
 test-dymola-interactive:
