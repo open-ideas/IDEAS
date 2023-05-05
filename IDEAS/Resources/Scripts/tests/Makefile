@@ -62,9 +62,6 @@ exec:
 # INTERACTIVE=false should be used to run tests in the server
 INTERACTIVE=true
 
-test-all:
-	make test-dymola PACKAGE=None INTERACTIVE=${INTERACTIVE} --quiet
-
 test-dymola:
 	if [ "${INTERACTIVE}" = "true" ]; then \
 	  	make exec ARGS="make test-dymola-interactive PACKAGE=${PACKAGE}"; \
@@ -83,4 +80,23 @@ test-dymola-batch:
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
 	  		--single-package ${PACKAGE} \
+	  		--batch
+
+
+test-dymola-all:
+	if [ "${INTERACTIVE}" = "true" ]; then \
+	  	make exec ARGS="make test-dymola-all-interactive PACKAGE=${PACKAGE}"; \
+	else \
+	  	make exec ARGS="make test-dymola-all-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
+	fi;
+
+test-dymola-all-interactive:
+	cd ${ROOT}/IDEAS --quiet && \
+	  	python3 ../bin/runUnitTests.py \
+	  		--tool dymola
+
+test-dymola-all-batch:
+	cd ${ROOT}/IDEAS --quiet && \
+	  	python3 ../bin/runUnitTests.py \
+	  		--tool dymola \
 	  		--batch

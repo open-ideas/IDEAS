@@ -17,4 +17,4 @@ jobs:
         run: | 
          ls ${{ github.workspace }}
       - name: Run tests
-        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\" INTERACTIVE=false
+        run: cd IDEAS/Resources/Scripts/tests && make test-dymola-all INTERACTIVE=false
