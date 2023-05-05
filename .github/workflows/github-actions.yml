@@ -16,4 +16,4 @@ jobs:
          ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Run tests
-        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.taps\"
+        run: cd IDEAS/Resources/Scripts/tests && make test-dymola PACKAGE=\"IDEAS.Fluid.taps\" INTERACTIVE=false

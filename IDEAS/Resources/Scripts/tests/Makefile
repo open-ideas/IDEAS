@@ -48,10 +48,18 @@ run-detached:
 stop:
 	docker stop ${IMG_NAME}
 
-exec:
+exec-interactive:
 	make run-detached
 	docker exec \
 		-it \
+		${IMG_NAME} \
+		/bin/bash -c "cd ${IMG_HOME} && ${ARGS} && exit"
+	make stop
+
+exec-batch:
+	make run-detached
+	docker exec \
+		-t \
 		${IMG_NAME} \
 		/bin/bash -c "cd ${IMG_HOME} && ${ARGS} && exit"
 	make stop
@@ -66,10 +74,10 @@ test-all:
 test-dymola:
 	if [ "${INTERACTIVE}" = "true" ]; then \
   		echo "Activating container for testing." && \
-	  	make exec ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
+	  	make exec-interactive ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
 	else \
-	  	echo "Already inside container for testing." && \
-	  	make test-dymola-batch PACKAGE=${PACKAGE}; \
+	  	echo "Activating container for testing." && \
+	  	make exec-batch ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE}"; \
 	fi;
 
 test-dymola-interactive:
