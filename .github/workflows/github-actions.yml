@@ -9,7 +9,8 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: List files in the repository
+      - run: chmod -R 777 /home/actions-runner/_work/IDEAS/IDEAS
+      - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
       - name: Run tests
