@@ -1,7 +1,7 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  build:
+  test_job:
     runs-on: self-hosted
     container:
       image: docker://dymimg:latest
