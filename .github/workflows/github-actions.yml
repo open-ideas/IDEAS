@@ -1,4 +1,4 @@
-name: CI
+name: CI of IDEAS using GitHub Actions
 on: [push, pull_request]
 jobs:
   test_job:
