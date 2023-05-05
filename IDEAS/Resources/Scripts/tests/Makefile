@@ -77,7 +77,7 @@ test-dymola:
 	  	make exec-interactive ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
 	else \
 	  	echo "Activating container for testing." && \
-	  	make exec-batch ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE}"; \
+	  	make exec-batch ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
 	fi;
 
 test-dymola-interactive:
