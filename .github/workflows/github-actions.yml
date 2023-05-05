@@ -7,7 +7,6 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server called tony-de-rekenpony hosted by The Sysis team at KU Leuven"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - run: chmod -R 777 /home/actions-runner/_work/IDEAS/IDEAS
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: chmod -R 777 /home/actions-runner/_work/IDEAS/IDEAS
