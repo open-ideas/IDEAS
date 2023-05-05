@@ -29,7 +29,7 @@ run:
 		--network=host \
 		--rm \
 		-v ${ROOT}:${IMG_HOME} \
-		-w ${IMG_HOME} \
+		-w ${IMG_HOME}/IDEAS/Resources/Scripts/tests \
 		-it \
 		${IMG_NAME}
 
@@ -41,7 +41,7 @@ run-detached:
 		--network=host \
 		--rm \
 		-v ${ROOT}:${IMG_HOME} \
-		-w ${IMG_HOME} \
+		-w ${IMG_HOME}/IDEAS/Resources/Scripts/tests \
 		-it \
 		${IMG_NAME}
 
@@ -54,7 +54,7 @@ exec:
 	docker exec \
 		-t \
 		${IMG_NAME} \
-		/bin/bash -c "cd ${IMG_HOME} && ${ARGS} && exit"
+		/bin/bash -c "${ARGS} && exit"
 	make stop
 
 # Set interactive as the default case to activate the testing container
@@ -67,9 +67,9 @@ test-all:
 
 test-dymola:
 	if [ "${INTERACTIVE}" = "true" ]; then \
-	  	make exec ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-interactive PACKAGE=${PACKAGE}"; \
+	  	make exec ARGS="make test-dymola-interactive PACKAGE=${PACKAGE}"; \
 	else \
-	  	make exec ARGS="cd IDEAS/Resources/Scripts/tests && make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
+	  	make exec ARGS="make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
 	fi;
 
 test-dymola-interactive:
