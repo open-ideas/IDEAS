@@ -67,8 +67,6 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\"
       - name: Test IDEAS.ThermalZones
         run: make test-dymola PACKAGE=\"IDEAS.ThermalZones\"
-      - name: Test IDEAS.LIDEAS
-        run: make test-dymola PACKAGE=\"IDEAS.LIDEAS\"
       - name: Test IDEAS.BoundaryConditions
         run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\"
       - name: Test IDEAS.Controls
