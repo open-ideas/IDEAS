@@ -22,8 +22,8 @@ jobs:
     defaults:
       run:
         working-directory: IDEAS/Resources/Scripts/tests
-        env:
-          INTERACTIVE: "false"
+      env:
+        INTERACTIVE: "false"
     steps:
       - name: check for INTERACTIVE
         run: echo "The value of INTERACTIVE IS $INTERACTIVE"
