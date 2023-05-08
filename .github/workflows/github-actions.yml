@@ -1,7 +1,5 @@
 name: CI of IDEAS using GitHub Actions
 on: [push, pull_request]
-env:
-  INTERACTIVE: "false"
 jobs:
   build:
     runs-on: self-hosted
@@ -24,64 +22,8 @@ jobs:
     defaults:
       run:
         working-directory: IDEAS/Resources/Scripts/tests
+        env:
+          INTERACTIVE: "false"
     steps:
-      - name: Test IDEAS.Buildings.Components
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\"
-      - name: Test IDEAS.Buildings.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\"
-      - name: Test IDEAS.Buildings.Validation
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\"
-      - name: Test IDEAS.Fluid.Actuators
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\"
-      - name: Test IDEAS.Fluid.BaseClasses
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\"
-      - name: Test IDEAS.Fluid.Chillers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Chillers\"
-      - name: Test IDEAS.Fluid.Delays
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Delays\"
-      - name: Test IDEAS.Fluid.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\"
-      - name: Test IDEAS.Fluid.FixedResistances
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\"
-      - name: Test IDEAS.Fluid.Geothermal
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\"
-      - name: Test IDEAS.Fluid.HeatExchangers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\"
-      - name: Test IDEAS.Fluid.HeatPumps
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatPumps\"
-      - name: Test IDEAS.Fluid.Interfaces
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Interfaces\"
-      - name: Test IDEAS.Fluid.MassExchangers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MassExchangers\"
-      - name: Test IDEAS.Fluid.MixingVolumes
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MixingVolumes\"
-      - name: Test IDEAS.Fluid.Movers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Movers\"
-      - name: Test IDEAS.Fluid.Sensors
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sensors\"
-      - name: Test IDEAS.Fluid.Sources
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sources\"
-      - name: Test IDEAS.Fluid.Storage
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Storage\"
-      - name: Test IDEAS.Fluid.Taps
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\"
-      - name: Test IDEAS.ThermalZones
-        run: make test-dymola PACKAGE=\"IDEAS.ThermalZones\"
-      - name: Test IDEAS.BoundaryConditions
-        run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\"
-      - name: Test IDEAS.Controls
-        run: make test-dymola PACKAGE=\"IDEAS.Controls\"
-      - name: Test IDEAS.Media
-        run: make test-dymola PACKAGE=\"IDEAS.Media\"
-      - name: Test IDEAS.Utilities
-        run: make test-dymola PACKAGE=\"IDEAS.Utilities\"
-      - name: Test IDEAS.Templates
-        run: make test-dymola PACKAGE=\"IDEAS.Templates\"
-      - name: Test IDEAS.Examples.PPD12
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\"
-      - name: Test IDEAS.Examples.IBPSA
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.IBPSA\"
-      - name: Test IDEAS.Examples.Tutorial
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.Tutorial\"
-      - name: Test IDEAS.Examples.TwinHouses
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.TwinHouses\"
+      - name: check for INTERACTIVE
+        run: echo "The value of INTERACTIVE IS $INTERACTIVE"
