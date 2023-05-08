@@ -69,9 +69,9 @@ test-dymola:
 	echo "Activating container for testing."
 	make run-detached
 	if [ "${INTERACTIVE}" = "true" ]; then \
-	  	make exec ARGS="make test-dymola-interactive PACKAGE=${PACKAGE}"; \
+	  	make exec-interactive ARGS="make test-dymola-interactive PACKAGE=${PACKAGE}"; \
 	else \
-	  	make exec ARGS="make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
+	  	make exec-batch ARGS="make test-dymola-batch PACKAGE=${PACKAGE} && rm -rf ~/IDEAS/IDEAS/funnel_comp"; \
 	fi;
 	cd ../../../ && cat failed-simulator-dymola.log
 	make stop
