@@ -50,6 +50,12 @@ stop:
 
 exec-interactive:
 	docker exec \
+		-it \
+		${IMG_NAME} \
+		/bin/bash -c "${ARGS} && exit"
+
+exec-batch:
+	docker exec \
 		-t \
 		${IMG_NAME} \
 		/bin/bash -c "${ARGS} && exit"
