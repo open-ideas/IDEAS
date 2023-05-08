@@ -21,9 +21,8 @@ jobs:
     needs: build
     defaults:
       run:
+        - export INTERACTIVE=false
         working-directory: IDEAS/Resources/Scripts/tests
-      env:
-        INTERACTIVE: "false"
     steps:
       - name: check for INTERACTIVE
         run: echo "The value of INTERACTIVE IS $INTERACTIVE"
