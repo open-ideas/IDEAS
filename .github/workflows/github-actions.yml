@@ -1,5 +1,7 @@
 name: CI of IDEAS using GitHub Actions
 on: [push, pull_request]
+env:
+  INTERACTIVE: false
 jobs:
   build:
     runs-on: self-hosted
@@ -20,8 +22,6 @@ jobs:
     runs-on: self-hosted
     needs: build
     defaults:
-      run:
-        - export INTERACTIVE=false
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: check for INTERACTIVE
