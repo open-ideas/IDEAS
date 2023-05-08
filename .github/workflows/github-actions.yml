@@ -1,7 +1,5 @@
 name: CI of IDEAS using GitHub Actions
 on: [push, pull_request]
-env:
-  INTERACTIVE: false
 jobs:
   build:
     runs-on: self-hosted
@@ -26,62 +24,62 @@ jobs:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: Test IDEAS.Buildings.Components
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\"
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\" && export INTERACTIVE=false
       - name: Test IDEAS.Buildings.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\"
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\" && export INTERACTIVE=false
       - name: Test IDEAS.Buildings.Validation
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\"
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Actuators
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.BaseClasses
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Chillers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Chillers\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Chillers\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Delays
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Delays\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Delays\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.FixedResistances
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Geothermal
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.HeatExchangers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.HeatPumps
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatPumps\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatPumps\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Interfaces
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Interfaces\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Interfaces\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.MassExchangers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MassExchangers\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MassExchangers\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.MixingVolumes
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MixingVolumes\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.MixingVolumes\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Movers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Movers\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Movers\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Sensors
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sensors\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sensors\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Sources
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sources\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sources\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Storage
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Storage\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Storage\" && export INTERACTIVE=false
       - name: Test IDEAS.Fluid.Taps
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\"
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\" && export INTERACTIVE=false
       - name: Test IDEAS.ThermalZones
-        run: make test-dymola PACKAGE=\"IDEAS.ThermalZones\"
+        run: make test-dymola PACKAGE=\"IDEAS.ThermalZones\" && export INTERACTIVE=false
       - name: Test IDEAS.BoundaryConditions
-        run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\"
+        run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\" && export INTERACTIVE=false
       - name: Test IDEAS.Controls
-        run: make test-dymola PACKAGE=\"IDEAS.Controls\"
+        run: make test-dymola PACKAGE=\"IDEAS.Controls\" && export INTERACTIVE=false
       - name: Test IDEAS.Media
-        run: make test-dymola PACKAGE=\"IDEAS.Media\"
+        run: make test-dymola PACKAGE=\"IDEAS.Media\" && export INTERACTIVE=false
       - name: Test IDEAS.Utilities
-        run: make test-dymola PACKAGE=\"IDEAS.Utilities\"
+        run: make test-dymola PACKAGE=\"IDEAS.Utilities\" && export INTERACTIVE=false
       - name: Test IDEAS.Templates
-        run: make test-dymola PACKAGE=\"IDEAS.Templates\"
+        run: make test-dymola PACKAGE=\"IDEAS.Templates\" && export INTERACTIVE=false
       - name: Test IDEAS.Examples.PPD12
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\"
+        run: make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\" && export INTERACTIVE=false
       - name: Test IDEAS.Examples.IBPSA
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.IBPSA\"
+        run: make test-dymola PACKAGE=\"IDEAS.Examples.IBPSA\" && export INTERACTIVE=false
       - name: Test IDEAS.Examples.Tutorial
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.Tutorial\"
+        run: make test-dymola PACKAGE=\"IDEAS.Examples.Tutorial\" && export INTERACTIVE=false
       - name: Test IDEAS.Examples.TwinHouses
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.TwinHouses\"
+        run: make test-dymola PACKAGE=\"IDEAS.Examples.TwinHouses\" && export INTERACTIVE=false
