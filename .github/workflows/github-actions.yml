@@ -22,6 +22,7 @@ jobs:
     runs-on: self-hosted
     needs: build
     defaults:
+      run:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: check for INTERACTIVE
