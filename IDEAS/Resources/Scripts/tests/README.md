@@ -1,0 +1,72 @@
+IDEAS testing framework
+============
+
+The IDEAS testing framework relies on [BuildingsPy](https://simulationresearch.lbl.gov/modelica/buildingspy/) to 
+implement regression testing on example models of the library. 
+A Docker image with Dymola (`dymimg`) is defined to encapsulate all dependencies and consistently run the tests either 
+locally or in the server. 
+The testing framework uses GitHub Actions with a self-hosted runner of the Sysi's Team at KU Leuven and called 
+tony-de-rekenpony. 
+The tests used to run in Travis, but a major refactoring was implemented in 
+[this PR](https://github.com/open-ideas/IDEAS/pull/1319) to benefit from the free-tier of GitHub Actions.
+The legacy Travis files are still in the library for the moment but may be removed in the near future. 
+
+The core components of the testing framework are:
+- **Dockerfile** (in `IDEAS/Resources/Scripts/tests/`): defines the Docker image with all software dependencies needed 
+to run the tests. The major ones are Dymola and BuildingsPy. 
+- **Makefile** (in `IDEAS/Resources/Scripts/tests/`): provides a series of shortcuts for the main commands to implement 
+the tests. 
+- **runUnitTests.py** (in `bin/`): main script to run the tests. 
+- **github-actions.yml** (in `IDEAS/.github/workflows/`): defines the jobs to automatically trigger the tests in the 
+server. 
+
+## Running tests in GitHub Actions 
+The tests in GitHub Actions are automatically triggered with every push in a pull request. Hence, the user does not 
+have to do anything to start the tests other than openning a pull request and pushing to its associated branch. 
+Note that the tests will be triggered also for pull requests across forks. 
+
+Two jobs are defined in the `github-actions.yml` file: *build* and *test*. The *build* job simply checks out the 
+repository code. The *test* job goes through each of the library packages in different steps to simulate the models and 
+compare against reference results. Notice that every step explicitly sets `INTERACTIVE=false` to run the tests in 
+''batch mode'', that is, no new reference results are generated since we are only interested in checking whether tests 
+pass when running in the server. 
+It is possible to generate new reference results and visually compare trajectories with previous references when running 
+the tests locally.
+
+## Running tests locally
+The requirements to run tests locally are:
+
+- **Docker**: to spin the containers where the tests run. 
+- **Make**: to invoke the make commands from the `Makefile`. This is trivial for Mac and Linux OS, but you may need to 
+install some make proxy if you are working in Windows. 
+- **A Dymola installation file and license**: Dymola is commercial software and as such we cannot distribute it. 
+You may work with a standalone license or with a pool license. If you are working with the pool license at KU Leuven, 
+you need to connect to the B-Zone for the license to access the server.
+
+The steps to run the tests locally are:
+
+1. Change working directory to tests folder:
+```bash
+cd /IDEAS/Resources/Scripts/tests
+```
+
+2. Build the `dymimg` where tests will run. 
+```bash
+make build
+```
+
+3. Run the test. 
+In this case it is set `INTERACTIVE=true` by default. Hence, you only need to specify the package you would like to 
+test. For example:
+```bash
+make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\"
+```
+
+4. Update reference results if needed. 
+If reference result trajectories of some tested models are not exactly the same as what they used to be, you will be
+prompted with a dialog that gives you the option to overwrite them with the new simulated trajectories. 
+
+5. Compare reference results if needed. 
+Once reference results are updated you can inspect the differences with the old trajectories by running the 
+`IDEAS/compare_results.py` script. This file looks into the `IDEAS/funnel_comp` auxiliary folder that is created to plot 
+simulation trajectories.
