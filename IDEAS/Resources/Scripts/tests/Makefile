@@ -46,11 +46,12 @@ run-detached:
 		${IMG_NAME}
 
 stop:
-	docker stop ${IMG_NAME}
+	docker stop ${IMG_NAME} > /dev/null 2>&1 || true
 
 # Command to remove potentially missing files in funnel_comp from the default working directory (_work)
 cleanup:
-	rm -rf /home/actions-runner/_work/IDEAS/IDEAS/IDEAS/funnel_comp --quiet  || true
+	make stop
+	rm -rf /home/actions-runner/_work/IDEAS/IDEAS/IDEAS/funnel_comp > /dev/null 2>&1 || true
 
 exec-interactive:
 	docker exec \
@@ -81,15 +82,15 @@ test-dymola:
 	make stop
 
 test-dymola-interactive:
-	cd ${ROOT}/IDEAS --quiet && \
+	cd ${ROOT}/IDEAS && \
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
 	  		--single-package ${PACKAGE}
 
 test-dymola-batch:
-	cd ${ROOT}/IDEAS --quiet && \
+	make cleanup
+	cd ${ROOT}/IDEAS && \
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
 	  		--single-package ${PACKAGE} \
 	  		--batch
-	make cleanup
