@@ -71,6 +71,7 @@ exec-batch:
 INTERACTIVE=true
 
 test-dymola:
+	make cleanup
 	echo "Activating container for testing."
 	make run-detached
 	if [ "${INTERACTIVE}" = "true" ]; then \
@@ -88,7 +89,6 @@ test-dymola-interactive:
 	  		--single-package ${PACKAGE}
 
 test-dymola-batch:
-	make cleanup
 	cd ${ROOT}/IDEAS && \
 	  	python3 ../bin/runUnitTests.py \
 	  		--tool dymola \
