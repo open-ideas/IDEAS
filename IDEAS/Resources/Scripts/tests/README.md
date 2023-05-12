@@ -27,7 +27,9 @@ Note that the tests will be triggered also for pull requests across forks.
 
 Two jobs are defined in the `github-actions.yml` file: *build* and *test*. The *build* job simply checks out the 
 repository code. The *test* job goes through each of the library packages in different steps to simulate the models and 
-compare against reference results. Notice that every step explicitly sets `INTERACTIVE=false` to run the tests in 
+compare against reference results. 
+Notice that the jobs and steps are defined in the `github-actions.yml` file and that every step explicitly sets 
+`INTERACTIVE=false` to run the tests in 
 ''batch mode'', that is, no new reference results are generated since we are only interested in checking whether tests 
 pass when running in the server. 
 It is possible to generate new reference results and visually compare trajectories with previous references when running 
@@ -84,7 +86,24 @@ what they used to be, you will be prompted with a dialog that gives you the opti
 simulated trajectories. 
 
 ### 6. Compare 
-Compare the old references with the new trajectories if needed.  
-Once reference results are updated you can inspect the differences with the old trajectories by running the 
+Compare the old references with the new trajectories if needed. Once reference results are updated you can inspect the differences with the old trajectories by running the 
 `IDEAS/compare_results.py` script. This file looks into the `IDEAS/funnel_comp` auxiliary folder that is created to plot 
 simulation trajectories.
+
+## Developing new tests
+As a developer, you may want to implement a new test of a model that you have created. For that, you just need to add a 
+new `.mos` file to the `IDEAS/Resources/Scripts/Dymola` directory. Please note that this directory is 
+mirroring the structure of the IDEAS library. The new `.mos` file should indicate the model to be simulated,
+the start and stop simulation time, and the most relevant variables to be checked. 
+The convention is that any variables or parameters that are plotted by these `.mos` files are subject to regression 
+testing. 
+
+The tests can be further configured using the 
+`IDEAS/Resources/Scripts/BuildingsPy/config.yml` file. See 
+[here](https://simulationresearch.lbl.gov/modelica/buildingspy/development.html#module-buildingspy.development.regressiontest) 
+for more information on how to define the `.mos` files and the `config.yml` file.
+Once the `.mos` file is ready, you just need to run the tests for the package that contains the new model as indicated
+in the previous section (*Running tests locally*).
+BuildingsPy will detect that there is not yet any reference result for the new model and will give you the option to 
+automatically generate one. The reference results are stored as `.txt` files within 
+`IDEAS/Resources/ReferenceResults/Dymola`.
