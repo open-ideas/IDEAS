@@ -5,16 +5,16 @@ The IDEAS testing framework relies on [BuildingsPy](https://simulationresearch.l
 implement regression testing on example models of the library. 
 A Docker image with Dymola (`dymimg`) is defined to encapsulate all dependencies and consistently run the tests either 
 locally or in the server. 
-The testing framework uses GitHub Actions with a self-hosted runner of the Sysi's Team at KU Leuven and called 
+The testing framework automates the tests using GitHub Actions with a self-hosted runner of the Sysi's Team at KU Leuven called 
 tony-de-rekenpony. 
 The tests used to run in Travis, but a major refactoring was implemented in 
 [this PR](https://github.com/open-ideas/IDEAS/pull/1319) to benefit from the free-tier of GitHub Actions.
-The legacy Travis files are still in the library for the moment but may be removed in the near future. 
+The Travis files are still in the library for legacy but may be removed in the near future. 
 
 The core components of the testing framework are:
 - **Dockerfile** (in `IDEAS/Resources/Scripts/tests/`): defines the Docker image with all software dependencies needed 
 to run the tests. The major ones are Dymola and BuildingsPy. 
-- **Makefile** (in `IDEAS/Resources/Scripts/tests/`): provides a series of shortcuts for the main commands to implement 
+- **Makefile** (in `IDEAS/Resources/Scripts/tests/`): provides a series of shortcuts with the main commands to implement 
 the tests. 
 - **runUnitTests.py** (in `bin/`): main script to run the tests. 
 - **github-actions.yml** (in `IDEAS/.github/workflows/`): defines the jobs to automatically trigger the tests in the 
@@ -45,28 +45,46 @@ you need to connect to the B-Zone for the license to access the server.
 
 The steps to run the tests locally are:
 
-1. Change working directory to tests folder:
+### 1. Set working directory
+Change working directory to tests folder:
 ```bash
 cd /IDEAS/Resources/Scripts/tests
 ```
 
-2. Build the `dymimg` where tests will run. 
+### 2. Set environment variables 
+The Dockerfile assumes that the following envrionment variables are set:
+- `DYMOLAPATH`: points to a directory that contains the Dymola zip installation file and the `dymola.lic` license file.
+- `DYMOLAFILE`: name of the Dymola zip installation file within the `DYMOLAPATH` directory.
+- `DYMOLAVERSION` specifies the Dymola version.
+
+For example, you can set these environment variables as follows (note that the specific path, file name and version may 
+change in your case):
+```bash
+export DYMOLAPATH=/path/to/dymola/folder
+export DYMOLAFILE=Dymola_2022x.AM_CAT_Dymola.Linux64.1-1.zip
+export DYMOLAVERSION=dymola-2022x-x86_64
+```
+
+### 3. Build the image
+Build the `dymimg` image where tests will run:
 ```bash
 make build
 ```
 
-3. Run the test. 
+### 4. Run the test. 
 In this case it is set `INTERACTIVE=true` by default. Hence, you only need to specify the package you would like to 
 test. For example:
 ```bash
 make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\"
 ```
 
-4. Update reference results if needed. 
-If reference result trajectories of some tested models are not exactly the same as what they used to be, you will be
-prompted with a dialog that gives you the option to overwrite them with the new simulated trajectories. 
+### 5. Update references 
+Update reference results if needed. When reference result trajectories of some tested models are not exactly the same as 
+what they used to be, you will be prompted with a dialog that gives you the option to overwrite them with the new 
+simulated trajectories. 
 
-5. Compare reference results if needed. 
+### 6. Compare 
+Compare the old references with the new trajectories if needed.  
 Once reference results are updated you can inspect the differences with the old trajectories by running the 
 `IDEAS/compare_results.py` script. This file looks into the `IDEAS/funnel_comp` auxiliary folder that is created to plot 
 simulation trajectories.
