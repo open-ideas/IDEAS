@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-connector WindowBus
+expandable connector WindowBus
   "Bus containing inputs/outputs for linear window model"
   parameter Integer nLay = 3 "Number of window layers";
 
@@ -9,6 +9,11 @@ connector WindowBus
 
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+April 20, 2023 by Jelger Jansen:<br/>
+Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>
+</li>
 <li>
 October 22, 2016, by Filip Jorissen:<br/>
 Revised documentation for IDEAS 1.0.
