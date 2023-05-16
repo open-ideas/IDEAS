@@ -57,6 +57,11 @@ heat and information between a zone and a surface.
 </html>", revisions="<html>
 <ul>
 <li>
+April 20, 20 by Jelger Jansen:<br/>
+Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>
+</li>
+<li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">

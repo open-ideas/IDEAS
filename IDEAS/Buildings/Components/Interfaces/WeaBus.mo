@@ -83,6 +83,11 @@ Connector that contains all environment information for many inclinations and ti
    revisions="<html>
 <ul>
 <li>
+April 20, 20 by Jelger Jansen:<br/>
+Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>
+</li>
+<li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Removed hConExt from weather bus because it is not calculated in ExtConvForcedCoeff.mo and ExteriorConvection.mo.<br/>
 Added wind speed and direction to weather bus.

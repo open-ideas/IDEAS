@@ -37,6 +37,11 @@ Connector that contains all solar irridiation information for one inclination an
 </html>", revisions="<html>
 <ul>
 <li>
+April 20, 20 by Jelger Jansen:<br/>
+Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
+See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>
+</li>
+<li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Add RealConnector for coefficient for forced convection at exterior surface.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
