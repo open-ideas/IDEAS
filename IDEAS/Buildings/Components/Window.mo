@@ -90,6 +90,7 @@ model Window "Multipane window"
     constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
     "Tables with wind pressure coefficients for walls, floors and roofs"
     annotation (
+    HideResult=true,
     __Dymola_choicesAllMatching=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
