@@ -98,13 +98,13 @@ model Window "Multipane window"
       "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
-  parameter Boolean Use_custom_Cs = false
+  parameter Boolean use_custom_Cs = false
     "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
     annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
 
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-        annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+        annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
   final parameter Real Habs(fixed=false)
     "Absolute height of boundary for correcting the wind speed"
@@ -197,9 +197,9 @@ protected
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
   Fluid.Sources.OutsideAir       outsideAir(
     redeclare package Medium = Medium,
-    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then sim.Cs_coeff*Habs 
-         elseif not Use_custom_Cs 
+         elseif not use_custom_Cs 
              then sim.Cs 
              else Cs,
     Habs=Habs,
