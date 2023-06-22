@@ -146,11 +146,11 @@ public
     if useResDoor
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
-  Airflow.Multizone.BaseClasses.ReversibleDensityColumn  col_b_pos(
+  Airflow.Multizone.ReversibleDensityColumn  col_b_pos(
     redeclare package Medium = Medium, 
     h=-0.5*hzone_b +  0.5*Ope_hvert + hRef_b)
     if useResDoor    annotation (Placement(transformation(extent={{-40,42},{-20,62}})));
-  Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_a_pos(
+  Airflow.Multizone.ReversibleDensityColumn col_a_pos(
     redeclare package Medium = Medium, 
     h=-0.5*hzone_a + 0.5 *Ope_hvert + hRef_a)
     if useResDoor    annotation (Placement(transformation(extent={{16,42},{36,62}})));

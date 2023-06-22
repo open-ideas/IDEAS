@@ -212,12 +212,12 @@ model PowerLaw_q50_stack
     mMea_flow_nominal=A*(q50*1.2)/3600)
     "Middle or bottom crack "
      annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_a_pos(
+  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_a_pos(
     redeclare package Medium = Medium,
     h=h_a)  if StackEff
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
 
-  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_b_pos(
+  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b_pos(
     redeclare package Medium = Medium,
     h=h_b)  if StackEff
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));

@@ -3,7 +3,6 @@ DoorDiscretized
 ErrorControl
 PartialOneWayFlowElement
 PowerLawResistanceParameters
-ReversibleDensityColumn
 TwoWayFlowElement
 TwoWayFlowElementBuoyancy
 ZonalFlow
