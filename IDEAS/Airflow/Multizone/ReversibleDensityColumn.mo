@@ -1,62 +1,25 @@
-within IDEAS.Airflow.Multizone.BaseClasses;
+within IDEAS.Airflow.Multizone;
 model ReversibleDensityColumn
   "Vertical shaft with no friction and no storage of heat and mass, reversible because it can handle negative column heights"
 
   extends IDEAS.Airflow.Multizone.MediumColumn(
     h(min=-Modelica.Constants.inf), 
-    densitySelection = IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom);
+    final densitySelection = IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom);
+    // by convention, port_b must be connected to a zone instead of a flow element
+    // h is allowed to be negative to accomodate for this convention
   
   annotation (
 Icon(graphics={
     Line(
       points={{0,100},{0,-100},{0,-98}}),
-    Text(
-      extent={{24,-78},{106,-100}},
-      lineColor={0,0,127},
-          textString="Zone/Amb"),
-    Text(
-      extent={{32,104},{98,70}},
-      lineColor={0,0,127},
-          textString="FlowElem"),
-    Text(
-      extent={{36,26},{88,-10}},
-      lineColor={0,0,127},
-      fillColor={255,0,0},
-      fillPattern=FillPattern.Solid,
-      textString="h=%h"),
-    Rectangle(
-      extent={{-16,80},{16,-80}},
-      fillColor={255,0,0},
-      fillPattern=FillPattern.Solid,
-      pattern=LinePattern.None),
-    Rectangle(
-      visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.fromTop,
-      extent={{-16,80},{16,0}},
-      fillColor={85,170,255},
-      fillPattern=FillPattern.Solid,
-      pattern=LinePattern.None,
-      lineColor={0,0,0}),
-    Rectangle(
-      visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.actual,
-      extent={{-16,80},{16,54}},
-      fillColor={85,170,255},
-      fillPattern=FillPattern.Solid,
-      pattern=LinePattern.None,
-      lineColor={0,0,0}),
-    Rectangle(
-      visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom,
-      extent={{-16,0},{16,-82}},
-      fillColor={85,170,255},
-      fillPattern=FillPattern.Solid,
-      pattern=LinePattern.None,
-      lineColor={0,0,0}),
-    Rectangle(
-      visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.actual,
-      extent={{-16,-55},{16,-80}},
-      fillColor={85,170,255},
-      fillPattern=FillPattern.Solid,
-      pattern=LinePattern.None,
-      lineColor={0,0,0})}),
+    Text(origin = {-126, 2},lineColor = {0, 0, 127}, extent = {{24, -78}, {106, -100}}, textString = "Zone/Amb"),
+    Text(origin = {-130, 4}, lineColor = {0, 0, 127}, extent = {{32, 104}, {98, 70}}, textString = "FlowElem"),
+    Text(lineColor = {0, 0, 127}, extent = {{36, 26}, {88, -10}}, textString = "h=%h"),
+    Rectangle(fillColor = {255, 0, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-16, 80}, {16, -80}}),
+    Rectangle(visible = false, fillColor = {85, 170, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-16, 80}, {16, 0}}),
+    Rectangle(visible = false, fillColor = {85, 170, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-16, 80}, {16, 54}}),
+    Rectangle(fillColor = {85, 170, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-16, 0}, {16, -82}}),
+    Rectangle(visible = false, fillColor = {85, 170, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-16, -55}, {16, -80}})}),
   defaultComponentName="col",
   Documentation(info="<html>
 <p>
