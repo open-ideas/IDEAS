@@ -89,8 +89,39 @@ equation
   connect(HDirTil, stateShading1.HDirTil) annotation (Line(points={{-60,50},{-32,
           50},{-32,-7.33333},{-25.5,-7.33333}},
                                       color={0,0,127}));
+  connect(stateShading1.port_frame, port_frame) annotation (Line(points={{-20.5,
+          0.666667},{-20.5,160},{100,160}}, color={191,0,0}));
+  connect(stateShading2.port_frame, port_frame) annotation (Line(points={{3.5,0.666667},
+          {3.5,160},{100,160}},             color={191,0,0}));
+  connect(stateShading1.port_glazing, port_glazing) annotation (Line(points={{-20.5,
+          -2},{-20.5,120},{100,120}},       color={191,0,0}));
+  connect(stateShading2.port_glazing, port_glazing) annotation (Line(points={{3.5,-2},
+          {3.5,120},{100,120}},             color={191,0,0}));
+  connect(stateShading2.TDryBul, TDryBul) annotation (
+    Line(points={{3.5,-11.3333},{40,-11.3333},{40,-10}},
+                                                    color = {0, 0, 127}));
+  connect(Te, stateShading2.Te) annotation (Line(points={{-60,130},{-6,130},{-6,
+          -2},{-1.5,-2}}, color={0,0,127}));
+  connect(hForcedConExt, stateShading2.hForcedConExt) annotation (Line(points={
+          {-60,110},{-8,110},{-8,-3.33333},{-1.5,-3.33333}}, color={0,0,127}));
+  connect(TEnv, stateShading2.TEnv) annotation (Line(points={{-60,90},{-10,90},
+          {-10,-4.66667},{-1.5,-4.66667}}, color={0,0,127}));
+  connect(stateShading1.TDryBul, TDryBul) annotation (
+    Line(points={{-20.5,-11.3333},{40,-11.3333},{40,-10}},
+                                                    color = {0, 0, 127}));
+  connect(Te, stateShading1.Te) annotation (Line(points={{-60,130},{-6,130},{-6,
+          -2},{-25.5,-2}},color={0,0,127}));
+  connect(hForcedConExt, stateShading1.hForcedConExt) annotation (Line(points={{-60,110},
+          {-8,110},{-8,-3.33333},{-25.5,-3.33333}},          color={0,0,127}));
+  connect(TEnv, stateShading1.TEnv) annotation (Line(points={{-60,90},{-10,90},
+          {-10,-4.66667},{-25.5,-4.66667}},color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
+<li>
+October 12, 2022, by Filip Jorissen:<br/>
+Revised default connections between shading components when using DoubleShading. See
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1299\">#1299</a>.
+</li>
 <li>
 August 9, 2022, by Filip Jorissen:<br/>
 Updated example after modified component connectors for issue
