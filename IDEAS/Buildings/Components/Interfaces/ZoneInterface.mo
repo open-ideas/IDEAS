@@ -25,6 +25,12 @@ partial model ZoneInterface "Partial model for thermal building zones"
   parameter Boolean useOccNumInput
     "=false, to remove icon of yOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
+  parameter Boolean useWatFlowInput = false
+    "=true, to enable an input for injecting water vapor into a zone"
+    annotation(Dialog(tab="Advanced",group="Sources"));
+  parameter Boolean useCFlowInput = false
+    "=true, to enable an input for injecting CO2 into a zone"
+    annotation(Dialog(tab="Advanced",group="Sources"));
   parameter Boolean useLigCtrInput
     "=false, to remove icon of lightCtrl"
     annotation(Dialog(tab="Advanced",group="Lighting"));
@@ -58,13 +64,24 @@ partial model ZoneInterface "Partial model for thermal building zones"
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
+  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kgs-1") 
+    if useWatFlowInput 
+    "Input for injecting water vapor into a zone" annotation(
+    Placement(visible = true, transformation(origin = {0, 50}, extent = {{140, 20}, {100, 60}}, rotation = 0), iconTransformation(origin = {0, 40}, extent = {{140, 20}, {100, 60}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput C_flow 
+    if useCFlowInput 
+    "Input for injecting CO2 into a zone" annotation(
+    Placement(visible = true, transformation(origin = {0, 70}, extent = {{140, 20}, {100, 60}}, rotation = 0), iconTransformation(origin = {0, 80}, extent = {{140, 20}, {100, 60}}, rotation = 0)));  
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
     annotation (Placement(transformation(extent={{140,50},{100,90}}),
         iconTransformation(extent={{-130,-40},{-90,0}})));
-  Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
+  Modelica.Blocks.Interfaces.RealOutput ppm(unit="1",min=0)
     "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
             {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealOutput phi(unit="1",min=0,max=1)
+    "Relative humidity in the zone [0-1]" annotation (Placement(transformation(extent={{100,0},
+            {120,20}}),           iconTransformation(extent={{100,0},{120,20}})));
   Modelica.Fluid.Interfaces.FluidPorts_a ports[nPorts](redeclare package Medium =
         Medium) "Ports for ventilation connetions" annotation (Placement(
         transformation(
@@ -103,6 +120,8 @@ initial equation
       Instead, increase nPorts and create a separate connection.",
       level=AssertionLevel.warning);
   end for;
+initial equation
+  assert(not useCFlowInput or Medium.nC>0, "In " + getInstanceName() + ": using useCFlowInput=true but the used medium has no trace substances");
 equation
   connect(sim.Qgai, dummy1);
   connect(sim.E, dummy2);
@@ -162,6 +181,10 @@ equation
           textString="%name")}),
     Documentation(revisions="<html>
 <ul>
+<li>
+July 25, 2023, by Filip Jorissen:<br/>
+Added conditional inputs for injecting water or CO2.
+</li>
 <li>
 September 17, 2020, Filip Jorissen:<br/>
 Modified default Medium.

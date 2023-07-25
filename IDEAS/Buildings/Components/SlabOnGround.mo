@@ -5,7 +5,7 @@ model SlabOnGround "opaque floor on ground slab"
     final use_custom_q50=true,
     final nWin=1,
     QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
-    add_cracks=false,
+    add_door=false,
     dT_nominal_a=-3,
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,

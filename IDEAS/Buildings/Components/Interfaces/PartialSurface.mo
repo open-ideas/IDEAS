@@ -1,9 +1,9 @@
 within IDEAS.Buildings.Components.Interfaces;
 partial model PartialSurface "Partial model for building envelope component"
-
+  
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
+    annotation (Placement(visible = true, transformation(origin = {50, 180}, extent = {{30, -100}, {50, -80}}, rotation = 0)));
   parameter Integer incOpt = 4
     "Tilt angle option from simInfoManager, or custom using inc"
     annotation(choices(__Dymola_radioButtons=true, choice=1 "Wall", choice=2 "Floor", choice=3 "Ceiling", choice=4 "Custom"));
@@ -93,39 +93,21 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  PowerLaw_q50_stack res1(
-  redeclare package Medium = Medium,
-    A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then A/2 else A,
-    h_b= -0.5*hzone_a + 0.25*hVertical +hRef_a,
-    final q50=q50_internal)
-     if add_cracks and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    "Middle or bottom crack "
-    annotation (Placement(transformation(extent={{20,-46},{40,-26}})));
-
-
-  PowerLaw_q50_stack res2(
-  redeclare package
-  Medium = Medium,
-    A=A/2,
-  h_b= -0.5*hzone_a + 0.75*hVertical +hRef_a,
-    final q50=q50_internal)
-    if add_cracks and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-    "Top crack"
-    annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
-
-
   Q50_parameterToConnector q50_zone(
     q50_inp=q50_internal,
     v50_surf=q50_internal*A,
     use_custom_q50=use_custom_q50)
     annotation (Placement(transformation(extent={{80,-60},{100,-40}})));
-
-
-
+  IDEAS.Airflow.Multizone.CrackOrOperableDoor crackOrOperableDoor(
+    A_q50 = A,
+    q50=q50_internal,
+    redeclare package Medium = Medium,
+    h_a2 = -0.5*hzone_a + 0.75*hVertical + hRef_a,
+    h_b1 = -0.5*hzone_a + 0.25*hVertical + hRef_a,
+    interZonalAirFlowType = sim.interZonalAirFlowType) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation(
+    Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 protected
-  parameter Boolean add_cracks = true
-    "Add cracks";
+  parameter Boolean add_door = true "Option to disable crackOrOperableDoor";
   final parameter Modelica.Units.SI.Angle aziInt=
     if aziOpt==5
     then azi
@@ -156,6 +138,8 @@ protected
     "Gain for all propsBus variable to represent nWin surfaces instead of 1"
     annotation (Placement(transformation(extent={{70,6},{88,36}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBusInt(
+    port_1(m_flow(final min=0, final max=0)),
+    port_2(m_flow(final min=0, final max=0)),
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
@@ -172,145 +156,6 @@ protected
         use_custom_q50)
     "Block that contributes surface area to the siminfomanager"
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
-
-
-
-
-
-
-
-model PowerLaw_q50_stack
-  "Power law pressure drop with integrated stack effect"
-    replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
-    constrainedby Modelica.Media.Interfaces.PartialMedium
-     annotation (
-          __Dymola_choicesAllMatching=true);
-  outer BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
-
-  parameter Modelica.Units.SI.Area A "Surface area";
-  parameter Real m=0.65 "Flow exponent";
-  parameter Real h_a=0 "Column height, height at port_a" annotation (Dialog(group="Flow Path"));
-  parameter Real h_b=0 "Column height, height at port_b" annotation (Dialog(group="Flow Path"));
-  parameter Real q50 "Leaked volume flow rate per unit A at 50Pa";
-  final parameter Boolean use_stack= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
-
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(
-    redeclare package Medium =Medium)
-    "Port a" annotation (Placement(transformation(rotation=0, extent={{-110,-10},
-                {-90,10}}), iconTransformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(
-    redeclare package Medium =Medium)
-    "Port b" annotation (Placement(transformation(rotation=0, extent={{90,-10},
-                {110,10}}),     iconTransformation(extent={{90,-10},{110,10}})));
-  IDEAS.Airflow.Multizone.Point_m_flow res1(
-    redeclare package Medium = Medium,
-    final forceErrorControlOnFlow=false,
-    m=m,
-    useDefaultProperties= not use_stack,
-    dpMea_nominal=50,
-    mMea_flow_nominal=A*(q50*1.2)/3600)
-    "Middle or bottom crack "
-     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_a_pos(
-    redeclare package Medium = Medium,
-    h=h_a)  if use_stack
-    annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-
-  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b_pos(
-    redeclare package Medium = Medium,
-    h=h_b)  if use_stack
-    annotation (Placement(transformation(extent={{50,-10},{70,10}})));
-
-
-equation
-  if not use_stack then
-    connect(port_a, res1.port_a) annotation (Line(points={{-100,0},{-80,0},{
-          -80,40},{-68,40}}, color={0,127,255}));
-    connect(res1.port_b, port_b) annotation (Line(points={{10,0},{20,0},
-          {20,40},{50,40}}, color={0,127,255}));
-  end if;
-  connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,
-          -10},{-60,-10}},                                                      color={0,127,255}));
-  connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-60,
-          14},{-20,14},{-20,0},{-10,0}},
-                                      color={0,127,255}));
-  connect(port_b, col_b_pos.port_b) annotation (Line(points={{100,0},{80,0},{80,
-          -10},{60,-10}},                                                     color={0,127,255}));
-  connect(col_b_pos.port_a, res1.port_b) annotation (Line(points={{60,10},{60,14},
-          {20,14},{20,0},{10,0}},
-                               color={0,127,255}));
-
-    annotation (Icon(graphics={
-        Text(
-          extent={{-100,100},{-40,60}},
-          lineColor={28,108,200},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.None,
-          textString="q50"),
-        Rectangle(
-          extent={{-20,80},{20,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-60,58},{64,46}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-94,4},{-58,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{54,6},{106,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-64,2},{-46,-6}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-82,4},{-46,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,127,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-58,36},{66,24}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-58,-54},{66,-66}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-56,-24},{68,-36}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-38,4},{40,-8}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid)}));
-end PowerLaw_q50_stack;
-
-
 
 
 model Q50_parameterToConnector "Converts parameter values into connectors for propsBus"
@@ -395,11 +240,7 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(res1.port_b, propsBusInt.port_1) annotation (Line(points={{40,-36},{50,
-          -36},{50,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(res2.port_b, propsBusInt.port_2) annotation (Line(points={{40,-60},{50,
-          -60},{50,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(setArea.areaPort, sim.areaPort);
+   connect(setArea.areaPort, sim.areaPort);
   connect(q50_zone.v50, propsBusInt.v50) annotation (Line(points={{79,-58},{56,-58},
           {56,-20},{56.09,-20},{56.09,19.91}},               color={0,0,127}));
   connect(q50_zone.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{79.4,
@@ -414,10 +255,18 @@ equation
           -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
   connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
           -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
+  if propsBusInt.use_port_1 then
+    connect(crackOrOperableDoor.port_b1, propsBusInt.port_1) annotation(
+    Line(points = {{40, -46}, {56, -46}, {56, 20}}, color = {0, 127, 255}));
+  end if;
+  if propsBusInt.use_port_2 then
+    connect(crackOrOperableDoor.port_a2, propsBusInt.port_2) annotation(
+    Line(points = {{40, -58}, {56, -58}, {56, 20}}, color = {0, 127, 255}));
+  end if;
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-50, -100}, {50, 100}})),
     Documentation(revisions="<html>
 <ul>
 <li>

@@ -102,7 +102,8 @@ model PartialZone "Building zone model"
     Dialog(group="Occupants (optional)"),
     Placement(transformation(extent={{80,22},{60,42}})));
 
-  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp
+  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp annotation(
+    Placement(visible = true, transformation(origin = {0, 0}, extent = {{80, 82}, {100, 102}}, rotation = 0)))
     constrainedby
     IDEAS.Buildings.Components.OccupancyType.BaseClasses.PartialOccupancyType
     "Occupancy type, only used for evaluating occupancy model and comfort model"
@@ -186,9 +187,10 @@ model PartialZone "Building zone model"
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-
-
-
+  Modelica.Blocks.Math.Add addmWatFlow "Add mass flow rates" annotation(
+    Placement(visible = true, transformation(origin = {-6, 40}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
+  Modelica.Blocks.Math.Add addCFlow[max(Medium.nC,1)](k2 = intGaiOcc.s_co2)  annotation(
+    Placement(visible = true, transformation(origin = {-6, 34}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
 protected
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
@@ -299,9 +301,6 @@ equation
 
     hzone=fill(hZone,nSurf);
     hfloor=fill(hFloor,nSurf);
-
-
-
     annotation (Icon(graphics={Rectangle(
             extent={{-84,80},{82,-80}},
             lineColor={28,108,200},
@@ -459,10 +458,6 @@ end for;
     annotation (Line(points={{20,30},{-20,30}}, color={191,0,0}));
   connect(intGaiOcc.portRad, radDistr.radGain) annotation (Line(points={{20,26},
           {4,26},{4,-60},{-46.2,-60}}, color={191,0,0}));
-  connect(intGaiOcc.mWat_flow, airModel.mWat_flow)
-    annotation (Line(points={{19.4,38},{-19.2,38}}, color={0,0,127}));
-  connect(intGaiOcc.C_flow, airModel.C_flow)
-    annotation (Line(points={{19.4,34},{-19.2,34}}, color={0,0,127}));
   connect(comfort.TAir, airModel.TAir) annotation (Line(points={{19,0},{-10,0},{
           -10,24},{-19,24}},   color={0,0,127}));
   connect(comfort.TRad, radDistr.TRad) annotation (Line(points={{19,-4},{-6,-4},
@@ -522,6 +517,28 @@ end for;
           -97.2},{-60.6,-97.8},{-80.1,-97.8},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.hfloor, propsBusInt.hfloor) annotation (Line(points={{-60.6,
           -99.6},{-60.6,-99.8},{-80.1,-99.8},{-80.1,39.9}}, color={0,0,127}));
+  connect(intGaiOcc.mWat_flow, addmWatFlow.u2) annotation(
+    Line(points = {{20, 38}, {-2, 38}}, color = {0, 0, 127}));
+  connect(addmWatFlow.y, airModel.mWat_flow) annotation(
+    Line(points = {{-10, 40}, {-20, 40}, {-20, 38}}, color = {0, 0, 127}));
+  connect(addCFlow.y, airModel.C_flow) annotation(
+    Line(points = {{-10, 34}, {-20, 34}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(addCFlow.u1, intGaiOcc.C_flow) annotation(
+    Line(points = {{-2, 36}, {14, 36}, {14, 34}, {20, 34}}, color = {0, 0, 127}, thickness = 0.5));
+  for i in 1:max(Medium.nC,1) loop
+    connect(addCFlow[i].u2, C_flow) annotation(
+    Line(points = {{-2, 32}, {8, 32}, {8, -100}, {120, -100}}, color = {0, 0, 127}));
+    if not useCFlowInput then
+      addCFlow[i].u2=0;
+    end if;
+  end for;
+  if not useWatFlowInput then
+    addmWatFlow.u1=0;
+  end if;
+  connect(airModel.phi, phi) annotation(
+    Line(points = {{-18, 26}, {-12, 26}, {-12, 10}, {110, 10}}, color = {0, 0, 127}));
+  connect(addmWatFlow.u1, mWat_flow) annotation(
+    Line(points = {{-2, 42}, {10, 42}, {10, -80}, {120, -80}}, color = {0, 0, 127}));
   annotation (Placement(transformation(extent={{
             140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -530,6 +547,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 25, 2023, by Filip Jorissen:<br/>
+Added conditional inputs for injecting water or CO2.
+Added output phi for the relative humidity.
+</li>
 <li>
 May 29, 2022, by Filip Jorissen:<br/>
 Unprotected component for OM compatibility.

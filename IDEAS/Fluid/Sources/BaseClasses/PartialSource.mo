@@ -47,12 +47,11 @@ protected
 initial equation
   // Only one connection allowed to a port to avoid unwanted ideal mixing
   for i in 1:nPorts loop
-    assert(cardinality(ports[i]) <= 1,"
+    assert(cardinality(ports[i]) <= 1,"In " + getInstanceName() + "
 Each ports[i] of boundary shall at most be connected to one component.
 If two or more connections are present, ideal mixing takes
 place in these connections, which is usually not the intention
-of the modeller. Increase nPorts to add an additional port.
-");
+of the modeller. Increase nPorts to add an additional port and/or fix the number of connections to port" + String(i) + ".");
   end for;
 
 equation

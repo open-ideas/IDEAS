@@ -25,14 +25,14 @@ model Window "Multipane window"
       dT_nom_air=5,
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
-    setArea(A=A_glass*nWin),
+    setArea(A=A*nWin),
     hRef_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then hzone_a else (hzone_a - hVertical)/2,
-    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then 0 else min(hzone_a, sqrt(A)),
-    q50_zone(v50_surf=q50_internal*A_glass),
-    res1(A=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then A_glass/2 else A_glass,
-          h_a=(Habs - sim.Hpres) + 0.25*hVertical),
-    res2(A=A_glass/2,
-          h_a=(Habs - sim.Hpres) - 0.25*hVertical));
+    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then 0 else hWin,
+    q50_zone(v50_surf=q50_internal*A),
+    crackOrOperableDoor(
+          h_a1=(Habs - sim.Hpres) + 0.25*hVertical,
+          h_b2=(Habs - sim.Hpres) - 0.25*hVertical,
+          useDoor = use_operable_window));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -55,7 +55,8 @@ model Window "Multipane window"
     annotation(Dialog(tab="Advanced",group="Icon"));
 
   replaceable parameter IDEAS.Buildings.Data.Frames.None fraType
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame "Window frame type"
+    constrainedby IDEAS.Buildings.Data.Interfaces.Frame(briTyp(final len=briLen)) 
+    "Window frame type"
     annotation (choicesAllMatching=true, Dialog(group=
           "Construction details"));
   replaceable IDEAS.Buildings.Components.Shading.None shaType
@@ -76,9 +77,9 @@ model Window "Multipane window"
       choicesAllMatching=true, Dialog(group="Construction details"));
 
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
-    "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
+    "Control signal for screen between 0 and 1, 1 is fully closed" annotation (
       Placement(visible = true,transformation(
-        origin={-50,-110},extent={{20,-20},{-20,20}},
+        origin={-50,-120},extent={{20,-20},{-20,20}},
         rotation=-90), iconTransformation(
         origin={-40,-100},extent={{10,-10},{-10,10}},
         rotation=-90)));
@@ -110,8 +111,9 @@ model Window "Multipane window"
   final parameter Real Habs(fixed=false)
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(tab="Airflow", group="Wind"));
-
-
+  parameter Boolean use_operable_window = false
+    "= true, to enable window control input"
+    annotation(Dialog(group="Operable window", tab="Airflow"));
   parameter Boolean use_trickle_vent = false
     "= true, to enable trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow"));
@@ -121,19 +123,29 @@ model Window "Multipane window"
   parameter SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
     "Pressure drop at nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
+  parameter Boolean use_trickle_vent_control = false
+    "=true, to enable trickle vent control input"
+    annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
+  parameter Modelica.Units.SI.Length hWin = min(2, sqrt(A))
+    "Window height, including frame"
+    annotation(Dialog(tab="Advanced",group="Frame"));
+  parameter Modelica.Units.SI.Length briLen = 2*hWin + 2*A/hWin
+    "Thermal bridge length, if present"
+    annotation(Dialog(tab="Advanced",group="Frame"));
   Modelica.Blocks.Math.Gain gainDir(k=A*(1 - frac))
     "Gain for direct solar irradiation"
-    annotation (Placement(visible = true, transformation(extent = {{-30, -46}, {-26, -42}}, rotation = 0)));
+    annotation (Placement(visible = true, transformation(origin = {0, 0},extent = {{-30, -46}, {-26, -42}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gainDif(k=A*(1 - frac))
     "Gain for diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-36,-50},{-32,-46}})));
 
   IDEAS.Airflow.Multizone.TrickleVent trickleVent(
     redeclare package Medium = Medium,
-    final allowFlowReversal=true,
-    m_flow_nominal=m_flow_nominal,
-    dp_nominal=dp_nominal) if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None "Trickle vent"
-    annotation (Placement(transformation(extent={{20,-88},{40,-68}})));
+    allowFlowReversal = true,
+    use_y = use_trickle_vent_control)
+    if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Trickle vent"
+    annotation (Placement(visible = true, transformation(origin = {0, -158}, extent = {{20, 88}, {40, 68}}, rotation = 0)));
   replaceable
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.SwWindowResponse
     solWin(
@@ -150,15 +162,23 @@ model Window "Multipane window"
                      if fraType.present
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{20,60},{40,80}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(final G=(if
-        fraType.briTyp.present then fraType.briTyp.G else 0) + (fraType.U_value)
-        *A*frac)                if fraType.present  annotation (Placement(transformation(extent={{10,60},
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor layFra(
+    final G=fraType.briTyp.G + fraType.U_value*A*frac)
+    if fraType.present  annotation (Placement(transformation(extent={{10,60},
             {-10,80}})));
 
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
     inc=incInt,
     azi=aziInt)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
+  Modelica.Blocks.Interfaces.RealInput y_trickleVent 
+    if use_trickle_vent_control and use_trickle_vent
+    "Control signal for trickle vent between 0 and 1, 1 is fully opened" annotation(
+    Placement(visible = true, transformation(origin = {30, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-40, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+  Modelica.Blocks.Interfaces.RealInput y_window 
+    if use_operable_window 
+    "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation(
+    Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-40, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -196,7 +216,7 @@ protected
         start=T_start))                                                                             if addCapGla
     "Heat capacitor for glazing at exterior"
     annotation (Placement(transformation(extent={{-20,-12},{0,-32}})));
-  Fluid.Sources.OutsideAir       outsideAir(
+  IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = Medium,
     Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then sim.Cs_coeff*Habs 
@@ -211,10 +231,10 @@ protected
     use_TDryBul_in = true)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
-    annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
+    annotation (Placement(visible = true, transformation(origin = {0, 10}, extent = {{-40, -100}, {-20, -80}}, rotation = 0)));
 
 initial equation
-  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
+  QTra_design = (U_value*A + fraType.briTyp.G) *(273.15 + 21 - Tdes.y);
   Habs =hfloor_a + hRef_a + (hVertical/2);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
@@ -224,6 +244,9 @@ initial equation
     ": You may have intended to model a frame since the parameter 'frac' is larger than zero. However, no frame type is configured such that no frame will be modelled. This may be a mistake. Set frac=0 to avoid this warning if this is intentional.",
     level=AssertionLevel.warning);
 equation
+  if not use_operable_window then
+    solWin.y=0;//window always closed
+  end if;
   connect(solWin.iSolDir, propsBusInt.iSolDir) annotation (
     Line(points = {{-2, -60}, {-2, -70}, {56.09, -70}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
   connect(solWin.iSolDif, propsBusInt.iSolDif) annotation (
@@ -231,7 +254,7 @@ equation
   connect(solWin.iSolAbs, layMul.port_gain) annotation (
     Line(points = {{0, -40}, {0, -10}}, color = {191, 0, 0}, smooth = Smooth.None));
   connect(shaType.Ctrl, Ctrl) annotation (
-    Line(points={{-63,-63.4772},{-50, -63.4772},{-50, -110}},
+    Line(points={{-63,-63.4772},{-50, -63.4772},{-50, -120}},
                                                          color = {0, 0, 127}));
   connect(iConFra.port_b, propsBusInt.surfCon) annotation (
     Line(points = {{40, 70}, {46, 70}, {46, 19.91}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
@@ -252,7 +275,7 @@ equation
   connect(heaCapFraIn.port, layFra.port_a) annotation (
     Line(points = {{14, 100}, {14, 70}, {10, 70}}, color = {191, 0, 0}));
   connect(gainDir.y, solWin.solDir) annotation (
-    Line(points={{-25.8,-44},{-10,-44}},    color = {0, 0, 127}));
+    Line(points={{-26,-44},{-10,-44}},    color = {0, 0, 127}));
   connect(gainDif.y, solWin.solDif) annotation (
     Line(points = {{-31.8, -48}, {-22, -48}, {-10, -48}}, color = {0, 0, 127}));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (
@@ -270,20 +293,14 @@ equation
   connect(gainDif.u, solDif.y) annotation (
     Line(points={{-36.4,-48},{-37.6,-48},{-37.6,-44}},    color = {0, 0, 127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (
-    Line(points={{-30.4,-44},{-30.95,-44},{-30.95,-41.0969},{-57.5,-41.0969}},
+    Line(points={{-30,-44},{-30.95,-44},{-30.95,-41.0969},{-57.5,-41.0969}},
                                                                             color = {0, 0, 127}));
   connect(layFra.port_b, heaCapFraExt.port) annotation (
     Line(points = {{-10, 70}, {-10, 100}}, color = {191, 0, 0}));
   connect(heaCapGlaExt.port, layMul.port_b) annotation (
     Line(points = {{-10, -12}, {-10, 0}}, color = {191, 0, 0}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (
-    Line(points={{20,-36},{16,-36},{16,-90},{-20,-90}},          color = {0, 127, 255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation (
-    Line(points = {{20, -60}, {16, -60}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
-  connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then 2 else 3]) annotation (
-    Line(points = {{20, -78}, {16, -78}, {16, -92}, {-2, -92}, {-2, -90}, {-20, -90}}, color = {0, 127, 255}));
   connect(trickleVent.port_b, propsBusInt.port_1) annotation (
-    Line(points = {{40, -78}, {50, -78}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
+    Line(points = {{40, -80}, {50, -80}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
   connect(radSolData.Te, shaType.Te) annotation (
     Line(points={{-79.4,-64},{-68.5,-64},{-68.5,-29.9067}}, color = {0, 0, 127}));
   connect(shaType.port_frame, layFra.port_b) annotation (
@@ -297,8 +314,24 @@ equation
     Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
                                                                     color = {0, 0, 127}));
   connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
-    Line(points={{-42,-90},{-46,-90},{-46,-49.4895},{-57.5,-49.4895}},
+    Line(points={{-42,-80},{-46,-80},{-46,-49.4895},{-57.5,-49.4895}},
                                                                     color = {0, 0, 127}));
+  connect(trickleVent.y, y_trickleVent) annotation(
+    Line(points = {{30, -92}, {30, -120}}, color = {0, 0, 127}));
+  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
+    connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation(
+    Line(points = {{20, -44}, {16, -44}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
+  end if;
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+    connect(crackOrOperableDoor.port_b2, outsideAir.ports[2]) annotation(
+    Line(points = {{20, -56}, {16, -56}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
+  end if;
+ connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation(
+    Line(points = {{20, -80}, {-20, -80}}, color = {0, 127, 255}));
+ connect(crackOrOperableDoor.y, y_window) annotation(
+    Line(points = {{20, -52}, {14, -52}, {14, -100}, {-10, -100}, {-10, -120}}, color = {0, 0, 127}));
+ connect(y_window, solWin.y) annotation(
+    Line(points = {{-10, -120}, {-10, -58}}, color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
@@ -367,6 +400,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 17, 2023, by Filip Jorissen:<br/>
+Using A instead of A_glass to compute air tightness parameters.
+Added controllable trickle vent and operable window.
+</li>
 <li>
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.
