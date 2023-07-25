@@ -5,6 +5,8 @@ model TrickleVent "Self regulating trickle vent"
     final from_dp=true,
     final homotopyInitialization=true);
 
+  parameter Real l(min=1e-10, max=1) = 0.0001
+    "Valve leakage, l=Kv(y=0)/Kv(y=1)";
   parameter Real deltaM(min=1E-6) = 0.3
     "Fraction of nominal mass flow rate where transition to turbulent occurs"
        annotation(Evaluate=true,
@@ -16,7 +18,7 @@ model TrickleVent "Self regulating trickle vent"
   final parameter Real k = if computeFlowResistance then
         m_flow_nominal_pos / sqrt(dp_nominal_pos) else 0
     "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
-  Modelica.Blocks.Interfaces.RealInput y if use_y "Control input for trickle vent Kv value" annotation(
+  Modelica.Blocks.Interfaces.RealInput y(min=0,max=1) if use_y "Control input for trickle vent Kv value" annotation(
     Placement(visible = true, transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
 protected
   final parameter Boolean computeFlowResistance=(dp_nominal_pos > Modelica.Constants.eps)
@@ -49,7 +51,7 @@ equation
             m_flow_nominal,
             IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp(
               dp=dp,
-              k=k*y_internal,
+              k=k*(l + (1-l)*y_internal),
               m_flow_turbulent=m_flow_turbulent),
             m_flow_nominal/10);
     end if; // linearized

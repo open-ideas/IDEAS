@@ -9,20 +9,21 @@ model TrickleVentIDEAS
     m_flow_nominal = 0.02614, 
     use_y = true) 
     "Analytic trickle vent implementation"  annotation(
-    Placement(visible = true, transformation(origin = {10, -30}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step(
-    height = -0.5, 
+    Placement(visible = true, transformation(origin = {20, -70}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp(
+    duration = 1e6, 
+    height = -1, 
     offset = 1, 
     startTime = 1592000)  
     "Step control signal" annotation(
-    Placement(visible = true, transformation(origin = {-90, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-90, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
    connect(vent.port_a, east.ports[2]) annotation(
-    Line(points = {{0, -30}, {-30, -30}}, color = {0, 127, 255}));
+    Line(points = {{10, -70}, {-25, -70}, {-25, -30}, {-30, -30}}, color = {0, 127, 255}));
   connect(vent.port_b, west.ports[2]) annotation(
-    Line(points = {{20, -30}, {70, -30}}, color = {0, 127, 255}));
-  connect(step.y, vent.y) annotation(
-    Line(points = {{-78, -70}, {10, -70}, {10, -42}}, color = {0, 0, 127}));
+    Line(points = {{30, -70}, {65, -70}, {65, -30}, {70, -30}}, color = {0, 127, 255}));
+  connect(ramp.y, vent.y) annotation(
+    Line(points = {{-79, -88}, {20.5, -88}, {20.5, -82}, {20, -82}}, color = {0, 0, 127}));
   annotation (__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Airflow/Multizone/Examples/TrickleVentIDEAS.mos"
         "Simulate and plot"),
         experiment(
@@ -47,5 +48,6 @@ July 9, 2023 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+ Diagram);
 end TrickleVentIDEAS;
