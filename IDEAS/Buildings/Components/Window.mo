@@ -174,11 +174,11 @@ model Window "Multipane window"
   Modelica.Blocks.Interfaces.RealInput y_trickleVent 
     if use_trickle_vent_control and use_trickle_vent
     "Control signal for trickle vent between 0 and 1, 1 is fully opened" annotation(
-    Placement(visible = true, transformation(origin = {30, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-40, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {30, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput y_window 
     if use_operable_window 
     "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation(
-    Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-40, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-20, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
