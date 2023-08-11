@@ -22,7 +22,7 @@ protected
   Modelica.Units.SI.Temperature TShaScreen = Te_internal + (HSha*(1-g_glazing) + (H - HSha) * epsSw_shading) /hSha
     "Modified shading device heat balance";
 initial equation
-  assert( abs(shaCorr + refSw_shading + epsSw_shading - 1) > 1e-3, "In " + getInstanceName() +
+  assert( abs(shaCorr + refSw_shading + epsSw_shading - 1) < 1e-3, "In " + getInstanceName() +
     ": The sum of the screen transmittance 'shaCorr', reflectance 'refSw_shading' and absorptance 'epsSw_shading' does not equal one. This is non-physical.");
 equation
   HShaDirTil = HDirTil*((1 - limiter.y) + limiter.y*shaCorr);

@@ -142,6 +142,8 @@ model Window "Multipane window"
   IDEAS.Airflow.Multizone.TrickleVent trickleVent(
     redeclare package Medium = Medium,
     allowFlowReversal = true,
+    dp_nominal=dp_nominal,
+    m_flow_nominal=m_flow_nominal,
     use_y = use_trickle_vent_control)
     if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Trickle vent"
