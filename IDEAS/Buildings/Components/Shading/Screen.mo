@@ -49,7 +49,7 @@ No longer converting transmitted direct solar irradiation into diffuse solar irr
 </li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
-Refactored for #1270 for including thermal effect of screens.
+Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.
 </li>
 <li>
 May 26, 2017 by Filip Jorissen:<br/>

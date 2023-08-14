@@ -97,7 +97,7 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 <ul>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
-Refactored for #1270 for including thermal effect of screens.
+Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.
 </li>
 <li>
 September 22, 2019 by Filip Jorissen:<br/>
