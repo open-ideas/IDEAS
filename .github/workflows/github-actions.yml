@@ -24,27 +24,27 @@ jobs:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: Test IDEAS.Buildings.Components
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Buildings.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Buildings.Validation
-        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.Actuators
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.BaseClasses
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.BaseClasses\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.Chillers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Chillers\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Chillers\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.Delays
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Delays\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Delays\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.Examples
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.FixedResistances
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.Geothermal
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.HeatExchangers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\" INTERACTIVE=false && df -h && lsblk -a
       - name: Test IDEAS.Fluid.HeatPumps
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatPumps\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Interfaces
