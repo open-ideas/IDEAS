@@ -33,7 +33,7 @@ Our goal is to provide support for Dymola and OpenModelica. Consequently, any to
 [This is a link to detailed release notes.](https://github.com/open-ideas/IDEAS/blob/master/ReleaseNotes.md)
 
 ## Unit tests
-The library is unit tested using BuildingsPy. Automated unit tests have been removed since the required services are no longer freely available. The master branch is still unit tested manually. See IDEAS/RunUnitTests.py to run the unit tests yourself.
+The library is unit tested using BuildingsPy. Automated unit tests are run on GitHub Actions with a self-hosted runner at KU Leuven.
 
 ## License
 IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.eu) under a [BSD 3 license](https://htmlpreview.github.io/?https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html).
