@@ -181,6 +181,8 @@ model Window "Multipane window"
     if use_operable_window 
     "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation(
     Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-20, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window))) "Truncated control signal" annotation(
+    Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
 protected
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -330,10 +332,10 @@ equation
   end if;
  connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation(
     Line(points = {{20, -80}, {-20, -80}}, color = {0, 127, 255}));
- connect(crackOrOperableDoor.y, y_window) annotation(
-    Line(points = {{20, -52}, {14, -52}, {14, -100}, {-10, -100}, {-10, -120}}, color = {0, 0, 127}));
- connect(y_window, solWin.y) annotation(
-    Line(points = {{-10, -120}, {-10, -58}}, color = {0, 0, 127}));
+ connect(y_window_trunc.y, solWin.y) annotation(
+    Line(points = {{-10, -78}, {-10, -58}}, color = {0, 0, 127}));
+ connect(y_window_trunc.y, crackOrOperableDoor.y) annotation(
+    Line(points = {{-10, -78}, {-10, -68}, {20, -68}, {20, -52}}, color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
