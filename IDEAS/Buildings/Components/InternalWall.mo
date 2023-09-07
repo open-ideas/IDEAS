@@ -227,7 +227,8 @@ equation
           {26,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(col_a_pos.port_a, resDoor.port_b)
     annotation (Line(points={{26,62},{26,68},{10,68}}, color={0,127,255}));
-
+  connect(col_b_pos.port_b, propsBus_b.port_1) annotation(
+    Line(points = {{-30, 42}, {-30, 20}, {-100, 20}}, color = {0, 127, 255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
