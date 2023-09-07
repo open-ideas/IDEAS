@@ -181,9 +181,11 @@ model Window "Multipane window"
     if use_operable_window 
     "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation(
     Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-20, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window))) "Truncated control signal" annotation(
+  Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal))) 
+    "Truncated control signal" annotation(
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
 protected
+  Modelica.Blocks.Interfaces.RealInput y_window_internal;
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
   final parameter Boolean addCapGla =  windowDynamicsType == IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two and not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
@@ -254,8 +256,10 @@ equation
     connect(outsideAir.m_flow, shaType.m_flow) annotation(
       Line(points = {{-40, -86}, {-60, -86}, {-60, -64}}, color = {0, 0, 127}));
   end if ;
-  if not use_operable_window then
-    solWin.y=0;//window always closed
+  if use_operable_window then 
+    connect(y_window_internal, y_window);
+  else
+    y_window_internal = 0;
   end if;
   connect(solWin.iSolDir, propsBusInt.iSolDir) annotation (
     Line(points = {{-2, -60}, {-2, -70}, {56.09, -70}, {56.09, 19.91}}, color = {191, 0, 0}, smooth = Smooth.None));
