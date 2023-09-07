@@ -36,7 +36,7 @@ model BuildingO5_Exp1_2Port
       OutputCPUtime=true,
       OutputFlatModelica=false),
       __Dymola_Commands(file=
-          "modelica://IDEAS/Resources/Scripts/Dymola/Examples/TwinHouses/BuildingO5_Exp1_1Port.mos"
+          "modelica://IDEAS/Resources/Scripts/Dymola/Examples/TwinHouses/BuildingO5_Exp1_2Port.mos"
         "Simulate and plot"),
     Documentation(info="<html>
 <p>Similar to IDEAS.Examples.TwinHouses.BuildingO5_Exp1 but using the 1-port pressure driven interzonal airflow implementation.</p>
