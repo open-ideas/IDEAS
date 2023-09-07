@@ -248,6 +248,12 @@ initial equation
     ": You may have intended to model a frame since the parameter 'frac' is larger than zero. However, no frame type is configured such that no frame will be modelled. This may be a mistake. Set frac=0 to avoid this warning if this is intentional.",
     level=AssertionLevel.warning);
 equation
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
+    shaType.m_flow = 0;
+  else 
+    connect(outsideAir.m_flow, shaType.m_flow) annotation(
+      Line(points = {{-40, -86}, {-60, -86}, {-60, -64}}, color = {0, 0, 127}));
+  end if ;
   if not use_operable_window then
     solWin.y=0;//window always closed
   end if;
@@ -404,6 +410,10 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 7, 2023, by Filip Jorissen:<br/>
+Created shading surface temperature dependency on mass flow rate.
+</li>
 <li>
 July 17, 2023, by Filip Jorissen:<br/>
 Using A instead of A_glass to compute air tightness parameters.

@@ -14,12 +14,13 @@ model Screen "Controllable exterior screen"
     "Shortwave reflectance of the screen";
     
 protected
+  constant Modelica.Units.SI.SpecificHeatCapacity cp_air = 1004 "Specific heat capacity";
   Modelica.Units.SI.Temperature TEnv_screen = limiter.y*TSha + (1-limiter.y)*TEnv_internal
     "Assuming the environment temperature is a weighted average of the shading device temperature and the ambient temperature";
   Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)
     "Limits the control signal to avoid incorrect use by the user";
   // This assumes that the window rejects 1-g_glazing of the incoming solar irradation is entirely converted into sensible heat
-  Modelica.Units.SI.Temperature TShaScreen = Te_internal + (HSha*(1-g_glazing) + (H - HSha) * epsSw_shading) /hSha
+  Modelica.Units.SI.Temperature TShaScreen = Te_internal + (HSha*(1-g_glazing) + (H - HSha) * epsSw_shading) /(hSha + abs(m_flow)*cp_air)
     "Modified shading device heat balance";
 initial equation
   assert( abs(shaCorr + refSw_shading + epsSw_shading - 1) < 1e-3, "In " + getInstanceName() +
@@ -42,6 +43,10 @@ A fraction <code>shaCorr</code> is converted into diffuse light that enters the 
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 7, 2023 by Filip Jorissen:<br/>
+Created flow rate dependency for screen surface temperature.
+</li>
 <li>
 July 9, 2023 by Filip Jorissen:<br/>
 Added reflectance coefficient parameter. 
