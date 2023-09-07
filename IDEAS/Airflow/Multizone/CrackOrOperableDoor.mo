@@ -11,7 +11,7 @@ model CrackOrOperableDoor
     final m2_flow_nominal=m1_flow_nominal,
     final m1_flow_small=1E-4*abs(m1_flow_nominal),
     final m2_flow_small=1E-4*abs(m2_flow_nominal));
-  extends IDEAS.Airflow.Multizone.BaseClasses.ErrorControl;
+  extends IDEAS.Airflow.Multizone.BaseClasses.ErrorControl(forceErrorControlOnFlow=true); //force error control on flow rates
 
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
