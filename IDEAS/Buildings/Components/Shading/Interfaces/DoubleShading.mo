@@ -89,6 +89,10 @@ equation
   connect(HDirTil, stateShading1.HDirTil) annotation (Line(points={{-60,50},{-32,
           50},{-32,-7.33333},{-25.5,-7.33333}},
                                       color={0,0,127}));
+  connect(stateShading2.m_flow, m_flow) annotation(
+    Line(points = {{2, -18}, {40, -18}, {40, -90}}, color = {0, 0, 127}));
+  connect(stateShading1.m_flow, m_flow) annotation(
+    Line(points = {{-22, -18}, {40, -18}, {40, -90}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
 <li>
