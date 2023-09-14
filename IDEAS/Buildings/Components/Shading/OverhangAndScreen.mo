@@ -32,7 +32,8 @@ model OverhangAndScreen "Roof overhangs and screen shading"
         wLeft=wLeft,
         wRight=wRight,
         dep=dep,
-        gap=gap));
+        gap=gap,
+        haveBoundaryPorts=false));
 
 initial equation
 
