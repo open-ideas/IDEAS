@@ -64,7 +64,7 @@ partial model ZoneInterface "Partial model for thermal building zones"
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
     annotation (Placement(transformation(extent={{140,20},{100,60}})));
-  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kgs-1") 
+  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kg/s") 
     if useWatFlowInput 
     "Input for injecting water vapor into a zone" annotation(
     Placement(visible = true, transformation(origin = {0, 50}, extent = {{140, 20}, {100, 60}}, rotation = 0), iconTransformation(origin = {0, 40}, extent = {{140, 20}, {100, 60}}, rotation = 0)));
