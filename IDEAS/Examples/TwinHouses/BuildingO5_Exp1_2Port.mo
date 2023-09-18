@@ -20,8 +20,7 @@ model BuildingO5_Exp1_2Port
   Real comparison_W37[2] = {struct.W37.propsBus_a.port_1.m_flow, validationDataO5Exp1_Airflow.W37_FlowRate};
 
   IDEAS.Examples.TwinHouses.BaseClasses.Data.ValidationDataO5Exp1_Airflow validationDataO5Exp1_Airflow
-  annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
-  
+    annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
