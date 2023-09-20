@@ -1,9 +1,9 @@
-last-generated=2023-09-01
+last-generated=2023-05-02
 statistics-simulation=
 {
   "linear": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0",
   "nonlinear": "1",
-  "number of continuous time states": "41",
+  "number of continuous time states": "37",
   "numerical Jacobians": "0"
 }
 time=[0e+00, 1e+06]
