@@ -13,7 +13,7 @@ model BuildingO5_Exp1_2Port
       A0=1,
       a=0.15));
 
-  Real comparison_W40[2] = {struct.W40.resDoor.m_flow, validationDataO5Exp1_Airflow.W40_resDoor};
+  //Real comparison_W40[2] = {struct.W40.resDoor.m_flow, validationDataO5Exp1_Airflow.W40_resDoor};
   Real comparison_W1[2] = {struct.W1.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W1_FlowRate};
   Real comparison_W7[2] = {struct.W7.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W7_FlowRate};
   Real comparison_W10[2] = {struct.W10.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W10_FlowRate};
