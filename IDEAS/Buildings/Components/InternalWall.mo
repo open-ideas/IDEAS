@@ -138,7 +138,7 @@ public
     if useDooOpe
     "2-port model for open door"
     annotation (Placement(transformation(extent={{-10,82},{10,102}})));
-    
+
   Airflow.Multizone.Orifice resDoor(
     redeclare package Medium = Medium,
     A=w*h,
@@ -217,6 +217,7 @@ equation
            -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
   connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
            38,68},{38,19.91},{56.09,19.91}}, color={0,127,255}));
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

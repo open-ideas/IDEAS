@@ -103,22 +103,21 @@ partial model PartialSimInfoManager
 
   parameter Modelica.Units.SI.Length H=10 "Building or roof height"
     annotation (Dialog(group="Wind"));
-  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " 
+  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) "
     annotation(Dialog(group="Wind"));
   parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
     annotation(Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length Hwind=10
     "Height above ground of meteorological wind speed measurement"
     annotation (Dialog(group="Wind"));
-  parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs" 
+  parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs"
     annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement" 
+  parameter Modelica.Units.SI.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement"
     annotation(Dialog(group="Wind"));
   constant Modelica.Units.SI.Density rho_default = 1.2 "Default air density"
     annotation(Dialog(group="Wind"));
 
-  parameter Real Cs= Cs_coeff*H "Wind speed modifier"
-                                                                   annotation(Dialog(group="Wind"));
+  parameter Real Cs= Cs_coeff*(H^(2*a)) "Wind speed modifier"              annotation(Dialog(group="Wind"));
 
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
