@@ -192,14 +192,9 @@ equation
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-64.5,36},
           {-56,36},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
-<<<<<<< HEAD
           -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},color={0,0,127}));
   if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
     connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation (Line(points={{20,-36},{
-=======
-          -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-22},{-44,-22}},color={0,0,127}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-36},{
->>>>>>> StackEffectAirflow
           16,-36},{16,-50},{-80,-50}},color={0,127,255}));
   end if;
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
