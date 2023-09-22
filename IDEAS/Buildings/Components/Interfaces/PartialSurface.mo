@@ -193,7 +193,7 @@ model PowerLaw_q50_stack
   parameter Real h_a=0 "Column height, height at port_a" annotation (Dialog(group="Flow Path"));
   parameter Real h_b=0 "Column height, height at port_b" annotation (Dialog(group="Flow Path"));
   parameter Real q50 "Leaked volume flow rate per unit A at 50Pa";
-  final parameter Boolean StackEff= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
+  final parameter Boolean use_stack= sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "True if stack effect is used" annotation(Evaluate=true);
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare package Medium =Medium)
@@ -207,45 +207,29 @@ model PowerLaw_q50_stack
     redeclare package Medium = Medium,
     final forceErrorControlOnFlow=false,
     m=m,
-    useDefaultProperties= not StackEff,
+    useDefaultProperties= not use_stack,
     dpMea_nominal=50,
     mMea_flow_nominal=A*(q50*1.2)/3600)
     "Middle or bottom crack "
      annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_a_pos(
+  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_a_pos(
     redeclare package Medium = Medium,
-    h=h_a)  if StackEff
+    h=h_a)  if use_stack
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
 
-  IDEAS.Airflow.Multizone.BaseClasses.ReversibleDensityColumn col_b_pos(
+  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b_pos(
     redeclare package Medium = Medium,
-    h=h_b)  if StackEff
+    h=h_b)  if use_stack
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
-
-  IDEAS.Fluid.FixedResistances.LosslessPipe No_stack_a(
-    redeclare package Medium = Medium,
-    allowFlowReversal=true,
-    m_flow_nominal=A*q50*1.2/3600)
-    if not StackEff
-    annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
-  IDEAS.Fluid.FixedResistances.LosslessPipe No_stack_b(
-    redeclare package Medium = Medium,
-    allowFlowReversal=true,
-    m_flow_nominal=A*q50*1.2/3600)
-    if not StackEff
-    annotation (Placement(transformation(extent={{50,30},{70,50}})));
 
 
 equation
-
-  connect(port_a, No_stack_a.port_a) annotation (Line(points={{-100,0},{-80,0},{
+  if not use_stack then
+    connect(port_a, res1.port_a) annotation (Line(points={{-100,0},{-80,0},{
           -80,40},{-68,40}}, color={0,127,255}));
-  connect(No_stack_a.port_b, res1.port_a) annotation (Line(points={{-48,40},{-20,
-          40},{-20,0},{-10,0}}, color={0,127,255}));
-  connect(res1.port_b, No_stack_b.port_a) annotation (Line(points={{10,0},{20,0},
+    connect(res1.port_b, port_b) annotation (Line(points={{10,0},{20,0},
           {20,40},{50,40}}, color={0,127,255}));
-  connect(No_stack_b.port_b, port_b) annotation (Line(points={{70,40},{80,40},{80,
-          0},{100,0}}, color={0,127,255}));
+  end if;
   connect(port_a, col_a_pos.port_b) annotation (Line(points={{-100,0},{-80,0},{-80,
           -10},{-60,-10}},                                                      color={0,127,255}));
   connect(col_a_pos.port_a, res1.port_a) annotation (Line(points={{-60,10},{-60,

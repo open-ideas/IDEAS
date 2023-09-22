@@ -213,19 +213,11 @@ equation
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
 
-  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},
-          {26,68},{26,20},{60,20},{60,19.91},{56.09,19.91}}, color={0,127,255}),
-      Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}},
-      horizontalAlignment=TextAlignment.Left));
-  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,68},
-          {-30,68},{-30,20.1},{-100.1,20.1}}, color={0,127,255}), Text(
-      string="%second",
-      index=1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
+  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,68},{
+           -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
+  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
+           38,68},{38,19.91},{56.09,19.91}}, color={0,127,255}));
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={

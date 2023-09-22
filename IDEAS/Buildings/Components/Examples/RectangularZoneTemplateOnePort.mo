@@ -17,7 +17,7 @@ This example illustrates the use of the RectangularZoneTemplate to model a room 
 </html>", revisions="<html>
 <ul>
 <li>
-August 10, 2018 by Damien Picard:<br/>
+2021 by Klaas de Jonge:<br/>
 First implementation
 </li>
 </ul>

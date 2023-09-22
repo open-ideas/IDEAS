@@ -35,6 +35,7 @@ model OuterWall "Opaque building envelope construction"
     "Table with default table for wind pressure coefficients for walls, floors and roofs"
     annotation (
     __Dymola_choicesAllMatching=true,
+    HideResult=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
   parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
@@ -62,12 +63,12 @@ model OuterWall "Opaque building envelope construction"
       Dialog(tab="Advanced",group="Shading"));
 
 
-  parameter Boolean Use_custom_Cs = false
-    "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
-    annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
+  parameter Boolean use_custom_Cs = false
+    "if checked, Cs will be used instead of the default related to the interzonal airflow type "
+    annotation(Evaluate=true, choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(enable=Use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+    annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
   final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
     "Absolute height of the center of the surface for correcting the wind speed, used in TwoPort implementation"
     annotation (Dialog(tab="Airflow", group="Wind"));
@@ -104,9 +105,9 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    Cs=if not Use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then sim.Cs_coeff*(Habs^(2*sim.a))
-         elseif not Use_custom_Cs
+         elseif not use_custom_Cs
            then sim.Cs
            else Cs,
     Habs=Habs,
