@@ -1,6 +1,11 @@
 within IDEAS.LIDEAS.Components;
 model LinRectangularZoneTemplate
   extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
+    fraTypA(briTyp(len=2*winA.hWin + 2*A_winA/winA.hWin)),
+    fraTypB(briTyp(len=2*winB.hWin + 2*A_winB/winB.hWin)),
+    fraTypC(briTyp(len=2*winC.hWin + 2*A_winC/winC.hWin)),
+    fraTypD(briTyp(len=2*winD.hWin + 2*A_winD/winD.hWin)),
+    fraTypCei(briTyp(len=2*winCei.hWin + 2*A_winCei/winCei.hWin)),
     redeclare IDEAS.Buildings.Components.ZoneAirModels.WellMixedAir
       airModel(stateSelectTVol=StateSelect.prefer),
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow);
@@ -106,8 +111,7 @@ replaceable
   L=shaTypA.L,
   dh=shaTypA.dh,
   shaCorr=shaTypA.shaCorr)),
-    fraType(present=fraTypA.present,
-            U_value=fraTypA.U_value),
+    fraType(present=fraTypA.present, U_value=fraTypA.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinA,
     indexWindow=indexWinA)
@@ -278,7 +282,7 @@ replaceable
   L=shaTypD.L,
   dh=shaTypD.dh,
   shaCorr=shaTypD.shaCorr)),
-    fraType(present=fraTypD.present, U_value=fraTypD.U_value),
+    fraType(present=fraTypD.present,  U_value=fraTypD.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinD,
     indexWindow=indexWinD)
@@ -335,7 +339,7 @@ replaceable
   L=shaTypCei.L,
   dh=shaTypCei.dh,
   shaCorr=shaTypCei.shaCorr)),
-    fraType(present=fraTypCei.present, U_value=fraTypCei.U_value),
+    fraType(present=fraTypCei.present,  U_value=fraTypCei.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinCei,
     indexWindow=indexWinCei)

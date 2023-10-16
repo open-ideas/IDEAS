@@ -1,7 +1,12 @@
 within IDEAS.Buildings.Components;
 model RectangularZoneTemplate
   "Rectangular zone including walls, floor and ceiling"
-  extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface;
+  extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
+    fraTypA(briTyp(len=2*winA.hWin + 2*A_winA/winA.hWin)),
+    fraTypB(briTyp(len=2*winB.hWin + 2*A_winB/winB.hWin)),
+    fraTypC(briTyp(len=2*winC.hWin + 2*A_winC/winC.hWin)),
+    fraTypD(briTyp(len=2*winD.hWin + 2*A_winD/winD.hWin)),
+    fraTypCei(briTyp(len=2*winCei.hWin + 2*A_winCei/winCei.hWin)));
 
   Modelica.Blocks.Interfaces.RealInput ctrlA
                                             if shaTypA.controlled
@@ -87,8 +92,7 @@ replaceable
   L=shaTypA.L,
   dh=shaTypA.dh,
   shaCorr=shaTypA.shaCorr)),
-    fraType(present=fraTypA.present,
-            U_value=fraTypA.U_value),
+    fraType(present=fraTypA.present, U_value=fraTypA.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinA)
     if hasWinA constrainedby Window(
@@ -143,7 +147,7 @@ replaceable
   L=shaTypB.L,
   dh=shaTypB.dh,
   shaCorr=shaTypB.shaCorr)),
-    fraType(present=fraTypB.present, U_value=fraTypB.U_value),
+    fraType(present=fraTypB.present,  U_value=fraTypB.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinB)
     if hasWinB constrainedby Window(
@@ -200,7 +204,7 @@ replaceable
   L=shaTypC.L,
   dh=shaTypC.dh,
   shaCorr=shaTypC.shaCorr)),
-    fraType(present=fraTypC.present, U_value=fraTypC.U_value),
+    fraType(present=fraTypC.present,  U_value=fraTypC.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinC)
     if hasWinC constrainedby Window(
@@ -256,7 +260,7 @@ replaceable
   L=shaTypD.L,
   dh=shaTypD.dh,
   shaCorr=shaTypD.shaCorr)),
-    fraType(present=fraTypD.present, U_value=fraTypD.U_value),
+    fraType(present=fraTypD.present,  U_value=fraTypD.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinD)
     if hasWinD constrainedby Window(
@@ -312,7 +316,7 @@ replaceable
   L=shaTypCei.L,
   dh=shaTypCei.dh,
   shaCorr=shaTypCei.shaCorr)),
-    fraType(present=fraTypCei.present, U_value=fraTypCei.U_value),
+    fraType(present=fraTypCei.present,  U_value=fraTypCei.U_value),
     linExtRad=linExtRadWin,
     nWin=nWinCei)
     if hasWinCei constrainedby Window(
