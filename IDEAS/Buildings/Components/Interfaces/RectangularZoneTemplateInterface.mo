@@ -335,27 +335,27 @@ partial model RectangularZoneTemplateInterface
            choicesAllMatching=true,
            Dialog(tab="Ceiling", group="Window details",
            enable = hasWinCei));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypA
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypA if hasWinA
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface A"
     annotation (choicesAllMatching=true,
                 Dialog(tab="Face A", group="Window details", enable=hasWinA));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypB
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypB if hasWinB
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface B"
     annotation (choicesAllMatching=true,
                 Dialog(tab="Face B", group="Window details", enable=hasWinB));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypC
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypC if hasWinC
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface C"
     annotation (choicesAllMatching=true,
                 Dialog(tab="Face C", group="Window details", enable=hasWinC));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypD
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypD if hasWinD
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface D"
     annotation (choicesAllMatching=true,
                 Dialog(tab="Face D", group="Window details", enable=hasWinD));
-  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypCei
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypCei if hasWinCei
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface Cei"
     annotation (choicesAllMatching=true,
