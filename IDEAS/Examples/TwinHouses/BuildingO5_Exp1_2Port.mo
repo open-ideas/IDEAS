@@ -12,16 +12,15 @@ model BuildingO5_Exp1_2Port
         n50=1.64,
       A0=1,
       a=0.15));
-/*
-  Real comparison_W40[2] = {struct.W40.resDoor.m_flow, validationDataO5Exp1_Airflow.W40_resDoor};
+
+  //Real comparison_W40[2] = {struct.W40.resDoor.m_flow, validationDataO5Exp1_Airflow.W40_resDoor};
   Real comparison_W1[2] = {struct.W1.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W1_FlowRate};
   Real comparison_W7[2] = {struct.W7.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W7_FlowRate};
   Real comparison_W10[2] = {struct.W10.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W10_FlowRate};
   Real comparison_W37[2] = {struct.W37.propsBus_a.port_1.m_flow, validationDataO5Exp1_Airflow.W37_FlowRate};
 
   IDEAS.Examples.TwinHouses.BaseClasses.Data.ValidationDataO5Exp1_Airflow validationDataO5Exp1_Airflow
-  annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
-  */
+    annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -39,6 +38,6 @@ model BuildingO5_Exp1_2Port
           "modelica://IDEAS/Resources/Scripts/Dymola/Examples/TwinHouses/BuildingO5_Exp1_2Port.mos"
         "Simulate and plot"),
     Documentation(info="<html>
-<p>Similar to IDEAS.Examples.TwinHouses.BuildingO5_Exp1 but using the 1-port pressure driven interzonal airflow implementation.</p>
+<p>Similar to IDEAS.Examples.TwinHouses.BuildingO5_Exp1 but using the 2-port pressure driven interzonal airflow implementation.</p>
 </html>"));
 end BuildingO5_Exp1_2Port;

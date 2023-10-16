@@ -1,6 +1,6 @@
 within IDEAS.Examples.TwinHouses;
 model BuildingO5_Exp1_1Port
-  "Model for simulation of experiment 1 for the O5 building with 1-port pressure drive airflow"
+  "Model for simulation of experiment 1 for the O5 building with 1-port pressure driven airflow"
  extends BuildingN2_Exp1(
    bui=2,
    exp=1,
@@ -18,9 +18,6 @@ model BuildingO5_Exp1_1Port
   Real comparison_W7[2] = {struct.W7.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W7_FlowRate};
   Real comparison_W10[2] = {struct.W10.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W10_FlowRate};
   Real comparison_W37[2] = {struct.W37.propsBus_a.port_1.m_flow, validationDataO5Exp1_Airflow.W37_FlowRate};
-
-
-
 
   IDEAS.Examples.TwinHouses.BaseClasses.Data.ValidationDataO5Exp1_Airflow validationDataO5Exp1_Airflow
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
