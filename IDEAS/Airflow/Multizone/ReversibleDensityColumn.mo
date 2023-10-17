@@ -26,18 +26,16 @@ Icon(graphics={
 This model describes the pressure difference of a vertical medium
 column. It can be used to model the pressure difference caused by
 stack effect.
-
 It is a variation on IDEAS.Airflow.Multizone.MediumColumn.
-
 </p>
 </html>",
       revisions="<html>
 <ul>
 <li>
 January 19, 2022, by Klaas De Jonge:<br/>
-Adapted IDEAS.Airflow.Multizone.MediumColumn to obtain the current model where input of h can be negative and cleaned out the model as the density should always be set by port_b. 
+Adapted IDEAS.Airflow.Multizone.MediumColumn to obtain the current model where input of
+ h can be negative and cleaned out the model as the density should always be set by port_b. 
 This makes port_a not nececarilly always the top port.
-
 </li>
 </ul>
 </html>"));
