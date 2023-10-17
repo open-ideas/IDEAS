@@ -186,6 +186,11 @@ July 25, 2023, by Filip Jorissen:<br/>
 Added conditional inputs for injecting water or CO2.
 </li>
 <li>
+April 1, 2022, by Filip Jorissen:<br/>
+Removed cardinality operator from error message.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1253\">#1253</a>.
+</li>
+<li>
 September 17, 2020, Filip Jorissen:<br/>
 Modified default Medium.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
