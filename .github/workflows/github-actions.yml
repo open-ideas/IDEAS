@@ -7,8 +7,11 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event"
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server called tony-de-rekenpony hosted by The Sysis team at KU Leuven"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
-      - name: Change permissions of repository folder to ensure cleanup
-        run: chmod -R o+w /home/actions-runner/_work
+      - name: Remove files inside container to ensure cleanup and avoid permission errors
+        run: docker stop dymimg > /dev/null 2>&1 || true
+        run: docker run --name dymimg --detach=true --rm -v /home/actions-runner/_work/IDEAS/IDEAS:/home/developer/IDEAS -w /home/developer/IDEAS/IDEAS -it dymimg
+        run: docker exec -t dymimg /bin/bash -c "rm -rf funnel_comp && exit"
+        run: docker stop dymimg > /dev/null 2>&1 || true
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
