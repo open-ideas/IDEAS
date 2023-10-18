@@ -1,5 +1,5 @@
 name: CI of IDEAS using GitHub Actions
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   build:
     runs-on: self-hosted
