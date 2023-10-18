@@ -63,25 +63,25 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "Port for ventilation connections, deprecated, use 'ports' instead";
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
-    annotation (Placement(transformation(extent={{140,20},{100,60}})));
-  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kg/s") 
-    if useWatFlowInput 
-    "Input for injecting water vapor into a zone" annotation(
-    Placement(visible = true, transformation(origin = {0, 50}, extent = {{140, 20}, {100, 60}}, rotation = 0), iconTransformation(origin = {0, 40}, extent = {{140, 20}, {100, 60}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput C_flow 
-    if useCFlowInput 
-    "Input for injecting CO2 into a zone" annotation(
-    Placement(visible = true, transformation(origin = {0, 70}, extent = {{140, 20}, {100, 60}}, rotation = 0), iconTransformation(origin = {0, 80}, extent = {{140, 20}, {100, 60}}, rotation = 0)));  
+    annotation (Placement(transformation(extent={{140,20},{100,60}}), iconTransformation(extent={{-130,60},{-90,100}})));
+  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kg/s")
+    if useWatFlowInput
+    "Input for injecting water vapor into a zone" annotation (
+    Placement(transformation(extent={{140,-100},{100,-60}}), iconTransformation(extent={{-130,-60},{-90,-20}})));
+  Modelica.Blocks.Interfaces.RealInput C_flow
+    if useCFlowInput
+    "Input for injecting CO2 into a zone" annotation (
+    Placement(transformation(extent={{140,-120},{100,-80}}), iconTransformation(extent={{-130,20},{-90,-20}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
     annotation (Placement(transformation(extent={{140,50},{100,90}}),
-        iconTransformation(extent={{-130,-40},{-90,0}})));
+        iconTransformation(extent={{-130,-100},{-90,-60}})));
   Modelica.Blocks.Interfaces.RealOutput ppm(unit="1",min=0)
     "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
             {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealOutput phi(unit="1",min=0,max=1)
     "Relative humidity in the zone [0-1]" annotation (Placement(transformation(extent={{100,0},
-            {120,20}}),           iconTransformation(extent={{100,0},{120,20}})));
+            {120,20}}),           iconTransformation(extent={{100,30},{120,50}})));
   Modelica.Fluid.Interfaces.FluidPorts_a ports[nPorts](redeclare package Medium =
         Medium) "Ports for ventilation connetions" annotation (Placement(
         transformation(
