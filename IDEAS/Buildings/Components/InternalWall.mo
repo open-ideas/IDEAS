@@ -62,8 +62,8 @@ model InternalWall "interior opaque wall between two zones"
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
-    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+    final use_port_1=sim.use_port_1,
+    final use_port_2=sim.use_port_2)
     "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
       If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling." 
       annotation(
@@ -155,11 +155,11 @@ equation
     Line(points = {{79, -58}, {56, -58}, {56, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}));
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation(
     Line(points = {{79, -52}, {56, -52}, {56, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}));
-   if propsBus_b.use_port_1 then
+   if sim.use_port_1 then
     connect(crackOrOperableDoor.port_a1, propsBus_b.port_1) annotation(
       Line(points = {{20, -46}, {-60, -46}, {-60, 20}, {-100, 20}}, color = {0, 127, 255}));
   end if;
-  if propsBus_b.use_port_2 then
+  if sim.use_port_2 then
     connect(crackOrOperableDoor.port_b2, propsBus_b.port_2) annotation(
       Line(points = {{20, -58}, {-58, -58}, {-58, 20}, {-100, 20}}));
   end if;
