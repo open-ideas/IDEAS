@@ -32,10 +32,10 @@ model CrackOrOperableDoor
     displayUnit="Pa") = 50 "Pressure drop at rating condition of closed door"
     annotation (Dialog(group="Rating conditions"));
   
-  parameter Modelica.Units.SI.Length h_b1;
-  parameter Modelica.Units.SI.Length h_b2 = 0;
-  parameter Modelica.Units.SI.Length h_a1 = 0;
-  parameter Modelica.Units.SI.Length h_a2;
+  parameter Modelica.Units.SI.Length h_b1 "Height at port b1";
+  parameter Modelica.Units.SI.Length h_b2 = 0 "Height at port b2";
+  parameter Modelica.Units.SI.Length h_a1 = 0 "Height at port a1";
+  parameter Modelica.Units.SI.Length h_a2  "Height at port a2";
 
   parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"

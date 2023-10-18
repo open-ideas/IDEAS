@@ -78,7 +78,7 @@ model SwWindowResponse "Shortwave window respone"
     "Window opening, y=0 is closed" annotation(
     Placement(visible = true, transformation(origin = {0, -40}, extent = {{-120, -60}, {-80, -20}}, rotation = 0), iconTransformation(origin = {0, -40}, extent = {{-120, -60}, {-80, -20}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression[nLay] SwAbsDirExp(y = { (1 - y)*SwAbsDir.y[i]  for i in 1:nLay})  
-    "Shortwave absorptance only when window is closed" annotation(
+    "Shortwave direct absorptance only when window is not fully open" annotation(
     Placement(visible = true, transformation(origin = {-70, -2}, extent = {{-30, -10}, {30, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression SwTransDirExp(y = (1 - y)*SwTransDir.y[1] + y )  
     "Shortwave transmission increases when window is open" annotation(
