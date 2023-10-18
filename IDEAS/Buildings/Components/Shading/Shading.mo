@@ -117,6 +117,7 @@ protected
     epsLw_frame=epsLw_frame,
     epsLw_glazing=epsLw_glazing,
     epsSw_shading=epsSw_shading,
+    refSw_shading=1-epsSw_shading-shaPro.shaCorr,
     g_glazing=g_glazing,
     linCon=linCon,
     linRad=linRad,
