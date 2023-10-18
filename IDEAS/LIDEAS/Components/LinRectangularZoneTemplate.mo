@@ -1,11 +1,11 @@
 within IDEAS.LIDEAS.Components;
 model LinRectangularZoneTemplate
   extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
-    fraTypA(briTyp(len=2*winA.hWin + 2*A_winA/winA.hWin)),
-    fraTypB(briTyp(len=2*winB.hWin + 2*A_winB/winB.hWin)),
-    fraTypC(briTyp(len=2*winC.hWin + 2*A_winC/winC.hWin)),
-    fraTypD(briTyp(len=2*winD.hWin + 2*A_winD/winD.hWin)),
-    fraTypCei(briTyp(len=2*winCei.hWin + 2*A_winCei/winCei.hWin)),
+    fraTypA(briTyp(len=2*h_winA + 2*A_winA/h_winA)),
+    fraTypB(briTyp(len=2*h_winB + 2*A_winB/h_winB)),
+    fraTypC(briTyp(len=2*h_winC + 2*A_winC/h_winC)),
+    fraTypD(briTyp(len=2*h_winD + 2*A_winD/h_winD)),
+    fraTypCei(briTyp(len=2*h_winCei + 2*A_winCei/h_winCei)),
     redeclare IDEAS.Buildings.Components.ZoneAirModels.WellMixedAir
       airModel(stateSelectTVol=StateSelect.prefer),
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow);

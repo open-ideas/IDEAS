@@ -63,8 +63,8 @@ partial model PartialSurface "Partial model for building envelope component"
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
-    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
+    final use_port_1=sim.use_port_1,
+    final use_port_2=sim.use_port_2)
                                              "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
@@ -255,11 +255,11 @@ equation
           -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
   connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
           -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
-  if propsBusInt.use_port_1 then
+  if sim.use_port_1 then
     connect(crackOrOperableDoor.port_b1, propsBusInt.port_1) annotation(
     Line(points = {{40, -46}, {56, -46}, {56, 20}}, color = {0, 127, 255}));
   end if;
-  if propsBusInt.use_port_2 then
+  if sim.use_port_2 then
     connect(crackOrOperableDoor.port_a2, propsBusInt.port_2) annotation(
     Line(points = {{40, -58}, {56, -58}, {56, 20}}, color = {0, 127, 255}));
   end if;

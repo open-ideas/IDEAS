@@ -43,7 +43,10 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy=false
     "Compute conservation of energy for open system" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=computeConservationOfEnergy));
-
+  parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None 
+    "Whether port_1 of the propsbus connector should be used";
+  parameter Boolean use_port_2 = interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Whether port_2 of the propsbus connector should be used";
   parameter Boolean lineariseDymola=false "Linearises building model equations for Dymola linearisation approach"
     annotation (Dialog(tab="Linearisation"));
   parameter Boolean lineariseJModelica=false "Linearises building model equations for optimisations in JModelica"
@@ -580,6 +583,10 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+October 18, 2023 by Filip Jorissen:<br/>
+Added use_port_1 and use_port_2 for convenience.
+</li>
 <li>
 April 28, 2022 by Filip Jorissen:<br/>
 Changed the default weather file to BEL_VLG_Uccle.064470_TMYx.2007-2021.mos.
