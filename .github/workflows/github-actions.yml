@@ -1,5 +1,9 @@
 name: CI of IDEAS using GitHub Actions
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   build:
     runs-on: self-hosted
