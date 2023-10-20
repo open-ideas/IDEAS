@@ -76,7 +76,7 @@ model CrackOrOperableDoor
   forceErrorControlOnFlow = false, 
   mMea_flow_nominal = (if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then LClo/2 else LClo)*CDClo*(2*dpCloRat/1.2)^mClo,
   m = mClo, 
-  useDefaultProperties = false) if not useDoor "Pressure drop equation" annotation(
+  useDefaultProperties = false) if not useDoor or (useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort) "Pressure drop equation" annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b1(redeclare package Medium = Medium, h=h_b1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port b1" annotation(
     Placement(visible = true, transformation(origin = {0, 70}, extent = {{50, -10}, {70, 10}}, rotation = 0)));
@@ -123,9 +123,9 @@ model CrackOrOperableDoor
    "Door constantly opened" annotation(
     Placement(visible = true, transformation(origin = {-54, -14}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
 initial equation
-  assert( not (interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and useDoor), 
+  assert( not (interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and useDoor and use_y), 
   "In " +getInstanceName() + ": Cannot use a controllable door unless interZonalAirFlowType == TwoPorts.");
-
+  
 equation
   connect(col_a1.port_a, point_m_flow1.port_a) annotation(
     Line(points = {{-60, 80}, {-60, 84}, {-20, 84}, {-20, 60}, {-10, 60}}, color = {0, 127, 255}));
@@ -170,7 +170,23 @@ equation
  connect(bou.ports[2], port_b2) annotation(
     Line(points = {{0, -80}, {-100, -80}, {-100, -60}}, color = {0, 127, 255}));
 
-annotation(
+annotation(Documentation(info="<html>
+<p>
+This models an open/closed door depending on the number of available fluid ports.
+</p>
+<p>
+When only one port is available then an orrifice equation is used to approximate the closed door.
+There is no support for open doors when using only a single fluid port.
+</p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+October 20, 2023 by Filip Jorissen:<br/>
+First documented version.
+</li>
+</ul>
+</html>"),
     Diagram,
  Icon(graphics = {Polygon(lineColor = {0, 0, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-30, -10}, {-16, -8}, {-16, -14}, {-30, -16}, {-30, -10}}), Line(points = {{-54, 48}, {-36, 48}}), Line(points = {{-54, 20}, {-36, 20}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Line(points = {{-54, -58}, {-36, -58}}), Rectangle(lineColor = {0, 0, 255}, fillColor = {255, 128, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-46, -16}, {-20, -20}}), Rectangle(lineColor = {0, 0, 255}, fillColor = {85, 75, 55}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-60, 80}, {60, -84}}), Rectangle(fillColor = {215, 215, 215}, fillPattern = FillPattern.Solid, extent = {{-54, 72}, {56, -84}}), Polygon(fillColor = {95, 95, 95}, fillPattern = FillPattern.Solid, points = {{56, 72}, {-36, 66}, {-36, -90}, {56, -84}, {56, 72}}), Rectangle(lineColor = {0, 0, 255}, fillColor = {255, 128, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-100, 2}, {-46, -2}}), Polygon(visible = false, origin = {75, 50}, rotation = 360, lineColor = {0, 128, 255}, fillColor = {0, 128, 255}, fillPattern = FillPattern.Solid, points = {{-5, 10}, {25, 10}, {-5, -10}, {-5, 10}}), Text(textColor = {0, 0, 127}, extent = {{-118, 34}, {-98, 16}}, textString = "y"), Line(points = {{-54, -6}, {-36, -6}}), Line(points = {{-54, -32}, {-36, -32}}), Polygon(visible = false, origin = {-79, -50}, rotation = 360, lineColor = {0, 128, 255}, fillColor = {0, 128, 255}, fillPattern = FillPattern.Solid, points = {{10, 10}, {-20, -10}, {10, -10}, {10, 10}}), Rectangle(lineColor = {0, 0, 255}, fillColor = {255, 128, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-46, 2}, {-40, -16}})}, coordinateSystem(extent = {{-100, -100}, {100, 100}})));
 end CrackOrOperableDoor;
