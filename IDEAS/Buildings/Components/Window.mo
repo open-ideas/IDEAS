@@ -30,6 +30,7 @@ model Window "Multipane window"
     hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
+          openDoorOnePort=false,
           h_a1=(Habs - sim.Hpres) + 0.25*hVertical,
           h_b2=(Habs - sim.Hpres) - 0.25*hVertical,
           useDoor = use_operable_window));
