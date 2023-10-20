@@ -61,6 +61,7 @@ model CrackOrOperableDoor
   
   parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input";
+  parameter Boolean openDoorOnePort "Sets whether a door is open or closed in one port configuration";
 
   parameter Modelica.Units.SI.PressureDifference dp_turbulent(
     min=0,
@@ -74,8 +75,8 @@ model CrackOrOperableDoor
   redeclare package Medium = Medium, 
   dpMea_nominal = dpCloRat, 
   forceErrorControlOnFlow = false, 
-  mMea_flow_nominal = (if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then LClo/2 else LClo)*CDClo*(2*dpCloRat/1.2)^mClo,
-  m = mClo, 
+  mMea_flow_nominal =  if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then wOpe*hOpe*1.2*CDClo*(2*dpCloRat/1.2)^mClo else (if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then LClo/2 else LClo)*CDClo*(2*dpCloRat/1.2)^mClo,
+  m = if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then mOpe else mClo, 
   useDefaultProperties = false) if not useDoor or (useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort) "Pressure drop equation" annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b1(redeclare package Medium = Medium, h=h_b1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port b1" annotation(

@@ -11,6 +11,7 @@ model InternalWall "interior opaque wall between two zones"
     final QTra_design = U_value*A*(TRef_a - TRef_b),
     q50_zone(v50_surf = 0),
     crackOrOperableDoor(
+      openDoorOnePort=true,
       useDoor=hasCavity,
       use_y=use_y_doo,
       wOpe=w,
