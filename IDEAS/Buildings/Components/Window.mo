@@ -55,7 +55,7 @@ model Window "Multipane window"
     annotation(Dialog(tab="Advanced",group="Icon"));
 
   replaceable parameter IDEAS.Buildings.Data.Frames.None fraType
-    constrainedby IDEAS.Buildings.Data.Interfaces.Frame(briTyp(final len=briLen)) 
+    constrainedby IDEAS.Buildings.Data.Interfaces.Frame(briTyp(final len=briLen))
     "Window frame type"
     annotation (choicesAllMatching=true, Dialog(group=
           "Construction details"));
@@ -126,7 +126,7 @@ model Window "Multipane window"
   parameter Boolean use_trickle_vent_control = false
     "=true, to enable trickle vent control input"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-  parameter Modelica.Units.SI.Length hWin = min(2, sqrt(A))
+  parameter Modelica.Units.SI.Length hWin(min=0.1) = max(0.1,sqrt(A))
     "Window height, including frame"
     annotation(Dialog(tab="Advanced",group="Frame"));
   parameter Modelica.Units.SI.Length briLen = 2*hWin + 2*A/hWin
@@ -173,16 +173,16 @@ model Window "Multipane window"
     inc=incInt,
     azi=aziInt)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
-  Modelica.Blocks.Interfaces.RealInput y_trickleVent 
+  Modelica.Blocks.Interfaces.RealInput y_trickleVent
     if use_trickle_vent_control and use_trickle_vent
-    "Control signal for trickle vent between 0 and 1, 1 is fully opened" annotation(
+    "Control signal for trickle vent between 0 and 1, 1 is fully opened" annotation (
     Placement(visible = true, transformation(origin = {30, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput y_window 
-    if use_operable_window 
-    "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation(
+  Modelica.Blocks.Interfaces.RealInput y_window
+    if use_operable_window
+    "Control signal for window opening between 0 and 1, i.e. 1 is fully opened" annotation (
     Placement(visible = true, transformation(origin = {-10, -120}, extent = {{20, -20}, {-20, 20}}, rotation = -90), iconTransformation(origin = {-20, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal))) 
-    "Truncated control signal" annotation(
+  Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
+    "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
 protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
@@ -252,11 +252,12 @@ initial equation
 equation
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
     shaType.m_flow = 0;
-  else 
-    connect(outsideAir.m_flow, shaType.m_flow) annotation(
-      Line(points = {{-40, -86}, {-60, -86}, {-60, -64}}, color = {0, 0, 127}));
-  end if ;
-  if use_operable_window then 
+  else
+    connect(outsideAir.m_flow, shaType.m_flow) annotation (
+      Line(points={{-41,-86},{-59.7,-86},{-59.7,-63.4772}},
+                                                          color = {0, 0, 127}));
+  end if;
+  if use_operable_window then
     connect(y_window_internal, y_window);
   else
     y_window_internal = 0;
@@ -289,7 +290,7 @@ equation
   connect(heaCapFraIn.port, layFra.port_a) annotation (
     Line(points = {{14, 100}, {14, 70}, {10, 70}}, color = {191, 0, 0}));
   connect(gainDir.y, solWin.solDir) annotation (
-    Line(points={{-26,-44},{-10,-44}},    color = {0, 0, 127}));
+    Line(points={{-25.8,-44},{-10,-44}},  color = {0, 0, 127}));
   connect(gainDif.y, solWin.solDif) annotation (
     Line(points = {{-31.8, -48}, {-22, -48}, {-10, -48}}, color = {0, 0, 127}));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (
@@ -307,7 +308,7 @@ equation
   connect(gainDif.u, solDif.y) annotation (
     Line(points={{-36.4,-48},{-37.6,-48},{-37.6,-44}},    color = {0, 0, 127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (
-    Line(points={{-30,-44},{-30.95,-44},{-30.95,-41.0969},{-57.5,-41.0969}},
+    Line(points={{-30.4,-44},{-30.95,-44},{-30.95,-41.0969},{-57.5,-41.0969}},
                                                                             color = {0, 0, 127}));
   connect(layFra.port_b, heaCapFraExt.port) annotation (
     Line(points = {{-10, 70}, {-10, 100}}, color = {191, 0, 0}));
@@ -330,22 +331,22 @@ equation
   connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
     Line(points={{-42,-80},{-46,-80},{-46,-49.4895},{-57.5,-49.4895}},
                                                                     color = {0, 0, 127}));
-  connect(trickleVent.y, y_trickleVent) annotation(
+  connect(trickleVent.y, y_trickleVent) annotation (
     Line(points = {{30, -92}, {30, -120}}, color = {0, 0, 127}));
   if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
-    connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation(
-    Line(points = {{20, -44}, {16, -44}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
+    connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation (
+    Line(points={{20,-46},{16,-46},{16,-80},{-20,-80}},          color = {0, 127, 255}));
   end if;
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
-    connect(crackOrOperableDoor.port_b2, outsideAir.ports[2]) annotation(
-    Line(points = {{20, -56}, {16, -56}, {16, -90}, {-20, -90}}, color = {0, 127, 255}));
+    connect(crackOrOperableDoor.port_b2, outsideAir.ports[2]) annotation (
+    Line(points={{20,-58},{16,-58},{16,-80},{-20,-80}},          color = {0, 127, 255}));
   end if;
- connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation(
+ connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation (
     Line(points = {{20, -80}, {-20, -80}}, color = {0, 127, 255}));
- connect(y_window_trunc.y, solWin.y) annotation(
-    Line(points = {{-10, -78}, {-10, -58}}, color = {0, 0, 127}));
- connect(y_window_trunc.y, crackOrOperableDoor.y) annotation(
-    Line(points = {{-10, -78}, {-10, -68}, {20, -68}, {20, -52}}, color = {0, 0, 127}));
+ connect(y_window_trunc.y, solWin.y) annotation (
+    Line(points={{-10,-79},{-10,-58}},      color = {0, 0, 127}));
+ connect(y_window_trunc.y, crackOrOperableDoor.y) annotation (
+    Line(points={{-10,-79},{-10,-68},{19,-68},{19,-52}},          color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
