@@ -61,7 +61,7 @@ model CrackOrOperableDoor
   
   parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input";
-  parameter Boolean openDoorOnePort "Sets whether a door is open or closed in one port configuration";
+  parameter Boolean openDoorOnePort = true "Sets whether a door is open or closed in one port configuration";
 
   parameter Modelica.Units.SI.PressureDifference dp_turbulent(
     min=0,
