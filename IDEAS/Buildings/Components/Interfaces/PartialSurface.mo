@@ -106,6 +106,8 @@ partial model PartialSurface "Partial model for building envelope component"
     h_b1 = -0.5*hzone_a + 0.25*hVertical + hRef_a,
     interZonalAirFlowType = sim.interZonalAirFlowType) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation(
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
+    Placement(transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
 protected
   parameter Boolean add_door = true "Option to disable crackOrOperableDoor";
   final parameter Modelica.Units.SI.Angle aziInt=
@@ -223,13 +225,6 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(layMul.area, propsBusInt.area) annotation (Line(
-      points={{0,10},{0,19.91},{56.09,19.91}},
-      color={0,0,127},
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   connect(incExp.y, propsBusInt.inc);
   connect(aziExp.y, propsBusInt.azi);
   connect(propsBus_a, gain.propsBus_b) annotation (Line(
@@ -263,12 +258,18 @@ equation
     connect(crackOrOperableDoor.port_a2, propsBusInt.port_2) annotation(
     Line(points = {{40, -58}, {56, -58}, {56, 20}}, color = {0, 127, 255}));
   end if;
+  connect(AExp.y, propsBusInt.area) annotation(
+    Line(points = {{12, 20}, {56, 20}}, color = {0, 0, 127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-50, -100}, {50, 100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 23, 2023, by Filip Jorissen:<br/>
+Using real expression to set area of propsBusInt. To add some flexibility for ensuring n50 computation is correct.
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
