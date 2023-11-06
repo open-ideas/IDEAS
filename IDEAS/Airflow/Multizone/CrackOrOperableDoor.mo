@@ -56,7 +56,7 @@ model CrackOrOperableDoor
   parameter Real mClo= 0.65 "Flow exponent for crack of closed door"
     annotation (Dialog(group="Closed door"));
 
-  parameter Integer nCom=10 "Number of compartments for the discretization";
+  parameter Integer nCom=if abs(hOpe)<Modelica.Constants.small then 2 else 4 "Number of compartments for the discretization";
 
   parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input";
