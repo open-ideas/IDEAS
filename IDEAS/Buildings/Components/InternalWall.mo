@@ -16,6 +16,7 @@ model InternalWall "interior opaque wall between two zones"
       use_y=use_y_doo,
       wOpe=w,
       hOpe=h,
+      CDOpe=CD,
       h_a1=-0.5*hzone_b + 0.25*hVertical + hRef_b,
       h_b2=-0.5*hzone_b + 0.75*hVertical + hRef_b));
   //using custom q50 since this model is not an external component
