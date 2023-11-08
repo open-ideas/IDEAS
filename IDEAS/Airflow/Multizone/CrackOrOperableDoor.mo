@@ -96,8 +96,8 @@ model CrackOrOperableDoor
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
    redeclare package Medium = Medium,
-   final hA = 0,
-   final hB = 0,
+   final hA = (h_a1+h_b2)/2,
+   final hB = (h_a2+h_b1)/2,
    final forceErrorControlOnFlow=false,
    dp_turbulent=dp_turbulent,
    nCom=nCom,
@@ -145,14 +145,6 @@ equation
     Line(points = {{-60, 60}, {-100, 60}}, color = {0, 127, 255}));
  connect(y, doo.y) annotation (
     Line(points={{-110,0},{-11,0}},      color = {0, 0, 127}));
- connect(doo.port_a1, col_a1.port_a) annotation (
-    Line(points = {{-10, 6}, {-20, 6}, {-20, 84}, {-60, 84}, {-60, 80}}, color = {0, 127, 255}));
- connect(doo.port_b1, col_b1.port_a) annotation (
-    Line(points = {{10, 6}, {20, 6}, {20, 84}, {60, 84}, {60, 80}}, color = {0, 127, 255}));
- connect(doo.port_b2, col_b2.port_a) annotation (
-    Line(points = {{-10, -6}, {-20, -6}, {-20, -36}, {-60, -36}, {-60, -40}}, color = {0, 127, 255}));
- connect(doo.port_a2, col_a2.port_a) annotation (
-    Line(points = {{10, -6}, {20, -6}, {20, -36}, {60, -36}, {60, -40}}, color = {0, 127, 255}));
  connect(bou.ports[1], port_a2) annotation (
     Line(points={{-1,-80},{100,-80},{100,-60}},       color = {0, 127, 255}));
  if  interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
@@ -169,6 +161,14 @@ equation
     Line(points={{-47.4,-14},{-32,-14},{-32,0},{-11,0}},        color = {0, 0, 127}));
  connect(bou.ports[2], port_b2) annotation (
     Line(points={{1,-80},{-100,-80},{-100,-60}},        color = {0, 127, 255}));
+ connect(doo.port_a1, port_a1) annotation(
+    Line(points = {{-10, 6}, {-30, 6}, {-30, 60}, {-100, 60}}, color = {0, 127, 255}));
+ connect(doo.port_b1, port_b1) annotation(
+    Line(points = {{10, 6}, {30, 6}, {30, 60}, {100, 60}}, color = {0, 127, 255}));
+ connect(doo.port_b2, port_b2) annotation(
+    Line(points = {{-10, -6}, {-20, -6}, {-20, -34}, {-100, -34}, {-100, -60}}, color = {0, 127, 255}));
+ connect(doo.port_a2, port_a2) annotation(
+    Line(points = {{10, -6}, {20, -6}, {20, -34}, {100, -34}, {100, -60}}, color = {0, 127, 255}));
 
 annotation(Documentation(info="<html>
 <p>
