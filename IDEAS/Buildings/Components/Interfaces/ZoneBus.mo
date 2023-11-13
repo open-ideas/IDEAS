@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-expandable connector ZoneBus
+connector ZoneBus
   replaceable package Medium =
     Modelica.Media.Interfaces.PartialMedium "Medium in the component";
   parameter Integer numIncAndAziInBus

@@ -183,6 +183,8 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
+  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package Medium = Medium) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation(
+    Placement(transformation(origin = {112, -40}, extent = {{50, -10}, {70, 10}}, rotation = 180)));
 protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
@@ -313,8 +315,6 @@ equation
     Line(points = {{-10, 70}, {-10, 100}}, color = {191, 0, 0}));
   connect(heaCapGlaExt.port, layMul.port_b) annotation (
     Line(points = {{-10, -12}, {-10, 0}}, color = {191, 0, 0}));
-  connect(trickleVent.port_b, propsBusInt.port_1) annotation (
-    Line(points = {{40, -80}, {50, -80}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
   connect(radSolData.Te, shaType.Te) annotation (
     Line(points={{-79.4,-64},{-68.5,-64},{-68.5,-29.9067}}, color = {0, 0, 127}));
   connect(shaType.port_frame, layFra.port_b) annotation (
@@ -346,6 +346,14 @@ equation
     Line(points={{-10,-79},{-10,-58}},      color = {0, 0, 127}));
  connect(y_window_trunc.y, crackOrOperableDoor.y) annotation (
     Line(points={{-10,-79},{-10,-68},{19,-68},{19,-52}},          color = {0, 0, 127}));
+ if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+   connect(trickleVent.port_b, propsBusInt.port_1) annotation(
+    Line(points = {{40, -80}, {50, -80}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
+ end if;
+ connect(trickleVent.port_b, col_trickle.port_a) annotation(
+    Line(points = {{40, -80}, {52, -80}, {52, -50}}, color = {0, 127, 255}));
+ connect(col_trickle.port_b, propsBusInt.port_1) annotation(
+    Line(points = {{52, -30}, {56, -30}, {56, 20}}, color = {0, 127, 255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
