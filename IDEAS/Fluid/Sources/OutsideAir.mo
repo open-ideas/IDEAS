@@ -20,7 +20,7 @@ model OutsideAir
   Modelica.Units.SI.Density rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
         p=Medium.p_default,
         T=T_in_internal,
-        X_w=X_in_internal);
+        X_w=X_wEnv);
   
   Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
@@ -120,7 +120,7 @@ end windPressureProfile;
   Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
   Modelica.Blocks.Interfaces.RealInput winDir( final unit="rad",displayUnit="deg") = sim.Vdir "Wind direction from weather bus";
   Modelica.Blocks.Math.Add adder;
- Modelica.Blocks.Sources.RealExpression dpStack(k=Habs*Modelica.Constants.g*rho);
+ Modelica.Blocks.Sources.RealExpression dpStack(y=Habs*Modelica.Constants.g_n*rho);
 equation
 
   alpha = winDir-surOut;
