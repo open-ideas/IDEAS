@@ -31,8 +31,6 @@ model Window "Multipane window"
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
           openDoorOnePort=false,
-          h_a1=Habs+ 0.25*hVertical,
-          h_b2=Habs - 0.25*hVertical,
           useDoor = use_operable_window));
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
