@@ -70,7 +70,7 @@ model OuterWall "Opaque building envelope construction"
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
     annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
-  final parameter Real Habs=hfloor_a + hRef_a + (hVertical/2)
+  final parameter Real Habs=hAbs_floor_a + hRelSurfBot_a + (hVertical/2)
     "Absolute height of the center of the surface for correcting the wind speed, used in TwoPort implementation"
     annotation (Dialog(tab="Airflow", group="Wind"));
 

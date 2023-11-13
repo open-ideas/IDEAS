@@ -126,8 +126,8 @@ initial equation
   hfloor_b = propsBus_b.hfloor;
 equation
   connect(constOne.y, crackOrOperableDoor.y);
-//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hfloor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
-//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) and hfloor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hAbs_floor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) and hAbs_floor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   connect(layMul.port_b, propsBus_b.surfRad) annotation(
     Line(points = {{-10, 0}, {-18, 0}, {-18, 20.1}, {-100.1, 20.1}}, color = {191, 0, 0}, smooth = Smooth.None));

@@ -53,12 +53,11 @@ partial model PartialSurface "Partial model for building envelope component"
   final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
     "Surface air tightness";
 
-  final parameter Real hzone_a( fixed=false);//connected with propsbus in inital equation
-  final parameter Real hfloor_a( fixed=false);
-  parameter Real hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc,0) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
-  parameter Real hRef_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,0) then hzone_a else 0  "Height above the zone floor at propsbus_a. Height where the surface starts. e.g. 0 for walls at floor level and floors.  "
-                                                                                                                                                                                   annotation(Evaluate=true);
-  final parameter Real Habs_surf=hfloor_a+hRef_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
+  final parameter Modelica.Units.SI.Length hzone_a( fixed=false);//connected with propsbus in inital equation
+  final parameter Modelica.Units.SI.Length hAbs_floor_a( fixed=false);
+  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.IDEAS.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
+  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"annotation(Evaluate=true);
+  final parameter Modelica.Units.SI.Length Habs_surf=hAbs_floor_a+hRelSurfBot_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
@@ -102,8 +101,8 @@ partial model PartialSurface "Partial model for building envelope component"
     A_q50 = A,
     q50=q50_internal,
     redeclare package Medium = Medium,
-    h_a2 = -0.5*hzone_a + 0.75*hVertical + hRef_a,
-    h_b1 = -0.5*hzone_a + 0.25*hVertical + hRef_a,
+    h_a2 = -0.5*hzone_a + 0.75*hVertical + hRelSurfBot_a,
+    h_b1 = -0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a,
     interZonalAirFlowType = sim.interZonalAirFlowType) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation(
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
@@ -192,7 +191,7 @@ end Q50_parameterToConnector;
 initial equation
   q50_internal=if use_custom_q50 then custom_q50 else q50_zone.q50_zone;
   hzone_a=propsBusInt.hzone;
-  hfloor_a=propsBusInt.hfloor;
+  hAbs_floor_a=propsBusInt.hfloor;
 equation
   connect(prescribedHeatFlowE.port, propsBusInt.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);

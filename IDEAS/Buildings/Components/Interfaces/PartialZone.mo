@@ -259,7 +259,7 @@ model Setq50 "q50 computation for zones"
     "custom assigned v50 value, else zero";
 
   parameter Modelica.Units.SI.Length hZone "Zone height: distance between floor and ceiling";
-  parameter Modelica.Units.SI.Length hFloor = 0  "Absolute height of zone floor";
+  parameter Modelica.Units.SI.Length hFloor = 0  "Absolute height of zone floor. Relative to the height at which the atmospheric pressure is defined.";
 
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));

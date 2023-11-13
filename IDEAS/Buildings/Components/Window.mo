@@ -26,8 +26,8 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A*nWin),
-    hRef_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then hzone_a else (hzone_a - hVertical)/2,
-    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) or IDEAS.Utilities.Math.Functions.isAngle(inc, 0) then 0 else hWin,
+    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Tilt.Ceiling) then hzone_a else (hzone_a - hVertical)/2,
+    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
           openDoorOnePort=false,
@@ -110,7 +110,7 @@ model Window "Multipane window"
         annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
 
   final parameter Real Habs(fixed=false)
-    "Absolute height of boundary for correcting the wind speed"
+    "Absolute height at the middle of the window"
     annotation (Dialog(tab="Airflow", group="Wind"));
   parameter Boolean use_operable_window = false
     "= true, to enable window control input"
@@ -242,7 +242,7 @@ protected
 
 initial equation
   QTra_design = (U_value*A + fraType.briTyp.G) *(273.15 + 21 - Tdes.y);
-  Habs =hfloor_a + hRef_a + (hVertical/2);
+  Habs =hAbs_floor_a + hRelSurfBot_a + (hVertical/2);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
