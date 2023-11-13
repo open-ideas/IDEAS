@@ -6,8 +6,8 @@ model OuterWall "Opaque building envelope construction"
      dT_nominal_a=-3,
      QTra_design(fixed=false),
     crackOrOperableDoor(
-      h_a1=(Habs - sim.Hpres) + 0.25*hVertical,
-      h_b2=(Habs - sim.Hpres) - 0.25*hVertical));
+      h_a1=Habs + 0.25*hVertical,
+      h_b2=Habs - 0.25*hVertical));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"

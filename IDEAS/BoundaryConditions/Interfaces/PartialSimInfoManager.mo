@@ -115,8 +115,6 @@ partial model PartialSimInfoManager
     annotation (Dialog(group="Wind"));
   parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs"
     annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hpres=1 "Height above ground of meteorological ambient pressure measurement"
-    annotation(Dialog(group="Wind"));
   constant Modelica.Units.SI.Density rho_default = 1.2 "Default air density"
     annotation(Dialog(group="Wind"));
 
