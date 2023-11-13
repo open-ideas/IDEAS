@@ -145,7 +145,7 @@ model Window "Multipane window"
     m_flow_nominal=m_flow_nominal,
     use_y = use_trickle_vent_control)
     if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-    "Trickle vent"
+"Trickle vent. Height assumed at the middle of the surface, i.e. at the reference pressure."
     annotation (Placement(visible = true, transformation(origin = {0, -158}, extent = {{20, 88}, {40, 68}}, rotation = 0)));
   replaceable
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.SwWindowResponse
@@ -183,7 +183,7 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
-  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package Medium = Medium) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation(
+  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package Medium = Medium, h=hVertical/2) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation(
     Placement(transformation(origin = {112, -40}, extent = {{50, -10}, {70, 10}}, rotation = 180)));
 protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;

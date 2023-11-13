@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-expandable connector WeaBus "Data bus that stores weather data"
+connector WeaBus "Data bus that stores weather data"
   parameter Integer numSolBus;
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
 

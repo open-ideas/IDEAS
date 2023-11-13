@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-expandable connector SolBus
+connector SolBus
   "Bus containing solar radiation for various incidence angles as well as external convection coefficients"
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
   IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
