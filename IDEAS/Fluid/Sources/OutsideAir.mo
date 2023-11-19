@@ -120,7 +120,7 @@ end windPressureProfile;
   Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
   Modelica.Blocks.Interfaces.RealInput winDir( final unit="rad",displayUnit="deg") = sim.Vdir "Wind direction from weather bus";
   Modelica.Blocks.Math.Add adder;
-  Modelica.Blocks.Sources.RealExpression dpStack(y=-Habs*Modelica.Constants.g_n*rho);
+  Modelica.Blocks.Sources.RealExpression dpStack(y=-(Habs-sim.HPres)*Modelica.Constants.g_n*rho);
 equation
 
   alpha = winDir-surOut;

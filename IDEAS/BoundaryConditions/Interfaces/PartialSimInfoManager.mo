@@ -43,9 +43,9 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy=false
     "Compute conservation of energy for open system" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=computeConservationOfEnergy));
-  parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None 
+  final parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None 
     "Whether port_1 of the propsbus connector should be used";
-  parameter Boolean use_port_2 = interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+  final parameter Boolean use_port_2 = interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Whether port_2 of the propsbus connector should be used";
   parameter Boolean lineariseDymola=false "Linearises building model equations for Dymola linearisation approach"
     annotation (Dialog(tab="Linearisation"));
@@ -113,6 +113,7 @@ partial model PartialSimInfoManager
   parameter Modelica.Units.SI.Length Hwind=10
     "Height above ground of meteorological wind speed measurement"
     annotation (Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length  HPres=1 "Height above ground of meteorological atmospheric pressure measurement" annotation (Dialog(group="Wind"));
   parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs"
     annotation(Dialog(group="Wind"));
   constant Modelica.Units.SI.Density rho_default = 1.2 "Default air density"
@@ -269,7 +270,7 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
-  Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
+  Modelica.Blocks.Sources.RealPassThrough winSpe "Wind speed"
     annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
