@@ -103,8 +103,8 @@ partial model PartialSurface "Partial model for building envelope component"
     redeclare package Medium = Medium,
     h_a1=0.25*hVertical,
     h_b2=- 0.25*hVertical,
-    h_a2 = 0.75*hVertical + hRelSurfBot_a,
-    h_b1 = 0.25*hVertical + hRelSurfBot_a,
+    h_b1 = 0.75*hVertical + hRelSurfBot_a,
+    h_a2 = 0.25*hVertical + hRelSurfBot_a,
     interZonalAirFlowType = sim.interZonalAirFlowType) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation(
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
