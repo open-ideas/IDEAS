@@ -43,7 +43,7 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy=false
     "Compute conservation of energy for open system" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=computeConservationOfEnergy));
-  final parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None 
+  final parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Whether port_1 of the propsbus connector should be used";
   final parameter Boolean use_port_2 = interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Whether port_2 of the propsbus connector should be used";
@@ -270,7 +270,7 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
-  Modelica.Blocks.Sources.RealPassThrough winSpe "Wind speed"
+  Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
     annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
