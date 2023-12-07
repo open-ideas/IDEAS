@@ -270,7 +270,7 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
-  Modelica.Blocks.Sources.RealPassThrough winSpe "Wind speed"
+  Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
     annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
     annotation (Placement(transformation(extent={{-86,136},{-78,144}})));
