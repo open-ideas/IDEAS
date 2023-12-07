@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Interfaces;
-expandable connector SolBus
+connector SolBus
   "Bus containing solar radiation for various incidence angles as well as external convection coefficients"
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
   IDEAS.Buildings.Components.Interfaces.RealConnector HDirTil(unit="W/(m2)",start=100) annotation ();
@@ -36,11 +36,6 @@ Connector that contains all solar irridiation information for one inclination an
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-April 20, 2023 by Jelger Jansen:<br/>
-Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>
-</li>
 <li>
 November 28, 2019 by Ian Beausoleil-Morrison:<br/>
 Add RealConnector for coefficient for forced convection at exterior surface.
