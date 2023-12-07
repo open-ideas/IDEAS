@@ -29,11 +29,11 @@ expandable connector ZoneBus
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium)
     if use_port_1
-    "Port for interzonal air flow: middle or bottom port";
+    "Port for interzonal air flow";
   Modelica.Fluid.Interfaces.FluidPort_a port_2(
     redeclare package Medium = Medium)
     if use_port_2
-    "Port for detailed interzonal air flow: top port";
+    "Port for detailed interzonal air flow";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
     "Internal energy in model" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector inc(
