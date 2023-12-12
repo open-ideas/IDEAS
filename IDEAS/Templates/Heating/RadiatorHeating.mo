@@ -5,7 +5,7 @@ model RadiatorHeating
     final nEmbPorts=0,
     final nConvPorts = nZones,
     final nRadPorts = nZones,
-    booToRea(realTrue=rad.m_flow_nominal));
+    booToRea(realFalse=rad.m_flow_nominal));
 
 protected
   Fluid.HeatExchangers.Radiators.RadiatorEN442_2[nZones] rad(
