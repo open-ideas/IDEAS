@@ -21,12 +21,13 @@ protected
     each pre_y_start=false)
     "Hysteresis controller to avoid chattering"
     annotation (Placement(transformation(extent={{-20,-10},{-40,10}})));
-  Modelica.Blocks.Math.Add[nZones] add(each final k1=-1, each final k2=1)
+  Modelica.Blocks.Math.Add[nZones] add(each final k1=1, each final k2=-1)
                                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={12,-30})));
-  Modelica.Blocks.Math.BooleanToReal[nZones] booToRea "Boolean to real conversion"
+  Modelica.Blocks.Math.BooleanToReal[nZones] booToRea(realTrue=0.0, realFalse=
+        1.0)                                          "Boolean to real conversion"
     annotation (Placement(transformation(extent={{-60,-10},{-80,10}})));
 equation
 
