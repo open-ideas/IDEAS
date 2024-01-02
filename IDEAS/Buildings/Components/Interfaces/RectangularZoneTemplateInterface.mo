@@ -124,6 +124,36 @@ partial model RectangularZoneTemplateInterface
       group="Window details",
       enable=hasWinCei));
 
+  parameter Modelica.Units.SI.Length h_winA(min=0.1) = max(0.1,sqrt(A_winA))
+    "Window A height, including frame"
+    annotation (Dialog(
+      tab="Face A",
+      group="Window details",
+      enable=hasWinA));
+  parameter Modelica.Units.SI.Length h_winB(min=0.1) = max(0.1,sqrt(A_winB))
+    "Window B height, including frame"
+    annotation (Dialog(
+      tab="Face B",
+      group="Window details",
+      enable=hasWinB));
+  parameter Modelica.Units.SI.Length h_winC(min=0.1) = max(0.1,sqrt(A_winC))
+    "Window C height, including frame"
+    annotation (Dialog(
+      tab="Face C",
+      group="Window details",
+      enable=hasWinC));
+  parameter Modelica.Units.SI.Length h_winD(min=0.1) = max(0.1,sqrt(A_winD))
+    "Window D height, including frame"
+    annotation (Dialog(
+      tab="Face D",
+      group="Window details",
+      enable=hasWinD));
+  parameter Modelica.Units.SI.Length h_winCei(min=0.1) = max(0.1,sqrt(A_winCei))
+    "Ceiling window height, including frame"
+    annotation (Dialog(
+      tab="Ceiling",
+      group="Window details",
+      enable=hasWinCei));
   parameter Real fracA=0.15
     "Area fraction of the window frame of face A"
     annotation(Dialog(tab="Face A", group="Window details",
@@ -1512,7 +1542,10 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
-
+<li>
+October 18, 2023, by Filip Jorissen:<br/>
+Added window height parameters.
+</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Added cavity support for horizontal internal walls (floor/ceiling)

@@ -9,13 +9,16 @@ model OutsideAir
   parameter Modelica.Units.SI.Angle azi "Surface azimuth (South:0, West:pi/2)"
     annotation (choicesAllMatching=true);
 
-  parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
+  parameter Real Cs = (A0*A0)*((Habs/sim.Hwind)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length Habs=10
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(group="Wind"));
-
-
-  constant Modelica.Units.SI.Density rho=1.2 "Air density";
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " 
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  constant Modelica.Units.SI.Density rho=sim.rho_default "Air density";
+  
   Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
@@ -25,18 +28,13 @@ model OutsideAir
 
   Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
     "Sum of atmospheric pressure and wind pressure";
+
   Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
     "Optional override input for the dry bulb temperature" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput m_flow = sum(ports.m_flow) "Total mass flow rate" annotation(
+    Placement(visible = true, transformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 180), iconTransformation(origin = {-110, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 protected
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
-  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-                                                                                                                             annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hwin=sim.Hwin
-    "Height above ground of meteorological wind speed measurement"
-    annotation (Dialog(group="Wind"));
-
-
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",

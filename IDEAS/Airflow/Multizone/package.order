@@ -1,6 +1,7 @@
 UsersGuide
 Coefficient_V_flow
 Coefficient_m_flow
+CrackOrOperableDoor
 DoorDiscretizedOpen
 DoorDiscretizedOperable
 DoorOpen
@@ -11,12 +12,13 @@ MediumColumnDynamic
 Orifice
 Point_m_flow
 Points_m_flow
+ReversibleDensityColumn
 Table_V_flow
 Table_m_flow
+TrickleVent
 ZonalFlow_ACS
 ZonalFlow_m_flow
 Types
 Examples
 Validation
 BaseClasses
-TrickleVent

@@ -6,7 +6,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final nWin=1,
     QTra_design=U_value*A*(273.15 + 21 - TRef_a),
     dT_nominal_a=-1,
-    add_cracks=false,
+    add_door=false,
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
             addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
@@ -49,7 +49,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   Fluid.Sources.MassFlowSource_T       boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0)
+    final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected

@@ -5,7 +5,7 @@ model SlabOnGround "opaque floor on ground slab"
     final use_custom_q50=true,
     final nWin=1,
     QTra_design=UEqui*A*(273.15 + 21 - sim.Tdes),
-    add_cracks=false,
+    add_door=false,
     dT_nominal_a=-3,
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
@@ -42,7 +42,7 @@ model SlabOnGround "opaque floor on ground slab"
   IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0)
+    final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
 protected
