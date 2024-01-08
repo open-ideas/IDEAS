@@ -7,8 +7,7 @@ partial model RectangularZoneTemplateInterface
     final V=A*h,
     final A=AZone,
     final hZone=h,
-    final fRH=11,
-    final mSenFac(min=0.1));
+    final fRH=11);
 
   parameter IDEAS.Buildings.Components.Interfaces.BoundaryType bouTypA
     "Modelled boundary for face A of the zone"

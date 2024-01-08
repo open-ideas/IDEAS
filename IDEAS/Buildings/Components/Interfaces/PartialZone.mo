@@ -25,8 +25,8 @@ model PartialZone "Building zone model"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
   parameter Modelica.Fluid.Types.Dynamics energyDynamicsAir=Modelica.Fluid.Types.Dynamics.FixedInitial
     "Type of energy balance for air model: dynamic (3 initialization options) or steady state";
-  parameter Real mSenFac = 5 "Correction factor for thermal capacity of zone air."
-    annotation(Dialog(tab="Airflow",group="Air model"));
+  parameter Real mSenFac(min=0.1) = 5 "Correction factor for thermal capacity of zone air."
+    annotation(Dialog(tab="Advanced",group="Air model"));
 
   parameter Boolean linIntRad=sim.linIntRad
     "Linearized computation of long wave radiation"
