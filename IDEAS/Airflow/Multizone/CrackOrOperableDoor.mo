@@ -56,7 +56,7 @@ model CrackOrOperableDoor
   parameter Real mClo= 0.65 "Flow exponent for crack of closed door"
     annotation (Dialog(group="Closed door"));
 
-  parameter Integer nCom=if abs(hOpe)<Modelica.Constants.small then 2 else 4 "Number of compartments for the discretization";
+  parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else 8          "Number of compartments for the discretization";
 
   parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input";
@@ -122,6 +122,9 @@ model CrackOrOperableDoor
    if not use_y
    "Door constantly opened" annotation (
     Placement(visible = true, transformation(origin = {-54, -14}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
+
+  parameter SI.Angle inc=Modelica.Constants.pi/2
+    "inclination angle (vertical=pi/2)";
 initial equation
   assert( not (interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and useDoor and use_y),
   "In " +getInstanceName() + ": Cannot use a controllable door unless interZonalAirFlowType == TwoPorts.");
