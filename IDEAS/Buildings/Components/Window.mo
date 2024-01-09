@@ -30,6 +30,8 @@ model Window "Multipane window"
     hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
+      hA=0.5*hzone_a - hRelSurfBot_a,
+      hB=-0.5*hVertical,
           openDoorOnePort=false,
           useDoor = use_operable_window));
   parameter Boolean linExtCon=sim.linExtCon
