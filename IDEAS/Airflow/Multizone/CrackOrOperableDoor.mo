@@ -31,10 +31,15 @@ model CrackOrOperableDoor
     displayUnit="Pa") = 50 "Pressure drop at rating condition of closed door"
     annotation (Dialog(group="Rating conditions"));
 
-  parameter Modelica.Units.SI.Length h_b1 "Height at port b1";
-  parameter Modelica.Units.SI.Length h_b2 = 0 "Height at port b2";
-  parameter Modelica.Units.SI.Length h_a1 = 0 "Height at port a1";
-  parameter Modelica.Units.SI.Length h_a2  "Height at port a2";
+  parameter Modelica.Units.SI.Length h_b1 "Height at port b1 (hasCavity=false)";
+  parameter Modelica.Units.SI.Length h_b2 = 0 "Height at port b2(hasCavity=false)";
+  parameter Modelica.Units.SI.Length h_a1 = 0 "Height at port a1(hasCavity=false)";
+  parameter Modelica.Units.SI.Length h_a2  "Height at port a2(hasCavity=false)";
+
+  parameter SI.Length hA=(h_a1 + h_b2)/2
+    "Height of reference pressure zone A for opening (hasCavity=true) model";
+  parameter SI.Length hB=(h_a2 + h_b1)/2
+    "Height of reference pressure zone B for opening (hasCavity=true) model";
 
   parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"
@@ -99,9 +104,9 @@ model CrackOrOperableDoor
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
    redeclare package Medium = Medium,
-   final hA = (h_a1+h_b2)/2,
-   final hB = (h_a2+h_b1)/2,
-   final forceErrorControlOnFlow=false,
+    inc=inc,
+    final hA=hA,
+    final hB=hB,
    dp_turbulent=dp_turbulent,
    nCom=nCom,
    CDOpe=CDOpe,
