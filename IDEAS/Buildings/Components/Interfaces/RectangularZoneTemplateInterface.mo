@@ -2,6 +2,7 @@ within IDEAS.Buildings.Components.Interfaces;
 partial model RectangularZoneTemplateInterface
   "Rectangular zone including walls, floor and ceiling"
   extends IDEAS.Buildings.Components.Interfaces.PartialZone(
+    redeclare replaceable package Medium = IDEAS.Media.Air,
     calculateViewFactor=false,
     final nSurf=indWinCei+nSurfExt,
     final V=A*h,
