@@ -47,7 +47,7 @@ model CrackOrOperableDoor
    parameter Modelica.Units.SI.Area A_q50 "Surface area for leakage computation (closed door)";
    parameter Real q50(unit="m3/(h.m2)") "Surface air tightness";
 
-  parameter Modelica.Units.SI.Area LClo(min=0) = q50*A_q50*1.2/3600 *(1.2/2/dpCloRat)^mClo/CDClo
+  parameter Modelica.Units.SI.Area LClo(min=0) = q50*A_q50/(3600*dpCloRat^mClo)/(CDClo*(2/1.2)^(0.5)*dpCloRat^(0.5-mClo))
     "Effective leakage area of closed door"
     annotation (Dialog(group="Closed door"));
 
