@@ -74,7 +74,10 @@ model CrackOrOperableDoor
   redeclare package Medium = Medium,
   dpMea_nominal = dpCloRat,
   forceErrorControlOnFlow = false,
-  mMea_flow_nominal =  if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then wOpe*hOpe*1.2*CDClo*(2*dpCloRat/1.2)^mClo else (if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  then LClo/2 else LClo)*CDClo*(2*dpCloRat/1.2)^mClo,
+    mMea_flow_nominal=if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
+         then wOpe*hOpe*1.2*CDClo*(2*dpCloRat/1.2)^mClo else (if
+        interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then 0.5 else 1)*(q50/3600*1.2041)*A_q50,
   m = if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then mOpe else mClo,
   useDefaultProperties = false) if not useDoor or (useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort) "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -91,7 +94,7 @@ model CrackOrOperableDoor
    dpMea_nominal = dpCloRat,
    forceErrorControlOnFlow = false,
    m = mClo,
-   mMea_flow_nominal = LClo/2*CDClo*(2*dpCloRat/1.2)^mClo,
+   mMea_flow_nominal = (q50/3600*1.2041)*A_q50*0.5,
    useDefaultProperties = false) if not useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
