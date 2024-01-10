@@ -26,9 +26,8 @@ model CrackOrOperableDoor
 
   parameter BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType
     "Interzonal air flow type";
-  parameter Modelica.Units.SI.PressureDifference dpCloRat(
-    min=0,
-    displayUnit="Pa") = 50 "Pressure drop at rating condition of closed door"
+  final parameter Modelica.Units.SI.PressureDifference dpCloRat(displayUnit="Pa")=50
+                           "Pressure drop at rating condition of closed door"
     annotation (Dialog(group="Rating conditions"));
 
   parameter Modelica.Units.SI.Length h_b1 "Height at port b1 (hasCavity=false)";
@@ -41,25 +40,24 @@ model CrackOrOperableDoor
   parameter SI.Length hB=(h_a2 + h_b1)/2
     "Height of reference pressure zone B for opening (hasCavity=true) model";
 
-  parameter Real CDCloRat(min=0, max=1)=1
+  final parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"
       annotation (Dialog(group="Rating conditions"));
    parameter Modelica.Units.SI.Area A_q50 "Surface area for leakage computation (closed door)";
    parameter Real q50(unit="m3/(h.m2)") "Surface air tightness";
 
-  parameter Modelica.Units.SI.Area LClo(min=0) = q50*A_q50/(3600*dpCloRat^mClo)/(CDClo*(2/1.2)^(0.5)*dpCloRat^(0.5-mClo))
-    "Effective leakage area of closed door"
-    annotation (Dialog(group="Closed door"));
+  final parameter Modelica.Units.SI.Area LClo(min=0) = (50^(-mClo)*(q50*A_q50)*dpCloRat^(mClo-0.5))/sqrt(2/1.204)
+    "Effective leakage area of internal wall (when door is fully closed)"
+    annotation (Dialog(group="Crack or Closed door"));
 
-  parameter Real CDOpe=0.65 "Discharge coefficient of open door"
+  parameter Real CDOpe=0.78 "Discharge coefficient of open door"
     annotation (Dialog(group="Open door"));
-  parameter Real CDClo=0.65 "Discharge coefficient of closed door"
-    annotation (Dialog(group="Closed door"));
+
 
   parameter Real mOpe = 0.5 "Flow exponent for door of open door"
     annotation (Dialog(group="Open door"));
-  parameter Real mClo= 0.65 "Flow exponent for crack of closed door"
-    annotation (Dialog(group="Closed door"));
+  parameter Real mClo= 0.65 "Flow exponent for crack or crack of closed door"
+    annotation (Dialog(group="Crack or Closed door"));
 
   parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else 8          "Number of compartments for the discretization";
 
@@ -80,7 +78,7 @@ model CrackOrOperableDoor
   dpMea_nominal = dpCloRat,
   forceErrorControlOnFlow = false,
     mMea_flow_nominal=if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then wOpe*hOpe*1.2*CDClo*(2*dpCloRat/1.2)^mClo else (if
+         then wOpe*hOpe*1.2*CDCloRat*(2*dpCloRat/1.2)^mClo else (if
         interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then 0.5 else 1)*(q50/3600*1.2041)*A_q50,
   m = if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then mOpe else mClo,
@@ -110,7 +108,7 @@ model CrackOrOperableDoor
    dp_turbulent=dp_turbulent,
    nCom=nCom,
    CDOpe=CDOpe,
-   CDClo=CDClo,
+    CDClo=CDCloRat,
    mOpe=mOpe,
    mClo=mClo,
    CDCloRat=CDCloRat,
