@@ -13,8 +13,8 @@ model InternalWall "interior opaque wall between two zones"
     crackOrOperableDoor(
       h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
       h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b,
-      hA=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a,
-      hB=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b,
+      hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b,
+      hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a,
       openDoorOnePort=true,
       useDoor=hasCavity,
       use_y=use_y_doo,

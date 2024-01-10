@@ -36,9 +36,9 @@ model CrackOrOperableDoor
   parameter Modelica.Units.SI.Length h_a2  "Height at port a2(hasCavity=false)";
 
   parameter SI.Length hA=(h_a1 + h_b2)/2
-    "Height of reference pressure zone A for opening (hasCavity=true) model";
+    "Height of reference pressure at port a1 for opening (hasCavity=true) model";
   parameter SI.Length hB=(h_a2 + h_b1)/2
-    "Height of reference pressure zone B for opening (hasCavity=true) model";
+    "Height of reference pressure at port b1 for opening (hasCavity=true) model";
 
   final parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"
