@@ -108,7 +108,8 @@ protected
          elseif not use_custom_Cs
            then sim.Cs
            else Cs,
-    Habs=Habs,
+    Habs=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then Habs else sim.HPres,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None

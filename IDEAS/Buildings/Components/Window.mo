@@ -232,7 +232,8 @@ protected
          elseif not use_custom_Cs
              then sim.Cs
              else Cs,
-    Habs=Habs,
+    Habs=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then Habs else sim.HPres,
     final azi = aziInt,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then (if use_trickle_vent then 2 else 1) else (if use_trickle_vent then 3 else 2),
