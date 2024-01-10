@@ -26,7 +26,7 @@ protected
       bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
-      bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.None,
+      bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       aziOpt=3,
       l=5,
       w=5,
