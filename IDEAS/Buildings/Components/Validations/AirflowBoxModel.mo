@@ -27,12 +27,15 @@ protected
       bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
       bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      hasWinC=true,
       aziOpt=3,
       l=5,
       w=5,
       h=5,
       A_winA=2,
+      A_winC=2,
       h_winA=2,
+      h_winC=2,
       redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof
         conTypCei,
       redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
