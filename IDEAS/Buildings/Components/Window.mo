@@ -30,10 +30,15 @@ model Window "Multipane window"
     hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
+      wOpe=A/hWin,
+      hOpe=hWin,
       hA=0.5*hVertical,
       hB=0.5*hzone_a - hRelSurfBot_a,
           openDoorOnePort=false,
           useDoor = use_operable_window));
+  parameter Modelica.Units.SI.Length hWin(min=0.1) = max(0.1,sqrt(A))
+    "Window height, including frame"
+    annotation ();
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
     annotation(Dialog(tab="Convection"));
@@ -127,9 +132,7 @@ model Window "Multipane window"
   parameter Boolean use_trickle_vent_control = false
     "=true, to enable trickle vent control input"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-  parameter Modelica.Units.SI.Length hWin(min=0.1) = max(0.1,sqrt(A))
-    "Window height, including frame"
-    annotation(Dialog(tab="Advanced",group="Frame"));
+
   parameter Modelica.Units.SI.Length briLen = 2*hWin + 2*A/hWin
     "Thermal bridge length, if present"
     annotation(Dialog(tab="Advanced",group="Frame"));
