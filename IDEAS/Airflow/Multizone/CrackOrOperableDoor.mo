@@ -59,7 +59,7 @@ model CrackOrOperableDoor
   parameter Real mClo= 0.65 "Flow exponent for crack or crack of closed door"
     annotation (Dialog(group="Crack or Closed door"));
 
-  parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else 8          "Number of compartments for the discretization";
+  parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else max(2,integer(abs(hOpe*sin(inc))/4)) "Number of compartments for the discretization";
 
   parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input";
