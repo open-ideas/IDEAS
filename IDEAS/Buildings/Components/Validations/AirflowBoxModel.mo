@@ -9,7 +9,8 @@ model AirflowBoxModel
   Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)) annotation (Placement(transformation(rotation=0,extent={{-80,-80},{-20,-20}})));
   Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
     use_operable_window=true,
-    winD(crackOrOperableDoor(nCom=2)))                                                                                                                                          annotation (Placement(transformation(rotation=0,
+    winD(crackOrOperableDoor(nCom=2)),
+    winD_position(y=1))                                                                                                                                                         annotation (Placement(transformation(rotation=0,
           extent={{20,-80},{80,-20}})));
 protected
   model Box_Sim
