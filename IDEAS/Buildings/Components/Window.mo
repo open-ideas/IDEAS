@@ -26,7 +26,8 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A*nWin),
-    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then hzone_a else (hzone_a - hVertical)/2,
+    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then hzone_a elseif IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) then 0 else
+                                                                                                                                                                                              (hzone_a - hVertical)/2,
     hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
