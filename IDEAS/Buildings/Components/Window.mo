@@ -155,7 +155,7 @@ model Window "Multipane window"
     use_y = use_trickle_vent_control)
     if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
 "Trickle vent. Height assumed at the middle of the surface, i.e. at the reference pressure."
-    annotation (Placement(visible = true, transformation(origin = {0, -158}, extent = {{20, 88}, {40, 68}}, rotation = 0)));
+    annotation (Placement(visible = true, transformation(origin={6,-158},    extent = {{20, 88}, {40, 68}}, rotation = 0)));
   replaceable
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.SwWindowResponse
     solWin(
@@ -194,8 +194,17 @@ model Window "Multipane window"
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
   Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package
       Medium =                                                                     Medium, h=
-        hTrickleVent - (hzone_a/2))                                                                       if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation (
+        hTrickleVent - (hzone_a/2)) if use_trickle_vent and sim.interZonalAirFlowType
+     == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts                                                                                                                                   "Column for port trickle vent" annotation (
     Placement(transformation(origin = {112, -40}, extent = {{50, -10}, {70, 10}}, rotation = 180)));
+ Airflow.Multizone.ReversibleDensityColumn outside_trickleCol(redeclare package
+                                                                                Medium = Medium, h=hTrickleVent - (Habs_surf - hAbs_floor_a)) if
+    use_trickle_vent and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+                                                                                                                 "Column for connecting outside side of trickle vent"
+    annotation (Placement(visible=true, transformation(
+        origin={78,-92},
+        extent={{-70,-10},{-50,10}},
+        rotation=0)));
 protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
@@ -343,7 +352,8 @@ equation
     Line(points={{-42,-80},{-46,-80},{-46,-49.4895},{-57.5,-49.4895}},
                                                                     color = {0, 0, 127}));
   connect(trickleVent.y, y_trickleVent) annotation (
-    Line(points = {{30, -92}, {30, -120}}, color = {0, 0, 127}));
+    Line(points={{36,-92},{36,-106},{30,-106},{30,-120}},
+                                           color = {0, 0, 127}));
   if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
     connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation (
     Line(points={{20,-46},{16,-46},{16,-80},{-20,-80}},          color = {0, 127, 255}));
@@ -352,20 +362,24 @@ equation
     connect(crackOrOperableDoor.port_b2, outsideAir.ports[2]) annotation (
     Line(points={{20,-58},{16,-58},{16,-80},{-20,-80}},          color = {0, 127, 255}));
   end if;
- connect(trickleVent.port_a, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation (
-    Line(points = {{20, -80}, {-20, -80}}, color = {0, 127, 255}));
+ connect(outside_trickleCol.port_b, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation (
+    Line(points={{18,-102},{18,-110},{6,-110},{6,-80},{-20,-80}},
+                                           color = {0, 127, 255}));
  connect(y_window_trunc.y, solWin.y) annotation (
     Line(points={{-10,-79},{-10,-58}},      color = {0, 0, 127}));
  connect(y_window_trunc.y, crackOrOperableDoor.y) annotation (
     Line(points={{-10,-79},{-10,-68},{19,-68},{19,-52}},          color = {0, 0, 127}));
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
-   connect(trickleVent.port_b, propsBusInt.port_1) annotation(
-    Line(points = {{40, -80}, {50, -80}, {50, 19.91}, {56.09, 19.91}}, color = {0, 127, 255}));
+   connect(trickleVent.port_b, propsBusInt.port_1) annotation (
+    Line(points={{46,-80},{50,-80},{50,19.91},{56.09,19.91}},          color = {0, 127, 255}));
  end if;
- connect(trickleVent.port_b, col_trickle.port_a) annotation(
-    Line(points = {{40, -80}, {52, -80}, {52, -50}}, color = {0, 127, 255}));
- connect(col_trickle.port_b, propsBusInt.port_1) annotation(
-    Line(points = {{52, -30}, {56, -30}, {56, 20}}, color = {0, 127, 255}));
+ connect(trickleVent.port_b, col_trickle.port_a) annotation (
+    Line(points={{46,-80},{52,-80},{52,-50}},        color = {0, 127, 255}));
+ connect(col_trickle.port_b, propsBusInt.port_1) annotation (
+    Line(points={{52,-30},{56.09,-30},{56.09,19.91}},
+                                                    color = {0, 127, 255}));
+  connect(trickleVent.port_a, outside_trickleCol.port_a)
+    annotation (Line(points={{26,-80},{18,-80},{18,-82}}, color={0,127,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
