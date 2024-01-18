@@ -133,6 +133,9 @@ model Window "Multipane window"
   parameter Boolean use_trickle_vent_control = false
     "=true, to enable trickle vent control input"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
+  parameter SI.Length hTrickleVent= hVertical+hRelSurfBot_a
+    "vertical distance between the floor of the zone (top) and the trickle vent"
+    annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
 
   parameter Modelica.Units.SI.Length briLen = 2*hWin + 2*A/hWin
     "Thermal bridge length, if present"
@@ -189,7 +192,9 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
-  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package Medium = Medium, h=hVertical/2) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation(
+  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package
+      Medium =                                                                     Medium, h=
+        hTrickleVent - (hzone_a/2))                                                                       if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Column for port trickle vent" annotation (
     Placement(transformation(origin = {112, -40}, extent = {{50, -10}, {70, 10}}, rotation = 180)));
 protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
