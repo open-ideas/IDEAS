@@ -104,6 +104,9 @@ partial model PartialSimInfoManager
     annotation(Dialog(enable=interZonalAirFlowType<>
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
 
+  parameter Boolean  use_sim_Cs =true "if checked, the default Cs of each surface in the building is sim.Cs"
+  annotation(choices(checkBox=true),Dialog(group="Wind"));
+
   parameter Modelica.Units.SI.Length H=10 "Building or roof height"
     annotation (Dialog(group="Wind"));
   parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) "

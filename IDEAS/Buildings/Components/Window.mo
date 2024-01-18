@@ -111,6 +111,9 @@ model Window "Multipane window"
     "if checked, Cs will be used in stead of the default related to the interzonal airflow type "
     annotation(choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
 
+  parameter Boolean  use_sim_Cs =sim.use_sim_Cs "if checked, the default Cs of each surface in the building is sim.Cs"
+  annotation(choices(checkBox=true),Dialog(enable=not use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
         annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
@@ -246,10 +249,8 @@ protected
   IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = Medium,
     Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then sim.Cs_coeff*(Habs^(2*sim.a))
-         elseif not use_custom_Cs
-             then sim.Cs
-             else Cs,
+         and not use_sim_Cs then sim.Cs_coeff*(Habs^(2*sim.a)) elseif not
+        use_custom_Cs then sim.Cs else Cs,
     Habs=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
          then Habs else sim.HPres,
     final azi = aziInt,
