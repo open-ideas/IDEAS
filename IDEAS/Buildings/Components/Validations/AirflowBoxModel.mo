@@ -6,10 +6,16 @@ model AirflowBoxModel
   Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-82,18},{-22,78}})));
   Box_Sim Energy_n50Corr(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, unify_n50=true)) annotation (Placement(transformation(rotation=0,
           extent={{20,20},{80,80}})));
-  Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)) annotation (Placement(transformation(rotation=0,extent={{-80,-80},{-20,-20}})));
+  Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort), winD(
+      use_trickle_vent=true,
+      m_flow_nominal=50*1.2041/3600,
+      dp_nominal=2))                                                                                     annotation (Placement(transformation(rotation=0,extent={{-80,-80},{-20,-20}})));
   Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
     use_operable_window=true,
-    winD(crackOrOperableDoor(nCom=2)),
+    winD(crackOrOperableDoor(nCom=2),
+      use_trickle_vent=true,
+      m_flow_nominal=50*1.2041/3600,
+      dp_nominal=2),
     winD_position(y=1),
     Con(G=10000000),
     Rad(G=10000000))                                                                                                                                                             annotation (Placement(transformation(rotation=0,
