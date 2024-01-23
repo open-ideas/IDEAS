@@ -21,7 +21,7 @@ jobs:
         with:
           clean: true
       - name: Change permissions of repository folder
-        run: chmod -R 777 /home/actions-runner/_work
+        run: chmod -R o+w /home/actions-runner/_work
       - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
