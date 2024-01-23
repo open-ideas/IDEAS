@@ -30,6 +30,7 @@ run:
 		--rm \
 		-v ${ROOT}:${IMG_HOME} \
 		-w ${IMG_HOME}/IDEAS/Resources/Scripts/tests \
+    	-u $(id -u):$(id -g) \  # Set the user and group to the current user
 		-it \
 		${IMG_NAME}
 
@@ -42,6 +43,7 @@ run-detached:
 		--rm \
 		-v ${ROOT}:${IMG_HOME} \
 		-w ${IMG_HOME}/IDEAS/Resources/Scripts/tests \
+    	-u $(id -u):$(id -g) \  # Set the user and group to the current user
 		-it \
 		${IMG_NAME}
 
