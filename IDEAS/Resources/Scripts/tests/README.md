@@ -107,3 +107,29 @@ in the previous section (*Running tests locally*).
 BuildingsPy will detect that there is not yet any reference result for the new model and will give you the option to 
 automatically generate one. The reference results are stored as `.txt` files within 
 `IDEAS/Resources/ReferenceResults/Dymola`.
+
+
+## Setting up the private runner
+A *runner* is the platform where the tests actually run. This repository uses a private runner, that is, a self-hosted server of the Sysi's Team at KU Leuven called tony-de-rekenpony.
+[Here](https://docs.github.com/en/actions/hosting-your-own-runners) you can find general information about self-hosted runners with GitHub Actions.
+Normally, the runner is continuously active and listening for new test requests. However, here we specify the steps to restart the private runner in case the server needs to be rebooted and for the information of new people who need to take over maintenance of the testing suite. 
+
+- In GitHub, go to Settings - Actions - Runners. When the runner is active and properly configured it looks as follows:
+![Alt text](image.png)
+- To remove the runner (e.g. because it's not working properly), click the three dots and select "Remove runner". 
+- To add a new runner (because it's not showing up or because you've just removed it), click on the "New self-hosted runner" green button. Make sure you select the Linux configuration with x64 architecture. You may not need to go through the steps at the "Download" section unless you want to reinstall the GitHub Actions runner client functionality. So go straight ahead to the "Configure" Section to configure and activate the runner.  
+![Alt text](image-1.png)
+- More specifically, we typically use the following commands:
+```
+cd /home/actions-runner
+nohup ./run.sh &
+```
+Where `nohup` allows you to run a command even if you close the terminal. The `&` symbol tells the command to run in the background, the output will be redirected to a `nohup.out` file. 
+- If when running the tests you keep getting errors of the type:
+![Alt text](image-2.png)
+You may want to remove the contents from the `_work` directory to start from a clean workspace. That is:
+```
+cd /home/actions-runner
+rm -rf _work
+```
+This folder will be recreated by GitHub Actions upon checking out the repository code to run the tests.  
