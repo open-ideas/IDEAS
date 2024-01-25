@@ -1509,7 +1509,12 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
-
+<li>
+January 8, 2024, by Jelger Jansen:<br/>
+Removed duplicate declaration of <code>mSenFac</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
+#1343</a>
+</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Added cavity support for horizontal internal walls (floor/ceiling)

@@ -510,6 +510,12 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+January 8, 2024, by Jelger Jansen:<br/>
+Added min attribute to <code>mSenFac</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
+#1343</a>
+</li>
+<li>
 May 29, 2022, by Filip Jorissen:<br/>
 Unprotected component for OM compatibility.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
