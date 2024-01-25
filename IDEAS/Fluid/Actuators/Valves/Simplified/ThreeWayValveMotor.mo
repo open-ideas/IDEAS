@@ -39,12 +39,6 @@ protected
 
     parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
       "Nominal mass flow rate" annotation (Dialog(group="Nominal condition"));
-    parameter Modelica.Units.SI.MassFlowRate m_flow_small(min=0) = 1E-4*abs(
-      m_flow_nominal) "Small mass flow rate for regularization of zero flow"
-      annotation (Dialog(tab="Advanced"));
-    parameter Boolean show_T = false
-      "= true, if actual temperature at port is computed"
-      annotation(Dialog(tab="Advanced",group="Diagnostics"));
 
     Medium.ThermodynamicState sta_a=
         Medium.setState_phX(port_a.p,
@@ -106,6 +100,13 @@ equation
           fillPattern=FillPattern.Solid)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 13, 2024, by Jelger Jansen:<br/>
+Removed duplicate declaration of <code>m_flow_small</code> 
+and <code>show_T</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
+#1343</a>
+</li>
 <li>
 July 29, 2020, by Filip Jorissen:<br/>
 Removed duplicate definition of <code>LumpedVolumeDeclarations</code>.
