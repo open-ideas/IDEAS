@@ -44,7 +44,7 @@ model SlabOnGround "opaque floor on ground slab"
     nPorts=1,
     final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-    annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
+    annotation (Placement(transformation(origin = {0, 16}, extent = {{-28, -76}, {-8, -56}})));
 protected
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground2(final d=0.33);
@@ -91,6 +91,14 @@ protected
       outputAngles=sim.outputAngles)
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{46,-90},{66,-70}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {0, -4}, extent = {{-28, -76}, {-8, -56}})));
+
+
 equation
 
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
@@ -115,8 +123,10 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(boundary1.ports[1], propsBusInt.port_1) annotation (Line(points={{-8,-30},
           {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
-          {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
+  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-50},
+          {44,-50},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
+  connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{-8, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -175,6 +185,10 @@ zone that is surrounded by air at the ambient temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

@@ -34,6 +34,10 @@ expandable connector ZoneBus
     redeclare package Medium = Medium)
     if use_port_2
     "Port for detailed interzonal air flow";
+  Modelica.Fluid.Interfaces.FluidPort_a port_3(
+    redeclare package Medium = Medium)
+    if use_port_2
+    "Port for trickle vents etc. when using detailed interzonal air flow";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
     "Internal energy in model" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector inc(
@@ -60,6 +64,10 @@ heat and information between a zone and a surface.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 April 20, 2023 by Jelger Jansen:<br/>
 Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.

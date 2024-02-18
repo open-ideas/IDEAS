@@ -40,18 +40,24 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     "Constant block for temperature"
     annotation (Placement(transformation(extent={{-110,32},{-100,42}})));
 
-  Fluid.Sources.MassFlowSource_T       boundary1(
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
     redeclare package Medium = Medium,
     nPorts=1,
     final m_flow=1e-10)
     if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
-  Fluid.Sources.MassFlowSource_T       boundary2(
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
     final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation(
+    Placement(transformation(origin = {0, -14}, extent = {{-28, -76}, {-8, -56}})));
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -107,50 +113,12 @@ equation
           {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
           {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
-  annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
-            100}})),
-    Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
-        graphics={
-        Rectangle(
-          extent={{-50,-90},{50,-70}},
-          pattern=LinePattern.None,
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-50,80},{50,100}},
-          pattern=LinePattern.None,
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{-50,80},{50,80}},
-          color={175,175,175}),
-        Line(
-          points={{-50,-70},{50,-70}},
-          color={175,175,175}),
-        Line(
-          points={{-50,-90},{50,-90}},
-          color={175,175,175}),
-        Line(
-          points={{-50,100},{50,100}},
-          color={175,175,175}),
-        Rectangle(
-          extent={{-10,80},{10,-70}},
-          fillColor={175,175,175},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
-        Line(
-          points={{-10,80},{-10,-70}},
-          smooth=Smooth.None,
-          color={175,175,175}),
-        Line(
-          points={{10,80},{10,-70}},
-          smooth=Smooth.None,
-          color={0,0,0},
-          thickness=0.5)}),
-    Documentation(info="<html>
+  connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{-8, -80}, {56, -80}, {56, 20}}, color = {0, 127, 255}));
+  annotation(
+    Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}}), graphics = {Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, -70}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, 80}, {50, 100}}), Line(points = {{-50, 80}, {50, 80}}, color = {175, 175, 175}), Line(points = {{-50, -70}, {50, -70}}, color = {175, 175, 175}), Line(points = {{-50, -90}, {50, -90}}, color = {175, 175, 175}), Line(points = {{-50, 100}, {50, 100}}, color = {175, 175, 175}), Rectangle(fillColor = {175, 175, 175}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-10, 80}, {10, -70}}), Line(points = {{-10, 80}, {-10, -70}}, color = {175, 175, 175}), Line(points = {{10, 80}, {10, -70}}, thickness = 0.5)}),
+    Documentation(info = "<html>
 <p>
 This is a wall model that should be used
 to simulate a wall between a zone and a prescribed temperature or prescribed heat flow rate boundary condition.
@@ -171,8 +139,12 @@ to specify a fixed boundary condition temperature.
 It is not allowed to enabled multiple of these three options. 
 If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.
 </p>
-</html>", revisions="<html>
+</html>", revisions = "<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

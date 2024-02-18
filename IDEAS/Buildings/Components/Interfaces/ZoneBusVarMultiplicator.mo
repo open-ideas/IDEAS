@@ -41,6 +41,11 @@ protected
      if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier3(
+      redeclare package Medium = Medium,                                 final k=k)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Mass flow rate multiplier for port 3"
+    annotation (Placement(transformation(origin = {0, -208}, extent = {{-10, -200}, {10, -180}})));
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
   Modelica.Blocks.Math.Gain area(k=k) "Heat exchange surface area"
@@ -175,6 +180,10 @@ equation
           -374},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
   connect(hFloor.y, propsBus_a.hfloor) annotation (Line(points={{-13,-374},{
           -100,-374},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(massFlowRateMultiplier3.port_a, propsBus_a.port_3) annotation(
+    Line(points = {{-10, -398}, {-100, -398}, {-100, 0}}, color = {0, 127, 255}));
+  connect(massFlowRateMultiplier3.port_b, propsBus_b.port_3) annotation(
+    Line(points = {{10, -398}, {100, -398}, {100, 0}}, color = {0, 127, 255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(
@@ -195,9 +204,13 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="%name")}),                                 Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
+        coordinateSystem(preserveAspectRatio=false, extent={{-120,200},{120,-380}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
