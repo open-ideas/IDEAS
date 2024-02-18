@@ -59,7 +59,7 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-80,-130},{-60,-110}})));
   Modelica.Blocks.Sources.Constant hZone(k = 0.88) if isZone "Zone height" annotation(
     Placement(visible = true, transformation(origin = {-42, -16}, extent = {{0, 80}, {20, 100}}, rotation = 0)));
-  IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium= IDEAS.Media.Air, nPorts = 2) if isZone  annotation(
+  IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium= IDEAS.Media.Air, nPorts = 3) if isZone  annotation(
     Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
@@ -141,6 +141,8 @@ equation
     Line(points = {{-20, 74}, {100, 74}, {100, -2}}, color = {0, 0, 127}));
   connect(hZone.y, zoneBus.hfloor) annotation(
     Line(points = {{-20, 74}, {100, 74}, {100, -2}}, color = {0, 0, 127}));
+  connect(bou.ports[3], zoneBus.port_3) annotation(
+    Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
   connect(bou.ports[2], zoneBus.port_2) annotation(
     Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
   connect(bou.ports[1], zoneBus.port_1) annotation(
