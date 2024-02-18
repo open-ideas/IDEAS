@@ -15,11 +15,7 @@ model WellMixedAir "Zone air model assuming perfectly mixed air"
 protected
   final parameter Modelica.Units.SI.MolarMass MM=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
     "Molar mass of the trace substance";
-  final parameter Modelica.Units.SI.MolarMass MMBul=Medium.molarMass(
-      Medium.setState_phX(
-      p=Medium.p_default,
-      h=Medium.h_default,
-      X=Medium.X_default)) "Molar mass of bulk medium";
+  final parameter Modelica.Units.SI.MolarMass MMBul=Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM;
   final parameter Real MMFraction=MM/MMBul
     "Molar mass of CO2 divided by the molar mass of the medium";
 
@@ -181,6 +177,10 @@ equation
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+February 18, 2024 by Filip Jorissen:<br/>
+Revised definition of MMBul to avoid using a Medium function that is not defined in all media implementations.
+</li>
 <li>
 March 21, 2022 by Filip Jorissen:<br/>
 Disabled latent heat gains when the medium contains no water.
