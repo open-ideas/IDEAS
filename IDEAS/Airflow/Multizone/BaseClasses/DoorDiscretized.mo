@@ -18,7 +18,7 @@ partial model DoorDiscretized
   Modelica.Units.SI.Velocity vBot "Velocity at bottom of opening from A to B";
 
 protected
-  parameter Modelica.Units.SI.Length dh=hOpe/nCom "Height of each compartment";
+  parameter Modelica.Units.SI.Length dh=hOpeVert/nCom "Height of each compartment";
 
   parameter Medium.ThermodynamicState sta_default=Medium.setState_pTX(
       T=Medium.T_default,

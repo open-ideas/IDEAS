@@ -64,6 +64,10 @@ model OuterWall "Opaque building envelope construction"
   parameter Boolean use_custom_Cs = false
     "if checked, Cs will be used instead of the default related to the interzonal airflow type "
     annotation(Evaluate=true, choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
+
+  parameter Boolean  use_sim_Cs =sim.use_sim_Cs "if checked, the default Cs of each surface in the building is sim.Cs"
+  annotation(choices(checkBox=true),Dialog(enable=not use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
     annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
@@ -104,11 +108,10 @@ protected
     final table=coeffsCp,
     final azi=aziInt,
     Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then sim.Cs_coeff*(Habs^(2*sim.a))
-         elseif not use_custom_Cs
-           then sim.Cs
-           else Cs,
-    Habs=Habs,
+         and not use_sim_Cs then sim.Cs_coeff*(Habs^(2*sim.a)) elseif not
+        use_custom_Cs then sim.Cs else Cs,
+    Habs=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then Habs else sim.HPres,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None

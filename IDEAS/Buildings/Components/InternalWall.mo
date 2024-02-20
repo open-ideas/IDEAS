@@ -11,14 +11,16 @@ model InternalWall "interior opaque wall between two zones"
     final QTra_design = U_value*A*(TRef_a - TRef_b),
     q50_zone(v50_surf = 0),
     crackOrOperableDoor(
+      h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
+      h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b,
+      hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b,
+      hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a,
       openDoorOnePort=true,
       useDoor=hasCavity,
       use_y=use_y_doo,
       wOpe=w,
       hOpe=h,
-      CDOpe=CD,
-      h_a1=-0.5*hzone_b + 0.25*hVertical + hRef_b,
-      h_b2=-0.5*hzone_b + 0.75*hVertical + hRef_b));
+      CDOpe=CD));
   //using custom q50 since this model is not an external component
   parameter Boolean linIntCon_b = sim.linIntCon 
     "= true, if convective heat transfer should be linearised" annotation(
@@ -39,6 +41,9 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.Units.SI.Length w = 1
     "Width of (rectangular) cavity in wall"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
+
+  parameter  Modelica.Units.SI.Length hRelOpeBot_a=0 "Vertical distance at propsbus a between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door"));
+  parameter  Modelica.Units.SI.Length hRelOpeBot_b=0 "Vertical distance at propsbus b between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door"));
   parameter Modelica.Units.SI.Acceleration g = Modelica.Constants.g_n
     "Gravity, for computation of buoyancy"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
@@ -75,7 +80,11 @@ model InternalWall "interior opaque wall between two zones"
     annotation(Dialog(group="Cavity or open door",tab="Advanced"));
   final parameter Real hzone_b(fixed=false);
   final parameter Real hfloor_b(fixed=false);
-  parameter Real hRef_b=if IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then hzone_b else 0 
+
+
+  parameter Modelica.Units.SI.Length hRelSurfBot_b=if
+      IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor)
+       then hzone_b else 0
     "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
   Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe 
     "Control input for the door" annotation(
@@ -93,7 +102,7 @@ model InternalWall "interior opaque wall between two zones"
     "Boundary for bus b" annotation(
     Placement(transformation(origin = {-48, -4}, extent = {{28, -76}, {8, -56}}, rotation = -0)));
 protected
-  parameter Real Ope_hvert = sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation(
+  parameter Real Ope_hvert = sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation (
     Dialog(enable=hasCavity,group="Cavity or open door"));
   final parameter Real U_value = 1/(1/8 + sum(constructionType.mats.R) + 1/8) "Wall U-value";
   constant Real r = 287 "Gas constant";

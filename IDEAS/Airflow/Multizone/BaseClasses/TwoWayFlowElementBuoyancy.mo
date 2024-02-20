@@ -8,6 +8,9 @@ partial model TwoWayFlowElementBuoyancy
   parameter Modelica.Units.SI.Length hOpe=2.1 "Height of opening"
     annotation (Dialog(group="Geometry"));
 
+  parameter Modelica.Units.SI.Angle inc=Modelica.Constants.pi/2 "inclination angle (vertical=pi/2)";
+  final parameter Modelica.Units.SI.Length hOpeVert=sin(inc)*hOpe "Height of opening projected to the vertical plane";
+
   parameter Modelica.Units.SI.Length hA=2.7/2
     "Height of reference pressure zone A" annotation (Dialog(group="Geometry"));
   parameter Modelica.Units.SI.Length hB=2.7/2
