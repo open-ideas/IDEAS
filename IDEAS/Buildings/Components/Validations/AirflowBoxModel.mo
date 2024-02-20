@@ -3,13 +3,18 @@ model AirflowBoxModel
   extends Modelica.Icons.Example;
 
 
-  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-82,18},{-22,78}})));
+  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-124,16},
+            {-64,76}})));
   Box_Sim Energy_n50Corr(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, unify_n50=true)) annotation (Placement(transformation(rotation=0,
-          extent={{20,20},{80,80}})));
-  Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort), winD(
+          extent={{-22,18},{38,78}})));
+  Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort))
+    annotation (Placement(transformation(rotation=0, extent={{-164,-82},{-104,-22}})));
+  Box_Sim IAQ_1port_trickle(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
+      winD(
       use_trickle_vent=true,
       m_flow_nominal=50*1.2041/3600,
-      dp_nominal=2))                                                                                     annotation (Placement(transformation(rotation=0,extent={{-80,-80},{-20,-20}})));
+      dp_nominal=2)) annotation (Placement(transformation(rotation=0, extent={{-80,
+            -80},{-20,-20}})));
   Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
     use_operable_window=true,
     winD(crackOrOperableDoor(nCom=2),
@@ -114,5 +119,7 @@ protected
       __Dymola_Algorithm="Dassl"), Documentation(info="<html>
 This model runs the 4 possible interzonal airflow configurations of a simple box model. Temperature is kept constant at 18° degrees
 
-</html>"));
+</html>"),
+    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
+    Icon(coordinateSystem(extent={{-180,-100},{100,100}})));
 end AirflowBoxModel;

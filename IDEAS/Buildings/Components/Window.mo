@@ -374,6 +374,12 @@ equation
  connect(outside_trickleCol.port_b, outsideAir.ports[if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then 3 else 2]) annotation (
     Line(points={{18,-102},{18,-110},{6,-110},{6,-80},{-20,-80}},
                                            color = {0, 127, 255}));
+  connect(outside_trickleCol.port_a, trickleVent.port_a)
+    annotation (Line(points={{18,-82},{18,-80},{26,-80}}, color={0,127,255}));
+ if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort and use_trickle_vent then
+ connect(outsideAir.ports[2], trickleVent.port_a) annotation (Line(points={{-20,-80},
+            {-20,-80},{26,-80}},                                                                        color={0,127,255}));
+   end if;
  connect(y_window_trunc.y, solWin.y) annotation (
     Line(points={{-10,-79},{-10,-58}},      color = {0, 0, 127}));
  connect(y_window_trunc.y, crackOrOperableDoor.y) annotation (
