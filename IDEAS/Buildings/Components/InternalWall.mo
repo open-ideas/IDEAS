@@ -89,6 +89,18 @@ model InternalWall "interior opaque wall between two zones"
   Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe 
     "Control input for the door" annotation(
     Placement(visible = true, transformation(origin = {-80, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-64, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3_a(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {48, -4}, extent = {{-28, -76}, {-8, -56}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3_b(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts 
+    "Boundary for bus b" annotation(
+    Placement(transformation(origin = {-48, -4}, extent = {{28, -76}, {8, -56}}, rotation = -0)));
 protected
   parameter Real Ope_hvert = sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation (
     Dialog(enable=hasCavity,group="Cavity or open door"));
@@ -176,6 +188,10 @@ equation
   end if;
   connect(y_doo, crackOrOperableDoor.y) annotation(
     Line(points = {{-80, 90}, {-52, 90}, {-52, -52}, {20, -52}}, color = {0, 0, 127}));
+  connect(boundary3_b.ports[1], propsBus_b.port_3) annotation(
+    Line(points = {{-40, -70}, {-52, -70}, {-52, 20}, {-100, 20}}, color = {0, 127, 255}));
+  connect(boundary3_a.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{40, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}}), graphics = {Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-52, -90}, {48, -70}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, 80}, {50, 100}}), Rectangle(fillColor = {175, 175, 175}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-10, 80}, {10, -70}}), Line(points = {{-50, 80}, {50, 80}}, color = {175, 175, 175}), Line(points = {{-50, -70}, {50, -70}}, color = {175, 175, 175}), Line(points = {{-50, -90}, {50, -90}}, color = {175, 175, 175}), Line(points = {{-50, 100}, {50, 100}}, color = {175, 175, 175}), Line(points = {{-10, 80}, {-10, -70}}, thickness = 0.5), Line(points = {{10, 80}, {10, -70}}, thickness = 0.5)}),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}})),
@@ -202,6 +218,10 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions = "<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 July 9, 2023, by Filip Jorissen:<br/>
 Replaced door by operable door.

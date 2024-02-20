@@ -262,6 +262,14 @@ protected
     "Outside air model"
     annotation (Placement(visible = true, transformation(origin = {0, 10}, extent = {{-40, -100}, {-20, -80}}, rotation = 0)));
 
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and not use_trickle_vent
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {-14, -76}, extent = {{-28, -76}, {-8, -56}}, rotation = 90)));
+
+
 initial equation
   QTra_design = (U_value*A + fraType.briTyp.G) *(273.15 + 21 - Tdes.y);
   Habs =hAbs_floor_a + hRelSurfBot_a + (hVertical/2);
@@ -374,13 +382,12 @@ equation
    connect(trickleVent.port_b, propsBusInt.port_1) annotation (
     Line(points={{46,-80},{50,-80},{50,19.91},{56.09,19.91}},          color = {0, 127, 255}));
  end if;
- connect(trickleVent.port_b, col_trickle.port_a) annotation (
-    Line(points={{46,-80},{52,-80},{52,-50}},        color = {0, 127, 255}));
- connect(col_trickle.port_b, propsBusInt.port_1) annotation (
-    Line(points={{52,-30},{56.09,-30},{56.09,19.91}},
-                                                    color = {0, 127, 255}));
-  connect(trickleVent.port_a, outside_trickleCol.port_a)
-    annotation (Line(points={{26,-80},{18,-80},{18,-82}}, color={0,127,255}));
+ connect(trickleVent.port_b, col_trickle.port_a) annotation(
+    Line(points = {{40, -80}, {52, -80}, {52, -50}}, color = {0, 127, 255}));
+ connect(col_trickle.port_b, propsBusInt.port_3) annotation(
+    Line(points = {{52, -30}, {52, 20}, {56, 20}}, color = {0, 127, 255}));
+ connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{52, -84}, {52, -30}, {56, -30}, {56, 20}}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None,
@@ -449,6 +456,10 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 September 7, 2023, by Filip Jorissen:<br/>
 Created shading surface temperature dependency on mass flow rate.
