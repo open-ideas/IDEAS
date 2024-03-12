@@ -161,10 +161,6 @@ equation
     Line(points = {{-10, 60}, {-100, 60}}, color = {0, 127, 255}));
     connect(point_m_flow1.port_b, port_b1) annotation (
     Line(points = {{10, 60}, {100, 60}}, color = {0, 127, 255}));
-    connect(doo.port_b1, port_b1) annotation (
-      Line(points = {{10, 6}, {20, 6}, {20, 60}, {100, 60}}, color = {0, 127, 255}));
-    connect(doo.port_a1, port_a1) annotation (
-      Line(points = {{-10, 6}, {-20, 6}, {-20, 60}, {-100, 60}}, color = {0, 127, 255}));
  end if;
  connect(constOne.y, doo.y) annotation (
     Line(points={{-47.4,-14},{-32,-14},{-32,0},{-11,0}},        color = {0, 0, 127}));
