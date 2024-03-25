@@ -308,7 +308,7 @@ model Structure "Ppd 12 example model"
     w=lHalfBuilding,
     h=hFloor2,
     A_winC=1.1*0.66 + 1.1*1.54,
-    redeclare IDEAS.Examples.PPD12.Data.InteriorWall18 conTypC,
+    redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypC,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
     nSurfExt=0,
@@ -508,6 +508,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 25, 2024, by Jelger Jansen:<br/>
+Use hFloor2 for second floor rooms and use outer wall construction type for bedroom 2 (face C).
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1177\">#1177</a>.
+</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Added cavity in internal floors to represent staircases.
