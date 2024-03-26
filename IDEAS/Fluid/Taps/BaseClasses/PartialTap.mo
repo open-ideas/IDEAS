@@ -204,8 +204,6 @@ equation
 <li><i>mFloSet</i>: desired flowrate of DHW water, equivalent at a user defined set point temperature</li>
 </ul>
 <p>The model tries to reach the given DHW flow rate at a the desired mixing temperature <i>TSet </i>by mixing the hot water with cold water. The resulting hot flowrate (<i>mFloHot </i>) will be extracted automatically from the hot source (via <i>port_hot </i>). This same flow rate will be injected at <i>TCold</i> in the production system through the connection of <i>port_cold</i> to the hot source. </p>
-<p>This model is adopted from the IDEAS library: <a href=\"IDEAS.Fluid.Taps.Interfaces.BalancedTap\">IDEAS.Fluid.Taps.Interfaces.BalancedTap</a></p>
-<p>There is currently one implementation of this partial model in MoPED: <a href=\"MoPED.Thermal.DomesticHotWater.Tap\">MoPED.Thermal.DomesticHotWater.Tap</a></p>
 <p><b>Assumptions and limitations </b></p>
 <ol>
 <li>No heat losses.</li>
@@ -228,15 +226,7 @@ equation
 <p>An example of this model is given in <a href=\"IDEAS.Fluid.Taps.Examples.DHW_example\">IDEAS.Fluid.Taps.Examples.DHW_example</a>.</p>
 </html>", revisions="<html>
 <ul>
-<li>March 1, 2023, by Lucas Verleyen:<br>
-Removed temperature sensor in PartialTap and replaced by realInput.<br>
-This is to avoid \"wrong\" temperatures due to the delay of the sensor in this model. <br>
-The delay can be added before the realInput.<br>
-See <a href=\"https://gitlab.kuleuven.be/positive-energy-districts/moped/-/issues/88\">#88</a> for more information.</li> 
-<li>February 15, 2023, by Lucas Verleyen:<br/>
-Initial implementation in MoPED. Adopted from IDEAS.<br>
-Adaptations to make the model more clear.<br>
-Update documentation.</li> 
+<li>March 26, 2024, by Lucas Verleyen:<br>Adaptations to make the model more clear (change variable names, set allowFlowReversal=false, update icon).<br>Add indicator for comfort or discomfort at DHW tap.<br>Update documentation. <br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information. </li>
 <li>2013 June, Roel De Coninck: documentation.</li>
 <li>2012 September, Roel De Coninck, simplification of equations.</li>
 <li>2012 August, Roel De Coninck, first implementation.</li>
