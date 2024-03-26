@@ -226,7 +226,7 @@ equation
 <p>An example of this model is given in <a href=\"IDEAS.Fluid.Taps.Examples.DHW_example\">IDEAS.Fluid.Taps.Examples.DHW_example</a>.</p>
 </html>", revisions="<html>
 <ul>
-<li>March 26, 2024, by Lucas Verleyen:<br>Adaptations to make the model more clear (change variable names, set allowFlowReversal=false, update icon).<br>Add indicator for comfort or discomfort at DHW tap.<br>Update documentation. <br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information. </li>
+<li>March 26, 2024, by Lucas Verleyen:<br>Adaptations to make the model more clear (change variable names, set allowFlowReversal=false, update icon).<br>Include a user-defined DHW setpoint temperature.<br>Add indicator for comfort or discomfort at DHW tap.<br>Update documentation. <br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information. </li>
 <li>2013 June, Roel De Coninck: documentation.</li>
 <li>2012 September, Roel De Coninck, simplification of equations.</li>
 <li>2012 August, Roel De Coninck, first implementation.</li>
