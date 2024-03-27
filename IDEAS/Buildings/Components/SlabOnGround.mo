@@ -19,6 +19,10 @@ model SlabOnGround "opaque floor on ground slab"
     "Annual average outdoor temperature";
   parameter Modelica.Units.SI.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature";
+  parameter Modelica.Units.SI.Temperature T_start_ground[3]={TeAvg,TeAvg,TeAvg}
+    "Initial temperatures of the ground layers (with first value = deepest layer
+    and third value = shallowest layer"
+    annotation(Evaluate=true,Dialog(tab="Dynamics", group="Initial condition"));
   parameter Modelica.Units.SI.TemperatureDifference dTeAvg=4
     "Amplitude of variation of monthly average outdoor temperature";
   parameter Modelica.Units.SI.TemperatureDifference dTiAvg=2
@@ -70,7 +74,7 @@ protected
     final inc=incInt,
     final nLay=3,
     final mats={ground1,ground2,ground3},
-    final T_start={TeAvg,TeAvg,TeAvg},
+    final T_start=T_start_ground,
     monLay(each energyDynamics=energyDynamics),
     final A=A)
     "Declaration of array of resistances and capacitances for ground simulation"
@@ -175,6 +179,11 @@ zone that is surrounded by air at the ambient temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 27, 2024, by Lucas Verleyen:<br>
+Created parameter <code>T_start_ground</code> for initial temperature of the ground (<code>layGro</code>).<br>
+See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
