@@ -34,10 +34,10 @@ model Tap "Example with two 'Tap' models"
     offset=0)       annotation (Placement(transformation(extent={{0,-70},{20,
             -50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem2(redeclare package Medium =
-        Medium, m_flow_nominal=1)
+        Medium, m_flow_nominal=tap2.m_flow_nominal)
     annotation (Placement(transformation(extent={{-20,-10},{0,-30}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem1(redeclare package Medium =
-        Medium, m_flow_nominal=1)
+        Medium, m_flow_nominal=tap1.m_flow_nominal)
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 equation
 
