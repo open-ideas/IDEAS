@@ -54,7 +54,7 @@ equation
         Documentation(info="<html>
 <p><b>Description</b></p>
 <p>Model of a domestic hot water (DHW) tap. The tap is modelled as a thermostatic mixing valve.</p>
-<p>The flow rate at the tap is read from a CombiTimeTable. The model requires a flow rate in <i>kg/s</i> (or <i>l/s</i>), but DHW flow rates are usually expressed in <i>l/min</i>. Therefore, an additional parameter has been added to convert the units of the profile into kg/s.</p>
+<p>The flow rate at the tap is read from a CombiTimeTable. The model requires a flow rate in [kg/s] (or [l/s]), but DHW flow rates are usually expressed in [l/min]. Therefore, an additional parameter has been added to convert the units of the profile into [kg/s].</p>
 <p>See <a href=\"IDEAS.Fluid.Taps.BaseClasses.PartialTap\">IDEAS.Fluid.Taps.BaseClasses.PartialTap</a> for more information.</p>
 </html>", revisions="<html>
 <ul>

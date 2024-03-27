@@ -20,7 +20,7 @@ equation
         Documentation(info="<html>
 <p><b>Description</b></p>
 <p>Model of a domestic hot water (DHW) tap. The tap is modelled as a thermostatic mixing valve.</p>
-<p>The input <i>mDHWSet</i> is a RealInput to connect the prescribed DHW mass flow rate (in kg/s) at the desired <i>TSet</i> temperature.</p>
+<p>The input <i>mDHWSet</i> is a RealInput to connect the prescribed DHW mass flow rate (in [kg/s]) at the desired <i>TSet</i> temperature.</p>
 <p>See <a href=\"IDEAS.Fluid.Taps.BaseClasses.PartialTap\">IDEAS.Fluid.Taps.BaseClasses.PartialTap</a> for more information.</p>
 </html>", revisions="<html>
 <ul>
