@@ -1,0 +1,6 @@
+## Domestic Hot Water Profiles
+Two example profiles for DHW offtake are provided:
+- DHW_1year_2adults.txt (dwelling of 2 people: 2 adults)
+- DHW_1year_2adults_2children.txt (dwelling of 4 people: 2 adults and 2 children)
+Both profiles include data for one year (2021) with a time resolution of 15 minutes. The DHW offtake is expressed in l/min.
+The profiles can be used in the TapProfile model in IDEAS.Fluid.Taps.TapProfile.
