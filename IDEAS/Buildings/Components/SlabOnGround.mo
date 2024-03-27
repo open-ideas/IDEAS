@@ -169,7 +169,7 @@ for equations, options, parameters, validation and dynamics that are common for 
 <p>
 The model contains several parameters that are used
 to set up a simplified model of the influence of the 
-environment on the ground themperature.
+environment on the ground temperature.
 The model assumes that the floor plate is connected to a (heated)
 zone that is surrounded by air at the ambient temperature.
 </p>
