@@ -26,7 +26,7 @@ model TapProfile
 
 
 equation
-  conversion.y = mFloSet;
+  conversion.y = m_flow_Set;
   connect(profile.y[1], conversion.u)
     annotation (Line(points={{-59,-70},{-42,-70}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={

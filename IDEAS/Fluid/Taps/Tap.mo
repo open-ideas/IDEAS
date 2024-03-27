@@ -13,7 +13,7 @@ model Tap
         rotation=-90,
         origin={3.55271e-15,100})));
 equation
-  mDHWSet = mFloSet;
+  mDHWSet = m_flow_Set;
 
    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),

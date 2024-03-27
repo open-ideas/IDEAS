@@ -10,7 +10,7 @@ partial model PartialTap "Partial model for a (DHW) tap"
     "Nominal mass flow rate";
 
 protected
-  Modelica.Units.SI.MassFlowRate mFloSet "DHW mass flow rate at TSet";
+  Modelica.Units.SI.MassFlowRate m_flow_Set "DHW mass flow rate at TSet";
 
 public
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation (
@@ -43,22 +43,22 @@ public
   Modelica.Blocks.Sources.RealExpression TCold_expr(y=TCold)
     annotation (Placement(transformation(extent={{-20,-50},{0,-30}})));
 
-  Modelica.Blocks.Sources.RealExpression mFloDiscomfort(y=mFloSet)
+  Modelica.Blocks.Sources.RealExpression m_flow_Discomfort(y=m_flow_Set)
     "DHW mass flow rate if THot < TSet. If the temperature of the hot water supply 
     is lower than the set point temperature of the DHW, the mass flow from the tank
     to the tap equals the mass flow rate at the set point temperature. In this case,
     the user will experience discomfort at the tap."
     annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
-  Modelica.Blocks.Sources.RealExpression mFloComfort(y=mFloSet*(TSet-TCold)/(
+  Modelica.Blocks.Sources.RealExpression m_flow_Comfort(y=m_flow_Set*(TSet-TCold)/(
         deltaT_for_scaling.y))
     "Required mass flow rate from the tank based on current THot. If THot > TSet
     mixing will occur and cold water will be mixed with hot water from the tank. 
-    mFloComfort is the required mass flow rate from the tank at Thot and is related
-    to mFloSet at TSet via conservation of energy."
+    m_flow_Comfort is the required mass flow rate from the tank at Thot and is related
+    to m_flow_Set at TSet via conservation of energy."
     annotation (Placement(transformation(extent={{-40,10},{-20,30}})));
-  IDEAS.Utilities.Math.SmoothMin mFloHot(deltaX=1e-3*m_flow_nominal)
-    "Hot water mass flow rate. If THot > TSet, mFloHot = mFloComfort.
-    If THot < TSet, mFloHot = mFloDiscomfort."
+  IDEAS.Utilities.Math.SmoothMin m_flow_Hot(deltaX=1e-3*m_flow_nominal)
+    "Hot water mass flow rate. If THot > TSet, m_flow_Hot = m_flow_Comfort.
+    If THot < TSet, m_flow_Hot = m_flow_Discomfort."
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
 
   Modelica.Blocks.Sources.RealExpression deltaT(y=THot - TCold) "THot-TCold"
@@ -98,15 +98,15 @@ equation
       points={{1,-40},{18,-40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(mFloHot.y, idealSource.m_flow_in) annotation (Line(
+  connect(m_flow_Hot.y, idealSource.m_flow_in) annotation (Line(
       points={{21,30},{24,30},{24,8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(idealSource.port_b, vol.ports[1]) annotation (Line(points={{40,0},{69,0}}, color={0,127,255}));
   connect(vol.ports[2], port_cold) annotation (Line(points={{71,0},{100,0}}, color={0,127,255}));
-  connect(mFloComfort.y, mFloHot.u2) annotation (Line(points={{-19,20},{-10,20},
+  connect(m_flow_Comfort.y, m_flow_Hot.u2) annotation (Line(points={{-19,20},{-10,20},
           {-10,24},{-2,24}},                     color={0,0,127}));
-  connect(mFloDiscomfort.y, mFloHot.u1) annotation (Line(points={{-19,40},{-10,
+  connect(m_flow_Discomfort.y, m_flow_Hot.u1) annotation (Line(points={{-19,40},{-10,
           40},{-10,36},{-2,36}},
                               color={0,0,127}));
   connect(deltaT.y, deltaT_for_scaling.u1) annotation (Line(points={{-19,90},{
@@ -206,9 +206,9 @@ equation
 <ul>
 <li><i>port_hot</i>: connection to the hot water source (designation: <i>hot</i> )</li>
 <li><i>port_cold</i>: connection to the inlet of cold water in the hot water source (designation: <i>cold </i>)</li>
-<li><i>mFloSet</i>: desired flowrate of DHW water, equivalent at a user defined set point temperature</li>
+<li><i>m_flow_Set</i>: desired flowrate of DHW water, equivalent at a user defined set point temperature</li>
 </ul>
-<p>The model tries to reach the given DHW flow rate at a the desired mixing temperature <i>TSet </i>by mixing the hot water with cold water. The resulting hot flowrate (<i>mFloHot </i>) will be extracted automatically from the hot source (via <i>port_hot </i>). This same flow rate will be injected at <i>TCold</i> in the production system through the connection of <i>port_cold</i> to the hot source. </p>
+<p>The model tries to reach the given DHW flow rate at a the desired mixing temperature <i>TSet </i>by mixing the hot water with cold water. The resulting hot flowrate (<i>m_flow_Hot </i>) will be extracted automatically from the hot source (via <i>port_hot </i>). This same flow rate will be injected at <i>TCold</i> in the production system through the connection of <i>port_cold</i> to the hot source. </p>
 <p><b>Assumptions and limitations </b></p>
 <ol>
 <li>No heat losses.</li>
@@ -222,7 +222,7 @@ equation
 <li>Set the parameters for cold water supply temperature <i>TCold</i> and the DHW set temperature <i>TSet</i> (mixed).</li>
 <li>Connect <i>port_hot </i>to the hot water source.</li>
 <li>Connect <i>port_</i>c<i>old</i> to the cold water inlet of the hot water source.</li>
-<li>Depending on the implementation: fill out the table or provide a realInput for <i>mFloSet.</i></li>
+<li>Depending on the implementation: fill out the table or provide a realInput for <i>m_flow_Set.</i></li>
 <li>Thanks to the use of an <a href=\"IDEAS.Fluid.Interfaces.IdealSource\">IdealSource</a> in this model, it is <b>NOT</b> required to add additional pumps, ambients or AbsolutePressure to the DHW circuit.</li>
 </ol>
 <p><b>Validation </b></p>
