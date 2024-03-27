@@ -3,18 +3,32 @@ model TapProfile
   "Model for a DHW tap, reading the DHW demand profile via a CombiTimeTable."
   extends IDEAS.Fluid.Taps.BaseClasses.PartialTap;
 
-  Modelica.Blocks.Math.Gain conversion(k=1/60)
+  parameter Real unitConversion=1/60
+    "Conversion factor to convert units from DHW profile [l/min] to [kg/s]";
+   parameter String loadFile=Modelica.Utilities.Files.loadResource(
+    "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults.txt") annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
+
+  Modelica.Blocks.Sources.CombiTimeTable profile(
+    tableOnFile=true,
+    tableName="data",
+    fileName=loadFile,
+    smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale=1,
+    timeEvents=Modelica.Blocks.Types.TimeEvents.NoTimeEvents)
+    "DHW demand profile input ([l/min] by default)"
+    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
+  Modelica.Blocks.Math.Gain conversion(k=unitConversion)
     "Conversion from l/min to kg/s using density = 1000 kg/m3"
                                     annotation (Placement(visible=true,
-      transformation(extent={{70,46},{90,66}}, rotation=0)));
+      transformation(extent={{-40,-80},{-20,-60}},
+                                               rotation=0)));
 
-  Modelica.Blocks.Sources.RealExpression DHW_profile(y=occSim.occBus.DHWdem)
-    "DHW demand profile input [l/min]"
-    annotation (Placement(transformation(extent={{40,46},{60,66}})));
+
 equation
   conversion.y = mFloSet;
-  connect(DHW_profile.y, conversion.u)
-    annotation (Line(points={{61,56},{68,56}}, color={0,0,127}));
+  connect(profile.y[1], conversion.u)
+    annotation (Line(points={{-59,-70},{-42,-70}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
    Polygon(
   points={{-80,-78},{-72,-78},{-72,-90},{-54,-90},{-54,-82},{-46,-82},{-46,-34},
