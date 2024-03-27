@@ -31,3 +31,5 @@
 /IDEAS/*.pyc
 systemScript.py
 /IDEAS/Inputs
+IDEAS/funnel_comp/*
+.idea/
