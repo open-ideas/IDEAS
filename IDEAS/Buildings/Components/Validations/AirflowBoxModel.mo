@@ -12,23 +12,25 @@ model AirflowBoxModel
   Box_Sim IAQ_1port_trickle(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
       winD(
       use_trickle_vent=true,
-      m_flow_nominal=50*1.2041/3600,
-      dp_nominal=2)) annotation (Placement(transformation(rotation=0, extent={{-80,
-            -80},{-20,-20}})));
+      m_flow_nominal=0.0192656,
+      dp_nominal=2)) annotation (Placement(transformation(rotation=0, extent={{-70,-82},
+            {-10,-22}})));
   Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
     use_operable_window=true,
-    winD(crackOrOperableDoor(nCom=2),
-      use_trickle_vent=true,
-      m_flow_nominal=50*1.2041/3600,
+    winD(
+      crackOrOperableDoor(nCom=2),
+      use_trickle_vent=false,
+      m_flow_nominal=0.0192656,
       dp_nominal=2),
-    winD_position(y=1),
+    winD_position(y=0),
     Con(G=10000000),
     Rad(G=10000000))                                                                                                                                                             annotation (Placement(transformation(rotation=0,
           extent={{20,-80},{80,-20}})));
 protected
   model Box_Sim
     inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
-        n50=1)
+        n50=1,
+      HPres=10)
       annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
       parameter Boolean use_operable_window=false
       "= true, to enable window control input";
