@@ -322,7 +322,7 @@ model Structure "Ppd 12 example model"
     w=lHalfBuilding,
     h=hFloor2,
     A_winC=1.1*0.66 + 1.1*1.54,
-    redeclare IDEAS.Examples.PPD12.Data.InteriorWall18 conTypC,
+    redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypC,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
     nSurfExt=0,
@@ -393,15 +393,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[1], hallway.proBusA[1]) annotation (Line(
-      points={{-48,-36.5},{-76,-36.5},{-76,41}},
+      points={{-48,-37.25},{-76,-37.25},{-76,41}},
       color={255,204,51},
       thickness=0.5));
   connect(Diner.proBusExt[2], com1.propsBus_a) annotation (Line(
-      points={{-48,-37.5},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
+      points={{-48,-37.75},{-48,-36},{-94.8333,-36},{-94.8333,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(out1.propsBus_a, Diner.proBusExt[3]) annotation (Line(
-      points={{-91,-89.8333},{-91,-38.5},{-48,-38.5}},
+      points={{-91,-89.8333},{-91,-38.25},{-48,-38.25}},
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusC[1], Diner.proBusA[1]) annotation (Line(
@@ -409,7 +409,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(Porch.proBusD[1], Diner.proBusExt[4]) annotation (Line(
-      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-39.5}},
+      points={{-43.6,-69},{-88,-69},{-88,-38},{-48,-38},{-48,-38.75}},
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusFlo[1], cei2.propsBus_a) annotation (Line(
@@ -421,7 +421,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(bedRoom1.proBusExt[1], cei1.propsBus_a) annotation (Line(
-      points={{142,61},{144,61},{144,80},{79.1667,80}},
+      points={{142,60.5},{144,60.5},{144,80},{79.1667,80}},
       color={255,204,51},
       thickness=0.5));
   connect(cei1.propsBus_b, hallway.proBusCei[1]) annotation (Line(
@@ -437,7 +437,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusC[1], bedRoom1.proBusExt[2]) annotation (Line(
-      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59}},
+      points={{69.2,25.8},{69.2,25.8},{69.2,50},{76,50},{142,50},{142,59.5}},
       color={255,204,51},
       thickness=0.5));
   connect(stairWay.proBusFlo[1], hallway.proBusExt[1]) annotation (Line(
@@ -465,7 +465,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(winBed3.propsBus_a, bedRoom3.proBusExt[1]) annotation (Line(
-      points={{307,2.16667},{307,21.3333},{282,21.3333}},
+      points={{307,2.16667},{307,20.6667},{282,20.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof1.propsBus_a, bedRoom3.proBusExt[2]) annotation (Line(
@@ -477,7 +477,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_a, bedRoom3.proBusExt[3]) annotation (Line(
-      points={{191.167,-10},{282,-10},{282,18.6667}},
+      points={{191.167,-10},{282,-10},{282,19.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(cei3.propsBus_b, stairWay.proBusCei[1]) annotation (Line(
@@ -526,6 +526,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 25, 2024, by Jelger Jansen:<br/>
+Use hFloor2 for second floor rooms and use outer wall construction type for bedroom 2 (face C).
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1177\">#1177</a>.
+</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Added cavity in internal floors to represent staircases.
