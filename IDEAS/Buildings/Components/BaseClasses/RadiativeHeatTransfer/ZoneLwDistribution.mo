@@ -80,14 +80,20 @@ initial equation
       else
         ((ones(nSurf) - epsLw) ./ (A .* epsLw) + (ones(nSurf) - F2) ./ A)/Modelica.Constants.sigma;
 
-  // Throw a warning when the simplified approach is used.
-  assert(max(F1)<FMax*0.9 and computeCarroll or simVieFac,
-          "WARNING: In " +getInstanceName() + ": The computed view factor returned unexpected results. 
-          A simplified method is used. 
-          This may be caused by trying to model a non-physical geometry. 
-          Avoid this warning by setting simVieFac=true in the respective zone model.\n",
+  // Throw a warning when the Carroll method returned an out of bounds solution and the simplified approach is used.
+  assert(max(F1)<FMax*0.9,
+          "WARNING: In " +getInstanceName() + ": The view factor computed with Carroll's method returned unexpected results.
+          This may be caused by trying to model a non-physical geometry.
+          A simplified method is used instead. 
+          You can avoid this warning by setting simVieFac=true in the respective zone model.\n",
           AssertionLevel.warning);
 
+  // Throw an error when the simplified approach returns a larger than unity view factor.
+  assert(computeCarroll or max(F2)<1,
+          "ERROR: In " +getInstanceName() + ": The view factor computed with the simplified method returned a larger than unity view factor. 
+          This may be caused by trying to model a non-physical geometry.
+          Please check the geometry of the respective zone model.\n",
+          AssertionLevel.error);
 
 equation
   for i in 1:nSurf loop
@@ -178,7 +184,7 @@ leading to a star resistance network.
 </p>
 <h4>Parameters</h4>
 <p>
-Parameter <code>simVieFac</code> may be set to false to simplify the 
+Parameter <code>simVieFac</code> may be set to true to simplify the 
 view factor calculation. This leads to a less accurate computation
 of view factors, but this approach is more robust.
 It may be used when the initial equation that computes the view factors does not converge.
@@ -186,10 +192,14 @@ It may be used when the initial equation that computes the view factors does not
 <h4>References</h4>
 <p>
 Liesen, R. J., &amp; Pedersen, C. O. (1997). An Evaluation of Inside Surface Heat Balance Models for Cooling Load Calculations. ASHRAE Transactions, 3(103), 485-502.<br/>
-Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in rooms. Proceedings of the 2nd Sys- tems Simulation and Economics Analysis Conference, January 23-25
+Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in rooms. Proceedings of the 2nd Systems Simulation and Economics Analysis Conference, January 23-25
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 25, 2024 by Jelger Jansen:<br/>
+Improved asserts when view factor computation returns odd results.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
 <li>
 February 18, 2020 by Filip Jorissen:<br/>
 Improved warning when view factor computation returns odd results.
