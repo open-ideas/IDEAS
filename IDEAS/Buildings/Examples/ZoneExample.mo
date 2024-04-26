@@ -14,6 +14,7 @@ model ZoneExample
     allowFlowReversal=true,
     nSurf=3,
     V=l*w*h,
+    ignAss=true,
     redeclare Components.InterzonalAirFlow.AirTight interzonalAirFlow)
           "First zone"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
@@ -54,6 +55,7 @@ model ZoneExample
     allowFlowReversal=true,
     nSurf=4,
     V=l*w*h,
+    ignAss=true,
     redeclare Components.InterzonalAirFlow.AirTight interzonalAirFlow)
           "Second zone"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
@@ -71,7 +73,7 @@ model ZoneExample
     annotation (Placement(transformation(extent={{-56,60},{-44,80}})));
 equation
   connect(internalWall.propsBus_a, zone.propsBus[1]) annotation (Line(
-      points={{-10,-5},{-10,-24.6667},{0,-24.6667}},
+      points={{-10,-5},{-10,-26.6667},{0,-26.6667}},
       color={255,204,51},
       thickness=0.5));
   connect(slabOnGround.propsBus_a, zone.propsBus[2]) annotation (Line(
@@ -79,23 +81,23 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(outerWall.propsBus_a, zone.propsBus[3]) annotation (Line(
-      points={{-45,-48},{-20,-48},{-20,-27.3333},{0,-27.3333}},
+      points={{-45,-48},{-20,-48},{-20,-25.3333},{0,-25.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(Roof.propsBus_a, zone1.propsBus[1]) annotation (Line(
-      points={{-45,72},{-45,72},{-12,72},{-12,35.5},{0,35.5}},
+      points={{-45,72},{-45,72},{-12,72},{-12,33.25},{0,33.25}},
       color={255,204,51},
       thickness=0.5));
   connect(window.propsBus_a, zone1.propsBus[2]) annotation (Line(
-      points={{-45,52},{-45,52},{-14,52},{-14,34.5},{0,34.5}},
+      points={{-45,52},{-45,52},{-14,52},{-14,33.75},{0,33.75}},
       color={255,204,51},
       thickness=0.5));
   connect(outerWall1.propsBus_a, zone1.propsBus[3]) annotation (Line(
-      points={{-45,32},{-14,32},{-14,33.5},{0,33.5}},
+      points={{-45,32},{-14,32},{-14,34.25},{0,34.25}},
       color={255,204,51},
       thickness=0.5));
   connect(internalWall.propsBus_b, zone1.propsBus[4]) annotation (Line(
-      points={{-10,5},{-12,5},{-12,32.5},{0,32.5}},
+      points={{-10,5},{-12,5},{-12,34.75},{0,34.75}},
       color={255,204,51},
       thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -104,6 +106,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li>  
 <li>
 January 2, 2017 by Filip Jorissen:<br/>
 Revised implementation.
