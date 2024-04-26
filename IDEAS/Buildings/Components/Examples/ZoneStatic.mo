@@ -9,7 +9,8 @@ model ZoneStatic "Zone with constant boundary conditions"
     allowFlowReversal=true,
     V=20,
     nSurf=2,
-    n50=0.01)
+    n50=0.01,
+    ignAss=true)
           "First zone"
     annotation (Placement(transformation(extent={{20,0},{40,20}})));
   IDEAS.Buildings.Components.Interfaces.DummyConnection dummyConnection(
@@ -32,17 +33,17 @@ model ZoneStatic "Zone with constant boundary conditions"
     annotation (Placement(transformation(extent={{0,40},{20,60}})));
 equation
   connect(zone.propsBus[1], dummyConnection.zoneBus) annotation (Line(
-      points={{20,15},{12,15},{-20,15},{-20,-10.2}},
+      points={{20,13.5},{12,13.5},{-20,13.5},{-20,-10.2}},
       color={255,204,51},
       thickness=0.5));
   connect(dummyConnection1.zoneBus, zone.propsBus[2]) annotation (Line(
-      points={{-20,29.8},{-20,13},{20,13}},
+      points={{-20,29.8},{-20,14.5},{20,14.5}},
       color={255,204,51},
       thickness=0.5));
   connect(zone.ports[1], sin.ports[1]) annotation (Line(points={{30,20},{30,46},
-          {20,46},{20,52}},color={0,127,255}));
+          {20,46},{20,49}},color={0,127,255}));
   connect(zone.ports[2], sou.ports[1])
-    annotation (Line(points={{30,20},{32,20},{32,60}}, color={0,127,255}));
+    annotation (Line(points={{30,20},{29,20},{29,60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

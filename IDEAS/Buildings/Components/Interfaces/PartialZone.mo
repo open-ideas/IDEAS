@@ -60,6 +60,8 @@ model PartialZone "Building zone model"
       enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
+  parameter Boolean ignAss=false "Simplify view factor computation"
+    annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
   replaceable ZoneAirModels.WellMixedAir airModel
   constrainedby
@@ -217,7 +219,8 @@ protected
     radDistrLw(nSurf=nSurf, final linearise=linIntRad or sim.linearise,
     Tzone_nom=Tzone_nom,
     dT_nom=dT_nom,
-    final simVieFac=simVieFac)                if not calculateViewFactor
+    final simVieFac=simVieFac,
+    final ignAss=ignAss)                if not calculateViewFactor
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
@@ -509,6 +512,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Added parameter to ignore view factor asserts for non-physical unit test models.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
 <li>
 January 8, 2024, by Jelger Jansen:<br/>
 Added min attribute to <code>mSenFac</code>.

@@ -3,6 +3,7 @@ model ZoneLwDistribution "internal longwave radiative heat exchange"
 
   parameter Integer nSurf(min=1) "Number of surfaces connected to the zone";
   parameter Boolean simVieFac = false "Simplify view factor computation";
+  parameter Boolean ignAss = false "Ignore asserts to simulate non-physical unit test models";
   parameter Boolean linearise=true "Linearise radiative heat exchange";
   parameter Modelica.Units.SI.Temperature Tzone_nom=295.15
     "Nominal temperature of environment, used for linearisation"
@@ -89,7 +90,7 @@ initial equation
           AssertionLevel.warning);
 
   // Throw an error when the simplified approach returns a larger than unity view factor.
-  assert(computeCarroll or max(F2)<1,
+  assert(computeCarroll or max(F2)<1 or ignAss,
           "ERROR: In " +getInstanceName() + ": The view factor computed with the simplified method returned a larger than unity view factor. 
           This may be caused by trying to model a non-physical geometry.
           Please check the geometry of the respective zone model.\n",
@@ -197,9 +198,10 @@ Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in ro
 </html>", revisions="<html>
 <ul>
 <li>
-April 25, 2024 by Jelger Jansen:<br/>
+April 26, 2024 by Jelger Jansen:<br/>
 Improved asserts when view factor computation returns odd results.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li>
 <li>
 February 18, 2020 by Filip Jorissen:<br/>
 Improved warning when view factor computation returns odd results.

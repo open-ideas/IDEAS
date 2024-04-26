@@ -15,7 +15,8 @@ model CavityWalls
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     V=20,
-    nSurf=2)
+    nSurf=2,
+    ignAss=true)
          annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
     inc=IDEAS.Types.Tilt.Wall,
@@ -34,11 +35,11 @@ model CavityWalls
     annotation (Placement(transformation(extent={{-56,-60},{-46,-40}})));
 equation
   connect(outerWall.propsBus_a, zone1.propsBus[2]) annotation (Line(
-      points={{-46.8333,-8},{20,-8},{20,-16},{20,-57}},
+      points={{-46.8333,-8},{20,-8},{20,-55.5},{20,-55.5}},
       color={255,204,51},
       thickness=0.5));
   connect(win.propsBus_a, zone1.propsBus[1]) annotation (Line(
-      points={{-46.8333,-48},{-46.8333,-48},{20,-48},{20,-55}},
+      points={{-46.8333,-48},{-46.8333,-48},{20,-48},{20,-56.5}},
       color={255,204,51},
       thickness=0.5));
   connect(zone1.port_a, bou.ports[1])
@@ -49,6 +50,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
 <li>
 February 10, 2016, by Filip Jorissen:<br/>
 Improved documentation and implementation.
