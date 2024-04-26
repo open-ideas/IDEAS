@@ -32,7 +32,7 @@ model LongwaveHeatTransfer
   Modelica.Blocks.Sources.Constant A(k=10) "Heat exchange surface area"
     annotation (Placement(transformation(extent={{100,-40},{80,-20}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
-    zonLwDistLin(nSurf=2)
+    zonLwDistLin(nSurf=2, ignAss=true)
     "Linearised model for longwave radiative heat exchange within a zone"
     annotation (Placement(transformation(extent={{10,-100},{-10,-80}})));
 equation
@@ -83,7 +83,12 @@ equation
           "Resources/Scripts/Dymola/Buildings/Components/BaseClasses/RadiativeHeatTransfer/Examples/LongwaveHeatTransfer.mos"
         "Simulate and plot"),
     Documentation(revisions="<html>
-<ul>
+    <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li>    
 <li>
 August 9, 2022, by Filip Jorissen:<br/>
 Updated test for issue
