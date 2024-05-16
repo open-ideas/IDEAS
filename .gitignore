@@ -15,6 +15,7 @@
 *.log
 *.mat
 *.mm
+*.mof
 *.mos~
 *.out
 *.rar
