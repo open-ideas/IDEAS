@@ -1,5 +1,6 @@
 within IDEAS.Fluid.Taps.BaseClasses;
 partial model PartialTap "Partial model for a (DHW) tap"
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
 
   parameter Modelica.Units.SI.Temperature TSet = 273.15 +
     45 "Temperature setpoint of DHW at tap";
@@ -15,12 +16,6 @@ protected
 public
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation (
       choicesAllMatching=true);
-
-  Modelica.Fluid.Interfaces.FluidPort_a port_hot(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}}),
-        iconTransformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_cold(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
   IDEAS.Fluid.Interfaces.IdealSource idealSource(
     redeclare package Medium = Medium,
@@ -102,8 +97,8 @@ equation
       points={{21,30},{24,30},{24,8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(idealSource.port_b, vol.ports[1]) annotation (Line(points={{40,0},{69,0}}, color={0,127,255}));
-  connect(vol.ports[2], port_cold) annotation (Line(points={{71,0},{100,0}}, color={0,127,255}));
+  connect(idealSource.port_b, vol.ports[1]) annotation (Line(points={{40,0},{69,
+          0}},                                                                       color={0,127,255}));
   connect(m_flow_Comfort.y, m_flow_Hot.u2) annotation (Line(points={{-19,20},{-10,20},
           {-10,24},{-2,24}},                     color={0,0,127}));
   connect(m_flow_Discomfort.y, m_flow_Hot.u1) annotation (Line(points={{-19,40},{-10,
@@ -115,12 +110,14 @@ equation
   connect(deltaT_min.y, deltaT_for_scaling.u2) annotation (Line(points={{-19,70},
           {-10,70},{-10,74},{-2,74}},  color={0,0,127}));
 
-  connect(idealSource.port_a, port_hot)
-    annotation (Line(points={{20,0},{-100,0}}, color={0,127,255}));
   connect(THot, comfort.u) annotation (Line(points={{-100,70},{-92,70},{-92,50},
           {-82,50}}, color={0,0,127}));
   connect(comfort.y, DHW_comfort) annotation (Line(points={{-59,50},{-50,50},{
           -50,60},{80,60},{80,70},{100,70}}, color={255,0,255}));
+  connect(port_a, idealSource.port_a)
+    annotation (Line(points={{-100,0},{20,0}}, color={0,127,255}));
+  connect(vol.ports[2], port_b)
+    annotation (Line(points={{70,0},{100,0}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=
