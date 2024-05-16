@@ -6,8 +6,8 @@ partial model PartialTap "Partial model for a (DHW) tap"
   parameter Modelica.Units.SI.Temperature TCold=273.15 + 10
     "Temperature of cold water";
 
-  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.05
-    "Nominal mass flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.2
+    "Nominal mass flow rate at the tap (according to EN 806-3)";
 
 protected
   Modelica.Units.SI.MassFlowRate m_flow_Set "DHW mass flow rate at TSet";
