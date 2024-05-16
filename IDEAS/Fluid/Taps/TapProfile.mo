@@ -3,12 +3,12 @@ model TapProfile
   "Model for a DHW tap, reading the DHW demand profile via a CombiTimeTable."
   extends IDEAS.Fluid.Taps.BaseClasses.PartialTap;
 
-  parameter Real unitConversion=1/60
+  parameter Real uniCon=1/60
     "Conversion factor to convert units from DHW profile [l/min] to [kg/s]";
    parameter String loadFile=Modelica.Utilities.Files.loadResource(
     "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults.txt") annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
 
-  Modelica.Blocks.Sources.CombiTimeTable profile(
+  Modelica.Blocks.Sources.CombiTimeTable pro(
     tableOnFile=true,
     tableName="data",
     fileName=loadFile,
@@ -17,18 +17,17 @@ model TapProfile
     timeScale=1,
     timeEvents=Modelica.Blocks.Types.TimeEvents.NoTimeEvents)
     "DHW demand profile input ([l/min] by default)"
-    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
-  Modelica.Blocks.Math.Gain conversion(k=unitConversion)
-    "Conversion from l/min to kg/s using density = 1000 kg/m3"
-                                    annotation (Placement(visible=true,
-      transformation(extent={{-40,-80},{-20,-60}},
-                                               rotation=0)));
+    annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
+  Modelica.Blocks.Math.Gain con(k=uniCon)
+    "Conversion from l/min to kg/s using density = 1000 kg/m3" annotation (
+      Placement(visible=true, transformation(extent={{-50,-90},{-30,-70}},
+          rotation=0)));
 
 
 equation
-  conversion.y = m_flow_Set;
-  connect(profile.y[1], conversion.u)
-    annotation (Line(points={{-59,-70},{-42,-70}}, color={0,0,127}));
+  con.y = m_flow_set;
+  connect(pro.y[1], con.u)
+    annotation (Line(points={{-69,-80},{-52,-80}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
    Polygon(
   points={{-80,-78},{-72,-78},{-72,-90},{-54,-90},{-54,-82},{-46,-82},{-46,-34},
@@ -67,14 +66,20 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
         Documentation(info="<html>
 <p><b>Description</b></p>
-<p>Model of a domestic hot water (DHW) tap. The tap is modelled as a thermostatic mixing valve.</p>
-<p>The flow rate at the tap is read from a CombiTimeTable. The model requires a flow rate in [kg/s] (or [l/s]), but DHW flow rates are usually expressed in [l/min]. Therefore, an additional parameter has been added to convert the units of the profile into [kg/s].</p>
-<p>See <a href=\"IDEAS.Fluid.Taps.BaseClasses.PartialTap\">IDEAS.Fluid.Taps.BaseClasses.PartialTap</a> for more information.</p>
+<p>Model of a domestic hot water (DHW) tap. The tap is modelled as a 
+thermostatic mixing valve.</p>
+<p>The flow rate at the tap is read from a CombiTimeTable. The model requires a 
+flow rate in [kg/s] (or [l/s]), but DHW flow rates are usually expressed in 
+[l/min]. Therefore, an additional parameter has been added to convert the units 
+of the profile into [kg/s].</p>
+<p>See <a href=\"IDEAS.Fluid.Taps.BaseClasses.PartialTap\">IDEAS.Fluid.Taps.BaseClasses.PartialTap</a> 
+for more information.</p>
 </html>", revisions="<html>
 <ul>
 <li>March 27, 2024, by Lucas Verleyen:<br>
 Initial implementation.<br>
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information.</li> 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for 
+more information.</li> 
 </ul>
 </html>"));
 end TapProfile;
