@@ -16,7 +16,7 @@ model TapProfile "Example with two 'TapProfile' models"
     nPorts=2)
     annotation (Placement(transformation(extent={{-60,10},{-40,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou2(redeclare package Medium = Medium,
-                                       nPorts=2)
+      nPorts=2)
     annotation (Placement(transformation(extent={{90,10},{70,-10}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem2(redeclare package Medium =
         Medium, m_flow_nominal=tapProfile2.m_flow_nominal)
@@ -31,24 +31,24 @@ model TapProfile "Example with two 'TapProfile' models"
     annotation (Placement(transformation(extent={{-90,-14},{-70,6}})));
 equation
 
-  connect(tapProfile1.port_cold, bou2.ports[1]) annotation (Line(points={{40,20},
-          {58,20},{58,1},{70,1}}, color={0,127,255}));
-  connect(tapProfile2.port_cold, bou2.ports[2]) annotation (Line(points={{40,-20},
-          {58,-20},{58,-1},{70,-1}}, color={0,127,255}));
-  connect(senTem1.port_b, tapProfile1.port_hot)
-    annotation (Line(points={{0,20},{20,20}}, color={0,127,255}));
   connect(senTem1.T, tapProfile1.THot) annotation (Line(points={{-10,31},{-10,
           36},{12,36},{12,27},{20,27}}, color={0,0,127}));
-  connect(senTem2.port_b, tapProfile2.port_hot)
-    annotation (Line(points={{0,-20},{20,-20}}, color={0,127,255}));
   connect(senTem2.T, tapProfile2.THot) annotation (Line(points={{-10,-31},{-10,
           -36},{12,-36},{12,-27},{20,-27}}, color={0,0,127}));
-  connect(senTem1.port_a, bou1.ports[1]) annotation (Line(points={{-20,20},{-34,
-          20},{-34,1},{-40,1}}, color={0,127,255}));
-  connect(senTem2.port_a, bou1.ports[2]) annotation (Line(points={{-20,-20},{
-          -34,-20},{-34,-1},{-40,-1}}, color={0,127,255}));
   connect(sine.y, bou1.T_in)
     annotation (Line(points={{-69,-4},{-62,-4}}, color={0,0,127}));
+  connect(bou1.ports[1], senTem1.port_a) annotation (Line(points={{-40,1},{-28,
+          1},{-28,20},{-20,20}}, color={0,127,255}));
+  connect(bou1.ports[2], senTem2.port_a) annotation (Line(points={{-40,-1},{-28,
+          -1},{-28,-20},{-20,-20}}, color={0,127,255}));
+  connect(senTem1.port_b, tapProfile1.port_a)
+    annotation (Line(points={{0,20},{20,20}}, color={0,127,255}));
+  connect(senTem2.port_b, tapProfile2.port_a)
+    annotation (Line(points={{0,-20},{20,-20}}, color={0,127,255}));
+  connect(tapProfile1.port_b, bou2.ports[1]) annotation (Line(points={{40,20},{
+          52,20},{52,1},{70,1}}, color={0,127,255}));
+  connect(tapProfile2.port_b, bou2.ports[2]) annotation (Line(points={{40,-20},
+          {52,-20},{52,-1},{70,-1}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
