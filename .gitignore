@@ -14,7 +14,7 @@
 *.lib
 *.log
 *.mat
-*.mm
+/*.mm
 *.mof
 *.mos~
 *.out
