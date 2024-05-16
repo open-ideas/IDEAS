@@ -205,9 +205,9 @@ partial model RectangularZoneTemplateInterface
   parameter SI.TemperatureDifference dTiAvg=2
     "Amplitude of variation of monthly average indoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-    parameter Modelica.Units.SI.Temperature T_start_ground[3]={TeAvg,TeAvg,TeAvg}
+    parameter Modelica.Units.SI.Temperature T_start_gro[3]={TeAvg,TeAvg,TeAvg}
     "Initial temperatures of the ground layers (with first value = deepest layer
-    and third value = shallowest layer"
+    and last value = shallowest layer"
     annotation(Evaluate=true,Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
   parameter SI.TemperatureDifference dT_nominal_intA=1
     "Nominal temperature difference between zone air and interior walls, used for linearisation"
@@ -721,9 +721,9 @@ partial model RectangularZoneTemplateInterface
     redeclare package Medium = Medium,
     TeAvg=TeAvg,
     TiAvg=TiAvg,
+    T_start_gro=T_start_gro,
     dTeAvg=dTeAvg,
     dTiAvg=dTiAvg,
-    T_start_ground=T_start_ground,
     dT_nominal_a=dT_nominal_sla,
     PWall=PWall)
   if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
