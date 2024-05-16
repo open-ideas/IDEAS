@@ -78,7 +78,7 @@ public
   Modelica.Blocks.Logical.GreaterEqualThreshold com(threshold=TSet)
     "Block operator to check whether there is DHW comfort or not. True = comfort, false = discomfort."
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
-  Modelica.Blocks.Interfaces.BooleanOutput DHW_comfort
+  Modelica.Blocks.Interfaces.BooleanOutput yCom
     "Boolean output signal to indicate whether there is DHW comfort (true) or discomfort (false)"
     annotation (Placement(transformation(extent={{90,60},{110,80}})));
 equation
@@ -107,8 +107,8 @@ equation
 
   connect(THot, com.u) annotation (Line(points={{-100,70},{-92,70},{-92,50},{-82,
           50}}, color={0,0,127}));
-  connect(com.y, DHW_comfort) annotation (Line(points={{-59,50},{-50,50},{-50,
-          60},{80,60},{80,70},{100,70}}, color={255,0,255}));
+  connect(com.y, yCom) annotation (Line(points={{-59,50},{-50,50},{-50,60},{80,
+          60},{80,70},{100,70}}, color={255,0,255}));
   connect(port_a, mFloSou.port_a)
     annotation (Line(points={{-100,0},{20,0}}, color={0,127,255}));
   connect(vol.ports[2], port_b)
