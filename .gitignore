@@ -1,4 +1,4 @@
-# Files below are ignored
+# Files and folders below are ignored
 
 *.aux
 *.bak-mo
@@ -22,7 +22,6 @@
 *.txt
 *.xml
 systemScript.py
-
 .idea/
 /IDEAS backup
 /IDEAS/funnel_comp
