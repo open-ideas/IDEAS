@@ -2,9 +2,9 @@ within IDEAS.Fluid.Taps.BaseClasses;
 partial model PartialTap "Partial model for a (DHW) tap"
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface(m_flow_nominal=0.2);
 
-  parameter Modelica.Units.SI.Temperature TSet = 273.15 +
-    45 "Temperature setpoint of DHW at tap";
-  parameter Modelica.Units.SI.Temperature TCold=273.15 + 10
+  parameter Modelica.Units.SI.Temperature TSet=273.15+45
+    "Temperature setpoint of DHW at the tap";
+  parameter Modelica.Units.SI.Temperature TCold=273.15+10
     "Temperature of cold water";
 
 
