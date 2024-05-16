@@ -21,7 +21,7 @@ model SlabOnGround "opaque floor on ground slab"
     "Annual average indoor temperature";
   parameter Modelica.Units.SI.Temperature T_start_gro[nLayGro]=fill(TeAvg, nLayGro)
     "Initial temperatures of the ground layers (with first value = deepest layer
-    and third value = shallowest layer"
+    and last value = shallowest layer"
     annotation(Evaluate=true,Dialog(tab="Dynamics", group="Initial condition"));
   parameter Modelica.Units.SI.TemperatureDifference dTeAvg=4
     "Amplitude of variation of monthly average outdoor temperature";
@@ -181,8 +181,8 @@ zone that is surrounded by air at the ambient temperature.
 </html>", revisions="<html>
 <ul>
 <li>
-March 27, 2024, by Lucas Verleyen:<br>
-Created parameter <code>T_start_ground</code> for initial temperature of the ground (<code>layGro</code>).<br>
+May 16, 2024, by Lucas Verleyen:<br>
+Created final and protected parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
 </li>
 <li>
