@@ -17,9 +17,9 @@ public
 
   IDEAS.Fluid.Interfaces.IdealSource idealSource(
     redeclare package Medium = Medium,
-    control_m_flow=true,
+    final control_m_flow=true,
     allowFlowReversal=false,
-    control_dp=false)
+    final control_dp=false)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   IDEAS.Fluid.MixingVolumes.MixingVolume vol(
     redeclare package Medium = Medium,
