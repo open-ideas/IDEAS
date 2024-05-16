@@ -20,46 +20,35 @@ public
     final control_m_flow=true,
     allowFlowReversal=false,
     final control_dp=false)
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  IDEAS.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = Medium,
-    allowFlowReversal=false,
-    m_flow_nominal=m_flow_nominal,
-    nPorts=2,
-    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    V=1) "Mixing volume for heat injection"
-    annotation (Placement(transformation(extent={{60,0},{80,-20}})));
+    annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
 
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTem
-    annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
   Modelica.Blocks.Sources.RealExpression TCol_in(y=TCol)
-    annotation (Placement(transformation(extent={{-20,-50},{0,-30}})));
+    annotation (Placement(transformation(extent={{40,-70},{60,-50}})));
 
   Modelica.Blocks.Sources.RealExpression mFloDis(y=m_flow_set)
     "DHW mass flow rate if THot < TSet. If the hot water supply temperature is
     lower than the DHW setpoint temperature, the mass flow from the tank to the 
     tap equals the mass flow rate at the setpoint temperature. In this case, the
     user will experience DHW discomfort at the tap."
-    annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
+    annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   Modelica.Blocks.Sources.RealExpression mFloCom(y=m_flow_set*(TSet - TCol)/(
         delTSca.y)) "Required mass flow rate from the tank based on current THot. If THot > TSet
     mixing will occur and cold water will be mixed with hot water from the tank. 
     mFloCom is the required mass flow rate from the tank at THot and is related
     to mFloSet at TSet via conservation of energy."
-    annotation (Placement(transformation(extent={{-40,10},{-20,30}})));
+    annotation (Placement(transformation(extent={{-90,10},{-70,30}})));
   IDEAS.Utilities.Math.SmoothMin mFloHot(deltaX=1e-3*m_flow_nominal)
     "Hot water mass flow rate. If THot > TSet, mFloHot = mFloCom.
     If THot < TSet, mFloHot = mFloDis."
-    annotation (Placement(transformation(extent={{0,20},{20,40}})));
+    annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
 
   Modelica.Blocks.Sources.RealExpression delT(y=THot - TCol) "THot-TCol"
-    annotation (Placement(transformation(extent={{-40,80},{-20,100}})));
+    annotation (Placement(transformation(extent={{10,30},{30,50}})));
   Modelica.Blocks.Sources.RealExpression delT_min(y=0.1)
     "Minimal value of the temperature difference, to avoid division by zero."
-    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
+    annotation (Placement(transformation(extent={{10,10},{30,30}})));
   IDEAS.Utilities.Math.SmoothMax delTSca(deltaX=0.1)
-    annotation (Placement(transformation(extent={{0,70},{20,90}})));
+    annotation (Placement(transformation(extent={{50,20},{70,40}})));
 
   Modelica.Blocks.Interfaces.RealInput THot(
     each final quantity="ThermodynamicTemperature",
@@ -77,42 +66,52 @@ public
         origin={-100,70})));
   Modelica.Blocks.Logical.GreaterEqualThreshold com(threshold=TSet)
     "Block operator to check whether there is DHW comfort or not. True = comfort, false = discomfort."
-    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+    annotation (Placement(transformation(extent={{-20,60},{0,80}})));
   Modelica.Blocks.Interfaces.BooleanOutput yCom
     "Boolean output signal to indicate whether there is DHW comfort (true) or discomfort (false)"
     annotation (Placement(transformation(extent={{90,60},{110,80}})));
+  Modelica.Fluid.Sources.Boundary_pT hot_out(redeclare package Medium = Medium,
+      nPorts=1) "Sink to model the hot water offtake from the system"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={10,-30})));
+  Modelica.Fluid.Sources.Boundary_pT col_in(
+    redeclare package Medium = Medium,
+    use_T_in=true,
+    nPorts=1) "Supply to model the cold water injection into the system"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={70,-30})));
 equation
-  connect(preTem.port, vol.heatPort) annotation (Line(
-      points={{40,-40},{60,-40},{60,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TCol_in.y, preTem.T) annotation (Line(
-      points={{1,-40},{18,-40}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(mFloHot.y, mFloSou.m_flow_in) annotation (Line(
-      points={{21,30},{24,30},{24,8}},
+      points={{-29,30},{-26,30},{-26,8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(mFloSou.port_b, vol.ports[1])
-    annotation (Line(points={{40,0},{69,0}}, color={0,127,255}));
-  connect(mFloCom.y, mFloHot.u2) annotation (Line(points={{-19,20},{-10,20},{-10,
-          24},{-2,24}}, color={0,0,127}));
-  connect(mFloDis.y, mFloHot.u1) annotation (Line(points={{-19,40},{-10,40},{-10,
-          36},{-2,36}}, color={0,0,127}));
-  connect(delT.y, delTSca.u1) annotation (Line(points={{-19,90},{-12,90},{-12,
-          86},{-2,86}}, color={0,0,127}));
-  connect(delT_min.y, delTSca.u2) annotation (Line(points={{-19,70},{-10,70},{-10,
-          74},{-2,74}}, color={0,0,127}));
+  connect(mFloCom.y, mFloHot.u2) annotation (Line(points={{-69,20},{-60,20},{
+          -60,24},{-52,24}},
+                        color={0,0,127}));
+  connect(mFloDis.y, mFloHot.u1) annotation (Line(points={{-69,40},{-60,40},{
+          -60,36},{-52,36}},
+                        color={0,0,127}));
+  connect(delT.y, delTSca.u1) annotation (Line(points={{31,40},{38,40},{38,36},
+          {48,36}},     color={0,0,127}));
+  connect(delT_min.y, delTSca.u2) annotation (Line(points={{31,20},{40,20},{40,
+          24},{48,24}}, color={0,0,127}));
 
-  connect(THot, com.u) annotation (Line(points={{-100,70},{-92,70},{-92,50},{-82,
-          50}}, color={0,0,127}));
-  connect(com.y, yCom) annotation (Line(points={{-59,50},{-50,50},{-50,60},{80,
-          60},{80,70},{100,70}}, color={255,0,255}));
+  connect(THot, com.u) annotation (Line(points={{-100,70},{-22,70}},
+                color={0,0,127}));
+  connect(com.y, yCom)
+    annotation (Line(points={{1,70},{100,70}}, color={255,0,255}));
   connect(port_a, mFloSou.port_a)
-    annotation (Line(points={{-100,0},{20,0}}, color={0,127,255}));
-  connect(vol.ports[2], port_b)
-    annotation (Line(points={{71,0},{100,0}}, color={0,127,255}));
+    annotation (Line(points={{-100,0},{-30,0}},color={0,127,255}));
+  connect(mFloSou.port_b, hot_out.ports[1])
+    annotation (Line(points={{-10,0},{10,0},{10,-20}}, color={0,127,255}));
+  connect(port_b, col_in.ports[1])
+    annotation (Line(points={{100,0},{70,0},{70,-20}}, color={0,127,255}));
+  connect(TCol_in.y, col_in.T_in)
+    annotation (Line(points={{61,-60},{66,-60},{66,-42}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=
