@@ -19,7 +19,7 @@ model SlabOnGround "opaque floor on ground slab"
     "Annual average outdoor temperature";
   parameter Modelica.Units.SI.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature";
-  parameter Modelica.Units.SI.Temperature T_start_ground[3]={TeAvg,TeAvg,TeAvg}
+  parameter Modelica.Units.SI.Temperature T_start_gro[nLayGro]=fill(TeAvg, nLayGro)
     "Initial temperatures of the ground layers (with first value = deepest layer
     and third value = shallowest layer"
     annotation(Evaluate=true,Dialog(tab="Dynamics", group="Initial condition"));
@@ -69,12 +69,13 @@ protected
   final parameter Real Lpi=A    *ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
   Real m = sim.solTim.y/3.1536e7*12 "time in months";
+  final parameter Integer nLayGro = layGro.nLay "Number of ground layers";
 
   BaseClasses.ConductiveHeatTransfer.MultiLayer layGro(
     final inc=incInt,
     final nLay=3,
     final mats={ground1,ground2,ground3},
-    final T_start=T_start_ground,
+    final T_start=T_start_gro,
     monLay(each energyDynamics=energyDynamics),
     final A=A)
     "Declaration of array of resistances and capacitances for ground simulation"
