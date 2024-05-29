@@ -52,7 +52,7 @@ equation
 <ul>
 <li>
 April 26, 2024 by Jelger Jansen:<br/>
-Set parameter to ignore view factor assert.
+Set parameter <code>ignAss</code> to ignore view factor assert.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
 </li> 
 <li>
