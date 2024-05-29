@@ -60,7 +60,7 @@ model PartialZone "Building zone model"
       enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  parameter Boolean ignAss=false "Simplify view factor computation"
+  parameter Boolean ignAss=false "Ignore asserts to simulate non-physical unit test models"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
   replaceable ZoneAirModels.WellMixedAir airModel
