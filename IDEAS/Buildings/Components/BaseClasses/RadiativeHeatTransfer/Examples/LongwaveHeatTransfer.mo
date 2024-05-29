@@ -9,7 +9,7 @@ model LongwaveHeatTransfer
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
     zonLwDist(nSurf=2,
-    ignAss=true,       linearise=false)
+    ignAss=true, linearise=false)
     "Model for longwave radiative heat exchange within a zone"
     annotation (Placement(transformation(extent={{10,-80},{-10,-60}})));
   Modelica.Blocks.Sources.Ramp ramp(
