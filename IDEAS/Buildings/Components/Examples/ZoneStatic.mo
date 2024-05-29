@@ -51,5 +51,14 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_Commands(file="Resources/Scripts/Dymola/Buildings/Components/Examples/ZoneStatic.mos"
-        "Simulate and plot"));
+        "Simulate and plot"),
+    Documentation(revisions="<html>
+<ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter <code>ignAss</code> to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
+</ul>
+</html>"));
 end ZoneStatic;
