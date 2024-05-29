@@ -1516,7 +1516,7 @@ components cannot be propagated.
 <ul>
 <li>
 March 27, 2024, by Lucas Verleyen:<br>
-Added parameter <code>T_start_ground</code> for initial temperature of the ground (<code>layGro</code>).<br>
+Added parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 According to the changes in SlabOnGround.<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
 </li>
