@@ -514,7 +514,7 @@ end for;
 <ul>
 <li>
 April 26, 2024 by Jelger Jansen:<br/>
-Added parameter to ignore view factor asserts for non-physical unit test models.
+Added parameter <code>ignAss</code> to ignore view factor asserts for non-physical unit test models.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
 </li> 
 <li>
