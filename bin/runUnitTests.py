@@ -69,6 +69,7 @@ def _runUnitTests(batch, tool, package, path, n_pro, show_gui):
     import buildingspy.development.regressiontest as u
 
     ut = u.Tester(tool=tool)
+    print("TESTER")
     ut.batchMode(batch)
     ut.setLibraryRoot(path)
     if package is not None:
