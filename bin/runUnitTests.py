@@ -69,7 +69,6 @@ def _runUnitTests(batch, tool, package, path, n_pro, show_gui):
     import buildingspy.development.regressiontest as u
 
     ut = u.Tester(tool=tool)
-    print("TESTER")
     ut.batchMode(batch)
     ut.setLibraryRoot(path)
     if package is not None:
@@ -85,7 +84,7 @@ def _runUnitTests(batch, tool, package, path, n_pro, show_gui):
 
 #    ut.writeOpenModelicaResultDictionary()
     # Run the regression tests
-
+    print("TESTER")
     retVal = ut.run()
     return retVal
 
