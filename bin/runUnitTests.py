@@ -85,8 +85,6 @@ def _runUnitTests(batch, tool, package, path, n_pro, show_gui):
 #    ut.writeOpenModelicaResultDictionary()
     # Run the regression tests
     retVal = ut.run()
-    print("TESTER:")
-    print(retVal)
     return retVal
 
 def _runOpenModelicaUnitTests():
