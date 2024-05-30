@@ -32,8 +32,8 @@ jobs:
       run:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
-     # - name: Test IDEAS.Airflow
-      #  run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
+      - name: Test IDEAS.Airflow
+        run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
       - name: Test IDEAS.Buildings.Components
         run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\" INTERACTIVE=false
       - name: Test IDEAS.Buildings.Examples
