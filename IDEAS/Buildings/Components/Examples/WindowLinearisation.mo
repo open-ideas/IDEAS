@@ -20,7 +20,8 @@ model WindowLinearisation
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     V=20,
-    nSurf=3)
+    nSurf=3,
+    ignAss=true)
          annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   Window winNonLin(
     A=1,
@@ -42,7 +43,7 @@ model WindowLinearisation
     annotation (Placement(transformation(extent={{-54,-60},{-44,-40}})));
 equation
   connect(zone1.propsBus[1], outerWall.propsBus_a) annotation (Line(
-      points={{20,-54.6667},{20,-54.6667},{20,-6},{20,32},{-44.8333,32}},
+      points={{20,-56.6667},{20,-56.6667},{20,-6},{20,32},{-44.8333,32}},
       color={255,204,51},
       thickness=0.5));
   connect(winNonLin.propsBus_a, zone1.propsBus[2]) annotation (Line(
@@ -50,7 +51,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(winLin.propsBus_a, zone1.propsBus[3]) annotation (Line(
-      points={{-44.8333,-48},{-44.8333,-48},{20,-48},{20,-57.3333}},
+      points={{-44.8333,-48},{-44.8333,-48},{20,-48},{20,-55.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(zone1.port_a, bou.ports[1])
@@ -61,6 +62,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter <code>ignAss</code> to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li>    
 <li>
 July 18, 2016, by Filip Jorissen:<br/>
 Updated code and documentation.
