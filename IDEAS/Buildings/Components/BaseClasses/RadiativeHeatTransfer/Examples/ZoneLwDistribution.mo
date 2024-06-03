@@ -49,7 +49,7 @@ equation
   connect(ramp.y,preTem. T)
     annotation (Line(points={{-79,0},{-62,0}}, color={0,0,127}));
   connect(preTem.port, zonLwDist.port_a[1]) annotation (Line(points={{-40,0},{
-          -20,0},{-20,69.1667},{-10,69.1667}},
+          -20,0},{-20,69.5833},{-10,69.5833}},
                                            color={191,0,0}));
   for i in 2:6 loop
     connect(fixTem.port, zonLwDist.port_a[i]) annotation (Line(points={{-40,70},
