@@ -37,9 +37,9 @@ equation
 
   connect(step.y, bou1.T_in)
     annotation (Line(points={{-69,-4},{-62,-4}}, color={0,0,127}));
-  connect(m_flow_set1.y, tap1.mDHWSet)
+  connect(m_flow_set1.y,tap1.mFloSet)
     annotation (Line(points={{-9,60},{0,60},{0,30}},   color={0,0,127}));
-  connect(m_flow_set2.y, tap2.mDHWSet)
+  connect(m_flow_set2.y,tap2.mFloSet)
     annotation (Line(points={{-9,-60},{0,-60},{0,-30}},   color={0,0,127}));
   connect(tap1.port_b, bou2.ports[1]) annotation (Line(points={{10,20},{30,20},
           {30,1},{40,1}}, color={0,127,255}));
