@@ -5,7 +5,7 @@ model TapProfile
 
   parameter Real uniCon=1/60
     "Conversion factor to convert units from DHW profile [l/min] to [kg/s]";
-   parameter String loadFile=Modelica.Utilities.Files.loadResource(
+  parameter String loadFile=Modelica.Utilities.Files.loadResource(
     "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults.txt") annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
 
   Modelica.Blocks.Sources.CombiTimeTable pro(
@@ -22,7 +22,6 @@ model TapProfile
     "Conversion from l/min to kg/s using density = 1000 kg/m3" annotation (
       Placement(visible=true, transformation(extent={{-50,-90},{-30,-70}},
           rotation=0)));
-
 
 equation
   con.y = m_flow_set;

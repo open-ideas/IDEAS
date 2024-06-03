@@ -57,7 +57,9 @@ equation
       __Dymola_Algorithm="Dassl"),
     Documentation(revisions="<html>
 <ul>
-<li>March 26, 2024, by Lucas Verleyen:<br>Initial implementation.<br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information. </li>
+<li>March 26, 2024, by Lucas Verleyen:<br>Initial implementation.
+<br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> 
+for more information. </li>
 </ul>
 </html>"));
 end Tap;

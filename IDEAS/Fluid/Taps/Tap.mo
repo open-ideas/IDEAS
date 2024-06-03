@@ -12,6 +12,7 @@ model Tap
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={0,100})));
+
 equation
   mDHWSet = m_flow_set;
 

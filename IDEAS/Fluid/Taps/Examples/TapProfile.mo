@@ -5,11 +5,9 @@ model TapProfile "Example with two 'TapProfile' models"
 
   IDEAS.Fluid.Taps.TapProfile tapProfile1(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
-  IDEAS.Fluid.Taps.TapProfile
-                       tapProfile2(
-                            redeclare package Medium = Medium, loadFile=
-        Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults_2children.txt"))
+  IDEAS.Fluid.Taps.TapProfile tapProfile2(redeclare package Medium = Medium,
+    loadFile=Modelica.Utilities.Files.loadResource(
+      "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults_2children.txt"))
     annotation (Placement(transformation(extent={{-10,-10},{10,-30}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
     redeclare package Medium = Medium, use_T_in=true,
@@ -43,7 +41,9 @@ equation
       __Dymola_Algorithm="Dassl"),
     Documentation(revisions="<html>
 <ul>
-<li>March 26, 2024, by Lucas Verleyen:<br>Initial implementation.<br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> for more information. </li>
+<li>March 26, 2024, by Lucas Verleyen:<br>Initial implementation.
+<br>See <a href=\"https://github.com/open-ideas/IDEAS/issues/1287\">#1287</a> 
+for more information. </li>
 </ul>
 </html>"));
 end TapProfile;
