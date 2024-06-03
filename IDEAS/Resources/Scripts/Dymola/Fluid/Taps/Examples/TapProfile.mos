@@ -1,5 +1,5 @@
 simulateModel("IDEAS.Fluid.Taps.Examples.TapProfile", stopTime=259200, method="dassl", resultFile="TapProfile");
 
-createPlot(id=1, y={"tapProfile1.THot", "tapProfile2.THot"});
+createPlot(id=1, y={"tapProfile1.THot.T", "tapProfile2.THot.T"});
 createPlot(id=2, y={"tapProfile1.mFloHot.y", "tapProfile2.mFloHot.y"});
 createPlot(id=3, y={"tapProfile1.yCom", "tapProfile2.yCom"});
