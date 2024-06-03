@@ -3,7 +3,7 @@ model Tap
   "Model for a DHW tap, reading the DHW demand via a RealInput connector."
   extends IDEAS.Fluid.Taps.BaseClasses.PartialTap;
 
-  Modelica.Blocks.Interfaces.RealInput mDHWSet(final quantity="MassFlowRate", unit="kg/s")
+  Modelica.Blocks.Interfaces.RealInput mFloSet(final quantity="MassFlowRate", unit="kg/s")
     "Mass flowrate of DHW at TSet in kg/s"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}},
         rotation=270,
@@ -14,7 +14,7 @@ model Tap
         origin={0,100})));
 
 equation
-  mDHWSet = m_flow_set;
+  mFloSet = m_flow_set;
 
    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
