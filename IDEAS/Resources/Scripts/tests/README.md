@@ -86,9 +86,9 @@ what they used to be, you will be prompted with a dialog that gives you the opti
 simulated trajectories. 
 
 ### 6. Compare 
-Compare the old references with the new trajectories if needed. Once reference results are updated you can inspect the differences with the old trajectories by running the 
-`IDEAS/compare_results.py` script. This file looks into the `IDEAS/funnel_comp` auxiliary folder that is created to plot 
-simulation trajectories.
+Compare the old references with the new trajectories if needed. Once reference results are updated you can inspect the 
+differences with the old trajectories by running the `IDEAS/compare_results.py` script. This file looks into the 
+`IDEAS/funnel_comp` auxiliary folder that is created to plot simulation trajectories.
 
 ## Developing new tests
 As a developer, you may want to implement a new test of a model that you have created. For that, you just need to add a 
@@ -110,21 +110,30 @@ automatically generate one. The reference results are stored as `.txt` files wit
 
 
 ## Setting up the private runner
-A *runner* is the platform where the tests actually run. This repository uses a private runner, that is, a self-hosted server of the Sysi Team at KU Leuven called *blizz* (from *blizzard-the-calculation-wizard*).
-[Here](https://docs.github.com/en/actions/hosting-your-own-runners) you can find general information about self-hosted runners with GitHub Actions.
-Normally, the runner is continuously active and listening for new test requests. However, here we specify the steps to restart the private runner in case the server needs to be rebooted and for the information of new people who need to take over maintenance of the testing suite. 
+A *runner* is the platform where the tests actually run. This repository uses a private runner, that is, a self-hosted server 
+of the Sysi Team at KU Leuven called *blizz* (from *blizzard-the-calculation-wizard*).
+[Here](https://docs.github.com/en/actions/hosting-your-own-runners) you can find general information about self-hosted runners 
+with GitHub Actions. Normally, the runner is continuously active and listening for new test requests. However, here we specify 
+the steps to restart the private runner in case the server needs to be rebooted and for the information of new people who need 
+to take over maintenance of the testing suite. 
 
 - In GitHub, go to Settings - Actions - Runners. When the runner is active and properly configured, it looks as follows:
 ![Alt text](image.png)
 - To remove the runner (e.g. because it's not working properly), click the three dots and select "Remove runner". 
-- To add a new runner (because it's not showing up or because you've just removed it), click on the "New self-hosted runner" green button. Make sure you select the Linux configuration with x64 architecture. You may not need to go through the steps at the "Download" section unless you want to reinstall the GitHub Actions runner client functionality. If you want to skip the "Download" section, go straight ahead to the "Configure" Section to configure and activate the runner.  
+- To add a new runner (because it's not showing up or because you've just removed it), click on the "New self-hosted runner" 
+green button. Make sure you select the Linux configuration with x64 architecture. You may not need to go through the steps 
+at the "Download" section unless you want to reinstall the GitHub Actions runner client functionality. If you want to skip 
+the "Download" section, go straight ahead to the "Configure" Section to configure and activate the runner.  
 ![Alt text](image-1.png)
 - More specifically, we typically use the following commands:
 ```
 cd /home/actions-runner
 nohup ./run.sh &
 ```
-Where [`nohup`](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux) allows you to run a command even if you close the terminal. The [`&` symbol](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux#starting-a-process-in-the-background-using-nohup) tells the command to run in the background, the output will be redirected to a `nohup.out` file. 
+Where [`nohup`](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux) allows you to run a command even 
+if you close the terminal. 
+The [`&` symbol](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux#starting-a-process-in-the-background-using-nohup) 
+tells the command to run in the background, the output will be redirected to a `nohup.out` file. 
 - If when running the tests you keep getting errors of the type:
 ![Alt text](image-2.png)
 You may want to remove the contents from the `_work` directory to start from a clean workspace. 
