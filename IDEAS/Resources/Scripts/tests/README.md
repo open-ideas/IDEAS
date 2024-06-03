@@ -6,7 +6,7 @@ implement regression testing on example models of the library.
 A Docker image with Dymola (`dymimg`) is defined to encapsulate all dependencies and consistently run the tests either 
 locally or in the server. 
 The testing framework automates the tests using GitHub Actions with a self-hosted runner of the Sysi Team at KU Leuven called 
-tony-de-rekenpony. 
+*blizz* (from *blizzard-the-calculation-wizard*). 
 The tests used to run in Travis, but a major refactoring was implemented in 
 [this PR](https://github.com/open-ideas/IDEAS/pull/1319) to benefit from the free-tier of GitHub Actions.
 The Travis files are still in the library for legacy but may be removed in the near future. 
@@ -110,7 +110,7 @@ automatically generate one. The reference results are stored as `.txt` files wit
 
 
 ## Setting up the private runner
-A *runner* is the platform where the tests actually run. This repository uses a private runner, that is, a self-hosted server of the Sysi Team at KU Leuven called tony-de-rekenpony.
+A *runner* is the platform where the tests actually run. This repository uses a private runner, that is, a self-hosted server of the Sysi Team at KU Leuven called *blizz* (from *blizzard-the-calculation-wizard*).
 [Here](https://docs.github.com/en/actions/hosting-your-own-runners) you can find general information about self-hosted runners with GitHub Actions.
 Normally, the runner is continuously active and listening for new test requests. However, here we specify the steps to restart the private runner in case the server needs to be rebooted and for the information of new people who need to take over maintenance of the testing suite. 
 
