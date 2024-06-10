@@ -205,6 +205,10 @@ partial model RectangularZoneTemplateInterface
   parameter SI.TemperatureDifference dTiAvg=2
     "Amplitude of variation of monthly average indoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
+  parameter Modelica.Units.SI.Temperature T_start_gro[3]=fill(TeAvg, 3)
+    "Initial temperatures of the ground layers (with first value = deepest layer
+    and last value = shallowest layer"
+    annotation(Evaluate=true,Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
   parameter SI.TemperatureDifference dT_nominal_intA=1
     "Nominal temperature difference between zone air and interior walls, used for linearisation"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
@@ -717,6 +721,7 @@ partial model RectangularZoneTemplateInterface
     redeclare package Medium = Medium,
     TeAvg=TeAvg,
     TiAvg=TiAvg,
+    T_start_gro=T_start_gro,
     dTeAvg=dTeAvg,
     dTiAvg=dTiAvg,
     dT_nominal_a=dT_nominal_sla,
@@ -1509,6 +1514,12 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 27, 2024, by Lucas Verleyen:<br>
+Added parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
+According to the changes in SlabOnGround.<br>
+See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
+</li>
 <li>
 January 8, 2024, by Jelger Jansen:<br/>
 Removed duplicate declaration of <code>mSenFac</code>.
