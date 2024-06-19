@@ -21,6 +21,7 @@ initial equation
   assert(shaCorr + epsSw_shading <= 1, "In " + getInstanceName() +
     ": The sum of the screen transmittance 'shaCorr' and absorptance 'epsSw_shading' is larger than one. This is non-physical.");
 equation
+  assert(Ctrl >=0, "The control input to the screen is negative, which is non-physical and leads to unrealistic results. Please check the screen input.");
   HShaDirTil = HDirTil*(1 - Ctrl);
   HShaSkyDifTil = HSkyDifTil*(1 - Ctrl) + HSkyDifTil*Ctrl*shaCorr + HDirTil*Ctrl*shaCorr;
   HShaGroDifTil = HGroDifTil*(1 - Ctrl) + HGroDifTil*Ctrl*shaCorr;
