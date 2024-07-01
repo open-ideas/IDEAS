@@ -45,15 +45,15 @@ public
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Sources.RealExpression mFloDis(y=m_flow_set)
     "DHW mass flow rate if THot < TSet. If the hot water supply temperature is
-    lower than the DHW setpoint temperature, the mass flow from the tank to the 
-    tap equals the mass flow rate at the setpoint temperature. In this case, the
-    user will experience DHW discomfort at the tap."
+    lower than the DHW setpoint temperature, the incoming hot water mass flow 
+    rate to the tap equals the mass flow rate at the setpoint temperature. In 
+    this case, the user will experience DHW discomfort at the tap."
     annotation (Placement(transformation(extent={{-68,30},{-48,50}})));
-  Modelica.Blocks.Sources.RealExpression mFloCom(y=m_flow_set*(TSet - TCol)/(
-        delTSca.y)) "Required mass flow rate from the tank based on current THot. If THot > TSet
-    mixing will occur and cold water will be mixed with hot water from the tank. 
-    mFloCom is the required mass flow rate from the tank at THot and is related
-    to mFloSet at TSet via conservation of energy."
+  Modelica.Blocks.Sources.RealExpression mFloCom(y=m_flow_set*(TSet - TCol)/(delTSca.y))
+    "Required incoming hot water mass flow rate based on current THot. If 
+    THot > TSet mixing will occur and cold water will be mixed with the incoming
+    hot water. mFloCom is the required incoming mass flow rate at THot and is 
+    related to mFloSet at TSet via conservation of energy."
     annotation (Placement(transformation(extent={{-68,10},{-48,30}})));
   IDEAS.Utilities.Math.SmoothMin mFloHot(deltaX=1e-3*m_flow_nominal)
     "Hot water mass flow rate. If THot > TSet, mFloHot = mFloCom.
@@ -212,7 +212,7 @@ source. </p>
 <li>No heat losses.</li>
 <li>If <i>THot</i> is smaller than <i>TSet</i>, there is no mixing and the 
 supply temperature at the tap equals <i>THot</i>.</li>
-<li>Fixed <i>TSet</i> and <i>TCol</i>as parameters.</li>
+<li>Fixed <i>TSet</i> and <i>TCol</i> as parameters.</li>
 <li>The mixed DHW is not available as an outlet or flowPort. It is assumed to be
 &apos;consumed&apos;. </li>
 </ol>
