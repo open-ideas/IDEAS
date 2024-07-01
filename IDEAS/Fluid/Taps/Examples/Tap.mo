@@ -18,7 +18,7 @@ model Tap "Example with two 'Tap' models"
   IDEAS.Fluid.Taps.Tap tap1(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   IDEAS.Fluid.Taps.Tap tap2(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-10,-10},{10,-30}})));
+    annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
     redeclare package Medium = Medium, use_T_in=true,
     nPorts=2)
@@ -31,7 +31,7 @@ model Tap "Example with two 'Tap' models"
     width=5,
     period=10000,
     startTime=2500,
-    offset=0)       annotation (Placement(transformation(extent={{-30,-70},{-10,
+    offset=0)       annotation (Placement(transformation(extent={{-60,-70},{-40,
             -50}})));
 equation
 
@@ -40,7 +40,8 @@ equation
   connect(m_flow_set1.y,tap1.mFloSet)
     annotation (Line(points={{-9,60},{0,60},{0,30}},   color={0,0,127}));
   connect(m_flow_set2.y,tap2.mFloSet)
-    annotation (Line(points={{-9,-60},{0,-60},{0,-30}},   color={0,0,127}));
+    annotation (Line(points={{-39,-60},{-20,-60},{-20,-4},{0,-4},{0,-10}},
+                                                          color={0,0,127}));
   connect(tap1.port_b, bou2.ports[1]) annotation (Line(points={{10,20},{30,20},
           {30,1},{40,1}}, color={0,127,255}));
   connect(tap2.port_b, bou2.ports[2]) annotation (Line(points={{10,-20},{30,-20},
