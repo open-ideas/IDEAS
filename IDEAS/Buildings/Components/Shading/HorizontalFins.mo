@@ -9,7 +9,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
     "=true, to use input for controlling the horizontal fin displacement. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Boolean use_betaInput = false
-    "=true, to use input for fin inclination angle"
+    "=true, to use input for controlling the fin inclination angle. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.Angle beta(min=0) = 0
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
@@ -17,6 +17,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
 
   Real shaFrac "Shaded fraction of the glazing for direct solar irradiation";
   Real shaFracDif "Shaded fraction of the glazing for diffuse solar irradiation";
+  Modelica.Units.SI.Angle beta_max "Maximum fin inclination angle";
 
 
 protected
@@ -30,6 +31,8 @@ protected
 
   Modelica.Blocks.Interfaces.RealInput beta_internal
     "Internal variable for inclination angle";
+  Modelica.Blocks.Interfaces.RealInput Ctrl_to_beta_internal
+    "Internal variable to linearly map the Ctrl input [0,1] onto the fin inclination angle [beta_min=0,beta_max]";
   Modelica.Blocks.Interfaces.RealInput disp_internal
     "Internal variable for displacement fraction";
   Modelica.Units.SI.Angle angAlt=Modelica.Constants.pi/2 - angZen
@@ -52,11 +55,12 @@ initial equation
     "In " + getInstanceName() + ": Either use_betaInput or use_displacementInput should be false.");
 
 equation
-
+  beta_max = acos(t/s);
   if not use_betaInput then
     beta_internal = beta;
   else
-    connect(beta_internal,Ctrl);
+    beta_internal = Ctrl_to_beta_internal*beta_max;
+    connect(Ctrl_to_beta_internal,Ctrl);
   end if;
   if not use_displacementInput then
     disp_internal=1;
@@ -114,10 +118,11 @@ The ground diffuse solar irradation is not modified.
 <p>
 Parameter <code>t</code> is the fin thickness,
 <code>s</code> is the vertical spacing between the fins and
-<code>w</code> is the fin width.
+<code>w</code> is the fin width. The model assumes that <code>s &lt;= w</code>.
 If <code>use_betaInput=true</code>, 
-the input <code>Ctrl</code> is used to control the angle beta,
-such that <code>beta</code> in the figure equals <code>Ctrl</code>.
+the input <code>Ctrl</code> is used to control the angle beta in the figure,
+such that <code>Ctrl = 0</code> corresponds to <code>beta = 0</code> and <code>Ctrl = 1</code>
+corresponds to <code>beta = acos(t/s)</code>, which is the maximum value for <code>beta</code>.
 Note that <code>beta</code> must have radians as a unit.
 If <code>use_displacementInput=true</code>,
 the input <code>0 &lt; Ctrl &lt; 1</code> is used to control the horizontal
@@ -140,6 +145,12 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 1, 2024 by Lucas Verleyen:<br/>
+Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0, 1] onto the fin inclination angle 
+[<code>beta_min=0, beta_max</code>].<br>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1290\">#1290</a>.
+</li>
 <li>
 April 4, 2023 by Jelger Jansen:<br/>
 Updated figure in documentation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1186\">#1186</a>.
