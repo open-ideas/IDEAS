@@ -11,9 +11,6 @@ protected
   Modelica.Units.SI.MassFlowRate m_flow_set "DHW mass flow rate at TSet";
 
 public
-  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation (
-      choicesAllMatching=true);
-
   IDEAS.Fluid.Interfaces.IdealSource mFloSouHot(
     redeclare package Medium = Medium,
     final control_m_flow=true,
