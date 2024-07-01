@@ -17,6 +17,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
 
   Real shaFrac "Shaded fraction of the glazing for direct solar irradiation";
   Real shaFracDif "Shaded fraction of the glazing for diffuse solar irradiation";
+  Modelica.Units.SI.Angle beta_max "Maximum fin inclination angle";
 
 
 protected
@@ -52,7 +53,7 @@ initial equation
     "In " + getInstanceName() + ": Either use_betaInput or use_displacementInput should be false.");
 
 equation
-
+  beta_max = acos(t/s);
   if not use_betaInput then
     beta_internal = beta;
   else
