@@ -198,7 +198,7 @@ valve.</p>
 <li><i>port_a</i>: connection to the hot water source (designation: <i>hot</i>)</li>
 <li><i>port_b</i>: connection to the inlet of cold water in the hot water source 
 (designation: <i>cold</i>)</li>
-<li><i>m_flow_set</i>: desired flowrate of DHW water, equivalent at a user 
+<li><i>m_flow_set</i>: desired DHW mass flow rate, equivalent at a user 
 defined set point temperature</li>
 </ul>
 <p>The model tries to reach the given DHW flow rate at a the desired mixing 
