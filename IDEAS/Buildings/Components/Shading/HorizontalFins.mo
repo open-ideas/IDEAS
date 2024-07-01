@@ -9,7 +9,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
     "=true, to use input for controlling the horizontal fin displacement. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Boolean use_betaInput = false
-    "=true, to use input for fin inclination angle"
+    "=true, to use input for controlling the fin inclination angle. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.Angle beta(min=0) = 0
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
@@ -118,10 +118,11 @@ The ground diffuse solar irradation is not modified.
 <p>
 Parameter <code>t</code> is the fin thickness,
 <code>s</code> is the vertical spacing between the fins and
-<code>w</code> is the fin width.
+<code>w</code> is the fin width. The model assumes that <code>s &lt;= w</code>.
 If <code>use_betaInput=true</code>, 
-the input <code>Ctrl</code> is used to control the angle beta,
-such that <code>beta</code> in the figure equals <code>Ctrl</code>.
+the input <code>Ctrl</code> is used to control the angle beta in the figure,
+such that <code>Ctrl = 0</code> corresponds to <code>beta = 0</code> and <code>Ctrl = 1</code>
+corresponds to <code>beta = acos(t/s)</code>, which is the maximum value for <code>beta</code>.
 Note that <code>beta</code> must have radians as a unit.
 If <code>use_displacementInput=true</code>,
 the input <code>0 &lt; Ctrl &lt; 1</code> is used to control the horizontal
@@ -144,6 +145,12 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 1, 2024 by Lucas Verleyen:<br/>
+Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0, 1] onto the fin inclination angle 
+[<code>beta_min=0, beta_max</code>].<br>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1290\">#1290</a>.
+</li>
 <li>
 April 4, 2023 by Jelger Jansen:<br/>
 Updated figure in documentation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1186\">#1186</a>.
