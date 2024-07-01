@@ -17,16 +17,15 @@ public
     allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{-16,-10},{4,10}})));
-  Modelica.Fluid.Sources.Boundary_pT hot_out(
-    redeclare package Medium = Medium, nPorts=1)
-              "Sink to model the hot water offtake from the system"
+  Modelica.Fluid.Sources.Boundary_pT bouHot(redeclare package Medium = Medium,
+      nPorts=1) "Sink to model the hot water offtake from the system"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-30})));
   Modelica.Blocks.Sources.RealExpression TCol_in(y=TCol)
     annotation (Placement(transformation(extent={{30,-70},{50,-50}})));
-  Modelica.Fluid.Sources.Boundary_pT col_in(
+  Modelica.Fluid.Sources.Boundary_pT bouCol(
     redeclare package Medium = Medium,
     use_T_in=true,
     nPorts=1) "Supply to model the cold water injection into the system"
@@ -77,9 +76,9 @@ public
 
 equation
 
-  connect(mFloSouHot.port_b, hot_out.ports[1])
-    annotation (Line(points={{4,0},{20,0},{20,-20}},   color={0,127,255}));
-  connect(TCol_in.y, col_in.T_in)
+  connect(mFloSouHot.port_b, bouHot.ports[1])
+    annotation (Line(points={{4,0},{20,0},{20,-20}}, color={0,127,255}));
+  connect(TCol_in.y,bouCol. T_in)
     annotation (Line(points={{51,-60},{56,-60},{56,-42}}, color={0,0,127}));
   connect(mFloDis.y, mFloHot.u1) annotation (Line(points={{-47,40},{-44,40},{-44,
           36},{-40,36}}, color={0,0,127}));
@@ -95,7 +94,7 @@ equation
                     color={0,0,127}));
   connect(com.y, yCom)
     annotation (Line(points={{1,70},{100,70}}, color={255,0,255}));
-  connect(col_in.ports[1], mFloSouCol.port_a)
+  connect(bouCol.ports[1], mFloSouCol.port_a)
     annotation (Line(points={{60,-20},{60,0},{70,0}}, color={0,127,255}));
   connect(mFloSouCol.port_b, port_b)
     annotation (Line(points={{90,0},{100,0}}, color={0,127,255}));
