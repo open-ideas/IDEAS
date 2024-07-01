@@ -99,7 +99,8 @@ partial model PartialShading "Window shading partial"
     Placement(visible = true, transformation(extent = {{20, -30}, {60, 10}}, rotation = 0), iconTransformation(extent = {{40, -10}, {60, 10}}, rotation = 0)));
 protected
   Modelica.Blocks.Interfaces.RealInput Te_internal(unit="K");
-  Modelica.Blocks.Interfaces.RealInput Ctrl_internal;
+  Modelica.Blocks.Interfaces.RealInput Ctrl_internal
+    "Internal variable for the conditional control input";
   Modelica.Units.SI.Temperature TSha = Te_internal + (H - HSha) * epsSw_shading /hSha
     "Simplified static heat balance to compute the shading object temperature";
 equation
