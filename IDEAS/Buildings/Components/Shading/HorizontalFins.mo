@@ -31,6 +31,8 @@ protected
 
   Modelica.Blocks.Interfaces.RealInput beta_internal
     "Internal variable for inclination angle";
+  Modelica.Blocks.Interfaces.RealInput Ctrl_to_beta_internal
+    "Internal variable to linearly map the Ctrl input [0,1] onto the fin inclination angle [beta_min=0,beta_max]";
   Modelica.Blocks.Interfaces.RealInput disp_internal
     "Internal variable for displacement fraction";
   Modelica.Units.SI.Angle angAlt=Modelica.Constants.pi/2 - angZen
@@ -57,7 +59,8 @@ equation
   if not use_betaInput then
     beta_internal = beta;
   else
-    connect(beta_internal,Ctrl);
+    beta_internal = Ctrl_to_beta_internal*beta_max;
+    connect(Ctrl_to_beta_internal,Ctrl);
   end if;
   if not use_displacementInput then
     disp_internal=1;
