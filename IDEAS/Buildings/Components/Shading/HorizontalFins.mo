@@ -145,8 +145,10 @@ The implementation is illustrated using this figure:
 <ul>
 <li>
 July 1, 2024 by Lucas Verleyen:<br/>
-Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0, 1] onto the fin inclination angle 
-[<code>beta_min=0, beta_max</code>].<br>
+Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0,1]
+onto the fin inclination angle [<code>0,beta_max</code>].<br/>
+Removed <code>dispLim</code> as <code>disp_internal</code> is automatically 
+in the range [0,1] due to the definition of <code>Ctrl</code>.<br/>
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1290\">#1290</a>.
 </li>
 <li>
