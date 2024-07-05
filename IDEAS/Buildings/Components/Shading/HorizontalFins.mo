@@ -27,8 +27,6 @@ protected
     "Horizontal ray displacement along the ray direction";
   Modelica.Units.SI.Length dy3=max(0, min(dz*tan(angAlt), s));
 
-  Real dispLim=min(1,max(0,disp_internal));
-
   Modelica.Blocks.Interfaces.RealInput beta_internal
     "Internal variable for inclination angle";
   Modelica.Blocks.Interfaces.RealInput Ctrl_to_beta_internal
@@ -69,20 +67,20 @@ equation
   end if;
 
   if dy3 > dy1 then
-    shaFrac = dispLim;
+    shaFrac = disp_internal;
   else
-    // The shaded part equals 100% minus the unshaded part due to displacement (1-dispLim),
+    // The shaded part equals 100% minus the unshaded part due to displacement (1-disp_internal),
     // minus the shaded fraction (disp) that is unshaded by the fins (dy1-min(dy1,dy3))/s.
-    // i.e. 1 - (1-dispLim) - dispLim*(dy1-min(dy1,dy3))/s
+    // i.e. 1 - (1-disp_internal) - disp_internal*(dy1-min(dy1,dy3))/s
     // after collecting terms this results in:
-    shaFrac = dispLim*(1 - (dy1-min(dy1,dy3))/s);
+    shaFrac = disp_internal*(1 - (dy1-min(dy1,dy3))/s);
   end if;
 
   // same reasoning as for direct solar irradiation
   if dy3Dif > dy1 then
-    shaFracDif = dispLim;
+    shaFracDif = disp_internal;
   else
-    shaFracDif = dispLim*(1 - (dy1-min(dy1,dy3Dif))/s);
+    shaFracDif = disp_internal*(1 - (dy1-min(dy1,dy3Dif))/s);
   end if;
 
   HShaDirTil = (1-shaFrac)*HDirTil;
