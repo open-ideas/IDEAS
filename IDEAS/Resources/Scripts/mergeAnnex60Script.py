@@ -1,7 +1,6 @@
-
 import buildingspy.development.merger as m
 import os
-import io,json
+import json
 
 fileName = "Resources/Scripts/mergePaths.txt"
 if os.path.isfile(fileName):
