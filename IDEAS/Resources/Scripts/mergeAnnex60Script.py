@@ -19,5 +19,5 @@ else:
         json.dump(data, dataFile)
 
 mer = m.IBPSA(annex60_dir, dest_dir) 
-mer.set_excluded_packages(["Experimental", "Obsolete"])
+mer.set_excluded_directories(["Experimental", "Obsolete"])
 mer.merge(overwrite_reference_results=True)
