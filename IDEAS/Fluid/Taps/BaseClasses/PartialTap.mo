@@ -72,7 +72,7 @@ public
     annotation (Placement(transformation(extent={{-20,60},{0,80}})));
   Modelica.Blocks.Interfaces.BooleanOutput yCom
     "Boolean output signal to indicate whether there is DHW comfort (true) or discomfort (false)"
-    annotation (Placement(transformation(extent={{90,60},{110,80}})));
+    annotation (Placement(transformation(extent={{100,60},{120,80}})));
 
 equation
 
@@ -93,7 +93,7 @@ equation
           {-60,-46},{-52,-46}},
                     color={0,0,127}));
   connect(com.y, yCom)
-    annotation (Line(points={{1,70},{100,70}}, color={255,0,255}));
+    annotation (Line(points={{1,70},{110,70}}, color={255,0,255}));
   connect(bouCol.ports[1], mFloSouCol.port_a)
     annotation (Line(points={{60,-20},{60,0},{70,0}}, color={0,127,255}));
   connect(mFloSouCol.port_b, port_b)
