@@ -17,7 +17,7 @@ public
     final allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{-16,-10},{4,10}})));
-  Modelica.Fluid.Sources.Boundary_pT bouHot(redeclare final package Medium = Medium,
+  IDEAS.Fluid.Sources.Boundary_pT bouHot(redeclare final package Medium = Medium,
       nPorts=1) "Sink to model the hot water offtake from the system"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -25,7 +25,7 @@ public
         origin={20,-30})));
   Modelica.Blocks.Sources.RealExpression TCol_in(y=TCol)
     annotation (Placement(transformation(extent={{30,-70},{50,-50}})));
-  Modelica.Fluid.Sources.Boundary_pT bouCol(
+  IDEAS.Fluid.Sources.Boundary_pT bouCol(
     redeclare final package Medium = Medium,
     use_T_in=true,
     nPorts=1) "Supply to model the cold water injection into the system"
