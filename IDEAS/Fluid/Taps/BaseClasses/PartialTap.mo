@@ -12,12 +12,12 @@ protected
 
 public
   IDEAS.Fluid.Interfaces.IdealSource mFloSouHot(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final control_m_flow=true,
-    allowFlowReversal=false,
+    final allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{-16,-10},{4,10}})));
-  Modelica.Fluid.Sources.Boundary_pT bouHot(redeclare package Medium = Medium,
+  Modelica.Fluid.Sources.Boundary_pT bouHot(redeclare final package Medium = Medium,
       nPorts=1) "Sink to model the hot water offtake from the system"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -26,7 +26,7 @@ public
   Modelica.Blocks.Sources.RealExpression TCol_in(y=TCol)
     annotation (Placement(transformation(extent={{30,-70},{50,-50}})));
   Modelica.Fluid.Sources.Boundary_pT bouCol(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     use_T_in=true,
     nPorts=1) "Supply to model the cold water injection into the system"
     annotation (Placement(transformation(
@@ -34,9 +34,9 @@ public
         rotation=90,
         origin={60,-30})));
   IDEAS.Fluid.Interfaces.IdealSource mFloSouCol(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final control_m_flow=true,
-    allowFlowReversal=false,
+    final allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Sources.RealExpression mFloDis(y=m_flow_set)
@@ -62,8 +62,8 @@ public
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
   IDEAS.Utilities.Math.SmoothMax delTSca(deltaX=0.1)
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort THot(redeclare package Medium = Medium,
-    allowFlowReversal=false,
+  IDEAS.Fluid.Sensors.TemperatureTwoPort THot(redeclare final package Medium = Medium,
+    final allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal,
     tau=0)
     annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
