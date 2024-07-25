@@ -8,7 +8,7 @@ model TapProfile
   parameter String loadFile=Modelica.Utilities.Files.loadResource(
     "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults.txt") annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
 
-  Modelica.Blocks.Sources.CombiTimeTable pro(
+  Modelica.Blocks.Sources.CombiTimeTable demPro(
     tableOnFile=true,
     tableName="data",
     fileName=loadFile,
@@ -25,7 +25,7 @@ model TapProfile
 
 equation
   m_flow_set=con.y;
-  connect(pro.y[1], con.u)
+  connect(demPro.y[1], con.u)
     annotation (Line(points={{-69,-80},{-52,-80}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
    Polygon(
