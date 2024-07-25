@@ -24,7 +24,7 @@ model TapProfile
           rotation=0)));
 
 equation
-  con.y = m_flow_set;
+  m_flow_set=con.y;
   connect(pro.y[1], con.u)
     annotation (Line(points={{-69,-80},{-52,-80}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
