@@ -17,8 +17,9 @@ public
     final allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{-16,-10},{4,10}})));
-  IDEAS.Fluid.Sources.Boundary_pT bouHot(redeclare final package Medium = Medium,
-      nPorts=1) "Sink to model the hot water offtake from the system"
+  IDEAS.Fluid.Sources.Boundary_pT bouHot(
+    redeclare final package Medium = Medium,
+    nPorts=1) "Sink to model the hot water offtake from the system"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -62,7 +63,8 @@ public
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
   IDEAS.Utilities.Math.SmoothMax delTSca(deltaX=0.1)
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort THot(redeclare final package Medium = Medium,
+  IDEAS.Fluid.Sensors.TemperatureTwoPort THot(
+    redeclare final package Medium = Medium,
     final allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal,
     tau=0)
@@ -75,7 +77,6 @@ public
     annotation (Placement(transformation(extent={{100,60},{120,80}})));
 
 equation
-
   connect(mFloSouHot.port_b, bouHot.ports[1])
     annotation (Line(points={{4,0},{20,0},{20,-20}}, color={0,127,255}));
   connect(TCol_in.y,bouCol. T_in)
