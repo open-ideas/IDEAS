@@ -39,7 +39,7 @@ public
     final allowFlowReversal=false,
     final control_dp=false)
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
-  Modelica.Blocks.Sources.RealExpression mFloDis(y=m_flow_set)
+  Modelica.Blocks.Sources.RealExpression mFloDisCom(y=m_flow_set)
     "DHW mass flow rate if THot < TSet. If the hot water supply temperature is
     lower than the DHW setpoint temperature, the incoming hot water mass flow 
     rate to the tap equals the mass flow rate at the setpoint temperature. In 
@@ -80,8 +80,8 @@ equation
     annotation (Line(points={{4,0},{20,0},{20,-20}}, color={0,127,255}));
   connect(TCol_in.y,bouCol. T_in)
     annotation (Line(points={{51,-60},{56,-60},{56,-42}}, color={0,0,127}));
-  connect(mFloDis.y, mFloHot.u1) annotation (Line(points={{-47,40},{-44,40},{-44,
-          36},{-40,36}}, color={0,0,127}));
+  connect(mFloDisCom.y, mFloHot.u1) annotation (Line(points={{-47,40},{-44,40},{
+          -44,36},{-40,36}}, color={0,0,127}));
   connect(mFloCom.y, mFloHot.u2) annotation (Line(points={{-47,20},{-44,20},{-44,
           24},{-40,24}}, color={0,0,127}));
   connect(mFloHot.y, mFloSouHot.m_flow_in)
