@@ -1,6 +1,7 @@
 within IDEAS.Fluid.Taps.Examples;
 model DHW_example
   extends Modelica.Icons.Example;
+  extends Modelica.Icons.ObsoleteModel;
   BalancedTap_m_flow dHW_RealInput(
     redeclare package Medium = Medium,
     tau=1,
