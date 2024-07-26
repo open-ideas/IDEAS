@@ -19,9 +19,9 @@ model TapProfile
     "DHW demand profile input ([l/min] by default)"
     annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
   Modelica.Blocks.Math.Gain con(k=uniCon)
-    "Conversion from l/min to kg/s using density = 1000 kg/m3" annotation (
-      Placement(visible=true, transformation(extent={{-50,-90},{-30,-70}},
-          rotation=0)));
+    "Conversion from unit in profile to kg/s using density = 1000 kg/m3"
+     annotation(Placement(visible=true,
+       transformation(extent={{-50,-90},{-30,-70}},rotation=0)));
 
 equation
   m_flow_set=con.y;
