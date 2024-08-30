@@ -70,6 +70,13 @@ model CrackOrOperableDoor
     displayUnit="Pa") = 0.01
     "Pressure difference where laminar and turbulent flow relation coincide. Recommended: 0.01";
 
+   parameter Modelica.Units.SI.PressureDifference dp_turbulent_ope(min=0,displayUnit="Pa") = (MFtrans/(1.2041*(CDOpe * hOpe*wOpe * sqrt(2/1.2041))))^(1/mOpe)
+   if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities";
+   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation";
+   parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter";
+   constant Real REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed reynoldsnumber at transition";
+   constant Real VItrans(unit="kg/(m.s)")=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed viscosity of air at transition";
+
   Modelica.Blocks.Interfaces.RealInput y(min=0, max=1, unit="1") if useDoor and use_y
     "Opening signal, 0=closed, 1=open"
     annotation (Placement(transformation(extent={{-120,-10},{-100,10}}), iconTransformation(extent={{-120,-10},{-100,10}})));
@@ -105,7 +112,7 @@ model CrackOrOperableDoor
     inc=inc,
     final hA=hA,
     final hB=hB,
-   dp_turbulent=dp_turbulent,
+    dp_turbulent=dp_turbulent_ope,
    nCom=nCom,
    CDOpe=CDOpe,
     CDClo=CDCloRat,
@@ -116,8 +123,8 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-   vZer=vZer) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
-    Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+   vZer=vZer*MFtrans*1.2) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
+    Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
    redeclare package Medium = Medium,
    nPorts = 2)
