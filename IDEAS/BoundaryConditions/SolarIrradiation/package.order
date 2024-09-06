@@ -1,6 +1,7 @@
 DiffuseIsotropic
 DiffusePerez
 DirectTiltedSurface
+GlobalPerezTiltedSurface
 RadSol
 RadSolData
 RadiationConvertor
