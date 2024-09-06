@@ -397,7 +397,7 @@ protected
                 Dialog(group="Input Connectors", enable=not use_intSafCtr));
 
 //@modelica_select_start @remove_Buildings @remove_BuildingSystems @remove_IDEAS
-protected
+// removed: protected
 //@modelica_select_end
   parameter Boolean use_COP "=true to enable COP output";
   parameter Boolean use_EER "=true to enable EER output";
