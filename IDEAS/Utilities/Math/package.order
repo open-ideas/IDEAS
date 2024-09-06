@@ -12,11 +12,12 @@ Factorial
 FallingFactorial
 IntegerReplicator
 IntegratorWithReset
+Interpolate
 InverseXRegularized
 Max
 Min
 MovingAverage
-Polynominal
+Polynomial
 PowerLinearized
 QuadraticLinear
 RegNonZeroPower

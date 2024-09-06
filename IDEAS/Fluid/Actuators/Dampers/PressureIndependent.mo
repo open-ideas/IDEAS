@@ -49,17 +49,24 @@ protected
   Real kDamSquInv
     "Square inverse of flow coefficient (damper only)";
 
-  Modelica.SIunits.MassFlowRate m_flow_set
-    "Requested mass flow rate";
-  Modelica.SIunits.PressureDifference dp_min(displayUnit="Pa")
+  Modelica.Units.SI.MassFlowRate m_flow_set "Requested mass flow rate";
+  Modelica.Units.SI.PressureDifference dp_min(displayUnit="Pa")
     "Minimum pressure difference required for delivering requested mass flow rate";
-  Modelica.SIunits.PressureDifference dp_x, dp_x1, dp_x2, dp_y2, dp_y1
+  Modelica.Units.SI.PressureDifference dp_x;
+  Modelica.Units.SI.PressureDifference dp_x1;
+  Modelica.Units.SI.PressureDifference dp_x2;
+  Modelica.Units.SI.PressureDifference dp_y2;
+  Modelica.Units.SI.PressureDifference dp_y1
     "Support points for interpolation flow functions";
-  Modelica.SIunits.MassFlowRate m_flow_x, m_flow_x1, m_flow_x2, m_flow_y2, m_flow_y1
+  Modelica.Units.SI.MassFlowRate m_flow_x;
+  Modelica.Units.SI.MassFlowRate m_flow_x1;
+  Modelica.Units.SI.MassFlowRate m_flow_x2;
+  Modelica.Units.SI.MassFlowRate m_flow_y2;
+  Modelica.Units.SI.MassFlowRate m_flow_y1
     "Support points for interpolation flow functions";
-  Modelica.SIunits.MassFlowRate m_flow_smooth
+  Modelica.Units.SI.MassFlowRate m_flow_smooth
     "Smooth interpolation result between two flow regimes";
-  Modelica.SIunits.PressureDifference dp_smooth
+  Modelica.Units.SI.PressureDifference dp_smooth
     "Smooth interpolation result between two flow regimes";
   Real y_actual_smooth(final unit="1")
     "Fractional opening computed based on m_flow_smooth and dp";
@@ -67,20 +74,22 @@ protected
 function basicFlowFunction_dp_m_flow
   "Inverse of flow function that computes that computes the square inverse of flow coefficient"
   extends Modelica.Icons.Function;
-  input Modelica.SIunits.MassFlowRate m_flow
-    "Mass flow rate in design flow direction";
-  input Modelica.SIunits.PressureDifference dp
-    "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
-  input Modelica.SIunits.MassFlowRate m_flow_small
-    "Minimum value of mass flow rate guarding against k=(0)/sqrt(dp)";
-  input Modelica.SIunits.PressureDifference dp_small
-    "Minimum value of pressure drop guarding against k=m_flow/(0)";
+    input Modelica.Units.SI.MassFlowRate m_flow
+      "Mass flow rate in design flow direction";
+    input Modelica.Units.SI.PressureDifference dp
+      "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
+    input Modelica.Units.SI.MassFlowRate m_flow_small
+      "Minimum value of mass flow rate guarding against k=(0)/sqrt(dp)";
+    input Modelica.Units.SI.PressureDifference dp_small
+      "Minimum value of pressure drop guarding against k=m_flow/(0)";
   output Real kSquInv
     "Square inverse of flow coefficient";
   protected
-  Modelica.SIunits.PressureDifference dpPos=
-    IDEAS.Utilities.Math.Functions.smoothMax(dp, -dp, dp_small)
-    "Regularized absolute value of pressure drop";
+    Modelica.Units.SI.PressureDifference dpPos=
+        IDEAS.Utilities.Math.Functions.smoothMax(
+        dp,
+        -dp,
+        dp_small) "Regularized absolute value of pressure drop";
   Real mSqu_flow = IDEAS.Utilities.Math.Functions.smoothMax(
     m_flow^2, m_flow_small^2, m_flow_small^2)
     "Regularized square value of mass flow rate";
@@ -326,14 +335,14 @@ August 11, 2021, by Michael Wetter:<br/>
 Reformulated initial equation section to avoid warning in OPTIMICA about
 variable array index.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1513\">IDEAS #1513</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1513\">IBPSA #1513</a>.
 </li>
 <li>
 June 10, 2021, by Michael Wetter:<br/>
 Changed implementation of the filter and changed the parameter <code>order</code> to a constant
 as most users need not change this value.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1498\">IDEAS #1498</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1498\">IBPSA #1498</a>.
 </li>
 <li>
 April 6, 2020, by Antoine Gautier:<br/>
@@ -345,7 +354,7 @@ Refactored as the model can now extend directly
 <a href=\"modelica://IDEAS.Fluid.Actuators.BaseClasses.PartialDamperExponential\">
 IDEAS.Fluid.Actuators.BaseClasses.PartialDamperExponential</a>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1188\">IDEAS #1188</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1188\">IBPSA #1188</a>.
 </li>
 <li>
 March 21, 2017 by David Blum:<br/>

@@ -2,8 +2,8 @@ within IDEAS.Airflow.Multizone.Examples;
 model ZonalFlow "Model with prescribed air exchange between two volumes"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air;
-  parameter Modelica.SIunits.Volume volA=100 "Volume of room A";
-  parameter Modelica.SIunits.Volume volB=1 "Volume of room B";
+  parameter Modelica.Units.SI.Volume volA=100 "Volume of room A";
+  parameter Modelica.Units.SI.Volume volB=1 "Volume of room B";
   IDEAS.Fluid.MixingVolumes.MixingVolume rooA(
     V=volA,
     redeclare package Medium = Medium,
@@ -83,7 +83,7 @@ from <code>rooB</code> to <code>rooA</code>.
 <li>
 March 26, 2021 by Michael Wetter:<br/>
 Updated comments for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IDEAS, #515</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IBPSA, #515</a>.
 </li>
 <li>
 May 30, 2018, by Michael Wetter:<br/>

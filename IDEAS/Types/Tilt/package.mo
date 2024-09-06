@@ -2,11 +2,10 @@ within IDEAS.Types;
 package Tilt "List of possible constant values for surface tilt"
   extends Modelica.Icons.TypesPackage;
 
-  constant Modelica.SIunits.Angle Ceiling = 0 "Tilt for ceiling";
-  constant Modelica.SIunits.Angle Floor =   Modelica.Constants.pi
-  "Tilt for floor";
-  constant Modelica.SIunits.Angle Wall =    Modelica.Constants.pi/2
-  "Tilt for wall";
+constant Modelica.Units.SI.Angle Ceiling=0 "Tilt for ceiling";
+constant Modelica.Units.SI.Angle Floor=Modelica.Constants.pi "Tilt for floor";
+constant Modelica.Units.SI.Angle Other=10e6 "Dummy tilt for unspecified cases";
+constant Modelica.Units.SI.Angle Wall=Modelica.Constants.pi/2 "Tilt for wall";
 
 
 annotation(preferredView="info", Documentation(info="<html>
@@ -16,14 +15,10 @@ For example, for a construction that is a floor, use
 <code>IDEAS.Types.Tilt.Floor</code>.
 </p>
 <p>
-Note that a ceiling has a tilt of <i>0</i>
-<!-- @include_Buildings
-, and also the solar collector models
+Note that a ceiling has a tilt of <i>0</i>, and also the solar collector models
 in
 <a href=\"IDEAS.Fluid.SolarCollectors\">IDEAS.Fluid.SolarCollectors</a>
-require a tilt of <i>0</i>
--->
-if they are facing straight upwards.
+require a tilt of <i>0</i> if they are facing straight upwards.
 This is correct because
 the solar irradiation on a ceiling construction is on the other-side surface,
 which faces upwards toward the sky. Hence, a construction is considered
