@@ -3,36 +3,40 @@ model TapProfile "Example with two 'TapProfile' models"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water;
 
-  IDEAS.Fluid.Taps.TapProfile tapProfile1(redeclare package Medium = Medium)
+  IDEAS.Fluid.Taps.TapProfile tapPro1(redeclare package Medium = Medium)
+    "DHW tap 1"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
-  IDEAS.Fluid.Taps.TapProfile tapProfile2(redeclare package Medium = Medium,
-    loadFile=Modelica.Utilities.Files.loadResource(
-      "modelica://IDEAS/Resources/domestichotwaterprofiles/DHW_1year_2adults_2children.txt"))
+  IDEAS.Fluid.Taps.TapProfile tapPro2(redeclare package Medium = Medium,
+      loadFile=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/DHW/DHW_1year_2adults_2children.txt"))
+    "DHW tap 2"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
     redeclare package Medium = Medium, use_T_in=true,
     nPorts=2)
+    "Fluid source"
     annotation (Placement(transformation(extent={{-60,10},{-40,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou2(redeclare package Medium = Medium,
       nPorts=2)
+    "Fluid sink"
     annotation (Placement(transformation(extent={{60,10},{40,-10}})));
   Modelica.Blocks.Sources.Sine sine(
     amplitude=10,
     f=1/24/3600,
     offset=273.15 + 45)
+    "Hot water supply temperature"
     annotation (Placement(transformation(extent={{-90,-14},{-70,6}})));
 equation
 
   connect(sine.y, bou1.T_in)
     annotation (Line(points={{-69,-4},{-62,-4}}, color={0,0,127}));
-  connect(tapProfile1.port_b, bou2.ports[1]) annotation (Line(points={{10,20},{
-          30,20},{30,1},{40,1}}, color={0,127,255}));
-  connect(tapProfile2.port_b, bou2.ports[2]) annotation (Line(points={{10,-20},
-          {30,-20},{30,-1},{40,-1}}, color={0,127,255}));
-  connect(tapProfile1.port_a, bou1.ports[1]) annotation (Line(points={{-10,20},
-          {-30,20},{-30,1},{-40,1}}, color={0,127,255}));
-  connect(tapProfile2.port_a, bou1.ports[2]) annotation (Line(points={{-10,-20},
-          {-30,-20},{-30,-1},{-40,-1}}, color={0,127,255}));
+  connect(tapPro1.port_b, bou2.ports[1]) annotation (Line(points={{10,20},{30,20},
+          {30,1},{40,1}}, color={0,127,255}));
+  connect(tapPro2.port_b, bou2.ports[2]) annotation (Line(points={{10,-20},{30,-20},
+          {30,-1},{40,-1}}, color={0,127,255}));
+  connect(tapPro1.port_a, bou1.ports[1]) annotation (Line(points={{-10,20},{-30,
+          20},{-30,1},{-40,1}}, color={0,127,255}));
+  connect(tapPro2.port_a, bou1.ports[2]) annotation (Line(points={{-10,-20},{-30,
+          -20},{-30,-1},{-40,-1}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

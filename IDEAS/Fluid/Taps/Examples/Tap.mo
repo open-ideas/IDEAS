@@ -8,30 +8,37 @@ model Tap "Example with two 'Tap' models"
     width=5,
     period=10000,
     startTime=5000,
-    offset=0) annotation (Placement(transformation(extent={{-30,50},{-10,70}})));
+    offset=0)
+    "DHW demand (mass flow rate) for tap 1"
+     annotation (Placement(transformation(extent={{-30,50},{-10,70}})));
   Modelica.Blocks.Sources.Ramp step(
     startTime=86400,
     height=-30,
     duration=50000,
     offset=273.15 + 70)
+    "Hot water supply temperature"
     annotation (Placement(transformation(extent={{-90,-14},{-70,6}})));
-  IDEAS.Fluid.Taps.Tap tap1(redeclare package Medium = Medium)
+  IDEAS.Fluid.Taps.Tap tap1(redeclare package Medium = Medium) "DHW tap 1"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
-  IDEAS.Fluid.Taps.Tap tap2(redeclare package Medium = Medium)
+  IDEAS.Fluid.Taps.Tap tap2(redeclare package Medium = Medium) "DHW tap 2"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
     redeclare package Medium = Medium, use_T_in=true,
     nPorts=2)
+    "Fluid source"
     annotation (Placement(transformation(extent={{-60,10},{-40,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou2(redeclare package Medium = Medium,
       nPorts=2)
+    "Fluid sink"
     annotation (Placement(transformation(extent={{60,10},{40,-10}})));
   Modelica.Blocks.Sources.Pulse m_flow_set2(
     amplitude=0.1,
     width=5,
     period=10000,
     startTime=2500,
-    offset=0)       annotation (Placement(transformation(extent={{-60,-70},{-40,
+    offset=0)
+    "DHW demand (mass flow rate) for tap 2"
+     annotation (Placement(transformation(extent={{-60,-70},{-40,
             -50}})));
 equation
 
