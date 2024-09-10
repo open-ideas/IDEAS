@@ -63,6 +63,8 @@ equation
       StopTime=259200,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"),
+      __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/Taps/Examples/Tap.mos"
+        "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
 <li>March 26, 2024, by Lucas Verleyen:<br>Initial implementation.
