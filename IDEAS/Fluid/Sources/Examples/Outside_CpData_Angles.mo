@@ -96,7 +96,7 @@ Notice how the profile is shifted based on the surface azimuth.
 February 2, 2022, by Michael Wetter:<br/>
 Revised implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
 </li>
 <li>
 Jun 28, 2021 by Klaas De Jonge:<br/>

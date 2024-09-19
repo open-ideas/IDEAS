@@ -129,7 +129,7 @@ does not account for expansion if air the air is heated.
 <li>
 March 26, 2021 by Michael Wetter:<br/>
 Updated comments for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IDEAS, #515</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IBPSA, #515</a>.
 </li>
 <li>
 December 22, 2014 by Michael Wetter:<br/>

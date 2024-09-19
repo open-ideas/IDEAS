@@ -236,12 +236,15 @@ protected
     rotation=-90,
     origin={-106,68})));
   Modelica.Blocks.Math.Gain eRadSol[nOrientations](
-    final k=gWin*(1 - ratioWinConRad)*ATransparent) if sum(ATransparent) > 0
+    final k(each unit="m2")=gWin*(1 - ratioWinConRad)*ATransparent,
+    u(each final unit="W/m2"),
+    y(each final unit="W")) if sum(ATransparent) > 0
     "Emission coefficient of solar radiation considered as radiation"
     annotation (Placement(transformation(extent={{-206,141},{-196,151}})));
   Modelica.Blocks.Math.Gain eConvSol[nOrientations](
-    final k=gWin*ratioWinConRad*ATransparent)
- if ratioWinConRad > 0 and sum(ATransparent) > 0
+    final k(each unit="m2")=gWin*ratioWinConRad*ATransparent,
+    u(each final unit="W/m2"),
+    y(each final unit="W")) if ratioWinConRad > 0 and sum(ATransparent) > 0
     "Emission coefficient of solar radiation considered as convection"
     annotation (Placement(transformation(extent={{-206,119},{-196,129}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor resExtWallWin(
@@ -550,7 +553,7 @@ This is for
 October 9, 2019, by Michael Wetter:<br/>
 Refactored addition of moisture to also account for the energy content of the
 water vapor.<br/>
-This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1209\">IDEAS, issue 1209</a>.
+This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1209\">IBPSA, issue 1209</a>.
 </li>
   <li>
   September 24, 2019, by Martin Kremer:<br/>

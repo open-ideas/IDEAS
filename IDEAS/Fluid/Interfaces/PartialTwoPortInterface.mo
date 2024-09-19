@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Interfaces;
 partial model PartialTwoPortInterface
-  "Partial model transporting fluid between two ports without storing mass or energy"
+  "Partial model with two ports and declaration of quantities that are used by many models"
   extends IDEAS.Fluid.Interfaces.PartialTwoPort(
     port_a(p(start=Medium.p_default)),
     port_b(p(start=Medium.p_default)));
@@ -58,8 +58,8 @@ protected
     preferredView="info",
     Documentation(info="<html>
 <p>
-This component defines the interface for models that
-transports a fluid between two ports. It is similar to
+This component defines the interface for models with two fluid ports.
+It is similar to
 <a href=\"Modelica://Modelica.Fluid.Interfaces.PartialTwoPortTransport\">
 Modelica.Fluid.Interfaces.PartialTwoPortTransport</a>, but it does not
 include the species balance
@@ -71,6 +71,13 @@ include the species balance
 Thus, it can be used as a base class for a heat <i>and</i> mass transfer component
 </p>
 <p>
+The partial model extends
+<a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPort\">
+IDEAS.Fluid.Interfaces.PartialTwoPort</a>
+and adds quantities that are used by many models such as
+<code>m_flow_nominal</code>, <code>m_flow</code> and <code>dp</code>.
+</p>
+<p>
 The model is used by other models in this package that add heat transfer,
 mass transfer and pressure drop equations. See for example
 <a href=\"modelica://IDEAS.Fluid.Interfaces.StaticTwoPortHeatMassExchanger\">
@@ -79,18 +86,24 @@ IDEAS.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>.
 </html>", revisions="<html>
 <ul>
 <li>
+September 22, 2023, by Michael Wetter:<br/>
+Improved documentation.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1796\">IBPSA, #1796</a>.
+</li>
+<li>
 February 2, 2022, by Hongxiang Fu:<br/>
 If <code>allowFlowReversal==false</code>, replaced <code>actualStream()</code>
 with <code>inStream()</code> for <code>sta_a</code> and
 removed <code>actualStream()</code> for <code>sta_b</code>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IDEAS, #1578</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IBPSA, #1578</a>.
 </li>
 <li>
 March 30, 2021, by Michael Wetter:<br/>
 Added annotation <code>HideResult=true</code>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1459\">IDEAS, #1459</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1459\">IBPSA, #1459</a>.
 </li>
 <li>
 November 3, 2016, by Michael Wetter:<br/>

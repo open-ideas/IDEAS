@@ -72,7 +72,7 @@ National Institute of Standards and Technology, NIST TN 1887, Sep. 2015. doi: <a
 February 2, 2022, by Michael Wetter:<br/>
 Revised implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
 </li>
 <li>
 Apr 6, 2021, 2020, by Klaas De Jonge:<br/>
