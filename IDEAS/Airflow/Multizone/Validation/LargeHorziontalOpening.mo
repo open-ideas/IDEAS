@@ -4,176 +4,299 @@ model LargeHorziontalOpening
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Specialized.Air.PerfectGas;
 
-  DoorDiscretizedOpen doo(
+  Orifice Opening_Orifice(
     redeclare package Medium = Medium,
-    vZer(displayUnit="m/s"),
-    wOpe=0.8,
+    useDefaultProperties=false,
+    dp_turbulent=Opening_CrackOrOperableDoor.dp_turbulent_ope,
+    A=2,
+    CD=0.78) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-116,-18})));
+
+   CrackOrOperableDoor Opening_CrackOrOperableDoor(
+    redeclare package Medium = Medium,
+    wOpe=1,
     hOpe=2,
-    inc=Modelica.Constants.pi,
-    hA=-2.5,
-    hB=2.5,
-    nCom=2,
-    CD=0.78) annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+    interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
+    h_b1=0,
+    h_b2=0,
+    h_a1=0,
+    h_a2=0,
+    hA=-1.5,
+    hB=1.5,
+    A_q50=0.01,
+    q50=0.01,
+    useDoor=true,
+    use_y=false,
+    inc=0) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-46,14})));
+        origin={60,-6})));
+  Modelica.Blocks.Math.Sum MF_Doormodel(nin=2, k={3600,3600})
+    annotation (Placement(transformation(extent={{14,30},{-6,50}})));
+  Modelica.Blocks.Math.Sum MF_Orifice(nin=1, k={3600})
+    annotation (Placement(transformation(extent={{-180,28},{-200,48}})));
 
-  //Boundary conditions
+protected
+    Fluid.Sensors.MassFlowRate MFsensor_Orifice(redeclare package Medium =
+        Medium)                                 "Mass flow rate sensor"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-116,38})));
 
-  Fluid.Sources.Boundary_pT bouA(
+   Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF2(redeclare package Medium =
+        Medium)                           "Mass flow rate sensor"
+                            annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={50,40})));
+ Fluid.MixingVolumes.MixingVolume
+                            vol1(
     redeclare package Medium = Medium,
-    use_p_in=true,
-    T=291.15,
+    T_start=293.15,
+    X_start={0,1},
+    m_flow_nominal=1e-6,
+    V=15,
     nPorts=2) "Pressure boundary" annotation (Placement(transformation(extent={{-10,10},
             {10,-10}},
-        rotation=90,
-        origin={-46,-32})));
-  Fluid.Sources.Boundary_pT bouB(
+        rotation=0,
+        origin={-134,-76})));
+  Fluid.MixingVolumes.MixingVolume
+                            vol(
     redeclare package Medium = Medium,
-    use_p_in=true,
-    T=291.15,
+    T_start=293.15,
+    X_start={0,1},
+    m_flow_nominal=1e-6,
+    V=15,
     nPorts=2) "Pressure boundary" annotation (Placement(transformation(extent={{-10,-10},
             {10,10}},
-        rotation=270,
-        origin={-48,102})));
-  Modelica.Blocks.Sources.TimeTable
-                               timeTable(table=[0,2.24e-06; 3600,2.24e-06; 7200,
-        2.2e-06; 10800,2.28e-06; 14400,2.23e-06; 18000,2.24e-06; 21600,2.24e-06;
-        25200,2.23e-06; 28800,2.37e-06; 32400,2.23e-06; 36000,2.21e-06; 39600,2.28e-06;
-        43200,2.12e-06; 46800,2.18e-06; 50400,2.07e-06; 54000,2.12e-06; 57600,1.91e-06;
-        61200,2.22e-06; 64800,2.08e-06; 68400,2.31e-06; 72000,2.51e-06; 75600,2.68e-06;
-        79200,2.63e-06; 82800,2.77e-06; 86400,2.89e-06; 90000,2.86e-06; 93600,2.77e-06;
-        97200,2.92e-06; 100800,2.8e-06; 104400,2.86e-06; 108000,2.89e-06; 111600,
-        2.77e-06; 115200,2.81e-06; 118800,2.81e-06; 122400,2.72e-06; 126000,2.67e-06;
-        129600,2.48e-06; 133200,2.51e-06; 136800,2.54e-06; 140400,2.47e-06; 144000,
-        2.67e-06; 147600,2.64e-06; 151200,2.76e-06; 154800,2.7e-06; 158400,2.69e-06;
-        162000,2.72e-06; 165600,2.67e-06; 169200,2.71e-06; 172800,2.74e-06; 176400,
-        2.8e-06; 180000,2.8e-06; 183600,2.86e-06; 187200,2.86e-06; 190800,2.8e-06;
-        194400,2.91e-06; 198000,2.98e-06; 201600,2.92e-06; 205200,2.95e-06; 208800,
-        2.95e-06; 212400,2.81e-06; 216000,2.75e-06; 219600,2.66e-06; 223200,2.7e-06;
-        226800,2.57e-06; 230400,2.67e-06; 234000,2.74e-06; 237600,2.64e-06; 241200,
-        2.72e-06; 244800,2.74e-06; 248400,3.04e-06; 252000,3.28e-06; 255600,3.27e-06;
-        259200,3.21e-06; 262800,3.31e-06; 266400,3.24e-06; 270000,3.3e-06; 273600,
-        3.33e-06; 277200,3.3e-06; 280800,3.24e-06; 284400,3.15e-06; 288000,3.16e-06;
-        291600,3.12e-06; 295200,3.05e-06; 298800,3.06e-06; 302400,3.11e-06; 306000,
-        3.33e-06; 309600,3.28e-06; 313200,3.33e-06; 316800,3.43e-06; 320400,3.36e-06;
-        324000,3.3e-06; 327600,3.34e-06; 331200,3.3e-06; 334800,3.4e-06; 338400,
-        3.12e-06; 342000,3.09e-06; 345600,3.19e-06; 349200,3.03e-06; 352800,2.96e-06;
-        356400,2.84e-06; 360000,2.81e-06; 363600,2.64e-06; 367200,2.66e-06; 370800,
-        2.61e-06; 374400,2.69e-06; 378000,2.66e-06; 381600,2.58e-06; 385200,2.49e-06;
-        388800,2.63e-06; 392400,2.49e-06; 396000,2.61e-06; 399600,2.63e-06; 403200,
-        2.57e-06; 406800,2.64e-06; 410400,2.71e-06; 414000,2.77e-06; 417600,2.83e-06;
-        421200,3.03e-06; 424800,2.95e-06; 428400,2.98e-06; 432000,3.06e-06; 435600,
-        3.34e-06; 439200,3.23e-06; 442800,3.19e-06; 446400,3.16e-06; 450000,3.13e-06;
-        453600,3.07e-06; 457200,3.04e-06; 460800,3.02e-06; 464400,2.89e-06; 468000,
-        2.95e-06; 471600,2.78e-06; 475200,2.69e-06; 478800,2.61e-06; 482400,2.63e-06;
-        486000,2.69e-06; 489600,2.66e-06; 493200,2.64e-06; 496800,2.67e-06; 500400,
-        2.7e-06; 504000,2.73e-06; 507600,2.72e-06; 511200,2.7e-06; 514800,2.73e-06;
-        518400,2.7e-06; 522000,2.7e-06; 525600,2.67e-06; 529200,2.75e-06; 532800,
-        3.07e-06; 536400,3.49e-06; 540000,3.1e-06; 543600,2.83e-06; 547200,2.71e-06;
-        550800,2.56e-06; 554400,2.45e-06; 558000,2.33e-06; 561600,2.26e-06; 565200,
-        2.13e-06; 568800,2.14e-06; 572400,2.13e-06; 576000,2.28e-06; 579600,2.23e-06;
-        583200,2.06e-06; 586800,2.14e-06; 590400,2.06e-06; 594000,2.08e-06; 597600,
-        2.06e-06; 601200,1.94e-06; 604800,1.97e-06; 608400,2.15e-06; 612000,1.94e-06;
-        615600,1.91e-06; 619200,2.28e-06; 622800,2.46e-06; 626400,2.51e-06; 630000,
-        2.6e-06; 633600,2.65e-06; 637200,2.72e-06; 640800,2.41e-06; 644400,2.65e-06;
-        648000,2.48e-06; 651600,2.51e-06; 655200,2.77e-06; 658800,2.47e-06; 662400,
-        2.54e-06; 666000,2.59e-06; 669600,2.65e-06; 673200,2.71e-06; 676800,2.96e-06;
-        680400,2.76e-06; 684000,2.77e-06; 687600,2.96e-06; 691200,2.93e-06; 694800,
-        2.96e-06; 698400,3.08e-06; 702000,3.17e-06; 705600,3.21e-06; 709200,3.05e-06;
-        712800,3.07e-06; 716400,3e-06; 720000,3.2e-06; 723600,3.22e-06; 727200,3.45e-06;
-        730800,3.11e-06; 734400,3e-06; 738000,2.75e-06; 741600,2.58e-06; 745200,
-        2.63e-06; 748800,2.85e-06; 752400,2.62e-06; 756000,2.74e-06; 759600,2.86e-06;
-        763200,3.01e-06; 766800,3.13e-06; 770400,3.12e-06; 774000,3.18e-06; 777600,
-        3.25e-06; 781200,3.33e-06; 784800,3.3e-06; 788400,3.27e-06; 792000,3.4e-06;
-        795600,3.35e-06; 799200,3.45e-06; 802800,3.38e-06; 806400,3.27e-06; 810000,
-        3.3e-06; 813600,3.13e-06; 817200,3.17e-06; 820800,2.95e-06; 824400,2.83e-06;
-        828000,2.74e-06; 831600,2.78e-06; 835200,2.66e-06; 838800,2.93e-06; 842400,
-        2.95e-06; 846000,2.97e-06; 849600,3.12e-06; 853200,3.15e-06; 856800,3.24e-06;
-        860400,3.42e-06; 864000,3.52e-06; 867600,3.61e-06; 871200,3.72e-06; 874800,
-        3.48e-06; 878400,3.44e-06; 882000,3.41e-06; 885600,3.28e-06; 889200,3.19e-06;
-        892800,3.11e-06; 896400,2.98e-06; 900000,2.88e-06; 903600,2.63e-06; 907200,
-        2.33e-06; 910800,2.01e-06; 914400,2.09e-06; 918000,2.25e-06; 921600,2.12e-06;
-        925200,2.31e-06; 928800,2.48e-06; 932400,2.34e-06; 936000,2.34e-06; 939600,
-        2.35e-06; 943200,2.28e-06; 946800,2.35e-06; 950400,2.45e-06; 954000,2.44e-06;
-        957600,2.47e-06; 961200,2.44e-06; 964800,2.47e-06; 968400,2.48e-06; 972000,
-        2.68e-06; 975600,2.75e-06; 979200,2.63e-06; 982800,2.61e-06; 986400,2.64e-06;
-        990000,2.45e-06; 993600,2.4e-06; 997200,2.37e-06; 1000800,2.34e-06; 1004400,
-        2.36e-06; 1008000,2.24e-06; 1011600,2.2e-06; 1015200,2.03e-06; 1018800,2.03e-06;
-        1022400,2.06e-06; 1026000,2.19e-06; 1029600,2.02e-06; 1033200,1.95e-06;
-        1036800,2.07e-06; 1040400,2.23e-06; 1044000,2.35e-06; 1047600,2.23e-06;
-        1051200,2.07e-06; 1054800,1.99e-06; 1058400,2.06e-06; 1062000,1.89e-06;
-        1065600,2.07e-06; 1069200,1.89e-06; 1072800,1.97e-06; 1076400,1.86e-06;
-        1080000,1.79e-06; 1083600,1.77e-06; 1087200,2.06e-06; 1090800,2.05e-06;
-        1094400,2.01e-06; 1098000,1.81e-06; 1101600,1.96e-06; 1105200,2.22e-06;
-        1108800,2.2e-06; 1112400,1.78e-06; 1116000,2.2e-06; 1119600,2.05e-06; 1123200,
-        2.07e-06; 1126800,2.2e-06; 1130400,2.27e-06; 1134000,2.3e-06; 1137600,2.22e-06;
-        1141200,2.38e-06; 1144800,2.43e-06; 1148400,2.54e-06; 1152000,2.38e-06;
-        1155600,2.44e-06; 1159200,2.44e-06; 1162800,2.65e-06; 1166400,2.53e-06;
-        1170000,2.28e-06; 1173600,2.13e-06; 1177200,2.34e-06; 1180800,2.48e-06;
-        1184400,2.73e-06; 1188000,2.68e-06; 1191600,2.52e-06; 1195200,2.65e-06;
-        1198800,2.65e-06; 1202400,2.7e-06; 1206000,2.75e-06; 1209600,2.78e-06])
-    "Block representing realistic pressure differences"
-     annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
-  Modelica.Blocks.Sources.Constant PAmb(k=101325)
-  "Assumed ambient pressure" annotation (Placement(transformation(extent={{-180,18},
-            {-160,38}})));
-  Modelica.Blocks.Math.Sum sum(nin=2)
-    "Sum" annotation (Placement(transformation(
+        rotation=0,
+        origin={-134,64})));
+  MediumColumn col2(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{-124,2},{-104,22}})));
+  MediumColumn col3(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom)
+    annotation (Placement(transformation(extent={{-124,-58},{-104,-38}})));
+
+  Orifice ori2(
+    redeclare package Medium = Medium,
+    useDefaultProperties=false,
+    A=0.5,
+    CD=0.6) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={-122,-10})));
-
-  //Flow models
-
-  //Mass flow sensors
-  Fluid.Sensors.MassFlowRate Top_ports(redeclare package Medium = Medium)
-    "Mass flow rate sensor"
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        origin={-152,-130})));
+  MediumColumn col4(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom)
+    annotation (Placement(transformation(extent={{-124,74},{-104,94}})));
+  MediumColumn col5(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{-124,-124},{-104,-104}})));
+  Orifice ori3(
+    redeclare package Medium = Medium,
+    useDefaultProperties=false,
+    A=0.5,
+    CD=0.6) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-80,100})));
+  Fluid.Sources.Boundary_pT bouA4(
+    redeclare package Medium = Medium,
+    X={0,1},
+    p(displayUnit="Pa") = 101325,
+    T=278.15,
+    nPorts=2) "Pressure boundary" annotation (Placement(transformation(extent={{10,10},
+            {-10,-10}},
+        rotation=0,
+        origin={2,172})));
+  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=20)
+    annotation (Placement(transformation(extent={{-172,54},{-152,74}})));
+  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature1(T=20)
+    annotation (Placement(transformation(extent={{-176,-86},{-156,-66}})));
+  MediumColumn col6(
+    redeclare package Medium = Medium,
+    h=10,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{-40,-76},{-12,-48}})));
+  MediumColumn col7(
+    redeclare package Medium = Medium,
+    h=4,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{-56,128},{-28,156}})));
+  Fluid.MixingVolumes.MixingVolume
+                            vol2(
+    redeclare package Medium = Medium,
+    T_start=293.15,
+    X_start={0,1},
+    m_flow_nominal=1e-6,
+    V=15,
+    nPorts=3) "Pressure boundary" annotation (Placement(transformation(extent={{-10,10},
+            {10,-10}},
+        rotation=0,
+        origin={50,-66})));
+  Fluid.MixingVolumes.MixingVolume
+                            vol3(
+    redeclare package Medium = Medium,
+    T_start=293.15,
+    X_start={0,1},
+    m_flow_nominal=1e-6,
+    V=15,
+    nPorts=3) "Pressure boundary" annotation (Placement(transformation(extent={{-10,-10},
+            {10,10}},
+        rotation=0,
+        origin={50,74})));
+  Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF1(redeclare package Medium =
+        Medium)                           "Mass flow rate sensor"
+                            annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-70,62})));
-  Fluid.Sensors.MassFlowRate Bot_ports(redeclare package Medium = Medium)
-    "Mass flow rate sensor"
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-24,62})));
+        origin={82,40})));
+  Orifice ori5(
+    redeclare package Medium = Medium,
+    useDefaultProperties=false,
+    A=0.5,
+    CD=0.6) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={32,-120})));
+  MediumColumn col9(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom)
+    annotation (Placement(transformation(extent={{60,84},{80,104}})));
+  MediumColumn col10(
+    redeclare package Medium = Medium,
+    h=1.5,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{60,-114},{80,-94}})));
+  Orifice ori6(
+    redeclare package Medium = Medium,
+    useDefaultProperties=false,
+    A=0.5,
+    CD=0.6) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={104,110})));
+  Fluid.Sources.Boundary_pT bouA1(
+    redeclare package Medium = Medium,
+    X={0,1},
+    p(displayUnit="Pa") = 101325,
+    T=278.15,
+    nPorts=2) "Pressure boundary" annotation (Placement(transformation(extent={{10,10},
+            {-10,-10}},
+        rotation=0,
+        origin={186,166})));
+  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature2(T=20)
+    annotation (Placement(transformation(extent={{12,64},{32,84}})));
+  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature3(T=20)
+    annotation (Placement(transformation(extent={{8,-76},{28,-56}})));
+  MediumColumn col11(
+    redeclare package Medium = Medium,
+    h=10,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{144,-80},{172,-52}})));
+  MediumColumn col12(
+    redeclare package Medium = Medium,
+    h=4,
+    densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
+    annotation (Placement(transformation(extent={{128,122},{156,150}})));
+
 
 equation
 
-  connect(timeTable.y, sum.u[1]) annotation (Line(points={{-159,-10},{-134,-10},
-          {-134,-10.5}}, color={0,0,127}));
-  connect(PAmb.y, sum.u[2]) annotation (Line(points={{-159,28},{-140,28},{-140,-10},
-          {-134,-10},{-134,-9.5}}, color={0,0,127}));
-  connect(sum.y, bouA.p_in) annotation (Line(points={{-111,-10},{-82,-10},{-82,
-          -54},{-38,-54},{-38,-44}},                                              color={0,0,127}));
-  connect(PAmb.y, bouB.p_in) annotation (Line(points={{-159,28},{-86,28},{-86,
-          122},{-40,122},{-40,114}},                         color={0,0,127}));
-  connect(Top_ports.port_b, bouB.ports[1]) annotation (Line(points={{-70,72},{
-          -70,86},{-49,86},{-49,92}},
-                              color={0,127,255}));
-  connect(Bot_ports.port_b, bouB.ports[2]) annotation (Line(points={{-24,72},{
-          -24,86},{-47,86},{-47,92}},      color={0,127,255}));
-
-  connect(doo.port_b1, Top_ports.port_a) annotation (Line(points={{-52,24},{-52,
-          40},{-70,40},{-70,52}},
+  connect(col3.port_b, vol1.ports[1]) annotation (Line(points={{-114,-58},{-114,
+          -66},{-135,-66}},color={0,127,255}));
+  connect(Opening_Orifice.port_a, col2.port_b)
+    annotation (Line(points={{-116,-8},{-116,2},{-114,2}}, color={0,127,255}));
+  connect(col3.port_a, Opening_Orifice.port_b) annotation (Line(points={{-114,-38},
+          {-114,-32},{-116,-32},{-116,-28}}, color={0,127,255}));
+  connect(col2.port_a, MFsensor_Orifice.port_a) annotation (Line(points={{-114,22},
+          {-114,26},{-116,26},{-116,28}}, color={0,127,255}));
+  connect(MFsensor_Orifice.port_b, vol.ports[1]) annotation (Line(points={{-116,
+          48},{-116,54},{-135,54}}, color={0,127,255}));
+  connect(vol.ports[2], col4.port_b)
+    annotation (Line(points={{-133,54},{-114,54},{-114,74}},
+                                                          color={0,127,255}));
+  connect(vol1.ports[2], col5.port_a) annotation (Line(points={{-133,-66},{-114,
+          -66},{-114,-104}},
+                           color={0,127,255}));
+  connect(col5.port_b, ori2.port_b) annotation (Line(points={{-114,-124},{-114,-130},
+          {-142,-130}},      color={0,127,255}));
+  connect(col4.port_a, ori3.port_a) annotation (Line(points={{-114,94},{-114,100},
+          {-90,100}}, color={0,127,255}));
+  connect(fixedTemperature.port, vol.heatPort)
+    annotation (Line(points={{-152,64},{-144,64}},
+                                                 color={191,0,0}));
+  connect(fixedTemperature1.port, vol1.heatPort)
+    annotation (Line(points={{-156,-76},{-144,-76}},
+                                                   color={191,0,0}));
+  connect(col6.port_a, bouA4.ports[1]) annotation (Line(points={{-26,-48},{-26,122},
+          {-12,122},{-12,173},{-8,173}},       color={0,127,255}));
+  connect(col6.port_b, ori2.port_a) annotation (Line(points={{-26,-76},{-26,-146},
+          {-168,-146},{-168,-130},{-162,-130}},    color={0,127,255}));
+  connect(col7.port_a, bouA4.ports[2]) annotation (Line(points={{-42,156},{-42,171},
+          {-8,171}},       color={0,127,255}));
+  connect(col7.port_b, ori3.port_b) annotation (Line(points={{-42,128},{-42,100},
+          {-70,100}}, color={0,127,255}));
+  connect(Ori_Mixingvol_MF1.port_b, vol3.ports[1]) annotation (Line(points={{82,50},
+          {82,62},{70,62},{70,64},{48.6667,64}},     color={0,127,255}));
+  connect(vol3.ports[2], col9.port_b)
+    annotation (Line(points={{50,64},{70,64},{70,84}}, color={0,127,255}));
+  connect(vol2.ports[1], col10.port_a) annotation (Line(points={{48.6667,-56},{
+          70,-56},{70,-94}},
                           color={0,127,255}));
-  connect(doo.port_a2, Bot_ports.port_a) annotation (Line(points={{-40,24},{-40,
-          40},{-24,40},{-24,52}},  color={0,127,255}));
-  connect(doo.port_a1, bouA.ports[1]) annotation (Line(points={{-52,4},{-52,-16},
-          {-47,-16},{-47,-22}}, color={0,127,255}));
-  connect(doo.port_b2, bouA.ports[2]) annotation (Line(points={{-40,4},{-40,-16},
-          {-45,-16},{-45,-22}}, color={0,127,255}));
+  connect(col10.port_b, ori5.port_b) annotation (Line(points={{70,-114},{70,-120},
+          {42,-120}}, color={0,127,255}));
+  connect(col9.port_a,ori6. port_a) annotation (Line(points={{70,104},{70,110},{
+          94,110}},   color={0,127,255}));
+  connect(fixedTemperature2.port, vol3.heatPort)
+    annotation (Line(points={{32,74},{40,74}}, color={191,0,0}));
+  connect(fixedTemperature3.port,vol2. heatPort)
+    annotation (Line(points={{28,-66},{40,-66}},   color={191,0,0}));
+  connect(col11.port_a, bouA1.ports[1]) annotation (Line(points={{158,-52},{158,
+          116},{166,116},{166,167},{176,167}}, color={0,127,255}));
+  connect(col11.port_b, ori5.port_a) annotation (Line(points={{158,-80},{158,
+          -146},{16,-146},{16,-120},{22,-120}},
+                                          color={0,127,255}));
+  connect(col12.port_a, bouA1.ports[2]) annotation (Line(points={{142,150},{142,
+          165},{176,165}}, color={0,127,255}));
+  connect(col12.port_b, ori6.port_b) annotation (Line(points={{142,122},{142,110},
+          {114,110}}, color={0,127,255}));
+  connect(Opening_CrackOrOperableDoor.port_a1, vol2.ports[2]) annotation (Line(
+        points={{54,-16},{54,-50},{50,-50},{50,-56}}, color={0,127,255}));
+  connect(Opening_CrackOrOperableDoor.port_b2, vol2.ports[3]) annotation (Line(
+        points={{66,-16},{66,-50},{51.3333,-50},{51.3333,-56}}, color={0,127,255}));
+  connect(Opening_CrackOrOperableDoor.port_a2, Ori_Mixingvol_MF1.port_a)
+    annotation (Line(points={{66,4},{66,24},{82,24},{82,30}}, color={0,127,255}));
+  connect(Opening_CrackOrOperableDoor.port_b1, Ori_Mixingvol_MF2.port_a)
+    annotation (Line(points={{54,4},{54,24},{50,24},{50,30}}, color={0,127,255}));
+  connect(Ori_Mixingvol_MF2.port_b, vol3.ports[3]) annotation (Line(points={{50,50},
+          {51.3333,50},{51.3333,64}},     color={0,127,255}));
+  connect(Ori_Mixingvol_MF2.m_flow, MF_Doormodel.u[1]) annotation (Line(points={
+          {39,40},{28,40},{28,39.5},{16,39.5}}, color={0,0,127}));
+  connect(Ori_Mixingvol_MF1.m_flow, MF_Doormodel.u[2]) annotation (Line(points={
+          {71,40},{66,40},{66,56},{32,56},{32,40},{28,40},{28,40.5},{16,40.5}},
+        color={0,0,127}));
+  connect(MF_Orifice.u[1], MFsensor_Orifice.m_flow)
+    annotation (Line(points={{-178,38},{-127,38}}, color={0,0,127}));
   annotation (Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-200,-180},{160,200}}),
-        graphics={Text(
-          extent={{-184,-56},{120,-144}},
-          textColor={28,108,200},
-          textString=
-              "Tabel nog aanpassen om ZONE drukken te hebben, en niet thv orifice want stack zit in doo component")}),
+        coordinateSystem(preserveAspectRatio=false, extent={{-200,-160},{220,200}})),
     experiment(
-      StopTime=1209600,
-      Interval=3600,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Dassl"),
+      StopTime=300,
+      Interval=10,
+      Tolerance=1e-09,
+      __Dymola_Algorithm="Cvode"),
       __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Airflow/Multizone/Validation/OneWayFlow.mos"
         "Simulate and plot"),
     Documentation(revisions="<html>
