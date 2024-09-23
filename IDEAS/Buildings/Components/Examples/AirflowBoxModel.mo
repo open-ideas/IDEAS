@@ -43,7 +43,6 @@ protected
       bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
       bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
-
       bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       nExtD=2,
       hasWinC=true,
@@ -130,5 +129,8 @@ This model runs the 4 possible interzonal airflow configurations of a simple box
 
 </html>"),
     Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
-    Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}})),
+        __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Buildings/Components/Examples/AirflowOptions.mos"
+        "Simulate and plot"));
 end AirflowBoxModel;
