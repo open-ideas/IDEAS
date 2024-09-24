@@ -16,8 +16,6 @@ jobs:
       - run: docker run --name dymimg --detach=true --rm -v /home/actions-runner/_work/IDEAS/IDEAS:/home/developer/IDEAS -w /home/developer/IDEAS -it dymimg
       - run: docker exec -t dymimg /bin/bash -c "rm -rf IDEAS && exit"
       - run: docker stop dymimg > /dev/null 2>&1 || true
-      - name: Change permissions of repository folder
-        run: chmod -R 777 /home/actions-runner/_work
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
