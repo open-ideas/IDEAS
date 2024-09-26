@@ -8,7 +8,8 @@ model LongwaveHeatTransfer
                   "Linearised interior heat radiation model"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
-    zonLwDist(nSurf=2, linearise=false)
+    zonLwDist(nSurf=2,
+    ignAss=true, linearise=false)
     "Model for longwave radiative heat exchange within a zone"
     annotation (Placement(transformation(extent={{10,-80},{-10,-60}})));
   Modelica.Blocks.Sources.Ramp ramp(
@@ -31,7 +32,7 @@ model LongwaveHeatTransfer
   Modelica.Blocks.Sources.Constant A(k=10) "Heat exchange surface area"
     annotation (Placement(transformation(extent={{100,-40},{80,-20}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ZoneLwDistribution
-    zonLwDistLin(nSurf=2)
+    zonLwDistLin(nSurf=2, ignAss=true)
     "Linearised model for longwave radiative heat exchange within a zone"
     annotation (Placement(transformation(extent={{10,-100},{-10,-80}})));
 equation
@@ -83,6 +84,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter <code>ignAss</code> to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li>    
 <li>
 August 9, 2022, by Filip Jorissen:<br/>
 Updated test for issue

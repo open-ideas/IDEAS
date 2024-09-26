@@ -22,7 +22,8 @@ model WindowThermalBridge "Comparison of three window thermal bridge options"
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     V=20,
-    nSurf=3)
+    nSurf=3,
+    ignAss=true)
     "Zone model"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   IDEAS.Buildings.Components.Window win(
@@ -43,7 +44,7 @@ model WindowThermalBridge "Comparison of three window thermal bridge options"
     annotation (Placement(transformation(extent={{-54,-60},{-44,-40}})));
 equation
   connect(zone.propsBus[1], floor.propsBus_a) annotation (Line(
-      points={{20,-54.6667},{20,-54.6667},{20,-6},{20,32},{-44.8333,32}},
+      points={{20,-56.6667},{20,-56.6667},{20,-6},{20,32},{-44.8333,32}},
       color={255,204,51},
       thickness=0.5));
   connect(win.propsBus_a, zone.propsBus[2]) annotation (Line(
@@ -51,7 +52,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(winLinLos.propsBus_a, zone.propsBus[3]) annotation (Line(
-      points={{-44.8333,-48},{-44.8333,-48},{20,-48},{20,-57.3333}},
+      points={{-44.8333,-48},{-44.8333,-48},{20,-48},{20,-55.3333}},
       color={255,204,51},
       thickness=0.5));
   connect(zone.port_a, bou.ports[1])
@@ -62,6 +63,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter <code>ignAss</code> to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
 <li>
 December 19, 2016 by Filip Jorissen:<br/>
 Revised implementation.
