@@ -70,13 +70,20 @@ model CrackOrOperableDoor
     displayUnit="Pa") = 0.01
     "Pressure difference where laminar and turbulent flow relation coincide. Recommended: 0.01";
 
+   parameter Modelica.Units.SI.PressureDifference dp_turbulent_ope(min=0,displayUnit="Pa") = (MFtrans/(1.2041*(CDOpe * hOpe*wOpe * sqrt(2/1.2041))))^(1/mOpe)
+   if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities";
+   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation";
+   parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter";
+   constant Real REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed reynoldsnumber at transition";
+   constant Real VItrans(unit="kg/(m.s)")=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed viscosity of air at transition";
+
   Modelica.Blocks.Interfaces.RealInput y(min=0, max=1, unit="1") if useDoor and use_y
     "Opening signal, 0=closed, 1=open"
     annotation (Placement(transformation(extent={{-120,-10},{-100,10}}), iconTransformation(extent={{-120,-10},{-100,10}})));
  IDEAS.Airflow.Multizone.Point_m_flow point_m_flow1(
   redeclare package Medium = Medium,
   dpMea_nominal = dpCloRat,
-  forceErrorControlOnFlow = false,
+    forceErrorControlOnFlow=true,
     mMea_flow_nominal=if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then wOpe*hOpe*1.2*CDCloRat*(2*dpCloRat/1.2)^mClo else (if
         interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
@@ -95,17 +102,17 @@ model CrackOrOperableDoor
  IDEAS.Airflow.Multizone.Point_m_flow point_m_flow2(
    redeclare package Medium = Medium,
    dpMea_nominal = dpCloRat,
-   forceErrorControlOnFlow = false,
+    forceErrorControlOnFlow=true,
    m = mClo,
    mMea_flow_nominal = (q50/3600*1.2041)*A_q50*0.5,
    useDefaultProperties = false) if not useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
+   final dh=doo.dhOpe*sin(inc)/nCom,
    redeclare package Medium = Medium,
-    inc=inc,
     final hA=hA,
     final hB=hB,
-   dp_turbulent=dp_turbulent,
+    dp_turbulent=dp_turbulent_ope,
    nCom=nCom,
    CDOpe=CDOpe,
     CDClo=CDCloRat,
@@ -116,8 +123,8 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-   vZer=vZer) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
-    Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+   vZer=vZer*MFtrans*1.2) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
+    Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
    redeclare package Medium = Medium,
    nPorts = 2)
@@ -161,10 +168,6 @@ equation
     Line(points = {{-10, 60}, {-100, 60}}, color = {0, 127, 255}));
     connect(point_m_flow1.port_b, port_b1) annotation (
     Line(points = {{10, 60}, {100, 60}}, color = {0, 127, 255}));
-    connect(doo.port_b1, port_b1) annotation (
-      Line(points = {{10, 6}, {20, 6}, {20, 60}, {100, 60}}, color = {0, 127, 255}));
-    connect(doo.port_a1, port_a1) annotation (
-      Line(points = {{-10, 6}, {-20, 6}, {-20, 60}, {-100, 60}}, color = {0, 127, 255}));
  end if;
  connect(constOne.y, doo.y) annotation (
     Line(points={{-47.4,-14},{-32,-14},{-32,0},{-11,0}},        color = {0, 0, 127}));

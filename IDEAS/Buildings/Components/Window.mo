@@ -157,7 +157,7 @@ model Window "Multipane window"
     m_flow_nominal=m_flow_nominal,
     use_y = use_trickle_vent_control)
     if use_trickle_vent and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
-"Trickle vent. Height assumed at the middle of the surface, i.e. at the reference pressure."
+      "Trickle vent. Height assumed at the top of the window but adaptable"
     annotation (Placement(visible = true, transformation(origin={6,-158},    extent = {{20, 88}, {40, 68}}, rotation = 0)));
   replaceable
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.SwWindowResponse

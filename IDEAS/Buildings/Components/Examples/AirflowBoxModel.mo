@@ -1,7 +1,6 @@
-within IDEAS.Buildings.Components.Validations;
+within IDEAS.Buildings.Components.Examples;
 model AirflowBoxModel
   extends Modelica.Icons.Example;
-
 
   Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-124,16},
             {-64,76}})));
@@ -12,28 +11,32 @@ model AirflowBoxModel
   Box_Sim IAQ_1port_trickle(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
       winD(
       use_trickle_vent=true,
-      m_flow_nominal=50*1.2041/3600,
-      dp_nominal=2)) annotation (Placement(transformation(rotation=0, extent={{-80,
-            -80},{-20,-20}})));
+      m_flow_nominal=0.0192656,
+      dp_nominal=2))
+    "Extends the 1 port implementation with a tricklevent in the window"
+                     annotation (Placement(transformation(rotation=0, extent={{-70,-82},
+            {-10,-22}})));
   Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
     use_operable_window=true,
-    winD(crackOrOperableDoor(nCom=2),
-      use_trickle_vent=true,
-      m_flow_nominal=50*1.2041/3600,
+    winD(
+      crackOrOperableDoor(nCom=2),
+      use_trickle_vent=false,
+      m_flow_nominal=0.0192656,
       dp_nominal=2),
-    winD_position(y=1),
+    winD_position(y=0),
     Con(G=10000000),
     Rad(G=10000000))                                                                                                                                                             annotation (Placement(transformation(rotation=0,
           extent={{20,-80},{80,-20}})));
 protected
   model Box_Sim
     inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
-        n50=1)
+        n50=1,
+      HPres=10)
       annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
       parameter Boolean use_operable_window=false
       "= true, to enable window control input";
 
-    RectangularZoneTemplate BoxModel(
+    IDEAS.Buildings.Components.RectangularZoneTemplate BoxModel(
       T_start=291.15,
       bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -109,7 +112,12 @@ protected
             fillPattern=FillPattern.Solid), Text(
             extent={{-100,-60},{98,-100}},
             textColor={28,108,200},
-            textString="%name")}));
+            textString="%name"),
+          Rectangle(
+            extent={{-48,48},{48,-48}},
+            lineColor={28,108,200},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid)}));
   end Box_Sim;
   annotation (experiment(
       StopTime=1209600,
@@ -121,5 +129,8 @@ This model runs the 4 possible interzonal airflow configurations of a simple box
 
 </html>"),
     Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
-    Icon(coordinateSystem(extent={{-180,-100},{100,100}})));
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}})),
+        __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Buildings/Components/Examples/AirflowOptions.mos"
+        "Simulate and plot"));
 end AirflowBoxModel;

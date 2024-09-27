@@ -215,9 +215,6 @@ partial model RectangularZoneTemplateInterface
     "= true, if exterior radiative heat transfer for windows should be linearised"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  parameter Real mSenFac(min=0.1)=5
-    "Factor for scaling the sensible thermal mass of the zone air"
-    annotation(Dialog(tab="Advanced",group="Air model"));
   parameter SI.TemperatureDifference dT_nominal_bou=-1
     "Nominal temperature difference for boundary walls, used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
@@ -1544,8 +1541,15 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
+January 8, 2024, by Jelger Jansen:<br/>
+Removed duplicate declaration of <code>mSenFac</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
+#1343</a>
+</li>
+<li>
 October 18, 2023, by Filip Jorissen:<br/>
 Added window height parameters.
+</li>
 </li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
