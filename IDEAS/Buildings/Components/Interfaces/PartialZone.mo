@@ -60,6 +60,8 @@ model PartialZone "Building zone model"
       enable=linIntRad));
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
+  parameter Boolean ignAss=false "Ignore asserts to simulate non-physical unit test models"
+    annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
   replaceable ZoneAirModels.WellMixedAir airModel
   constrainedby
@@ -219,7 +221,8 @@ protected
     radDistrLw(nSurf=nSurf, final linearise=linIntRad or sim.linearise,
     Tzone_nom=Tzone_nom,
     dT_nom=dT_nom,
-    final simVieFac=simVieFac)                if not calculateViewFactor
+    final simVieFac=simVieFac,
+    final ignAss=ignAss)                if not calculateViewFactor
     "internal longwave radiative heat exchange" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
@@ -551,30 +554,31 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+April 26, 2024 by Jelger Jansen:<br/>
+Added parameter <code>ignAss</code> to ignore view factor asserts for non-physical unit test models.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
+<li>
 Februari 18, 2024, by Filip Jorissen:<br/>
 Modifications for supporting trickle vents and interzonal airflow.
 </li>
-
 <li>
 January 8, 2024, by Jelger Jansen:<br/>
 Added min attribute to <code>mSenFac</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
 #1343</a>
 </li>
-
 <li>
 July 25, 2023, by Filip Jorissen:<br/>
 Added conditional inputs for injecting water or CO2.
 Added output phi for the relative humidity.
 </li>
-
 <li>
 January 8, 2024, by Jelger Jansen:<br/>
 Added min attribute to <code>mSenFac</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
 #1343</a>
 </li>
-
 <li>
 May 29, 2022, by Filip Jorissen:<br/>
 Unprotected component for OM compatibility.

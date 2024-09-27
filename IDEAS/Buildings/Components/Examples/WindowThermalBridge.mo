@@ -22,7 +22,8 @@ model WindowThermalBridge "Comparison of three window thermal bridge options"
     redeclare package Medium = Medium,
     allowFlowReversal=true,
     V=20,
-    nSurf=3)
+    nSurf=3,
+    ignAss=true)
     "Zone model"
     annotation (Placement(transformation(extent={{20,-70},{40,-50}})));
   IDEAS.Buildings.Components.Window win(
@@ -63,6 +64,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+April 26, 2024 by Jelger Jansen:<br/>
+Set parameter <code>ignAss</code> to ignore view factor assert.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
+</li> 
 <li>
 December 19, 2016 by Filip Jorissen:<br/>
 Revised implementation.

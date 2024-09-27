@@ -6,14 +6,14 @@ on:
   pull_request:
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: blizz
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event"
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server called tony-de-rekenpony hosted by The Sysis team at KU Leuven"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
       - run: echo "The following commands are used to remove files inside container to ensure cleanup and avoid permission errors"
       - run: docker stop dymimg > /dev/null 2>&1 || true 
-      - run: docker run --name dymimg --detach=true --rm -v /home/actions-runner/_work/IDEAS/IDEAS:/home/developer/IDEAS -w /home/developer/IDEAS -it dymimg
+      - run: docker run --name dymimg --detach=true --rm -v /home/u0148284/actions-runner/_work/IDEAS/IDEAS:/home/developer/IDEAS -w /home/developer/IDEAS -it dymimg
       - run: docker exec -t dymimg /bin/bash -c "rm -rf IDEAS && exit"
       - run: docker stop dymimg > /dev/null 2>&1 || true
       - name: Check out repository code
@@ -21,12 +21,12 @@ jobs:
         with:
           clean: true
       - name: Change permissions of repository folder
-        run: chmod -R 777 /home/actions-runner/_work
+        run: chmod -R 777 /home/u0148284/actions-runner/_work
       - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
   test:
-    runs-on: self-hosted
+    runs-on: blizz
     needs: build
     defaults:
       run:
