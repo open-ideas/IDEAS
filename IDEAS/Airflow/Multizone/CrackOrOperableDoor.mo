@@ -110,7 +110,6 @@ model CrackOrOperableDoor
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
    final dh=doo.dhOpe*sin(inc)/nCom,
    redeclare package Medium = Medium,
-    inc=inc,
     final hA=hA,
     final hB=hB,
     dp_turbulent=dp_turbulent_ope,
