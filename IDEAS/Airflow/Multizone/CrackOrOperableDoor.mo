@@ -108,6 +108,7 @@ model CrackOrOperableDoor
    useDefaultProperties = false) if not useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
+   final dh=doo.dhOpe*sin(inc)/nCom,
    redeclare package Medium = Medium,
     inc=inc,
     final hA=hA,
