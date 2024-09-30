@@ -34,8 +34,11 @@ model PartialZone "Building zone model"
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
+  parameter Modelica.Units.SI.Temperature T_setpoint=273.15+21
+  "Reference temperature setpoint of zone (in K), for calculation of design heat loss";
+
   final parameter Modelica.Units.SI.Power QInf_design=1012*1.204*V/3600*n50_int
-      /n50toAch*(273.15 + 21 - sim.Tdes)
+      /n50toAch*(T_setpoint - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
   final parameter Modelica.Units.SI.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";

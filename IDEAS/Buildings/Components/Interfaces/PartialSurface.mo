@@ -30,6 +30,10 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Units.SI.Temperature TRef_a=291.15
     "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
     annotation (Dialog(group="Design power", tab="Advanced"));
+  parameter Modelica.Units.SI.Temperature T_setpoint=273.15+21
+  "Reference temperature setpoint of zone (in K), for calculation of design heat loss"
+    annotation (Dialog(group="Design power", tab="Advanced"));
+
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));

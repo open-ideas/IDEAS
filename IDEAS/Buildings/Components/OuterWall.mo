@@ -96,7 +96,7 @@ protected
     "Outside air model"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 initial equation
-  QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*A*(T_setpoint - Tdes.y);
 
 equation
   if hasBuildingShade then
