@@ -6,13 +6,6 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
     sim(Va=0, interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
     window(A=2, nWin=2));
 
-  parameter Medium.ThermodynamicState sta_default=Medium.setState_pTX(
-      T=Medium.T_default,
-      p=Medium.p_default,
-      X=Medium.X_default)
-    "State of the medium at the medium default properties";
-  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
-    "Density at the medium default properties";
   parameter Boolean disableAssert = false;
 
 
@@ -36,8 +29,8 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
   IDEAS.BoundaryConditions.WeatherData.Bus       weaDatBus1
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{0,80},{20,100}})));
-  Real ach = -bou.ports[1].m_flow/rho_default/zone.V*3600;
-  Real ach1 = -bou.ports[2].m_flow/rho_default/zone1.V*3600;
+  Real ach = -bou.ports[1].m_flow/1.2041/zone.V*3600;
+  Real ach1 = -bou.ports[2].m_flow/1.2041/zone1.V*3600;
 
 
 equation

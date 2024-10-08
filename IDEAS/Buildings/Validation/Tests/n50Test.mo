@@ -7,15 +7,7 @@ model n50Test "n50 consistency check for OnePort"
   inner BoundaryConditions.SimInfoManager sim(Va=0,interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  parameter Medium.ThermodynamicState sta_default=Medium.setState_pTX(
-      T=Medium.T_default,
-      p=Medium.p_default,
-      X=Medium.X_default)
-    "State of the medium at the medium default properties";
-  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
-    "Density at the medium default properties";
-
-  Real ach = -bou.ports[1].m_flow/rho_default/simpleZone.V*3600 "Effective air change rate";
+  Real ach = -bou.ports[1].m_flow/1.2041/simpleZone.V*3600 "Effective air change rate";
 
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone simpleZone(
     redeclare package Medium = Medium,

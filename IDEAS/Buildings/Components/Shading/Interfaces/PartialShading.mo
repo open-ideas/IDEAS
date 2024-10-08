@@ -97,6 +97,8 @@ partial model PartialShading "Window shading partial"
     Placement(visible = true, transformation(extent = {{-80, 90}, {-40, 130}}, rotation = 0), iconTransformation(origin = {-50, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput TDryBul if haveBoundaryPorts "Exterior surface air temperature" annotation (
     Placement(visible = true, transformation(extent = {{20, -30}, {60, 10}}, rotation = 0), iconTransformation(extent = {{40, -10}, {60, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput m_flow annotation(
+    Placement(visible = true, transformation(origin = {-20, 0}, extent = {{80, -110}, {40, -70}}, rotation = 0), iconTransformation(origin = {30, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 protected
   Modelica.Blocks.Interfaces.RealInput Te_internal(unit="K");
   Modelica.Units.SI.Temperature TSha = Te_internal + (H - HSha) * epsSw_shading /hSha

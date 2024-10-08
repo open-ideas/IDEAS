@@ -39,7 +39,8 @@ model WindowThermalBridge "Comparison of three window thermal bridge options"
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2 glazing,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
-    redeclare IDEAS.Buildings.Data.Frames.PvcLineLoss fraType(briTyp(len=4)))
+    briLen=4,
+    redeclare IDEAS.Buildings.Data.Frames.PvcLineLoss fraType)
     "Window with line losses"
     annotation (Placement(transformation(extent={{-54,-60},{-44,-40}})));
 equation

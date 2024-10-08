@@ -64,7 +64,9 @@ model MonoLayerAir
         then 0.028154*Ra^0.41399
       else 1+1.75967e-10*Ra^2.2984755)
     else 1 "Correlations from Hollands et al. and Wright et al.";
-
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb "Internal port"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
+    
 protected
   final parameter Boolean ceiling=
      IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling)
@@ -83,16 +85,9 @@ protected
     abs(port_a.T-port_b.T))*coeffRa);
   Modelica.Units.SI.CoefficientOfHeatTransfer h=Nu*k/d;
 
-public
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_emb "Internal port"
-    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-
 equation
-  if not (ceiling or floor or vertical) then
-    assert(false, "Could not find suitable correlation for air cavity! Please 
-      change the inclination to wall, ceiling or floor or remove the air layer.",
+    assert(ceiling or floor or vertical, "In  " + getInstanceName() +": Could not find suitable correlation for air cavity in a wall. Results may be less accurate than expected.",
       level=AssertionLevel.warning);
-  end if;
 
   if checkCoating then
     assert(abs(epsLw_a - IDEAS.Buildings.Data.Constants.epsLw_glass) > 1e-5
