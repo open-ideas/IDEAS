@@ -29,11 +29,15 @@ expandable connector ZoneBus
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium)
     if use_port_1
-    "Port for interzonal air flow: middle or bottom port";
+    "Port for interzonal air flow";
   Modelica.Fluid.Interfaces.FluidPort_a port_2(
     redeclare package Medium = Medium)
     if use_port_2
-    "Port for detailed interzonal air flow: top port";
+    "Port for detailed interzonal air flow";
+  Modelica.Fluid.Interfaces.FluidPort_a port_3(
+    redeclare package Medium = Medium)
+    if use_port_2
+    "Port for trickle vents etc. when using detailed interzonal air flow";
   IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.EnergyPort E
     "Internal energy in model" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector inc(
@@ -47,7 +51,11 @@ expandable connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector v50(final unit="m3/h") "v50 if the surface has a custome q50 value" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone(final unit="m3/(h.m2)") "v50 of the surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_q50 "true if custome q50 value is assigned to surface" annotation ();
-  IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_n50 "true if the zone n50 is a custom value";
+  IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_n50 "true if the zone n50 is a custom value" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector hzone(final unit="m") "Zone height: distance between floor and ceiling" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector hfloor(final unit="m") "Absolute height of zone floor" annotation ();
+
+
   annotation (Documentation(info="<html>
 <p>
 Connector that contains a weather bus and further
@@ -56,6 +64,10 @@ heat and information between a zone and a surface.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 April 20, 2023 by Jelger Jansen:<br/>
 Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.

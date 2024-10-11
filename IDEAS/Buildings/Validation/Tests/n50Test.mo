@@ -1,19 +1,11 @@
 within IDEAS.Buildings.Validation.Tests;
 model n50Test "n50 consistency check for OnePort"
   extends Modelica.Icons.Example;
-  package Medium = IDEAS.Media.Air
+  package Medium = IDEAS.Media.Air(dStp=1.2041)
     "Air medium"
     annotation (choicesAllMatching=true);
   inner BoundaryConditions.SimInfoManager sim(Va=0,interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-
-  parameter Medium.ThermodynamicState sta_default=Medium.setState_pTX(
-      T=Medium.T_default,
-      p=Medium.p_default,
-      X=Medium.X_default)
-    "State of the medium at the medium default properties";
-  parameter Modelica.Units.SI.Density rho_default=Medium.density(sta_default)
-    "Density at the medium default properties";
 
   Real ach = -bou.ports[1].m_flow/rho_default/simpleZone.V*3600 "Effective air change rate";
 
@@ -46,6 +38,12 @@ model n50Test "n50 consistency check for OnePort"
         rotation=270,
         origin={0,50})));
 
+protected
+  final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
+      T=Medium.T_default,
+      p=Medium.p_default,
+      X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=state_default) "Medium default density";
 
 equation
   assert(abs(ach-simpleZone.n50) < 1e-6 or time < 2, "n50 computation consistency check failed");

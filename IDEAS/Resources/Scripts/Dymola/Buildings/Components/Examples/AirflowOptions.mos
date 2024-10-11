@@ -1,0 +1,8 @@
+simulateModel("IDEAS.Buildings.Components.Examples.AirflowBoxModel", stopTime=3e+06, method="Dassl", tolerance=1e-06, resultFile="AirflowOptions");
+
+createPlot(id=1, position={0, 0, 629, 701}, 
+y={"Energy_Only.BoxModel.airModel.ACH", "Energy_n50Corr.BoxModel.airModel.ACH", "IAQ_1port.BoxModel.airModel.ACH", "IAQ_1port_trickle.BoxModel.airModel.ACH", "IAQ_2Port.BoxModel.airModel.ACH"}, 
+range={0.0, 1250000.0, 0.0, 0.12}, 
+grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}}, 
+timeUnit="s", 
+displayUnits={"1/h", "1/h", "1/h", "1/h", "1/h"});
