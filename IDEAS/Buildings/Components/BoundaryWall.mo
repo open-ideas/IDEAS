@@ -26,14 +26,14 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     "Get the boundary heat flux from the input connector"
     annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.HeatFlowRate Q_in_nom=0
-    "Nominal boundary heat flux, for calculation of design heat loss"
+    "Nominal boundary heat flux, for calculation of design heat loss (positive if entering the wall)"
     annotation (Dialog(group="Design power", tab="Advanced", enable=use_Q_in));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in
     "Input for boundary temperature"                 annotation (Placement(
         transformation(extent={{-120,10},{-100,30}}),iconTransformation(extent={{-120,10},
             {-100,30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow if use_Q_in
-    "Input for boundary heat flow rate entering the wall" annotation (Placement(
+    "Input for boundary heat flow rate entering the wall (positive)" annotation (Placement(
         transformation(extent={{-120,-30},{-100,-10}}),
                                                     iconTransformation(extent={{-120,
             -30},{-100,-10}})));
