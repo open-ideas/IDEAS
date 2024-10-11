@@ -4,7 +4,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    QTra_design=U_value*A*(TSet - TRef_a),
+    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRef_a - T_in_nom) else Q_in_nom,
     dT_nominal_a=-1,
     add_cracks=false,
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
@@ -13,16 +13,18 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
   parameter Boolean use_T_fixed = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-  parameter Modelica.Units.SI.Temperature T_fixed=294.15
-    "Fixed boundary temperature"
-    annotation (Dialog(group="Boundary conditions", enable=use_T_fixed));
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
+  parameter Modelica.Units.SI.Temperature T_in_nom=294.15
+    "Nominal boundary temperature, for fixed boundary condition and for calculation of design heat loss"
+    annotation (Dialog(group="Boundary conditions",enable=use_T_fixed or use_T_in));
   parameter Boolean use_Q_in = false
     "Get the boundary heat flux from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-
+  parameter Modelica.Units.SI.HeatFlowRate Q_in_nom
+    "Nominal boundary heat flux, for calculation of design heat loss"
+    annotation (Dialog(group="Boundary conditions", enable=use_Q_in));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in
     "Input for boundary temperature"                 annotation (Placement(
         transformation(extent={{-120,10},{-100,30}}),iconTransformation(extent={{-120,10},
@@ -36,7 +38,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     annotation (Placement(transformation(extent={{-86,26},{-74,14}})));
   Modelica.Blocks.Math.Product proPreQ if use_Q_in "Product for linearisation"
     annotation (Placement(transformation(extent={{-86,-14},{-74,-26}})));
-  Modelica.Blocks.Sources.Constant TConst(k=T_fixed) if use_T_fixed
+  Modelica.Blocks.Sources.Constant TConst(k=T_in_nom) if use_T_fixed
     "Constant block for temperature"
     annotation (Placement(transformation(extent={{-110,32},{-100,42}})));
 
@@ -166,10 +168,12 @@ Instead a prescribed temperature or heat flow rate may be set.
 <p>
 Parameters <code>use_T_in</code> and <code>use_Q_in</code> may be used
 to enable an input for a prescribed boundary condition temperature or heat flow rate.
-Alternatively, parameters <code>use_T_fixed</code> and <code>T_fixed</code> can be used
+Alternatively, parameters <code>use_T_fixed</code> and <code>T_in_nom</code> can be used
 to specify a fixed boundary condition temperature.
 It is not allowed to enabled multiple of these three options. 
-If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.
+If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.</p>
+Parameters <code>T_in_nom</code> and <code>Q_in_nom</code> are used for the calculation 
+of heat losses, when the temperature boundary condition and heat flow boundary condition are applied, respectively.  
 </p>
 </html>", revisions="<html>
 <ul>
