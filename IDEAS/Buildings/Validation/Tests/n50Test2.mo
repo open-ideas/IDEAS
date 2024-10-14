@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Validation.Tests;
 model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
   extends IDEAS.Buildings.Examples.ZoneExample(
+    redeclare package Medium = IDEAS.Media.Air (dStp=1.2041),
     zone1(use_custom_n50=true, n50=2),
     zone(use_custom_n50=true, n50=3),
     sim(Va=0, interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
@@ -8,7 +9,14 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
 
   parameter Boolean disableAssert = false;
 
+protected
+  final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
+      T=Medium.T_default,
+      p=Medium.p_default,
+      X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=state_default) "Medium default density";
 
+public
   IDEAS.Fluid.Sources.Boundary_pT bou(
     redeclare package Medium = Medium,
     use_p_in=true,
@@ -29,8 +37,8 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
   IDEAS.BoundaryConditions.WeatherData.Bus       weaDatBus1
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{0,80},{20,100}})));
-  Real ach = -bou.ports[1].m_flow/1.2041/zone.V*3600;
-  Real ach1 = -bou.ports[2].m_flow/1.2041/zone1.V*3600;
+  Real ach = -bou.ports[1].m_flow/rho_default/zone.V*3600;
+  Real ach1 = -bou.ports[2].m_flow/rho_default/zone1.V*3600;
 
 
 equation
