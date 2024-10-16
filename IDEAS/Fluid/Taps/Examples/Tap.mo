@@ -40,6 +40,13 @@ model Tap "Example with two 'Tap' models"
     "DHW demand (mass flow rate) for tap 2"
      annotation (Placement(transformation(extent={{-60,-70},{-40,
             -50}})));
+  Modelica.Blocks.Sources.RealExpression DHWDisCom1_K(y=if tap1.mFloHot.y > 0
+         and (tap1.TSet - tap1.THot.T) > 0 then (tap1.TSet - tap1.THot.T) else
+        0) "Instantaneous DHW discomfort in [K] for tap1"
+    annotation (Placement(transformation(extent={{40,70},{60,90}})));
+  Modelica.Blocks.Continuous.Integrator DHWDisCom1_Kh
+    "Total DHW discomfort in [K.s] for tap1"
+    annotation (Placement(transformation(extent={{70,70},{90,90}})));
 equation
 
   connect(step.y, bou1.T_in)
@@ -57,6 +64,8 @@ equation
           {-30,1},{-40,1}}, color={0,127,255}));
   connect(tap2.port_a, bou1.ports[2]) annotation (Line(points={{-10,-20},{-30,
           -20},{-30,-1},{-40,-1}}, color={0,127,255}));
+  connect(DHWDisCom1_K.y, DHWDisCom1_Kh.u)
+    annotation (Line(points={{61,80},{68,80}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
