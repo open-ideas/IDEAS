@@ -45,10 +45,7 @@ public
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Sources.RealExpression mFloHot(
     y=smooth(2, if noEvent(THot.T <= TSet) then m_flow_set else m_flow_set*(TSet - TCol)/(THot.T - TCol)))
-    "Required incoming hot water mass flow rate based on current THot. If 
-    THot > TSet mixing will occur and cold water will be mixed with the incoming
-    hot water. If THot <= TSet the incoming hot water mass flow rate equals the
-    DHW mass flow rate at TSet."
+    "Required flow rate from the hot water source"
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort THot(
     redeclare final package Medium = Medium,
@@ -177,7 +174,7 @@ defined set point temperature</li>
 </ul>
 <p>The model tries to reach the given DHW flow rate at a the desired mixing 
 temperature <i>TSet</i> by mixing the hot water with cold water. The resulting 
-hot flowrate (<i>mFloHot</i>) will be extracted automatically from the hot 
+hot flow rate (<i>mFloHot</i>) will be extracted automatically from the hot 
 source (via <i>port_a </i>). This same flow rate will be injected at <i>TCol</i> 
 in the production system through the connection of <i>port_b</i> to the hot 
 source. </p>
