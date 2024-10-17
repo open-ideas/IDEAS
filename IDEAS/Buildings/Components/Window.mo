@@ -74,10 +74,8 @@ model Window "Multipane window"
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
       Placement(visible = true,transformation(
-        
         origin={-50,-110},extent={{20,-20},{-20,20}},
         rotation=-90), iconTransformation(
-        
         origin={-40,-100},extent={{10,-10},{-10,10}},
         rotation=-90)));
 
@@ -190,7 +188,7 @@ protected
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
-  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
+  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(TRef_a - Tdes.y);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");

@@ -4,7 +4,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    QTra_design=U_value*A*(273.15 + 21 - TRef_a),
+    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRef_a - T_in_nom) else -Q_in_nom,
     dT_nominal_a=-1,
     add_cracks=false,
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
@@ -15,20 +15,25 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.Temperature T_fixed=294.15
     "Fixed boundary temperature"
-    annotation (Dialog(group="Boundary conditions", enable=use_T_fixed));
+    annotation (Dialog(group="Boundary conditions",enable=use_T_fixed));
   parameter Boolean use_T_in = false
     "Get the boundary temperature from the input connector"
     annotation(Dialog(group="Boundary conditions"));
+  parameter Modelica.Units.SI.Temperature T_in_nom=T_fixed
+    "Nominal boundary temperature, for calculation of design heat loss"
+    annotation (Dialog(group="Design power", tab="Advanced",enable=use_T_fixed or use_T_in));
   parameter Boolean use_Q_in = false
     "Get the boundary heat flux from the input connector"
     annotation(Dialog(group="Boundary conditions"));
-
+  parameter Modelica.Units.SI.HeatFlowRate Q_in_nom=0
+    "Nominal boundary heat flux, for calculation of design heat loss (positive if entering the wall)"
+    annotation (Dialog(group="Design power", tab="Advanced", enable=use_Q_in));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in
     "Input for boundary temperature"                 annotation (Placement(
         transformation(extent={{-120,10},{-100,30}}),iconTransformation(extent={{-120,10},
             {-100,30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow if use_Q_in
-    "Input for boundary heat flow rate entering the wall" annotation (Placement(
+    "Input for boundary heat flow rate entering the wall (positive)" annotation (Placement(
         transformation(extent={{-120,-30},{-100,-10}}),
                                                     iconTransformation(extent={{-120,
             -30},{-100,-10}})));
@@ -169,7 +174,9 @@ to enable an input for a prescribed boundary condition temperature or heat flow 
 Alternatively, parameters <code>use_T_fixed</code> and <code>T_fixed</code> can be used
 to specify a fixed boundary condition temperature.
 It is not allowed to enabled multiple of these three options. 
-If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.
+If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.</p>
+Parameters <code>T_in_nom</code> and <code>Q_in_nom</code> are used for the calculation 
+of heat losses, when the temperature boundary condition and heat flow boundary condition are applied, respectively.  
 </p>
 </html>", revisions="<html>
 <ul>
