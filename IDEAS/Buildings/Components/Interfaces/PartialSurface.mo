@@ -27,9 +27,9 @@ partial model PartialSurface "Partial model for building envelope component"
     "Start temperature for each of the layers"
     annotation (Dialog(tab="Dynamics", group="Initial condition"));
 
-  parameter Modelica.Units.SI.Temperature TRef_a=291.15
-    "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-    annotation (Dialog(group="Design power", tab="Advanced"));
+  Modelica.Blocks.Interfaces.RealInput TRefInt
+    "Reference temperature of zone on side of propsBusInt, for calculation of design heat loss";
+
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
@@ -334,6 +334,7 @@ equation
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
+  connect(TRefInt, propsBusInt.TRef_zone);
   annotation (
     Diagram(graphics,
             coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{

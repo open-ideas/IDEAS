@@ -8,7 +8,7 @@ model InternalWall "interior opaque wall between two zones"
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    final QTra_design=U_value*A*(TRef_a - TRef_b),
+    QTra_design=U_value*A*(TRefInt - TRef_b),
     q50_zone(v50_surf=0));
   //using custom q50 since this model is not an external component
 
@@ -18,10 +18,8 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.Units.SI.TemperatureDifference dT_nominal_b=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
-  parameter Modelica.Units.SI.Temperature TRef_b=291.15
-    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
-    annotation (Dialog(group="Design power", tab="Advanced"));
-
+  Modelica.Blocks.Interfaces.RealInput TRef_b
+    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss";
   // open door modelling
   parameter Boolean hasCavity = false
     "=true, to model open door or cavity in wall"
@@ -203,7 +201,7 @@ equation
           -58},{56,20.1},{-100.1,20.1}},   color={0,0,127}));
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
-
+  connect(TRef_b, propsBus_b.TRef_zone);
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
