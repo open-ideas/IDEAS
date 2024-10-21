@@ -188,7 +188,7 @@ protected
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
-  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(TRef_a - Tdes.y);
+  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(TRefInt - Tdes.y);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
