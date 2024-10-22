@@ -83,7 +83,7 @@ from <code>rooB</code> to <code>rooA</code>.
 <li>
 March 26, 2021 by Michael Wetter:<br/>
 Updated comments for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IDEAS, #515</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IBPSA, #515</a>.
 </li>
 <li>
 May 30, 2018, by Michael Wetter:<br/>
