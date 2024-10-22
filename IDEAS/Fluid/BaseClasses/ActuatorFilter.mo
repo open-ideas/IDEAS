@@ -5,7 +5,7 @@ block ActuatorFilter
   extends Modelica.Blocks.Interfaces.SISO;
 
   constant Integer n=2 "Order of filter";
-  parameter Modelica.SIunits.Frequency f(start=1) "Cut-off frequency";
+  parameter Modelica.Units.SI.Frequency f(start=1) "Cut-off frequency";
   parameter Boolean normalized = true
     "= true, if amplitude at f_cut is 3 dB, otherwise unmodified filter";
   parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.NoInit
@@ -75,7 +75,7 @@ equation
           points = {{96.962,55.158},{16.42,50.489},{-18.988,18.583},{-32.024,-53.479},{-62.024,-73.479}},
           color = {0,0,127},
           smooth = Smooth.Bezier),
-        Text(lineColor={192,192,192},
+        Text(textColor={192,192,192},
           extent={{-70.0,48.0},{26.0,94.0}},
           textString="%n"),
         Text(extent={{8.0,-146.0},{8.0,-106.0}},
@@ -95,14 +95,14 @@ Modelica.Blocks.Continuous.CriticalDamping</a>.
 It differs from that model in that the internal state of the filter <code>s</code>
 is transformed using <code>x = u_nominal*s</code>.
 It turns out that this transformation leads to smaller system of nonlinear equations if <code>u_nominal &ne; 0</code>, see
-<a href=\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498#issuecomment-885020611\">IDEAS, #1498</a>
+<a href=\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498#issuecomment-885020611\">IBPSA, #1498</a>
 for a discussion.
 </html>", revisions="<html>
 <ul>
 <li>
 July 22, 2021, by Michael Wetter:<br/>
 First implementation for
-<a href=\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498\">IDEAS, #1498</a>
+<a href=\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498\">IBPSA, #1498</a>
 </li>
 </ul>
 </html>"));

@@ -3,7 +3,7 @@ model Cylindrical
   "Comparison of the Cylindrical with the GroundTemperatureResponse"
   extends Modelica.Icons.Example;
 
-  parameter Modelica.SIunits.Temperature T_start = 295.15
+  parameter Modelica.Units.SI.Temperature T_start=295.15
     "Initial soil temperature";
   parameter IDEAS.Fluid.Geothermal.Borefields.Data.Borefield.Template borFieDat=
     IDEAS.Fluid.Geothermal.Borefields.Validation.BaseClasses.SandBox_Borefield()

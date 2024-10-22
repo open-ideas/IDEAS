@@ -3,18 +3,18 @@ function basicFlowFunction_dp_der
   "1st derivative of function that computes mass flow rate for given pressure drop"
   extends Modelica.Icons.Function;
 
-  input Modelica.SIunits.PressureDifference dp(displayUnit="Pa")
+  input Modelica.Units.SI.PressureDifference dp(displayUnit="Pa")
     "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
   input Real k(min=0, unit="")
     "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
-  input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
+  input Modelica.Units.SI.MassFlowRate m_flow_turbulent(min=0)
     "Mass flow rate where transition to turbulent flow occurs";
   input Real dp_der
     "Derivative of pressure difference between port_a and port_b (= port_a.p - port_b.p)";
-  output Real m_flow_der(unit="kg/s2")
+  output Real m_flow_der
     "Derivative of mass flow rate in design flow direction";
 protected
-  Modelica.SIunits.PressureDifference dp_turbulent = (m_flow_turbulent/k)^2
+  Modelica.Units.SI.PressureDifference dp_turbulent=(m_flow_turbulent/k)^2
     "Pressure where flow changes to turbulent";
   Real dpNormSq=(dp/dp_turbulent)^2
     "Square of normalised pressure difference";
@@ -30,8 +30,14 @@ Documentation(info="<html>
 <p>
 Function that implements the first order derivative of
 <a href=\"modelica://IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp\">
-IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp</a>
-with respect to the mass flow rate.
+IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp</a>,
+assuming a constant flow coefficient.
+</p>
+<p>
+When called with <code>dp_der=der(dp)</code>, this function returns
+the time derivative of <code>m_flow</code>.
+When called with <code>dp_der=1</code>, this function returns
+the derivative of <code>m_flow</code> with respect to <code>dp</code>.
 </p>
 </html>",
 revisions="<html>

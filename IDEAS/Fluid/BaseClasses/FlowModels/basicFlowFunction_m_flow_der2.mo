@@ -3,20 +3,20 @@ function basicFlowFunction_m_flow_der2
   "2nd derivative of function that computes pressure drop for given mass flow rate"
   extends Modelica.Icons.Function;
 
-  input Modelica.SIunits.MassFlowRate m_flow
+  input Modelica.Units.SI.MassFlowRate m_flow
     "Mass flow rate in design flow direction";
   input Real k(unit="")
     "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
-  input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
+  input Modelica.Units.SI.MassFlowRate m_flow_turbulent(min=0)
     "Mass flow rate where transition to turbulent flow occurs";
-  input Real m_flow_der(unit="kg/s2")
+  input Real m_flow_der
     "1st derivative of mass flow rate in design flow direction";
-  input Real m_flow_der2(unit="kg/s3")
+  input Real m_flow_der2
     "2nd derivative of mass flow rate in design flow direction";
   output Real dp_der2
     "2nd derivative of pressure difference between port_a and port_b (= port_a.p - port_b.p)";
 protected
-  Modelica.SIunits.PressureDifference dp_turbulent = (m_flow_turbulent/k)^2
+  Modelica.Units.SI.PressureDifference dp_turbulent=(m_flow_turbulent/k)^2
     "Pressure where flow changes to turbulent";
   Real m_flowNorm = m_flow/m_flow_turbulent
     "Normalised mass flow rate";
@@ -35,8 +35,16 @@ Documentation(info="<html>
 <p>
 Function that implements the second order derivative of
 <a href=\"modelica://IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow\">
-IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow</a>
-with respect to the mass flow rate.
+IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow</a>,
+assuming a constant flow coefficient.
+</p>
+<p>
+When called with <code>m_flow_der=der(m_flow)</code> and <code>m_flow_der2=der(m_flow_der)</code>,
+this function returns the second order derivative of <code>dp</code>
+with respect to time.
+When called with <code>m_flow_der=1</code> and <code>m_flow_der2=0</code>,
+this function returns the second order derivative of <code>dp</code>
+with respect to <code>m_flow</code>.
 </p>
 </html>",
 revisions="<html>

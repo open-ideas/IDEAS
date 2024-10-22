@@ -197,7 +197,7 @@ as a state. See ticket Dynasim #13596.
 <li>
 July 26, 2011 by Michael Wetter:<br/>
 Revised model to use new declarations from
-<a href=\"IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations\">
+<a href=\"modelica://IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations\">
 IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations</a>.
 </li>
 <li>
@@ -250,5 +250,5 @@ IDEAS.Fluid.MixingVolumes.BaseClasses.ClosedVolume</a>.
       Text(
           extent={{-152,100},{148,140}},
           textString="%name",
-          lineColor={0,0,255})}));
+          textColor={0,0,255})}));
 end MixingVolume;

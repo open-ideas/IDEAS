@@ -10,9 +10,10 @@ partial model PartialTwoWayValve "Partial model for a two way valve"
       rhoStd=Medium.density_pTX(101325, 273.15+4, Medium.X_default));
 
   extends IDEAS.Fluid.Actuators.BaseClasses.ActuatorSignal;
-  parameter Modelica.SIunits.PressureDifference dpFixed_nominal(displayUnit="Pa", min=0) = 0
-    "Pressure drop of pipe and other resistances that are in series"
-     annotation(Dialog(group = "Nominal condition"));
+  parameter Modelica.Units.SI.PressureDifference dpFixed_nominal(
+    displayUnit="Pa",
+    min=0) = 0 "Pressure drop of pipe and other resistances that are in series"
+    annotation (Dialog(group="Nominal condition"));
 
   parameter Real l(min=1e-10, max=1) = 0.0001
     "Valve leakage, l=Kv(y=0)/Kv(y=1)";
@@ -46,12 +47,12 @@ initial equation
       fillColor={255,255,255},
       fillPattern=FillPattern.Solid),
     Line(
-      visible=use_inputFilter,
+      visible=use_strokeTime,
       points={{-30,40},{30,40}}),
     Line(
       points={{0,40},{0,0}}),
     Line(
-      visible=not use_inputFilter,
+      visible=not use_strokeTime,
       points={{0,100},{0,40}})}),
 Documentation(info="<html>
 <p>

@@ -1,13 +1,13 @@
 within IDEAS.Fluid.BaseClasses.FlowModels;
 function basicFlowFunction_dp_der2
-  "2nd derivative of flow function2nd derivative of function that computes mass flow rate for given pressure drop"
+  "2nd derivative of function that computes mass flow rate for given pressure drop"
   extends Modelica.Icons.Function;
 
-  input Modelica.SIunits.PressureDifference dp(displayUnit="Pa")
+  input Modelica.Units.SI.PressureDifference dp(displayUnit="Pa")
     "Pressure difference between port_a and port_b (= port_a.p - port_b.p)";
   input Real k(min=0, unit="")
     "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
-  input Modelica.SIunits.MassFlowRate m_flow_turbulent(min=0)
+  input Modelica.Units.SI.MassFlowRate m_flow_turbulent(min=0)
     "Mass flow rate where transition to turbulent flow occurs";
   input Real dp_der
     "1st derivative of pressure difference between port_a and port_b (= port_a.p - port_b.p)";
@@ -16,7 +16,7 @@ function basicFlowFunction_dp_der2
   output Real m_flow_der2
     "2nd derivative of mass flow rate in design flow direction";
 protected
-  Modelica.SIunits.PressureDifference dp_turbulent = (m_flow_turbulent/k)^2
+  Modelica.Units.SI.PressureDifference dp_turbulent=(m_flow_turbulent/k)^2
     "Pressure where flow changes to turbulent";
   Real dpNorm=dp/dp_turbulent
     "Normalised pressure difference";
@@ -35,8 +35,16 @@ Documentation(info="<html>
 <p>
 Function that implements the second order derivative of
 <a href=\"modelica://IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp\">
-IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp</a>
-with respect to the mass flow rate.
+IDEAS.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp</a>,
+assuming a constant flow coefficient.
+</p>
+<p>
+When called with <code>dp_der=der(dp)</code> and <code>dp_der2=der(dp_der)</code>,
+this function returns the second order derivative of <code>m_flow</code>
+with respect to time.
+When called with <code>dp_der=1</code> and <code>dp_der2=0</code>,
+this function returns the second order derivative of <code>m_flow</code>
+with respect to <code>dp</code>.
 </p>
 </html>",
 revisions="<html>

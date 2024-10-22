@@ -4,14 +4,13 @@ model PressureIndependent
   extends Modelica.Icons.Example;
 
   package Medium = IDEAS.Media.Air "Medium model for air";
-  parameter Modelica.SIunits.PressureDifference dp_nominal(
-    displayUnit="Pa") = 10
-    "Damper nominal pressure drop";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1
+  parameter Modelica.Units.SI.PressureDifference dp_nominal(displayUnit="Pa")
+     = 10 "Damper nominal pressure drop";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=1
     "Damper nominal mass flow rate";
   IDEAS.Fluid.Actuators.Dampers.Exponential damExp(
     redeclare final package Medium = Medium,
-    use_inputFilter=false,
+    use_strokeTime=false,
     final dpDamper_nominal=dp_nominal,
     final m_flow_nominal=m_flow_nominal)
     "Damper with exponential opening characteristics"
@@ -37,20 +36,21 @@ model PressureIndependent
     redeclare final package Medium = Medium,
     final m_flow_nominal=m_flow_nominal,
     final dpDamper_nominal=dp_nominal,
-    use_inputFilter=false)
+    use_strokeTime=false)
     "Pressure independent damper"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Exponential damExpPI(
     redeclare final package Medium = Medium,
-    use_inputFilter=false,
+    use_strokeTime=false,
     final dpDamper_nominal=dp_nominal,
     final m_flow_nominal=m_flow_nominal)
     "Damper with exponential opening characteristics"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
-  Controls.Continuous.LimPID conPID(k=10,
+  Controls.Continuous.LimPID conPID(
+    k=10,
     Ti=0.001,
     controllerType=Modelica.Blocks.Types.SimpleController.PID,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "Discharge flow rate controller"
     annotation (Placement(transformation(extent={{-70,-70},{-50,-50}})));
   Sensors.MassFlowRate senMasFlo(

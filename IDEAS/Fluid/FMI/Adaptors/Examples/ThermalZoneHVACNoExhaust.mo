@@ -10,12 +10,12 @@ model ThermalZoneHVACNoExhaust
     "Adaptor for an HVAC system that is exposed through an FMI interface"
     annotation (Placement(transformation(extent={{20,0},{40,20}})));
 
-  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal = 30*6*6
+  parameter Modelica.Units.SI.HeatFlowRate Q_flow_nominal=30*6*6
     "Nominal heat loss of the room";
 
-  parameter Modelica.SIunits.Volume VRoo = 6*6*2.7 "Room volume";
+  parameter Modelica.Units.SI.Volume VRoo=6*6*2.7 "Room volume";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=VRoo*2*1.2/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=VRoo*2*1.2/3600
     "Nominal mass flow rate";
 
   IDEAS.Fluid.FMI.Adaptors.ThermalZone con(
@@ -42,7 +42,7 @@ model ThermalZoneHVACNoExhaust
     dp_nominal=1200,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false) "Fan or pump"
+    use_riseTime=false) "Fan or pump"
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   HeatExchangers.HeaterCooler_u
     hea(
@@ -148,7 +148,7 @@ equation
         Text(
           extent={{-190,124},{-152,100}},
           pattern=LinePattern.None,
-          lineColor={0,0,127},
+          textColor={0,0,127},
           horizontalAlignment=TextAlignment.Left,
           textString="Simplified model of
 an HVAC system
@@ -157,7 +157,7 @@ be exposed as an FMU"),
         Text(
           extent={{90,118},{128,94}},
           pattern=LinePattern.None,
-          lineColor={0,0,127},
+          textColor={0,0,127},
           horizontalAlignment=TextAlignment.Left,
           textString="Simplified model of
 a thermal zone that
