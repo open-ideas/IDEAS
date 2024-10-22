@@ -157,7 +157,7 @@ model Adsolair58 "Adsolair58 example model"
   Fluid.Movers.FlowControlled_dp pum(
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
+    use_riseTime=false,
     constantHead=1e4,
     m_flow_nominal=0.6,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
