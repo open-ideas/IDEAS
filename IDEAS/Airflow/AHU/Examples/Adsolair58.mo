@@ -53,7 +53,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={90,-50})));
@@ -63,7 +63,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={70,-50})));
@@ -72,7 +72,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={18,-70})));
@@ -81,7 +81,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={38,-70})));
@@ -90,7 +90,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={-40,-50})));
@@ -99,7 +99,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-20,-50})));
@@ -108,7 +108,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={-90,-70})));
@@ -117,7 +117,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,-70})));
@@ -167,10 +167,10 @@ model Adsolair58 "Adsolair58 example model"
         origin={-22,14})));
   Fluid.Actuators.Valves.ThreeWayEqualPercentageLinear val(
     redeclare package Medium = MediumWater,
+    use_strokeTime=false,
     dpValve_nominal=1e4,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     tau=30,
-    use_inputFilter=false,
     m_flow_nominal=0.6,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
