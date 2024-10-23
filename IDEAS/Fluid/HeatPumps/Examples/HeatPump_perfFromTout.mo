@@ -9,11 +9,11 @@ model HeatPump_perfFromTout
   constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{40,40},{20,60}})));
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -31,11 +31,11 @@ model HeatPump_perfFromTout
 
    IDEAS.Fluid.Movers.FlowControlled_m_flow pump1(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
   Sources.Boundary_pT bou1(         redeclare package Medium = Medium,
     use_T_in=true,
@@ -66,17 +66,17 @@ model HeatPump_perfFromTout
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump2(
     redeclare package Medium = Medium,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
+    use_riseTime=false,
     dp_nominal = 50000,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
     m_flow_nominal=2550/3600)
     annotation (Placement(transformation(extent={{40,-160},{20,-140}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump3(
     redeclare package Medium = Medium,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
+    use_riseTime=false,
     dp_nominal = 50000,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
     m_flow_nominal=mod.k*4200/3600)
     annotation (Placement(transformation(extent={{-60,-130},{-40,-110}})));
   HP_WaterWater_OnOff HP_recomp(
@@ -115,19 +115,19 @@ model HeatPump_perfFromTout
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump4(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{38,-90},{18,-70}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump5(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
   HP_WaterWater_OnOff HP_nom_recomp(
     redeclare package Medium1 = Medium,
@@ -154,18 +154,18 @@ model HeatPump_perfFromTout
     tau=0) annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump6(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{40,-30},{20,-10}})));
    IDEAS.Fluid.Movers.FlowControlled_m_flow pump7(
     redeclare package Medium = Medium,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
+    use_riseTime=false,
     dp_nominal = 50000,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
     m_flow_nominal=mod.k*4200/3600)
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
   HP_WaterWater_OnOff HP(

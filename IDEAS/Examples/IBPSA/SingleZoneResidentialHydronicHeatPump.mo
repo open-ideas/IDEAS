@@ -115,7 +115,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
     redeclare package Medium = MediumWater,
@@ -239,7 +239,7 @@ model SingleZoneResidentialHydronicHeatPump
   Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=100,
     m_flow_nominal=3,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
