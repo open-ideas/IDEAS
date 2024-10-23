@@ -62,7 +62,7 @@ model Damper
   Vav vav(
     redeclare package Medium = Medium,
     m_flow_nominal=1,
-    use_inputFilter=false,
+    use_strokeTime=false,
     dpDamper_nominal=10,
     dpFixed_nominal=5,
     fraMax=0.75,

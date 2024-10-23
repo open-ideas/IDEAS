@@ -13,9 +13,9 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     tau=1,
-    use_inputFilter=false,
     dp_nominal = 0,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{38,8},{58,28}})));

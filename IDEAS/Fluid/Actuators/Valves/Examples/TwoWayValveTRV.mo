@@ -23,14 +23,14 @@ model TwoWayValveTRV "Two way thermostatic radiator valve"
     redeclare package Medium = Medium,
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
-    use_inputFilter=false,
+    use_strokeTime=false,
     m_flow_nominal=0.03) "Valve without dynamics"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   TwoWayTRV valDyn(
     redeclare package Medium = Medium,
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
-    use_inputFilter=true,
+    use_strokeTime=false,
     m_flow_nominal=0.03) "Valve with dynamics"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   Modelica.Blocks.Sources.Ramp ramp1(
