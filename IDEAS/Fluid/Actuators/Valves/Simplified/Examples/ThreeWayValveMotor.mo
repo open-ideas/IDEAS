@@ -9,7 +9,7 @@ model ThreeWayValveMotor
     use_riseTime=false,
     m_flow_nominal=1,
     tau=30,
-    dp_nominal = 0,
+    dp_nominal=1,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
                         annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
