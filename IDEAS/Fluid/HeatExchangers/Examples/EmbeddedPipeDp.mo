@@ -9,7 +9,7 @@ model EmbeddedPipeDp "Testing pressure drop of embeddedpipe"
     redeclare package Medium = Medium,
     tau=30,
     m_flow_nominal=0.1,
-    dp_nominal = 0,
+    dp_nominal=100000,
     m_flow(start=12*24/3600),
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=303.15)
