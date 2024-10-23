@@ -8,10 +8,10 @@ model HeatPump_AirWater
     IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=30,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
   HP_AirWater_TSet heater(
     tauHeatLoss=3600,

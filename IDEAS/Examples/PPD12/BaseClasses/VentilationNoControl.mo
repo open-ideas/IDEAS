@@ -39,9 +39,9 @@ partial model VentilationNoControl "Ppd 12 example model"
 
   Fluid.Movers.FlowControlled_dp           fanSup(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
-    use_inputFilter=false,
     dp_nominal=80,
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,
@@ -49,9 +49,9 @@ partial model VentilationNoControl "Ppd 12 example model"
     annotation (Placement(transformation(extent={{360,118},{340,138}})));
   Fluid.Movers.FlowControlled_dp           fanRet(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal_air,
     tau=0,
-    use_inputFilter=false,
     dp_nominal=100,
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Continuous,

@@ -53,7 +53,7 @@ model SingleZoneResidentialHydronic
   Fluid.Movers.FlowControlled_dp           pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
-    use_inputFilter=false,
+    use_riseTime=false,
     redeclare package Medium = MediumWater,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Stages,

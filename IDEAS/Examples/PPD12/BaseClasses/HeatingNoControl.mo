@@ -105,9 +105,9 @@ partial model HeatingNoControl "Ppd 12 example model without control"
         rotation=90,
         origin={120,-170})));
   IDEAS.Fluid.Movers.FlowControlled_dp pump(
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
     redeclare package Medium = MediumWater,
     allowFlowReversal=false,
     dp_nominal=100000)
