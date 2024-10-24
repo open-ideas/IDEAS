@@ -4,11 +4,11 @@ record Adsolair14200
   extends IDEAS.Airflow.AHU.BaseClasses.AdsolairData(
     pressure(V_flow={5423,7537,9958,12256,14857,17121,19042,20649}/3600, dp={
           1385,1350,1290,1195,1021,838,653,470}),
-    hydraulicEfficiency(V_flow={5341,6743,9230,11651,14412,17383,20235}/3600,
+    efficiency(V_flow={5341,6743,9230,11651,14412,17383,20235}/3600,
         eta={0.45,0.51,0.6,0.72,0.7,0.72,0.6}),
     motorEfficiency(V_flow={5341,20235}/3600, eta={0.887,0.887}),
-    use_powerCharacteristic=false,
-    speed_rpm_nominal=1800,
+    powerOrEfficiencyIsHydraulic = true,
+    etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
     m1_flow_nominal=4.69,
     m2_flow_nominal=4.69,
     dT_compressor=37.1 - 10.8,
