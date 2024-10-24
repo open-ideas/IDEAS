@@ -19,7 +19,7 @@ model TwoWayTRV "Two way thermostatic radiator valve"
   parameter Boolean use_strokeTime=true
     "Set to true to continuously open and close valve using strokeTime"
     annotation(Dialog(tab="Dynamics", group="Actuator position"));
-  parameter Modelica.Units.SI.Time strokeTime=120
+  parameter Modelica.Units.SI.Time strokeTime=1200
     "Time needed to fully open or close actuator"
     annotation (Dialog(
       tab="Dynamics",
