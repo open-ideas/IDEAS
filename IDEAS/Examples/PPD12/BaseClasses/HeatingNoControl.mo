@@ -178,7 +178,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     m_flow_nominal=m_flow_nominal,
     dpFixed_nominal=2*dp_16mm*4,
     from_dp=true) "Thermostatic radiator valve for bedroom 1" annotation (
@@ -198,7 +198,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     dpFixed_nominal=2*dp_16mm*4,
     from_dp=true) "Thermostatic radiator valve for towel dryer in bathroom"
     annotation (Placement(transformation(
@@ -217,7 +217,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     dpFixed_nominal=2*dp_16mm*6,
     from_dp=true) "Thermostatic radiator valve for radiator in bathroom"
     annotation (Placement(transformation(
@@ -236,7 +236,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     dpFixed_nominal=2*dp_16mm*5,
     from_dp=true) "Thermostatic radiator valve for radiator in bedroom 2"
     annotation (Placement(transformation(
@@ -255,7 +255,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     dpFixed_nominal=2*dp_16mm*2,
     from_dp=true) "Thermostatic radiator valve for bedroom 3" annotation (
       Placement(transformation(
@@ -272,7 +272,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=false,
+    use_strokeTime=true,
     m_flow_nominal=m_flow_nominal,
     TSet=TSet2,
     dpFixed_nominal=2*(dp_16mm*4 + dp_26mm*5),
