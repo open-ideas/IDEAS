@@ -35,6 +35,7 @@ systemScript.py
 
 # The files below are not ignored (hence the "!")
 !/Inputs/*.txt
+!/IDEAS/Data/*.txt
 !/IDEAS/Inputs/*.txt
 !/IDEAS/Resources/strobe/*.txt
 !/IDEAS/Resources/ReferenceResults/Dymola/*.txt
