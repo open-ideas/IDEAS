@@ -31,7 +31,7 @@ protected
     annotation (Placement(transformation(extent={{-20,40},{-40,60}})));
   Fluid.Movers.FlowControlled_m_flow[nZones] pum(
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    each use_inputFilter=false,
+    each use_riseTime=false,
     m_flow_nominal=rad.m_flow_nominal,
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-120,-40},{-100,-20}})));

@@ -45,10 +45,10 @@ model ConstantAirFlowRecup
     use_T_in=true) "Ambient air"
     annotation (Placement(transformation(extent={{-80,-30},{-100,-10}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan[nZones](
+    each use_riseTime=false,
     m_flow_nominal=n ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    each use_inputFilter=false,
     each inputType=IDEAS.Fluid.Types.InputType.Constant)
     "Fan with constant flow rate"
     annotation (Placement(transformation(extent={{-160,-10},{-180,-30}})));
