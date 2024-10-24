@@ -8,7 +8,7 @@ wed                12  1   4  -" "Contents of schedule.txt";
   IDEAS.Utilities.IO.Files.WeeklySchedule weeSchFil(
     columns={2,3,4,5},
     tableOnFile=true,
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/schedule.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Utilities/IO/Files/Examples/schedule.txt"),
     t_offset=1e6) "Weekly schedule example using file data source"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
 

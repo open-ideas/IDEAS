@@ -8,14 +8,14 @@ wed                12  1   4  -" "Contents of schedule.txt";
   IDEAS.Utilities.IO.Files.WeeklySchedule weeSchLin(
     columns={2,3,4,5},
     tableOnFile=true,
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/schedule.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Utilities/IO/Files/Examples/schedule.txt"),
     t_offset=1e6) "Weekly schedule example using file data source"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
 
   IDEAS.Utilities.IO.Files.WeeklySchedule weeSchWin(
     columns={2,3,4,5},
     tableOnFile=true,
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/scheduleWindows.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Utilities/IO/Files/Validation/scheduleWindows.txt"),
     t_offset=1e6) "Weekly schedule example using parameter data source"
     annotation (Placement(transformation(extent={{-10,-32},{10,-12}})));
   Diagnostics.AssertEquality assEqu[4](
