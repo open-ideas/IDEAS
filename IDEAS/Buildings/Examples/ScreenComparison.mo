@@ -50,9 +50,9 @@ model ScreenComparison "Comparison between a model with and without screen"
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan1(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    use_inputFilter=false,
     dp_nominal=5) "Fan" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -61,9 +61,9 @@ model ScreenComparison "Comparison between a model with and without screen"
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan2(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    use_inputFilter=false,
     dp_nominal=5) "Fan" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,

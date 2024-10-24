@@ -26,8 +26,8 @@ protected
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={12,-30})));
-  Modelica.Blocks.Math.BooleanToReal[nZones] booToRea(realTrue=0.0, realFalse=
-        1.0)                                          "Boolean to real conversion"
+  Modelica.Blocks.Math.BooleanToReal[nZones] booToRea(each realTrue=0.0,
+    each realFalse=1.0) "Boolean to real conversion"
     annotation (Placement(transformation(extent={{-60,-10},{-80,10}})));
 equation
 

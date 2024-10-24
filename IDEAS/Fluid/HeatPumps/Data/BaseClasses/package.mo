@@ -6,7 +6,7 @@ package BaseClasses "Base classes for package Data"
   Documentation(info="<html>
 This package contains the common parameters that are used
 to specify the heat pump models in
-<a href=\"IDEAS.Fluid.HeatPumps\">
+<a href=\"modelica://IDEAS.Fluid.HeatPumps\">
 IDEAS.Fluid.HeatPumps</a>.
 </html>", revisions="<html>
 <ul>

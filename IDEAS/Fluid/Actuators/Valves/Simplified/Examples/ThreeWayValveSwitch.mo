@@ -6,10 +6,10 @@ model ThreeWayValveSwitch "Test the new component ThreeWayValveSwitch"
 
     IDEAS.Fluid.Movers.FlowControlled_m_flow pumpEmission(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=1,
     tau=30,
-    use_inputFilter=false,
-    dp_nominal = 0,
+    dp_nominal=1,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{70,0},{90,20}})));

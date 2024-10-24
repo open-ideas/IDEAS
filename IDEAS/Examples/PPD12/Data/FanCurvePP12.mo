@@ -1,10 +1,10 @@
 within IDEAS.Examples.PPD12.Data;
 record FanCurvePP12 "Curve with constant efficiency for PPD12 fans"
   extends IDEAS.Fluid.Movers.Data.Generic(
-    speed_rpm_nominal=2800,
-    use_powerCharacteristic = false,
+    powerOrEfficiencyIsHydraulic = true,
+    etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
     motorEfficiency(V_flow={2},eta={0.95}),
-    hydraulicEfficiency(V_flow={0, 150, 300}/3600*1.225,
+    efficiency(V_flow={0, 150, 300}/3600*1.225,
           eta={0.25, 0.25, 0.25}),
     pressure(V_flow={0,150,300}/3600*1.225,
           dp={300,200,50}));

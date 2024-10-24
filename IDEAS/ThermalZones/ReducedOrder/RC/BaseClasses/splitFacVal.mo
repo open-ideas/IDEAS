@@ -50,7 +50,7 @@ algorithm
   <code>AArray</code> and each column for one orientation in
   <code>AExt</code> and <code>AWin</code>. The function is used to
   calculate the split factors for
-  <a href=\"IDEAS.ThermalZones.ReducedOrder.RC.BaseClasses.ThermSplitter\">
+  <a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.RC.BaseClasses.ThermSplitter\">
   IDEAS.ThermalZones.ReducedOrder.RC.BaseClasses.ThermSplitter</a>.</p>
   For internal gains, the calculation is:
   <p align=\"center\" style=\"font-style:italic;\">
