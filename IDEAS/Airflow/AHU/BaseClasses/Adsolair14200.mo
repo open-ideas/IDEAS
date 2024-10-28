@@ -9,7 +9,7 @@ record Adsolair14200
     motorEfficiency(V_flow={5341,20235}/3600, eta={0.887,0.887}),
     powerOrEfficiencyIsHydraulic = true,
     etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
-    etaMotMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
+    etaMotMet=IDEAS.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.Efficiency_VolumeFlowRate,
     m1_flow_nominal=4.69,
     m2_flow_nominal=4.69,
     dT_compressor=37.1 - 10.8,

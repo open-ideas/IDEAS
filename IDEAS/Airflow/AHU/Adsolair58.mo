@@ -228,8 +228,8 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     allowFlowReversal=allowFlowReversal,
     addPowerToMedium=true,
     per(
-      etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
-      etaMotMet=IDEAS.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.Efficiency_VolumeFlowRate,
+      etaHydMet=per.etaHydMet,
+      etaMotMet=per.etaMotMet,
       efficiency=per.efficiency,
       motorEfficiency=per.motorEfficiency,
       power=per.power,
