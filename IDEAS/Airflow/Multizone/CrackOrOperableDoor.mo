@@ -6,7 +6,7 @@ model CrackOrOperableDoor
     redeclare final package Medium2 = Medium,
     final allowFlowReversal1=true,
     final allowFlowReversal2=true,
-    final m1_flow_nominal=10/3600*1.2,
+    final m1_flow_nominal=10/3600*rho_default,
     final m2_flow_nominal=m1_flow_nominal,
     final m1_flow_small=1E-4*abs(m1_flow_nominal),
     final m2_flow_small=1E-4*abs(m2_flow_nominal));
@@ -46,7 +46,7 @@ model CrackOrOperableDoor
    parameter Modelica.Units.SI.Area A_q50 "Surface area for leakage computation (closed door)";
    parameter Real q50(unit="m3/(h.m2)") "Surface air tightness";
 
-  final parameter Modelica.Units.SI.Area LClo(min=0) = ((q50*A_q50/3600)/(dpCloRat)^mClo)/(((dpCloRat)^(0.5-mClo))*sqrt(2/1.2041))
+  final parameter Modelica.Units.SI.Area LClo(min=0) = ((q50*A_q50/3600)/(dpCloRat)^mClo)/(((dpCloRat)^(0.5-mClo))*sqrt(2/rho_default))
     "Effective leakage area of internal wall (when door is fully closed)"
     annotation (Dialog(group="Crack or Closed door"));
 
@@ -70,12 +70,20 @@ model CrackOrOperableDoor
     displayUnit="Pa") = 0.01
     "Pressure difference where laminar and turbulent flow relation coincide. Recommended: 0.01";
 
-   parameter Modelica.Units.SI.PressureDifference dp_turbulent_ope(min=0,displayUnit="Pa") = (MFtrans/(1.2041*(CDOpe * hOpe*wOpe * sqrt(2/1.2041))))^(1/mOpe)
+   parameter Modelica.Units.SI.PressureDifference dp_turbulent_ope(min=0,displayUnit="Pa") = (MFtrans/(rho_default*(CDOpe * hOpe*wOpe * sqrt(2/rho_default))))^(1/mOpe)
    if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities";
    parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation";
    parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter";
    constant Real REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed reynoldsnumber at transition";
    constant Real VItrans(unit="kg/(m.s)")=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed viscosity of air at transition";
+
+   final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
+      T=Medium.T_default,
+      p=Medium.p_default,
+      X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=state_default) "Medium default density";
+
+
 
   Modelica.Blocks.Interfaces.RealInput y(min=0, max=1, unit="1") if useDoor and use_y
     "Opening signal, 0=closed, 1=open"
@@ -85,9 +93,9 @@ model CrackOrOperableDoor
   dpMea_nominal = dpCloRat,
     forceErrorControlOnFlow=true,
     mMea_flow_nominal=if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-         then wOpe*hOpe*1.2*CDCloRat*(2*dpCloRat/1.2)^mClo else (if
+         then wOpe*hOpe*rho_default*CDCloRat*(2*dpCloRat/rho_default)^mClo else (if
         interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-         then 0.5 else 1)*(q50/3600*1.2041)*A_q50,
+         then 0.5 else 1)*(q50/3600*rho_default)*A_q50,
   m = if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then mOpe else mClo,
   useDefaultProperties = false) if not useDoor or (useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort) "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -104,7 +112,7 @@ model CrackOrOperableDoor
    dpMea_nominal = dpCloRat,
     forceErrorControlOnFlow=true,
    m = mClo,
-   mMea_flow_nominal = (q50/3600*1.2041)*A_q50*0.5,
+   mMea_flow_nominal = (q50/3600*rho_default)*A_q50*0.5,
    useDefaultProperties = false) if not useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
@@ -123,7 +131,7 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-    vZer=vZer*MFtrans*1.2041)
+    vZer=vZer*MFtrans*rho_default)
                           if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
     Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(

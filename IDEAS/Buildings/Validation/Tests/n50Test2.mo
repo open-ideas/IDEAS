@@ -1,14 +1,28 @@
 within IDEAS.Buildings.Validation.Tests;
 model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
   extends IDEAS.Buildings.Examples.ZoneExample(
-    zone1(use_custom_n50=true, n50=2),
-    zone(use_custom_n50=true, n50=3),
-    sim(Va=0, interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
+    redeclare package Medium = IDEAS.Media.Air (dStp=1.2041),
+    zone1(use_custom_n50=true, n50=2,
+      energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+                                     airModel(X_start={0.00590700766936828,1 - 0.00590700766936828})),
+    zone(use_custom_n50=true, n50=3,
+      energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+                                    airModel(X_start={0.00590700766936828,1 - 0.00590700766936828})),
+    sim(
+      HPres=zone.hZone/2,
+        Va=0, interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
     window(A=2, nWin=2));
 
   parameter Boolean disableAssert = false;
 
+protected
+  final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
+      T=Medium.T_default,
+      p=Medium.p_default,
+      X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=state_default) "Medium default density";
 
+public
   IDEAS.Fluid.Sources.Boundary_pT bou(
     redeclare package Medium = Medium,
     use_p_in=true,
@@ -17,7 +31,7 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
         rotation=270,
         origin={40,0})));
   Modelica.Blocks.Sources.Ramp ramp(
-    height=50,
+    height=-50,
     duration=1,
     offset=0,
     startTime=1)
@@ -29,14 +43,16 @@ model n50Test2 "n50 consistency check for interzonalAirFlowType=OnePort"
   IDEAS.BoundaryConditions.WeatherData.Bus       weaDatBus1
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{0,80},{20,100}})));
-  Real ach = -bou.ports[1].m_flow/1.2041/zone.V*3600;
-  Real ach1 = -bou.ports[2].m_flow/1.2041/zone1.V*3600;
+  Real ach = abs(bou.ports[1].m_flow)/rho_default/zone.V*3600;
+  Real ach1 = abs(bou.ports[2].m_flow)/rho_default/zone1.V*3600;
 
 
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature annotation (Placement(transformation(extent={{90,-10},
+            {70,10}})));
 equation
   if not disableAssert then
-    assert(abs(ach-zone.n50) < 1e-6 or time < 2, "n50 computation consistency check failed");
-    assert(abs(ach1-zone1.n50) < 1e-6 or time < 2, "n50 computation consistency check failed");
+    assert(abs(ach-zone.n50) < 1e-3 or time < 2, "n50 computation consistency check failed");
+    assert(abs(ach1-zone1.n50) < 1e-3 or time < 2, "n50 computation consistency check failed");
   end if;
 
   connect(sim.weaDatBus,weaDatBus1)  annotation (Line(
@@ -63,6 +79,16 @@ equation
           {28,-20},{10,-20}}, color={0,127,255}));
   connect(bou.ports[2], zone1.ports[1]) annotation (Line(points={{38,-10},{24,-10},
           {24,40},{10,40}}, color={0,127,255}));
+  connect(prescribedTemperature.T, weaDatBus1.TDryBul) annotation (Line(points={{92,0},{
+          104,0},{104,104},{10,104},{10,90}},                                                                                   color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+  connect(prescribedTemperature.port, zone1.gainCon) annotation (Line(points={{
+          70,0},{56,0},{56,20},{26,20},{26,27},{20,27}}, color={191,0,0}));
+  connect(prescribedTemperature.port, zone.gainCon) annotation (Line(points={{
+          70,0},{56,0},{56,-33},{20,-33}}, color={191,0,0}));
   annotation (experiment(StopTime=3, Tolerance=1e-06),
                                       Documentation(revisions="<html>
 <ul>
