@@ -8,8 +8,8 @@ model InternalWall "interior opaque wall between two zones"
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    QTra_design=U_value*A*(TRefInt - TRef_b),
-    q50_zone(v50_surf=0));
+    q50_zone(v50_surf=0),
+    QTra_design(fixed=false));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -139,6 +139,8 @@ public
     if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
+initial equation
+  QTra_design=U_value*A*(TRefInt - TRef_b);
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",

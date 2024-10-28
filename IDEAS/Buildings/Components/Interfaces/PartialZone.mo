@@ -36,7 +36,7 @@ model PartialZone "Building zone model"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
   parameter Modelica.Units.SI.Temperature defaultTRef=291.15 "Default zone temperature for calculation of design heat load"
     annotation (Dialog(group="Design heat load", tab="Advanced"));
-  Modelica.Blocks.Interfaces.RealOutput TRef_zone[nSurf] "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
+  Modelica.Blocks.Interfaces.RealOutput TRef_zone[nSurf]=defaultTRef*ones(nSurf) "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
   final parameter Modelica.Units.SI.Power QInf_design=1012*1.204*V/3600*n50_int
       /n50toAch*(defaultTRef - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
@@ -507,7 +507,7 @@ end for;
   connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
-  connect(TRef_zone[1:nSurf], propsBusInt[1:nSurf].TRef_zone);
+  connect(TRef_zone, propsBusInt.TRef_zone);
     annotation (Dialog(group="Design heat load", tab="Advanced"),
               Placement(transformation(extent={{
             140,48},{100,88}})),

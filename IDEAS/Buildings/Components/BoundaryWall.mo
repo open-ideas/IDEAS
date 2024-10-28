@@ -4,9 +4,9 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRefInt - T_in_nom) else -Q_in_nom,
     dT_nominal_a=-1,
     add_cracks=false,
+    QTra_design(fixed=false),
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
             addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
@@ -69,6 +69,8 @@ protected
   IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(final numSolBus=sim.numIncAndAziInBus,
       outputAngles=sim.outputAngles)                  "Weather bus"
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
+initial equation
+    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRefInt - T_in_nom) else -Q_in_nom;
 equation
   assert(not (use_T_in and use_Q_in or use_T_in and use_T_fixed or use_Q_in and use_T_fixed),
     "In "+getInstanceName()+": Only one of the following options can be used simultaneously: use_T_in, use_Q_in, use_T_fixed");
