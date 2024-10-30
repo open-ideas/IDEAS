@@ -4,8 +4,8 @@ model n50Test "n50 consistency check for OnePort"
   package Medium = IDEAS.Media.Air(dStp=1.2041)
     "Air medium"
     annotation (choicesAllMatching=true);
-  inner BoundaryConditions.SimInfoManager sim(
-    HPres=simpleZone.hZone/2,                 Va=0,interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
+  inner BoundaryConditions.SimInfoManager sim(HPres=simpleZone.hZone/2, Va=0,
+    interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   Real ach = abs(bou.ports[1].m_flow)/rho_default/simpleZone.V*3600 "Effective air change rate";
@@ -14,8 +14,6 @@ model n50Test "n50 consistency check for OnePort"
     redeclare package Medium = Medium,
     n50=3,
     energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, X_start={0.00590700766936828,
-          1 - 0.00590700766936828}),
     hasWinA=true,
     l=5,
     w=5,
@@ -52,6 +50,9 @@ protected
       p=Medium.p_default,
       X=Medium.X_default[1:Medium.nXi]) "Medium state at default values";
   final parameter Modelica.Units.SI.Density rho_default=Medium.density(state=state_default) "Medium default density";
+
+initial equation
+  simpleZone.port_b.Xi_outflow = {0.00590700766936828};
 
 equation
   assert(abs(ach-simpleZone.n50) < 1e-3 or time < 2, "n50 computation consistency check failed");
@@ -91,8 +92,14 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-October 30, 2024, by Klaas De Jonge:<br/>
-rho_default coupled to medium, outside pressure reference height at zone reference height.
+October 30, 2024, by Jelger Jansen:<br/>
+Use initial equation to use the same air humidity in the zones compared to the outdoor environment.
+This is for issue <a href=\"https://github.com/open-ideas/IDEAS/issues/1244\">#1244</a>.
+</li>
+<li>
+October 29, 2024, by Klaas De Jonge:<br/>
+rho_default coupled to medium and new initial zone moisture content,outside pressure reference height at zone reference height.
+This is for issue <a href=\"https://github.com/open-ideas/IDEAS/issues/1244\">#1244</a>.
 </li>
 <li>
 June 3, 2021, by Filip Jorissen:<br/>
