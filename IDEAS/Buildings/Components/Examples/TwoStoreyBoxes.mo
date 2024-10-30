@@ -25,8 +25,7 @@ model TwoStoreyBoxes
     h_winA=2,
     redeclare Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Constructions.ConcreteSlab conTypFlo,
-    hasCavityFlo=true,
-    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial))
+    hasCavityFlo=true)
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
@@ -46,26 +45,33 @@ model TwoStoreyBoxes
     A_winA=2,
     h_winA=2,
     redeclare Validation.Data.Constructions.LightRoof conTypCei,
-    redeclare Data.Constructions.FloorOnGround conTypFlo,
-    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial))
+    redeclare Data.Constructions.FloorOnGround conTypFlo)
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
 
   Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature Tfix(T=18)
-    annotation (Placement(transformation(extent={{40,20},{20,40}})));
+    annotation (Placement(transformation(extent={{62,20},{42,40}})));
 
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor PerfectRadLevel(G=1e6)
+    annotation (Placement(transformation(extent={{0,6},{20,26}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor PerfectRadGround(G=1e6)
+    annotation (Placement(transformation(extent={{0,-52},{20,-32}})));
 equation
   connect(Groundfloor.proBusCei, Level.proBusFlo) annotation (Line(
       points={{-30.2,-24},{-30,-22},{-30,24}},
       color={255,204,51},
       thickness=0.5));
-  connect(Tfix.port, Level.gainCon) annotation (Line(points={{20,30},{-16,30},{-16,
+  connect(Tfix.port, Level.gainCon) annotation (Line(points={{42,30},{-16,30},{-16,
           27},{-20,27}}, color={191,0,0}));
-  connect(Tfix.port, Level.gainRad) annotation (Line(points={{20,30},{-16,30},{-16,
-          24},{-20,24}}, color={191,0,0}));
-  connect(Tfix.port, Groundfloor.gainCon) annotation (Line(points={{20,30},{-16,
-          30},{-16,-33},{-20,-33}}, color={191,0,0}));
-  connect(Tfix.port, Groundfloor.gainRad) annotation (Line(points={{20,30},{-16,
-          30},{-16,-36},{-20,-36}}, color={191,0,0}));
+  connect(PerfectRadLevel.port_a, Level.gainRad) annotation (Line(points={{0,16},
+          {-14,16},{-14,24},{-20,24}}, color={191,0,0}));
+  connect(PerfectRadLevel.port_b, Tfix.port) annotation (Line(points={{20,16},{32,
+          16},{32,30},{42,30}}, color={191,0,0}));
+  connect(PerfectRadGround.port_a, Groundfloor.gainRad) annotation (Line(points
+        ={{0,-42},{-14,-42},{-14,-36},{-20,-36}}, color={191,0,0}));
+  connect(Tfix.port, PerfectRadGround.port_b) annotation (Line(points={{42,30},{
+          38,30},{38,-42},{20,-42}}, color={191,0,0}));
+  connect(Tfix.port, Groundfloor.gainCon) annotation (Line(points={{42,30},{38,30},
+          {38,-26},{-14,-26},{-14,-33},{-20,-33}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
