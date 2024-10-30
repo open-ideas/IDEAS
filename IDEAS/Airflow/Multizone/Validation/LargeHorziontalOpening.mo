@@ -206,8 +206,8 @@ equation
       Interval=10,
       Tolerance=1e-09,
       __Dymola_Algorithm="Cvode"),
-      __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Airflow/Multizone/Validation/OneWayFlow.mos"
-        "Simulate and plot"),
+      __Dymola_Commands(file="Resources/Scripts/Dymola/Airflow/Multizone/Validation/LargeHorizontalOpening.mos"
+        "Simulate and Plot"),
     Documentation(revisions="<html>
 <ul>
 <li>
