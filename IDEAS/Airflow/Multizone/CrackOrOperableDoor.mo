@@ -1,6 +1,6 @@
 within IDEAS.Airflow.Multizone;
 model CrackOrOperableDoor
-  "Door model using discretization along height coordinate"
+  "Infiltration or large opening model used for the embeded airflow implementation in IDEAS.Buildings.Components"
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     redeclare final package Medium1 = Medium,
     redeclare final package Medium2 = Medium,
@@ -99,14 +99,34 @@ model CrackOrOperableDoor
   m = if openDoorOnePort and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then mOpe else mClo,
   useDefaultProperties = false) if not useDoor or (useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort) "Pressure drop equation" annotation (
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b1(redeclare package Medium = Medium, h=h_b1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and not useDoor "Column for port b1" annotation (
-    Placement(visible = true, transformation(origin = {0, 70}, extent = {{50, -10}, {70, 10}}, rotation = 0)));
- IDEAS.Airflow.Multizone.ReversibleDensityColumn col_a1(redeclare package Medium = Medium, h=h_a1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and not useDoor "Column for port a1" annotation (
-    Placement(visible = true, transformation(origin = {0, 70}, extent = {{-70, -10}, {-50, 10}}, rotation = 0)));
- IDEAS.Airflow.Multizone.ReversibleDensityColumn col_b2(redeclare package Medium = Medium, h=h_b2) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts  and not useDoor"Column for port b2" annotation (
-    Placement(visible = true, transformation(origin = {0, -50}, extent = {{-70, -10}, {-50, 10}}, rotation = 0)));
- IDEAS.Airflow.Multizone.ReversibleDensityColumn col_a2(redeclare package Medium = Medium, h=h_a2) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and not useDoor "Column for port a2" annotation (
-    Placement(visible = true, transformation(origin = {0, -50}, extent = {{50, -10}, {70, 10}}, rotation = 0)));
+  IDEAS.Airflow.Multizone.MediumColumnReversible col_b1(redeclare package
+      Medium = Medium, h=h_b1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     and not useDoor "Column for port b1" annotation (Placement(visible=true,
+        transformation(
+        origin={0,70},
+        extent={{50,-10},{70,10}},
+        rotation=0)));
+  IDEAS.Airflow.Multizone.MediumColumnReversible col_a1(redeclare package
+      Medium = Medium, h=h_a1) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     and not useDoor "Column for port a1" annotation (Placement(visible=true,
+        transformation(
+        origin={0,70},
+        extent={{-70,-10},{-50,10}},
+        rotation=0)));
+  IDEAS.Airflow.Multizone.MediumColumnReversible col_b2(redeclare package
+      Medium = Medium, h=h_b2) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     and not useDoor "Column for port b2" annotation (Placement(visible=true,
+        transformation(
+        origin={0,-50},
+        extent={{-70,-10},{-50,10}},
+        rotation=0)));
+  IDEAS.Airflow.Multizone.MediumColumnReversible col_a2(redeclare package
+      Medium = Medium, h=h_a2) if interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     and not useDoor "Column for port a2" annotation (Placement(visible=true,
+        transformation(
+        origin={0,-50},
+        extent={{50,-10},{70,10}},
+        rotation=0)));
  IDEAS.Airflow.Multizone.Point_m_flow point_m_flow2(
    redeclare package Medium = Medium,
    dpMea_nominal = dpCloRat,
@@ -169,7 +189,7 @@ equation
  connect(col_a1.port_b, port_a1) annotation (
     Line(points = {{-60, 60}, {-100, 60}}, color = {0, 127, 255}));
  connect(y, doo.y) annotation (
-    Line(points={{-110,0},{-11,0}},      color = {0, 0, 127}));
+    Line(points={{-110,0},{-13,0}},      color = {0, 0, 127}));
  connect(bou.ports[1], port_a2) annotation (
     Line(points={{-1,-80},{100,-80},{100,-60}},       color = {0, 127, 255}));
  if  interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
@@ -179,17 +199,17 @@ equation
     Line(points = {{10, 60}, {100, 60}}, color = {0, 127, 255}));
  end if;
  connect(constOne.y, doo.y) annotation (
-    Line(points={{-47.4,-14},{-32,-14},{-32,0},{-11,0}},        color = {0, 0, 127}));
+    Line(points={{-47.4,-14},{-32,-14},{-32,0},{-13,0}},        color = {0, 0, 127}));
  connect(bou.ports[2], port_b2) annotation (
     Line(points={{1,-80},{-100,-80},{-100,-60}},        color = {0, 127, 255}));
- connect(doo.port_a1, port_a1) annotation(
-    Line(points = {{-10, 6}, {-30, 6}, {-30, 60}, {-100, 60}}, color = {0, 127, 255}));
- connect(doo.port_b1, port_b1) annotation(
-    Line(points = {{10, 6}, {30, 6}, {30, 60}, {100, 60}}, color = {0, 127, 255}));
- connect(doo.port_b2, port_b2) annotation(
-    Line(points = {{-10, -6}, {-20, -6}, {-20, -34}, {-100, -34}, {-100, -60}}, color = {0, 127, 255}));
- connect(doo.port_a2, port_a2) annotation(
-    Line(points = {{10, -6}, {20, -6}, {20, -34}, {100, -34}, {100, -60}}, color = {0, 127, 255}));
+ connect(doo.port_a1, port_a1) annotation (
+    Line(points={{-12,6},{-30,6},{-30,60},{-100,60}},          color = {0, 127, 255}));
+ connect(doo.port_b1, port_b1) annotation (
+    Line(points={{8,6},{30,6},{30,60},{100,60}},           color = {0, 127, 255}));
+ connect(doo.port_b2, port_b2) annotation (
+    Line(points={{-12,-6},{-20,-6},{-20,-34},{-100,-34},{-100,-60}},            color = {0, 127, 255}));
+ connect(doo.port_a2, port_a2) annotation (
+    Line(points={{8,-6},{20,-6},{20,-34},{100,-34},{100,-60}},             color = {0, 127, 255}));
 
 annotation(Documentation(info="<html>
 <p>
