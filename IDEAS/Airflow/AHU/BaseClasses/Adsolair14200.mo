@@ -56,6 +56,14 @@ record Adsolair14200
   annotation (Documentation(revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Lucas Verleyen and Jelger Jansen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1704\">IBPSA, #1704</a>,
+<a href=\"https://github.com/lbl-srg/modelica-buildings/pull/3845\">Buildings, #3845</a>, and
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/2668\">Buildings, #2668</a>).
+</li>
+<li>
 October 11, 2016, by Filip Jorissen:<br/>
 Added first implementation.
 </li>

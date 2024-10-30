@@ -88,6 +88,12 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
+<li>
 July 18th, 2022 by Filip Jorissen<br/>
 First implementation for #1270.
 </li>
