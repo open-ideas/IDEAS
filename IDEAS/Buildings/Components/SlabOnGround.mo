@@ -4,9 +4,9 @@ model SlabOnGround "opaque floor on ground slab"
     custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    QTra_design=UEqui*A*(TRefInt - sim.TdesGround),
     add_cracks=false,
     dT_nominal_a=-3,
+    QTra_design(fixed=false),
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
@@ -36,7 +36,8 @@ model SlabOnGround "opaque floor on ground slab"
       cos(2*3.1415/12*(i - 1 + alfa)) + Lpe*dTeAvg*cos(2*3.1415/12*(i - 1 -
       beta)) for i in 1:12})/12 "Two-dimensional correction for edge flow";
 
-//Calculation of heat loss based on ISO 13370
+  Modelica.Blocks.Routing.RealPassThrough TdesGround "Design temperature passthrough";
+
   IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
     redeclare package Medium = Medium,
     nPorts=1,
@@ -96,8 +97,11 @@ protected
       outputAngles=sim.outputAngles)
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{46,-90},{66,-70}})));
-equation
 
+initial equation
+    QTra_design=UEqui*A*(TRefInt - TdesGround.y);
+equation
+  connect(TdesGround.u, weaBus.TGroundDes);
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
           -14,22},{-14,0},{-10,0}}, color={191,0,0}));
   connect(layGro.port_a, layMul.port_b)
