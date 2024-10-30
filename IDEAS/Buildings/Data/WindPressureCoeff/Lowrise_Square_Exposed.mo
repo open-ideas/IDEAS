@@ -25,4 +25,12 @@ Wind speed reference level: Building height<br>
 </html>"));
 
 
+  annotation (Documentation(revisions="<html>
+<ul>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+First implementation.
+</li>
+</ul>
+</html>"));
 end Lowrise_Square_Exposed;

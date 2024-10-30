@@ -304,6 +304,10 @@ The correct shading parameter values should then be passed through the redeclara
 </html>", revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for stack-effect interzonal airflow heights and wind pressure profiles.
+</li>
+<li>
 Februari 18, 2024, by Filip Jorissen:<br/>
 Modifications for supporting trickle vents and interzonal airflow.
 </li>

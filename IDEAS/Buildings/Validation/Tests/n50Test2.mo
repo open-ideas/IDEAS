@@ -99,6 +99,10 @@ Use initial equation to use the same air humidity in the zones compared to the o
 This is for issue <a href=\"https://github.com/open-ideas/IDEAS/issues/1244\">#1244</a>.
 </li>
 <li>
+October 29, 2024, by Klaas De Jonge:<br/>
+rho_default coupled to medium and new initial zone moisture content,outside pressure reference height at zone reference height.
+</li>
+<li>
 June 3, 2021, by Filip Jorissen:<br/>
 First implementation.
 </li>

@@ -1,13 +1,13 @@
 within IDEAS.Airflow.Multizone;
-model ReversibleDensityColumn
+model MediumColumnReversible
   "Vertical shaft with no friction and no storage of heat and mass, reversible because it can handle negative column heights"
 
   extends IDEAS.Airflow.Multizone.MediumColumn(
-    h(min=-Modelica.Constants.inf), 
+    h(min=-Modelica.Constants.inf),
     final densitySelection = IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom);
     // by convention, port_b must be connected to a zone instead of a flow element
     // h is allowed to be negative to accomodate for this convention
-  
+
   annotation (
 Icon(graphics={
     Line(
@@ -39,4 +39,4 @@ This makes port_a not nececarilly always the top port.
 </li>
 </ul>
 </html>"));
-end ReversibleDensityColumn;
+end MediumColumnReversible;

@@ -15,6 +15,7 @@ RectangularZoneTemplate
 RectangularZoneTemplateOnePort
 RectangularZoneTemplateTwoPort
 ScalingWindow
+TwoStoreyBoxes
 WallUnitTest
 WindowDynamics
 WindowLinearisation

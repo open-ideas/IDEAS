@@ -554,6 +554,10 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for interzonal airflow and stack-effect input. 
+</li>
+<li>
 April 26, 2024 by Jelger Jansen:<br/>
 Added parameter <code>ignAss</code> to ignore view factor asserts for non-physical unit test models.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
