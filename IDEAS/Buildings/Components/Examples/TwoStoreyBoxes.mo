@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Components.Validations;
+within IDEAS.Buildings.Components.Examples;
 model TwoStoreyBoxes
   extends Modelica.Icons.Example;
 
@@ -6,9 +6,10 @@ model TwoStoreyBoxes
       n50=1)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  RectangularZoneTemplate Level(
+  IDEAS.Buildings.Components.RectangularZoneTemplate Level(
     redeclare package Medium = IDEAS.Media.Specialized.Air.PerfectGas,
     hFloor=5,
+    energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -24,11 +25,13 @@ model TwoStoreyBoxes
     h_winA=2,
     redeclare Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Constructions.ConcreteSlab conTypFlo,
-    hasCavityFlo=true)
+    hasCavityFlo=true,
+    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial))
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
-  RectangularZoneTemplate Groundfloor(
+  IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
     redeclare package Medium = IDEAS.Media.Specialized.Air.PerfectGas,
+    energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -43,37 +46,26 @@ model TwoStoreyBoxes
     A_winA=2,
     h_winA=2,
     redeclare Validation.Data.Constructions.LightRoof conTypCei,
-    redeclare Data.Constructions.FloorOnGround conTypFlo)
+    redeclare Data.Constructions.FloorOnGround conTypFlo,
+    airModel(massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial))
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
 
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor Con[2](each G=
-        100000)
-    annotation (Placement(transformation(extent={{0,32},{20,52}})));
-  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature[2](each T=
-        18)
-    annotation (Placement(transformation(extent={{60,20},{40,40}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor Rad[2](each G=
-        100000)
-    annotation (Placement(transformation(extent={{0,6},{20,26}})));
-
+  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature Tfix(T=18)
+    annotation (Placement(transformation(extent={{40,20},{20,40}})));
 
 equation
   connect(Groundfloor.proBusCei, Level.proBusFlo) annotation (Line(
       points={{-30.2,-24},{-30,-22},{-30,24}},
       color={255,204,51},
       thickness=0.5));
-  connect(Level.gainCon, Con[1].port_a) annotation (Line(points={{-20,27},{-6,27},
-          {-6,42},{0,42}}, color={191,0,0}));
-  connect(Groundfloor.gainCon, Con[2].port_a) annotation (Line(points={{-20,-33},
-          {-20,-34},{-10,-34},{-10,28},{-6,28},{-6,42},{0,42}}, color={191,0,0}));
-  connect(Level.gainRad, Rad[1].port_a) annotation (Line(points={{-20,24},{-4,24},
-          {-4,16},{0,16}}, color={191,0,0}));
-  connect(Groundfloor.gainRad, Rad[2].port_a) annotation (Line(points={{-20,-36},
-          {-6,-36},{-6,16},{0,16}}, color={191,0,0}));
-  connect(fixedTemperature.port, Con.port_b) annotation (Line(points={{40,30},{26,
-          30},{26,42},{20,42}}, color={191,0,0}));
-  connect(fixedTemperature.port, Rad.port_b) annotation (Line(points={{40,30},{26,
-          30},{26,16},{20,16}}, color={191,0,0}));
+  connect(Tfix.port, Level.gainCon) annotation (Line(points={{20,30},{-16,30},{-16,
+          27},{-20,27}}, color={191,0,0}));
+  connect(Tfix.port, Level.gainRad) annotation (Line(points={{20,30},{-16,30},{-16,
+          24},{-20,24}}, color={191,0,0}));
+  connect(Tfix.port, Groundfloor.gainCon) annotation (Line(points={{20,30},{-16,
+          30},{-16,-33},{-20,-33}}, color={191,0,0}));
+  connect(Tfix.port, Groundfloor.gainRad) annotation (Line(points={{20,30},{-16,
+          30},{-16,-36},{-20,-36}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -81,5 +73,15 @@ equation
       Interval=3600.00288,
       Tolerance=1e-12,
       __Dymola_fixedstepsize=15,
-      __Dymola_Algorithm="Dassl"));
+      __Dymola_Algorithm="Dassl"),
+    Documentation(revisions="<html>
+<ul>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+First implementation
+</li>
+</ul>
+</html>", info="<html>
+<p>Model with two zones on different floors with a large opening between these zones and stack-effect airflow enabled.</p>
+</html>"));
 end TwoStoreyBoxes;
