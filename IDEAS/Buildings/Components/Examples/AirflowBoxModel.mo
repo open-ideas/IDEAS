@@ -2,31 +2,33 @@ within IDEAS.Buildings.Components.Examples;
 model AirflowBoxModel
   extends Modelica.Icons.Example;
 
-  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-124,16},
-            {-64,76}})));
+  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-110,30},
+            {-50,90}})));
   Box_Sim Energy_n50Corr(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, unify_n50=true)) annotation (Placement(transformation(rotation=0,
-          extent={{-22,18},{38,78}})));
+          extent={{-30,30},{30,90}})));
   Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort))
-    annotation (Placement(transformation(rotation=0, extent={{-164,-82},{-104,-22}})));
+    annotation (Placement(transformation(rotation=0, extent={{-110,-90},{-50,
+            -30}})));
   Box_Sim IAQ_1port_trickle(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
       winD(
       use_trickle_vent=true,
       m_flow_nominal=0.0192656,
       dp_nominal=2))
     "Extends the 1 port implementation with a tricklevent in the window"
-                     annotation (Placement(transformation(rotation=0, extent={{-70,-82},
-            {-10,-22}})));
-  Box_Sim IAQ_2Port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
+                     annotation (Placement(transformation(rotation=0, extent={{-30,-90},
+            {30,-30}})));
+  Box_Sim IAQ_2Port(
+    PerfectRad(G=10000000),
+    sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
+
     use_operable_window=true,
     winD(
       crackOrOperableDoor(nCom=2),
       use_trickle_vent=false,
       m_flow_nominal=0.0192656,
       dp_nominal=2),
-    winD_position(y=0),
-    Con(G=10000000),
-    Rad(G=10000000))                                                                                                                                                             annotation (Placement(transformation(rotation=0,
-          extent={{20,-80},{80,-20}})));
+    winD_position(y=0)) annotation (Placement(transformation(rotation=0, extent
+          ={{50,-90},{110,-30}})));
 protected
   model Box_Sim
     inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
@@ -37,6 +39,7 @@ protected
       "= true, to enable window control input";
 
     IDEAS.Buildings.Components.RectangularZoneTemplate BoxModel(
+      energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
       T_start=291.15,
       bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -65,11 +68,9 @@ protected
       redeclare IDEAS.Buildings.Data.Frames.AluminumInsulated fraTypC)
       annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 
-    Modelica.Thermal.HeatTransfer.Components.ThermalConductor Con(G=100000)
-      annotation (Placement(transformation(extent={{-40,52},{-20,72}})));
-    Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=
-          18) annotation (Placement(transformation(extent={{20,40},{0,60}})));
-    Modelica.Thermal.HeatTransfer.Components.ThermalConductor Rad(G=100000)
+    Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature Tfix(T=18)
+      annotation (Placement(transformation(extent={{20,40},{0,60}})));
+    Modelica.Thermal.HeatTransfer.Components.ThermalConductor PerfectRad(G=1e6)
       annotation (Placement(transformation(extent={{-40,26},{-20,46}})));
     OuterWall outD(
       redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType,
@@ -87,14 +88,10 @@ protected
       annotation (Placement(transformation(extent={{-140,0},{-120,20}})));
 
   equation
-    connect(BoxModel.gainCon, Con.port_a) annotation (Line(points={{-60,47},{
-            -46,47},{-46,62},{-40,62}}, color={191,0,0}));
-    connect(fixedTemperature.port, Con.port_b) annotation (Line(points={{0,50},
-            {-14,50},{-14,62},{-20,62}}, color={191,0,0}));
-    connect(BoxModel.gainRad, Rad.port_a) annotation (Line(points={{-60,44},{
-            -46,44},{-46,36},{-40,36}}, color={191,0,0}));
-    connect(Rad.port_b, fixedTemperature.port) annotation (Line(points={{-20,36},
-            {-14,36},{-14,50},{0,50}}, color={191,0,0}));
+    connect(BoxModel.gainRad, PerfectRad.port_a) annotation (Line(points={{-60,
+            44},{-46,44},{-46,36},{-40,36}}, color={191,0,0}));
+    connect(PerfectRad.port_b, Tfix.port) annotation (Line(points={{-20,36},{-14,
+            36},{-14,50},{0,50}}, color={191,0,0}));
     connect(outD.propsBus_a, BoxModel.proBusD[1]) annotation (Line(
         points={{-95,58},{-88,58},{-88,42.5},{-79.6,42.5}},
         color={255,204,51},
@@ -105,6 +102,8 @@ protected
         thickness=0.5));
     connect(winD_position.y, winD.y_window)
       annotation (Line(points={{-119,10},{-102,10},{-102,22}}, color={0,0,127}));
+    connect(Tfix.port, BoxModel.gainCon) annotation (Line(points={{0,50},{-56,
+            50},{-56,47},{-60,47}}, color={191,0,0}));
     annotation (Icon(graphics={Rectangle(
             extent={{-60,60},{60,-60}},
             lineColor={28,108,200},
@@ -134,7 +133,7 @@ First documented implementation.
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
+    Diagram(coordinateSystem(extent={{-120,-100},{120,100}})),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})),
         __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Buildings/Components/Examples/AirflowOptions.mos"
