@@ -7,7 +7,6 @@ model TwoStoreyBoxes
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Level(
-    redeclare package Medium = IDEAS.Media.Specialized.Air.PerfectGas,
     hFloor=5,
     energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
@@ -29,7 +28,6 @@ model TwoStoreyBoxes
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
-    redeclare package Medium = IDEAS.Media.Specialized.Air.PerfectGas,
     energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
