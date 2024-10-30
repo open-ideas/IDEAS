@@ -269,6 +269,10 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge and Filip Jorissen:<br/>
+Additions for supporting interzonal airflow: use of crackoroperabledoor model, default column height implementation for stack-effect.
+</li>
+<li>
 October 23, 2023, by Filip Jorissen:<br/>
 Using real expression to set area of propsBusInt. To add some flexibility for ensuring n50 computation is correct.
 </li>

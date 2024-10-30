@@ -203,6 +203,10 @@ There is no support for open doors when using only a single fluid port.
 revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Changes for column heights,used default density and transition point to laminar flow at low dp.
+</li>
+<li>
 October 20, 2023 by Filip Jorissen:<br/>
 First documented version.
 </li>

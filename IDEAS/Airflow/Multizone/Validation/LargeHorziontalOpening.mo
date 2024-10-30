@@ -302,16 +302,13 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-February 2, 2022, by Michael Wetter:<br/>
-Revised implementation.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
-</li>
-<li>
-Apr 6, 2021, 2020, by Klaas De Jonge:<br/>
+October 30, 2024, by Klaas De Jonge:<br/>
 First implementation.
 </li>
 </ul>
 </html>
-"), Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
+", info="<html>
+<p>Model to test the airflow trough large non-horizontal openings.</p>
+</html>"),
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
 end LargeHorziontalOpening;

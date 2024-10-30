@@ -91,6 +91,10 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+rho_default coupled to medium, outside pressure reference height at zone reference height.
+</li>
+<li>
 June 3, 2021, by Filip Jorissen:<br/>
 First implementation.
 </li>

@@ -125,8 +125,14 @@ protected
       Tolerance=1e-07,
       __Dymola_fixedstepsize=15,
       __Dymola_Algorithm="Dassl"), Documentation(info="<html>
-This model runs the 4 possible interzonal airflow configurations of a simple box model. Temperature is kept constant at 18° degrees
-
+<p>This model runs 5 possible interzonal airflow configurations of a simple box model. Temperature is kept constant at 18&deg; degrees </p>
+</html>", revisions="<html>
+<ul>
+<li>
+October 30, 2024 by Klaas De Jonge:<br/>
+First documented implementation.
+</li>
+</ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})),

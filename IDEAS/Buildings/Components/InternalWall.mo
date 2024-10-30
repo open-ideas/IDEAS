@@ -219,6 +219,10 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </html>", revisions = "<html>
 <ul>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for stack-effect interzonal airflow heights.
+</li>
+<li>
 Februari 18, 2024, by Filip Jorissen:<br/>
 Modifications for supporting trickle vents and interzonal airflow.
 </li>
