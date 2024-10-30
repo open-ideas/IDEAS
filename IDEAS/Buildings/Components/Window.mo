@@ -195,13 +195,15 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
-  Airflow.Multizone.ReversibleDensityColumn col_trickle(redeclare package
-      Medium =                                                                     Medium, h=
-        hTrickleVent - (hzone_a/2)) if use_trickle_vent and sim.interZonalAirFlowType
-     == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts                                                                                                                                   "Column for port trickle vent" annotation (
-    Placement(transformation(origin = {112, -40}, extent = {{50, -10}, {70, 10}}, rotation = 180)));
- Airflow.Multizone.ReversibleDensityColumn outside_trickleCol(redeclare package
-                                                                                Medium = Medium, h=hTrickleVent - (Habs_surf - hAbs_floor_a)) if
+  Airflow.Multizone.MediumColumnReversible col_trickle(redeclare package Medium
+      = Medium, h=hTrickleVent - (hzone_a/2)) if use_trickle_vent and sim.interZonalAirFlowType
+     == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Column for port trickle vent" annotation (Placement(transformation(
+        origin={112,-40},
+        extent={{50,-10},{70,10}},
+        rotation=180)));
+  Airflow.Multizone.MediumColumnReversible outside_trickleCol(redeclare package
+      Medium = Medium, h=hTrickleVent - (Habs_surf - hAbs_floor_a)) if
     use_trickle_vent and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
                                                                                                                  "Column for connecting outside side of trickle vent"
     annotation (Placement(visible=true, transformation(
