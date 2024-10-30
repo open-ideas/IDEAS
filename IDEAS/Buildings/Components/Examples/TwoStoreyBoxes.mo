@@ -87,5 +87,8 @@ First implementation
 </ul>
 </html>", info="<html>
 <p>Model with two zones on different floors with a large opening between these zones and stack-effect airflow enabled.</p>
-</html>"));
+</html>"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Buildings/Examples/TwoStoreyBoxes.mos"
+        "Simulate and Plot"));
 end TwoStoreyBoxes;
