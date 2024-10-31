@@ -39,7 +39,6 @@ protected
       "= true, to enable window control input";
 
     IDEAS.Buildings.Components.RectangularZoneTemplate BoxModel(
-      energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
       T_start=291.15,
       bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
       bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -86,6 +85,9 @@ protected
       annotation (Placement(transformation(extent={{-106,22},{-94,42}})));
     Modelica.Blocks.Sources.RealExpression winD_position(y=0) if use_operable_window
       annotation (Placement(transformation(extent={{-140,0},{-120,20}})));
+
+  initial equation
+    BoxModel.gainCon.T=Tfix.port.T;
 
   equation
     connect(BoxModel.gainRad, PerfectRad.port_a) annotation (Line(points={{-60,
