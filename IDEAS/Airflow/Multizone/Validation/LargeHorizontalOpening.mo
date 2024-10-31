@@ -1,5 +1,5 @@
 within IDEAS.Airflow.Multizone.Validation;
-model LargeHorziontalOpening
+model LargeHorizontalOpening
   "Model to verify the flow when a cavity is horizontal and a small pressure difference exists"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Specialized.Air.PerfectGas;
@@ -222,4 +222,4 @@ First implementation.
 <p>Differences in assumptions for density calculations linked to stack-effect airflow (internally for door component, external via density columns for orifice) can result in different pressure differences over the opening (10e-3). However, for large horizontal openings this can result in important differences in volume flow results. This example shows how two similar openings with other underlying modelling assumptions lead to noticeable differences in massflowrate.</p>
 </html>"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
-end LargeHorziontalOpening;
+end LargeHorizontalOpening;
