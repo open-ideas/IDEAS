@@ -40,24 +40,20 @@ model LargeHorziontalOpening
   Real OpeningflowDiff(unit="kg/s")=abs(MF_Doormodel.y)-abs(MF_Orifice.y);
 
 protected
-    Fluid.Sensors.MassFlowRate MFsensor_Orifice(redeclare package Medium =
-        Medium)                                 "Mass flow rate sensor"
-    annotation (Placement(transformation(
+  Fluid.Sensors.MassFlowRate MFsensor_Orifice(
+    redeclare package Medium = Medium) "Mass flow rate sensor" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-118,36})));
 
-   Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF2(redeclare package Medium =
-        Medium)                           "Mass flow rate sensor"
-                            annotation (Placement(transformation(
+  Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF2(
+    redeclare package Medium = Medium) "Mass flow rate sensor" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,24})));
- Fluid.MixingVolumes.MixingVolume
-                            vol1(
+  Fluid.MixingVolumes.MixingVolume vol1(
     redeclare package Medium = Medium,
     T_start=293.15,
-    X_start={0,1},
     m_flow_nominal=1e-12,
     allowFlowReversal=true,
     V=15,
@@ -65,11 +61,9 @@ protected
             {10,-10}},
         rotation=0,
         origin={-18,-102})));
-  Fluid.MixingVolumes.MixingVolume
-                            vol(
+  Fluid.MixingVolumes.MixingVolume vol(
     redeclare package Medium = Medium,
     T_start=293.15,
-    X_start={0,1},
     m_flow_nominal=1e-12,
     allowFlowReversal=true,
     V=15,
@@ -116,9 +110,8 @@ protected
         origin={50,116})));
   Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=20)
     annotation (Placement(transformation(extent={{-172,58},{-152,78}})));
-  Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF1(redeclare package Medium =
-        Medium)                           "Mass flow rate sensor"
-                            annotation (Placement(transformation(
+  Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF1(
+    redeclare package Medium = Medium) "Mass flow rate sensor" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={72,24})));
@@ -142,6 +135,13 @@ protected
     densitySelection=IDEAS.Airflow.Multizone.Types.densitySelection.fromTop)
     annotation (Placement(transformation(extent={{128,122},{156,150}})));
 
+initial equation
+  for i in 1:vol.nPorts loop
+    vol.ports[i].Xi_outflow = {0};
+  end for;
+  for i in 1:vol1.nPorts loop
+    vol1.ports[i].Xi_outflow = {0};
+  end for;
 
 equation
 
