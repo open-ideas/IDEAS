@@ -8,7 +8,6 @@ model TwoStoreyBoxes
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Level(
     hFloor=5,
-    energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -28,7 +27,6 @@ model TwoStoreyBoxes
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
-    energyDynamicsAir=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -53,6 +51,10 @@ model TwoStoreyBoxes
     annotation (Placement(transformation(extent={{0,6},{20,26}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor PerfectRadGround(G=1e6)
     annotation (Placement(transformation(extent={{0,-52},{20,-32}})));
+initial equation
+  Level.gainCon.T=Tfix.port.T;
+  Groundfloor.gainCon.T=Tfix.port.T;
+
 equation
   connect(Groundfloor.proBusCei, Level.proBusFlo) annotation (Line(
       points={{-30.2,-24},{-30,-22},{-30,24}},
