@@ -151,9 +151,7 @@ model SingleZoneResidentialHydronicHeatPump
     m2_flow_nominal=fan.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pum.m_flow_nominal,
-    T1_start=293.15,
-    T2_start=278.15,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     TEvaMin=253.15,
     dTHys=3,
     dp1_nominal=pum.dp_nominal/2,
@@ -273,13 +271,19 @@ model SingleZoneResidentialHydronicHeatPump
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={30,150})));
+
+initial equation
+  heaPum.con.T=293.15;
+  heaPum.eva.T=278.15;
+  heaPum.eva.port_a.C_outflow=outAir.Medium.C_default;
+  heaPum.eva.port_a.Xi_outflow={0.01};
+
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
-          40},{-52,14},{-58,14}},
-                              color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
+          {-52,18},{-81,18}}, color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)

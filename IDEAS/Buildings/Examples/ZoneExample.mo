@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Examples;
 model ZoneExample
   "Example model demonstrating how zones may be connected to surfaces"
-  package Medium = IDEAS.Media.Air;
+  replaceable package Medium = IDEAS.Media.Air;
   extends Modelica.Icons.Example;
   parameter Modelica.Units.SI.Length l=4 "Room length";
   parameter Modelica.Units.SI.Length w=4 "Room width";
@@ -23,13 +23,16 @@ model ZoneExample
       constructionType,
     azi=0,
     inc=IDEAS.Types.Tilt.Wall,
-    A=l*w)                 "Internal wall model" annotation (Placement(
+    A=l*w,
+    redeclare package Medium = Medium)
+                           "Internal wall model" annotation (Placement(
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={-8,0})));
 
   IDEAS.Buildings.Components.Window window(
+    redeclare package Medium = Medium,
     redeclare Data.Glazing.Ins2Ar2020 glazing
       "Insulating double glazing (6/16/6 AR Planitherm one) with clear glass",
     redeclare IDEAS.Buildings.Data.Frames.Pvc fraType,
@@ -38,6 +41,7 @@ model ZoneExample
     A=2)                       "Window model"
     annotation (Placement(transformation(extent={{-56,40},{-44,60}})));
   IDEAS.Buildings.Components.SlabOnGround slabOnGround(
+    redeclare package Medium = Medium,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.LightWall
       constructionType,
     A=l*w,
@@ -46,6 +50,7 @@ model ZoneExample
     annotation (Placement(transformation(extent={{-56,-40},{-44,-20}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
     azi=IDEAS.Types.Azimuth.N,
+    redeclare package Medium = Medium,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     A=(l + w)*2*h)         "Outer wall model"
@@ -60,6 +65,7 @@ model ZoneExample
           "Second zone"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
   IDEAS.Buildings.Components.OuterWall outerWall1(
+    redeclare package Medium = Medium,
     redeclare parameter IDEAS.Buildings.Validation.Data.Constructions.HeavyWall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
@@ -68,6 +74,7 @@ model ZoneExample
   IDEAS.Buildings.Components.OuterWall Roof(
     azi=0,
     A=10,
+    redeclare package Medium = Medium,
     redeclare Validation.Data.Constructions.LightRoof constructionType,
     incOpt=3)                     "Roof model"
     annotation (Placement(transformation(extent={{-56,60},{-44,80}})));
@@ -106,6 +113,10 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Medium declaration in surfaces and replaceable medium
+</li>
 <li>
 April 26, 2024 by Jelger Jansen:<br/>
 Set parameter <code>ignAss</code> to ignore view factor assert.

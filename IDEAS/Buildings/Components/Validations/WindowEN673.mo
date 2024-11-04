@@ -92,6 +92,7 @@ model WindowEN673 "Verifies U value of a glazing record"
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
     A=1,
+    frac=0,
     gainDir(k=0),
     gainDif(k=0),
     redeclare Data.Glazing.Ins2Ar2020 glazing,
@@ -146,6 +147,10 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),        Documentation(revisions="<html>
 <ul>
+<li>
+November 6, 2023, by Filip Jorissen:<br/>
+Set frame fraction to zero in normal window.
+</li>
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Updated glazing type.
