@@ -60,8 +60,8 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.FMI
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Adaptors\" INTERACTIVE=false 
-            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.{Conversion}\" INTERACTIVE=false
-            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.{Validation}\" INTERACTIVE=false
+            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Conversion\" INTERACTIVE=false
+            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Validation\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Geothermal
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.HeatExchangers
