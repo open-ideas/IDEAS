@@ -12,7 +12,7 @@ model Thermostatic3WayValve "Thermostatic 3-way valve with hot and cold side"
     annotation(Dialog(tab="Advanced"));
   parameter Real y_start(min=0, max=1) = 0 "Initial valve opening"
     annotation(Dialog(enable=dynamicValve,tab="Dynamics", group="Filter"));
-  parameter Modelica.Units.SI.Temperature dT_nominal=50
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal=50
     "Nominal/maximum temperature difference between inlet ports, used for regularization";
 
   Modelica.Blocks.Interfaces.RealInput TMixedSet
