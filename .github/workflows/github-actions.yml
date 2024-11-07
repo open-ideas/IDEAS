@@ -89,7 +89,7 @@ jobs:
       - name: Test IDEAS.Fluid.Taps
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\" INTERACTIVE=false
       - name: Test IDEAS.Media
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Media\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Media\" INTERACTIVE=false
       - name: Test IDEAS.Templates
         run: make test-dymola PACKAGE=\"IDEAS.Templates\" INTERACTIVE=false
       - name: Test IDEAS.ThermalZones
