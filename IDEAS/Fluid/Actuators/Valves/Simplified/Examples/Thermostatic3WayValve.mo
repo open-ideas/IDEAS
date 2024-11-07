@@ -16,7 +16,6 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
     use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     tau=1,
-    dp_nominal=1,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{38,8},{58,28}})));
   Sources.Boundary_pT sou1(
@@ -69,11 +68,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(sou2.ports[1], thermostatic3WayValve.port_a2) annotation (Line(
-      points={{-36,-18},{18,-18},{18,8}},
+      points={{-36,-21},{18,-21},{18,8}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(T_out.port_b, sou2.ports[2]) annotation (Line(
-      points={{76,18},{86,18},{86,-22},{-36,-22}},
+      points={{76,18},{86,18},{86,-19},{-36,-19}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TSet.y, thermostatic3WayValve.TMixedSet) annotation (Line(

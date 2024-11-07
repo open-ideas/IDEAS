@@ -9,7 +9,6 @@ model ThreeWayValveSwitch "Test the new component ThreeWayValveSwitch"
     use_riseTime=false,
     m_flow_nominal=1,
     tau=30,
-    dp_nominal=1,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{70,0},{90,20}})));
@@ -64,7 +63,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou.ports[1], T_leg1.port_a) annotation (Line(
-      points={{-40,-48},{-32,-48},{-32,-30},{-20,-30}},
+      points={{-40,-51},{-32,-51},{-32,-30},{-20,-30}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(T_leg1.port_b, threeWayValveSwitch.port_a2) annotation (Line(
@@ -74,7 +73,7 @@ equation
   connect(bouHot.ports[1], T_leg0.port_a)
     annotation (Line(points={{-40,10},{-20,10}}, color={0,127,255}));
   connect(pumpEmission.port_b, bou.ports[2]) annotation (Line(points={{90,10},{
-          96,10},{96,-52},{-40,-52}}, color={0,127,255}));
+          96,10},{96,-49},{-40,-49}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
