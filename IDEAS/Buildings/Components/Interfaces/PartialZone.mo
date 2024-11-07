@@ -34,11 +34,11 @@ model PartialZone "Building zone model"
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
-  parameter Modelica.Units.SI.Temperature defaultTRef=291.15 "Default zone temperature for calculation of design heat load"
+  parameter Modelica.Units.SI.Temperature TZon_design=294.15
+    "Reference zone temperature for calculation of design heat load"
     annotation (Dialog(group="Design heat load", tab="Advanced"));
-  Modelica.Blocks.Interfaces.RealOutput TRef_zone[nSurf]=defaultTRef*ones(nSurf) "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
   final parameter Modelica.Units.SI.Power QInf_design=1012*1.204*V/3600*n50_int
-      /n50toAch*(defaultTRef - sim.Tdes)
+      /n50toAch*(TZon_design - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
   final parameter Modelica.Units.SI.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";
@@ -195,6 +195,9 @@ model PartialZone "Building zone model"
 
 
 protected
+  Modelica.Blocks.Sources.RealExpression TRefZon[nSurf](each y=TZon_design)
+    "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
+
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
@@ -301,8 +304,6 @@ end Setq50;
 
 
 initial equation
-
-
   n50_int = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
 
   Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
@@ -507,7 +508,7 @@ end for;
   connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
-  connect(TRef_zone, propsBusInt.TRef_zone);
+  connect(TRefZon.y, propsBusInt.TRefZon);
     annotation (Dialog(group="Design heat load", tab="Advanced"),
               Placement(transformation(extent={{
             140,48},{100,88}})),

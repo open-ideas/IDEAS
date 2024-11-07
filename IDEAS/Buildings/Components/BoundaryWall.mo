@@ -70,7 +70,7 @@ protected
       outputAngles=sim.outputAngles)                  "Weather bus"
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
 initial equation
-    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRefInt - T_in_nom) else -Q_in_nom;
+    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRefZon - T_in_nom) else -Q_in_nom;
 equation
   assert(not (use_T_in and use_Q_in or use_T_in and use_T_fixed or use_Q_in and use_T_fixed),
     "In "+getInstanceName()+": Only one of the following options can be used simultaneously: use_T_in, use_Q_in, use_T_fixed");

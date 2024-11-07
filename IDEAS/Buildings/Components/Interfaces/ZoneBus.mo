@@ -11,9 +11,6 @@ expandable connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector QTra_design(
     final quantity="Power",
     final unit="W") annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector TRef_zone(
-    final quantity="Reference zone temperature for calculation of design heat load",
-    final unit="K") annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector area(
     final quantity="Area",
     final unit="m2") annotation ();
@@ -51,6 +48,9 @@ expandable connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone(final unit="m3/(h.m2)") "v50 of the surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_q50 "true if custome q50 value is assigned to surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_n50 "true if the zone n50 is a custom value";
+  IDEAS.Buildings.Components.Interfaces.RealConnector TRefZon(
+    final quantity="Temperature",
+    final unit="K") annotation ();
   annotation (Documentation(info="<html>
 <p>
 Connector that contains a weather bus and further

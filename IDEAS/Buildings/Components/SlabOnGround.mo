@@ -67,7 +67,7 @@ protected
   final parameter Real alfa=1.5 - 12/(2*3.14)*atan(dt/(dt + delta));
   final parameter Real beta=1.5 - 0.42*log(delta/(dt + 1));
   final parameter Real delta=sqrt(3.15*10^7*ground1.k/3.14/ground1.rho/ground1.c);
-  final parameter Real Lpi=A    *ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
+  final parameter Real Lpi=A*ground1.k/dt*sqrt(1/((1 + delta/dt)^2 + 1));
   final parameter Real Lpe=0.37*PWall*ground1.k*log(delta/dt + 1);
   Real m = sim.solTim.y/3.1536e7*12 "time in months";
   final parameter Integer nLayGro = layGro.nLay "Number of ground layers";
@@ -99,7 +99,7 @@ protected
     annotation (Placement(transformation(extent={{46,-90},{66,-70}})));
 
 initial equation
-    QTra_design=UEqui*A*(TRefInt - TdesGround.y);
+    QTra_design=UEqui*A*(TRefZon - weaBus.TGroundDes);
 equation
   connect(TdesGround.u, weaBus.TGroundDes);
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
