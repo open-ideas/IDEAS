@@ -41,7 +41,7 @@ protected
      if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
-  Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
+  Modelica.Blocks.Math.Gain QTra_design(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
   Modelica.Blocks.Math.Gain area(k=k) "Heat exchange surface area"
     annotation (Placement(transformation(extent={{-10,150},{10,170}})));
@@ -84,9 +84,9 @@ protected
     "Reference zone temperature for calculation of design heat load"
     annotation (Placement(transformation(extent={{8,-356},{-12,-336}})));
 equation
-  connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
+  connect(QTra_design.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
-  connect(QTra_desgin.y, propsBus_b.QTra_design) annotation (Line(points={{11,188},
+  connect(QTra_design.y, propsBus_b.QTra_design) annotation (Line(points={{11,188},
           {100.1,188},{100.1,-0.1}},color={0,0,127}));
   connect(area.u, propsBus_a.area) annotation (Line(points={{-12,160},{-100.1,
           160},{-100.1,0.1}},color={0,0,127}));
@@ -166,13 +166,13 @@ equation
           -314},{-100,-314},{-100,0.1},{-100.1,0.1}},
                                                 color={255,0,255}));
   connect(TRef_zone.u, propsBus_b.TRef_zone) annotation (Line(points={{10,-346},
-          {100.1,-346},{100.1,-0.1}}, color={0,0,127}), Text(
+          {100,-346},{100,0}},        color={0,0,127}), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
   connect(TRef_zone.y, propsBus_a.TRef_zone) annotation (Line(points={{-13,-346},
-          {-100.1,-346},{-100.1,0.1}}, color={0,0,127}), Text(
+          {-100,-346},{-100,0}},       color={0,0,127}), Text(
       string="%second",
       index=1,
       extent={{-6,3},{-6,3}},
