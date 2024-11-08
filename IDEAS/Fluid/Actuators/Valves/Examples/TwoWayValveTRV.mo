@@ -23,14 +23,14 @@ model TwoWayValveTRV "Two way thermostatic radiator valve"
     redeclare package Medium = Medium,
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
-    use_inputFilter=false,
+    use_strokeTime=false,
     m_flow_nominal=0.03) "Valve without dynamics"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   TwoWayTRV valDyn(
     redeclare package Medium = Medium,
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
-    use_inputFilter=true,
+    use_strokeTime=true,
     m_flow_nominal=0.03) "Valve with dynamics"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   Modelica.Blocks.Sources.Ramp ramp1(
@@ -77,6 +77,12 @@ without taking into account the travel time of the actuator.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 November 15, 2016 by Filip Jorissen:<br/>
 First implementation.
