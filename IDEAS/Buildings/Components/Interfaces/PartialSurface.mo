@@ -340,6 +340,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add variable <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">

@@ -149,6 +149,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Assign value for <code>TRefZon</code> in the bus connector.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 May 23, 2022, by Filip Jorissen:<br/>
 Added missing medium declaration.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">

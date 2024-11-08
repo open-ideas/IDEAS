@@ -60,6 +60,11 @@ heat and information between a zone and a surface.
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add connector <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 April 20, 2023 by Jelger Jansen:<br/>
 Make the connector expandable to avoid (pedantic check) warnings in Dymola 2022x.
 See issue <a href=https://github.com/open-ideas/IDEAS/issues/1317>#1317</a>

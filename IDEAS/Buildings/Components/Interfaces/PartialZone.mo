@@ -519,6 +519,11 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add parameter <code>TZon_design</code> to be used when calculating <code>Q_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 April 26, 2024 by Jelger Jansen:<br/>
 Added parameter <code>ignAss</code> to ignore view factor asserts for non-physical unit test models.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.

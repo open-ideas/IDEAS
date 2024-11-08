@@ -263,6 +263,11 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 August 2, 2022, by Filip Jorissen:<br/>
 Activating thermal model when using OnePorts.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1291\">

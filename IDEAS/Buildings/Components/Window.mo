@@ -339,6 +339,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">

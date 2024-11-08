@@ -183,6 +183,11 @@ of heat losses, when the temperature boundary condition and heat flow boundary c
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">

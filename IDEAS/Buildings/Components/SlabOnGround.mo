@@ -185,6 +185,11 @@ zone that is surrounded by air at the ambient temperature.
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
 May 16, 2024, by Lucas Verleyen:<br>
 Created final and protected parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
