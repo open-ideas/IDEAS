@@ -8,7 +8,7 @@ model TapProfile "Example with two 'TapProfile' models"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   IDEAS.Fluid.Taps.TapProfile tap2(redeclare package Medium = Medium, loadFile=
         Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/DHW/DHW_1year_2adults_2children.txt"))
+        "modelica://IDEAS/Resources/Data/Fluid/Taps/DHW_1year_2adults_2children.txt"))
     "DHW tap 2"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
