@@ -5,8 +5,8 @@ model TapProfile
 
   parameter Real uniCon=1/60
     "Conversion factor to convert units from DHW profile [l/min] to [kg/s]";
-  parameter String loadFile=Modelica.Utilities.Files.loadResource(
-    "modelica://IDEAS/Resources/DHW/DHW_1year_2adults.txt") annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
+  parameter String loadFile
+   annotation(Dialog(loadSelector(filter="All files (*.*)", caption="Select the DHW profile file")));
 
   Modelica.Blocks.Sources.CombiTimeTable demPro(
     tableOnFile=true,
