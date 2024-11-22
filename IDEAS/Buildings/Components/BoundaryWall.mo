@@ -10,20 +10,20 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
             addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
+  parameter Boolean use_T_in = false
+    "Use a temperature boundary condition which is read from the input connector T_in"
+    annotation(Dialog(group="Boundary conditions"));
   parameter Boolean use_T_fixed = false
-    "Get the boundary temperature from the input connector"
+    "Use a fixed temperature boundary condition which is read from the parameter T_fixed"
     annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.Temperature T_fixed=294.15
     "Fixed boundary temperature"
     annotation (Dialog(group="Boundary conditions",enable=use_T_fixed));
-  parameter Boolean use_T_in = false
-    "Get the boundary temperature from the input connector"
-    annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.Temperature T_in_nom=T_fixed
     "Nominal boundary temperature, for calculation of design heat loss"
     annotation (Dialog(group="Design power", tab="Advanced",enable=use_T_fixed or use_T_in));
   parameter Boolean use_Q_in = false
-    "Get the boundary heat flux from the input connector"
+    "Use a heat flow boundary condition which is read from the input connection Q_in"
     annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.HeatFlowRate Q_in_nom=0
     "Nominal boundary heat flux, for calculation of design heat loss (positive if entering the wall)"
@@ -176,7 +176,7 @@ to enable an input for a prescribed boundary condition temperature or heat flow 
 Alternatively, parameters <code>use_T_fixed</code> and <code>T_fixed</code> can be used
 to specify a fixed boundary condition temperature.
 It is not allowed to enabled multiple of these three options. 
-If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.</p>
+If all are disabled, an adiabatic boundary (<code>Q_flow=0</code>) is used.</p>
 Parameters <code>T_in_nom</code> and <code>Q_in_nom</code> are used for the calculation 
 of heat losses, when the temperature boundary condition and heat flow boundary condition are applied, respectively.  
 </p>
