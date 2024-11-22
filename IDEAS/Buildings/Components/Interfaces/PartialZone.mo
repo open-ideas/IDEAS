@@ -509,9 +509,7 @@ end for;
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
   connect(TRefZon.y, propsBusInt.TRefZon);
-    annotation (Dialog(group="Design heat load", tab="Advanced"),
-              Placement(transformation(extent={{
-            140,48},{100,88}})),
+    annotation (Placement(transformation(extent={{140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
     Documentation(info="<html>
