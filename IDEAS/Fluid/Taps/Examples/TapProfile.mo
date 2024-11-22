@@ -3,12 +3,14 @@ model TapProfile "Example with two 'TapProfile' models"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Water;
 
-  IDEAS.Fluid.Taps.TapProfile tap1(redeclare package Medium = Medium)
+  IDEAS.Fluid.Taps.TapProfile tap1(redeclare package Medium = Medium, loadFile=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/Data/Fluid/Taps/Examples/DHW_1year_2adults.txt"))
     "DHW tap 1"
     annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   IDEAS.Fluid.Taps.TapProfile tap2(redeclare package Medium = Medium, loadFile=
         Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/DHW/DHW_1year_2adults_2children.txt"))
+        "modelica://IDEAS/Resources/Data/Fluid/Taps/Examples/DHW_1year_2adults_2children.txt"))
     "DHW tap 2"
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IDEAS.Fluid.Sources.Boundary_pT bou1(
