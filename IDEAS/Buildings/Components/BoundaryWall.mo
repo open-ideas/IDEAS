@@ -6,7 +6,7 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final nWin=1,
     dT_nominal_a=-1,
     add_cracks=false,
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
             addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 

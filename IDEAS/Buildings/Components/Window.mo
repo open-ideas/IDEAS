@@ -12,7 +12,7 @@ model Window "Multipane window"
            A*(1 - frac),
            linearise=linIntCon_a or sim.linearise,
            dT_nominal=dT_nominal_a),
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     Qgai(y=if sim.computeConservationOfEnergy then
                                                   (gain.propsBus_a.surfCon.Q_flow +
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
