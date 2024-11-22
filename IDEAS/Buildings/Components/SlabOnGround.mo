@@ -6,7 +6,7 @@ model SlabOnGround "opaque floor on ground slab"
     final nWin=1,
     add_cracks=false,
     dT_nominal_a=-3,
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,

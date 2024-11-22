@@ -12,7 +12,7 @@ model Window "Multipane window"
            A*(1 - frac),
            linearise=linIntCon_a or sim.linearise,
            dT_nominal=dT_nominal_a),
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     Qgai(y=if sim.computeConservationOfEnergy then
                                                   (gain.propsBus_a.surfCon.Q_flow +
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
@@ -238,8 +238,8 @@ equation
     Line(points={{-57.5,-46.692},{-52.25,-46.692},{-52.25,-46.4},{-46.8,-46.4}},
                                                                             color = {0, 0, 127}));
   connect(solDif.u1, shaType.HShaSkyDifTil) annotation (
-    Line(points={{-46.8,-41.6},{-50,-41.6},{-50,-42},{-52,-42},{-52,-43.8944},{
-          -57.5,-43.8944}},                   color = {0, 0, 127}));
+    Line(points={{-46.8,-41.6},{-50,-41.6},{-50,-42},{-52,-42},{-52,-43.8944},{-57.5,-43.8944}},
+                                              color = {0, 0, 127}));
   connect(gainDif.u, solDif.y) annotation (
     Line(points={{-36.4,-48},{-37.6,-48},{-37.6,-44}},    color = {0, 0, 127}));
   connect(gainDir.u, shaType.HShaDirTil) annotation (
