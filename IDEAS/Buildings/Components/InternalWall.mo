@@ -140,7 +140,9 @@ public
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
 initial equation
-  QTra_design=U_value*A*(TRefZon - TRef_b);
+  QTra_design=U_value*A*(TRefZon - TRef_b)
+    "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
+     TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
