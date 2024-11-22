@@ -4,7 +4,7 @@ model OuterWall "Opaque building envelope construction"
      setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
-     final QTra_design(fixed=false));
+     QTra_design(fixed=false));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -143,10 +143,11 @@ equation
       points={{-79.4,-2},{-76,-2},{-76,30.6667},{-69.5,30.6667}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,8},{-76,8},{-76,38.6667},{-69.5,38.6667}},
+  connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{-79.4,8},
+          {-76,8},{-76,38.6667},{-69.5,38.6667}},
                                                color={0,0,127}));
-  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{-79.4,6},{-76,6},{-76,37.3333},{-69.5,37.3333}},
-                                                     color={0,0,127}));
+  connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{-79.4,6},
+          {-76,6},{-76,37.3333},{-69.5,37.3333}},    color={0,0,127}));
   connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{-79.4,4},
           {-74,4},{-74,36},{-69.5,36}},              color={0,0,127}));
   if not hasBuildingShade then
@@ -163,7 +164,8 @@ equation
   connect(shaType.HShaDirTil, solAbs.solDir)
     annotation (Line(points={{-64.5,38.6667},{-54,38.6667},{-54,8},{-42,8}},
                                                          color={0,0,127}));
-  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-64.5,37.3333},{-54.8,37.3333},{-54.8,6.4}},
+  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-64.5,
+          37.3333},{-54.8,37.3333},{-54.8,6.4}},
                                    color={0,0,127}));
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-64.5,36},
           {-56,36},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
