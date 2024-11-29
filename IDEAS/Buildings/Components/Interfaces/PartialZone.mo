@@ -43,7 +43,7 @@ model PartialZone "Building zone model"
   final parameter Modelica.Units.SI.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";
   final parameter Modelica.Units.SI.Power Q_design(fixed=false)
-    "Total design heat losses for the zone";
+    "Total design heat losses for the zone (including transmission, infiltration, and reheating; excluding ventilation)";
   parameter Medium.Temperature T_start=Medium.T_default
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
@@ -306,7 +306,9 @@ end Setq50;
 initial equation
   n50_int = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
 
-  Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
+  Q_design=QInf_design+QRH_design+QTra_design;
+  //Total design load for zone (excluding ventilation losses, these are assumed to be calculated in the ventilation system
+  //and should be added afterwards to obtain the total design heat load). See for example IDEAS.Templates.Interfaces.Building.
 
 equation
   if interzonalAirFlow.verifyBothPortsConnected then
