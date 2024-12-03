@@ -7,9 +7,9 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-    replaceable package Medium =
+  replaceable package Medium = IDEAS.Media.Air constrainedby
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choicesAllMatching = true);
+    annotation (choicesAllMatching = true);
   parameter Boolean use_custom_n50=
     sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     and not sim.unify_n50
@@ -553,6 +553,11 @@ end for;
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 11, 2024 by Lucas Verleyen:<br/>
+Change Medium to IDEAS.Media.Air and use 'constrainedby' for Modelica.Media.Interfaces.PartialMedium.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1375>#1375</a>.
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for interzonal airflow and stack-effect input. 

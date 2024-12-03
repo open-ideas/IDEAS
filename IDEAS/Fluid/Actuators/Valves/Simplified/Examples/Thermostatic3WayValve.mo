@@ -13,10 +13,9 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     tau=1,
-    use_inputFilter=false,
-    dp_nominal = 0,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{38,8},{58,28}})));
   Sources.Boundary_pT sou1(
@@ -69,11 +68,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(sou2.ports[1], thermostatic3WayValve.port_a2) annotation (Line(
-      points={{-36,-18},{18,-18},{18,8}},
+      points={{-36,-21},{18,-21},{18,8}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(T_out.port_b, sou2.ports[2]) annotation (Line(
-      points={{76,18},{86,18},{86,-22},{-36,-22}},
+      points={{76,18},{86,18},{86,-19},{-36,-19}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TSet.y, thermostatic3WayValve.TMixedSet) annotation (Line(
@@ -89,6 +88,12 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),     Documentation(revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 May 15, 2018, by Filip Jorissen:<br/>
 Changes for setting unique initial conditions.

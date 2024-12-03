@@ -222,16 +222,16 @@ block ReaderTMY3 "Reader for TMY3 weather data"
     Evaluate=true,
     Dialog(tab="Advanced", group="Sky temperature"));
 
-  final parameter Modelica.Units.SI.Angle lon(displayUnit="deg")=
+  final parameter Modelica.Units.SI.Angle lon(displayUnit="deg") =
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getLongitudeTMY3(filNam)
     "Longitude";
-  final parameter Modelica.Units.SI.Angle lat(displayUnit="deg")=
+  final parameter Modelica.Units.SI.Angle lat(displayUnit="deg") =
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getLatitudeTMY3(filNam)
     "Latitude";
-  final parameter Modelica.Units.SI.Time timZon(displayUnit="h")=
+  final parameter Modelica.Units.SI.Time timZon(displayUnit="h") =
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeZoneTMY3(filNam)
     "Time zone";
-  final parameter Modelica.Units.SI.Length alt(displayUnit="m")=
+  final parameter Modelica.Units.SI.Length alt(displayUnit="m") =
     IDEAS.BoundaryConditions.WeatherData.BaseClasses.getAltitudeLocationTMY3(
     filNam) "Location altitude above sea level";
 
@@ -1601,13 +1601,13 @@ Technical Report, NREL/TP-581-43156, revised May 2008.
 September 6, 2021, by Ettore Zanetti:<br/>
 Changed alt and lat to real inputs.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IDEAS, #1477</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
 </li>
 <li>
 May 2, 2021, by Ettore Zanetti:<br/>
 Added altitude to parameters.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IDEAS, #1477</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
 </li>
 <li>
 October 4, 2020, by Ettore Zanetti:<br/>

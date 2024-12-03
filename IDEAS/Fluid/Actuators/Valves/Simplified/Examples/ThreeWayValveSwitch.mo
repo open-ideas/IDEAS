@@ -6,10 +6,9 @@ model ThreeWayValveSwitch "Test the new component ThreeWayValveSwitch"
 
     IDEAS.Fluid.Movers.FlowControlled_m_flow pumpEmission(
     redeclare package Medium = Medium,
+    use_riseTime=false,
     m_flow_nominal=1,
     tau=30,
-    use_inputFilter=false,
-    dp_nominal = 0,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{70,0},{90,20}})));
@@ -64,7 +63,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou.ports[1], T_leg1.port_a) annotation (Line(
-      points={{-40,-48},{-32,-48},{-32,-30},{-20,-30}},
+      points={{-40,-51},{-32,-51},{-32,-30},{-20,-30}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(T_leg1.port_b, threeWayValveSwitch.port_a2) annotation (Line(
@@ -74,7 +73,7 @@ equation
   connect(bouHot.ports[1], T_leg0.port_a)
     annotation (Line(points={{-40,10},{-20,10}}, color={0,127,255}));
   connect(pumpEmission.port_b, bou.ports[2]) annotation (Line(points={{90,10},{
-          96,10},{96,-52},{-40,-52}}, color={0,127,255}));
+          96,10},{96,-49},{-40,-49}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
@@ -85,6 +84,12 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for
