@@ -12,7 +12,7 @@ model Window "Multipane window"
            A*(1 - frac),
            linearise=linIntCon_a or sim.linearise,
            dT_nominal=dT_nominal_a),
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     Qgai(y=if sim.computeConservationOfEnergy then
                                                   (gain.propsBus_a.surfCon.Q_flow +
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
@@ -74,10 +74,8 @@ model Window "Multipane window"
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal between 0 and 1, i.e. 1 is fully closed" annotation (
       Placement(visible = true,transformation(
-        
         origin={-50,-110},extent={{20,-20},{-20,20}},
         rotation=-90), iconTransformation(
-        
         origin={-40,-100},extent={{10,-10},{-10,10}},
         rotation=-90)));
 
@@ -190,7 +188,7 @@ protected
     "Outside air model"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
 initial equation
-  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(273.15 + 21 - Tdes.y);
+  QTra_design = (U_value*A + (if fraType.briTyp.present then fraType.briTyp.G else 0)) *(TRefZon - Tdes.y);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
@@ -271,8 +269,9 @@ equation
   connect(shaType.hForcedConExt, radSolData.hForcedConExt) annotation (
     Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
                                                                     color = {0, 0, 127}));
-  connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation(
-    Line(points = {{-42, -90}, {-46, -90}, {-46, -48}, {-58, -48}}, color = {0, 0, 127}));
+  connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
+    Line(points={{-42,-90},{-46,-90},{-46,-49.4895},{-57.5,-49.4895}},
+                                                                    color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, 100}}),
@@ -339,6 +338,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.

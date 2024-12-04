@@ -8,8 +8,8 @@ model InternalWall "interior opaque wall between two zones"
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    final QTra_design=U_value*A*(TRef_a - TRef_b),
-    q50_zone(v50_surf=0));
+    q50_zone(v50_surf=0),
+    final QTra_design(fixed=false));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -18,10 +18,8 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.Units.SI.TemperatureDifference dT_nominal_b=1
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation (Dialog(tab="Convection"));
-  parameter Modelica.Units.SI.Temperature TRef_b=291.15
-    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss"
-    annotation (Dialog(group="Design power", tab="Advanced"));
-
+  Modelica.Units.SI.Temperature TRef_b = propsBus_b.TRefZon
+    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss";
   // open door modelling
   parameter Boolean hasCavity = false
     "=true, to model open door or cavity in wall"
@@ -98,7 +96,7 @@ protected
     "convective surface heat transimission on the interior side of the wall"
     annotation (Placement(transformation(extent={{-22,-10},{-42,10}})));
   Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design);
-  //Negative, because of its losses from zone side b to zone side a, oposite of calculation of QTra_design
+  //Negative, because of its losses from zone side b to zone side a, opposite of calculation of QTra_design
 
   Modelica.Blocks.Sources.RealExpression incExp1(y=incInt + Modelica.Constants.pi)
     "Inclination angle";
@@ -141,6 +139,10 @@ public
     if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
     "1-port model for open door"
     annotation (Placement(transformation(extent={{-10,58},{10,78}})));
+initial equation
+  QTra_design=U_value*A*(TRefZon - TRef_b)
+    "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
+     TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
 equation
   assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
     "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
@@ -203,7 +205,6 @@ equation
           -58},{56,20.1},{-100.1,20.1}},   color={0,0,127}));
   connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
           {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
-
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
@@ -263,6 +264,11 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Activating thermal model when using OnePorts.

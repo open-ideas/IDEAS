@@ -54,6 +54,8 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
   Modelica.Blocks.Sources.BooleanConstant custom_q50(k=false) if not isZone
     annotation (Placement(transformation(extent={{-80,-130},{-60,-110}})));
+  Modelica.Blocks.Sources.Constant TRefZon(k=T)      if isZone
+    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
@@ -132,6 +134,8 @@ equation
   connect(custom_q50.y, zoneBus.use_custom_q50) annotation (Line(points={{-59,
           -120},{100.1,-120},{100.1,-1.9}},
                                      color={255,0,255}));
+  connect(TRefZon.y, zoneBus.TRefZon) annotation (Line(points={{-19,70},{100.1,70},
+          {100.1,-1.9}}, color={0,0,127}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -144,6 +148,11 @@ equation
           smooth=Smooth.None)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Assign value for <code>TRefZon</code> in the bus connector.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 May 23, 2022, by Filip Jorissen:<br/>
 Added missing medium declaration.
