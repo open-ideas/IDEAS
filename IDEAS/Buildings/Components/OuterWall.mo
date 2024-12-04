@@ -4,7 +4,7 @@ model OuterWall "Opaque building envelope construction"
      setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
-     QTra_design(fixed=false));
+     final QTra_design(fixed=false));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -126,7 +126,7 @@ protected
     Placement(transformation(origin = {48, -4}, extent = {{-28, -76}, {-8, -56}})));
 
 initial equation
-  QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*A*(TRefZon - Tdes.y);
 
 equation
   if hasBuildingShade then
@@ -303,6 +303,11 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for stack-effect interzonal airflow heights and wind pressure profiles.

@@ -7,8 +7,9 @@ model InternalWall "interior opaque wall between two zones"
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
-    Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy then 0 else sum(port_emb.Q_flow))),
-    final QTra_design = U_value*A*(TRef_a - TRef_b),
+    Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
+           then 0 else sum(port_emb.Q_flow))),
+	final QTra_design(fixed=false),
     q50_zone(v50_surf = 0),
     crackOrOperableDoor(
       h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
@@ -22,15 +23,16 @@ model InternalWall "interior opaque wall between two zones"
       hOpe=h,
       CDOpe=CD));
   //using custom q50 since this model is not an external component
-  parameter Boolean linIntCon_b = sim.linIntCon 
-    "= true, if convective heat transfer should be linearised" annotation(
-    Dialog(tab="Convection"));
-  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_b = 1 
-    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder" annotation(
-    Dialog(tab="Convection"));
-  parameter Modelica.Units.SI.Temperature TRef_b = 291.15 
-    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss" annotation(
-    Dialog(group="Design power",tab="Advanced"));
+
+  parameter Boolean linIntCon_b=sim.linIntCon
+    "= true, if convective heat transfer should be linearised"
+    annotation(Dialog(tab="Convection"));
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_b=1
+    "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
+    annotation (Dialog(tab="Convection"));
+  Modelica.Units.SI.Temperature TRef_b = propsBus_b.TRefZon
+    "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss";
+
   // open door modelling
   parameter Boolean hasCavity = false
     "=true, to model open door or cavity in wall"
@@ -113,10 +115,10 @@ protected
     final inc=incInt + Modelica.Constants.pi,
     final A=A)
     "convective surface heat transimission on the interior side of the wall"
-    annotation(
-    Placement(transformation(extent = {{-22, -10}, {-42, 10}})));
-  Modelica.Blocks.Sources.RealExpression QDesign_b(y = -QTra_design);
-  //Negative, because of its losses from zone side b to zone side a, oposite of calculation of QTra_design
+    annotation (Placement(transformation(extent={{-22,-10},{-42,10}})));
+  Modelica.Blocks.Sources.RealExpression QDesign_b(y=-QTra_design);
+  //Negative, because of its losses from zone side b to zone side a, opposite of calculation of QTra_design
+
   Modelica.Blocks.Sources.RealExpression incExp1(y=incInt + Modelica.Constants.pi)
     "Inclination angle";
   Modelica.Blocks.Sources.RealExpression aziExp1(y=aziInt + Modelica.Constants.pi)
@@ -139,12 +141,16 @@ protected
     dT=dT)
     if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
-    annotation(
-    Placement(transformation(extent = {{-10, 30}, {10, 50}})));
+    annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   final parameter Boolean useDooOpe = hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts;
+
 initial equation
   hzone_b = propsBus_b.hzone;
   hfloor_b = propsBus_b.hfloor;
+  QTra_design=U_value*A*(TRefZon - TRef_b)
+    "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
+     TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
+
 equation
   connect(constOne.y, crackOrOperableDoor.y);
 //assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hAbs_floor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
@@ -192,10 +198,43 @@ equation
     Line(points = {{-40, -70}, {-52, -70}, {-52, 20}, {-100, 20}}, color = {0, 127, 255}));
   connect(boundary3_a.ports[1], propsBusInt.port_3) annotation(
     Line(points = {{40, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
-  annotation(
-    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}}), graphics = {Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-52, -90}, {48, -70}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, 80}, {50, 100}}), Rectangle(fillColor = {175, 175, 175}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-10, 80}, {10, -70}}), Line(points = {{-50, 80}, {50, 80}}, color = {175, 175, 175}), Line(points = {{-50, -70}, {50, -70}}, color = {175, 175, 175}), Line(points = {{-50, -90}, {50, -90}}, color = {175, 175, 175}), Line(points = {{-50, 100}, {50, 100}}, color = {175, 175, 175}), Line(points = {{-10, 80}, {-10, -70}}, thickness = 0.5), Line(points = {{10, 80}, {10, -70}}, thickness = 0.5)}),
-    Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}})),
-    Documentation(info = "<html>
+  annotation (
+    Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
+        graphics={
+        Rectangle(
+          extent={{-52,-90},{48,-70}},
+          pattern=LinePattern.None,
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-50,80},{50,100}},
+          pattern=LinePattern.None,
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-10,80},{10,-70}},
+          fillColor={175,175,175},
+          fillPattern=FillPattern.Backward,
+          pattern=LinePattern.None),
+        Line(points={{-50,80},{50,80}}, color={175,175,175}),
+        Line(points={{-50,-70},{50,-70}}, color={175,175,175}),
+        Line(points={{-50,-90},{50,-90}}, color={175,175,175}),
+        Line(points={{-50,100},{50,100}}, color={175,175,175}),
+        Line(
+          points={{-10,80},{-10,-70}},
+          smooth=Smooth.None,
+          color={0,0,0},
+          thickness=0.5),
+        Line(
+          points={{10,80},{10,-70}},
+          smooth=Smooth.None,
+          color={0,0,0},
+          thickness=0.5)}),
+    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,
+            100}})),
+    Documentation(info="<html>
 <p>
 This is a wall model that should be used
 to simulate a wall or floor between two zones.
@@ -218,6 +257,11 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions = "<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for stack-effect interzonal airflow heights.

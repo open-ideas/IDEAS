@@ -61,6 +61,9 @@ model DummyConnection "Source generator/sink for propsbus"
     Placement(visible = true, transformation(origin = {-42, -16}, extent = {{0, 80}, {20, 100}}, rotation = 0)));
   IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium= IDEAS.Media.Air, nPorts = 3) if isZone  annotation(
     Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant TRefZon(k=T)      if isZone
+    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
+
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
@@ -147,11 +150,25 @@ equation
     Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
   connect(bou.ports[1], zoneBus.port_1) annotation(
     Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
-   annotation(
-    Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
-    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Line(points = {{60, 60}, {-60, -60}}, color = {0, 0, 255}), Line(points = {{-60, 60}, {60, -60}}, color = {0, 0, 255})}),
-    Documentation(revisions = "<html>
+  connect(TRefZon.y, zoneBus.TRefZon) annotation (Line(points={{-19,70},{100.1,70},
+          {100.1,-1.9}}, color={0,0,127}));
+   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}})),           Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+          Line(
+          points={{60,60},{-60,-60}},
+          color={0,0,255},
+          smooth=Smooth.None), Line(
+          points={{-60,60},{60,-60}},
+          color={0,0,255},
+          smooth=Smooth.None)}),
+    Documentation(revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Assign value for <code>TRefZon</code> in the bus connector.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 January 2, 2023, by Filip Jorissen:<br/>
 Added support for stack effect airflow.
