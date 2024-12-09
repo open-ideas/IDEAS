@@ -90,7 +90,7 @@ Proc. of the 5th International Modelica Conference, p. 431-440. Vienna, Austria,
 February 2, 2022, by Michael Wetter:<br/>
 Revised implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
 </li>
 <li>
 Apr 6, 2021, by Klaas De Jonge:<br/>
@@ -107,12 +107,12 @@ the Reynolds number, and the Reynolds number is not used by this model.
 Also removed the variable <code>Re</code> for the Reynolds number.<br/>
 This change is non-backward compatible.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/932\">IDEAS, #932</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/932\">IBPSA, #932</a>.
 </li>
 <li>
 May 30, 2018, by Michael Wetter:<br/>
 Improved documentation for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/546\">IDEAS, #546</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/546\">IBPSA, #546</a>.
 </li>
 <li>
 October 8, 2013 by Michael Wetter:<br/>

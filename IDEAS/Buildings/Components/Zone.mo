@@ -117,6 +117,13 @@ The model <code>ligCtr</code> determines how the lighting is controlled.
 See <a href=\"modelica://IDEAS.Buildings.Components.LightingControl\">
 IDEAS.Buildings.Components.LightingControl</a> for the available options.
 </p>
+<p>
+The design heat losses <code>Q_design</code> are calculated via an initial equation based on, but not exactly according to, NBN EN 12831-1 ANB:2020.
+This value includes heat losses via transmission (<code>QTra_design</code>) and infiltration (<code>QInf_design</code>) and accounts for reheating (<code>QRH_design</code>).
+Ventilation losses are not considered as this system is typically modelled in a seperate block, 
+see for example <a href=\"modelica://IDEAS.Templates.Interfaces.Building\"> IDEAS.Templates.Interfaces.Building</a>.
+In this model, the total design losses are calculated as the sum of the design losses from the building envelope (transmission, infiltration, reheating) and the ventilation system.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>

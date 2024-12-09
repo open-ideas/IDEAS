@@ -12,6 +12,7 @@ exponentialIntegralE1
 factorial
 fallingFactorial
 integerReplicator
+interpolate
 inverseXRegularized
 isAngle
 isMonotonic
@@ -24,6 +25,7 @@ regStep
 searchIndex1D
 smoothExponential
 smoothHeaviside
+smoothInterpolation
 smoothLimit
 smoothMax
 smoothMin

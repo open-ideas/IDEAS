@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Interfaces;
 partial model PartialEightPortInterface
-  "Partial model transporting fluid between eight ports without storing mass or energy"
+  "Partial model with eight ports and declaration of quantities that are used by many models"
   extends IDEAS.Fluid.Interfaces.EightPort;
   parameter Modelica.Units.SI.MassFlowRate m1_flow_nominal(min=0)
     "Nominal mass flow rate" annotation (Dialog(group="Nominal condition"));
@@ -163,7 +163,8 @@ protected
   preferredView="info",
     Documentation(info="<html>
 <p>
-This component defines the interface for models that transport four fluid streams between eight ports.
+This component defines the interface for models with eight fluid ports
+and four fluid streams.
 It is similar to <a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">IDEAS.Fluid.Interfaces.PartialTwoPortInterface</a>,
 but it has eight ports instead of two. </p>
 <p>
@@ -173,13 +174,19 @@ mass transfer and pressure drop equations.
 </html>", revisions="<html>
 <ul>
 <li>
+September 22, 2023, by Michael Wetter:<br/>
+Improved documentation.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1796\">IBPSA, #1796</a>.
+</li>
+<li>
 February 3, 2022, by Michael Wetter:<br/>
 If <code>allowFlowReversal==false</code>, removed <code>noEvent()</code> declaration
 for <code>sta_a</code> and for <code>sta_b</code> because the variable is either
 already used with <code>inStream()</code> in the computation of <code>state_*_inflow</code>,
 or the result of a variable of the model that already may generate an event.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IDEAS, #1578</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IBPSA, #1578</a>.
 </li>
 <li>
 February 2, 2022, by Hongxiang Fu:<br/>
@@ -187,13 +194,13 @@ If <code>allowFlowReversal==false</code>, replaced <code>actualStream()</code>
 with <code>inStream()</code> for <code>sta_a</code> and
 removed <code>actualStream()</code> for <code>sta_b</code>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IDEAS, #1578</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1578\">IBPSA, #1578</a>.
 </li>
 <li>
 March 30, 2021, by Michael Wetter:<br/>
 Added annotation <code>HideResult=true</code>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1459\">IDEAS, #1459</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1459\">IBPSA, #1459</a>.
 </li>
 <li>
 July 12, 2019, by Michael Wetter:<br/>

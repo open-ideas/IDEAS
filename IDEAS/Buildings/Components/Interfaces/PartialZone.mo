@@ -7,9 +7,9 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-    replaceable package Medium =
+  replaceable package Medium = IDEAS.Media.Air constrainedby
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choicesAllMatching = true);
+    annotation (choicesAllMatching = true);
   parameter Boolean use_custom_n50=
     sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     and not sim.unify_n50
@@ -34,13 +34,16 @@ model PartialZone "Building zone model"
   parameter Boolean calculateViewFactor = false
     "Explicit calculation of view factors: works well only for rectangular zones!"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
+  parameter Modelica.Units.SI.Temperature TZon_design=294.15
+    "Reference zone temperature for calculation of design heat load"
+    annotation (Dialog(group="Design heat load", tab="Advanced"));
   final parameter Modelica.Units.SI.Power QInf_design=1012*1.204*V/3600*n50_int
-      /n50toAch*(273.15 + 21 - sim.Tdes)
+      /n50toAch*(TZon_design - sim.Tdes)
     "Design heat losses from infiltration at reference outdoor temperature";
   final parameter Modelica.Units.SI.Power QRH_design=A*fRH
     "Additional power required to compensate for the effects of intermittent heating";
   final parameter Modelica.Units.SI.Power Q_design(fixed=false)
-    "Total design heat losses for the zone";
+    "Total design heat losses for the zone (including transmission, infiltration, and reheating; excluding ventilation)";
   parameter Medium.Temperature T_start=Medium.T_default
     "Start value of temperature"
     annotation(Dialog(tab = "Initialization"));
@@ -194,6 +197,9 @@ model PartialZone "Building zone model"
   Modelica.Blocks.Math.Add addCFlow[max(Medium.nC,1)](k2 = intGaiOcc.s_co2) "Add tracer mass flow rates"  annotation (
     Placement(visible = true, transformation(origin = {-6, 34}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
 protected
+  Modelica.Blocks.Sources.RealExpression TRefZon[nSurf](each y=TZon_design)
+    "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
+
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
     "n50 value cfr airtightness, i.e. the ACH at a pressure diffence of 50 Pa"
     annotation(Dialog(enable=use_custom_n50,tab="Airflow", group="Airtightness"));
@@ -314,11 +320,11 @@ end Setq50;
 
 
 initial equation
-
-
   n50_int = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else sum(propsBusInt.v50)/V;
 
-  Q_design=QInf_design+QRH_design+QTra_design; //Total design load for zone (additional ventilation losses are calculated in the ventilation system)
+  Q_design=QInf_design+QRH_design+QTra_design;
+  //Total design load for zone (excluding ventilation losses, these are assumed to be calculated in the ventilation system
+  //and should be added afterwards to obtain the total design heat load). See for example IDEAS.Templates.Interfaces.Building.
 
 equation
   if interzonalAirFlow.verifyBothPortsConnected then
@@ -545,14 +551,25 @@ end for;
     Line(points = {{-18, 26}, {-12, 26}, {-12, 10}, {110, 10}}, color = {0, 0, 127}));
   connect(addmWatFlow.u1, mWat_flow) annotation(
     Line(points = {{-2, 42}, {10, 42}, {10, -80}, {120, -80}}, color = {0, 0, 127}));
-  annotation (Placement(transformation(extent={{
-            140,48},{100,88}})),
+  connect(TRefZon.y, propsBusInt.TRefZon);
+
+  annotation (Placement(transformation(extent={{140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
     Documentation(info="<html>
 <p>See extending models.</p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 11, 2024 by Lucas Verleyen:<br/>
+Change Medium to IDEAS.Media.Air and use 'constrainedby' for Modelica.Media.Interfaces.PartialMedium.
+This is for <a href=https://github.com/open-ideas/IDEAS/issues/1375>#1375</a>.
+</li>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add parameter <code>TZon_design</code> to be used when calculating <code>Q_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for interzonal airflow and stack-effect input. 

@@ -184,7 +184,7 @@ Solar Energy, 44(5):271-289.
 September 6, 2021, by Ettore Zanetti:<br/>
 Removed parameter <code>lat</code> as it is now obtained from the weather data bus.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IDEAS, #1477</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
 </li>
 <li>
 November 14, 2015, by Michael Wetter:<br/>

@@ -115,7 +115,7 @@ model SingleZoneResidentialHydronicHeatPump
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   Fluid.Movers.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
     redeclare package Medium = MediumWater,
@@ -151,9 +151,7 @@ model SingleZoneResidentialHydronicHeatPump
     m2_flow_nominal=fan.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pum.m_flow_nominal,
-    T1_start=293.15,
-    T2_start=278.15,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     TEvaMin=253.15,
     dTHys=3,
     dp1_nominal=pum.dp_nominal/2,
@@ -239,7 +237,7 @@ model SingleZoneResidentialHydronicHeatPump
   Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=100,
     m_flow_nominal=3,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
@@ -273,13 +271,19 @@ model SingleZoneResidentialHydronicHeatPump
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={30,150})));
+
+initial equation
+  heaPum.con.T=293.15;
+  heaPum.eva.T=278.15;
+  heaPum.eva.port_a.C_outflow=outAir.Medium.C_default;
+  heaPum.eva.port_a.Xi_outflow={0.01};
+
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
-          40},{-52,14},{-58,14}},
-                              color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
+          {-52,18},{-81,18}}, color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
@@ -876,6 +880,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 May 3, 2022, by David Blum and Filip Jorissen:<br/>
 Detect occupancy for set points with threshold strictly larger than 0.
