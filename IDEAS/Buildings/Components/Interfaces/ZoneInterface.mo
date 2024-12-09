@@ -129,8 +129,8 @@ equation
   connect(prescribedHeatFlowE.port, sim.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, sim.Qgai);
-
   connect(setVolume.volumePort, sim.volumePort);
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -194,15 +194,14 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1253\">#1253</a>.
 September 17, 2020, Filip Jorissen:<br/>
 Modified default Medium.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1169\">#1169</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
-March 21, 2019 by Filip Jorissen:<br/>
 </li>
 <li>
+March 21, 2019 by Filip Jorissen:<br/>
 Revised implementation of icon for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
 and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
