@@ -26,10 +26,6 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
     annotation (Dialog(tab="Dynamics", group="Initial condition"));
-
-  parameter Modelica.Units.SI.Temperature TRef_a=291.15
-    "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
-    annotation (Dialog(group="Design power", tab="Advanced"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
@@ -137,6 +133,9 @@ protected
     "Heat gains across model boundary";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
+
+  Modelica.Units.SI.Temperature TRefZon=propsBusInt.TRefZon
+      "Reference zone temperature for calculation of design heat load";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(redeclare
       package Medium = Medium,                                       k=nWin)
@@ -279,7 +278,6 @@ equation
       points={{56.09,19.91},{46,19.91},{46,0},{40,0}},
       color={191,0,0},
       smooth=Smooth.None));
-
   connect(layMul.port_a, propsBusInt.surfRad) annotation (Line(
       points={{10,0},{16,0},{16,19.91},{56.09,19.91}},
       color={191,0,0},
@@ -335,13 +333,17 @@ equation
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
   annotation (
-    Diagram(graphics,
-            coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Icon(graphics,
          coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add variable <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.
