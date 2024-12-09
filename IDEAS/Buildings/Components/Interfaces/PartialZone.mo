@@ -189,9 +189,9 @@ model PartialZone "Building zone model"
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-  Modelica.Blocks.Math.Add addmWatFlow "Add mass flow rates" annotation(
+  Modelica.Blocks.Math.Add addmWatFlow "Add medium substance mass flow rates, typically moisture" annotation (
     Placement(visible = true, transformation(origin = {-6, 40}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
-  Modelica.Blocks.Math.Add addCFlow[max(Medium.nC,1)](k2 = intGaiOcc.s_co2)  annotation(
+  Modelica.Blocks.Math.Add addCFlow[max(Medium.nC,1)](k2 = intGaiOcc.s_co2) "Add tracer mass flow rates"  annotation (
     Placement(visible = true, transformation(origin = {-6, 34}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
 protected
   parameter Real n50_int(unit="1/h",min=0.01,fixed= false)
@@ -576,12 +576,6 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
 July 25, 2023, by Filip Jorissen:<br/>
 Added conditional inputs for injecting water or CO2.
 Added output phi for the relative humidity.
-</li>
-<li>
-January 8, 2024, by Jelger Jansen:<br/>
-Added min attribute to <code>mSenFac</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
-#1343</a>
 </li>
 <li>
 May 29, 2022, by Filip Jorissen:<br/>

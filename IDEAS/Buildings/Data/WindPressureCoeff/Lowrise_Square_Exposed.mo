@@ -11,7 +11,6 @@ record Lowrise_Square_Exposed
     Cp_Floor=[0,0; 45,0; 90,0; 135,0; 180,0; 225,0; 270,0; 315,0; 360,0])
   annotation (Documentation(info="<html>
 <p>
-
 M. W. Liddament, <i>A guide to energy efficient ventilation</i>. Coventry: Annex V Air Infiltration and Ventilation Centre, 1996.<br>
 <br>
 Table A2.1 Wind Pressure Coefficient Data<br>
@@ -19,13 +18,9 @@ Low-rise buildings (up to 3 storeys)<br>
 Length to width ratio: 1:1<br>
 Shielding condition: Exposed<br>
 Wind speed reference level: Building height<br>
-
-
 </p>
 </html>"));
-
-
-  annotation (Documentation(revisions="<html>
+annotation (Documentation(revisions="<html>
 <ul>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>

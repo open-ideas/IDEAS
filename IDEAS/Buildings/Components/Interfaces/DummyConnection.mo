@@ -17,9 +17,9 @@ model DummyConnection "Source generator/sink for propsbus"
   outer IDEAS.BoundaryConditions.SimInfoManager sim annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus zoneBus(
     redeclare package Medium = Medium,
-  numIncAndAziInBus=sim.numIncAndAziInBus,
-    outputAngles=sim.outputAngles, 
-    use_port_1 = sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, 
+    numIncAndAziInBus=sim.numIncAndAziInBus,
+    outputAngles=sim.outputAngles,
+    use_port_1 = sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     use_port_2 = sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[3](

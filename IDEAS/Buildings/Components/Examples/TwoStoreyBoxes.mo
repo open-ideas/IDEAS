@@ -2,9 +2,7 @@ within IDEAS.Buildings.Components.Examples;
 model TwoStoreyBoxes
   extends Modelica.Icons.Example;
 
-  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
-      n50=1)
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,n50=1) annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Level(
     hFloor=5,
@@ -88,7 +86,7 @@ First implementation
 </li>
 </ul>
 </html>", info="<html>
-<p>Model with two zones on different floors with a large opening between these zones and stack-effect airflow enabled.</p>
+<p>Model with two zones on different floors, one zone above the other, with a large opening between these zones and stack-effect airflow enabled.</p>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Buildings/Examples/TwoStoreyBoxes.mos"

@@ -2,9 +2,7 @@ within IDEAS.Buildings.Examples;
 model ZoneWithSources "Zone with CO2 concentration model"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air(extraPropertiesNames={"test", "CO2"});
-  inner BoundaryConditions.SimInfoManager       sim
-    "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+  inner BoundaryConditions.SimInfoManager sim "Simulation information manager for climate data" annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.Examples.BaseClasses.SimpleZone zone(
     redeclare package Medium = Medium, 
