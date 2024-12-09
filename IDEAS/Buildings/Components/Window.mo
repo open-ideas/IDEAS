@@ -12,7 +12,7 @@ model Window "Multipane window"
            A*(1 - frac),
            linearise=linIntCon_a or sim.linearise,
            dT_nominal=dT_nominal_a),
-    QTra_design(fixed=false),
+    final QTra_design(fixed=false),
     Qgai(y=if sim.computeConservationOfEnergy then
                                                   (gain.propsBus_a.surfCon.Q_flow +
         gain.propsBus_a.surfRad.Q_flow + gain.propsBus_a.iSolDif.Q_flow + gain.propsBus_a.iSolDir.Q_flow) else 0),
@@ -86,15 +86,12 @@ model Window "Multipane window"
   Modelica.Blocks.Interfaces.RealInput Ctrl if controlled
     "Control signal for screen between 0 and 1, 1 is fully closed" annotation (
       Placement(visible = true,transformation(
-        origin={-50,-120},extent={{20,-20},{-20,20}},
+        origin={-50,-110},extent={{20,-20},{-20,20}},
         rotation=-90), iconTransformation(
         origin={-40,-100},extent={{10,-10},{-10,10}},
         rotation=-90)));
 
-
-
-          replaceable parameter
-    IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
+  replaceable parameter IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
     constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
     "Tables with wind pressure coefficients for walls, floors and roofs"
     annotation (
@@ -273,7 +270,7 @@ protected
 
 
 initial equation
-  QTra_design = (U_value*A + fraType.briTyp.G) *(273.15 + 21 - Tdes.y);
+  QTra_design = (U_value*A + fraType.briTyp.G) *(TRefZon - Tdes.y);
   Habs =hAbs_floor_a + hRelSurfBot_a + (hVertical/2);
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
@@ -360,7 +357,7 @@ equation
     Line(points={{-68.5,-32.7043},{-76,-32.7043},{-76,-62.2},{-79.4,-62.2}},
                                                                     color = {0, 0, 127}));
   connect(outsideAir.TDryBul_in, shaType.TDryBul) annotation (
-    Line(points={{-42,-80},{-46,-80},{-46,-49.4895},{-57.5,-49.4895}},
+    Line(points={{-42,-90},{-46,-90},{-46,-49.4895},{-57.5,-49.4895}},
                                                                     color = {0, 0, 127}));
   connect(trickleVent.y, y_trickleVent) annotation (
     Line(points={{36,-92},{36,-106},{30,-106},{30,-120}},
@@ -464,6 +461,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for stack-effect interzonal airflow heights and wind pressure profiles.
