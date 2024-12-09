@@ -53,7 +53,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={90,-50})));
@@ -63,7 +63,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={70,-50})));
@@ -72,7 +72,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={18,-70})));
@@ -81,7 +81,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={38,-70})));
@@ -90,7 +90,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={-40,-50})));
@@ -99,7 +99,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-20,-50})));
@@ -108,7 +108,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Return VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Return VAV" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={-90,-70})));
@@ -117,7 +117,7 @@ model Adsolair58 "Adsolair58 example model"
     m_flow_nominal=m_flow_nominal,
     dpValve_nominal=dp_nominal,
     allowFlowReversal=false,
-    use_inputFilter=false) "Supply VAV" annotation (Placement(transformation(
+    use_strokeTime=false)  "Supply VAV" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,-70})));
@@ -157,7 +157,7 @@ model Adsolair58 "Adsolair58 example model"
   Fluid.Movers.FlowControlled_dp pum(
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
+    use_riseTime=false,
     constantHead=1e4,
     m_flow_nominal=0.6,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
@@ -167,10 +167,10 @@ model Adsolair58 "Adsolair58 example model"
         origin={-22,14})));
   Fluid.Actuators.Valves.ThreeWayEqualPercentageLinear val(
     redeclare package Medium = MediumWater,
+    use_strokeTime=false,
     dpValve_nominal=1e4,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     tau=30,
-    use_inputFilter=false,
     m_flow_nominal=0.6,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
@@ -360,6 +360,12 @@ A PI controller is used to track the set point temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 January 26, 2018, by Filip Jorissen:<br/>
 Modified example such that it more clearly illustrates all

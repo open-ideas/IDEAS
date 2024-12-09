@@ -101,18 +101,31 @@ partial model PartialShading "Window shading partial"
     Placement(visible = true, transformation(origin = {-20, 0}, extent = {{80, -110}, {40, -70}}, rotation = 0), iconTransformation(origin = {30, -100}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 protected
   Modelica.Blocks.Interfaces.RealInput Te_internal(unit="K");
+  Modelica.Blocks.Interfaces.RealInput Ctrl_internal
+    "Internal variable for the conditional control input";
   Modelica.Units.SI.Temperature TSha = Te_internal + (H - HSha) * epsSw_shading /hSha
     "Simplified static heat balance to compute the shading object temperature";
 equation
   connect(Te,Te_internal);
+  connect(Ctrl,Ctrl_internal);
   if not haveBoundaryPorts then
     Te_internal = 273.15;
   end if;
+  if not controlled then
+    Ctrl_internal=0;
+  end if;
+  assert(0 <= Ctrl_internal and Ctrl_internal <= 1,
+         "The control input to the screen is not in range [0,1], which is non-physical 
+         and leads to unrealistic results. Please check the screen input.");
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})),
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}}), graphics={  Polygon(fillColor = {255, 255, 170}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{-50, 80}, {0, 60}, {4, 60}, {4, -20}, {-50, 0}, {-50, 80}}), Polygon(fillColor = {179, 179, 179}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, points = {{4, 40}, {50, 20}, {50, -32}, {20, -20}, {4, -20}, {4, 40}}), Line(points = {{0, 60}, {20, 60}, {20, 80}, {50, 80}}, color = {95, 95, 95}), Line(points = {{0, -20}, {20, -20}, {20, -70}, {20, -70}, {50, -70}}, color = {95, 95, 95}), Line(points = {{0, 60}, {0, 66}, {0, 100}, {50, 100}}, color = {95, 95, 95}), Line(points = {{0, -20}, {0, -90}, {50, -90}}, color = {95, 95, 95}), Line(points = {{4, 60}, {4, -20}}, thickness = 0.5)}),
-    Documentation(revisions = "<html>
+    Documentation(revisions="<html>
 <ul>
+<li>
+July 1, 2024 by Lucas Verleyen:<br/>
+Add assert for control input. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1290\">#1290</a>.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for #1270 for including thermal effect of screens.
