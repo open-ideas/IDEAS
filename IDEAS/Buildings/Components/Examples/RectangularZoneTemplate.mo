@@ -2,9 +2,7 @@ within IDEAS.Buildings.Components.Examples;
 model RectangularZoneTemplate
   "This example illustrates the use of the RectangularZoneTemplate to model a room or building"
   extends Modelica.Icons.Example;
-  inner BoundaryConditions.SimInfoManager       sim
-    "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+  inner BoundaryConditions.SimInfoManager sim "Simulation information manager for climate data" annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Zone(
     h=2.7,
@@ -16,7 +14,6 @@ model RectangularZoneTemplate
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     hasWinCei=false,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
-
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
       conTypFlo,
