@@ -20,7 +20,8 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/760\">#760</a>.
   final parameter Real s_co2[max(Medium.nC,1)] = {if Modelica.Utilities.Strings.isEqual(string1=if Medium.nC>0 then Medium.extraPropertiesNames[i] else "",
                                              string2="CO2",
                                              caseSensitive=false)
-                                             then 1 else 0 for i in 1:max(Medium.nC,1)};
+                                             then 1 else 0 for i in 1:max(Medium.nC,1)}
+                                             "Array with 1 on the position where CO2 is situated in the Medium.extraPropertiesNames";
   constant Modelica.Units.SI.SpecificEnthalpy lambdaWater=if (Medium.nX) > 1
        then Medium.enthalpyOfCondensingGas(T=273.15 + 35) else 2566120
     "Latent heat of evaporation of water at 35 degrees Celsius";
