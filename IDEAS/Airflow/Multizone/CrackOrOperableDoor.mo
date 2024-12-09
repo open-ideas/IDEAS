@@ -74,8 +74,8 @@ model CrackOrOperableDoor
    if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities";
    parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation";
    parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter";
-   constant Real REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed reynoldsnumber at transition";
-   constant Real VItrans(unit="kg/(m.s)")=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "assumed viscosity of air at transition";
+   constant Modelica.Units.SI.ReynoldsNumber REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed Reynolds number at transition";
+   constant Modelica.Units.SI.DynamicViscosity VItrans(unit="kg/(m.s)")=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed dynamic viscosity of air at transition";
 
    final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
       T=Medium.T_default,
@@ -130,7 +130,7 @@ model CrackOrOperableDoor
  IDEAS.Airflow.Multizone.Point_m_flow point_m_flow2(
    redeclare package Medium = Medium,
    dpMea_nominal = dpCloRat,
-    forceErrorControlOnFlow=true,
+   forceErrorControlOnFlow=true,
    m = mClo,
    mMea_flow_nominal = (q50/3600*rho_default)*A_q50*0.5,
    useDefaultProperties = false) if not useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure drop equation" annotation (
@@ -138,12 +138,12 @@ model CrackOrOperableDoor
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
    final dh=doo.hOpe*sin(inc)/nCom,
    redeclare package Medium = Medium,
-    final hA=hA,
-    final hB=hB,
-    dp_turbulent=dp_turbulent_ope,
+   final hA=hA,
+   final hB=hB,
+   dp_turbulent=dp_turbulent_ope,
    nCom=nCom,
    CDOpe=CDOpe,
-    CDClo=CDCloRat,
+   CDClo=CDCloRat,
    mOpe=mOpe,
    mClo=mClo,
    CDCloRat=CDCloRat,
@@ -151,8 +151,8 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-    vZer=vZer*MFtrans*rho_default)
-                          if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
+   vZer=vZer*MFtrans*rho_default)
+   if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
     Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
    redeclare package Medium = Medium,
