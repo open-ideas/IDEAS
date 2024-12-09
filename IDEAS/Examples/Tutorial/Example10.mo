@@ -2,21 +2,25 @@ within IDEAS.Examples.Tutorial;
 model Example10 "Speeding up the code"
   extends Example9(
     fanRet(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
-          false),
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      use_inputFilter=false),
     fanSup(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
-          false),
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      use_inputFilter=false),
+    vavRet1(use_inputFilter=false),
+    vavSup1(use_inputFilter=false),
+    vavRet(use_inputFilter=false),
+    vavSup(use_inputFilter=false),
     val(allowFlowReversal=false, from_dp=true),
     val1(allowFlowReversal=false, from_dp=true),
     pumpSec(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
-      use_riseTime=false),
+      use_inputFilter=false),
     pumpPrim(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
-      use_riseTime=false),
+      use_inputFilter=false),
     rectangularZoneTemplate1(
       redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
       redeclare HeavyWall conTypA,
@@ -35,11 +39,7 @@ model Example10 "Speeding up the code"
     rad1(nEle=2),
     heaPum(from_dp1=true, from_dp2=true),
     senTemSup(tau=0),
-    tan(tau=60),
-    vavSup(use_strokeTime=false),
-    vavRet(use_strokeTime=false),
-    vavSup1(use_strokeTime=false),
-    vavRet1(use_strokeTime=false));
+    tan(tau=60));
 protected
 record HeavyWall "BESTEST heavy wall with idealized wood layer"
   extends IDEAS.Buildings.Data.Interfaces.Construction(
@@ -65,12 +65,6 @@ end HeavyWall;
       OutputFlatModelica=false),
     Documentation(revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.

@@ -20,10 +20,12 @@ package TemperatureDependentDensity
     each casRegistryNumber="7732-18-5",
     each iupacName="oxidane",
     each molarMass=MM_const);
+
   redeclare record extends ThermodynamicState "Thermodynamic state variables"
     Temperature T(start=T_default) "Temperature of medium";
     AbsolutePressure p(start=p_default) "Pressure of medium";
   end ThermodynamicState;
+
   constant Modelica.Units.SI.SpecificHeatCapacity cp_const=4184
     "Specific heat capacity at constant pressure";
 
@@ -35,7 +37,7 @@ package TemperatureDependentDensity
     d = density(state);
     state.T = T;
     state.p = p;
-    R_s = 0;
+    R_s = Modelica.Constants.R;
     MM=MM_const;
     annotation(Documentation(info="<html>
     <p>
@@ -660,6 +662,7 @@ First implementation.
 </ul>
 </html>"));
 end setState_psX;
+
 //////////////////////////////////////////////////////////////////////
 // Protected classes.
 // These classes are only of use within this medium model.
@@ -783,6 +786,7 @@ but converted from Celsius to Kelvin.
 </ul>
 </html>"));
 end kinematicViscosity;
+
 annotation(preferredView="info", Documentation(info="<html>
 <p>
 This medium package models liquid water.
@@ -859,12 +863,6 @@ Phase changes are not modeled.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-April 5, 2022, by Michael Wetter:<br/>
-Corrected assignment of <code>R_s</code> in <code>BaseProperties</code> to avoid a unit error.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1603\">#1603</a>.
-</li>
 <li>
 July 7, 2016, by Carles Ribas Tugores:<br/>
 Correct Documentation. This is for

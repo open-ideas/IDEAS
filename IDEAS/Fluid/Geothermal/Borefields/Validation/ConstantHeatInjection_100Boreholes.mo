@@ -20,12 +20,11 @@ model ConstantHeatInjection_100Boreholes
     redeclare package Medium = Medium,
     T_start=T_start,
     addPowerToMedium=false,
-    use_riseTime=false,
+    use_inputFilter=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=borFieDat.conDat.mBorFie_flow_nominal,
     nominalValuesDefineDefaultPressureCurve=true,
-    inputType=IDEAS.Fluid.Types.InputType.Constant,
-    dp_nominal=60E3) "Circulation pump"
+    inputType=IDEAS.Fluid.Types.InputType.Constant)
     annotation (Placement(transformation(extent={{-20,-10},{0,-30}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBorFieIn(
     redeclare package Medium = Medium,
@@ -98,15 +97,9 @@ IDEAS.Fluid.Geothermal.Borefields.BaseClasses.HeatTransfer.ThermalResponseFactor
 </html>", revisions="<html>
 <ul>
 <li>
-November 15, 2022, by Michael Wetter:<br/>
-Set proper head for pump.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1659\">IBPSA, issue 1659</a>.
-</li>
-<li>
 April 8, 2021, by Michael Wetter:<br/>
 Added missing <code>parameter</code> keyword.<br/>
-For <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1464\">IBPSA, issue 1464</a>.
+For <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1464\">IDEAS, issue 1464</a>.
 </li>
 <li>
 June 24, 2019, by Michael Wetter:<br/>

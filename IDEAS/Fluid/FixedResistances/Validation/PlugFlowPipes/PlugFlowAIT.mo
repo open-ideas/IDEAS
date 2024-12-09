@@ -375,7 +375,7 @@ equation
   annotation (
     experiment(
       StopTime=603900,
-      Interval=120,
+      Interval=900,
       Tolerance=1e-006),
     __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/FixedResistances/Validation/PlugFlowPipes/PlugFlowAIT.mos"
         "Simulate and plot"),

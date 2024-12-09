@@ -12,7 +12,7 @@ model ResistanceVolumeFlowReversal
   Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
-    use_riseTime=false,
+    use_inputFilter=false,
     allowFlowReversal=allowFlowReversal.k,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nominalValuesDefineDefaultPressureCurve=true)
@@ -119,7 +119,7 @@ This is illustrated by the results below.
 See <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/216\">issue 216</a> for a discussion.
 </p>
 <p>
-Note that Dymola 2015FD01 can only reliably solve the last case. For the other
+Note that Dymola 2015FD01 can only reliable solve the last case. For the other
 two cases the Newton solver of the nonlinear system does not converge.
 </p>
 <p>

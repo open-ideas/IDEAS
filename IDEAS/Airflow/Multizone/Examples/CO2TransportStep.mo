@@ -5,19 +5,13 @@ model CO2TransportStep "Model with transport of CO2 through buoyancy driven flow
     volTop(nPorts=3),
     volEas(nPorts=6));
 
-  IDEAS.Fluid.Sensors.TraceSubstances CO2SenTop(
-    redeclare package Medium = Medium,
-    warnAboutOnePortConnection = false)
+  IDEAS.Fluid.Sensors.TraceSubstances CO2SenTop(redeclare package Medium = Medium)
     "CO2 sensor"
     annotation (Placement(transformation(extent={{20,120},{40,140}})));
-  IDEAS.Fluid.Sensors.TraceSubstances CO2SenWes(
-    redeclare package Medium = Medium,
-    warnAboutOnePortConnection = false)
+  IDEAS.Fluid.Sensors.TraceSubstances CO2SenWes(redeclare package Medium = Medium)
     "CO2 sensor"
     annotation (Placement(transformation(extent={{-102,10},{-82,30}})));
-  IDEAS.Fluid.Sensors.TraceSubstances CO2SenEas(
-    redeclare package Medium = Medium,
-    warnAboutOnePortConnection = false)
+  IDEAS.Fluid.Sensors.TraceSubstances CO2SenEas(redeclare package Medium = Medium)
     "CO2 sensor"
     annotation (Placement(transformation(extent={{58,10},{78,30}})));
   Modelica.Blocks.Sources.Pulse pulse(
@@ -71,15 +65,9 @@ the other rooms, and eventually its concentration decays.
 </html>", revisions="<html>
 <ul>
 <li>
-March 26, 2024, by Michael Wetter:<br/>
-Configured the sensor parameter to suppress the warning about being a one-port connection.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1857\">IBPSA, #1857</a>.
-</li>
-<li>
 March 26, 2021 by Michael Wetter:<br/>
 Updated comments for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IBPSA, #515</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/515\">IDEAS, #515</a>.
 </li>
 <li>
 November 10, 2011, by Michael Wetter:<br/>

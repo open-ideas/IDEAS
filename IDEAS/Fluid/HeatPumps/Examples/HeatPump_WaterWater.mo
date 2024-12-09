@@ -10,11 +10,11 @@ model HeatPump_WaterWater
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{40,42},{20,62}})));
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -33,11 +33,11 @@ model HeatPump_WaterWater
    IDEAS.Fluid.Movers.FlowControlled_m_flow pump1(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-60,78},{-40,98}})));
   Sources.Boundary_pT bou1(         redeclare package Medium = Medium,
     use_T_in=true,
@@ -68,20 +68,20 @@ model HeatPump_WaterWater
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump2(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=scaling*2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{40,-78},{20,-58}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump3(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=scaling*4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-58,-52},{-38,-32}})));
   replaceable HP_WaterWater_OnOff HP_scaling(
     redeclare package Medium1 = Medium,
@@ -116,20 +116,20 @@ model HeatPump_WaterWater
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump4(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{38,-22},{18,-2}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump5(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-62,14},{-42,34}})));
   replaceable HP_WaterWater_OnOff HP_onOff_mod(
     redeclare package Medium1 = Medium,
@@ -165,20 +165,20 @@ model HeatPump_WaterWater
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump6(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=scaling*2550/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{44,-134},{24,-114}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump7(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=scaling*4200/3600,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal = 50000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-54,-108},{-34,-88}})));
   replaceable HP_WaterWater_OnOff HP_modSec(
     redeclare package Medium1 = Medium,
@@ -235,11 +235,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump.port_a, bou.ports[1]) annotation (Line(
-      points={{40,52},{44,52},{44,63.75},{50,63.75}},
+      points={{40,52},{44,52},{44,58.5},{50,58.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TWater_out.port_b, bou.ports[2]) annotation (Line(
-      points={{40,80},{50,80},{50,63.25}},
+      points={{40,80},{50,80},{50,59.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(sine1.y, bou1.T_in) annotation (Line(
@@ -255,11 +255,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(TBrine_out.port_b, bou1.ports[1]) annotation (Line(
-      points={{-60,52},{-64,52},{-64,63.75},{-68,63.75}},
+      points={{-60,52},{-64,52},{-64,58.5},{-68,58.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump1.port_a, bou1.ports[2]) annotation (Line(
-      points={{-60,88},{-68,88},{-68,63.25}},
+      points={{-60,88},{-68,88},{-68,59.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(HP_onOff_mod.port_b2, TWater_out_onOffMod.port_a) annotation (Line(
@@ -279,35 +279,35 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou1.ports[3], pump5.port_a) annotation (Line(
-      points={{-68,62.75},{-66,62.75},{-66,24},{-62,24}},
+      points={{-68,60.5},{-66,60.5},{-66,24},{-62,24}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou1.ports[4], TBrine_out_onOffMod.port_b) annotation (Line(
-      points={{-68,62.25},{-68,-12},{-62,-12}},
+      points={{-68,61.5},{-68,-12},{-62,-12}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TWater_out_onOffMod.port_b, bou.ports[3]) annotation (Line(
-      points={{38,16},{46,16},{46,64},{50,64},{50,62.75}},
+      points={{38,16},{46,16},{46,64},{50,64},{50,60.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump4.port_a, bou.ports[4]) annotation (Line(
-      points={{38,-12},{50,-12},{50,62.25}},
+      points={{38,-12},{50,-12},{50,61.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump3.port_a, bou1.ports[5]) annotation (Line(
-      points={{-58,-42},{-64,-42},{-64,61.75},{-68,61.75}},
+      points={{-58,-42},{-64,-42},{-64,62.5},{-68,62.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TBrine_out_scaling.port_b, bou1.ports[6]) annotation (Line(
-      points={{-56,-74},{-68,-74},{-68,61.25}},
+      points={{-56,-74},{-68,-74},{-68,63.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TWater_out_scaling.port_b, bou.ports[5]) annotation (Line(
-      points={{40,-48},{50,-48},{50,61.75}},
+      points={{40,-48},{50,-48},{50,62.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump2.port_a, bou.ports[6]) annotation (Line(
-      points={{40,-68},{50,-68},{50,61.25}},
+      points={{40,-68},{50,-68},{50,63.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(booleanPulse.y, HP_onOff_mod.on) annotation (Line(
@@ -335,20 +335,20 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(TWater_out_modSec.port_b, bou.ports[7]) annotation (Line(
-      points={{44,-104},{44,60.75},{50,60.75}},
+      points={{44,-104},{44,64.5},{50,64.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pump6.port_a, bou.ports[8]) annotation (Line(
-      points={{44,-124},{50,-124},{50,60.25}},
+      points={{44,-124},{50,-124},{50,65.5}},
       color={0,127,255},
       smooth=Smooth.None));
 
   connect(pump7.port_a, bou1.ports[7]) annotation (Line(
-      points={{-54,-98},{-68,-98},{-68,60.75}},
+      points={{-54,-98},{-68,-98},{-68,64.5}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TBrine_out_modSec.port_b, bou1.ports[8]) annotation (Line(
-      points={{-52,-130},{-68,-130},{-68,60.25}},
+      points={{-52,-130},{-68,-130},{-68,65.5}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
@@ -362,12 +362,6 @@ equation
 <p>This example demonstrates the use of a heat pump.</p>
 </html>", revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for

@@ -19,9 +19,8 @@ package Water "Package with model for liquid water with constant density"
     final parameter Boolean standardOrderComponents=true
       "If true, and reducedX = true, the last element of X will be computed from the other ones";
     Modelica.Units.SI.Density d=d_const "Density of medium";
-    Temperature T(
-      start=293.15,
-      stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default)
+    Temperature T(stateSelect=
+      if preferredMediumStates then StateSelect.prefer else StateSelect.default)
       "Temperature of medium";
     InputAbsolutePressure p "Absolute pressure of medium";
     InputMassFraction[nXi] Xi=fill(0, 0)
@@ -175,12 +174,6 @@ There are no phase changes.
 </html>", revisions="<html>
 <ul>
 <li>
-June 18, 2024, by Michael Wetter:<br/>
-Added <code>start</code> and <code>nominal</code> attributes
-to avoid warnings in OpenModelica due to conflicting values.<br/>
-This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1890\">IBPSA, #1890</a>.
-</li>
-<li>
 September 28, 2020, by Michael Wetter:<br/>
 Reformulated <code>BaseProperties</code> to avoid event-triggering assertions.<br/>
 This is for
@@ -216,7 +209,7 @@ Changed type of <code>BaseProperties.T</code> from
 <code>Modelica.Units.SI.Temperature</code> to <code>Temperature</code>.
 Otherwise, it has a different start value than <code>Medium.T</code>, which
 causes an error if
-<a href=\"modelica://IDEAS.Media.Examples.WaterProperties\">
+<a href=\"IDEAS.Media.Examples.WaterProperties\">
 IDEAS.Media.Examples.WaterProperties</a>
 is translated in pedantic mode.
 This fixes
@@ -258,7 +251,7 @@ to fail with the error message
 <li>
 October 15, 2014, by Michael Wetter:<br/>
 Reimplemented media based on
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/blob/446aa83720884052476ad6d6d4f90a6a29bb8ec9/Annex60/Media/Water.mo\">446aa83</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/blob/446aa83720884052476ad6d6d4f90a6a29bb8ec9/IDEAS/Media/Water.mo\">446aa83</a>.
 </li>
 <li>
 November 15, 2013, by Michael Wetter:<br/>

@@ -54,7 +54,7 @@ is not correct, the model will stop with an assert statement.
 October 13, 2021, by Michael Wetter:<br/>
 Added new output for higher order derivatives.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1531\">IBPSA, issue 1531</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1531\">IDEAS, issue 1531</a>.
 </li>
 <li>
 August 17, 2015 by Michael Wetter:<br/>

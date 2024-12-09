@@ -16,21 +16,20 @@ model TwoWayTRV "Two way thermostatic radiator valve"
   parameter Modelica.Units.SI.Temperature P(displayUnit="K") = 2
     "Proportional band of valve";
 
-  parameter Boolean use_strokeTime=true
-    "Set to true to continuously open and close valve using strokeTime"
-    annotation(Dialog(tab="Dynamics", group="Actuator position"));
-  parameter Modelica.Units.SI.Time strokeTime=1200
-    "Time needed to fully open or close actuator"
+  parameter Boolean use_inputFilter=true
+    "= true, if opening is filtered with a 2nd order CriticalDamping filter"
+    annotation(Dialog(tab="Dynamics", group="Filtered opening"));
+  parameter Modelica.Units.SI.Time riseTime=1200
+    "Rise time of the filter (time to reach 99.6 % of an opening step)"
     annotation (Dialog(
       tab="Dynamics",
-      group="Actuator position",
-      enable=use_strokeTime));
+      group="Filtered opening",
+      enable=use_inputFilter));
   parameter Modelica.Blocks.Types.Init init=Modelica.Blocks.Types.Init.InitialOutput
     "Type of initialization (no init/steady state/initial state/initial output)"
-    annotation(Dialog(tab="Dynamics", group="Actuator position",enable=use_inputFilter));
+    annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
   parameter Real y_start=1 "Initial value of control signal"
-    annotation(Dialog(tab="Dynamics", group="Actuator position",enable=use_inputFilter));
-
+    annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
   parameter Modelica.Units.SI.PressureDifference dpFixed_nominal(
     displayUnit="Pa",
     min=0) = 0 "Pressure drop of pipe and other resistances that are in series"
@@ -63,12 +62,12 @@ model TwoWayTRV "Two way thermostatic radiator valve"
     allowFlowReversal=allowFlowReversal,
     show_T=show_T,
     from_dp=from_dp,
-    use_strokeTime=use_strokeTime,
-    strokeTime=strokeTime,
     homotopyInitialization=homotopyInitialization,
     linearized=linearized,
     deltaM=deltaM,
     rhoStd=rhoStd,
+    use_inputFilter=use_inputFilter,
+    riseTime=riseTime,
     init=init,
     y_start=y_start,
     dpFixed_nominal=dpFixed_nominal,
@@ -126,12 +125,6 @@ to reflect the typical delay of radiator knobs.
 </html>",
 revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 March 31, 2020 by Filip Jorissen:<br/>
 Revised implementation using <code>smoothHeaviside</code>.

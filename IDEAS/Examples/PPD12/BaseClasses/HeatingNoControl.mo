@@ -105,9 +105,9 @@ partial model HeatingNoControl "Ppd 12 example model without control"
         rotation=90,
         origin={120,-170})));
   IDEAS.Fluid.Movers.FlowControlled_dp pump(
-    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_inputFilter=false,
     redeclare package Medium = MediumWater,
     allowFlowReversal=false,
     dp_nominal=100000)
@@ -178,7 +178,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     m_flow_nominal=m_flow_nominal,
     dpFixed_nominal=2*dp_16mm*4,
     from_dp=true) "Thermostatic radiator valve for bedroom 1" annotation (
@@ -198,7 +198,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     dpFixed_nominal=2*dp_16mm*4,
     from_dp=true) "Thermostatic radiator valve for towel dryer in bathroom"
     annotation (Placement(transformation(
@@ -217,7 +217,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     dpFixed_nominal=2*dp_16mm*6,
     from_dp=true) "Thermostatic radiator valve for radiator in bathroom"
     annotation (Placement(transformation(
@@ -236,7 +236,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     dpFixed_nominal=2*dp_16mm*5,
     from_dp=true) "Thermostatic radiator valve for radiator in bedroom 2"
     annotation (Placement(transformation(
@@ -255,7 +255,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     dpFixed_nominal=2*dp_16mm*2,
     from_dp=true) "Thermostatic radiator valve for bedroom 3" annotation (
       Placement(transformation(
@@ -272,7 +272,7 @@ partial model HeatingNoControl "Ppd 12 example model without control"
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,
     Kv=0.5,
     allowFlowReversal=false,
-    use_strokeTime=true,
+    use_inputFilter=true,
     m_flow_nominal=m_flow_nominal,
     TSet=TSet2,
     dpFixed_nominal=2*(dp_16mm*4 + dp_26mm*5),
@@ -556,12 +556,6 @@ This model adds the building heating system.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 October 26, 2018, by Filip Jorissen:<br/>
 Partial created for 

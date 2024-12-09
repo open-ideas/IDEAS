@@ -7,7 +7,6 @@ CubicHermite
 ExponentialIntegralE1
 Factorial
 FallingFactorial
-Interpolate
 InverseXDerivativeCheck
 InverseXDerivative_2_Check
 InverseXRegularized
@@ -21,7 +20,6 @@ RegNonZeroPowerDerivative_2_Check
 RegStep
 SmoothExponentialDerivativeCheck
 SmoothHeavisideDerivatives
-SmoothInterpolation
 SpliceFunction
 SpliceFunctionDerivativeCheck
 TrapezoidalIntegration
