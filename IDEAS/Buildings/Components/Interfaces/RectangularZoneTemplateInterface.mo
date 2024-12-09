@@ -1561,7 +1561,6 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
 October 18, 2023, by Filip Jorissen:<br/>
 Added window height parameters.
 </li>
-</li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
 Added cavity support for horizontal internal walls (floor/ceiling)
