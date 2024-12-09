@@ -37,9 +37,7 @@ This model illustrates the use of the models
 IDEAS.Airflow.Multizone.Table_V_flow</a>, 
 which is an analytic alternative to the table implementation of
 <a href=\"modelica://IDEAS.Airflow.Multizone.Table_m_flow\">
-IDEAS.Airflow.Multizone.Table_m_flow</a> for
-
-modelling self regulating inlet vents.
+IDEAS.Airflow.Multizone.Table_m_flow</a> for modelling self regulating inlet vents.
 </p>
 </html>", revisions="<html>
 <ul>
