@@ -2,11 +2,16 @@ within IDEAS.Buildings.Components.Examples;
 model AirflowBoxModel
   extends Modelica.Icons.Example;
 
-  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None)) annotation (Placement(transformation(rotation=0, extent={{-110,30},
+  Box_Sim Energy_Only(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None))
+    "Model not including a pressure network or n50 correction, the default IDEAS implementation."
+                                                                                                        annotation (Placement(transformation(rotation=0, extent={{-110,30},
             {-50,90}})));
-  Box_Sim Energy_n50Corr(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, unify_n50=true)) annotation (Placement(transformation(rotation=0,
+  Box_Sim Energy_n50Corr(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, unify_n50=true))
+    "Model not including a pressure network with n50 correction on building level."
+                                                                                                                           annotation (Placement(transformation(rotation=0,
           extent={{-30,30},{30,90}})));
   Box_Sim IAQ_1port(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort))
+    "Model including a 1-port pressure network."
     annotation (Placement(transformation(rotation=0, extent={{-110,-90},{-50,
             -30}})));
   Box_Sim IAQ_1port_trickle(sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort),
@@ -14,21 +19,22 @@ model AirflowBoxModel
       use_trickle_vent=true,
       m_flow_nominal=0.0192656,
       dp_nominal=2))
-    "Extends the 1 port implementation with a tricklevent in the window"
+    "Model including a 1-port pressure network and a tricklevent in the window"
                      annotation (Placement(transformation(rotation=0, extent={{-30,-90},
             {30,-30}})));
   Box_Sim IAQ_2Port(
     PerfectRad(G=10000000),
     sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
-
     use_operable_window=true,
     winD(
       crackOrOperableDoor(nCom=2),
       use_trickle_vent=false,
       m_flow_nominal=0.0192656,
       dp_nominal=2),
-    winD_position(y=0)) annotation (Placement(transformation(rotation=0, extent
+    winD_position(y=0)) "Model including a 2-port pressure network."
+                        annotation (Placement(transformation(rotation=0, extent
           ={{50,-90},{110,-30}})));
+
 protected
   model Box_Sim
     inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
