@@ -98,10 +98,9 @@ model BuildingShadeExample
     azi=azi.k,
     t=0.02) "Horizontal fin model"
     annotation (Placement(transformation(extent={{14,20},{24,40}})));
-  Modelica.Blocks.Sources.Constant                  m_flow(k = 0) "Mass flow rate" annotation(
-    Placement(visible = true, transformation(origin = {0, -60}, extent = {{-100, 20}, {-80, 40}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant m_flow(k=0) "Mass flow rate" annotation (Placement(visible = true, transformation(origin = {0, -60}, extent = {{-100, 20}, {-80, 40}}, rotation = 0)));
 protected
-  Interfaces.WeaBus                  weaBus(numSolBus=sim.numIncAndAziInBus)
+  Interfaces.WeaBus weaBus(numSolBus=sim.numIncAndAziInBus)
     annotation (Placement(transformation(extent={{-64,24},{-44,44}})));
 equation
   connect(sim.weaBus, weaBus) annotation (Line(
