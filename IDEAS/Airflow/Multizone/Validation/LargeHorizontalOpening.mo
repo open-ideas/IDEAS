@@ -37,7 +37,7 @@ model LargeHorizontalOpening
     annotation (Placement(transformation(extent={{4,14},{-16,34}})));
   Modelica.Blocks.Math.Sum MF_Orifice(nin=1, k={3600})
     annotation (Placement(transformation(extent={{-180,28},{-200,48}})));
-  Real OpeningflowDiff(unit="kg/s")=abs(MF_Doormodel.y)-abs(MF_Orifice.y);
+  Modelica.Units.SI.MassFlowRate OpeningflowDiff(unit="kg/s")=abs(MF_Doormodel.y)-abs(MF_Orifice.y);
 
 protected
   Fluid.Sensors.MassFlowRate MFsensor_Orifice(
@@ -110,7 +110,7 @@ protected
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={50,116})));
-  Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=20)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=293.15)
     annotation (Placement(transformation(extent={{-172,58},{-152,78}})));
   Fluid.Sensors.MassFlowRate Ori_Mixingvol_MF1(
     redeclare package Medium = Medium) "Mass flow rate sensor" annotation (Placement(transformation(
