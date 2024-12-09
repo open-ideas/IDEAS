@@ -37,7 +37,7 @@ model LargeHorizontalOpening
     annotation (Placement(transformation(extent={{4,14},{-16,34}})));
   Modelica.Blocks.Math.Sum MF_Orifice(nin=1, k={3600})
     annotation (Placement(transformation(extent={{-180,28},{-200,48}})));
-  Modelica.Units.SI.MassFlowRate OpeningflowDiff(unit="kg/s")=abs(MF_Doormodel.y)-abs(MF_Orifice.y);
+  Modelica.Units.SI.MassFlowRate OpeningflowDiff=abs(MF_Doormodel.y)-abs(MF_Orifice.y);
 
 protected
   Fluid.Sensors.MassFlowRate MFsensor_Orifice(
