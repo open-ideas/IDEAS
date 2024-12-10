@@ -58,11 +58,11 @@ model PlugFlowPipe
   parameter Modelica.Units.SI.Length thickness=0.0035 "Pipe wall thickness"
     annotation (Dialog(group="Material"));
 
-  parameter Modelica.Units.SI.Temperature T_start_in(start=Medium.T_default) =
+  parameter Modelica.Units.SI.Temperature T_start_in(start=Medium.T_default)=
     Medium.T_default "Initialization temperature at pipe inlet"
     annotation (Dialog(tab="Initialization"));
-  parameter Modelica.Units.SI.Temperature T_start_out(start=Medium.T_default)
-     = T_start_in "Initialization temperature at pipe outlet"
+  parameter Modelica.Units.SI.Temperature T_start_out(start=Medium.T_default)=
+       T_start_in "Initialization temperature at pipe outlet"
     annotation (Dialog(tab="Initialization"));
   parameter Boolean initDelay = false
     "Initialize delay for a constant mass flow rate if true, otherwise start from 0"
@@ -342,14 +342,14 @@ equation
 <li>
 October 15, 2021, by Michael Wetter:<br/>
 Moved model to <code>BaseClasses</code>. This allows
-<a href=\"modelica://IDEAS.Fluid.FixedResistances.PlugFlowPipe\">IDEAS.Fluid.FixedResistances.PlugFlowPipe</a>
+<a href=\"IDEAS.Fluid.FixedResistances.PlugFlowPipe\">IDEAS.Fluid.FixedResistances.PlugFlowPipe</a>
 to redeclare the resistance as final, thereby avoiding that a GUI presents this instance
 to users as a replaceable class.
 </li>
 <li>
 October 05, 2021, by Baptiste Ravache:<br/>
 Made model symmetrical and extends from
-<a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">
+<a href=\"IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">
 IDEAS.Fluid.Interfaces.PartialTwoPortInterface</a>.
 </li>
 <li>
@@ -362,7 +362,7 @@ Replaced the vectorized outlet port <code>ports_b</code> with
 a single outlet port <code>port_b</code>.<br/>
 Expanded the core pipe model that was previously a component.
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IBPSA, #1494</a>.<br/>
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IDEAS, #1494</a>.<br/>
 This change is not backward compatible.<br/>
 The previous classes definitions were moved to
 <a href=\"modelica://IDEAS.Obsolete.Fluid.FixedResistances.PlugFlowPipe\">
@@ -374,7 +374,7 @@ IDEAS.Obsolete.Fluid.FixedResistances.BaseClasses.PlugFlowCore</a>.
 April 14, 2020, by Michael Wetter:<br/>
 Changed <code>homotopyInitialization</code> to a constant.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\">IBPSA, #1341</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\">IDEAS, #1341</a>.
 </li>
 <li>
 March 6, 2020, by Jelger Jansen:<br/>

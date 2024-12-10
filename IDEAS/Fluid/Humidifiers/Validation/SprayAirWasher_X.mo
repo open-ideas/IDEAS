@@ -83,7 +83,7 @@ April 29, 2021, by Michael Wetter:<br/>
 Reformulated constraint of replaceable model to avoid access of
 component that is not in constraining type.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1473\">IBPSA, #1473</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1473\">IDEAS, #1473</a>.
 </li>
 <li>
 May 3, 2017, by Michael Wetter:<br/>

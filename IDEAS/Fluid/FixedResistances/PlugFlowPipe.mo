@@ -64,7 +64,7 @@ model PlugFlowPipe
 <li>
 October 05, 2021, by Baptiste Ravache:<br/>
 Made model symmetrical and extends from
-<a href=\"modelica://IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">
+<a href=\"IDEAS.Fluid.Interfaces.PartialTwoPortInterface\">
 IDEAS.Fluid.Interfaces.PartialTwoPortInterface</a>.
 </li>
 <li>
@@ -77,7 +77,7 @@ Replaced the vectorized outlet port <code>ports_b</code> with
 a single outlet port <code>port_b</code>.<br/>
 Expanded the core pipe model that was previously a component.
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IBPSA, #1494</a>.<br/>
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IDEAS, #1494</a>.<br/>
 This change is not backward compatible.<br/>
 The previous classes definitions were moved to
 <a href=\"modelica://IDEAS.Obsolete.Fluid.FixedResistances.PlugFlowPipe\">

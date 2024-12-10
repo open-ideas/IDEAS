@@ -3,24 +3,24 @@ model Pump_stratos "Stratos pumps with speed as input"
   extends Modelica.Icons.Example;
  extends IDEAS.Fluid.Movers.Validation.BaseClasses.FlowMachine_ZeroFlow(
     redeclare package Medium = IDEAS.Media.Water,
-    gain(k=1),
+    gain(k=floMacSta.per.speed_rpm_nominal),
     m_flow_nominal=floMacSta.per.pressure.V_flow[3]*1000,
     dp_nominal=floMacSta.per.pressure.dp[3]/2,
-    redeclare IDEAS.Fluid.Movers.SpeedControlled_y floMacSta(
+    redeclare IDEAS.Fluid.Movers.SpeedControlled_Nrpm floMacSta(
       redeclare package Medium = Medium,
-      per=per,
-      use_riseTime=false),
-    redeclare IDEAS.Fluid.Movers.SpeedControlled_y floMacDyn(
+      use_inputFilter=false,
+      per=per),
+    redeclare IDEAS.Fluid.Movers.SpeedControlled_Nrpm floMacDyn(
       redeclare package Medium = Medium,
-      per=per,
-      use_riseTime=false));
+      use_inputFilter=false,
+      per=per));
   parameter Data.Pumps.Wilo.Stratos25slash1to6 per
     annotation (Placement(transformation(extent={{100,100},{120,120}})));
 equation
-  connect(gain.y, floMacSta.y) annotation (Line(
+  connect(gain.y, floMacSta.Nrpm) annotation (Line(
       points={{-25,100},{30,100},{30,92}},
       color={0,0,127}));
-  connect(gain.y, floMacDyn.y) annotation (Line(
+  connect(gain.y, floMacDyn.Nrpm) annotation (Line(
       points={{-25,100},{10,100},{10,30},{30,30},{30,12}},
       color={0,0,127}));
 
@@ -35,13 +35,6 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/Movers/V
 a performance data from a Stratos pump.</p>
 </html>", revisions="<html>
 <ul>
-<li>
-March 21, 2023, by Hongxiang Fu:<br/>
-Replaced the pump with <code>Nrpm</code> signal with one with <code>y</code>
-signal.
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1704\">IBPSA, #1704</a>.
-</li>
 <li>
 February 17, 2016, by Michael Wetter:<br/>
 Updated parameter names for

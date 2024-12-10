@@ -26,7 +26,11 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
-	annotation (Dialog(tab="Dynamics", group="Initial condition"));
+    annotation(Dialog(tab="Dynamics", group="Initial condition"));
+
+  parameter Modelica.Units.SI.Temperature TRef_a=291.15
+    "Reference temperature of zone on side of propsBus_a, for calculation of design heat loss"
+    annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
@@ -132,9 +136,6 @@ protected
     "Heat gains across model boundary";
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlowQgai
     "Component for computing conservation of energy";
-
-  Modelica.Units.SI.Temperature TRefZon=propsBusInt.TRefZon
-      "Reference zone temperature for calculation of design heat load";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBusVarMultiplicator gain(redeclare
       package Medium = Medium,                                       k=nWin)
@@ -268,10 +269,6 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
-Add variable <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
-</li>
 October 30, 2024, by Klaas De Jonge and Filip Jorissen:<br/>
 Additions for supporting interzonal airflow: use of crackoroperabledoor model, default column height implementation for stack-effect.
 </li>

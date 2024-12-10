@@ -65,14 +65,14 @@ equation
   annotation ( Documentation(info="<html>
 <p>
 This example shows the application of
-<a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.RC.FourElements\">
+<a href=\"IDEAS.ThermalZones.ReducedOrder.RC.FourElements\">
 IDEAS.ThermalZones.ReducedOrder.RC.FourElements</a>
 considering a trace substance such as CO2
 in combination with
-<a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow\">
+<a href=\"IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow\">
 IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow</a>
 and
-<a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane\">
+<a href=\"IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane\">
 IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane</a>.
 Solar radiation on tilted surface is calculated using models of
 IDEAS. The thermal zone is a simple room defined in Guideline
@@ -102,7 +102,7 @@ and buildings - modelling of rooms.</p>
 September 6, 2021, by Ettore Zanetti:<br/>
 Changed <code>lat</code> from being a parameter to an input from weather bus.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IDEAS, #1477</a>.
 </li>
 <li>
 April 15, 2020, by Katharina Brinkmann:<br/>

@@ -1,6 +1,5 @@
 within IDEAS.Fluid.Movers.BaseClasses.Characteristics;
-record efficiencyParameters
-  "Record for efficiency parameters vs. volumetric flow rate"
+record efficiencyParameters "Record for efficiency parameters"
   extends Modelica.Icons.Record;
   parameter Modelica.Units.SI.VolumeFlowRate V_flow[:](each min=0)
     "Volumetric flow rate at user-selected operating points";
@@ -8,11 +7,11 @@ record efficiencyParameters
     "Fan or pump efficiency at these flow rates";
   annotation (Documentation(info="<html>
 <p>
-Data record for performance data that describe efficiency
-versus volumetric flow rate.
+Data record for performance data that describe volume flow rate versus
+efficiency.
 The volume flow rate <code>r_V</code> must be increasing, i.e.,
-<code>V_flow[i] &lt; V_flow[i+1]</code>.
-Both vectors, <code>V_flow</code> and <code>eta</code>
+<code>r_V[i] &lt; r_V[i+1]</code>.
+Both vectors, <code>r_V</code> and <code>eta</code>
 must have the same size.
 </p>
 </html>",

@@ -45,10 +45,10 @@ model ConstantAirFlowRecup
     use_T_in=true) "Ambient air"
     annotation (Placement(transformation(extent={{-80,-30},{-100,-10}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan[nZones](
-    each use_riseTime=false,
     m_flow_nominal=n ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    each use_inputFilter=false,
     each inputType=IDEAS.Fluid.Types.InputType.Constant)
     "Fan with constant flow rate"
     annotation (Placement(transformation(extent={{-160,-10},{-180,-30}})));
@@ -93,12 +93,6 @@ equation
             -100},{200,100}})),
     Documentation(revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for

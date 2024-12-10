@@ -1,5 +1,0 @@
-simulateModel("IDEAS.Fluid.Taps.Examples.Tap", stopTime=259200, method="dassl", resultFile="Tap");
-
-createPlot(id=1, y={"tap1.THot.T", "tap2.THot.T"});
-createPlot(id=2, y={"tap1.mFloHot.y", "tap2.mFloHot.y"});
-createPlot(id=3, y={"tap1.DHWCom", "tap2.DHWCom"});

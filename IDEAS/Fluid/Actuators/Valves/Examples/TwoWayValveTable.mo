@@ -26,7 +26,7 @@ model TwoWayValveTable
         transformation(extent={{72,10},{52,30}})));
   Valves.TwoWayTable valTab(
     redeclare package Medium = Medium,
-    use_strokeTime=false,
+    use_inputFilter=false,
     from_dp=true,
     flowCharacteristics=datVal,
     CvData=IDEAS.Fluid.Types.CvTypes.Kv,

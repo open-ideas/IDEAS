@@ -86,7 +86,7 @@ if the wind strikes the surface perpendicular, and otherwise it goes back to <i>
 February 11, 2022, by Michael Wetter:<br/>
 First implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
 </li>
 </ul>
 </html>"),

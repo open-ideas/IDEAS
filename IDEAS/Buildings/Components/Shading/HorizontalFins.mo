@@ -9,7 +9,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
     "=true, to use input for controlling the horizontal fin displacement. Set Ctrl=1 for fully closed shading."
     annotation(Evaluate=true);
   parameter Boolean use_betaInput = false
-    "=true, to use input for controlling the fin inclination angle. Set Ctrl=1 for fully closed shading."
+    "=true, to use input for fin inclination angle"
     annotation(Evaluate=true);
   parameter Modelica.Units.SI.Angle beta(min=0) = 0
     "Fin inclination angle: 0 for horizontal inclination, see documentation"
@@ -18,6 +18,7 @@ model HorizontalFins "Horizontal fin shading with 2 control input options"
   Real shaFrac "Shaded fraction of the glazing for direct solar irradiation";
   Real shaFracDif "Shaded fraction of the glazing for diffuse solar irradiation";
 
+
 protected
   Modelica.Units.SI.Length dy1=s - sin(beta_internal)*w - cos(beta_internal)*t;
   Modelica.Units.SI.Length dx=cos(beta_internal)*w - sin(beta_internal)*t;
@@ -25,13 +26,10 @@ protected
     "Horizontal ray displacement along the ray direction";
   Modelica.Units.SI.Length dy3=max(0, min(dz*tan(angAlt), s));
 
-  parameter Modelica.Units.SI.Angle beta_max(min=0,max=Modelica.Constants.pi/2)=acos(t/s)
-    "Maximum fin inclination angle";
+  Real dispLim=min(1,max(0,disp_internal));
 
   Modelica.Blocks.Interfaces.RealInput beta_internal
     "Internal variable for inclination angle";
-  Modelica.Blocks.Interfaces.RealInput Ctrl_to_beta_internal
-    "Internal variable to linearly map the Ctrl input [0,1] onto the fin inclination angle [beta_min=0,beta_max]";
   Modelica.Blocks.Interfaces.RealInput disp_internal
     "Internal variable for displacement fraction";
   Modelica.Units.SI.Angle angAlt=Modelica.Constants.pi/2 - angZen
@@ -54,11 +52,11 @@ initial equation
     "In " + getInstanceName() + ": Either use_betaInput or use_displacementInput should be false.");
 
 equation
+
   if not use_betaInput then
     beta_internal = beta;
   else
-    beta_internal = Ctrl_to_beta_internal*beta_max;
-    connect(Ctrl_to_beta_internal,Ctrl);
+    connect(beta_internal,Ctrl);
   end if;
   if not use_displacementInput then
     disp_internal=1;
@@ -67,20 +65,20 @@ equation
   end if;
 
   if dy3 > dy1 then
-    shaFrac = disp_internal;
+    shaFrac = dispLim;
   else
-    // The shaded part equals 100% minus the unshaded part due to displacement (1-disp_internal),
+    // The shaded part equals 100% minus the unshaded part due to displacement (1-dispLim),
     // minus the shaded fraction (disp) that is unshaded by the fins (dy1-min(dy1,dy3))/s.
-    // i.e. 1 - (1-disp_internal) - disp_internal*(dy1-min(dy1,dy3))/s
+    // i.e. 1 - (1-dispLim) - dispLim*(dy1-min(dy1,dy3))/s
     // after collecting terms this results in:
-    shaFrac = disp_internal*(1 - (dy1-min(dy1,dy3))/s);
+    shaFrac = dispLim*(1 - (dy1-min(dy1,dy3))/s);
   end if;
 
   // same reasoning as for direct solar irradiation
   if dy3Dif > dy1 then
-    shaFracDif = disp_internal;
+    shaFracDif = dispLim;
   else
-    shaFracDif = disp_internal*(1 - (dy1-min(dy1,dy3Dif))/s);
+    shaFracDif = dispLim*(1 - (dy1-min(dy1,dy3Dif))/s);
   end if;
 
   HShaDirTil = (1-shaFrac)*HDirTil;
@@ -116,11 +114,10 @@ The ground diffuse solar irradation is not modified.
 <p>
 Parameter <code>t</code> is the fin thickness,
 <code>s</code> is the vertical spacing between the fins and
-<code>w</code> is the fin width. The model assumes that <code>s &lt;= w</code>.
+<code>w</code> is the fin width.
 If <code>use_betaInput=true</code>, 
-the input <code>Ctrl</code> is used to control the angle beta in the figure,
-such that <code>Ctrl = 0</code> corresponds to <code>beta = 0</code> and <code>Ctrl = 1</code>
-corresponds to <code>beta = acos(t/s)</code>, which is the maximum value for <code>beta</code>.
+the input <code>Ctrl</code> is used to control the angle beta,
+such that <code>beta</code> in the figure equals <code>Ctrl</code>.
 Note that <code>beta</code> must have radians as a unit.
 If <code>use_displacementInput=true</code>,
 the input <code>0 &lt; Ctrl &lt; 1</code> is used to control the horizontal
@@ -143,14 +140,6 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-July 1, 2024 by Lucas Verleyen:<br/>
-Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0,1]
-onto the fin inclination angle [<code>0,beta_max</code>].<br/>
-Removed <code>dispLim</code> as <code>disp_internal</code> is automatically 
-in the range [0,1] due to the definition of <code>Ctrl</code>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1290\">#1290</a>.
-</li>
 <li>
 April 4, 2023 by Jelger Jansen:<br/>
 Updated figure in documentation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1186\">#1186</a>.

@@ -6,7 +6,7 @@ model Damper
 
   IDEAS.Fluid.Actuators.Dampers.Exponential res(
     redeclare package Medium = Medium,
-    use_strokeTime=false,
+    use_inputFilter=false,
     dpDamper_nominal=10,
     m_flow_nominal=1,
     k1=0.45) "A damper with quadratic relationship between m_flow and dp"
@@ -33,7 +33,7 @@ model Damper
         transformation(extent={{94,-10},{74,10}})));
 
   IDEAS.Fluid.Actuators.Dampers.PressureIndependent preIndDpFixed_nominal(
-    use_strokeTime=false,
+    use_inputFilter=false,
     redeclare package Medium = Medium,
     m_flow_nominal=1,
     dpFixed_nominal=5,
@@ -42,7 +42,7 @@ model Damper
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
 
   IDEAS.Fluid.Actuators.Dampers.PressureIndependent preIndFrom_dp(
-    use_strokeTime=false,
+    use_inputFilter=false,
     redeclare package Medium = Medium,
     m_flow_nominal=1,
     dpFixed_nominal=0,
@@ -55,14 +55,14 @@ model Damper
     redeclare package Medium = Medium,
     m_flow_nominal=1,
     dpDamper_nominal=10,
-    use_strokeTime=false)
+    use_inputFilter=false)
     "A damper with a mass flow proportional to the input signal"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
 
   Vav vav(
     redeclare package Medium = Medium,
     m_flow_nominal=1,
-    use_strokeTime=false,
+    use_inputFilter=false,
     dpDamper_nominal=10,
     dpFixed_nominal=5,
     fraMax=0.75,
@@ -116,12 +116,6 @@ pressures. The control signal of the dampers is a ramp.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 March 21, 2017 by David Blum:<br/>
 Added Linear damper models <code>lin</code>, <code>preIndFrom_dp</code>, and <code>preInd</code>.
