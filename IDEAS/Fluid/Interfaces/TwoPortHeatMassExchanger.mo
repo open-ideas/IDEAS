@@ -145,7 +145,7 @@ This is for
 April 14, 2020, by Michael Wetter:<br/>
 Changed <code>homotopyInitialization</code> to a constant.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\">IBPSA, #1341</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\">IDEAS, #1341</a>.
 </li>
 <li>
 December 1, 2016, by Michael Wetter:<br/>

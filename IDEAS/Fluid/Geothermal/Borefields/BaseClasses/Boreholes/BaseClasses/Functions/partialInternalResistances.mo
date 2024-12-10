@@ -29,8 +29,6 @@ partial function partialInternalResistances
   input Modelica.Units.SI.SpecificHeatCapacity cpMed
     "Specific heat capacity of the fluid";
   input Modelica.Units.SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
-  input String instanceName="undeclared caller"
-    "Instance name of the model or block that calls this function";
 
   // Outputs
   output Real x "Capacity location";
@@ -38,7 +36,7 @@ partial function partialInternalResistances
 protected
   parameter Real pi = 3.141592653589793 "pi";
 
-  Real rTub_in = rTub-eTub "Inner radius of tube";
+  parameter Real rTub_in = rTub-eTub "Inner radius of tube";
 
   Real RConv(unit="(m.K)/W")=
     IDEAS.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.BaseClasses.Functions.convectionResistanceCircularPipe(
@@ -73,22 +71,10 @@ the borehole internal resistances.
 </html>", revisions="<html>
 <ul>
 <li>
-November 22, 2023, by Michael Wetter:<br/>
-Corrected use of <code>getInstanceName()</code> which was called inside a function which
-is not allowed.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1814\">IBPSA, #1814</a>.
-</li>
-<li>
-June 4, 2023, by Michael Wetter:<br/>
-Corrected variability.<br/>
-This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1762\">IBPSA, #1762</a>.
-</li>
-<li>
 February 28, 2022, by Massimo Cimmino:<br/>
 Changed function to be <code>pure</code>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1582\">IBPSA, #1582</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1582\">IDEAS, #1582</a>.
 </li>
 <li>
 July 18, 2018 by Massimo Cimmino:<br/>

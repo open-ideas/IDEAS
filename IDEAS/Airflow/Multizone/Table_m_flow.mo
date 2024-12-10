@@ -2,7 +2,7 @@ within IDEAS.Airflow.Multizone;
 model Table_m_flow
   "Mass flow(y-axis) vs Pressure(x-axis) cubic spline fit model based from table data, with last two points linearly interpolated"
   extends IDEAS.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement(
-    m_flow = IDEAS.Utilities.Math.Functions.interpolate(
+    m_flow = IDEAS.Airflow.Multizone.BaseClasses.interpolate(
       u=dp,
       xd=dpMea_nominal,
       yd=mMea_flow_nominal,
@@ -104,7 +104,7 @@ National Institute of Standards and Technology, NIST TN 1887, Sep. 2015. doi:
 February 2, 2022, by Michael Wetter:<br/>
 Revised implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
 </li>
 <li>Apr 6, 2021, 2020, by Klaas De Jonge:<br/>
 First implementation.

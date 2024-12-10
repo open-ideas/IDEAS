@@ -34,18 +34,12 @@ jobs:
     steps:
       - name: Test IDEAS.Airflow
         run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
-      - name: Test IDEAS.BoundaryConditions
-        run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\" INTERACTIVE=false
       - name: Test IDEAS.Buildings.Components
         run: make test-dymola PACKAGE=\"IDEAS.Buildings.Components\" INTERACTIVE=false
       - name: Test IDEAS.Buildings.Examples
         run: make test-dymola PACKAGE=\"IDEAS.Buildings.Examples\" INTERACTIVE=false
       - name: Test IDEAS.Buildings.Validation
         run: make test-dymola PACKAGE=\"IDEAS.Buildings.Validation\" INTERACTIVE=false
-      - name: Test IDEAS.Controls
-        run: make test-dymola PACKAGE=\"IDEAS.Controls\" INTERACTIVE=false
-      - name: Test IDEAS.Electrical
-        run: make test-dymola PACKAGE=\"IDEAS.Electrical\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Actuators
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Actuators\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.BaseClasses
@@ -58,18 +52,12 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Examples\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.FixedResistances
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.FixedResistances\" INTERACTIVE=false
-      - name: Test IDEAS.Fluid.FMI
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Adaptors\" INTERACTIVE=false 
-            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Conversion\" INTERACTIVE=false
-            && make test-dymola PACKAGE=\"IDEAS.Fluid.FMI.Validation\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Geothermal
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Geothermal\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.HeatExchangers
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatExchangers\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.HeatPumps
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.HeatPumps\" INTERACTIVE=false
-      - name: Test IDEAS.Fluid.Humidifiers
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.Humidifiers\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Interfaces
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Interfaces\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.MassExchangers
@@ -80,22 +68,24 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Movers\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Sensors
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sensors\" INTERACTIVE=false
-      - name: Test IDEAS.Fluid.SolarCollectors
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.SolarCollectors\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Sources
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sources\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Storage
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Storage\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Taps
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Taps\" INTERACTIVE=false
-      - name: Test IDEAS.Media
-        run: make test-dymola PACKAGE=\"IDEAS.Media\" INTERACTIVE=false
-      - name: Test IDEAS.Templates
-        run: make test-dymola PACKAGE=\"IDEAS.Templates\" INTERACTIVE=false
       - name: Test IDEAS.ThermalZones
         run: make test-dymola PACKAGE=\"IDEAS.ThermalZones\" INTERACTIVE=false
+      - name: Test IDEAS.BoundaryConditions
+        run: make test-dymola PACKAGE=\"IDEAS.BoundaryConditions\" INTERACTIVE=false
+      - name: Test IDEAS.Controls
+        run: make test-dymola PACKAGE=\"IDEAS.Controls\" INTERACTIVE=false
+      - name: Test IDEAS.Media
+        run: make test-dymola PACKAGE=\"IDEAS.Media\" INTERACTIVE=false
       - name: Test IDEAS.Utilities
         run: make test-dymola PACKAGE=\"IDEAS.Utilities\" INTERACTIVE=false
+      - name: Test IDEAS.Templates
+        run: make test-dymola PACKAGE=\"IDEAS.Templates\" INTERACTIVE=false
       - name: Test IDEAS.Examples.PPD12
         run: make test-dymola PACKAGE=\"IDEAS.Examples.PPD12\" INTERACTIVE=false
       - name: Test IDEAS.Examples.IBPSA

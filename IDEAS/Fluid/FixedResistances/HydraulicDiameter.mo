@@ -25,7 +25,7 @@ model HydraulicDiameter "Fixed flow resistance with hydraulic diameter and m_flo
     "Factor to take into account resistance of bends etc., fac=dp_nominal/dpStraightPipe_nominal";
 
   final parameter Modelica.Units.SI.PressureDifference dpStraightPipe_nominal(
-      displayUnit="Pa") =
+      displayUnit="Pa")=
     Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
     m_flow=m_flow_nominal,
     rho_a=rho_default,
@@ -66,12 +66,12 @@ The mass flow rate is computed as
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
 m&#775; = k
-&radic;<span style=\"text-decoration:overline;\">&Delta;p</span>,
+&radic;<span style=\"text-decoration:overline;\">&Delta;P</span>,
 </p>
 <p>
 where
 <i>k</i> is a constant and
-<i>&Delta;p</i> is the pressure drop.
+<i>&Delta;P</i> is the pressure drop.
 The constant <i>k</i> is equal to
 <code>k=m_flow_nominal/sqrt(dp_nominal)</code>,
 where <code>m_flow_nominal</code> is a parameter.
@@ -163,7 +163,7 @@ IDEAS.Fluid.BaseClasses.FlowModels</a>,
 This package contains regularized implementations of the equation
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
-  m&#775; = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
+  m = sign(&Delta;p) k  &radic;<span style=\"text-decoration:overline;\">&nbsp;&Delta;p &nbsp;</span>
 </p>
 <p>
 and its inverse function.

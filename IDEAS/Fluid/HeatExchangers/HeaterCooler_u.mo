@@ -17,10 +17,7 @@ protected
     final alpha=0)
     "Prescribed heat flow"
     annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
-  Modelica.Blocks.Math.Gain gai(
-    k(final unit="W")=Q_flow_nominal,
-    y(final unit="W"))
-    "Gain"
+  Modelica.Blocks.Math.Gain gai(k=Q_flow_nominal) "Gain"
     annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
 equation
   connect(u, gai.u) annotation (Line(
@@ -119,12 +116,6 @@ IDEAS.Fluid.HeatExchangers.Validation.HeaterCooler_u</a>.
 </html>",
 revisions="<html>
 <ul>
-<li>
-October 13, 2022, by Fabian Wuellhorst:<br/>
-Added unit to instance <code>gai</code>.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1642\">#1642</a>.
-</li>
 <li>
 March 7, 2022, by Michael Wetter:<br/>
 Removed <code>massDynamics</code>.<br/>

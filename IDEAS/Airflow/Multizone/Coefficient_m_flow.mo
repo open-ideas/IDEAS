@@ -85,7 +85,7 @@ Dols and Walton (2002) recommend to use for the flow exponent <i>m=0.6</i> to <i
 February 2, 2022, by Michael Wetter:<br/>
 Revised implementation.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IDEAS, #1436</a>.
 </li>
 <li>
 Apr 6, 2021, by Klaas De Jonge:<br/>

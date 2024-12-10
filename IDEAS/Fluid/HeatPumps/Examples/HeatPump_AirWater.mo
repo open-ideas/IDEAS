@@ -8,10 +8,10 @@ model HeatPump_AirWater
     IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=30,
-    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
   HP_AirWater_TSet heater(
     tauHeatLoss=3600,
@@ -81,12 +81,6 @@ equation
 <p>The modulation level can be seen from heater.heatSource.modulation.</p>
 </html>", revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
 <li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for

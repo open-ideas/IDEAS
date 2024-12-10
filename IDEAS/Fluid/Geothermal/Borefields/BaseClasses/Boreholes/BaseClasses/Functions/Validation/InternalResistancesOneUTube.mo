@@ -57,8 +57,7 @@ initial equation
       kMed=kMed,
       muMed=muMed,
       cpMed=cpMed,
-      m_flow_nominal=m_flow_nominal,
-      instanceName=getInstanceName());
+      m_flow_nominal=m_flow_nominal);
 
   annotation (
     __Dymola_Commands(file=
@@ -75,13 +74,6 @@ borehole.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-November 22, 2023, by Michael Wetter:<br/>
-Corrected use of <code>getInstanceName()</code> which was called inside a function which
-is not allowed.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1814\">IBPSA, #1814</a>.
-</li>
 <li>
 June 21, 2018, by Massimo Cimmino:<br/>
 First implementation.

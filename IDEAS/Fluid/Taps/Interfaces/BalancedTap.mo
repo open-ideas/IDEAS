@@ -1,6 +1,5 @@
 within IDEAS.Fluid.Taps.Interfaces;
 partial model BalancedTap "partial DHW model"
-  extends Modelica.Icons.ObsoleteModel;
   import IDEAS;
 
   parameter Modelica.Units.SI.Temperature TDHWSet(max=273.15 + 60) = 273.15 +

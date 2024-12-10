@@ -63,8 +63,8 @@ public
     "Horizontal fin model with control input for displacement"
     annotation (Placement(transformation(extent={{64,20},{74,40}})));
   Modelica.Blocks.Sources.Sine sine(
-    amplitude=0.5,
-    offset=0.5,
+    amplitude=Modelica.Constants.pi/4,
+    offset=Modelica.Constants.pi/4,
     f=1/30000) annotation (Placement(transformation(extent={{0,-20},{20,0}})));
   Modelica.Blocks.Sources.Pulse pulse(period=3600*4)
     annotation (Placement(transformation(extent={{40,-20},{60,0}})));

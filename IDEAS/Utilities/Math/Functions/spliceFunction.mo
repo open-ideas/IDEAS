@@ -7,15 +7,14 @@ function spliceFunction
     input Real deltax "Half width of transition interval";
     output Real out "Smoothed value";
 protected
-    constant Real lim = 0.9999999999;
     Real scaledX1;
     Real y;
     constant Real asin1 = Modelica.Math.asin(1);
 algorithm
     scaledX1 := x/deltax;
-    if scaledX1 <= -lim then
+    if scaledX1 <= -0.999999999 then
       out := neg;
-    elseif scaledX1 >= lim then
+    elseif scaledX1 >= 0.999999999 then
       out := pos;
     else
       y := (Modelica.Math.tanh(Modelica.Math.tan(scaledX1*asin1)) + 1)/2;
@@ -37,11 +36,6 @@ for easier accessability to model developers.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>
-September 27, 2022, by Matthis Thorade:<br/>
-Changed limits.<br/>
-This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/pull/1640\">IBPSA, issue #1640</a>.
-</li>
 <li>
 May 10, 2013, by Michael Wetter:<br/>
 Reformulated implementation to avoid unrequired computations.

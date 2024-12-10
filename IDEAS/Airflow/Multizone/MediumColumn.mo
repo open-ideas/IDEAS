@@ -103,13 +103,11 @@ equation
         Text(
           extent={{24,-78},{106,-100}},
           textColor={0,0,127},
-          textString="Bottom",
-          fontSize=36),
+          textString="Bottom"),
         Text(
           extent={{32,104},{98,70}},
           textColor={0,0,127},
-          textString="Top",
-          fontSize=36),
+          textString="Top"),
         Text(
           extent={{36,26},{88,-10}},
           textColor={0,0,127},
@@ -130,8 +128,8 @@ equation
           lineColor={0,0,0}),
         Text(
           extent={{-50.5,20.5},{50.5,-20.5}},
-          textColor={0,0,127},
-          origin={-72.5,-0.5},
+          lineColor={0,0,127},
+          origin={-72.5,-12.5},
           rotation=90,
           textString="%name"),
         Rectangle(
@@ -143,7 +141,7 @@ equation
           lineColor={0,0,0}),
         Rectangle(
           visible=densitySelection == IDEAS.Airflow.Multizone.Types.densitySelection.fromBottom,
-          extent={{-16,0},{16,-80}},
+          extent={{-16,0},{16,-82}},
           fillColor={85,170,255},
           fillPattern=FillPattern.Solid,
           pattern=LinePattern.None,
