@@ -609,12 +609,11 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
-April 26, 2020, by Filip Jorissen:<br/>
 </li>
 <li>
+April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
-#1131</a>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">#1131</a>
 </li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>
