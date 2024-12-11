@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Components.Examples;
-model TwoStoreyBoxes
+model TwoStoreyBoxes "Model with two zones on different floors, one zone above the other, with a large opening between these zones and stack-effect airflow enabled."
   extends Modelica.Icons.Example;
 
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,n50=1) annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
