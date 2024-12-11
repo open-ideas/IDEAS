@@ -201,12 +201,6 @@ Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
 </li>
 <li>
-March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation of icon for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
-and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
-</li>
-<li>
 May 2, 2019 by Filip Jorissen:<br/>
 Moved location of <code>ppm</code> in the icon layer such that it
 does not overlap with <code>TSensor</code>.
@@ -216,6 +210,12 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
 March 28, 2019 by Filip Jorissen:<br/>
 Renamed <code>nOcc</code> to <code>yOcc</code>
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+</li>
+<li>
+March 21, 2019 by Filip Jorissen:<br/>
+Revised implementation of icon for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
+and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
 </li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>

@@ -592,6 +592,10 @@ October 18, 2023 by Filip Jorissen:<br/>
 Added use_port_1 and use_port_2 for convenience.
 </li>
 <li>
+December 18, 2022 by Filip Jorissen:<br/>
+parameter revisions  for #1244
+</li>
+<li>
 April 28, 2022 by Filip Jorissen:<br/>
 Changed the default weather file to BEL_VLG_Uccle.064470_TMYx.2007-2021.mos.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1239\">
