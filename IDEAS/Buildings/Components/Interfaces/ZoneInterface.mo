@@ -13,22 +13,31 @@ partial model ZoneInterface "Partial model for thermal building zones"
   parameter Integer nPorts(min=0)=2
     "Number of ports for ventilation connections";
   parameter Modelica.Units.SI.Volume V "Total zone air volume"
-    annotation (Dialog(group="Building physics"));
-  parameter Modelica.Units.SI.Length hZone=2.8
+    annotation(Dialog(group="Building physics"));
+  parameter Modelica.Units.SI.Length hZone = 2.8
     "Zone height: distance between floor and ceiling"
-    annotation (Dialog(group="Building physics"));
-  parameter Modelica.Units.SI.Area A=V/hZone "Total conditioned floor area"
-    annotation (Dialog(group="Building physics"));
+    annotation(Dialog(group="Building physics"));
+      parameter Modelica.Units.SI.Length hFloor = 0
+    "Absolute height of zone floor"
+    annotation(Dialog(group="Building physics"));
+  parameter Modelica.Units.SI.Area A = V/hZone "Total conditioned floor area"
+    annotation(Dialog(group="Building physics"));
   parameter Boolean useOccNumInput
     "=false, to remove icon of yOcc"
     annotation(Dialog(tab="Advanced",group="Occupants"));
+  parameter Boolean useWatFlowInput = false
+    "=true, to enable an input for injecting water vapor into a zone"
+    annotation(Dialog(tab="Advanced",group="Sources"));
+  parameter Boolean useCFlowInput = false
+    "=true, to enable an input for injecting CO2 into a zone"
+    annotation(Dialog(tab="Advanced",group="Sources"));
   parameter Boolean useLigCtrInput
     "=false, to remove icon of lightCtrl"
     annotation(Dialog(tab="Advanced",group="Lighting"));
   //default ACH=2 for ventilation
-  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=V*1.2*2/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal = V * 1.2*2/3600
     "Nominal flow rate of the air flow system fluid ports"
-    annotation (Dialog(tab="Airflow", group="Air model"));
+    annotation(Dialog(tab="Airflow",group="Air model"));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainRad
     "Internal zone node for radiative heat gains"
@@ -54,14 +63,25 @@ partial model ZoneInterface "Partial model for thermal building zones"
     "Port for ventilation connections, deprecated, use 'ports' instead";
   Modelica.Blocks.Interfaces.RealInput yOcc if useOccNumInput
     "Control input for number of occupants, used by Occupants.Input and Occupants.AreaWeightedInput"
-    annotation (Placement(transformation(extent={{140,20},{100,60}})));
+    annotation (Placement(transformation(extent={{140,20},{100,60}}), iconTransformation(extent={{-130,60},{-90,100}})));
+  Modelica.Blocks.Interfaces.RealInput mWat_flow(unit = "kg/s")
+    if useWatFlowInput
+    "Input for injecting water vapor into a zone" annotation (
+    Placement(transformation(extent={{140,-100},{100,-60}}), iconTransformation(extent={{-130,-60},{-90,-20}})));
+  Modelica.Blocks.Interfaces.RealInput C_flow
+    if useCFlowInput
+    "Input for injecting CO2 into a zone" annotation (
+    Placement(transformation(extent={{140,-120},{100,-80}}), iconTransformation(extent={{-130,20},{-90,-20}})));
   Modelica.Blocks.Interfaces.RealInput uLig if useLigCtrInput
     "Lighting control input (1 corresponds to 100%), only used when using LightingControl.Input"
     annotation (Placement(transformation(extent={{140,50},{100,90}}),
-        iconTransformation(extent={{-130,-40},{-90,0}})));
-  Modelica.Blocks.Interfaces.RealOutput ppm(unit="1")
+        iconTransformation(extent={{-130,-100},{-90,-60}})));
+  Modelica.Blocks.Interfaces.RealOutput ppm(unit="1",min=0)
     "CO2 concentration in the zone" annotation (Placement(transformation(extent={{100,-10},
             {120,10}}),           iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealOutput phi(unit="1",min=0,max=1)
+    "Relative humidity in the zone [0-1]" annotation (Placement(transformation(extent={{100,0},
+            {120,20}}),           iconTransformation(extent={{100,30},{120,50}})));
   Modelica.Fluid.Interfaces.FluidPorts_a ports[nPorts](redeclare package Medium =
         Medium) "Ports for ventilation connetions" annotation (Placement(
         transformation(
@@ -95,11 +115,13 @@ initial equation
   for i in 1:nPorts loop
     assert(cardinality(ports[i])<=2,
       "Each element of ports should have zero or one external connections but " +
-      getInstanceName() +".ports[" + String(i) + "] has a different number." +
+      getInstanceName() +".ports[" + String(i) + "] has less." +
       " This can cause air to mix at the fluid port, without entering the zone, which is usually unintended.
       Instead, increase nPorts and create a separate connection.",
       level=AssertionLevel.warning);
   end for;
+initial equation
+  assert(not useCFlowInput or Medium.nC>0, "In " + getInstanceName() + ": using useCFlowInput=true but the used medium has no trace substances");
 equation
   connect(sim.Qgai, dummy1);
   connect(sim.E, dummy2);
@@ -107,8 +129,8 @@ equation
   connect(prescribedHeatFlowE.port, sim.E);
   connect(Qgai.y,prescribedHeatFlowQgai. Q_flow);
   connect(prescribedHeatFlowQgai.port, sim.Qgai);
-
   connect(setVolume.volumePort, sim.volumePort);
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -160,7 +182,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-April 1, 2022, Filip Jorissen:<br/>
+July 25, 2023, by Filip Jorissen:<br/>
+Added conditional inputs for injecting water or CO2.
+</li>
+<li>
+April 1, 2022, by Filip Jorissen:<br/>
 Removed cardinality operator from error message.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1253\">#1253</a>.
 </li>
@@ -175,11 +201,6 @@ Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
 </li>
 <li>
-Revised implementation of icon for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
-and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
-</li>
-<li>
 May 2, 2019 by Filip Jorissen:<br/>
 Moved location of <code>ppm</code> in the icon layer such that it
 does not overlap with <code>TSensor</code>.
@@ -189,6 +210,12 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1026\">#1026</a>.
 March 28, 2019 by Filip Jorissen:<br/>
 Renamed <code>nOcc</code> to <code>yOcc</code>
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/998\">#998</a>.
+</li>
+<li>
+March 21, 2019 by Filip Jorissen:<br/>
+Revised implementation of icon for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>
+and for <a href=\"https://github.com/open-ideas/IDEAS/pull/976\">#976</a>.
 </li>
 <li>
 September 5, 2018 by Iago Cupeiro:<br/>

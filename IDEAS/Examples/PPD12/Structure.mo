@@ -74,6 +74,8 @@ model Structure "Ppd 12 example model"
     inc=IDEAS.Types.Tilt.Floor) "Floor between hallway and bedroom 1"
     annotation (Placement(transformation(extent={{70,68},{80,88}})));
   IDEAS.Buildings.Components.Window winBed3(
+    hVertical=1.2*sin(winBed3.inc),
+    hRelSurfBot_a=winBed3.hzone_a + 1,
     frac=0.1,
     azi=east,
     redeclare IDEAS.Examples.PPD12.Data.PvcInsulated fraType,
@@ -88,7 +90,9 @@ model Structure "Ppd 12 example model"
     azi=east,
     inc=(IDEAS.Types.Tilt.Wall + IDEAS.Types.Tilt.Ceiling)/2,
     A=wBedroom*lHalfBuilding*sqrt(2)/2,
-    redeclare IDEAS.Examples.PPD12.Data.Roof constructionType)
+    redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
+    hVertical=lHalfBuilding*tan(Roof2.inc),
+    hRelSurfBot_a=Roof2.hzone_a)
     "Roof, east side"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -98,7 +102,8 @@ model Structure "Ppd 12 example model"
     inc=IDEAS.Types.Tilt.Wall,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall constructionType,
     azi=east,
-    A=0.5*wBedroom)
+    A=0.5*wBedroom,
+    hVertical=0.5)
     "Outer wall of top floor on east facade" annotation (
       Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -118,6 +123,7 @@ model Structure "Ppd 12 example model"
     redeclare package Medium = MediumAir,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    h_winC=1.74,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingC,
     A_winC=2.55*1.74,
     fracC=0.1,
@@ -187,6 +193,7 @@ model Structure "Ppd 12 example model"
     aziA=east,
     redeclare package Medium = MediumAir,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    h_winA=2.3,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingC,
     A_winC=2.55*1.74,
     fracC=0.1,
@@ -216,12 +223,14 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{-44,-66},{-24,-86}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom1(
+    hFloor=hFloor0,
     aziA=east,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     hasWinC=true,
     redeclare package Medium = MediumAir,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    h_winC=1.9,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingC,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypC,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
@@ -242,10 +251,12 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,80},{120,60}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bathRoom(
+    hFloor=hFloor0,
     aziA=east,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare package Medium = MediumAir,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    h_winA=1.99,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     hasWinA=true,
@@ -269,6 +280,8 @@ model Structure "Ppd 12 example model"
 
   IDEAS.Buildings.Components.RectangularZoneTemplate stairWay(
     redeclare package Medium = MediumAir,
+    hFloor=hFloor0,
+    h_winA=1.69,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypA,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
@@ -294,6 +307,7 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
+    hFloor=hFloor0 + hFloor1,
     aziA=east,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
@@ -323,6 +337,8 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
     redeclare package Medium = MediumAir,
+    hFloor=hFloor0 + hFloor1,
+    h_winA=1.1,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
     redeclare IDEAS.Examples.PPD12.Data.InteriorWall10 conTypA,
@@ -352,7 +368,9 @@ model Structure "Ppd 12 example model"
     inc=(IDEAS.Types.Tilt.Wall + IDEAS.Types.Tilt.Ceiling)/2,
     azi=west,
     A=wBedroom*lHalfBuilding*sqrt(2),
-    redeclare IDEAS.Examples.PPD12.Data.Roof constructionType)
+    redeclare IDEAS.Examples.PPD12.Data.Roof constructionType,
+    hVertical=lHalfBuilding*tan(Roof1.inc),
+    hRelSurfBot_a=Roof1.hzone_a)
     "Roof, west side"                     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
@@ -512,6 +530,11 @@ This model only contains the building structure.
 March 25, 2024, by Jelger Jansen:<br/>
 Use hFloor2 for second floor rooms and use outer wall construction type for bedroom 2 (face C).
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1177\">#1177</a>.
+</li>
+<li>
+August 26, 2022, by Klaas De Jonge:<br/>
+Assigned correct vertical heights for sloped surfaces in the roof.
+commit <a href=\\\"https://github.com/open-ideas/IDEAS/commit/e25590cf60a1ef31c4d15274f30aa798c6c6479e\">\e25590c\</a>.
 </li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>

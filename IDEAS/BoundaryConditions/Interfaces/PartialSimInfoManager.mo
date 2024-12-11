@@ -43,7 +43,10 @@ partial model PartialSimInfoManager
   parameter Boolean openSystemConservationOfEnergy=false
     "Compute conservation of energy for open system" annotation (Evaluate=true,
       Dialog(tab="Conservation of energy", enable=computeConservationOfEnergy));
-
+  final parameter Boolean use_port_1 = interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+    "Whether port_1 of the propsbus connector should be used";
+  final parameter Boolean use_port_2 = interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Whether port_2 of the propsbus connector should be used";
   parameter Boolean lineariseDymola=false "Linearises building model equations for Dymola linearisation approach"
     annotation (Dialog(tab="Linearisation"));
   parameter Boolean lineariseJModelica=false "Linearises building model equations for optimisations in JModelica"
@@ -101,18 +104,23 @@ partial model PartialSimInfoManager
     annotation(Dialog(enable=interZonalAirFlowType<>
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
 
+  parameter Boolean  use_sim_Cs =true "if checked, the default Cs of each surface in the building is sim.Cs"
+  annotation(choices(checkBox=true),Dialog(group="Wind"));
+
   parameter Modelica.Units.SI.Length H=10 "Building or roof height"
     annotation (Dialog(group="Wind"));
-  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
+  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) "
+    annotation(Dialog(group="Wind"));
   parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-                                                                                                                            annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hwin=10
+    annotation(Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length Hwind=10
     "Height above ground of meteorological wind speed measurement"
     annotation (Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length  HPres=1 "Height above ground of meteorological atmospheric pressure measurement" annotation (Dialog(group="Wind"));
+  parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs"
+    annotation(Dialog(group="Wind"));
 
-  parameter Real Cs= (A0*A0)*((H/Hwin)^(2*a)) "Wind speed modifier"
-                                                                   annotation(Dialog(group="Wind"));
-
+  parameter Real Cs= Cs_coeff*(H^(2*a)) "Wind speed modifier"              annotation(Dialog(group="Wind"));
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
@@ -575,6 +583,18 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for wind pressure,ambient pressure and wind speed modifiers used in interzonal airflow.
+</li>
+<li>
+October 18, 2023 by Filip Jorissen:<br/>
+Added use_port_1 and use_port_2 for convenience.
+</li>
+<li>
+December 18, 2022 by Filip Jorissen:<br/>
+parameter revisions  for #1244
+</li>
 <li>
 April 28, 2022 by Filip Jorissen:<br/>
 Changed the default weather file to BEL_VLG_Uccle.064470_TMYx.2007-2021.mos.

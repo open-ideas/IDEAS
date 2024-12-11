@@ -1,5 +1,7 @@
 Heating
 Structure
+StructureExt_2Port
+StructureExt_2Port_NoFlowTest
 VentilationMPC
 VentilationRBC
 Data
