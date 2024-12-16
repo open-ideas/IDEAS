@@ -8,8 +8,8 @@
 # DYMOLAVERSION - specifies the Dymola version.
 # For example:
 # DYMOLAPATH=/home/developer/dymola
-# DYMOLAFILE=Dymola_2022x.AM_CAT_Dymola.Linux64.1-1.zip
-# DYMOLAVERSION=dymola-2022x-x86_64
+# DYMOLAFILE=Dymola_20224.AM_CAT_Dymola.Linux64.1-1.zip
+# DYMOLAVERSION=dymola-2024x-x86_64
 
 # Start with a base Ubuntu image
 FROM ubuntu:20.04
