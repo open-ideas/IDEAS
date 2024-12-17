@@ -8,7 +8,7 @@ model ConstantAirFlowRecup
 
   parameter Real[nZones] n
     "Air change rate (Air changes per hour ACH)";
-  final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=sum(n)/3600*
+  final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=sum(n .* VZones)/3600*
       1.204 "total ventilation mass flow rate";
   parameter Modelica.Units.SI.Time tau=30
     "time constant of the ventilation system";
@@ -26,11 +26,15 @@ model ConstantAirFlowRecup
     min=0,
     max=1) = 0.80 "Motor efficiency";
 
+  parameter Modelica.Units.SI.Pressure dp_nominal_sup=225
+    "Nominal pressure drop in the heat exchanger at the supply side";
+  parameter Modelica.Units.SI.Pressure dp_nominal_ret=65
+    "Nominal pressure drop in the heat exchanger at the return side";
   IDEAS.Fluid.HeatExchangers.ConstantEffectiveness hex(
     m1_flow_nominal=m_flow_nominal,
     m2_flow_nominal=m_flow_nominal,
-    dp1_nominal=0,
-    dp2_nominal=0,
+    dp1_nominal=dp_nominal_ret,
+    dp2_nominal=dp_nominal_sup,
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
     eps=recupEff) "Heat exchanger for the recuperator"
@@ -46,7 +50,7 @@ model ConstantAirFlowRecup
     annotation (Placement(transformation(extent={{-80,-30},{-100,-10}})));
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan[nZones](
     each use_riseTime=false,
-    m_flow_nominal=n ./ 3600.*1.204,
+    m_flow_nominal=n .* VZones ./ 3600.*1.204,
     redeclare each package Medium = Medium,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     each inputType=IDEAS.Fluid.Types.InputType.Constant)
@@ -93,6 +97,11 @@ equation
             -100},{200,100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 17, 2024, by Anna Dell'Isola:<br/>
+Update calculation of ventilation mass flow rate and addition of nominal pressure drops in heat exchanger.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1400\">#1400</a>
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
