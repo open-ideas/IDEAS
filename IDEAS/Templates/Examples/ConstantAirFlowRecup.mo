@@ -11,8 +11,7 @@ model ConstantAirFlowRecup
   IDEAS.Templates.Structure.ThreeZone structure(
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-80,-40},{-50,-20}})));
-  replaceable IDEAS.Templates.Ventilation.ConstantAirFlowRecup constantAirFlowRecup(n=2.*ones(
-        nZones))
+  replaceable IDEAS.Templates.Ventilation.ConstantAirFlowRecup constantAirFlowRecup(nZones=structure.nZones, n=2.*ones(structure.nZones))
   constrainedby IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(
     nZones=3,
     VZones=structure.VZones,
