@@ -26,9 +26,9 @@ model ConstantAirFlowRecup
     min=0,
     max=1) = 0.80 "Motor efficiency";
 
-  parameter Modelica.Units.SI.Pressure dp_nominal_sup=225
+  parameter Modelica.Units.SI.Pressure dp_nominal_sup=0
     "Nominal pressure drop in the heat exchanger at the supply side";
-  parameter Modelica.Units.SI.Pressure dp_nominal_ret=65
+  parameter Modelica.Units.SI.Pressure dp_nominal_ret=0
     "Nominal pressure drop in the heat exchanger at the return side";
   IDEAS.Fluid.HeatExchangers.ConstantEffectiveness hex(
     m1_flow_nominal=m_flow_nominal,
