@@ -1,4 +1,4 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.CrashCourse.Exercise3;
 model Example1 "First example model containing one zone"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air "Air medium";
@@ -6,7 +6,6 @@ model Example1 "First example model containing one zone"
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.7 "Zone height";
-
 
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
@@ -76,15 +75,15 @@ model Example1 "First example model containing one zone"
         origin={70,10})));
 equation
   connect(outerWall.propsBus_a, zone.propsBus[1]) annotation (Line(
-      points={{-45,12},{-38.5,12},{-38.5,15.7143},{-20,15.7143}},
+      points={{-45,12},{-38.5,12},{-38.5,13.1429},{-20,13.1429}},
       color={255,204,51},
       thickness=0.5));
   connect(zone.propsBus[2], outerWall2.propsBus_a) annotation (Line(
-      points={{-20,15.1429},{-22,15.1429},{-22,47},{-12,47}},
+      points={{-20,13.4286},{-22,13.4286},{-22,47},{-12,47}},
       color={255,204,51},
       thickness=0.5));
   connect(zone.propsBus[3], outerWall1.propsBus_a) annotation (Line(
-      points={{-20,14.5714},{-20,28},{25,28},{25,12}},
+      points={{-20,13.7143},{-20,28},{25,28},{25,12}},
       color={255,204,51},
       thickness=0.5));
   connect(outerWall3.propsBus_a, zone.propsBus[4]) annotation (Line(
@@ -92,15 +91,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(window.propsBus_a, zone.propsBus[5]) annotation (Line(
-      points={{-38,-25},{-38,14},{-20,14},{-20,13.4286}},
+      points={{-38,-25},{-38,14},{-20,14},{-20,14.2857}},
       color={255,204,51},
       thickness=0.5));
   connect(floor.propsBus_a, zone.propsBus[6]) annotation (Line(
-      points={{68,15},{68,28},{-20,28},{-20,12.8571}},
+      points={{68,15},{68,28},{-20,28},{-20,14.5714}},
       color={255,204,51},
       thickness=0.5));
   connect(floor.propsBus_b, zone.propsBus[7]) annotation (Line(
-      points={{68,5},{68,-6},{-20,-6},{-20,12.2857}},
+      points={{68,5},{68,-6},{-20,-6},{-20,14.8571}},
       color={255,204,51},
       thickness=0.5));
   annotation (

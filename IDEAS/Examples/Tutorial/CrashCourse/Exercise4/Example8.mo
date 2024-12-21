@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.CrashCourse.Exercise4;
 model Example8 "JSOn writer"
-  extends Example7;
+  extends Exercise4.Example7;
   Utilities.IO.Files.JSONWriter jsonWri(
     nin=1,
     fileName="EEl.json",

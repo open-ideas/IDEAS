@@ -13,8 +13,9 @@ model SimpleHouse2 "Building window model"
 equation
   connect(gaiWin.y, win.Q_flow)
     annotation (Line(points={{41,-40},{60,-40}},   color={0,0,127}));
-  connect(gaiWin.u, weaBus.HDirNor) annotation (Line(points={{18,-40},{-130,-40},
-          {-130,0}},   color={0,0,127}), Text(
+  connect(gaiWin.u, weaBus.HDirNor) annotation (Line(points={{18,-40},{-129.95,
+          -40},{-129.95,0.05}},
+                       color={0,0,127}), Text(
       string="%second",
       index=1,
       extent={{-6,3},{-6,3}},

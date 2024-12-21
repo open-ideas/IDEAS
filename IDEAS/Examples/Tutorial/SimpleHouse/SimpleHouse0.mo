@@ -26,7 +26,8 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(TOut.T, weaBus.TDryBul)
-    annotation (Line(points={{-82,0},{-130,0}},           color={0,0,127}));
+    annotation (Line(points={{-82,0},{-106,0},{-106,0.05},{-129.95,0.05}},
+                                                          color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-220,
             -220},{220,220}}), graphics={
         Rectangle(

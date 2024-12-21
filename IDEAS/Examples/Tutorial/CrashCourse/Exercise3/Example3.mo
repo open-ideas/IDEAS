@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.CrashCourse.Exercise3;
 model Example3 "Adding occupant and lighting"
-  extends Example2(zone(
+  extends Exercise3.Example2(
+                   zone(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
       redeclare Buildings.Components.RoomType.Office rooTyp,

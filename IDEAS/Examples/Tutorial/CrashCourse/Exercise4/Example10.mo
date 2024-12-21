@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.CrashCourse.Exercise4;
 model Example10 "Speeding up the code"
-  extends Example9(
+  extends Exercise4.Example9(
     fanRet(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
           false),

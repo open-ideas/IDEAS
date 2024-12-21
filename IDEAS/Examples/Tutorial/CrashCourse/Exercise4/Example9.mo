@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.CrashCourse.Exercise4;
 model Example9 "Adding CO2-controlled ventilation"
-  extends Example7(
+  extends Exercise4.Example7(
     redeclare package Medium = IDEAS.Media.Air(extraPropertiesNames={"CO2"}),
     rectangularZoneTemplate(
       redeclare OccSched occNum(k=2),
@@ -10,7 +10,6 @@ model Example9 "Adding CO2-controlled ventilation"
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
     pumpSec(nominalValuesDefineDefaultPressureCurve=true),
     pumpPrim(nominalValuesDefineDefaultPressureCurve=true));
-
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
     redeclare package Medium = Medium,
@@ -93,7 +92,6 @@ protected
     connect(occ.y, nOcc)
       annotation (Line(points={{1,0},{120,0}}, color={0,0,127}));
   end OccSched;
-
 
 equation
   connect(vavSup.port_a, fanSup.port_b) annotation (Line(points={{-120,60},{-180,
