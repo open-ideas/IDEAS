@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example7 "Adding a controller"
-  extends DetailedHouse.Example6(
+model DetailedHouse7 "Adding a controller"
+  extends DetailedHouse6(
                    heaPum(enable_variable_speed=true));
   Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 40, uHigh=273.15 + 45)
     "Hysteresis controller"
@@ -39,4 +39,4 @@ The simple controller has a large impact on the heat pump COP.
       Tolerance=1e-06,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Lsodar"));
-end Example7;
+end DetailedHouse7;

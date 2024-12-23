@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example2 "Adding closed screens"
-  extends DetailedHouse.Example1(
+model DetailedHouse2 "Adding closed screens"
+  extends DetailedHouse1(
                    window(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
@@ -30,4 +30,4 @@ First implementation for the IDEAS crash course.
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example2;
+end DetailedHouse2;

@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example9 "Adding CO2-controlled ventilation"
-  extends DetailedHouse.Example7(
+model DetailedHouse9 "Adding CO2-controlled ventilation"
+  extends DetailedHouse7(
     redeclare package Medium = IDEAS.Media.Air(extraPropertiesNames={"CO2"}),
     rectangularZoneTemplate(
       redeclare OccSched occNum(k=2),
@@ -166,4 +166,4 @@ First implementation for the IDEAS crash course.
 Adding CO2-controlled ventilation system.
 </p>
 </html>"));
-end Example9;
+end DetailedHouse9;

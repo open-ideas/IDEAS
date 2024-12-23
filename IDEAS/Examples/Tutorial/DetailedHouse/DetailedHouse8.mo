@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example8 "JSOn writer"
-  extends DetailedHouse.Example7;
+model DetailedHouse8 "JSOn writer"
+  extends DetailedHouse7;
   Utilities.IO.Files.JSONWriter jsonWri(
     nin=1,
     fileName="EEl.json",
@@ -28,4 +28,4 @@ This model outputs the main model result to a json file.
       Tolerance=1e-06,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Lsodar"));
-end Example8;
+end DetailedHouse8;

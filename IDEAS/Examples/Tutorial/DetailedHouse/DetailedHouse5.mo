@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example5 "New model with 2 coupled zones"
+model DetailedHouse5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";
 
@@ -88,4 +88,4 @@ Note the different temperature responses of the zones.
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example5;
+end DetailedHouse5;

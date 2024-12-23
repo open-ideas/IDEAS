@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example4 "Including custom occupant schedule"
-  extends DetailedHouse.Example3(
+model DetailedHouse4 "Including custom occupant schedule"
+  extends DetailedHouse3(
                    zone(redeclare OccSched occNum(k=2)));
 
 protected
@@ -40,4 +40,4 @@ custom occupancy model that uses an occupancy schedule.
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example4;
+end DetailedHouse4;

@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example10 "Speeding up the code"
-  extends DetailedHouse.Example9(
+model DetailedHouse10 "Speeding up the code"
+  extends DetailedHouse9(
     fanRet(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
           false),
@@ -84,4 +84,4 @@ Tuning model and solver for computation time
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example10.mos"
         "Simulate and plot"));
-end Example10;
+end DetailedHouse10;

@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example3 "Adding occupant and lighting"
-  extends DetailedHouse.Example2(
+model DetailedHouse3 "Adding occupant and lighting"
+  extends DetailedHouse2(
                    zone(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
@@ -29,4 +29,4 @@ This example extends the second example by adding an occupant and lighting model
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example3;
+end DetailedHouse3;

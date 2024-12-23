@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model Example6 "Extension of example 5 that adds a heating system"
-  extends DetailedHouse.Example5;
+model DetailedHouse6 "Extension of example 5 that adds a heating system"
+  extends DetailedHouse5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
@@ -177,4 +177,4 @@ First implementation for the IDEAS crash course.
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example6.mos"
         "Simulate and plot"));
-end Example6;
+end DetailedHouse6;
