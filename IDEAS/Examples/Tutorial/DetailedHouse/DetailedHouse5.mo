@@ -78,7 +78,8 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example demonstrates the use of the RectangularZoneTemplate.
-The one-zone implementation with one window of example 1 is repeated here as 
+The one-zone implementation with one window of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a> is repeated here as 
 a two-zone implementation with two windows that are north and south oriented.
 Note the different temperature responses of the zones. 
 </p>

@@ -29,7 +29,8 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example extends the third example by adding a
-custom occupancy model that uses an occupancy schedule.
+custom occupancy model that uses an occupancy schedule e that returns an
+occupancy of two during office hours and zero otherwise.
 </p>
 <h4>Required models</h4>
 <ul>

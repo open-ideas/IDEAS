@@ -18,6 +18,9 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example extends the second example by adding an occupant and lighting model.
+Based on the selected options, the system automatically calculates zone heat gains, 
+relative humidity, and CO2 concentration. The model implements a continuous occupancy 
+of one person and LED lighting for the zone. The lighting operates when occupants are present.
 </p>
 <h4>Required models</h4>
 <ul>

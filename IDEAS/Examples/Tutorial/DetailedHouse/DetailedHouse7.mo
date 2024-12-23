@@ -26,7 +26,8 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-The simple controller has a large impact on the heat pump COP.
+This step adds a controller that disables the heat pump when the supply water
+temperature exceeds 45◦C. The simple controller has a large impact on the heat pump COP.
 </p>
 <h4>Required models</h4>
 <ul>

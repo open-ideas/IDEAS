@@ -116,7 +116,10 @@ equation
         "Simulate and plot"),
     Documentation(info="<html>
 <p>
-This first example file instantiates a simple building model.
+This first example file instantiates a simple building model that consists of one zone, four walls,
+a window, a floor and a ceiling.  The zone dimensions are 8 m (with walls oriented 
+north and south) by 4 m, and the window measures 3 m by 1.4 m. Use the default 
+zone height of 2.8 m. Apply double glazing and a heavy wall, which provide high thermal mass.
 </p>
 <h4>Required models</h4>
 <ul>
