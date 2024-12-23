@@ -1,4 +1,4 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model Example5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";

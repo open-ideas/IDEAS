@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model Example4 "Including custom occupant schedule"
-  extends Example3(zone(redeclare OccSched occNum(k=2)));
+  extends DetailedHouse.Example3(
+                   zone(redeclare OccSched occNum(k=2)));
 
 protected
   model OccSched "Simple occupancy schedule"

@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model Example2 "Adding closed screens"
-  extends Example1(window(redeclare Buildings.Components.Shading.Screen shaType));
+  extends DetailedHouse.Example1(
+                   window(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 equation

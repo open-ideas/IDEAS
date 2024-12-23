@@ -1,4 +1,4 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model Example1 "First example model containing one zone"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air "Air medium";
@@ -6,7 +6,6 @@ model Example1 "First example model containing one zone"
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.7 "Zone height";
-
 
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim

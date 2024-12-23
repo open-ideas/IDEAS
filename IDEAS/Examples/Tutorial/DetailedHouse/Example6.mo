@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model Example6 "Extension of example 5 that adds a heating system"
-  extends Example5;
+  extends DetailedHouse.Example5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
