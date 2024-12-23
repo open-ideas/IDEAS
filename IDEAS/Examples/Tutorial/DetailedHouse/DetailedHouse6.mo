@@ -1,5 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse6 "Extension of example 5 that adds a heating system"
+model DetailedHouse6
+  "Extension of example 5 that adds a heating system"
   extends DetailedHouse5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
@@ -153,13 +154,13 @@ equation
           -30},{184,-30},{184,0}}, color={0,127,255}));
   connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
           {184,-30},{184,0}}, color={0,127,255}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-100},{300,100}},
+  annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
           lineColor={28,108,200},
           textString="This sets the absolute pressure only"), Line(points={{126,
               86},{134,92}}, color={28,108,200})}), Icon(coordinateSystem(
-          extent={{-100,-100},{300,100}}, initialScale=0.1)),
+          extent={{-100,-100},{100,100}}, initialScale=0.1)),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
