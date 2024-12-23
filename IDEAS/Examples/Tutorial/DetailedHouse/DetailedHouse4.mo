@@ -31,6 +31,21 @@ First implementation for the IDEAS crash course.
 This example extends the third example by adding a
 custom occupancy model that uses an occupancy schedule.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants\">
+IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Utilities.Time.CalendarTime\">
+IDEAS.Utilities.Time.CalendarTime</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.RealExpression\">
+Modelica.Blocks.Sources.RealExpression</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
         "Simulate and plot"),

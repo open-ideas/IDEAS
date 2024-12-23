@@ -21,6 +21,13 @@ First implementation for the IDEAS crash course.
 <p>
 This model outputs the main model result to a json file.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Utilities.IO.Files.JSONWriter\">
+IDEAS.Utilities.IO.Files.JSONWriter</a>
+</li>
+</ul>
 </html>"), experiment(
       StartTime=10000000,
       StopTime=11000000,

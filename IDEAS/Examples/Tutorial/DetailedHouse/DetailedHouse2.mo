@@ -13,6 +13,17 @@ equation
 This second example file extends the first example and adds a solar shading screen to the window model. 
 Compare the simulation outputs to see the impact on the zone temperature.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.Constant\">
+Modelica.Blocks.Sources.Constant</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Shading.Screen\">
+IDEAS.Buildings.Components.Shading.Screen</a>
+</li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>

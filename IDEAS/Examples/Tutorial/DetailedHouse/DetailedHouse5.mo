@@ -82,6 +82,21 @@ The one-zone implementation with one window of example 1 is repeated here as
 a two-zone implementation with two windows that are north and south oriented.
 Note the different temperature responses of the zones. 
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.BoundaryConditions.SimInfoManager\">
+IDEAS.BoundaryConditions.SimInfoManager</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.RectangularZoneTemplate\">
+IDEAS.Buildings.Components.RectangularZoneTemplate</a>
+</li>
+<li>
+Construction and glazing records from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
+</li>
+</ul>
 </html>"), experiment(
       StartTime=10000000,
       StopTime=11000000,

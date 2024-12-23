@@ -28,6 +28,21 @@ First implementation for the IDEAS crash course.
 <p>
 The simple controller has a large impact on the heat pump COP.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sensors.TemperatureTwoPort\">
+IDEAS.Fluid.Sensors.TemperatureTwoPort</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Logical.Hysteresis\">
+Modelica.Blocks.Logical.Hysteresis</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Math.BooleanToReal\">
+Modelica.Blocks.Math.BooleanToReal</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example7.mos"

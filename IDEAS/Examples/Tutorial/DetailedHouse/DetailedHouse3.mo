@@ -19,6 +19,21 @@ First implementation for the IDEAS crash course.
 <p>
 This example extends the second example by adding an occupant and lighting model.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Occupants.Fixed\">
+IDEAS.Buildings.Components.Occupants.Fixed</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.LightingType.LED\">
+IDEAS.Buildings.Components.LightingType.LED</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.LightingControl.OccupancyBased\">
+IDEAS.Buildings.Components.LightingControl.OccupancyBased</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example3.mos"

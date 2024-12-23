@@ -165,5 +165,32 @@ First implementation for the IDEAS crash course.
 <p>
 Adding CO2-controlled ventilation system.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+Custom occupant model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sources.OutsideAir\">
+IDEAS.Fluid.Sources.OutsideAir</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Actuators.Dampers.PressureIndependent\">
+IDEAS.Fluid.Actuators.Dampers.PressureIndependent</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.ConstantEffectiveness\">
+IDEAS.Fluid.HeatExchangers.ConstantEffectiveness</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Controls.Continuous.LimPID\">
+IDEAS.Controls.Continuous.LimPID</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.Constant\">
+Modelica.Blocks.Sources.Constant</a>
+</li>
+</ul>
 </html>"));
 end DetailedHouse9;

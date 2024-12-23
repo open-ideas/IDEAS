@@ -174,6 +174,49 @@ September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.
 </li>
 </ul>
+</html>",
+info="<html>
+<p>
+This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding a HVAC system.
+The system consists of a water-water heat pump, radiators, a storage tank, circulation
+pumps and a low temperature heat source for the heat pump.
+</p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatPumps.ScrollWaterToWater\">
+IDEAS.Fluid.HeatPumps.ScrollWaterToWater</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2\">
+IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Actuators.Valves.TwoWayTRV\">
+IDEAS.Fluid.Actuators.Valves.TwoWayTRV</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Movers.FlowControlled_dp\">
+IDEAS.Fluid.Movers.FlowControlled_dp</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sources.Boundary_pT\">
+IDEAS.Fluid.Sources.Boundary_pT</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Storage.Stratified\">
+IDEAS.Fluid.Storage.Stratified</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.IntegerConstant\">
+Modelica.Blocks.Sources.IntegerConstant</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Continuous.Integrator\">
+Modelica.Blocks.Continuous.Integrator</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example6.mos"

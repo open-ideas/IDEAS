@@ -118,6 +118,29 @@ equation
 <p>
 This first example file instantiates a simple building model.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.BoundaryConditions.SimInfoManager\">
+IDEAS.BoundaryConditions.SimInfoManager</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Zone\">
+ IDEAS.Buildings.Components.Zone</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
+IDEAS.Buildings.Components.OuterWall</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Window\">
+IDEAS.Buildings.Components.Window</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
+IDEAS.Buildings.Components.SlabOnGround</a>
+</li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>
