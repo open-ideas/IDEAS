@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.CrashCourse;
-package Exercise2 "Exercise 2 Modelica crash course: Building a Simple House Model"
+package Exercise2 "Exercise 2 Modelica crash course: IDEAS SimpleHouse"
 
 annotation (Documentation(info="<html>
 <p>

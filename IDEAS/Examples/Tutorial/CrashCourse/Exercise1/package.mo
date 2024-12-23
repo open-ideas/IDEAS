@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.CrashCourse;
-package Exercise1 "Exercise 1 Modelica crash course: Introduction to Dymola and Modelica Libraries"
+package Exercise1 "Exercise 1 Modelica crash course: Exploring Dymola, MSL and IDEAS"
  annotation (Documentation(info="<html>
 <p>
 This exercise introduces the Dymola environment, the Modelica Standard Library 

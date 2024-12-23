@@ -122,10 +122,11 @@ equation
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,-2},
-          {-250,-2},{-250,-6}}, color={0,127,255}));
-  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,2},{
-          -252,2},{-252,6},{-250,6}}, color={0,127,255}));
+  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},
+          {-250,1},{-250,-6}},  color={0,127,255}));
+  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},
+          {-252,-1},{-252,6},{-250,6}},
+                                      color={0,127,255}));
   connect(vavSup.port_b, rectangularZoneTemplate.ports[1]) annotation (Line(
         points={{-100,60},{-2,60},{-2,40},{0,40}}, color={0,127,255}));
   connect(vavRet.port_a, rectangularZoneTemplate.ports[2]) annotation (Line(

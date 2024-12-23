@@ -13,8 +13,8 @@ equation
   connect(hys.y, booToRea.u) annotation (Line(points={{81,-70},{88,-70},{88,-70},
           {98,-70}}, color={255,0,255}));
   connect(booToRea.y, heaPum.y)
-    annotation (Line(points={{121,-70},{167,-70},{167,-2}}, color={0,0,127}));
-  connect(senTemSup.T, hys.u) annotation (Line(points={{140,49},{140,4},{120,4},
+    annotation (Line(points={{121,-70},{187,-70},{187,-2}}, color={0,0,127}));
+  connect(senTemSup.T, hys.u) annotation (Line(points={{136,49},{136,4},{120,4},
           {120,-40},{40,-40},{40,-70},{58,-70}}, color={0,0,127}));
   annotation (
     Documentation(revisions="<html>
