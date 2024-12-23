@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial;
-package CrashCourse "Initiatory crash course on Modelica, its standard library and the IDEAS library for building and district energy simulations."
+package DetailedHouse "Initiatory crash course on Modelica, its standard library and the IDEAS library for building and district energy simulations."
 extends Modelica.Icons.ExamplesPackage;
 
   annotation (Documentation(info="<html>
@@ -84,4 +84,4 @@ The graphical representation of the final model is given below.
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/SimpleHouse/simpleHouse.png\"/>
 </p>
 </html>"));
-end CrashCourse;
+end DetailedHouse;
