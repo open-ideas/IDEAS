@@ -1,4 +1,4 @@
-within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples;
 model SimpleHouse
   "Illustrative example of a simple heating, ventilation and room model"
   extends Modelica.Icons.Example;
