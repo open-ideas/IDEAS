@@ -13,6 +13,7 @@ model ConstantAirFlowRecup
     annotation (Placement(transformation(extent={{-80,-40},{-50,-20}})));
   replaceable IDEAS.Templates.Ventilation.ConstantAirFlowRecup constantAirFlowRecup(nZones=structure.nZones, n=2.*ones(structure.nZones))
   constrainedby IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(
+    nZones=3,
     VZones=structure.VZones,
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-38,-10},{-2,8}})));
