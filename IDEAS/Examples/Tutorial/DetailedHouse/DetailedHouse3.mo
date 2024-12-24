@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
-model Example3 "Adding occupant and lighting"
-  extends Example2(zone(
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse3 "Adding occupant and lighting"
+  extends DetailedHouse2(
+                   zone(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
       redeclare Buildings.Components.RoomType.Office rooTyp,
@@ -17,7 +18,25 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example extends the second example by adding an occupant and lighting model.
+Based on the selected options, the system automatically calculates zone heat gains, 
+relative humidity, and CO2 concentration. The model implements a continuous occupancy 
+of one person and LED lighting for the zone. The lighting operates when occupants are present.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Occupants.Fixed\">
+IDEAS.Buildings.Components.Occupants.Fixed</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.LightingType.LED\">
+IDEAS.Buildings.Components.LightingType.LED</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.LightingControl.OccupancyBased\">
+IDEAS.Buildings.Components.LightingControl.OccupancyBased</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example3.mos"
@@ -28,4 +47,4 @@ This example extends the second example by adding an occupant and lighting model
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example3;
+end DetailedHouse3;

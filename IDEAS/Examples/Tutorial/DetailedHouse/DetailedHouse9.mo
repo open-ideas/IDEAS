@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
-model Example9 "Adding CO2-controlled ventilation"
-  extends Example7(
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse9 "Adding CO2-controlled ventilation"
+  extends DetailedHouse7(
     redeclare package Medium = IDEAS.Media.Air(extraPropertiesNames={"CO2"}),
     rectangularZoneTemplate(
       redeclare OccSched occNum(k=2),
@@ -10,7 +10,6 @@ model Example9 "Adding CO2-controlled ventilation"
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
     pumpSec(nominalValuesDefineDefaultPressureCurve=true),
     pumpPrim(nominalValuesDefineDefaultPressureCurve=true));
-
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
     redeclare package Medium = Medium,
@@ -94,7 +93,6 @@ protected
       annotation (Line(points={{1,0},{120,0}}, color={0,0,127}));
   end OccSched;
 
-
 equation
   connect(vavSup.port_a, fanSup.port_b) annotation (Line(points={{-120,60},{-180,
           60},{-180,20},{-200,20}}, color={0,127,255}));
@@ -137,7 +135,7 @@ equation
   connect(vavRet1.port_a, rectangularZoneTemplate1.ports[2]) annotation (Line(
         points={{-100,-50},{-34,-50},{-34,-20},{0,-20}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
-        coordinateSystem(extent={{-280,-100},{280,100}})),
+        coordinateSystem(extent={{-100,-100},{100,100}})),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
@@ -165,7 +163,39 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-Adding CO2-controlled ventilation system.
+Adding CO2-controlled ventilation system. The occupancy model
+from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
+fixed occupancy of 1 person to the other zone. The ventilation system
+consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
+outdoor air source. The control consists of PI controllers with a set point of 1000 ppm.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+Custom occupant model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sources.OutsideAir\">
+IDEAS.Fluid.Sources.OutsideAir</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Actuators.Dampers.PressureIndependent\">
+IDEAS.Fluid.Actuators.Dampers.PressureIndependent</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.ConstantEffectiveness\">
+IDEAS.Fluid.HeatExchangers.ConstantEffectiveness</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Controls.Continuous.LimPID\">
+IDEAS.Controls.Continuous.LimPID</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.Constant\">
+Modelica.Blocks.Sources.Constant</a>
+</li>
+</ul>
 </html>"));
-end Example9;
+end DetailedHouse9;

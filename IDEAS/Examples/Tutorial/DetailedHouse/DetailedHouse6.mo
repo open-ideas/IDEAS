@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
-model Example6 "Extension of example 5 that adds a heating system"
-  extends Example5;
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse6
+  "Extension of example 5 that adds a heating system"
+  extends DetailedHouse5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
@@ -153,13 +154,13 @@ equation
           -30},{184,-30},{184,0}}, color={0,127,255}));
   connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
           {184,-30},{184,0}}, color={0,127,255}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-100},{300,100}},
+  annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
           lineColor={28,108,200},
           textString="This sets the absolute pressure only"), Line(points={{126,
               86},{134,92}}, color={28,108,200})}), Icon(coordinateSystem(
-          extent={{-100,-100},{300,100}}, initialScale=0.1)),
+          extent={{-100,-100},{100,100}}, initialScale=0.1)),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
@@ -173,8 +174,51 @@ September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.
 </li>
 </ul>
+</html>",
+info="<html>
+<p>
+This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding a HVAC system.
+The system consists of a water-water heat pump, radiators, a storage tank, circulation
+pumps and a low temperature heat source for the heat pump.
+</p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatPumps.ScrollWaterToWater\">
+IDEAS.Fluid.HeatPumps.ScrollWaterToWater</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2\">
+IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Actuators.Valves.TwoWayTRV\">
+IDEAS.Fluid.Actuators.Valves.TwoWayTRV</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Movers.FlowControlled_dp\">
+IDEAS.Fluid.Movers.FlowControlled_dp</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sources.Boundary_pT\">
+IDEAS.Fluid.Sources.Boundary_pT</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Storage.Stratified\">
+IDEAS.Fluid.Storage.Stratified</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.IntegerConstant\">
+Modelica.Blocks.Sources.IntegerConstant</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Continuous.Integrator\">
+Modelica.Blocks.Continuous.Integrator</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example6.mos"
         "Simulate and plot"));
-end Example6;
+end DetailedHouse6;

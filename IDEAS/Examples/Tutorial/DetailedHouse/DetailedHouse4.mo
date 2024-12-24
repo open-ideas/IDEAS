@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
-model Example4 "Including custom occupant schedule"
-  extends Example3(zone(redeclare OccSched occNum(k=2)));
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse4 "Including custom occupant schedule"
+  extends DetailedHouse3(
+                   zone(redeclare OccSched occNum(k=2)));
 
 protected
   model OccSched "Simple occupancy schedule"
@@ -28,8 +29,24 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example extends the third example by adding a
-custom occupancy model that uses an occupancy schedule.
+custom occupancy model that uses an occupancy schedule e that returns an
+occupancy of two during office hours and zero otherwise.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants\">
+IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Utilities.Time.CalendarTime\">
+IDEAS.Utilities.Time.CalendarTime</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.RealExpression\">
+Modelica.Blocks.Sources.RealExpression</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
         "Simulate and plot"),
@@ -39,4 +56,4 @@ custom occupancy model that uses an occupancy schedule.
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example4;
+end DetailedHouse4;

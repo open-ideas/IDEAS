@@ -1,6 +1,6 @@
-within IDEAS.Examples.Tutorial;
-model Example8 "JSOn writer"
-  extends Example7;
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse8 "JSOn writer"
+  extends DetailedHouse7;
   Utilities.IO.Files.JSONWriter jsonWri(
     nin=1,
     fileName="EEl.json",
@@ -21,6 +21,13 @@ First implementation for the IDEAS crash course.
 <p>
 This model outputs the main model result to a json file.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Utilities.IO.Files.JSONWriter\">
+IDEAS.Utilities.IO.Files.JSONWriter</a>
+</li>
+</ul>
 </html>"), experiment(
       StartTime=10000000,
       StopTime=11000000,
@@ -28,4 +35,4 @@ This model outputs the main model result to a json file.
       Tolerance=1e-06,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Lsodar"));
-end Example8;
+end DetailedHouse8;

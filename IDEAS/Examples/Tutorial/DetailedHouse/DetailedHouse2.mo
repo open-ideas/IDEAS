@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
-model Example2 "Adding closed screens"
-  extends Example1(window(redeclare Buildings.Components.Shading.Screen shaType));
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse2 "Adding closed screens"
+  extends DetailedHouse1(
+                   window(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 equation
@@ -12,6 +13,17 @@ equation
 This second example file extends the first example and adds a solar shading screen to the window model. 
 Compare the simulation outputs to see the impact on the zone temperature.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://Modelica.Blocks.Sources.Constant\">
+Modelica.Blocks.Sources.Constant</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Shading.Screen\">
+IDEAS.Buildings.Components.Shading.Screen</a>
+</li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>
@@ -29,4 +41,4 @@ First implementation for the IDEAS crash course.
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example2;
+end DetailedHouse2;

@@ -1,6 +1,7 @@
-within IDEAS.Examples.Tutorial;
-model Example7 "Adding a controller"
-  extends Example6(heaPum(enable_variable_speed=true));
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse7 "Adding a controller"
+  extends DetailedHouse6(
+                   heaPum(enable_variable_speed=true));
   Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 40, uHigh=273.15 + 45)
     "Hysteresis controller"
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
@@ -25,8 +26,24 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-The simple controller has a large impact on the heat pump COP.
+This step adds a controller that disables the heat pump when the supply water
+temperature exceeds 45◦C. The simple controller has a large impact on the heat pump COP.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.Sensors.TemperatureTwoPort\">
+IDEAS.Fluid.Sensors.TemperatureTwoPort</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Logical.Hysteresis\">
+Modelica.Blocks.Logical.Hysteresis</a>
+</li>
+<li>
+<a href=\"modelica://Modelica.Blocks.Math.BooleanToReal\">
+Modelica.Blocks.Math.BooleanToReal</a>
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/Example7.mos"
@@ -38,4 +55,4 @@ The simple controller has a large impact on the heat pump COP.
       Tolerance=1e-06,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Lsodar"));
-end Example7;
+end DetailedHouse7;

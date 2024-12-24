@@ -1,12 +1,11 @@
-within IDEAS.Examples.Tutorial;
-model Example1 "First example model containing one zone"
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse1 "First example model containing one zone"
   extends Modelica.Icons.Example;
   package Medium = IDEAS.Media.Air "Air medium";
 
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.7 "Zone height";
-
 
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
@@ -117,8 +116,34 @@ equation
         "Simulate and plot"),
     Documentation(info="<html>
 <p>
-This first example file instantiates a simple building model.
+This first example file instantiates a simple building model that consists of one zone, four walls,
+a window, a floor and a ceiling.  The zone dimensions are 8 m (with walls oriented 
+north and south) by 4 m, and the window measures 3 m by 1.4 m. Use the default 
+zone height of 2.8 m. Apply double glazing and a heavy wall, which provide high thermal mass.
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.BoundaryConditions.SimInfoManager\">
+IDEAS.BoundaryConditions.SimInfoManager</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Zone\">
+ IDEAS.Buildings.Components.Zone</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
+IDEAS.Buildings.Components.OuterWall</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.Window\">
+IDEAS.Buildings.Components.Window</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
+IDEAS.Buildings.Components.SlabOnGround</a>
+</li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>
@@ -127,4 +152,4 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"));
-end Example1;
+end DetailedHouse1;

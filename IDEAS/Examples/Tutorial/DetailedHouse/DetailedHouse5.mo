@@ -1,5 +1,5 @@
-within IDEAS.Examples.Tutorial;
-model Example5 "New model with 2 coupled zones"
+within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";
 
@@ -78,14 +78,30 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This example demonstrates the use of the RectangularZoneTemplate.
-The one-zone implementation with one window of example 1 is repeated here as 
+The one-zone implementation with one window of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a> is repeated here as 
 a two-zone implementation with two windows that are north and south oriented.
 Note the different temperature responses of the zones. 
 </p>
+<h4>Required models</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.BoundaryConditions.SimInfoManager\">
+IDEAS.BoundaryConditions.SimInfoManager</a>
+</li>
+<li>
+<a href=\"modelica://IDEAS.Buildings.Components.RectangularZoneTemplate\">
+IDEAS.Buildings.Components.RectangularZoneTemplate</a>
+</li>
+<li>
+Construction and glazing records from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
+</li>
+</ul>
 </html>"), experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"));
-end Example5;
+end DetailedHouse5;
