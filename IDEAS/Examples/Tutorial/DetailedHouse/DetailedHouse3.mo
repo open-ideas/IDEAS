@@ -39,7 +39,7 @@ IDEAS.Buildings.Components.LightingControl.OccupancyBased</a>
 </ul>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example3.mos"
+          "Resources/Scripts/Dymola/Examples/DetailedHouse/DetailedHouse3.mos"
         "Simulate and plot"),
     experiment(
       StartTime=10000000,

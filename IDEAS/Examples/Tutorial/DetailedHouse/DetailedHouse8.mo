@@ -28,7 +28,11 @@ This model outputs the main model result to a json file.
 IDEAS.Utilities.IO.Files.JSONWriter</a>
 </li>
 </ul>
-</html>"), experiment(
+</html>"), 
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
+        "Simulate and plot"),	
+	experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,

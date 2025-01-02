@@ -161,6 +161,9 @@ equation
           textString="This sets the absolute pressure only"), Line(points={{126,
               86},{134,92}}, color={28,108,200})}), Icon(coordinateSystem(
           extent={{-100,-100},{100,100}}, initialScale=0.1)),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse6.mos"
+        "Simulate and plot"),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
@@ -217,8 +220,5 @@ Modelica.Blocks.Sources.IntegerConstant</a>
 Modelica.Blocks.Continuous.Integrator</a>
 </li>
 </ul>
-</html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example6.mos"
-        "Simulate and plot"));
+</html>"));
 end DetailedHouse6;

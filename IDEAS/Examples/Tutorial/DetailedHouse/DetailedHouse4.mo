@@ -48,7 +48,7 @@ Modelica.Blocks.Sources.RealExpression</a>
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/Example4.mos"
+    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
         "Simulate and plot"),
     experiment(
       StartTime=10000000,

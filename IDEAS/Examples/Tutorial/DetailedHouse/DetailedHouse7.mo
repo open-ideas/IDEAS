@@ -46,7 +46,7 @@ Modelica.Blocks.Math.BooleanToReal</a>
 </ul>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example7.mos"
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse7.mos"
         "Simulate and plot"),
     experiment(
       StartTime=10000000,

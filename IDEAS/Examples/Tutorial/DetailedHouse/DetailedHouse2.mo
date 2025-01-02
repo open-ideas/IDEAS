@@ -33,7 +33,7 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example2.mos"
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse2.mos"
         "Simulate and plot"),
     experiment(
       StartTime=10000000,

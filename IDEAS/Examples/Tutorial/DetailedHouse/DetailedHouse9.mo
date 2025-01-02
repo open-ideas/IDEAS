@@ -143,7 +143,7 @@ equation
       Tolerance=0.00011,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example9.mos"
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse9.mos"
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>

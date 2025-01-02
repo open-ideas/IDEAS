@@ -49,7 +49,11 @@ record HeavyWall "BESTEST heavy wall with idealized wood layer"
       IDEAS.Buildings.Validation.Data.Materials.ConcreteBlock(d=0.10)});
 
 end HeavyWall;
-  annotation (experiment(
+  annotation (
+	__Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse10.mos"
+        "Simulate and plot"),
+	experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
@@ -80,8 +84,5 @@ First implementation for the IDEAS crash course.
 <p>
 Tuning model and solver for computation time
 </p>
-</html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/Example10.mos"
-        "Simulate and plot"));
+</html>"));
 end DetailedHouse10;
