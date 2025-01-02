@@ -8,8 +8,8 @@ model DetailedHouse8 "JSOn writer"
     outputTime=IDEAS.Utilities.IO.Files.BaseClasses.OutputTime.Terminal)
     annotation (Placement(transformation(extent={{280,-42},{260,-22}})));
 equation
-  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{280,-32},{286,-32},{
-          286,50},{281,50}}, color={0,0,127}));
+  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{280,-32},{286,-32},{286,
+          50},{301,50}},     color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>
@@ -28,11 +28,11 @@ This model outputs the main model result to a json file.
 IDEAS.Utilities.IO.Files.JSONWriter</a>
 </li>
 </ul>
-</html>"), 
+</html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
-        "Simulate and plot"),	
-	experiment(
+        "Simulate and plot"),
+ experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,

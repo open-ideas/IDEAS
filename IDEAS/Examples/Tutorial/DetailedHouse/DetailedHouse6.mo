@@ -122,9 +122,9 @@ equation
   connect(heaPum.port_a2, pumpPrim.port_b)
     annotation (Line(points={{196,20},{196,60},{220,60}}, color={0,127,255}));
   connect(heaPum.port_b2, bou.ports[1]) annotation (Line(points={{196,0},{196,
-          -30},{248,-30},{248,8},{260,8}},        color={0,127,255}));
+          -30},{248,-30},{248,11},{260,11}},      color={0,127,255}));
   connect(pumpPrim.port_a, bou.ports[2]) annotation (Line(points={{240,60},{248,
-          60},{248,12},{260,12}}, color={0,127,255}));
+          60},{248,9},{260,9}},   color={0,127,255}));
   connect(rad.heatPortCon, rectangularZoneTemplate.gainCon) annotation (Line(
         points={{42.8,-8},{20,-8},{20,27},{10,27}}, color={191,0,0}));
   connect(rad.heatPortRad, rectangularZoneTemplate.gainRad) annotation (Line(
@@ -147,9 +147,10 @@ equation
   connect(senTemSup.port_b, pumpSec.port_a)
     annotation (Line(points={{126,60},{120,60}}, color={0,127,255}));
   connect(senTemSup.port_a, tan.port_b)
-    annotation (Line(points={{146,60},{158,60}}, color={0,127,255}));
+    annotation (Line(points={{146,60},{158,60},{158,50},{168,50}},
+                                                 color={0,127,255}));
   connect(tan.port_a, heaPum.port_b1)
-    annotation (Line(points={{178,60},{184,60},{184,20}}, color={0,127,255}));
+    annotation (Line(points={{168,70},{184,70},{184,20}}, color={0,127,255}));
   connect(rad1.port_b, heaPum.port_a1) annotation (Line(points={{90,-20},{90,
           -30},{184,-30},{184,0}}, color={0,127,255}));
   connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},

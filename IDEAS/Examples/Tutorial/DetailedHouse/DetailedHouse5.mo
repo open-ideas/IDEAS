@@ -98,11 +98,11 @@ Construction and glazing records from <a href=\"modelica://IDEAS.Examples.Tutori
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
 </li>
 </ul>
-</html>"), 
+</html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"
         "Simulate and plot"),
-	experiment(
+ experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,

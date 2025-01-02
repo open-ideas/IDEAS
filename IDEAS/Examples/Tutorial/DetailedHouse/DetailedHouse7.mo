@@ -1,7 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse7 "Adding a controller"
-  extends DetailedHouse6(
-                   heaPum(enable_variable_speed=true));
+  extends DetailedHouse6(heaPum(enable_variable_speed=true));
   Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 40, uHigh=273.15 + 45)
     "Hysteresis controller"
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));

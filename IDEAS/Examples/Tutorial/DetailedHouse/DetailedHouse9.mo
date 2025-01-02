@@ -122,10 +122,10 @@ equation
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,-2},
-          {-250,-2},{-250,-6}}, color={0,127,255}));
-  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,2},{
-          -252,2},{-252,6},{-250,6}}, color={0,127,255}));
+  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},{-250,
+          1},{-250,-6}},        color={0,127,255}));
+  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{
+          -252,-1},{-252,6},{-250,6}},color={0,127,255}));
   connect(vavSup.port_b, rectangularZoneTemplate.ports[1]) annotation (Line(
         points={{-100,60},{-2,60},{-2,40},{0,40}}, color={0,127,255}));
   connect(vavRet.port_a, rectangularZoneTemplate.ports[2]) annotation (Line(
@@ -168,7 +168,7 @@ from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\"
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
 consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
-outdoor air source. The control consists of PI controllers with a set point of 1000 ppm.
+outdoor air source. The control consists of PI controllers with a setpoint of 1000 ppm.
 </p>
 <h4>Required models</h4>
 <ul>

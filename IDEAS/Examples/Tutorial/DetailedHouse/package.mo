@@ -79,12 +79,12 @@ adds a CO2-controlled ventilaation system. The occupancy model from <a href=\"mo
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
 consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
-outdoor air source. The control consists of PI controllers with a set point of 1000 ppm.
+outdoor air source. The control consists of PI controllers with a setpoint of 1000 ppm.
 </li>
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10</a>
-removes small time constants from the problem to decrease computation time.
+removes small time constants from the model to decrease computation time.
 </li>
 </ol>
 <p>
