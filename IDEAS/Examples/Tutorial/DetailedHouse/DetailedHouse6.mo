@@ -154,7 +154,7 @@ equation
           -30},{184,-30},{184,0}}, color={0,127,255}));
   connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
           {184,-30},{184,0}}, color={0,127,255}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
+  annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
           lineColor={28,108,200},
