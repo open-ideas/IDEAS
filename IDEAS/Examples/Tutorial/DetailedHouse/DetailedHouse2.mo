@@ -23,6 +23,24 @@ Modelica.Blocks.Sources.Constant</a>
 IDEAS.Buildings.Components.Shading.Screen</a>
 </li>
 </ul>
+<h4>Connection instructions</h4>
+<p>
+Solar shading is a property of the window and can be selected using the replaceable model <code>shaType</code>. 
+A drop-down menu lists all available options. Each option may include custom parameters, which can be configured by pressing the <i>Edit</i> button next to the drop-down menu.
+</p>
+<p>
+The <code>Screen</code> model requires an external control signal to determine whether the screen is extended or retracted. 
+An input appears on the <code>Window</code> icon for this purpose. Ensure that this input is connected to the appropriate control signal. 
+See the window input comment for more information on how to choose the control signal.
+</p>
+<h4>Reference result</h4>
+<p>
+The figure below illustrates the zone temperature with (red) and without (blue) the shading model.
+</p>
+<p align=\"center\">
+<img alt=\"Zone temperature without (blue) and with (red) screen model.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse2.png\" width=\"700\"/>
+</p>
 </html>", revisions="<html>
 <ul>
 <li>

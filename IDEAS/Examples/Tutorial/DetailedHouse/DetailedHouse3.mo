@@ -37,6 +37,18 @@ IDEAS.Buildings.Components.LightingType.LED</a>
 IDEAS.Buildings.Components.LightingControl.OccupancyBased</a>
 </li>
 </ul>
+<h4>Connection instructions</h4>
+<p>
+Set the appropriate replaceable models in the zone model.
+</p>
+<h4>Reference result</h4>
+<p>
+The result with and without the occupant and lighting is plotted in the figure below. 
+</p>
+<p align=\"center\">
+<img alt=\"Zone temperature without (blue) and with (red) occupant and lighting (both with screen model).\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse3.png\" width=\"700\"/>
+</p>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse3.mos"

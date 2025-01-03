@@ -140,10 +140,55 @@ IDEAS.Buildings.Components.OuterWall</a>
 IDEAS.Buildings.Components.Window</a>
 </li>
 <li>
-<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
-IDEAS.Buildings.Components.SlabOnGround</a>
+<a href=\"modelica://IDEAS.Buildings.Components.InternalWall\">
+IDEAS.Buildings.Components.InternalWall</a>
 </li>
 </ul>
+<h4>Connection instructions</h4>
+<p>
+Each yellow bus connector of a surface (<code>Window</code>, <code>OuterWall</code>
+or <code>InternalWall</code>) has to be connected to exactly one zone bus connector. 
+To support multiple connections, the zone has an array of bus connectors with size 
+<code>nSurf</code>, where <code>nSurf</code> is a parameter of <code>Zone</code>, 
+which has to be set by the user. It is the user’s responsibility to ensure that each 
+element of this array is connected to exactly one surface and that there is a total 
+of <code>nSurf</code> connections to the zone.
+</p>
+<p>
+In addition to connecting each surface, the parameters of each component have to be set. Components typically
+have many default values that are appropriate for many purposes. When parameters do not have a default
+value, it must be set by the user. Notable examples are the dimensions and orientation of the zone, walls
+and windows. The surface orientation can be set using the parameters <code>incOpt</code>, which automatically sets the
+inclination depending on the type of outer wall (wall, floor, ceiling), and <code>aziOpt</code>, which automatically sets the
+azimuth (north, east, south, west). Furthermore, the zone Medium must be set to <a href=\"modelica://IDEAS.Media.Air\">
+IDEAS.Media.Air</a>. Glazing and wall types must also be specified. This example uses the <i>BESTEST Heavy Wall</i> for the
+walls, the <i>BESTEST Heavy Floor</i> for the floor, the <i>BESTEST ligth roof</i> for the roof and the double glazing
+type <i>Saint Gobain Planitherm</i> and a south orientation for the window.
+</p>
+<p>
+The <code>SimInfoManager</code> by default has the modifier <code>inner</code> in its declaration. All IDEAS building components
+have the modifier <code>outer</code> in their respective declarations of the <code>SimInfoManager</code>. This causes the component
+declarations to point towards the higher level <code>SimInfoManager</code> declaration. This way all model equations for
+the weather data have to be generated only once, instead of for each surface.
+</p>
+
+<h4>Reference result</h4>
+<p>
+This model is simulated with the following settings:
+</p>
+<ol>
+<li>Start time = 1e7,</li>
+<li>Stop time = 1.1e7,</li>
+<li>Number of intervals = 5000.</li>
+</ol>
+<p>
+The simulation starts 10<sup>7</sup> seconds after New Year and ends 10<sup>6</sup> seconds later, covering a period of 11.6 days. 
+The zone temperature, <code>zone.TSensor</code>, is plotted, which represents the mean of the air temperature and the mean radiative temperature of all surfaces. The results are shown in the figure below.
+</p>
+<p align=\"center\">
+<img alt=\"Zone temperature as function of time.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse1.png\" width=\"700\"/>
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
