@@ -5,4 +5,12 @@ record ExpandedPolystrenemOrEPS = IDEAS.Buildings.Data.Interfaces.Material (
       rho=26,
       epsLw=0.8,
       epsSw=0.8)
-  "Material name: ExpandedPolystrenemOrEPS, Material ID: 0abaa033-83ff-11e6-ae46-2cd444b2e704";
+  "Material name: ExpandedPolystrenemOrEPS, Material ID: 0abaa033-83ff-11e6-ae46-2cd444b2e704"
+    annotation (Documentation(revisions="<html>
+<ul>
+<li>
+Jan 3, 2025, by Anna Dell'Isola:<br/>
+First implementation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+</li>
+</ul>
+</html>"));

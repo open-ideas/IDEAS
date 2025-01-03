@@ -8,7 +8,11 @@ record GroundFloor  "Construction data of GroundFloor"
   annotation (Documentation(revisions="<html> 
                   <ul> 
                   <li>March 10, 2024, by Lucas Verleyen:<br> 
-                  Add locGain={3}.</li> 
-                  </ul> 
-                  </html>"));
+                  Add locGain={3}.</li>
+<li>
+Jan 3, 2025, by Anna Dell'Isola:<br/>
+Implementation in IDEAS. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+</li>
+</ul>
+</html>"));
 end GroundFloor;

@@ -6,4 +6,12 @@ record OuterWall  "Construction data of OuterWall"
         IDEAS.Buildings.Data.Insulation.Rockwool(d=0.12520020438577814),
         IDEAS.Buildings.Data.Materials.HeavyMasonryForInteriorApplications(d=0.14),
         IDEAS.Buildings.Data.Materials.GypsumPlasterForFinishing(d=0.02)});
+        annotation (Documentation(revisions="<html>
+<ul>
+<li>
+Jan 3, 2025, by Anna Dell'Isola:<br/>
+First implementation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+</li>
+</ul>
+</html>"));
 end OuterWall;
