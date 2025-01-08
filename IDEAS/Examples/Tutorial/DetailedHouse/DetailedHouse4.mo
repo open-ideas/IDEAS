@@ -51,9 +51,9 @@ Modelica.Blocks.Sources.RealExpression</a>
 <p>
 Create a new model that extends the occupancy model partial. This partial contains an input, 
 which is not used, and an output, which must be set. Create an occupancy signal using a 
-<code>RealExpression</code> that returns the parameter value <i>k<i/> during office hours (7–19 h on weekdays) 
+<code>RealExpression</code> that returns the parameter value <i>k</i> during office hours (7–19 h on weekdays) 
 and zero otherwise. Implement this model by extending the previous example, redeclaring the 
-occupancy model, and setting parameter <i>k<i/>. Use the year 2019 (<a href=\"modelica://IDEAS.Utilities.Time.Types.ZeroTime.NY2019\">IDEAS.Utilities.Time.Types.ZeroTime.NY2019</a>)to define the reference time in the calendar model. Use an if-then-else statement with 
+occupancy model, and setting parameter <i>k</i>. Use the year 2019 (<a href=\"modelica://IDEAS.Utilities.Time.Types.ZeroTime.NY2019\">IDEAS.Utilities.Time.Types.ZeroTime.NY2019</a>) to define the reference time in the calendar model. Use an if-then-else statement with 
 logical checks for the calendar outputs <code>weekDay</code> and <code>hour</code>.
 </p>
 <h4>Reference result</h4>

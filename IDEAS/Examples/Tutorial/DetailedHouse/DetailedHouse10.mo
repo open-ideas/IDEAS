@@ -84,5 +84,21 @@ First implementation for the IDEAS crash course.
 <p>
 Tuning model and solver for computation time
 </p>
+<h4>Connection instructions</h4>
+<p>
+The model consists of two <code>RectangularZoneTemplates</code> and a <code>SimInfoManager</code>. The required parameters are set in 
+the templates, with careful attention to all tabs. The internal wall is defined in only one of the two 
+templates, while an <i>external connection</i> is used for the other template. The <code>InternalWall</code> and 
+<code>External</code> options cause a yellow bus connector to appear on each template, which must then be connected to each other.
+</p>
+<h4>Reference result</h4>
+<p>
+The figure bellow shows the zone temperatures of both zones. Note the large influence that the
+window placement has on the zone dynamics!
+</p>
+<p align=\"center\">
+<img alt=\"Zone temperature, CO2 concentrations and PI control signals\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse5.png\" width=\"700\"/>
+</p>
 </html>"));
 end DetailedHouse10;

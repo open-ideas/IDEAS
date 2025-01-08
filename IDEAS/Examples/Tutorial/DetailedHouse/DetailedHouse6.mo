@@ -184,7 +184,9 @@ info="<html>
 This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding a HVAC system.
 The system consists of a water-water heat pump, radiators, a storage tank, circulation
-pumps and a low temperature heat source for the heat pump.
+pumps and a low temperature heat source for the heat pump. The model includes constant 
+control set points for the heat pump and pumps. A system is incorporated to measure 
+the electrical energy consumption of the heat pump.
 </p>
 <h4>Required models</h4>
 <ul>
@@ -221,5 +223,50 @@ Modelica.Blocks.Sources.IntegerConstant</a>
 Modelica.Blocks.Continuous.Integrator</a>
 </li>
 </ul>
+<h4>Connection instructions</h4>
+<p>
+The model components of <a href=\"modelica://IDEAS.Buildings\"> IDEAS.Buildings</a> have been
+integrated where possible. E.g. a zone can always have an occupancy schedule, or lighting models. However,
+for HVAC, many configurations exist in reality. Some zones have a radiator, which physically resides within the
+zone, while others may use floor heating, which is a property of the floor. Some zones may even have multiple
+radiators with different sizes, etc. Due to this multitude of options, HVAC components have not been integrated
+into the IDEAS.Buildings components (yet). Instead, they can be added manually by the user. This requires
+some knowledge by the user about how to interconnect the different components, and even about the relevant
+physical principles that are at play.
+</p>
+<p>
+One notable example is that in each fluid loop the <i>absolute</i> pressure of that loop has to be
+defined somewhere: pumps and valves only provide information about <i>differential</i> pressures. For this purpose
+use <a href=\"modelica://IDEAS.Fluid.Sources.Boundary_pT\"> IDEAS.Fluid.Sources.Boundary_pT</a> and connect it to the loop, 
+which will set the absolute pressure at the connection point.
+</p>
+<p>
+A reference implementation for this example is shown in the figure below. 
+</p>
+<p align=\"center\">
+<img alt=\" The schematic of Example 6.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Schematic6.png\" width=\"700\"/>
+</p>
+<p>
+<h4>Reference result</h4>
+<p>
+The following figures plot plot the zone temperatures <code>rectangularZoneTemplate.TSensor<\code> and <code>rectangularZoneTemplate1<\code>.
+TSensor, the radiator heat flow rates <code>rad.Q_flow<\code> and <code>rad1.Q_flow<\code>, the heat pump condenser temperature
+<code>heaPum.con.T</code> and the heat pump heat flow rate <code>heaPum.QCon_flow</code>.
+</p>
+<p align=\"center\">
+<img alt=\" The schematic of Example 6.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example6.png\" width=\"700\"/>
+</p>
+<p>
+<p align=\"center\">
+<img alt=\" The schematic of Example 6.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example6_bis.png\" width=\"700\"/>
+</p>
+<p>
+This example illustrates the importance of control, which is currently not modelled. All pumps and the heat
+pump are assumed to be active continuously, which is detrimental for the system performance. The COP
+(heaPum.com.COP) is only about 2.9.
+</p>
 </html>"));
 end DetailedHouse6;

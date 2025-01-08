@@ -43,6 +43,34 @@ Modelica.Blocks.Logical.Hysteresis</a>
 Modelica.Blocks.Math.BooleanToReal</a>
 </li>
 </ul>
+<h4>Connection instructions</h4>
+<p>
+The temperature sensor between the storage tank and the secondary circulation pump serves as an input to the hysteresis controller.
+The controller is configured such that it switches to a <i>false</i> signal below <i>40°C</i> and to <i>true</i> above <i>45°C</i>.
+</p>
+<p>
+The output of the hysteresis controller is thus true when the supply temperature is high enough and false
+otherwise. This Boolean signal has to be converted in a real control signal that can be accepted by the heat
+pump model using the <code>BooleanToReal</code> block. The heat pump already has a control signal.
+Since blocks cannot be removed from an extension of a model, the heat pump model input type is set to 
+enable_variable_speed=true. This configuration allows the model to accept any real signal while ignoring 
+connections to the other control signal.
+</p>
+<h4>Reference result</h4>
+<p>
+The figure below compares the results with the results without controller of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>. We see that indeed,
+the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
+about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the energy use over the
+period is reduced from <i>11.56 kWh</i> to <i>9.64 kWh</i>. Note that this heating system configuration is still not efficient
+since the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small
+COP. COP’s of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
+</p>
+<p align=\"center\">
+<img alt=\"Comparison with (red) and without (blue) control for zone temperature, supply water temperature
+and radiator thermal power.\"
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example7.png\" width=\"700\"/>
+</p>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse7.mos"
