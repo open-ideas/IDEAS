@@ -5,7 +5,7 @@ model DetailedHouse1 "First example model containing one zone"
 
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
-  parameter Modelica.Units.SI.Length h=2.7 "Zone height";
+  parameter Modelica.Units.SI.Length h=zone.hZone "Zone height (Default)";
 
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
