@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse6
-  "Extension of example 5 that adds a heating system"
+  "Extension of DetailedHouse5 that adds a heating system"
   extends DetailedHouse5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
@@ -249,9 +249,18 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Schemati
 </p>
 <p>
 <h4>Reference result</h4>
+This model is simulated with the following settings:
+</p>
+<ol>
+<li>Start time = 1e7,</li>
+<li>Stop time = 1.1e7,</li>
+<li>Number of intervals = 5000.</li>
+</ol>
 <p>
-The following figures plot plot the zone temperatures <code>rectangularZoneTemplate.TSensor<\code> and <code>rectangularZoneTemplate1<\code>.
-TSensor, the radiator heat flow rates <code>rad.Q_flow<\code> and <code>rad1.Q_flow<\code>, the heat pump condenser temperature
+The simulation starts 10<sup>7</sup> seconds after New Year and ends 10<sup>6</sup> seconds later, covering a period of 11.6 days. 
+<p>
+The following figures show the zone temperatures <code>rectangularZoneTemplate.TSensor</code> and <code>rectangularZoneTemplate1</code>.
+TSensor, the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
 <code>heaPum.con.T</code> and the heat pump heat flow rate <code>heaPum.QCon_flow</code>.
 </p>
 <p align=\"center\">

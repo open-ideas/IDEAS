@@ -82,23 +82,31 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-Tuning model and solver for computation time
-</p>
-<h4>Connection instructions</h4>
+The created models tend to exhibit slow performance, with computation time significantly increasing due to 
+controller oscillations or frequent on/off switching of the heat pump. These effects cause a lot of fast
+transients that force the solver to take small steps, which takes a lot of time.
 <p>
-The model consists of two <code>RectangularZoneTemplates</code> and a <code>SimInfoManager</code>. The required parameters are set in 
-the templates, with careful attention to all tabs. The internal wall is defined in only one of the two 
-templates, while an <i>external connection</i> is used for the other template. The <code>InternalWall</code> and 
-<code>External</code> options cause a yellow bus connector to appear on each template, which must then be connected to each other.
+Fortunately, there are many tricks that can be used to speed up the solver. The fundamental principle is to
+remove small time constants from the problem.  
+The example in <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10</a> implements changes
+that cause the simulation to become 2 times faster. By systematically removing fast time constants, the solver can be 
+switched to a simpler method, such as Euler integration, the simulation time also becomes 2 times smaller
+when using a fixed time step of 20 seconds.  These are modest improvements since this small example model
+behaves rather well. However, for large models, the difference in computation time when using Euler integration
+can become a factor 1000. The modifications however require a bit of knowledge about solvers and the models
+that you are using, including some of the more advanced parameters. To learn more about this, we refer to
+[1, 2, 3].
 </p>
-<h4>Reference result</h4>
+<h4>References</h4>
 <p>
-The figure bellow shows the zone temperatures of both zones. Note the large influence that the
-window placement has on the zone dynamics!
+[1]  F. Jorissen, M. Wetter, and L. Helsen. <i>Simulation Speed Analysis and Improvements of Modelica Models for Building Energy Simulation</i>. In 11th International Modelica Conference, Paris, 2015. doi: 10.3384/ecp1511859
 </p>
-<p align=\"center\">
-<img alt=\"Zone temperature, CO2 concentrations and PI control signals\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse5.png\" width=\"700\"/>
+<p>
+[2]  F. Jorissen, M. Wetter, and L. Helsen. <i>Simplifications for hydronic system models in Modelica</i>. Journal of Building Performance Simulation, 11:6, 639-654, 2018. doi: 10.1080/19401493.2017.1421263
+</p>
+<p>
+[3]  F. Jorissen. <i>Toolchain for Optimal Control and Design of Energy Systems in Buildings</i>. PhD Thesis, KU Leuven, 2018.
 </p>
 </html>"));
 end DetailedHouse10;

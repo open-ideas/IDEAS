@@ -199,10 +199,26 @@ Modelica.Blocks.Sources.Constant</a>
 </ul>
 <h4>Connection instructions</h4>
 <p>
-The model consists of two <code>RectangularZoneTemplates</code> and a <code>SimInfoManager</code>. The required parameters are set in 
-the templates, with careful attention to all tabs. The internal wall is defined in only one of the two 
-templates, while an <i>external connection</i> is used for the other template. The <code>InternalWall</code> and 
-<code>External</code> options cause a yellow bus connector to appear on each template, which must then be connected to each other.
+This model extends from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse8\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse8</a> where its existing medium declaration is modified to add CO2.
+For one zone, add the occupancy model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>. For the other zone, a fixed occupancy of 1 person is added. 
+For making a connection with the outside air <a href=\"modelica://IDEAS.Fluid.Sources.OutsideAir\">
+IDEAS.Fluid.Sources.OutsideAir</a> is used, which is similar to <a href=\"modelica://IDEAS.Fluid.Sources.Boundary_pT\">
+IDEAS.Fluid.Sources.Boundary_pT</a> except that it automatically sets the outdoor dry bulb temperature and humidity.
+</p>
+<p>
+For this exercise, assume that the VAV has a nominal flow rate of <i>100 m3/h</i>, which equals <i>0.033 kg/s</i>. A nominal pressure drop of <i>50 Pa</i>
+is assumed and also <code>dpFixed_nominal=50</code>, which causes the VAV model to include a pressure drop of ducts, grills,
+filters or bends that are connected at the inlet or outlet of the VAV. The fan pressure head is constant at <i>200 Pa</i> and its nominal flow
+rate is the sum of the VAV flow rates. The heat recovery heat exchanger has a constant effectiveness of <i>80 %</i>. 
+</p>
+<p>
+The model includes two PI controllers, with their outputs connected to the VAVs. The zone <code>ppm</code> 
+outputs are connected to the measurement inputs <code>u_m</code> of the PI controllers, and a constant set point 
+of <i>1000 ppm</i> is provided at the input <code>u_s</code>. The VAVs have a minimum opening of <i>10 %</i>. 
+The PI controllers are configured with the following parameters: <code>k = 0.005</code>, <code>T_i = 300</code>, <code>reverseAction=false</code>, 
+and <code>controllerType=PI</code>. The schematic representation of the model is shown in the figure below.
 </p>
 <p align=\"center\">
 <img alt=\"The schematic of Example 9.\"
@@ -210,11 +226,10 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Schemati
 </p>
 <h4>Reference result</h4>
 <p>
-The figure bellow shows the zone temperatures of both zones. Note the large influence that the
-window placement has on the zone dynamics!
+The zone temperature, CO2 concentrations and PI control signals are shown in the figure below.
+Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO2
+concentration when there are no occupants.
 </p>
-
-
 <p align=\"center\">
 <img alt=\"The schematic of Example 9.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example9.png\" width=\"700\"/>
