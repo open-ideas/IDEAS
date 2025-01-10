@@ -1,12 +1,14 @@
 within IDEAS.Examples.Tutorial;
-package DetailedHouse "Package with example for how to built a simple house, using the detailed building envelope component
-  models, HVAC and other components"
+package DetailedHouse "Package with example for how to built an office building 
+  (using the detailed building envelope component models within IDEAS.Buildings) 
+  with occupants, a radiator heating system connected to a heat pump, and a ventilation system."
   extends Modelica.Icons.ExamplesPackage;
 
   annotation (Documentation(info="<html>
-<p>
+  <p>
 This package contains examples with step-by-step instructions for how to build a system model
-for a simple house with detailed building envelope component models, HVAC and other components.
+for an office building (using the detailed building envelope component models within IDEAS.Buildings) 
+with occupants, a radiator heating system connected to a heat pump, and a ventilation system.
 It serves as a demonstration case of how the <code>IDEAS</code> library can be used.
 </p>
 <p>
@@ -15,10 +17,12 @@ Since the IDEAS library components are typically used by combining several compo
 the use of equations falls outside of the scope of this exercise.
 </p>
 <p>
-For this exercise you will create a model of a simple house,
-consisting of a heating system, detailed building envelope component models, and a ventilation model.
-The exercise starts from a template file that should not produce any errors.
-This file will be extended in several steps, adding complexity.
+Firstly, develop a single-zone (office) building using the component models of the IDEAS.Buildings package, 
+then add occupants. Secondly, move to a two-zone (office) building and add a heating system 
+and a ventilation system (including their control).
+This exercise will extend from the single-zone (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>) or two-zone (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a>) model in several steps, adding complexity.
 In between each step the user should be able to simulate the model,
 i.e., no errors should be produced and simulation results may be compared.
 </p>
@@ -30,7 +34,7 @@ The model has been created in the following stages:
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
 represents a basic building model that includes a single zone, four walls, a window, a floor, and a ceiling
-and serves as a starting model to implement the entire <code>DetailedHouse</code> model.
+and serves as a starting model to implement the single-zone <code>DetailedHouse</code> model.
 </li>
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse2\">
@@ -52,13 +56,13 @@ templates and replaceable models.
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a>
-This example teaches the use of the <code>RectangularZoneTemplate</code> .
+This example shows the use of the <code>RectangularZoneTemplate</code> .
 </li>
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>
-adds a HVAC system. The system consists of a water-water heat pump, radiators, a storage tank, circulation
-pumps and a low temperature heat source for the heat pump.
+adds a heating system. The system consists of a water-water heat pump, radiators, a storage tank, circulation
+pumps, and a low-temperature heat source at constant temperature.
 </li>
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse7\">
@@ -70,12 +74,12 @@ temperature exceeds 45◦C.
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse8\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse8</a>
 adds workflow automation, generating a CSV file at a userdefined location that contains data 
-for each of the inputs of the block .
+for each of the inputs of the block.
 </li>
 <li>
 <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse9\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse9</a>
-adds a CO2-controlled ventilaation system. The occupancy model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+adds a CO2-controlled ventilation system. The occupancy model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
 consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
@@ -103,5 +107,22 @@ The graphical representation of the final model is given below.
 <img alt=\"Graphical representation of the final simple house model.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse10.png\"/>
 </p>
+<p>
+A more detailed explanation and step-by-step approach are provided in Exercises 3 and 4 
+of the Modelica Crash Course, developed by the SySi team at KU Leuven. Links to these 
+additional resources are available below.
+</p>
+<ul>
+<li>
+<a href=\"https://github.com/open-ideas/__CrashCourse__/blob/master/Exercises/Exercise%203/Latex/Exercise3.pdf\" target=\"_blank\">
+Exercise 3 Modelica Crash Course
+</a>
+</li>
+<li>
+<a href=\"https://github.com/open-ideas/__CrashCourse__/blob/master/Exercises/Exercise%203/Latex/Exercise4.pdf\" target=\"_blank\">
+Exercise 4 Modelica Crash Course
+</a>
+</li>
+</ul>
 </html>"));
 end DetailedHouse;

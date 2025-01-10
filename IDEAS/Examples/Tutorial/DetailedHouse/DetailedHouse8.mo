@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse8 "JSOn writer"
+model DetailedHouse8 "JSON writer"
   extends DetailedHouse7;
   Utilities.IO.Files.JSONWriter jsonWri(
     nin=1,
