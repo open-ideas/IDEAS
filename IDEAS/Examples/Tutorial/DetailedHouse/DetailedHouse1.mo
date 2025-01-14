@@ -31,7 +31,7 @@ model DetailedHouse1 "First example model containing one zone"
     A=l*h)
     "Outer wall model"
     annotation (Placement(transformation(extent={{36,0},{24,20}})));
-  IDEAS.Buildings.Components.OuterWall outerWall2(
+  IDEAS.Buildings.Components.OuterWall outWalNor(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
