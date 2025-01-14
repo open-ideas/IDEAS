@@ -28,7 +28,7 @@ does the same, albeit using a slightly different file format which can be read d
 <a href=\"modelica://Modelica.Blocks.Sources.CombiTimeTable\"> Modelica.Blocks.Sources.CombiTimeTable</a>.
 </p>
 <p>
-In this example we will not output time series data, but instead a single value: the total energy use at the end
+In this example we will not output time series data, only a single value: the total energy use at the end
 of the simulation, using the json file format. Note that the external library <code>ExternData</code> can be used to read
 json files.
 </p>
