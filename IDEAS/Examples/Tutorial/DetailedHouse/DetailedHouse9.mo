@@ -163,7 +163,7 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-Adding CO2-controlled ventilation system. The occupancy model
+Adding CO<sub>2</sub>-controlled ventilation system. The occupancy model
 from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
