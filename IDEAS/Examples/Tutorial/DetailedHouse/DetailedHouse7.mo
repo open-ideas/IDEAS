@@ -31,7 +31,7 @@ First implementation for the IDEAS crash course.
 </html>", info="<html>
 <p>
 This step adds a controller that disables the heat pump when the supply water
-temperature exceeds <i>45°C</i>. The simple controller has a large impact on the heat pump COP.
+temperature exceeds <i>45°C</i>. The simple controller has a large impact on the heat pump's COP.
 </p>
 <h4>Required models</h4>
 <ul>
@@ -69,7 +69,7 @@ the supply temperature is reduced significantly. This causes the zone temperatur
 about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the energy use over the
 period is reduced from <i>11.56 kWh</i> to <i>9.64 kWh</i>. Note that this heating system configuration is still not efficient
 since the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small
-COP. COP’s of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
+COP. COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
 </p>
 <p align=\"center\">
 <img alt=\"Comparison with (red) and without (blue) control for zone temperature, supply water temperature

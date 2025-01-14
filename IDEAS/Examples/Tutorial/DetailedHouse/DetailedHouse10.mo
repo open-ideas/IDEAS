@@ -1,36 +1,36 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse10 "Speeding up the code"
   extends DetailedHouse9(
-    fanRet(
+    pumSec(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      allowFlowReversal=false,
       use_riseTime=false),
-    fanSup(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
-          false),
+    pumPri(
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      allowFlowReversal=false,
+      use_riseTime=false),
+    recZon2(
+      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure
+        interzonalAirFlow,
+      redeclare HeavyWall conTypA,
+      redeclare HeavyWall conTypB,
+      redeclare HeavyWall conTypC,
+      redeclare HeavyWall conTypD,
+      redeclare HeavyWall conTypFlo),
+    recZon1(
+      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure
+        interzonalAirFlow,
+      redeclare HeavyWall conTypA,
+      redeclare HeavyWall conTypB,
+      redeclare HeavyWall conTypC,
+      redeclare HeavyWall conTypD,
+      redeclare HeavyWall conTypFlo),
+    fanRet(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        use_riseTime=false),
+    fanSup(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        use_riseTime=false),
     val(allowFlowReversal=false, from_dp=true),
     val1(allowFlowReversal=false, from_dp=true),
-    pumpSec(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      allowFlowReversal=false,
-      use_riseTime=false),
-    pumpPrim(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      allowFlowReversal=false,
-      use_riseTime=false),
-    rectangularZoneTemplate1(
-      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
-      redeclare HeavyWall conTypA,
-      redeclare HeavyWall conTypB,
-      redeclare HeavyWall conTypC,
-      redeclare HeavyWall conTypD,
-      redeclare HeavyWall conTypFlo),
-    rectangularZoneTemplate(
-      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
-      redeclare HeavyWall conTypA,
-      redeclare HeavyWall conTypB,
-      redeclare HeavyWall conTypC,
-      redeclare HeavyWall conTypD,
-      redeclare HeavyWall conTypFlo),
     rad(nEle=2),
     rad1(nEle=2),
     heaPum(from_dp1=true, from_dp2=true),

@@ -2,14 +2,12 @@ within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse5 "New model with 2 coupled zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";
-
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
-  parameter Modelica.Units.SI.Length h=2.7 "Zone height";
-
-  inner BoundaryConditions.SimInfoManager       sim
+  parameter Modelica.Units.SI.Length h=2.8 "Zone height";
+  inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Buildings.Components.RectangularZoneTemplate rectangularZoneTemplate(
+  Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = Medium,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
@@ -31,7 +29,7 @@ model DetailedHouse5 "New model with 2 coupled zones"
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo)
     "North part of the zone"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
-  Buildings.Components.RectangularZoneTemplate rectangularZoneTemplate1(
+  Buildings.Components.RectangularZoneTemplate recZon2(
     redeclare package Medium = Medium,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
@@ -53,18 +51,15 @@ model DetailedHouse5 "New model with 2 coupled zones"
     "South part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
-  connect(rectangularZoneTemplate.proBusFlo, rectangularZoneTemplate.proBusCei)
-    annotation (Line(
+  connect(recZon1.proBusFlo, recZon1.proBusCei) annotation (Line(
       points={{0,24},{28,24},{28,36},{-0.2,36}},
       color={255,204,51},
       thickness=0.5));
-  connect(rectangularZoneTemplate1.proBusA, rectangularZoneTemplate.proBusC)
-    annotation (Line(
+  connect(recZon2.proBusA, recZon1.proBusC) annotation (Line(
       points={{-6,-21},{-6,2},{6.8,2},{6.8,20.2}},
       color={255,204,51},
       thickness=0.5));
-  connect(rectangularZoneTemplate1.proBusCei, rectangularZoneTemplate1.proBusFlo)
-    annotation (Line(
+  connect(recZon2.proBusCei, recZon2.proBusFlo) annotation (Line(
       points={{-0.2,-24},{28,-24},{28,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
@@ -112,7 +107,7 @@ templates, while an <i>external connection</i> is used for the other template. T
 </p>
 <h4>Reference result</h4>
 <p>
-The figure bellow shows the zone temperatures of both zones. Note the large influence that the
+The figure bellow shows the zone temperatures of both zones. Note the large effect that the
 window placement has on the zone dynamics!
 </p>
 <p align=\"center\">

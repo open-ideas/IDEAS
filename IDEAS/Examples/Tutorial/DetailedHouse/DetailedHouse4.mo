@@ -1,8 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse4 "Including custom occupant schedule"
-  extends DetailedHouse3(
-                   zone(redeclare OccSched occNum(k=2)));
-
+  extends DetailedHouse3(zone(redeclare OccSched occNum(k=2)));
 protected
   model OccSch "Simple occupancy schedule"
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
@@ -10,8 +8,8 @@ protected
     parameter Real k "Number of occupants";
     Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-    Modelica.Blocks.Sources.RealExpression occ(y=if calTim.weekDay < 6 and (
-          calTim.hour > 7 and calTim.hour < 18) then k else 0)
+    Modelica.Blocks.Sources.RealExpression occ(y=
+    if calTim.weekDay < 6 and (calTim.hour > 7 and calTim.hour < 18) then k else 0)
       "Number of occupants present"
       annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   equation
@@ -66,11 +64,15 @@ logical checks for the calendar outputs <code>weekDay</code> and <code>hour</cod
 </p>
 <h4>Reference result</h4>
 <p>
-The result is plotted in the figure bellow. Note the much more peaked behaviour of the zone
-temperature.
+The result is plotted in the figure below. The blue line depicts the operative zone temperature using the old
+occupant model (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3</a>), while the red line illustrates the operative zone temperature
+with the new occupant model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>. Note the much more peaked behaviour of the zone
+temperature during the weekdays when there are occupants present (red line).
 </p>
 <p align=\"center\">
-<img alt=\"Zone temperature with old (blue) and new (red) occupant model.\"
+<img alt=\"The operative zone temperature with old (blue) and new (red) occupant model.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse4.png\" width=\"700\"/>
 </p>
 </html>"),

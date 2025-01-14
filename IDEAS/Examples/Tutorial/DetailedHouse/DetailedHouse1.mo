@@ -165,7 +165,7 @@ and windows. The surface orientation can be set using the parameters <code>incOp
 inclination depending on the type of outer wall (wall, floor, ceiling), and <code>aziOpt</code>, which automatically sets the
 azimuth (north, east, south, west). Furthermore, the zone Medium must be set to <a href=\"modelica://IDEAS.Media.Air\">
 IDEAS.Media.Air</a>. Glazing and wall types must also be specified. This example uses the <i>BESTEST Heavy Wall</i> for the
-walls, the <i>BESTEST Heavy Floor</i> for the floor, the <i>BESTEST ligth roof</i> for the roof and the double glazing
+walls, the <i>BESTEST Heavy Floor</i> for the floor, the <i>BESTEST light roof</i> for the roof and the double glazing
 type <i>Saint Gobain Planitherm</i> and a south orientation for the window.
 </p>
 <p>
@@ -174,7 +174,6 @@ have the modifier <code>outer</code> in their respective declarations of the <co
 declarations to point towards the higher level <code>SimInfoManager</code> declaration. This way all model equations for
 the weather data have to be generated only once, instead of for each surface.
 </p>
-
 <h4>Reference result</h4>
 <p>
 This model is simulated with the following settings:
@@ -186,7 +185,7 @@ This model is simulated with the following settings:
 </ol>
 <p>
 The simulation starts 10<sup>7</sup> seconds after New Year and ends 10<sup>6</sup> seconds later, covering a period of 11.6 days. 
-The zone temperature, <code>zone.TSensor</code>, is plotted, which represents the mean of the air temperature and the mean radiative temperature of all surfaces. The results are shown in the figure below.
+The operative zone temperature, <code>zon.TSensor</code>, is plotted, which represents the mean of the air temperature and the mean radiative temperature of all surfaces. The results are shown in the figure below.
 </p>
 <p align=\"center\">
 <img alt=\"Zone temperature as function of time.\"

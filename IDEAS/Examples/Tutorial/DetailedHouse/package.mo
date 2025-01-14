@@ -42,7 +42,7 @@ IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse2</a>
 implements solar shading extensions by adding a screen to the window model.
 </li>
 <li>
-<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse2\">
+<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3</a>
 adds continuous occupancy of 1 person and LED lighting for the zone.
 </li>

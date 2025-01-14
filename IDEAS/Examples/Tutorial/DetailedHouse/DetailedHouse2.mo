@@ -25,6 +25,10 @@ Modelica.Blocks.Sources.Constant</a>
 IDEAS.Buildings.Components.Shading.Screen</a>
 </li>
 </ul>
+<p>
+This latter model is used <i>internally</i> and can be set in the window's parameter window.
+It should not be drag-and-dropped.
+</p>
 <h4>Connection instructions</h4>
 <p>
 Solar shading is a property of the window and can be selected using the replaceable model <code>shaType</code>. 
@@ -40,7 +44,7 @@ See the window input comment for more information on how to choose the control s
 The figure below illustrates the zone temperature with (red) and without (blue) the shading model.
 </p>
 <p align=\"center\">
-<img alt=\"Zone temperature without (blue) and with (red) screen model.\"
+<img alt=\"The operative zone temperature without (blue) and with (red) screen model.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse2.png\" width=\"700\"/>
 </p>
 </html>", revisions="<html>
