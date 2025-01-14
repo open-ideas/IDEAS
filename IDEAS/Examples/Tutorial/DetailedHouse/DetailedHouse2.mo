@@ -9,7 +9,9 @@ equation
   annotation (
     Documentation(info="<html>
 <p>
-This second example file extends the first example and adds a solar shading screen to the window model. 
+This model extends from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
+and adds a solar shading screen to the window model. 
 Compare the simulation outputs to see the impact on the zone temperature.
 </p>
 <h4>Required models</h4>
