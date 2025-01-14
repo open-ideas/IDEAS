@@ -12,7 +12,7 @@ model DetailedHouse1 "First example model containing one zone"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Zone zone(
     redeclare package Medium = Medium,
-    nSurf=7,
+    nSurf=6,
     V=l*h*w)
     "Zone model" annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   IDEAS.Buildings.Components.OuterWall outerWall(
@@ -62,17 +62,12 @@ model DetailedHouse1 "First example model containing one zone"
         rotation=90,
         origin={-36,-30})));
 
-  Buildings.Components.InternalWall floor(
+  Buildings.Components.SlabOnGround slabOnGround(
     redeclare Buildings.Validation.Data.Constructions.HeavyFloor
       constructionType,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
-    A=l*w)
-    "Floor modelled using internal wall with both the ceiling and roof side connected to the zone"
-    annotation (Placement(transformation(
-        extent={{-6,-10},{6,10}},
-        rotation=90,
-        origin={70,10})));
+    A=l*w) annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
 equation
   connect(outerWall.propsBus_a, zone.propsBus[1]) annotation (Line(
       points={{-45,12},{-38.5,12},{-38.5,13.1429},{-20,13.1429}},
@@ -94,12 +89,8 @@ equation
       points={{-38,-25},{-38,14},{-20,14},{-20,14.2857}},
       color={255,204,51},
       thickness=0.5));
-  connect(floor.propsBus_a, zone.propsBus[6]) annotation (Line(
-      points={{68,15},{68,28},{-20,28},{-20,14.5714}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(floor.propsBus_b, zone.propsBus[7]) annotation (Line(
-      points={{68,5},{68,-6},{-20,-6},{-20,14.8571}},
+  connect(slabOnGround.propsBus_a, zone.propsBus[6]) annotation (Line(
+      points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.8333}},
       color={255,204,51},
       thickness=0.5));
   annotation (
