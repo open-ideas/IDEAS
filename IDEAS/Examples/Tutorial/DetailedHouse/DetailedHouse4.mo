@@ -4,7 +4,7 @@ model DetailedHouse4 "Including custom occupant schedule"
                    zone(redeclare OccSched occNum(k=2)));
 
 protected
-  model OccSched "Simple occupancy schedule"
+  model OccSch "Simple occupancy schedule"
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
 
     parameter Real k "Number of occupants";
