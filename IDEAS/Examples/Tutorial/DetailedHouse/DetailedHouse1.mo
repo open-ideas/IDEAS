@@ -53,7 +53,7 @@ model DetailedHouse1 "First example model containing one zone"
         extent={{-6,-10},{6,10}},
         rotation=90,
         origin={-10,-30})));
-  IDEAS.Buildings.Components.Window window(
+  IDEAS.Buildings.Components.Window win(
     inc=IDEAS.Types.Tilt.Wall,
     A=3*1.4,
     azi=IDEAS.Types.Azimuth.S,
