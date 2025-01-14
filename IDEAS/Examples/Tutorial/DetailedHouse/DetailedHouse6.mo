@@ -185,7 +185,7 @@ This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.De
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding a HVAC system.
 The system consists of a water-water heat pump, radiators, a storage tank, circulation
 pumps and a low temperature heat source for the heat pump. The model includes constant 
-control set points for the heat pump and pumps. A system is incorporated to measure 
+control setpoints for the heat pump and pumps. An integrator block is incorporated to measure 
 the electrical energy consumption of the heat pump.
 </p>
 <h4>Required models</h4>
