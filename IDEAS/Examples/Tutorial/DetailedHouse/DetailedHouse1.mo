@@ -5,14 +5,14 @@ model DetailedHouse1 "First example model containing one zone"
 
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
-  parameter Modelica.Units.SI.Length h=zone.hZone "Zone height (Default)";
+  parameter Modelica.Units.SI.Length h=zon.hZone "Zone height (Default)";
 
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Zone zon(
     redeclare package Medium = Medium,
-    nSurf=6,
+    nSurf=7,
     V=l*h*w)
     "Zone model" annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   IDEAS.Buildings.Components.OuterWall outWalWes(
@@ -47,7 +47,7 @@ model DetailedHouse1 "First example model containing one zone"
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
-    A=w*h - window.A)
+    A=w*h - win.A)
     "Outer wall model"
      annotation (Placement(transformation(
         extent={{-6,-10},{6,10}},
@@ -63,7 +63,7 @@ model DetailedHouse1 "First example model containing one zone"
         origin={-36,-30})));
 
   Buildings.Components.SlabOnGround slabOnGround(
-    redeclare Buildings.Validation.Data.Constructions.HeavyFloor
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
       constructionType,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
