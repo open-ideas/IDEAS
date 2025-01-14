@@ -2,8 +2,8 @@ within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse10 "Speeding up the code"
   extends DetailedHouse9(
     fanRet(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
-          false),
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, 
+      use_riseTime=false),
     fanSup(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
           false),
