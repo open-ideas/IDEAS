@@ -131,14 +131,14 @@ IDEAS.Buildings.Components.OuterWall</a>
 IDEAS.Buildings.Components.Window</a>
 </li>
 <li>
-<a href=\"modelica://IDEAS.Buildings.Components.InternalWall\">
-IDEAS.Buildings.Components.InternalWall</a>
+<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
+IDEAS.Buildings.Components.SlabOnGround</a>
 </li>
 </ul>
 <h4>Connection instructions</h4>
 <p>
 Each yellow bus connector of a surface (<code>Window</code>, <code>OuterWall</code>
-or <code>InternalWall</code>) has to be connected to exactly one zone bus connector. 
+or <code>SlabOnGround</code>) has to be connected to exactly one zone bus connector. 
 To support multiple connections, the zone has an array of bus connectors with size 
 <code>nSurf</code>, where <code>nSurf</code> is a parameter of <code>Zone</code>, 
 which has to be set by the user. It is the user’s responsibility to ensure that each 
