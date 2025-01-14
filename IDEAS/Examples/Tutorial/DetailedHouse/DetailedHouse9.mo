@@ -163,12 +163,12 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-Adding CO2-controlled ventilation system. The occupancy model
+Adding CO<sub>2</sub>-controlled ventilation system. The occupancy model
 from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
 consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
-outdoor air source. The control consists of PI controllers with a setpoint of 1000 ppm.
+outdoor air source. The control consists of PI controllers with a setpoint of 1000 <i>ppm</i>.
 </p>
 <h4>Required models</h4>
 <ul>

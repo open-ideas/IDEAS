@@ -10,12 +10,12 @@ model DetailedHouse1 "First example model containing one zone"
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  IDEAS.Buildings.Components.Zone zone(
+  IDEAS.Buildings.Components.Zone zon(
     redeclare package Medium = Medium,
     nSurf=6,
     V=l*h*w)
     "Zone model" annotation (Placement(transformation(extent={{-20,0},{0,20}})));
-  IDEAS.Buildings.Components.OuterWall outerWall(
+  IDEAS.Buildings.Components.OuterWall outWalWes(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
@@ -23,7 +23,7 @@ model DetailedHouse1 "First example model containing one zone"
     A=l*h)
     "Outer wall model"
     annotation (Placement(transformation(extent={{-56,0},{-44,20}})));
-  IDEAS.Buildings.Components.OuterWall outerWall1(
+  IDEAS.Buildings.Components.OuterWall outWalEas(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
@@ -31,7 +31,7 @@ model DetailedHouse1 "First example model containing one zone"
     A=l*h)
     "Outer wall model"
     annotation (Placement(transformation(extent={{36,0},{24,20}})));
-  IDEAS.Buildings.Components.OuterWall outerWall2(
+  IDEAS.Buildings.Components.OuterWall outWalNor(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
@@ -42,7 +42,7 @@ model DetailedHouse1 "First example model containing one zone"
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={-10,52})));
-  IDEAS.Buildings.Components.OuterWall outerWall3(
+  IDEAS.Buildings.Components.OuterWall outWalSou(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
@@ -53,7 +53,7 @@ model DetailedHouse1 "First example model containing one zone"
         extent={{-6,-10},{6,10}},
         rotation=90,
         origin={-10,-30})));
-  IDEAS.Buildings.Components.Window window(
+  IDEAS.Buildings.Components.Window win(
     inc=IDEAS.Types.Tilt.Wall,
     A=3*1.4,
     azi=IDEAS.Types.Azimuth.S,

@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse2 "Adding closed screens"
   extends DetailedHouse1(window(redeclare Buildings.Components.Shading.Screen shaType));
-  Modelica.Blocks.Sources.Constant const(k=1)
+  Modelica.Blocks.Sources.Constant con(k=1)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 equation
   connect(const.y, window.Ctrl)
@@ -9,7 +9,9 @@ equation
   annotation (
     Documentation(info="<html>
 <p>
-This second example file extends the first example and adds a solar shading screen to the window model. 
+This model extends from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a>
+and adds a solar shading screen to the window model. 
 Compare the simulation outputs to see the impact on the zone temperature.
 </p>
 <h4>Required models</h4>

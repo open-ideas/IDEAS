@@ -19,7 +19,7 @@ First implementation for the IDEAS crash course.
 </ul>
 </html>", info="<html>
 <p>
-Extracting results from Modelica/Dymola can be tedious. Therefore several custom tools have been developed to facilitate 
+Extracting results from Dymola can be tedious. Therefore, several custom tools have been developed to facilitate 
 exporting simulation results. For time-series data, a generic CSV writer can be found in <a href=\"modelica://IDEAS.Utilities.IO.Files.JSONWriter\">
 IDEAS.Utilities.IO.Files.JSONWriter</a>. This model generates a CSV file at a userdefined location that contains data for 
 each of the inputs of the block. The delimiter can be modified in the advanced parameter tab. The model 
@@ -28,7 +28,7 @@ does the same, albeit using a slightly different file format which can be read d
 <a href=\"modelica://Modelica.Blocks.Sources.CombiTimeTable\"> Modelica.Blocks.Sources.CombiTimeTable</a>.
 </p>
 <p>
-In this example we will not output time series data, but instead a single value: the total energy use at the end
+In this example we will not output time series data, only a single value: the total energy use at the end
 of the simulation, using the json file format. Note that the external library <code>ExternData</code> can be used to read
 json files.
 </p>
