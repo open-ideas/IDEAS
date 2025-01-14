@@ -15,7 +15,7 @@ model DetailedHouse1 "First example model containing one zone"
     nSurf=6,
     V=l*h*w)
     "Zone model" annotation (Placement(transformation(extent={{-20,0},{0,20}})));
-  IDEAS.Buildings.Components.OuterWall outerWall(
+  IDEAS.Buildings.Components.OuterWall outWalWes(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
