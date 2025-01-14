@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Materials;
+within IDEAS.Buildings.Data.Materials.EPC;
 record TimberForFinishing = IDEAS.Buildings.Data.Interfaces.Material (
       k=0.11,
       c=1880,

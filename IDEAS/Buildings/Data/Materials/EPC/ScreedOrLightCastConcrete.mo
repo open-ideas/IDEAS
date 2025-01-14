@@ -1,12 +1,11 @@
-within IDEAS.Buildings.Data.Materials;
-record HeavyMasonryForInteriorApplications =
-    IDEAS.Buildings.Data.Interfaces.Material (
-      k=0.90,
+within IDEAS.Buildings.Data.Materials.EPC;
+record ScreedOrLightCastConcrete = IDEAS.Buildings.Data.Interfaces.Material (
+      k=0.6,
       c=840,
-      rho=1850,
+      rho=1100,
       epsLw=0.88,
       epsSw=0.55)
-  "Material name: HeavyMasonryForInteriorApplications, Material ID: 0abb1554-83ff-11e6-bed8-2cd444b2e704"
+  "Material name: ScreedOrLightCastConcrete, Material ID: 0abb6391-83ff-11e6-8633-2cd444b2e704"
       annotation (Documentation(revisions="<html>
 <ul>
 <li>

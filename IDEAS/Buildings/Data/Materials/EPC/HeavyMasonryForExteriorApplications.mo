@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Materials;
+within IDEAS.Buildings.Data.Materials.EPC;
 record HeavyMasonryForExteriorApplications =
     IDEAS.Buildings.Data.Interfaces.Material (
       k=1.10,

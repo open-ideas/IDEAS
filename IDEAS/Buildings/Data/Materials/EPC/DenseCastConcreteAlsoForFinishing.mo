@@ -1,11 +1,12 @@
-within IDEAS.Buildings.Data.Materials;
-record ScreedOrLightCastConcrete = IDEAS.Buildings.Data.Interfaces.Material (
-      k=0.6,
+within IDEAS.Buildings.Data.Materials.EPC;
+record DenseCastConcreteAlsoForFinishing =
+    IDEAS.Buildings.Data.Interfaces.Material (
+      k=1.4,
       c=840,
-      rho=1100,
+      rho=2100,
       epsLw=0.88,
       epsSw=0.55)
-  "Material name: ScreedOrLightCastConcrete, Material ID: 0abb6391-83ff-11e6-8633-2cd444b2e704"
+  "Material name: DenseCastConcreteAlsoForFinishing, Material ID: 0abb8a82-83ff-11e6-8ff5-2cd444b2e704"
       annotation (Documentation(revisions="<html>
 <ul>
 <li>
