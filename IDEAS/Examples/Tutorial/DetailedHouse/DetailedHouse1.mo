@@ -42,7 +42,7 @@ model DetailedHouse1 "First example model containing one zone"
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={-10,52})));
-  IDEAS.Buildings.Components.OuterWall outerWall3(
+  IDEAS.Buildings.Components.OuterWall outWalSou(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
