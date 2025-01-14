@@ -10,7 +10,7 @@ model DetailedHouse1 "First example model containing one zone"
   //SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  IDEAS.Buildings.Components.Zone zone(
+  IDEAS.Buildings.Components.Zone zon(
     redeclare package Medium = Medium,
     nSurf=6,
     V=l*h*w)
