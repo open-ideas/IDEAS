@@ -13,6 +13,11 @@ equation
   annotation (Documentation(revisions="<html>
 <ul>
 <li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
 September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.
 </li>

@@ -2,7 +2,7 @@ within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse10 "Speeding up the code"
   extends DetailedHouse9(
     fanRet(
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, 
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       use_riseTime=false),
     fanSup(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, use_riseTime=
@@ -69,6 +69,11 @@ end HeavyWall;
       OutputFlatModelica=false),
     Documentation(revisions="<html>
 <ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>

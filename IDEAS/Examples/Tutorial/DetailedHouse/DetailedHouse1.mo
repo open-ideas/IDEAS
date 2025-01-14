@@ -68,29 +68,41 @@ model DetailedHouse1 "First example model containing one zone"
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
     A=l*w) annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
+  Buildings.Components.OuterWall ceiling(
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof
+      constructionType,
+    inc=IDEAS.Types.Tilt.Ceiling,
+    A=w*l) "Outer wall model" annotation (Placement(transformation(
+        extent={{6,-10},{-6,10}},
+        rotation=90,
+        origin={76,48})));
 equation
-  connect(outerWall.propsBus_a, zone.propsBus[1]) annotation (Line(
+  connect(outWalWes.propsBus_a, zon.propsBus[1]) annotation (Line(
       points={{-45,12},{-38.5,12},{-38.5,13.1429},{-20,13.1429}},
       color={255,204,51},
       thickness=0.5));
-  connect(zone.propsBus[2], outerWall2.propsBus_a) annotation (Line(
+  connect(zon.propsBus[2], outWalNor.propsBus_a) annotation (Line(
       points={{-20,13.4286},{-22,13.4286},{-22,47},{-12,47}},
       color={255,204,51},
       thickness=0.5));
-  connect(zone.propsBus[3], outerWall1.propsBus_a) annotation (Line(
+  connect(zon.propsBus[3], outWalEas.propsBus_a) annotation (Line(
       points={{-20,13.7143},{-20,28},{25,28},{25,12}},
       color={255,204,51},
       thickness=0.5));
-  connect(outerWall3.propsBus_a, zone.propsBus[4]) annotation (Line(
+  connect(outWalSou.propsBus_a, zon.propsBus[4]) annotation (Line(
       points={{-12,-25},{-12,-6},{-20,-6},{-20,14}},
       color={255,204,51},
       thickness=0.5));
-  connect(window.propsBus_a, zone.propsBus[5]) annotation (Line(
+  connect(win.propsBus_a, zon.propsBus[5]) annotation (Line(
       points={{-38,-25},{-38,14},{-20,14},{-20,14.2857}},
       color={255,204,51},
       thickness=0.5));
-  connect(slabOnGround.propsBus_a, zone.propsBus[6]) annotation (Line(
-      points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.8333}},
+  connect(slabOnGround.propsBus_a, zon.propsBus[6]) annotation (Line(
+      points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.5714}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(ceiling.propsBus_a, zon.propsBus[7]) annotation (Line(
+      points={{74,43},{74,38},{-22,38},{-22,14.8571},{-20,14.8571}},
       color={255,204,51},
       thickness=0.5));
   annotation (
@@ -182,6 +194,11 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
 First implementation for the IDEAS crash course.

@@ -148,6 +148,11 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
 November 21, 2020 by Filip Jorissen:<br/>
 Avoiding warnings for default pressure curves and due to using port_a and port_b.
 </li>
