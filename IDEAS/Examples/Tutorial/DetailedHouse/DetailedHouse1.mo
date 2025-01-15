@@ -62,12 +62,13 @@ model DetailedHouse1 "First example model containing one zone"
         rotation=90,
         origin={-36,-30})));
 
-  Buildings.Components.SlabOnGround slabOnGround(
+  Buildings.Components.SlabOnGround slaOnGro(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
       constructionType,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
-    A=l*w) annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
+    A=l*w) "Floor model"
+    annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
   Buildings.Components.OuterWall cei(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof
       constructionType,
@@ -97,7 +98,7 @@ equation
       points={{-38,-25},{-38,14},{-20,14},{-20,14.2857}},
       color={255,204,51},
       thickness=0.5));
-  connect(slabOnGround.propsBus_a, zon.propsBus[6]) annotation (Line(
+  connect(slaOnGro.propsBus_a, zon.propsBus[6]) annotation (Line(
       points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.5714}},
       color={255,204,51},
       thickness=0.5));
