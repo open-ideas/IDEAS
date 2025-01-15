@@ -20,24 +20,21 @@ model DetailedHouse1 "First example model containing one zone"
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.W,
-    A=l*h)
-    "Outer wall model"
+    A=l*h) "Western outer wall model"
     annotation (Placement(transformation(extent={{-60,10},{-48,30}})));
   IDEAS.Buildings.Components.OuterWall outWalEas(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.E,
-    A=l*h)
-    "Outer wall model"
+    A=l*h) "Eastern outer wall model"
     annotation (Placement(transformation(extent={{40,0},{28,20}})));
   IDEAS.Buildings.Components.OuterWall outWalNor(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.N,
-    A=w*h)
-    "Outer wall model"
+    A=w*h) "Northern outer wall model"
      annotation (Placement(transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
@@ -47,8 +44,7 @@ model DetailedHouse1 "First example model containing one zone"
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
-    A=w*h - win.A)
-    "Outer wall model"
+    A=w*h - win.A) "Southern outer wall model"
      annotation (Placement(transformation(
         extent={{-6,-10},{6,10}},
         rotation=90,
