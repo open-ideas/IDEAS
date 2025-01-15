@@ -159,7 +159,7 @@ of <code>nSurf</code> connections to the zone.
 </p>
 <p>
 In addition to connecting each surface, the parameters of each component have to be set. Components typically
-have many default values that are appropriate for many purposes. When parameters do not have a default
+have many default values that are appropriate for many purposes. When a parameter does not have a default
 value, it must be set by the user. Notable examples are the dimensions and orientation of the zone, walls
 and windows. The surface orientation can be set using the parameters <code>incOpt</code>, which automatically sets the
 inclination depending on the type of outer wall (wall, floor, ceiling), and <code>aziOpt</code>, which automatically sets the
@@ -180,7 +180,6 @@ This model is simulated with the following settings:
 </p>
 <ol>
 <li>Lsodar as the solver with tolerance = 1e-06 </li>
-<li>Stop time = 1.1e7,</li>
 <li>Start time = 1e7,</li>
 <li>Stop time = 1.1e7,</li>
 <li>Number of intervals = 5000.</li>
