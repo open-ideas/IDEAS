@@ -63,19 +63,7 @@ equation
       points={{-0.2,-24},{28,-24},{28,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
-  annotation (Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+  annotation (Documentation(info="<html>
 <p>
 This example demonstrates the use of the RectangularZoneTemplate.
 The one-zone implementation with one window of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
@@ -107,7 +95,8 @@ templates, while an <i>external connection</i> is used for the other template. T
 </p>
 <h4>Reference result</h4>
 <p>
-The figure bellow shows the zone temperatures of both zones. Note the large effect that the
+The figure bellow shows the operative zone temperatures of the zone with north oriented window (blue)
+and the zone with the south oriented window (red). Note the large effect that the
 window placement has on the zone dynamics!
 </p>
 <p align=\"center\">
@@ -115,6 +104,19 @@ window placement has on the zone dynamics!
 oriented window (red).\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse5.png\" width=\"700\"/>
 </p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"

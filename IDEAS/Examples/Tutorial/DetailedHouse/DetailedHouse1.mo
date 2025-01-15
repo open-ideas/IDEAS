@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse1 "First example model containing one zone"
   extends Modelica.Icons.Example;
-  package Medium = IDEAS.Media.Air "Air medium";
+  package MediumAir = IDEAS.Media.Air "Air medium";
 
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
@@ -11,7 +11,7 @@ model DetailedHouse1 "First example model containing one zone"
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Zone zon(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     nSurf=7,
     V=l*h*w)
     "Zone model" annotation (Placement(transformation(extent={{-20,0},{0,20}})));
@@ -179,6 +179,8 @@ the weather data have to be generated only once, instead of for each surface.
 This model is simulated with the following settings:
 </p>
 <ol>
+<li>Lsodar as the solver with tolerance = 1e-06 </li>
+<li>Stop time = 1.1e7,</li>
 <li>Start time = 1e7,</li>
 <li>Stop time = 1.1e7,</li>
 <li>Number of intervals = 5000.</li>

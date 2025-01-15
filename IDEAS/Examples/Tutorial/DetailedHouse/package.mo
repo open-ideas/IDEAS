@@ -109,7 +109,7 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </p>
 <p>
 A more detailed explanation and step-by-step approach are provided in Exercises 3 and 4 
-of the Modelica Crash Course, developed by the SySi team at KU Leuven. Links to these 
+of the Modelica Crash Course, developed by The SySi Team at KU Leuven. Links to these 
 additional resources are available below.
 </p>
 <ul>

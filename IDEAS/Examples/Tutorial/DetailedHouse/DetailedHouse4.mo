@@ -1,6 +1,6 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse4 "Including custom occupant schedule"
-  extends DetailedHouse3(zone(redeclare OccSched occNum(k=2)));
+  extends DetailedHouse3(zon(redeclare OccSch occNum(k=2)));
 protected
   model OccSch "Simple occupancy schedule"
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
@@ -17,19 +17,7 @@ protected
       annotation (Line(points={{1,0},{120,0}}, color={0,0,127}));
   end OccSch;
   annotation (
-    Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+    Documentation(info="<html>
 <p>
 This example extends the third example by adding a
 custom occupancy model that uses an occupancy schedule that returns an
@@ -64,7 +52,7 @@ logical checks for the calendar outputs <code>weekDay</code> and <code>hour</cod
 </p>
 <h4>Reference result</h4>
 <p>
-The result is plotted in the figure below. The blue line depicts the operative zone temperature using the old
+The operative zone temperature as function of time is plotted in the figure below. The blue line depicts the operative zone temperature using the old
 occupant model (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3</a>), while the red line illustrates the operative zone temperature
 with the new occupant model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
@@ -75,6 +63,18 @@ temperature during the weekdays when there are occupants present (red line).
 <img alt=\"The operative zone temperature with old (blue) and new (red) occupant model.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse4.png\" width=\"700\"/>
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
         "Simulate and plot"),

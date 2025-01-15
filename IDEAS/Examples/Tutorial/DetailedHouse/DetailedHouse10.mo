@@ -57,7 +57,6 @@ end HeavyWall;
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
-      Tolerance=0.00011,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Euler"), __Dymola_experimentFlags(
       Advanced(
@@ -67,25 +66,7 @@ end HeavyWall;
       Evaluate=true,
       OutputCPUtime=true,
       OutputFlatModelica=false),
-    Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-October 30, 2024, by Lucas Verleyen:<br/>
-Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
-(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+    Documentation(info="<html>
 <p>
 The created models tend to exhibit slow performance, with computation time significantly increasing due to 
 controller oscillations or frequent on/off switching of the heat pump. These effects cause a lot of fast
@@ -113,5 +94,23 @@ that you are using, including some of the more advanced parameters. To learn mor
 <p>
 [3]  F. Jorissen. <i>Toolchain for Optimal Control and Design of Energy Systems in Buildings</i>. PhD Thesis, KU Leuven, 2018.
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"));
 end DetailedHouse10;

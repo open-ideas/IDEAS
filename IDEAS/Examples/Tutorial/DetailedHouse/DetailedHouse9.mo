@@ -71,7 +71,8 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Medium,
+  Fluid.Sources.OutsideAir outAir(
+    redeclare package Medium = Medium,
     azi=0,
     nPorts=2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
@@ -120,10 +121,10 @@ equation
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(outsideAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},{-250,
-          1},{-250,-6}},        color={0,127,255}));
-  connect(outsideAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{
-          -252,-1},{-252,6},{-250,6}},color={0,127,255}));
+  connect(outAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},{-250,
+          1},{-250,-6}}, color={0,127,255}));
+  connect(outAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{-252,
+          -1},{-252,6},{-250,6}}, color={0,127,255}));
   connect(vavSup.port_b, recZon1.ports[1]) annotation (Line(points={{-100,60},{
           -2,60},{-2,40},{0,40}}, color={0,127,255}));
   connect(vavRet.port_a, recZon1.ports[2]) annotation (Line(points={{-100,30},{
@@ -138,33 +139,12 @@ equation
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
-      Tolerance=0.00011,
+      Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse9.mos"
         "Simulate and plot"),
-    Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-November 21, 2020 by Filip Jorissen:<br/>
-Avoiding warnings for default pressure curves and due to using port_a and port_b.
-</li>
-<li>
-September 21, 2019 by Filip Jorissen:<br/>
-Using OutsideAir.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+    Documentation(info="<html>
 <p>
 Adding CO<sub>2</sub>-controlled ventilation system. The occupancy model
 from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
@@ -237,5 +217,26 @@ concentration when there are no occupants.
 <img alt=\"The schematic of Example 9.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example9.png\" width=\"700\"/>
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+November 21, 2020 by Filip Jorissen:<br/>
+Avoiding warnings for default pressure curves and due to using port_a and port_b.
+</li>
+<li>
+September 21, 2019 by Filip Jorissen:<br/>
+Using OutsideAir.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1052\">#1052</a>.
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"));
 end DetailedHouse9;

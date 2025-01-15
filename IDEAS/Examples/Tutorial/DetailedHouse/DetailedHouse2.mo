@@ -1,10 +1,10 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse2 "Adding closed screens"
-  extends DetailedHouse1(window(redeclare Buildings.Components.Shading.Screen shaType));
+  extends DetailedHouse1(win(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant con(k=1)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 equation
-  connect(const.y, window.Ctrl)
+  connect(con.y, win.Ctrl)
     annotation (Line(points={{-79,-50},{-26,-50},{-26,-34}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>

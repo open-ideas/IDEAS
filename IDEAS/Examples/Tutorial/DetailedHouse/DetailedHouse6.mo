@@ -169,20 +169,7 @@ equation
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),
-    Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>",
-info="<html>
+    Documentation(info="<html>
 <p>
 This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding an HVAC system.
@@ -242,15 +229,6 @@ which will set the absolute pressure at the connection point.
 </p>
 <p>
 <h4>Reference result</h4>
-This model is simulated with the following settings:
-</p>
-<ol>
-<li>Start time = 1e7,</li>
-<li>Stop time = 1.1e7,</li>
-<li>Number of intervals = 5000.</li>
-</ol>
-<p>
-The simulation starts 10<sup>7</sup> seconds after New Year and ends 10<sup>6</sup> seconds later, covering a period of 11.6 days. 
 <p>
 The following figures show the zone temperatures <code>rectangularZoneTemplate.TSensor</code> and <code>rectangularZoneTemplate1</code>.
 TSensor, the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
@@ -270,5 +248,17 @@ This example illustrates the importance of control, which is currently not model
 pump are assumed to be active continuously, which is detrimental for the system performance. The COP
 (heaPum.com.COP) is only about 2.9.
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"));
 end DetailedHouse6;

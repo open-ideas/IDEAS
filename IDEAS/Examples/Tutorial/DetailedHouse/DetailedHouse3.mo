@@ -1,26 +1,14 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse3 "Adding occupant and lighting"
   extends DetailedHouse2(
-                   zone(
+                   zon(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
       redeclare Buildings.Components.RoomType.Office rooTyp,
       redeclare Buildings.Components.LightingType.LED ligTyp,
       redeclare Buildings.Components.LightingControl.OccupancyBased ligCtr));
   annotation (
-    Documentation(revisions="<html>
-    <ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+    Documentation(info="<html>
 <p>
 This example extends the second example by adding an occupant and lighting model.
 Based on the selected options, the system automatically calculates zone heat gains, 
@@ -54,12 +42,25 @@ Set the appropriate replaceable models in the dialogue window of the zone model.
 </p>
 <h4>Reference result</h4>
 <p>
-The result with and without the occupant and lighting is plotted in the figure below. 
+The operative zone temperature without (blue) and with (red) occupant and lighting 
+(both with screen model is plotted in the figure below. 
 </p>
 <p align=\"center\">
 <img alt=\"The operative zone temperature without (blue) and with (red) occupant and lighting (both with screen model).\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse3.png\" width=\"700\"/>
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse3.mos"

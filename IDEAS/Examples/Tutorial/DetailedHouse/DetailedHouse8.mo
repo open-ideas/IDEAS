@@ -10,19 +10,7 @@ model DetailedHouse8 "JSON writer"
 equation
   connect(jsonWri.u[1], EEl.y) annotation (Line(points={{280,-32},{286,-32},{286,
           50},{301,50}},     color={0,0,127}));
-  annotation (Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+  annotation (Documentation(info="<html>
 <p>
 Extracting results from Dymola can be tedious. Therefore, several custom tools have been developed to facilitate 
 exporting simulation results. For time-series data, a generic CSV writer can be found in <a href=\"modelica://IDEAS.Utilities.IO.Files.JSONWriter\">
@@ -54,6 +42,18 @@ saved. Connect the appropriate signal to the input of the block.
 Check the contents of the generated file. Depending on the chosen value for the parameter
 <code>varKeys</code>, the result should be similar to: {\"Electrical energy [kWH]\"}: 1.2577137592e+01
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
@@ -63,6 +63,5 @@ Check the contents of the generated file. Depending on the chosen value for the 
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Lsodar"));
 end DetailedHouse8;

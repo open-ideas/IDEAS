@@ -16,19 +16,7 @@ equation
   connect(senTemSup.T, hys.u) annotation (Line(points={{136,49},{136,4},{120,4},
           {120,-40},{40,-40},{40,-70},{58,-70}}, color={0,0,127}));
   annotation (
-    Documentation(revisions="<html>
-<ul>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-September 18, 2019 by Filip Jorissen:<br/>
-First implementation for the IDEAS crash course.
-</li>
-</ul>
-</html>", info="<html>
+    Documentation(info="<html>
 <p>
 This step adds a controller that disables the heat pump when the supply water
 temperature exceeds <i>45°C</i>. The simple controller has a large impact on the heat pump's COP.
@@ -63,9 +51,9 @@ connections to the other control signal.
 </p>
 <h4>Reference result</h4>
 <p>
-The figure below compares the results with the results without controller of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
-IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>. We see that indeed,
-the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
+The figure below compares the results with (red) and without (blue, <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>) control for the operative zone temperature, supply water temperature
+and radiator thermal power. We see that indeed, the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
 about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the energy use over the
 period is reduced from <i>11.56 kWh</i> to <i>9.64 kWh</i>. Note that this heating system configuration is still not efficient
 since the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small
@@ -76,6 +64,18 @@ COP. COPs of more than 5 are obtainable when using a bypass and a separate pump 
 and radiator thermal power.\"
 src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example7.png\" width=\"700\"/>
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+January 14, 2025, by Lone Meertens:<br/>
+Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>
+</li>
+<li>
+September 18, 2019 by Filip Jorissen:<br/>
+First implementation for the IDEAS crash course.
+</li>
+</ul>
 </html>"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse7.mos"
