@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse5 "New model with 2 coupled zones"
+model DetailedHouse5 "New building model with two connected zones"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Modelica.Units.SI.Length l=8 "Zone length";
@@ -52,7 +52,7 @@ model DetailedHouse5 "New model with 2 coupled zones"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
   connect(recZon1.proBusFlo, recZon1.proBusCei) annotation (Line(
-      points={{0,24},{28,24},{28,36},{-0.2,36}},
+      points={{0,24},{-20,24},{-20,36},{-0.2,36}},
       color={255,204,51},
       thickness=0.5));
   connect(recZon2.proBusA, recZon1.proBusC) annotation (Line(
@@ -60,7 +60,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(recZon2.proBusCei, recZon2.proBusFlo) annotation (Line(
-      points={{-0.2,-24},{28,-24},{28,-36},{0,-36}},
+      points={{-0.2,-24},{-20,-24},{-20,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
   annotation (Documentation(info="<html>
