@@ -6,24 +6,24 @@ model DetailedHouse8 "JSON writer"
     fileName="EEl.json",
     varKeys={"Electrical energy [kWh]"},
     outputTime=IDEAS.Utilities.IO.Files.BaseClasses.OutputTime.Terminal)
-    annotation (Placement(transformation(extent={{280,-42},{260,-22}})));
+    annotation (Placement(transformation(extent={{308,70},{328,90}})));
 equation
-  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{280,-32},{286,-32},{286,
-          50},{301,50}},     color={0,0,127}));
+  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{308,80},{301,80}},
+                             color={0,0,127}));
   annotation (Documentation(info="<html>
 <p>
 Extracting results from Dymola can be tedious. Therefore, several custom tools have been developed to facilitate 
 exporting simulation results. For time-series data, a generic CSV writer can be found in <a href=\"modelica://IDEAS.Utilities.IO.Files.JSONWriter\">
-IDEAS.Utilities.IO.Files.JSONWriter</a>. This model generates a CSV file at a userdefined location that contains data for 
+IDEAS.Utilities.IO.Files.JSONWriter</a>. This model generates a CSV file at a user-defined location that contains data for 
 each of the inputs of the block. The delimiter can be modified in the advanced parameter tab. The model 
 <a href=\"modelica://IDEAS.Utilities.IO.Files.CombiTimeTableWriter\"> IDEAS.Utilities.IO.Files.CombiTimeTableWriter</a>, 
 does the same, albeit using a slightly different file format which can be read directly back into Modelica using the file reader
 <a href=\"modelica://Modelica.Blocks.Sources.CombiTimeTable\"> Modelica.Blocks.Sources.CombiTimeTable</a>.
 </p>
 <p>
-In this example we will not output time series data, only a single value: the total energy use at the end
-of the simulation, using the json file format. Note that the external library <code>ExternData</code> can be used to read
-json files.
+In this example we will not output time series data, only a single value: the total electricity consumption at the end
+of the simulation, using the <code>JSON</code> file format. Note that the external library <code>ExternData</code> can be used to read
+<code>JSON</code> files.
 </p>
 <h4>Required models</h4>
 <ul>
