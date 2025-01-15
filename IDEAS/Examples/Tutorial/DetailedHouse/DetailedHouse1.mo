@@ -77,7 +77,7 @@ model DetailedHouse1 "First example model containing one zone"
         origin={30,54})));
 equation
   connect(outWalWes.propsBus_a, zon.propsBus[1]) annotation (Line(
-      points={{-49,22},{-30,22},{-30,13.1429},{-20,13.1429}},
+      points={{-49,22},{-30,22},{-30,14},{-20,14},{-20,13.1429}},
       color={255,204,51},
       thickness=0.5));
   connect(zon.propsBus[2], outWalNor.propsBus_a) annotation (Line(
