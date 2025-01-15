@@ -1,4 +1,4 @@
-within IDEAS.Examples.Tutorial.DetailedHouse;
+﻿within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse4 "Including custom occupant schedule"
   extends DetailedHouse3(zon(redeclare OccSch occNum(k=2)));
 protected
@@ -40,7 +40,7 @@ Modelica.Blocks.Sources.RealExpression</a>
 </ul>
 <h4>Connection instructions</h4>
 <p>
-Create a new model that extends the occupancy model partial. This partial contains an input, 
+Create a new model that extends the occupancy partial model. This partial model contains an input, 
 which is not used, and an output, which must be set. Create an occupancy signal using a 
 <code>RealExpression</code> that returns the parameter value <i>k</i> during office hours (7–19 h on weekdays) 
 and zero otherwise. Implement this model by extending the previous example, redeclaring the 
@@ -52,10 +52,10 @@ logical checks for the calendar outputs <code>weekDay</code> and <code>hour</cod
 </p>
 <h4>Reference result</h4>
 <p>
-The operative zone temperature as function of time is plotted in the figure below. The blue line depicts the operative zone temperature using the old
-occupant model (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
+The operative zone temperature as a function of time is plotted in the figure below. The blue line depicts the operative zone temperature using the old
+occupancy model (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3</a>), while the red line illustrates the operative zone temperature
-with the new occupant model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
+with the new occupancy model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>. Note the much more peaked behaviour of the zone
 temperature during the weekdays when there are occupants present (red line).
 </p>

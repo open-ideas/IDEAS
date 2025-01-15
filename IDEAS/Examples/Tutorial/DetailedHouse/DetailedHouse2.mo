@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse2 "Adding closed screens"
+model DetailedHouse2 "Adding solar screens"
   extends DetailedHouse1(win(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant con(k=1)
     "Solar screen's external control signal"

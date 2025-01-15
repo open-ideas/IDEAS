@@ -1,5 +1,5 @@
-within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse1 "First example model containing one zone"
+﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse1 "First example model of a one-zone building"
   extends Modelica.Icons.Example;
   package MediumAir = IDEAS.Media.Air "Air medium";
 

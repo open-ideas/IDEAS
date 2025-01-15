@@ -1,5 +1,5 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse3 "Adding occupant and lighting"
+model DetailedHouse3 "Adding occupancy and lighting"
   extends DetailedHouse2(
                    zon(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),

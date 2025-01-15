@@ -27,7 +27,7 @@ model DetailedHouse5 "New model with 2 coupled zones"
     A_winA=2*1.3,
     redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingA,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo)
-    "North part of the zone"
+    "Northern part of the zone"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate recZon2(
     redeclare package Medium = Medium,
@@ -48,7 +48,7 @@ model DetailedHouse5 "New model with 2 coupled zones"
     hasWinC=true,
     A_winC=2*1.3,
     redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingC)
-    "South part of the zone"
+    "Southern part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
   connect(recZon1.proBusFlo, recZon1.proBusCei) annotation (Line(
@@ -65,10 +65,10 @@ equation
       thickness=0.5));
   annotation (Documentation(info="<html>
 <p>
-This example demonstrates the use of the RectangularZoneTemplate.
+This example demonstrates the use of the <code>RectangularZoneTemplate</code>.
 The one-zone implementation with one window of <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1\">
-IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a> is repeated here as 
-a two-zone implementation with two windows that are north and south oriented.
+IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse1</a> is replaced by 
+a two-zone implementation with a north and a south-oriented window.
 Note the different temperature responses of the zones. 
 </p>
 <h4>Required models</h4>
@@ -95,9 +95,9 @@ templates, while an <i>external connection</i> is used for the other template. T
 </p>
 <h4>Reference result</h4>
 <p>
-The figure bellow shows the operative zone temperatures of the zone with north oriented window (blue)
-and the zone with the south oriented window (red). Note the large effect that the
-window placement has on the zone dynamics!
+The figure below shows the operative zone temperatures of the zone with north oriented window (blue)
+and the zone with the south-oriented window (red). Note the large effect of the
+window placement on the zone dynamics!
 </p>
 <p align=\"center\">
 <img alt=\"Zone temperature for the zone with the north oriented window (blue) and the zone with the south
