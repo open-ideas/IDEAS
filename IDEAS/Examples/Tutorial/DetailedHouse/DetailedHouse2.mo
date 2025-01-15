@@ -24,7 +24,7 @@ Modelica.Blocks.Sources.Constant</a>
 <li>
 <a href=\"modelica://IDEAS.Buildings.Components.Shading.Screen\">
 IDEAS.Buildings.Components.Shading.Screen</a>: This model is used <i>internally</i> and can be set in the window's parameter window.
-It should not be drag-and-dropped.
+It should not be dragged and dropped.
 </li>
 </ul>
 <h4>Connection instructions</h4>
