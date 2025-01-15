@@ -68,11 +68,11 @@ model DetailedHouse1 "First example model containing one zone"
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
     A=l*w) annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
-  Buildings.Components.OuterWall ceiling(
+  Buildings.Components.OuterWall cei(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof
       constructionType,
     inc=IDEAS.Types.Tilt.Ceiling,
-    A=w*l) "Outer wall model" annotation (Placement(transformation(
+    A=w*l) "Ceiling model" annotation (Placement(transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
         origin={76,48})));
@@ -101,7 +101,7 @@ equation
       points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.5714}},
       color={255,204,51},
       thickness=0.5));
-  connect(ceiling.propsBus_a, zon.propsBus[7]) annotation (Line(
+  connect(cei.propsBus_a, zon.propsBus[7]) annotation (Line(
       points={{74,43},{74,38},{-22,38},{-22,14.8571},{-20,14.8571}},
       color={255,204,51},
       thickness=0.5));
