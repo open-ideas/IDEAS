@@ -23,7 +23,7 @@ For license information, view our <a href=\"https://github.com/open-ideas/IDEAS\
 </html>"),
   Icon(graphics={
       Polygon(
-        points={{-40,0},{40,0},{40,-80},{-40,-80},{-40,0}},
+        points={{-60,0},{60,0},{60,-90},{-60,-90},{-60,0}},
         lineColor={0,0,0},
         lineThickness=1),
       Polygon(
@@ -31,17 +31,17 @@ For license information, view our <a href=\"https://github.com/open-ideas/IDEAS\
         lineColor={0,0,0},
         lineThickness=1),
       Polygon(
-        points={{-36,20},{36,20},{40,0},{-40,0},{-36,20}},
+        points={{-36,20},{36,20},{60,0},{-60,0},{-36,20}},
         lineColor={0,0,0},
         lineThickness=1),
       Polygon(
-        points={{-40,0},{-36,-16},{36,-16},{40,0},{-40,0}},
+        points={{-60,0},{-50,-22},{50,-22},{60,0},{-60,0}},
         lineColor={0,0,0},
         lineThickness=1,
         fillColor={255,255,255},
         fillPattern=FillPattern.Solid),
       Polygon(
-        points={{40,0},{36,20},{46,22},{50,2},{40,0}},
+        points={{60,0},{36,20},{46,22},{74,0},{60,0}},
         lineColor={0,0,0},
         lineThickness=1,
         fillColor={255,255,255},
@@ -53,15 +53,13 @@ For license information, view our <a href=\"https://github.com/open-ideas/IDEAS\
         fillColor={255,255,255},
         fillPattern=FillPattern.None),
       Polygon(
-        points={{-36,20},{-44,22},{-50,0},{-40,0},{-36,20}},
+        points={{-36,20},{-54,22},{-84,0},{-60,0},{-36,20}},
         lineColor={0,0,0},
         lineThickness=1,
         fillColor={255,255,255},
         fillPattern=FillPattern.None),
-      Bitmap(extent={{-20,-56},{20,-24}}, fileName=
+      Bitmap(extent={{-40,-84},{40,-26}}, fileName=
             "modelica://IDEAS/Resources/Images/idea.png"),
-      Bitmap(extent={{-20,-80},{20,-60}}, fileName=
-            "modelica://IDEAS/Resources/Images/KU_Leuven_logo.png"),
-      Bitmap(extent={{-34,-4},{34,76}}, fileName=
-            "modelica://IDEAS/Resources/Images/village.png")}));
+      Bitmap(extent={{-80,0},{80,90}}, fileName=
+            "modelica://IDEAS/Resources/Images/house.png")}));
 end IDEAS;
