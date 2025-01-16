@@ -113,20 +113,18 @@ equation
     annotation (Line(points={{-110,-38},{-110,2}}, color={0,0,127}));
   connect(vavSup1.y, conPID1.y)
     annotation (Line(points={{-110,2},{-110,10},{-61,10}}, color={0,0,127}));
-  connect(recZon2.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{16,-30},{
-          16,-60},{-50,-60},{-50,-2}},
-                             color={0,0,127}));
-  connect(recZon1.ppm, conPID.u_m) annotation (Line(points={{11,30},{16,30},{16,
-          70},{-50,70},{-50,78}},
-                         color={0,0,127}));
+  connect(recZon2.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{14,-30},
+          {14,-2},{-50,-2}}, color={0,0,127}));
+  connect(recZon1.ppm, conPID.u_m) annotation (Line(points={{11,30},{14,30},{14,
+          78},{-50,78}}, color={0,0,127}));
   connect(ppmSet.y, conPID.u_s)
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
           10},{-38,10}}, color={0,0,127}));
-  connect(outAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},{-260,
-          -6},{-250,-6}},color={0,127,255}));
-  connect(outAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{-260,
-          6},{-250,6}},           color={0,127,255}));
+  connect(outAir.ports[1], hex.port_b2) annotation (Line(points={{-260,1},{-250,
+          1},{-250,-6}}, color={0,127,255}));
+  connect(outAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{-252,
+          -1},{-252,6},{-250,6}}, color={0,127,255}));
   connect(vavSup.port_b, recZon1.ports[1]) annotation (Line(points={{-100,60},{
           -2,60},{-2,40},{0,40}}, color={0,127,255}));
   connect(vavRet.port_a, recZon1.ports[2]) annotation (Line(points={{-100,30},{
@@ -135,7 +133,7 @@ equation
     annotation (Line(points={{-100,-10},{0,-10},{0,-20}}, color={0,127,255}));
   connect(vavRet1.port_a, recZon2.ports[2]) annotation (Line(points={{-100,-50},
           {-34,-50},{-34,-20},{0,-20}}, color={0,127,255}));
-  annotation (Diagram(coordinateSystem(extent={{-280,-100},{320,100}})), Icon(
+  annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-100,-100},{100,100}})),
     experiment(
       StartTime=10000000,
@@ -207,17 +205,17 @@ and <code>controllerType=PI</code>. The schematic representation of the model is
 </p>
 <p align=\"center\">
 <img alt=\"The schematic of Example 9.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Schematic9.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse9_schematic.png\" width=\"700\"/>
 </p>
 <h4>Reference result</h4>
 <p>
-The zone temperature, CO<sub>2</sub> concentrations and PI control signals are shown in the figure below.
-Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO<sub>2</sub>
+The zone temperature, CO2 concentrations and PI control signals are shown in the figure below.
+Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO2
 concentration when there are no occupants.
 </p>
 <p align=\"center\">
 <img alt=\"The schematic of Example 9.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example9.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse9.png\" width=\"700\"/>
 </p>
 </html>", revisions="<html>
 <ul>

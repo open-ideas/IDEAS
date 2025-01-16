@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse6
   "Extension of DetailedHouse5 that adds a heating system"
   extends DetailedHouse5;
@@ -20,7 +20,7 @@ model DetailedHouse6
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={230,10})));
+        origin={190,10})));
 
   Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
     redeclare package Medium = MediumWater,
@@ -59,7 +59,7 @@ model DetailedHouse6
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Circulation pump at secondary side"
-    annotation (Placement(transformation(extent={{140,50},{120,70}})));
+    annotation (Placement(transformation(extent={{120,50},{100,70}})));
   Fluid.Sources.Boundary_pT bou(
     nPorts=2,
     redeclare package Medium = MediumWater,
@@ -67,7 +67,7 @@ model DetailedHouse6
               annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={310,0})));
+        origin={270,10})));
   Fluid.Actuators.Valves.TwoWayTRV val1(
     dpValve_nominal=20000,
     m_flow_nominal=rad1.m_flow_nominal,
@@ -84,16 +84,16 @@ model DetailedHouse6
     redeclare package Medium = MediumWater,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Circulation pump at primary side"
-    annotation (Placement(transformation(extent={{280,30},{260,50}})));
+    annotation (Placement(transformation(extent={{240,50},{220,70}})));
   Modelica.Blocks.Sources.IntegerConstant heaPumOn(k=1) "Heat pump is on"
-    annotation (Placement(transformation(extent={{260,-80},{240,-60}})));
+    annotation (Placement(transformation(extent={{160,-62},{180,-42}})));
   Modelica.Blocks.Continuous.Integrator EEl(k=1/3600000)
     "Electrical energy meter with conversion to kWh"
-    annotation (Placement(transformation(extent={{280,70},{300,90}})));
+    annotation (Placement(transformation(extent={{280,40},{300,60}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
         MediumWater, m_flow_nominal=pumSec.m_flow_nominal)
     "Supply water temperature sensor"
-    annotation (Placement(transformation(extent={{170,70},{150,50}})));
+    annotation (Placement(transformation(extent={{146,70},{126,50}})));
   Fluid.Sources.Boundary_pT bou1(
     nPorts=1,
     redeclare package Medium = MediumWater,
@@ -101,29 +101,29 @@ model DetailedHouse6
               annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
-        origin={100,86})));
+        origin={110,90})));
   Fluid.Storage.Stratified tan(
     redeclare package Medium = MediumWater,
     m_flow_nominal=pumSec.m_flow_nominal,
     VTan=0.1,
     hTan=0.5,
     dIns=0.1) "Buffer tank for avoiding excessive heat pump on/off switches"
-    annotation (Placement(transformation(extent={{210,50},{190,70}})));
+    annotation (Placement(transformation(extent={{178,50},{158,70}})));
 equation
   connect(val.port_b, rad.port_a)
     annotation (Line(points={{50,20},{50,0}}, color={0,127,255}));
   connect(val1.port_b, rad1.port_a)
     annotation (Line(points={{90,20},{90,0}}, color={0,127,255}));
   connect(val.port_a, pumSec.port_b)
-    annotation (Line(points={{50,40},{50,60},{120,60}}, color={0,127,255}));
+    annotation (Line(points={{50,40},{50,60},{100,60}}, color={0,127,255}));
   connect(val1.port_a, pumSec.port_b)
-    annotation (Line(points={{90,40},{90,60},{120,60}}, color={0,127,255}));
+    annotation (Line(points={{90,40},{90,60},{100,60}}, color={0,127,255}));
   connect(heaPum.port_a2, pumPri.port_b)
-    annotation (Line(points={{236,20},{236,40},{260,40}}, color={0,127,255}));
-  connect(heaPum.port_b2, bou.ports[1]) annotation (Line(points={{236,0},{236,
-          -40},{300,-40},{300,1}},                color={0,127,255}));
-  connect(pumPri.port_a, bou.ports[2]) annotation (Line(points={{280,40},{300,
-          40},{300,-1}},    color={0,127,255}));
+    annotation (Line(points={{196,20},{196,60},{220,60}}, color={0,127,255}));
+  connect(heaPum.port_b2, bou.ports[1]) annotation (Line(points={{196,0},{196,
+          -30},{248,-30},{248,11},{260,11}},      color={0,127,255}));
+  connect(pumPri.port_a, bou.ports[2]) annotation (Line(points={{240,60},{248,60},
+          {248,9},{260,9}}, color={0,127,255}));
   connect(rad.heatPortCon, recZon1.gainCon) annotation (Line(points={{42.8,-8},{
           20,-8},{20,27},{10,27}}, color={191,0,0}));
   connect(rad.heatPortRad, recZon1.gainRad) annotation (Line(points={{42.8,-12},
@@ -132,34 +132,33 @@ equation
           {66,-8},{66,-33},{10,-33}}, color={191,0,0}));
   connect(rad1.heatPortRad, recZon2.gainRad) annotation (Line(points={{82.8,-12},
           {70,-12},{70,-36},{10,-36}}, color={191,0,0}));
-  connect(heaPumOn.y, heaPum.stage) annotation (Line(points={{239,-70},{227,-70},
-          {227,-2}}, color={255,127,0}));
+  connect(heaPumOn.y, heaPum.stage) annotation (Line(points={{181,-52},{187,-52},
+          {187,-2}}, color={255,127,0}));
   connect(heaPum.P, EEl.u)
-    annotation (Line(points={{230,21},{230,80},{278,80}}, color={0,0,127}));
+    annotation (Line(points={{190,21},{190,50},{278,50}}, color={0,0,127}));
   connect(recZon1.TSensor, val.T) annotation (Line(points={{11,32},{26,32},{26,30},
           {39.4,30}}, color={0,0,127}));
-  connect(recZon2.TSensor, val1.T) annotation (Line(points={{11,-28},{30,-28},{30,
-          10},{79.4,10},{79.4,30}}, color={0,0,127}));
+  connect(recZon2.TSensor, val1.T) annotation (Line(points={{11,-28},{32,-28},{32,
+          12},{79.4,12},{79.4,30}}, color={0,0,127}));
   connect(bou1.ports[1], pumSec.port_b)
-    annotation (Line(points={{100,76},{100,60},{120,60}}, color={0,127,255}));
+    annotation (Line(points={{110,80},{100,80},{100,60}}, color={0,127,255}));
   connect(senTemSup.port_b, pumSec.port_a)
-    annotation (Line(points={{150,60},{140,60}}, color={0,127,255}));
+    annotation (Line(points={{126,60},{120,60}}, color={0,127,255}));
   connect(senTemSup.port_a, tan.port_b)
-    annotation (Line(points={{170,60},{180,60},{180,40},{200,40},{200,50}},
+    annotation (Line(points={{146,60},{158,60},{158,50},{168,50}},
                                                  color={0,127,255}));
   connect(tan.port_a, heaPum.port_b1)
-    annotation (Line(points={{200,70},{200,80},{224,80},{224,20}},
-                                                          color={0,127,255}));
+    annotation (Line(points={{168,70},{184,70},{184,20}}, color={0,127,255}));
   connect(rad1.port_b, heaPum.port_a1) annotation (Line(points={{90,-20},{90,
-          -40},{224,-40},{224,0}}, color={0,127,255}));
-  connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-40},
-          {224,-40},{224,0}}, color={0,127,255}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-100},{340,100}},
+          -30},{184,-30},{184,0}}, color={0,127,255}));
+  connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
+          {184,-30},{184,0}}, color={0,127,255}));
+  annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
           initialScale=0.1), graphics={Text(
-          extent={{128,96},{204,86}},
+          extent={{138,98},{224,90}},
           lineColor={28,108,200},
-          textString="This sets the absolute pressure only"), Line(points={{114,86},
-              {124,90}},     color={28,108,200})}), Icon(coordinateSystem(
+          textString="This sets the absolute pressure only"), Line(points={{126,
+              86},{134,92}}, color={28,108,200})}), Icon(coordinateSystem(
           extent={{-100,-100},{100,100}}, initialScale=0.1)),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse6.mos"
@@ -174,10 +173,10 @@ equation
 <p>
 This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5</a> by adding an HVAC system.
-The system consists of a water-to-water heat pump, radiators, a storage tank, circulation
+The system consists of a water-water heat pump, radiators, a storage tank, circulation
 pumps and a heat source at a constant temperature of <i>10°C</i> for the heat pump. The model includes constant 
-control setpoints for the heat pump and pumps. An integrator block is incorporated to calculate 
-the electricity consumption of the heat pump.
+control setpoints for the heat pump and pumps. An integrator block is incorporated to measure 
+the electrical energy consumption of the heat pump.
 </p>
 <h4>Required models</h4>
 <ul>
@@ -220,7 +219,7 @@ A reference implementation for this example is shown in the figure below.
 </p>
 <p align=\"center\">
 <img alt=\" The schematic of Example 6.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Schematic6.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse6_schematic.png\" width=\"700\"/>
 </p>
 <p>
 One notable example is that in each fluid loop the <i>absolute</i> pressure of that loop has to be
@@ -237,12 +236,12 @@ TSensor, the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_f
 </p>
 <p align=\"center\">
 <img alt=\" The schematic of Example 6.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example6.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse6.png\" width=\"700\"/>
 </p>
 <p>
 <p align=\"center\">
 <img alt=\" The schematic of Example 6.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example6_bis.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse6_bis.png\" width=\"700\"/>
 </p>
 <p>
 This example illustrates the importance of control, which is currently not modelled. All pumps and the heat

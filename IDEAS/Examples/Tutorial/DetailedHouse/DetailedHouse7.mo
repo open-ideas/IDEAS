@@ -1,20 +1,20 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse7 "Adding a controller"
   extends DetailedHouse6(heaPum(enable_variable_speed=true));
   Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 40, uHigh=273.15 + 45)
     "Hysteresis controller"
-    annotation (Placement(transformation(extent={{150,-80},{170,-60}})));
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
   Modelica.Blocks.Math.BooleanToReal booToRea(realTrue=0, realFalse=1)
     "Conversion to real control signal"
-    annotation (Placement(transformation(extent={{180,-80},{200,-60}})));
+    annotation (Placement(transformation(extent={{100,-80},{120,-60}})));
 
 equation
-  connect(hys.y, booToRea.u) annotation (Line(points={{171,-70},{178,-70}},
-                     color={255,0,255}));
-  connect(senTemSup.T, hys.u) annotation (Line(points={{160,49},{160,-20},{140,
-          -20},{140,-70},{148,-70}},             color={0,0,127}));
-  connect(booToRea.y, heaPum.y) annotation (Line(points={{201,-70},{226,-70},{
-          226,-2},{227,-2}}, color={0,0,127}));
+  connect(hys.y, booToRea.u) annotation (Line(points={{81,-70},{88,-70},{88,-70},
+          {98,-70}}, color={255,0,255}));
+  connect(booToRea.y, heaPum.y)
+    annotation (Line(points={{121,-70},{187,-70},{187,-2}}, color={0,0,127}));
+  connect(senTemSup.T, hys.u) annotation (Line(points={{136,49},{136,4},{120,4},
+          {120,-40},{40,-40},{40,-70},{58,-70}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>
@@ -43,7 +43,7 @@ The controller is configured such that it switches to a <i>false</i> signal belo
 </p>
 <p>
 The output of the hysteresis controller is thus true when the supply temperature is high enough and false
-otherwise. This boolean signal has to be converted in a real control signal that can be accepted by the heat
+otherwise. This Boolean signal has to be converted in a real control signal that can be accepted by the heat
 pump model using the <code>BooleanToReal</code> block. The heat pump already has a control signal.
 Since blocks cannot be removed from an extension of a model, the heat pump model input type is set to 
 enable_variable_speed=true. This configuration allows the model to accept any real signal while ignoring 
@@ -53,8 +53,8 @@ connections to the other control signal.
 <p>
 The figure below compares the results with (red) and without (blue, <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>) control for the operative zone temperature, supply water temperature
-and radiator thermal power. We see that, indeed, the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
-about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the electricity consumption over the
+and radiator thermal power. We see that indeed, the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
+about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the energy use over the
 period is reduced from <i>11.56 kWh</i> to <i>9.64 kWh</i>. Note that this heating system configuration is still not efficient
 since the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small
 COP. COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
@@ -62,7 +62,7 @@ COP. COPs of more than 5 are obtainable when using a bypass and a separate pump 
 <p align=\"center\">
 <img alt=\"Comparison with (red) and without (blue) control for zone temperature, supply water temperature
 and radiator thermal power.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Example7.png\" width=\"700\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse7.png\" width=\"700\"/>
 </p>
 </html>", revisions="<html>
 <ul>
