@@ -57,6 +57,7 @@ end HeavyWall;
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
+      Tolerance=0.00011,
       __Dymola_fixedstepsize=20,
       __Dymola_Algorithm="Euler"), __Dymola_experimentFlags(
       Advanced(

@@ -1,5 +1,5 @@
-within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse1 "First example model containing one zone"
+﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+model DetailedHouse1 "First example model of a one-zone building"
   extends Modelica.Icons.Example;
   package MediumAir = IDEAS.Media.Air "Air medium";
 
@@ -20,89 +20,88 @@ model DetailedHouse1 "First example model containing one zone"
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.W,
-    A=l*h)
-    "Outer wall model"
-    annotation (Placement(transformation(extent={{-56,0},{-44,20}})));
+    A=l*h) "Western outer wall model"
+    annotation (Placement(transformation(extent={{-60,10},{-48,30}})));
   IDEAS.Buildings.Components.OuterWall outWalEas(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.E,
-    A=l*h)
-    "Outer wall model"
-    annotation (Placement(transformation(extent={{36,0},{24,20}})));
+    A=l*h) "Eastern outer wall model"
+    annotation (Placement(transformation(extent={{40,0},{28,20}})));
   IDEAS.Buildings.Components.OuterWall outWalNor(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.N,
-    A=w*h)
-    "Outer wall model"
+    A=w*h) "Northern outer wall model"
      annotation (Placement(transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
-        origin={-10,52})));
+        origin={-10,54})));
   IDEAS.Buildings.Components.OuterWall outWalSou(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
       constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
-    A=w*h - win.A)
-    "Outer wall model"
+    A=w*h - win.A) "Southern outer wall model"
      annotation (Placement(transformation(
         extent={{-6,-10},{6,10}},
         rotation=90,
-        origin={-10,-30})));
+        origin={-10,-34})));
   IDEAS.Buildings.Components.Window win(
     inc=IDEAS.Types.Tilt.Wall,
     A=3*1.4,
     azi=IDEAS.Types.Azimuth.S,
     redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazing)
     "Window model" annotation (Placement(transformation(extent={{-6,-10},{6,10}},
-        rotation=90,
-        origin={-36,-30})));
+        rotation=0,
+        origin={-54,-10})));
 
-  Buildings.Components.SlabOnGround slabOnGround(
+  Buildings.Components.SlabOnGround slaOnGro(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
       constructionType,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
-    A=l*w) annotation (Placement(transformation(extent={{74,-32},{86,-10}})));
-  Buildings.Components.OuterWall ceiling(
+    A=l*w) "Floor model" annotation (Placement(transformation(
+        extent={{-6,-11},{6,11}},
+        rotation=90,
+        origin={30,-35})));
+  Buildings.Components.OuterWall cei(
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof
       constructionType,
     inc=IDEAS.Types.Tilt.Ceiling,
-    A=w*l) "Outer wall model" annotation (Placement(transformation(
+    A=w*l) "Ceiling model" annotation (Placement(transformation(
         extent={{6,-10},{-6,10}},
         rotation=90,
-        origin={76,48})));
+        origin={30,54})));
 equation
   connect(outWalWes.propsBus_a, zon.propsBus[1]) annotation (Line(
-      points={{-45,12},{-38.5,12},{-38.5,13.1429},{-20,13.1429}},
+      points={{-49,22},{-30,22},{-30,14},{-20,14},{-20,13.1429}},
       color={255,204,51},
       thickness=0.5));
   connect(zon.propsBus[2], outWalNor.propsBus_a) annotation (Line(
-      points={{-20,13.4286},{-22,13.4286},{-22,47},{-12,47}},
+      points={{-20,13.4286},{-22,13.4286},{-22,30},{-12,30},{-12,49}},
       color={255,204,51},
       thickness=0.5));
   connect(zon.propsBus[3], outWalEas.propsBus_a) annotation (Line(
-      points={{-20,13.7143},{-20,28},{25,28},{25,12}},
+      points={{-20,13.7143},{-20,14},{-22,14},{-22,30},{20,30},{20,12},{29,12}},
       color={255,204,51},
       thickness=0.5));
   connect(outWalSou.propsBus_a, zon.propsBus[4]) annotation (Line(
-      points={{-12,-25},{-12,-6},{-20,-6},{-20,14}},
+      points={{-12,-29},{-12,-10},{-20,-10},{-20,14}},
       color={255,204,51},
       thickness=0.5));
   connect(win.propsBus_a, zon.propsBus[5]) annotation (Line(
-      points={{-38,-25},{-38,14},{-20,14},{-20,14.2857}},
+      points={{-49,-8},{-30,-8},{-30,14},{-20,14},{-20,14.2857}},
       color={255,204,51},
       thickness=0.5));
-  connect(slabOnGround.propsBus_a, zon.propsBus[6]) annotation (Line(
-      points={{85,-18.8},{94,-18.8},{94,-6},{-20,-6},{-20,14.5714}},
+  connect(slaOnGro.propsBus_a, zon.propsBus[6]) annotation (Line(
+      points={{27.8,-30},{28,-30},{28,-10},{-20,-10},{-20,14.5714}},
       color={255,204,51},
       thickness=0.5));
-  connect(ceiling.propsBus_a, zon.propsBus[7]) annotation (Line(
-      points={{74,43},{74,38},{-22,38},{-22,14.8571},{-20,14.8571}},
+  connect(cei.propsBus_a, zon.propsBus[7]) annotation (Line(
+      points={{28,49},{28,30},{-22,30},{-22,14.8571},{-20,14.8571}},
       color={255,204,51},
       thickness=0.5));
   annotation (
@@ -159,7 +158,7 @@ of <code>nSurf</code> connections to the zone.
 </p>
 <p>
 In addition to connecting each surface, the parameters of each component have to be set. Components typically
-have many default values that are appropriate for many purposes. When parameters do not have a default
+have many default values that are appropriate for many purposes. When a parameter does not have a default
 value, it must be set by the user. Notable examples are the dimensions and orientation of the zone, walls
 and windows. The surface orientation can be set using the parameters <code>incOpt</code>, which automatically sets the
 inclination depending on the type of outer wall (wall, floor, ceiling), and <code>aziOpt</code>, which automatically sets the
@@ -180,7 +179,6 @@ This model is simulated with the following settings:
 </p>
 <ol>
 <li>Lsodar as the solver with tolerance = 1e-06 </li>
-<li>Stop time = 1.1e7,</li>
 <li>Start time = 1e7,</li>
 <li>Stop time = 1.1e7,</li>
 <li>Number of intervals = 5000.</li>

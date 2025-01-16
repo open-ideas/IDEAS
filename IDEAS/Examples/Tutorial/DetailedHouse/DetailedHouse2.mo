@@ -1,11 +1,12 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
-model DetailedHouse2 "Adding closed screens"
+model DetailedHouse2 "Adding solar screens"
   extends DetailedHouse1(win(redeclare Buildings.Components.Shading.Screen shaType));
   Modelica.Blocks.Sources.Constant con(k=1)
-    annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
+    "Solar screen's external control signal"
+    annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 equation
   connect(con.y, win.Ctrl)
-    annotation (Line(points={{-79,-50},{-26,-50},{-26,-34}}, color={0,0,127}));
+    annotation (Line(points={{-69,-50},{-58,-50},{-58,-20}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>
@@ -22,13 +23,10 @@ Modelica.Blocks.Sources.Constant</a>
 </li>
 <li>
 <a href=\"modelica://IDEAS.Buildings.Components.Shading.Screen\">
-IDEAS.Buildings.Components.Shading.Screen</a>
+IDEAS.Buildings.Components.Shading.Screen</a>: This model is used <i>internally</i> and can be set in the window's parameter window.
+It should not be dragged and dropped.
 </li>
 </ul>
-<p>
-This latter model is used <i>internally</i> and can be set in the window's parameter window.
-It should not be drag-and-dropped.
-</p>
 <h4>Connection instructions</h4>
 <p>
 Solar shading is a property of the window and can be selected using the replaceable model <code>shaType</code>. 
