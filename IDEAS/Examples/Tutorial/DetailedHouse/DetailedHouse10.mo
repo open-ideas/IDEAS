@@ -55,15 +55,17 @@ record HeavyWall "BESTEST heavy wall with idealized wood layer"
 
 end HeavyWall;
   annotation (
- __Dymola_Commands(file=
+  __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse10.mos"
         "Simulate and plot"),
- experiment(
+  experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
+      __Dymola_Algorithm="Euler",
       __Dymola_fixedstepsize=20,
-      __Dymola_Algorithm="Euler"), __Dymola_experimentFlags(
+      Tolerance=1e-6),
+  __Dymola_experimentFlags(
       Advanced(
         EvaluateAlsoTop=true,
         GenerateVariableDependencies=false,
