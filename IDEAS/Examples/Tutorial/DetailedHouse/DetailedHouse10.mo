@@ -15,16 +15,14 @@ model DetailedHouse10 "Speeding up the code"
       redeclare HeavyWall conTypA,
       redeclare HeavyWall conTypB,
       redeclare HeavyWall conTypC,
-      redeclare HeavyWall conTypD,
-      redeclare HeavyWall conTypFlo),
+      redeclare HeavyWall conTypD),
     recZon1(
       redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure
         interzonalAirFlow,
       redeclare HeavyWall conTypA,
       redeclare HeavyWall conTypB,
       redeclare HeavyWall conTypC,
-      redeclare HeavyWall conTypD,
-      redeclare HeavyWall conTypFlo),
+      redeclare HeavyWall conTypD),
     fanRet(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
         use_riseTime=false),
     fanSup(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
