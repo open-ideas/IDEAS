@@ -7,28 +7,28 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
         redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
     recZon1(redeclare OccSched occNum(k=2), redeclare
         Buildings.Components.OccupancyType.OfficeWork occTyp),
-    redeclare package Medium = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
+    redeclare package MediumAir = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for first zone"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
   Fluid.Actuators.Dampers.PressureIndependent vavSup1(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for second zone"
     annotation (Placement(transformation(extent={{-120,-20},{-100,0}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for first zone"
     annotation (Placement(transformation(extent={{-100,20},{-120,40}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet1(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for second zone"
@@ -36,7 +36,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Fluid.Movers.FlowControlled_dp fanSup(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     dp_nominal=200,
     m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Supply fan"
@@ -44,14 +44,14 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Fluid.Movers.FlowControlled_dp fanRet(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     dp_nominal=200,
     m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Return fan"
     annotation (Placement(transformation(extent={{-200,-30},{-220,-10}})));
   Fluid.HeatExchangers.ConstantEffectiveness hex(
-    redeclare package Medium1 = Medium,
-    redeclare package Medium2 = Medium,
+    redeclare package Medium1 = MediumAir,
+    redeclare package Medium2 = MediumAir,
     m1_flow_nominal=fanSup.m_flow_nominal,
     m2_flow_nominal=fanRet.m_flow_nominal,
     dp1_nominal=100,
@@ -72,7 +72,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
   Fluid.Sources.OutsideAir outAir(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     azi=0,
     nPorts=2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));

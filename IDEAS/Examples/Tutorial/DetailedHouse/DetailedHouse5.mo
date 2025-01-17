@@ -1,14 +1,16 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse5 "New building model with two connected zones"
   extends Modelica.Icons.Example;
-  replaceable package Medium = IDEAS.Media.Air "Air medium";
+
+  replaceable package MediumAir = IDEAS.Media.Air "Air medium";
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.8 "Zone height";
+
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Buildings.Components.RectangularZoneTemplate recZon1(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
@@ -31,7 +33,7 @@ model DetailedHouse5 "New building model with two connected zones"
     "Northern part of the zone"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate recZon2(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
