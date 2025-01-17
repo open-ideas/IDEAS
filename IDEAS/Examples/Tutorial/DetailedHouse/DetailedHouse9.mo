@@ -3,10 +3,12 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   extends DetailedHouse7(
     pumSec(nominalValuesDefineDefaultPressureCurve=true),
     pumPri(nominalValuesDefineDefaultPressureCurve=true),
-    recZon2(redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
-        redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
-    recZon1(redeclare OccSched occNum(k=2), redeclare
-        Buildings.Components.OccupancyType.OfficeWork occTyp),
+    recZon1(
+      redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
+      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+    recZon(
+      redeclare OccSched occNum(k=2),
+      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
     redeclare package MediumAir = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
@@ -113,10 +115,9 @@ equation
     annotation (Line(points={{-110,-38},{-110,2}}, color={0,0,127}));
   connect(vavSup1.y, conPID1.y)
     annotation (Line(points={{-110,2},{-110,10},{-61,10}}, color={0,0,127}));
-  connect(recZon2.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{14,-30},
+  connect(recZon1.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{14,-30},
           {14,-2},{-50,-2}}, color={0,0,127}));
-  connect(recZon1.ppm, conPID.u_m) annotation (Line(points={{11,30},{14,30},{14,
-          78},{-50,78}}, color={0,0,127}));
+  connect(recZon.ppm, conPID.u_m) annotation (Line(points={{11,30},{14,30},{14,78},{-50,78}}, color={0,0,127}));
   connect(ppmSet.y, conPID.u_s)
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
@@ -125,13 +126,11 @@ equation
           1},{-250,-6}}, color={0,127,255}));
   connect(outAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{-252,
           -1},{-252,6},{-250,6}}, color={0,127,255}));
-  connect(vavSup.port_b, recZon1.ports[1]) annotation (Line(points={{-100,60},{
-          -2,60},{-2,40},{0,40}}, color={0,127,255}));
-  connect(vavRet.port_a, recZon1.ports[2]) annotation (Line(points={{-100,30},{
-          -14,30},{-14,40},{0,40}}, color={0,127,255}));
-  connect(vavSup1.port_b, recZon2.ports[1])
+  connect(vavSup.port_b, recZon.ports[1]) annotation (Line(points={{-100,60},{-2,60},{-2,40},{0,40}}, color={0,127,255}));
+  connect(vavRet.port_a, recZon.ports[2]) annotation (Line(points={{-100,30},{-14,30},{-14,40},{0,40}}, color={0,127,255}));
+  connect(vavSup1.port_b,recZon1.ports[1])
     annotation (Line(points={{-100,-10},{0,-10},{0,-20}}, color={0,127,255}));
-  connect(vavRet1.port_a, recZon2.ports[2]) annotation (Line(points={{-100,-50},
+  connect(vavRet1.port_a,recZon1.ports[2])  annotation (Line(points={{-100,-50},
           {-34,-50},{-34,-20},{0,-20}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-100,-100},{100,100}})),

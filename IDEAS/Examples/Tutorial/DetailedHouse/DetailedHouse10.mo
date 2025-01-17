@@ -9,35 +9,42 @@ model DetailedHouse10 "Speeding up the code"
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       use_riseTime=false),
-    recZon2(
-      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure
-        interzonalAirFlow,
-      redeclare HeavyWall conTypA,
-      redeclare HeavyWall conTypB,
-      redeclare HeavyWall conTypC,
-      redeclare HeavyWall conTypD),
     recZon1(
-      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure
-        interzonalAirFlow,
+      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
       redeclare HeavyWall conTypA,
       redeclare HeavyWall conTypB,
       redeclare HeavyWall conTypC,
       redeclare HeavyWall conTypD),
-    fanRet(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-        use_riseTime=false),
-    fanSup(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-        use_riseTime=false),
+    recZon(
+      redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
+      redeclare HeavyWall conTypA,
+      redeclare HeavyWall conTypB,
+      redeclare HeavyWall conTypC,
+      redeclare HeavyWall conTypD),
+    fanRet(
+      allowFlowReversal=false,
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      use_riseTime=false),
+    fanSup(
+      allowFlowReversal=false,
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      use_riseTime=false),
     val(allowFlowReversal=false, from_dp=true),
     val1(allowFlowReversal=false, from_dp=true),
-    rad(nEle=2),
-    rad1(nEle=2),
-    heaPum(from_dp1=true, from_dp2=true),
+    rad(allowFlowReversal=false, nEle=2),
+    rad1(allowFlowReversal=false, nEle=2),
+    heaPum(
+      allowFlowReversal1=false,
+      allowFlowReversal2=false,
+      from_dp1=true,
+      from_dp2=true),
     senTemSup(tau=0),
-    tan(tau=60),
-    vavSup(use_strokeTime=false),
-    vavRet(use_strokeTime=false),
-    vavSup1(use_strokeTime=false),
-    vavRet1(use_strokeTime=false));
+    tan(allowFlowReversal=false, tau=60),
+    vavSup(allowFlowReversal=false, use_strokeTime=false),
+    vavRet(allowFlowReversal=false, use_strokeTime=false),
+    vavSup1(allowFlowReversal=false, use_strokeTime=false),
+    vavRet1(allowFlowReversal=false, use_strokeTime=false),
+    hex(allowFlowReversal1=false, allowFlowReversal2=false));
 protected
 record HeavyWall "BESTEST heavy wall with idealized wood layer"
   extends IDEAS.Buildings.Data.Interfaces.Construction(

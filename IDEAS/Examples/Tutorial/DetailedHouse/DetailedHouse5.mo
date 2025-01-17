@@ -9,7 +9,7 @@ model DetailedHouse5 "New building model with two connected zones"
 
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Buildings.Components.RectangularZoneTemplate recZon1(
+  Buildings.Components.RectangularZoneTemplate recZon(
     redeclare package Medium = MediumAir,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     aziA=IDEAS.Types.Azimuth.N,
@@ -30,9 +30,8 @@ model DetailedHouse5 "New building model with two connected zones"
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
-    "Northern part of the zone"
-    annotation (Placement(transformation(extent={{-10,20},{10,40}})));
-  Buildings.Components.RectangularZoneTemplate recZon2(
+      "Northern part of the zone" annotation (Placement(transformation(extent={{-10,20},{10,40}})));
+  Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = MediumAir,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
@@ -55,7 +54,7 @@ model DetailedHouse5 "New building model with two connected zones"
     "Southern part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
-  connect(recZon2.proBusA, recZon1.proBusC) annotation (Line(
+  connect(recZon1.proBusA, recZon.proBusC) annotation (Line(
       points={{-6,-21},{-6,2},{6.8,2},{6.8,20.2}},
       color={255,204,51},
       thickness=0.5));

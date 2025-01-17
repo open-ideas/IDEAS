@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse4 "Including custom occupant schedule"
   extends DetailedHouse3(zon(redeclare OccSch occNum(k=2)));
 protected
