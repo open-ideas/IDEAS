@@ -76,12 +76,12 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
-        "Simulate and plot"),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
+        "Simulate and plot"));
 end DetailedHouse4;
