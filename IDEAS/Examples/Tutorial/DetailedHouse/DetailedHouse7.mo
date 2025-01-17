@@ -53,11 +53,12 @@ connections to the other control signal.
 <p>
 The figure below compares the results with (red) and without (blue, <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>) control for the operative zone temperature, supply water temperature
-and radiator thermal power. We see that indeed, the supply temperature is reduced significantly. This causes the zone temperature to be slightly lower, up to
-about <i>0.25°C</i>. The COP however increases from about <i>2.9</i> to about <i>3.1</i>. Consequently, the energy use over the
-period is reduced from <i>11.56 kWh</i> to <i>9.64 kWh</i>. Note that this heating system configuration is still not efficient
-since the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small
-COP. COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
+and radiator thermal power. We see that indeed, the supply temperature is reduced significantly. 
+This causes the zone temperature to be slightly lower, up to about <i>0.25°C</i>. 
+The electrical energy use however decreases from <i>22.0 kWh</i> to <i>16.1 kWh</i>. 
+Note that this heating system configuration is still not efficient since 
+the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small COP.
+COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
 </p>
 <p align=\"center\">
 <img alt=\"Comparison with (red) and without (blue) control for zone temperature, supply water temperature
