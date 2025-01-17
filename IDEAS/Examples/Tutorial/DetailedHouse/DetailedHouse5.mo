@@ -91,9 +91,8 @@ The northern and southern wall both have a window of <i>1.5 m</i> by <i>1.4 m</i
 </p>
 <h4>Reference result</h4>
 <p>
-The figure below shows the operative zone temperatures of the zone with north oriented window (blue)
-and the zone with the south-oriented window (red). Note the large effect of the
-window placement on the zone dynamics!
+The figure below shows the operative zone temperatures of the zone with north oriented window (blue) and the zone with the south-oriented window (red). 
+Note the large effect that the window placement has on the zone dynamics!
 </p>
 <p align=\"center\">
 <img alt=\"Zone temperature for the zone with the north oriented window (blue) and the zone with the south

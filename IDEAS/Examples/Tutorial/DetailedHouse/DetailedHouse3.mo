@@ -42,8 +42,7 @@ Set the appropriate replaceable models in the dialogue window of the zone model.
 </p>
 <h4>Reference result</h4>
 <p>
-The operative zone temperature without (blue) and with (red) occupant and lighting 
-(both with screen model) are plotted in the figure below. 
+The figure below shows the operative zone temperature without (blue) and with (red) occupant and lighting. 
 </p>
 <p align=\"center\">
 <img alt=\"The operative zone temperature without (blue) and with (red) occupant and lighting (both with screen model).\"

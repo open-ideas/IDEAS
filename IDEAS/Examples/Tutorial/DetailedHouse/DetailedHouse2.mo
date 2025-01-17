@@ -39,7 +39,7 @@ See the window input comment for more information on how to choose the control s
 </p>
 <h4>Reference result</h4>
 <p>
-The figure below illustrates the zone temperature with (red) and without (blue) the shading model.
+The figure below shows the operative zone temperature with (red) and without (blue) the shading model. 
 </p>
 <p align=\"center\">
 <img alt=\"The operative zone temperature without (blue) and with (red) screen model.\"

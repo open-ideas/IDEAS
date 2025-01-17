@@ -227,8 +227,8 @@ which will set the absolute pressure at the connection point.
 <p>
 <h4>Reference result</h4>
 <p>
-The following figures show the zone temperatures <code>rectangularZoneTemplate.TSensor</code> and <code>rectangularZoneTemplate1</code>.
-TSensor, the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
+The figures below show the operative zone temperatures <code>recZon.TSensor</code> and <code>recZon1.TSensor</code>, 
+the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
 <code>heaPum.con.T</code> and the heat pump heat flow rate <code>heaPum.QCon_flow</code>.
 </p>
 <p align=\"center\">

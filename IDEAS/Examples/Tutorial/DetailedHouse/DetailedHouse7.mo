@@ -51,9 +51,9 @@ connections to the other control signal.
 </p>
 <h4>Reference result</h4>
 <p>
-The figure below compares the results with (red) and without (blue, <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6\">
-IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse6</a>) control for the operative zone temperature, supply water temperature
-and radiator thermal power. We see that indeed, the supply temperature is reduced significantly. 
+The figure below shows the operative zone temperature <code>recZon.TSensor</code>, the heat pump condenser temperature<code>heaPum.con.T</code>
+and the radiator heat flow rate <code>rad.Q_flow</code> in the north-oriented zone with (red) and without (blue) hysteresis control.
+We see that the supply temperature is indeed reduced significantly. 
 This causes the zone temperature to be slightly lower, up to about <i>0.25°C</i>. 
 The electrical energy use however decreases from <i>22.0 kWh</i> to <i>16.1 kWh</i>. 
 Note that this heating system configuration is still not efficient since 
