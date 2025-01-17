@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse3 "Adding occupancy and lighting"
   extends DetailedHouse2(
-                   zon(
+    zon(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
       redeclare Buildings.Components.RoomType.Office rooTyp,
