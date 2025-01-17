@@ -26,7 +26,7 @@ model DetailedHouse5 "New building model with two connected zones"
     l=w,
     w=l/2,
     hasWinA=true,
-    A_winA=2*1.3,
+    A_winA=1.5*1.4,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
@@ -49,7 +49,7 @@ model DetailedHouse5 "New building model with two connected zones"
     l=w,
     w=l/2,
     hasWinC=true,
-    A_winC=2*1.3,
+    A_winC=1.5*1.4,
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingC)
     "Southern part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
@@ -87,6 +87,7 @@ The model consists of two <code>RectangularZoneTemplates</code> and a <code>SimI
 the templates, with careful attention to all tabs. The internal wall is defined in only one of the two 
 templates, while an <i>external connection</i> is used for the other template. The <code>InternalWall</code> and 
 <code>External</code> options cause a yellow bus connector to appear on each template, which must then be connected to each other.
+The northern and southern wall both have a window of <i>1.5 m</i> by <i>1.4 m</i> (double glazing type <i>Saint Gobain Planitherm</i>).
 </p>
 <h4>Reference result</h4>
 <p>
