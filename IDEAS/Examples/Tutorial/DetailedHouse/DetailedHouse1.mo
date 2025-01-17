@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse1 "First example model of a one-zone building"
   extends Modelica.Icons.Example;
   package MediumAir = IDEAS.Media.Air "Air medium";
@@ -53,7 +53,7 @@ model DetailedHouse1 "First example model of a one-zone building"
     inc=IDEAS.Types.Tilt.Wall,
     A=3*1.4,
     azi=IDEAS.Types.Azimuth.S,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazing)
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing)
     "Window model" annotation (Placement(transformation(extent={{-6,-10},{6,10}},
         rotation=0,
         origin={-54,-10})));

@@ -9,6 +9,7 @@ model DetailedHouse5 "New building model with two connected zones"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = Medium,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -19,14 +20,14 @@ model DetailedHouse5 "New building model with two connected zones"
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     l=w,
     w=l/2,
     hasWinA=true,
     A_winA=2*1.3,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingA,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo)
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
     "Northern part of the zone"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate recZon2(
@@ -36,31 +37,24 @@ model DetailedHouse5 "New building model with two connected zones"
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypB,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     l=w,
     w=l/2,
     hasWinC=true,
     A_winC=2*1.3,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingC)
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingC)
     "Southern part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
-  connect(recZon1.proBusFlo, recZon1.proBusCei) annotation (Line(
-      points={{0,24},{-20,24},{-20,36},{-0.2,36}},
-      color={255,204,51},
-      thickness=0.5));
   connect(recZon2.proBusA, recZon1.proBusC) annotation (Line(
       points={{-6,-21},{-6,2},{6.8,2},{6.8,20.2}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(recZon2.proBusCei, recZon2.proBusFlo) annotation (Line(
-      points={{-0.2,-24},{-20,-24},{-20,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
   annotation (Documentation(info="<html>
