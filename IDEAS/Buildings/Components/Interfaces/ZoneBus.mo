@@ -51,11 +51,12 @@ expandable connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector v50(final unit="m3/h") "v50 if the surface has a custome q50 value" annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector q50_zone(final unit="m3/(h.m2)") "v50 of the surface" annotation ();
   IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_q50 "true if custome q50 value is assigned to surface" annotation ();
-  IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_n50 "true if the zone n50 is a custom value" annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hzone(final unit="m") "Zone height: distance between floor and ceiling" annotation ();
-  IDEAS.Buildings.Components.Interfaces.RealConnector hfloor(final unit="m") "Absolute height of zone floor" annotation ();
-
-
+  IDEAS.Buildings.Components.Interfaces.BooleanConnector use_custom_n50 "true if the zone n50 is a custom value";
+  IDEAS.Buildings.Components.Interfaces.RealConnector hzone(final unit="m") "Zone height: distance between floor and ceiling";
+  IDEAS.Buildings.Components.Interfaces.RealConnector hfloor(final unit="m") "Absolute height of zone floor";
+  IDEAS.Buildings.Components.Interfaces.RealConnector TRefZon(
+    final quantity="Temperature",
+    final unit="K") "Reference zone temperature";
   annotation (Documentation(info="<html>
 <p>
 Connector that contains a weather bus and further
@@ -64,6 +65,11 @@ heat and information between a zone and a surface.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add connector <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
 <li>
 Februari 18, 2024, by Filip Jorissen:<br/>
 Modifications for supporting trickle vents and interzonal airflow.
