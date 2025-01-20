@@ -453,6 +453,11 @@ can be used to simulate 10 windows by scaling the model of a single window.
 <p>
 The parameter tab Airflow lists optional parameters for adding a self regulating trickle vent.
 </p>
+<p>
+The RealExpression <code>AExp</code>, which is connected to <code>propsBusInt</code>, outputs the total window area <code>A</code>
+instead of only the area of glass <code>A_glass</code>. This partially compensates for the fact that 
+radiation from/to the frame is not included seperately in the current model implementation.
+</p>
 <h4>Validation</h4>
 <p>
 To verify the U-value of your glazing system implementation,
