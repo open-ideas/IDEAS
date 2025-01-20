@@ -24,6 +24,8 @@
   dymola:
     time_out: 900
 - model_name: IDEAS.Fluid.FixedResistances.Validation.PlugFlowPipes.PlugFlowAIT
+  dymola:
+    time_out: 900
   openmodelica:
     comment: timed out after 300 seconds
     simulate: false
