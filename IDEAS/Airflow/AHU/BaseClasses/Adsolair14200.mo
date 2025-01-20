@@ -4,11 +4,12 @@ record Adsolair14200
   extends IDEAS.Airflow.AHU.BaseClasses.AdsolairData(
     pressure(V_flow={5423,7537,9958,12256,14857,17121,19042,20649}/3600, dp={
           1385,1350,1290,1195,1021,838,653,470}),
-    hydraulicEfficiency(V_flow={5341,6743,9230,11651,14412,17383,20235}/3600,
+    efficiency(V_flow={5341,6743,9230,11651,14412,17383,20235}/3600,
         eta={0.45,0.51,0.6,0.72,0.7,0.72,0.6}),
     motorEfficiency(V_flow={5341,20235}/3600, eta={0.887,0.887}),
-    use_powerCharacteristic=false,
-    speed_rpm_nominal=1800,
+    powerOrEfficiencyIsHydraulic = true,
+    etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate,
+    etaMotMet=IDEAS.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.Efficiency_VolumeFlowRate,
     m1_flow_nominal=4.69,
     m2_flow_nominal=4.69,
     dT_compressor=37.1 - 10.8,
@@ -54,6 +55,14 @@ record Adsolair14200
   constant Modelica.Units.SI.Length w_blade=1.2/10 "Width single damper blade";
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen and Jelger Jansen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1704\">IBPSA, #1704</a>,
+<a href=\"https://github.com/lbl-srg/modelica-buildings/pull/3845\">Buildings, #3845</a>, and
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/2668\">Buildings, #2668</a>).
+</li>
 <li>
 October 11, 2016, by Filip Jorissen:<br/>
 Added first implementation.

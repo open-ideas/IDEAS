@@ -730,11 +730,17 @@ July 18, 2022 by Filip Jorissen:<br/>
 Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.
 </li>
 <li>
-Aug 2 2018, by Iago Cupeiro:<br/>
+August 22, 2018 by Filip Jorissen:<br/>
+Fixed bug in implementation due to missing <code>irr</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/818\">
+#818</a>.
+</li>
+<li>
+August 2, 2018, by Iago Cupeiro:<br/>
 Added missing beta parameter.
 </li>
 <li>
-May 4 2018, by Iago Cupeiro:<br/>
+May 4, 2018, by Iago Cupeiro:<br/>
 Extended with HorizontalFins and OverhangAndHorizontalFins models.
 </li>
 <li>
@@ -743,15 +749,6 @@ Revised implementation for renamed
 ports <code>HDirTil</code> etc.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/735\">
 #735</a>.
-</li>
-</ul>
-</html>", info="<html>
-<ul>
-<li>
-August 22, 2018 by Filip Jorissen:<br/>
-Fixed bug in implementation due to missing <code>irr</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/818\">
-#818</a>.
 </li>
 </ul>
 </html>"),

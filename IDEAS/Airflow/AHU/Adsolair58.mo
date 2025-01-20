@@ -183,16 +183,17 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     C_nominal=C_nominal,
     addPowerToMedium=true,
     per(
-      speed_rpm_nominal=per.speed_rpm_nominal,
-      hydraulicEfficiency=per.hydraulicEfficiency,
+      etaHydMet=per.etaHydMet,
+      etaMotMet=per.etaMotMet,
+      efficiency=per.efficiency,
       motorEfficiency=per.motorEfficiency,
       power=per.power,
-      use_powerCharacteristic=per.use_powerCharacteristic,
+      powerOrEfficiencyIsHydraulic=per.powerOrEfficiencyIsHydraulic,
       pressure=per.pressure),
+    use_riseTime=false,
     init=Modelica.Blocks.Types.Init.NoInit,
     m_flow_small=m1_flow_nominal/50,
     riseTime=600,
-    use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m1_flow_nominal,
     prescribeSystemPressure=true)   "Top fan"
@@ -227,16 +228,17 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     allowFlowReversal=allowFlowReversal,
     addPowerToMedium=true,
     per(
-      speed_rpm_nominal=per.speed_rpm_nominal,
+      etaHydMet=per.etaHydMet,
+      etaMotMet=per.etaMotMet,
+      efficiency=per.efficiency,
       motorEfficiency=per.motorEfficiency,
-      hydraulicEfficiency=per.hydraulicEfficiency,
       power=per.power,
-      use_powerCharacteristic=per.use_powerCharacteristic,
+      powerOrEfficiencyIsHydraulic=per.powerOrEfficiencyIsHydraulic,
       pressure=per.pressure),
+    use_riseTime=false,
     init=Modelica.Blocks.Types.Init.NoInit,
     m_flow_small=m2_flow_nominal/50,
     riseTime=600,
-    use_inputFilter=false,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m2_flow_nominal,
     prescribeSystemPressure=true)   "Bottom fan"
@@ -295,7 +297,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
     redeclare package Medium = MediumAir,
     m_flow_nominal=m2_flow_nominal,
     allowFlowReversal=allowFlowReversal,
-    use_inputFilter=false,
+    use_strokeTime=false,
     from_dp=true,
     l=0.001,
     dpAdd=1,
@@ -307,9 +309,9 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   TwoWayEqualPercentageAdd                  valRecupBot(
     redeclare package Medium = MediumAir,
     m_flow_nominal=m2_flow_nominal,
+    use_strokeTime=false,
     dpFixed_nominal=per.dp_nominal_bottom_recup,
     allowFlowReversal=allowFlowReversal,
-    use_inputFilter=false,
     from_dp=true,
     l=0.001,
     dpAdd=1,
@@ -319,7 +321,7 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   TwoWayEqualPercentageAdd                  valBypassTop(
     redeclare package Medium = MediumAir,
     allowFlowReversal=allowFlowReversal,
-    use_inputFilter=false,
+    use_strokeTime=false,
     from_dp=true,
     l=0.001,
     m_flow_nominal=m1_flow_nominal,
@@ -332,9 +334,9 @@ model Adsolair58 "Menerga Adsolair type 58 air handling unit"
   TwoWayEqualPercentageAdd                  valRecupTop(
     redeclare package Medium = MediumAir,
     m_flow_nominal=m2_flow_nominal,
+    use_strokeTime=false,
     dpFixed_nominal=per.dp_nominal_top_recup,
     allowFlowReversal=allowFlowReversal,
-    use_inputFilter=false,
     from_dp=true,
     l=0.001,
     dpAdd=per.dp_adiabatic,
@@ -682,6 +684,15 @@ equation
         Line(points={{80,80},{0,-80}}, color={0,0,0})}),
     Documentation(revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Lucas Verleyen and Jelger Jansen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>,
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1704\">IBPSA, #1704</a>,
+<a href=\"https://github.com/lbl-srg/modelica-buildings/pull/3845\">Buildings, #3845</a>, and
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/2668\">Buildings, #2668</a>).
+</li>
 <li>
 April 26, 2022, by Filip Jorissen:<br/>
 Removed experiment annotation for #1254.
