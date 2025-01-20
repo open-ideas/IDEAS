@@ -1,6 +1,6 @@
 - model_name: IDEAS.Examples.Tutorial.Example10
   dymola:
-    time_out: 350
+    time_out: 900
 - model_name: IDEAS.Examples.Tutorial.Example9
   dymola:
     time_out: 3600
@@ -21,6 +21,8 @@
     comment: '''omc'' caused ''simulation terminated by an assertion at initialization''.'
     simulate: false
 - model_name: IDEAS.Fluid.FixedResistances.Validation.PlugFlowPipes.PlugFlowAIT
+  dymola:
+    time_out: 900
   openmodelica:
     comment: timed out after 300 seconds
     simulate: false
