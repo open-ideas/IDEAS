@@ -1,6 +1,6 @@
 within IDEAS.Buildings.Components.Interfaces;
 partial model PartialSurface "Partial model for building envelope component"
-  
+
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     "Simulation information manager for climate data"
     annotation (Placement(visible = true, transformation(origin = {50, 180}, extent = {{30, -100}, {50, -80}}, rotation = 0)));
@@ -26,7 +26,7 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Dialog(group="Design power",tab="Advanced"));
   parameter Modelica.Units.SI.Temperature T_start=293.15
     "Start temperature for each of the layers"
-	annotation (Dialog(tab="Dynamics", group="Initial condition"));
+ annotation (Dialog(tab="Dynamics", group="Initial condition"));
   parameter Boolean linIntCon_a=sim.linIntCon
     "= true, if convective heat transfer should be linearised"
     annotation (Dialog(tab="Convection"));
@@ -52,15 +52,15 @@ partial model PartialSurface "Partial model for building envelope component"
   final parameter Modelica.Units.SI.Length hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Modelica.Units.SI.Length hAbs_floor_a( fixed=false);
   parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
-  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"annotation(Evaluate=true);
+  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"
+                                                                                                                                                                                                        annotation(Evaluate=true);
   final parameter Modelica.Units.SI.Length Habs_surf=hAbs_floor_a+hRelSurfBot_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles,
     final use_port_1=sim.use_port_1,
-    final use_port_2=sim.use_port_2)
-                                             "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
+    final use_port_2=sim.use_port_2)         "If inc = Floor, then propsbus_a should be connected to the zone above this floor.
     If inc = ceiling, then propsbus_a should be connected to the zone below this ceiling.
     If component is an outerWall, porpsBus_a should be connect to the zone."
     annotation (Placement(transformation(
@@ -106,6 +106,16 @@ partial model PartialSurface "Partial model for building envelope component"
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
     Placement(transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Routing.BooleanPassThrough use_custom_q50PassThrough
+    annotation (Placement(transformation(
+        extent={{-5,5},{5,-5}},
+        rotation=90,
+        origin={62,-20})));
+  Modelica.Blocks.Routing.RealPassThrough v50PassThrough annotation (Placement(transformation(
+        extent={{-5,-5},{5,5}},
+        rotation=90,
+        origin={50,-20})));
+
 protected
   parameter Boolean add_door = true "Option to disable crackOrOperableDoor";
   final parameter Modelica.Units.SI.Angle aziInt=
@@ -237,36 +247,44 @@ equation
       color={255,204,51},
       thickness=0.5));
    connect(setArea.areaPort, sim.areaPort);
-  connect(q50_zone.v50, propsBusInt.v50) annotation (Line(points={{79,-58},{56,-58},
-          {56,-20},{56.09,-20},{56.09,19.91}},               color={0,0,127}));
   connect(q50_zone.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{79.4,
           -43},{79.4,-44},{56.09,-44},{56.09,19.91}}, color={0,0,127}));
-  connect(q50_zone.using_custom_q50, propsBusInt.use_custom_q50) annotation (Line(points={{79,-52},
-          {56.09,-52},{56.09,19.91}},      color={0,0,127}));
   connect(setArea.use_custom_n50, propsBusInt.use_custom_n50) annotation (Line(points={{79.4,
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
-  connect(q50_zone.dummy_h[1], propsBusInt.hzone) annotation (Line(points={{79.4,
-          -47.6},{80,-47.6},{80,-48},{56.09,-48},{56.09,19.91}}, color={0,0,127}));
-  connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,
-          -45.6},{80,-45.6},{80,-46},{56.09,-46},{56.09,19.91}}, color={0,0,127}));
+  connect(q50_zone.dummy_h[1], propsBusInt.hzone) annotation (Line(points={{79.4,-47.1},{80,-47.1},{80,-48},{56.09,-48},{56.09,19.91}},
+                                                                 color={0,0,127}));
+  connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,-46.1},{80,-46.1},{80,-46},{56.09,-46},{56.09,19.91}},
+                                                                 color={0,0,127}));
   if sim.use_port_1 then
     connect(crackOrOperableDoor.port_b1, propsBusInt.port_1) annotation(
-    Line(points = {{40, -46}, {56, -46}, {56, 20}}, color = {0, 127, 255}));
+    Line(points={{40,-46},{56.09,-46},{56.09,19.91}},
+                                                    color = {0, 127, 255}));
   end if;
   if sim.use_port_2 then
     connect(crackOrOperableDoor.port_a2, propsBusInt.port_2) annotation(
-    Line(points = {{40, -58}, {56, -58}, {56, 20}}, color = {0, 127, 255}));
+    Line(points={{40,-58},{56.09,-58},{56.09,19.91}},
+                                                    color = {0, 127, 255}));
   end if;
   connect(AExp.y, propsBusInt.area) annotation(
-    Line(points = {{12, 20}, {56, 20}}, color = {0, 0, 127}));
+    Line(points={{11,20},{34,20},{34,19.91},{56.09,19.91}},
+                                        color = {0, 0, 127}));
+  connect(q50_zone.v50, v50PassThrough.u) annotation (Line(points={{79,-58},{56,-58},{56,-30},{50,-30},{50,-26}}, color={0,0,127}));
+  connect(v50PassThrough.y, propsBusInt.v50) annotation (Line(points={{50,-14.5},{50,-8},{56.09,-8},{56.09,19.91}}, color={0,0,127}));
+  connect(q50_zone.using_custom_q50, use_custom_q50PassThrough.u) annotation (Line(points={{79,-52},{56,-52},{56,-30},{62,-30},{62,-26}}, color={255,0,255}));
+  connect(use_custom_q50PassThrough.y, propsBusInt.use_custom_q50) annotation (Line(points={{62,-14.5},{62,-8},{56.09,-8},{56.09,19.91}}, color={255,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-50, -100}, {50, 100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+January 6, 2025, by Klaas De Jonge:<br/>
+Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 to avoid translation warnings.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>
+</li>
 <li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Add variable <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
