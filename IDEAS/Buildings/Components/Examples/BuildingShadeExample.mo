@@ -17,10 +17,6 @@ model BuildingShadeExample
     annotation (Placement(transformation(extent={{-24,20},{-14,40}})));
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-12},{-80,8}})));
-protected
-  Interfaces.WeaBus                  weaBus(numSolBus=sim.numIncAndAziInBus)
-    annotation (Placement(transformation(extent={{-64,24},{-44,44}})));
-public
   Shading.None none(
     A_glazing=0,
     A_frame=0,
@@ -102,6 +98,10 @@ public
     azi=azi.k,
     t=0.02) "Horizontal fin model"
     annotation (Placement(transformation(extent={{14,20},{24,40}})));
+  Modelica.Blocks.Sources.Constant m_flow(k=0) "Mass flow rate" annotation (Placement(visible = true, transformation(origin = {0, -60}, extent = {{-100, 20}, {-80, 40}}, rotation = 0)));
+protected
+  Interfaces.WeaBus weaBus(numSolBus=sim.numIncAndAziInBus)
+    annotation (Placement(transformation(extent={{-64,24},{-44,44}})));
 equation
   connect(sim.weaBus, weaBus) annotation (Line(
       points={{-81,1},{-81,34},{-54,34}},
@@ -214,6 +214,18 @@ equation
   connect(buildingShade.angZen, horizontalFins.angZen)
     annotation (Line(points={{-21.5,22.6667},{-12,22.6667},{-12,22},{-1.5,22},{
           -1.5,22.6667},{16.5,22.6667}},        color={0,0,127}));
+  connect(m_flow.y, overhang.m_flow) annotation(
+    Line(points = {{-78, -30}, {-16, -30}, {-16, -20}, {-18, -20}}, color = {0, 0, 127}));
+  connect(m_flow.y, screen.m_flow) annotation(
+    Line(points = {{-78, -30}, {-18, -30}, {-18, -60}}, color = {0, 0, 127}));
+  connect(m_flow.y, sideFins.m_flow) annotation(
+    Line(points = {{-78, -30}, {-18, -30}, {-18, -100}}, color = {0, 0, 127}));
+  connect(m_flow.y, buildingShade.m_flow) annotation(
+    Line(points = {{-78, -30}, {-18, -30}, {-18, 20}}, color = {0, 0, 127}));
+  connect(m_flow.y, horizontalFins.m_flow) annotation(
+    Line(points = {{-78, -30}, {20, -30}, {20, 20}}, color = {0, 0, 127}));
+  connect(m_flow.y, none.m_flow) annotation(
+    Line(points = {{-78, -30}, {-16, -30}, {-16, 60}, {-18, 60}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
     experiment(

@@ -3,6 +3,8 @@ model DummyConnection "Source generator/sink for propsbus"
   parameter Boolean isZone = false "Set to true when connecting to a surface";
   parameter Real A=1 "Surface area"
     annotation(Dialog(enable=not isZone));
+  replaceable package Medium =
+    Modelica.Media.Interfaces.PartialMedium "Medium in the component";
   parameter Modelica.Units.SI.HeatFlowRate surfCon=0
     "Fixed heat flow rate for surfCon" annotation (Dialog(enable=not isZone));
   parameter Modelica.Units.SI.HeatFlowRate iSolDir=0
@@ -12,12 +14,13 @@ model DummyConnection "Source generator/sink for propsbus"
   parameter Modelica.Units.SI.Temperature T=293.15
     "Fixed temperature for surfRad, or zone when isZone";
 
-  outer IDEAS.BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
+  outer IDEAS.BoundaryConditions.SimInfoManager sim annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
   IDEAS.Buildings.Components.Interfaces.ZoneBus zoneBus(
-    redeclare package Medium = IDEAS.Media.Air,
+    redeclare package Medium = Medium,
+    numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
-    numIncAndAziInBus=sim.numIncAndAziInBus)
+    use_port_1 = sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
+    use_port_2 = sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
     annotation (Placement(transformation(extent={{80,-22},{120,18}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow prescribedHeatFlow[3](
       Q_flow={surfCon,iSolDif,iSolDir})
@@ -26,7 +29,7 @@ model DummyConnection "Source generator/sink for propsbus"
   Modelica.Blocks.Sources.Constant area(k=A) if not isZone
     annotation (Placement(transformation(extent={{0,40},{20,60}})));
   Modelica.Blocks.Sources.Constant eps(k=0.88) if not isZone
-    annotation (Placement(transformation(extent={{0,80},{20,100}})));
+    annotation (Placement(visible = true, transformation(origin = {0, 0}, extent = {{0, 80}, {20, 100}}, rotation = 0)));
 
   Modelica.Blocks.Sources.Constant QTra(k=A) if not isZone
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
@@ -54,8 +57,13 @@ model DummyConnection "Source generator/sink for propsbus"
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
   Modelica.Blocks.Sources.BooleanConstant custom_q50(k=false) if not isZone
     annotation (Placement(transformation(extent={{-80,-130},{-60,-110}})));
+  Modelica.Blocks.Sources.Constant hZone(k = 0.88) if isZone "Zone height" annotation(
+    Placement(visible = true, transformation(origin = {-42, -16}, extent = {{0, 80}, {20, 100}}, rotation = 0)));
+  IDEAS.Fluid.Sources.Boundary_pT bou(redeclare package Medium= IDEAS.Media.Air, nPorts = 3) if isZone  annotation(
+    Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant TRefZon(k=T)      if isZone
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
+
 equation
   connect(prescribedHeatFlow[1].port, zoneBus.surfCon) annotation (Line(
       points={{-50,20},{62,20},{62,-1.9},{100.1,-1.9}},
@@ -70,13 +78,11 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(eps.y, zoneBus.epsLw) annotation (Line(
-      points={{21,90},{100.1,90},{100.1,-1.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
+      points = {{21, 90}, {100.1, 90}, {100.1, -1.9}},
+      color={0,0,127}));
   connect(eps.y, zoneBus.epsSw) annotation (Line(
-      points={{21,90},{100,90},{100,34},{100.1,34},{100.1,-1.9}},
-      color={0,0,127},
-      smooth=Smooth.None));
+      points = {{21, 90}, {100, 90}, {100, 34}, {100.1, 34}, {100.1, -1.9}},
+      color={0,0,127}));
   connect(area.y, zoneBus.area) annotation (Line(
       points={{21,50},{100.1,50},{100.1,-1.9}},
       color={0,0,127},
@@ -134,6 +140,16 @@ equation
   connect(custom_q50.y, zoneBus.use_custom_q50) annotation (Line(points={{-59,
           -120},{100.1,-120},{100.1,-1.9}},
                                      color={255,0,255}));
+  connect(hZone.y, zoneBus.hzone) annotation(
+    Line(points = {{-20, 74}, {100, 74}, {100, -2}}, color = {0, 0, 127}));
+  connect(hZone.y, zoneBus.hfloor) annotation(
+    Line(points = {{-20, 74}, {100, 74}, {100, -2}}, color = {0, 0, 127}));
+  connect(bou.ports[3], zoneBus.port_3) annotation(
+    Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
+  connect(bou.ports[2], zoneBus.port_2) annotation(
+    Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
+  connect(bou.ports[1], zoneBus.port_1) annotation(
+    Line(points = {{-20, 40}, {100, 40}, {100, -2}}, color = {255, 204, 51}));
   connect(TRefZon.y, zoneBus.TRefZon) annotation (Line(points={{-19,70},{100.1,70},
           {100.1,-1.9}}, color={0,0,127}));
    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -152,6 +168,10 @@ equation
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Assign value for <code>TRefZon</code> in the bus connector.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
+January 2, 2023, by Filip Jorissen:<br/>
+Added support for stack effect airflow.
 </li>
 <li>
 May 23, 2022, by Filip Jorissen:<br/>
