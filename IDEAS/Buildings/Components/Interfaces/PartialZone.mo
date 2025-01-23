@@ -7,9 +7,9 @@ model PartialZone "Building zone model"
     useOccNumInput=occNum.useInput,
     useLigCtrInput=ligCtr.useCtrInput);
 
-    replaceable package Medium = IDEAS.Media.Air constrainedby
-      Modelica.Media.Interfaces.PartialMedium "Medium in the component"
-      annotation (choicesAllMatching = true);
+  replaceable package Medium = IDEAS.Media.Air constrainedby
+    Modelica.Media.Interfaces.PartialMedium "Medium in the component"
+    annotation (choicesAllMatching = true);
   parameter Boolean use_custom_n50=
     sim.interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     and not sim.unify_n50
@@ -107,7 +107,8 @@ model PartialZone "Building zone model"
     Dialog(group="Occupants (optional)"),
     Placement(transformation(extent={{80,22},{60,42}})));
 
-  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp
+  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp annotation(
+    Placement(visible = true, transformation(origin = {0, 0}, extent = {{80, 82}, {100, 102}}, rotation = 0)))
     constrainedby
     IDEAS.Buildings.Components.OccupancyType.BaseClasses.PartialOccupancyType
     "Occupancy type, only used for evaluating occupancy model and comfort model"
@@ -191,9 +192,10 @@ model PartialZone "Building zone model"
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-30,-10})));
-
-
-
+  Modelica.Blocks.Math.Add addmWatFlow "Add medium substance mass flow rates, typically moisture" annotation (
+    Placement(visible = true, transformation(origin = {-6, 40}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
+  Modelica.Blocks.Math.Add addCFlow[max(Medium.nC,1)](k2 = intGaiOcc.s_co2) "Add tracer mass flow rates"  annotation (
+    Placement(visible = true, transformation(origin = {-6, 34}, extent = {{4, -4}, {-4, 4}}, rotation = 0)));
 protected
   Modelica.Blocks.Sources.RealExpression TRefZon[nSurf](each y=TZon_design)
     "Reference zone temperature for the surfaces connected to this zone, for calculation of design heat load";
@@ -204,7 +206,7 @@ protected
   parameter Integer n_ports_interzonal=
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then 0
     elseif sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort then nSurf
-    else nSurf*2
+    else nSurf*3
       "Number of fluid ports for interzonal air flow modelling"
       annotation(Evaluate=true);
   IDEAS.Buildings.Components.Interfaces.ZoneBus[nSurf] propsBusInt(
@@ -240,7 +242,9 @@ protected
     n50=n50_int,
     V=V,
     q50_corr=sim.q50_def,
-    use_custom_n50=use_custom_n50)
+    use_custom_n50=use_custom_n50,
+    hZone=hZone,
+    hFloor=hFloor)
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
 model Setq50 "q50 computation for zones"
@@ -263,6 +267,9 @@ model Setq50 "q50 computation for zones"
   parameter Real v50_custom[nSurf](each fixed=false)
     "custom assigned v50 value, else zero";
 
+  parameter Modelica.Units.SI.Length hZone "Zone height: distance between floor and ceiling";
+  parameter Modelica.Units.SI.Length hFloor = 0  "Absolute height of zone floor. Relative to the height at which the atmospheric pressure is defined.";
+
   Modelica.Blocks.Interfaces.RealInput v50_surf[nSurf]
    annotation (Placement(transformation(extent={{-126,28},{-86,68}})));
   Modelica.Blocks.Interfaces.BooleanInput use_custom_q50[nSurf]
@@ -276,13 +283,19 @@ model Setq50 "q50 computation for zones"
    annotation (Placement(transformation(extent={{-98,-38},{-118,-18}})));
   Modelica.Blocks.Interfaces.RealOutput q50_zone[nSurf]
     "Custom q50 value for the surfaces connected to this zone"
-   annotation (Placement(transformation(extent={{-98,-70},
-              {-118,-50}})));
+   annotation (Placement(transformation(extent={{-98,-60},{-118,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput hzone[nSurf]
+    "Custom q50 value for the surfaces connected to this zone"
+    annotation (Placement(transformation(extent={{-96,-82},{-116,-62}})));
+  Modelica.Blocks.Interfaces.RealOutput hfloor[nSurf]
+    "Custom q50 value for the surfaces connected to this zone"
+    annotation (Placement(transformation(extent={{-96,-106},{-116,-86}})));
 initial equation
 
   for i in 1:nSurf loop
     defaultArea[i] = if use_custom_q50[i] then 0 else Area[i];
     v50_custom[i] = if use_custom_q50[i] then v50_surf[i] else 0;
+
   end for;
   allSurfacesCustom = max(Modelica.Constants.small, sum(defaultArea)) <= Modelica.Constants.small;
 
@@ -294,6 +307,9 @@ equation
   else
     q50_zone=fill(q50_corr,nSurf);
   end if;
+
+    hzone=fill(hZone,nSurf);
+    hfloor=fill(hFloor,nSurf);
     annotation (Icon(graphics={Rectangle(
             extent={{-84,80},{82,-80}},
             lineColor={28,108,200},
@@ -451,10 +467,6 @@ end for;
     annotation (Line(points={{20,30},{-20,30}}, color={191,0,0}));
   connect(intGaiOcc.portRad, radDistr.radGain) annotation (Line(points={{20,26},
           {4,26},{4,-60},{-46.2,-60}}, color={191,0,0}));
-  connect(intGaiOcc.mWat_flow, airModel.mWat_flow)
-    annotation (Line(points={{19.4,38},{-19.2,38}}, color={0,0,127}));
-  connect(intGaiOcc.C_flow, airModel.C_flow)
-    annotation (Line(points={{19.4,34},{-19.2,34}}, color={0,0,127}));
   connect(comfort.TAir, airModel.TAir) annotation (Line(points={{19,0},{-10,0},{
           -10,24},{-19,24}},   color={0,0,127}));
   connect(comfort.TRad, radDistr.TRad) annotation (Line(points={{19,-4},{-6,-4},
@@ -497,9 +509,10 @@ end for;
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
     connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf:interzonalAirFlow.nPorts + nSurf*2], propsBusInt[1:nSurf].port_2) annotation (Line(points={{-30,
           40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+    connect(airModel.ports[interzonalAirFlow.nPorts + 1 + nSurf*2:interzonalAirFlow.nPorts + nSurf*3], propsBusInt[1:nSurf].port_3) annotation (Line(points={{-30,
+          40},{-30,39.9},{-80.1,39.9}}, color={0,127,255}));
+
   end if;
-  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{-60.8,
-          -96},{-60.8,-96},{-80.1,-96},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.Area, propsBusInt.area) annotation (Line(points={{-60.6,-88.6},
           {-60.6,-89.3},{-80.1,-89.3},{-80.1,39.9}}, color={0,0,127}));
   connect(setq50.v50_surf, propsBusInt.v50) annotation (Line(points={{-60.6,-85.2},
@@ -510,8 +523,37 @@ end for;
   connect(setq50.use_custom_n50s, propsBusInt.use_custom_n50) annotation (Line(points={{-60.8,
           -92.8},{-60,-92.8},{-60,-92},{-80.1,-92},{-80.1,39.9}},       color={
           255,0,255}));
+  connect(setq50.q50_zone, propsBusInt.q50_zone) annotation (Line(points={{
+          -60.8,-95},{-80.1,-95},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.hzone, propsBusInt.hzone) annotation (Line(points={{-60.6,
+          -97.2},{-60.6,-97.8},{-80.1,-97.8},{-80.1,39.9}}, color={0,0,127}));
+  connect(setq50.hfloor, propsBusInt.hfloor) annotation (Line(points={{-60.6,
+          -99.6},{-60.6,-99.8},{-80.1,-99.8},{-80.1,39.9}}, color={0,0,127}));
+  connect(intGaiOcc.mWat_flow, addmWatFlow.u2) annotation(
+    Line(points = {{20, 38}, {-2, 38}}, color = {0, 0, 127}));
+  connect(addmWatFlow.y, airModel.mWat_flow) annotation(
+    Line(points = {{-10, 40}, {-20, 40}, {-20, 38}}, color = {0, 0, 127}));
+  connect(addCFlow.y, airModel.C_flow) annotation(
+    Line(points = {{-10, 34}, {-20, 34}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(addCFlow.u1, intGaiOcc.C_flow) annotation(
+    Line(points = {{-2, 36}, {14, 36}, {14, 34}, {20, 34}}, color = {0, 0, 127}, thickness = 0.5));
+  for i in 1:max(Medium.nC,1) loop
+    connect(addCFlow[i].u2, C_flow) annotation(
+    Line(points = {{-2, 32}, {8, 32}, {8, -100}, {120, -100}}, color = {0, 0, 127}));
+    if not useCFlowInput then
+      addCFlow[i].u2=0;
+    end if;
+  end for;
+  if not useWatFlowInput then
+    addmWatFlow.u1=0;
+  end if;
+  connect(airModel.phi, phi) annotation(
+    Line(points = {{-18, 26}, {-12, 26}, {-12, 10}, {110, 10}}, color = {0, 0, 127}));
+  connect(addmWatFlow.u1, mWat_flow) annotation(
+    Line(points = {{-2, 42}, {10, 42}, {10, -80}, {120, -80}}, color = {0, 0, 127}));
   connect(TRefZon.y, propsBusInt.TRefZon);
-    annotation (Placement(transformation(extent={{140,48},{100,88}})),
+
+  annotation (Placement(transformation(extent={{140,48},{100,88}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics),
     Documentation(info="<html>
@@ -529,15 +571,28 @@ Add parameter <code>TZon_design</code> to be used when calculating <code>Q_desig
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
 </li>
 <li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for interzonal airflow and stack-effect input. 
+</li>
+<li>
 April 26, 2024 by Jelger Jansen:<br/>
 Added parameter <code>ignAss</code> to ignore view factor asserts for non-physical unit test models.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1272>#1272</a>.
 </li> 
 <li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
+<li>
 January 8, 2024, by Jelger Jansen:<br/>
 Added min attribute to <code>mSenFac</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1343\">
 #1343</a>
+</li>
+<li>
+July 25, 2023, by Filip Jorissen:<br/>
+Added conditional inputs for injecting water or CO2.
+Added output phi for the relative humidity.
 </li>
 <li>
 May 29, 2022, by Filip Jorissen:<br/>
@@ -571,12 +626,11 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1158\">
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
-April 26, 2020, by Filip Jorissen:<br/>
 </li>
 <li>
+April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">
-#1131</a>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1131\">#1131</a>
 </li>
 <li>
 April 26, 2019 by Filip Jorissen:<br/>
