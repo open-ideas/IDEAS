@@ -281,7 +281,7 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
-January 6, 2025, by Klaas De Jonge:<br/>
+January 24, 2025, by Klaas De Jonge:<br/>
 Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 to avoid translation warnings.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>
 </li>
