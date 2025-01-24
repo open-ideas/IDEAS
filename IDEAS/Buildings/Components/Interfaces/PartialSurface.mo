@@ -180,6 +180,9 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
     "Custom v50 value";
   parameter Boolean use_custom_q50=false
     "true if custom q50 value should be considered by the zone";
+  parameter Integer nDum=2
+    "Number of dummy connections";
+
   Modelica.Blocks.Interfaces.RealInput q50_zone
     "Input for q50 value computed by the zone"
    annotation (Placement(transformation(extent={{-126,50},{-86,90}})));
@@ -190,7 +193,7 @@ model Q50_parameterToConnector "Converts parameter values into connectors for pr
   Modelica.Blocks.Interfaces.BooleanOutput using_custom_q50 = use_custom_q50
     "Output indicating whether a custom q50 value should be considered by the zone"
    annotation (Placement(transformation(extent={{-100,-30},{-120,-10}})));
-  Modelica.Blocks.Interfaces.RealInput dummy_h[2]
+  Modelica.Blocks.Interfaces.RealInput dummy_h[nDum]
       "Dummy connectors for hzone and hfloor"
       annotation (Placement(transformation(extent={{-126,14},{-86,54}})));
   annotation (Icon(graphics={Rectangle(
@@ -253,10 +256,8 @@ equation
           -91},{79.4,-90.5},{56.09,-90.5},{56.09,19.91}},      color={255,0,255}));
   connect(setArea.v50, propsBus_a.v50) annotation (Line(points={{79.4,-83.2},{
           79.4,-82},{56,-82},{56,0},{100.1,0},{100.1,19.9}}, color={0,0,127}));
-  connect(q50_zone.dummy_h[1], propsBusInt.hzone) annotation (Line(points={{79.4,-47.1},{80,-47.1},{80,-48},{56.09,-48},{56.09,19.91}},
-                                                                 color={0,0,127}));
-  connect(q50_zone.dummy_h[2], propsBusInt.hfloor) annotation (Line(points={{79.4,-46.1},{80,-46.1},{80,-46},{56.09,-46},{56.09,19.91}},
-                                                                 color={0,0,127}));
+  connect(q50_zone.dummy_h[1], propsBusInt.hzone);
+  connect(q50_zone.dummy_h[2], propsBusInt.hfloor);
   if sim.use_port_1 then
     connect(crackOrOperableDoor.port_b1, propsBusInt.port_1) annotation(
     Line(points={{40,-46},{56.09,-46},{56.09,19.91}},
@@ -282,7 +283,8 @@ equation
 <ul>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>
-Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 to avoid translation warnings.
+Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 and
+parameter for number of dummy connections in <code>Q50_parameterToConnector</code> to avoid translation warnings.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>
 </li>
 <li>
