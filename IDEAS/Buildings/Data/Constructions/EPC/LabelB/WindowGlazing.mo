@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Constructions.EPC.LabelB;
-record WindowGlazing =  IDEAS.Buildings.Data.Glazing.Ins2Ar2020
+record WindowGlazing =  IDEAS.Buildings.Data.Glazing.EpcDouble
   "Glazing data of Window"    annotation (Documentation(revisions="<html>
 <ul>
 <li>

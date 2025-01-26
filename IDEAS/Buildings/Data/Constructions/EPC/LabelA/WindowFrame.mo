@@ -2,7 +2,7 @@ within IDEAS.Buildings.Data.Constructions.EPC.LabelA;
 record WindowFrame "Frame data of Window"
     extends IDEAS.Buildings.Data.Interfaces.Frame(
     present=true,
-    U_value=1.6875812692659027,
+    U_value=3.38,
     redeclare parameter IDEAS.Buildings.Components.ThermalBridges.LineLosses briTyp(psi=0.06, len=3.824108964701916));
     annotation (Documentation(revisions="<html>
 <ul>
