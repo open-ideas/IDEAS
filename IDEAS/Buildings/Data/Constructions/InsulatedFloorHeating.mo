@@ -3,7 +3,8 @@ record InsulatedFloorHeating "Floor heating example with heat injection between 
   extends IDEAS.Buildings.Data.Interfaces.Construction(
     locGain={2},
     incLastLay = IDEAS.Types.Tilt.Floor,
-    mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
+    mats={IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02),
+    IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
     IDEAS.Buildings.Data.Insulation.Pur(d=0.07),
     IDEAS.Buildings.Data.Materials.Screed(d=0.05),
     IDEAS.Buildings.Data.Materials.Tile(d=0.01)});
