@@ -6,7 +6,8 @@ record OuterWall  "Construction data of OuterWall"
         IDEAS.Buildings.Data.Materials.EPC.LargeCavityHorizontalHeatTransfer(d=
         0.025),IDEAS.Buildings.Data.Insulation.Rockwool(d=0.037261869785843296),
         IDEAS.Buildings.Data.Materials.EPC.HeavyMasonryForInteriorApplications(
-        d=0.14),IDEAS.Buildings.Data.Materials.GypsumPlasterForFinishing(d=0.02)});
+        d=0.14),IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=
+        0.02)});
         annotation (Documentation(revisions="<html>
 <ul>
 <li>

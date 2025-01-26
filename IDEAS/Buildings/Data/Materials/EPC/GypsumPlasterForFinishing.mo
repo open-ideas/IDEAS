@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Materials;
+within IDEAS.Buildings.Data.Materials.EPC;
 record GypsumPlasterForFinishing = IDEAS.Buildings.Data.Interfaces.Material (
       k=0.6,
       c=840,

@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Insulation;
+within IDEAS.Buildings.Data.Insulation.EPC;
 record Rockwool415TimberForFinishing35 =
     IDEAS.Buildings.Data.Interfaces.Material (
       k=0.042,

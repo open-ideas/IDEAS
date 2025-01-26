@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Insulation;
+within IDEAS.Buildings.Data.Insulation.EPC;
 record ExpandedPolystrenemOrEPS = IDEAS.Buildings.Data.Interfaces.Material (
       k=0.036,
       c=1470,
