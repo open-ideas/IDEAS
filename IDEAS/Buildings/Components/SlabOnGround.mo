@@ -105,7 +105,7 @@ protected
     Placement(transformation(origin = {0, -4}, extent = {{-28, -76}, {-8, -56}})));
 
 initial equation
-    QTra_design=UEqui*A*(TRefZon - weaBus.TGroundDes);
+    QTra_design=UEqui*A*(TRefZon - TdesGround.y);
 equation
   connect(TdesGround.u, weaBus.TGroundDes);
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
