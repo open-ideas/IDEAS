@@ -300,27 +300,27 @@ partial model RectangularZoneTemplateInterface
     choicesAllMatching=true,
     Placement(transformation(extent={{-228,-72},{-224,-68}})),
     Dialog(tab="Internal wall",group="Construction details", enable=hasInt));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingA
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face A"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face A", group="Window details",
            enable = hasWinA));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingB
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingB
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face B"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face B", group="Window details",
            enable = hasWinB));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingC
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingC
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face C"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face C", group="Window details",
            enable = hasWinC));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingD
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingD
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face D"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face D", group="Window details",
            enable = hasWinD));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingCei
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingCei
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of ceiling"
     annotation (
            choicesAllMatching=true,
@@ -1546,7 +1546,13 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
-March 27, 2024, by Lucas Verleyen:<br>
+January 30, 2025, by Jelger Jansen:<br/>
+Updated default window glazing type to avoid obsolete type warning.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1404>#1404</a>
+and <a href=https://github.com/open-ideas/IDEAS/issues/1410>#1410</a>.
+</li>
+<li>
+March 27, 2024, by Lucas Verleyen:<br/>
 Added parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 According to the changes in SlabOnGround.<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
