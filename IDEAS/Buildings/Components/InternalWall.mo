@@ -81,7 +81,7 @@ model InternalWall "interior opaque wall between two zones"
     "Discharge coefficient of cavity" 
     annotation(Dialog(group="Cavity or open door",tab="Advanced"));
   final parameter Real hzone_b(fixed=false);
-  final parameter Real hfloor_b(fixed=false);
+  final parameter Real hAbs_floor_b(fixed=false);
 
 
   parameter Modelica.Units.SI.Length hRelSurfBot_b=if
@@ -146,7 +146,7 @@ protected
 
 initial equation
   hzone_b = propsBus_b.hzone;
-  hfloor_b = propsBus_b.hfloor;
+  hAbs_floor_b = propsBus_b.hfloor;
   QTra_design=U_value*A*(TRefZon - TRef_b)
     "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
      TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
