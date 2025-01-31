@@ -81,7 +81,7 @@ model InternalWall "interior opaque wall between two zones"
     "Discharge coefficient of cavity" 
     annotation(Dialog(group="Cavity or open door",tab="Advanced"));
   final parameter Real hzone_b(fixed=false);
-  final parameter Real hfloor_b(fixed=false);
+  final parameter Real hAbs_floor_b(fixed=false);
 
 
   parameter Modelica.Units.SI.Length hRelSurfBot_b=if
@@ -146,16 +146,23 @@ protected
 
 initial equation
   hzone_b = propsBus_b.hzone;
-  hfloor_b = propsBus_b.hfloor;
+  hAbs_floor_b = propsBus_b.hfloor;
   QTra_design=U_value*A*(TRefZon - TRef_b)
     "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
      TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
 
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and hasCavity == true then
+    assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities without airflow are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
+  end if;
+
+  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,0) then
+    assert(hAbs_floor_a<hAbs_floor_b, getInstanceName()+ " is a ceiling, but the floor of the zone at probsbus_b (hfloor="+String(hAbs_floor_b) +") does not lie below the floor of zone at probsbus_a (hfloor="+String(hAbs_floor_a) +"), this should be fixed",level=AssertionLevel.error);
+  elseif sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then
+    assert(hAbs_floor_a>hAbs_floor_b, getInstanceName()+ " is a floor, but the floor of the zone at probsbus_a (hfloor="+String(hAbs_floor_a) +") does not lie below the floor of zone at probsbus_b (hfloor="+String(hAbs_floor_b) +"), this should be fixed",level=AssertionLevel.error);
+  end if;
+
 equation
   connect(constOne.y, crackOrOperableDoor.y);
-//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hAbs_floor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
-//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) and hAbs_floor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
-  assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   connect(layMul.port_b, propsBus_b.surfRad) annotation(
     Line(points = {{-10, 0}, {-18, 0}, {-18, 20.1}, {-100.1, 20.1}}, color = {191, 0, 0}, smooth = Smooth.None));
   connect(propsBus_b.surfCon, intCon_b.port_b) annotation(

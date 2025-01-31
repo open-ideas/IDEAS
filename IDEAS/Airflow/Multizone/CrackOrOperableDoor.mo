@@ -151,7 +151,7 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-   vZer=vZer*MFtrans*rho_default)
+   vZer=MFtrans/(rho_default*doo.wOpe*doo.hOpe))
    if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
     Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
