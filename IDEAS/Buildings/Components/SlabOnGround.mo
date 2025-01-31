@@ -193,6 +193,11 @@ zone that is surrounded by air at the ambient temperature.
 </html>", revisions="<html>
 <ul>
 <li>
+January 30, 2025, by Klaas De Jonge:<br/>
+Use <code>TdesGround.y</code> for calculating <code>QTra_design</code> to avoid causality warning.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>.
+</li>
+<li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>

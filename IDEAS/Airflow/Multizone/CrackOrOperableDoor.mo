@@ -223,6 +223,11 @@ There is no support for open doors when using only a single fluid port.
 revisions="<html>
 <ul>
 <li>
+January 30, 2025, by Klaas De Jonge:<br/>
+Changed wrong parameter declaration <code>doo.vZer</code> to have compatible units.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>.
+</li>
+<li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Changes for column heights,used default density and transition point to laminar flow at low dp.
 </li>
