@@ -161,6 +161,11 @@ initial equation
     assert(hAbs_floor_a>hAbs_floor_b, getInstanceName()+ " is a floor, but the floor of the zone at probsbus_a (hfloor="+String(hAbs_floor_a) +") does not lie below the floor of zone at probsbus_b (hfloor="+String(hAbs_floor_b) +"), this should be fixed",level=AssertionLevel.error);
   end if;
 
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+  assert(hAbs_floor_a+hRelSurfBot_a==hAbs_floor_b+hRelSurfBot_b,"The absolute height of internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones",level=AssertionLevel.error);
+  assert(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a==hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b,"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones",level=AssertionLevel.error);
+  end if;
+
 equation
   connect(constOne.y, crackOrOperableDoor.y);
   connect(layMul.port_b, propsBus_b.surfRad) annotation(
