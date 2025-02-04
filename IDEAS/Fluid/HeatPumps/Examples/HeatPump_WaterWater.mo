@@ -6,7 +6,7 @@ model HeatPump_WaterWater
 
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (choicesAllMatching=true);
-  constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
+  constant Modelica.Units.SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=30,

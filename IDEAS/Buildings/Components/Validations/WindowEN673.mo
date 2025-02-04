@@ -6,9 +6,9 @@ model WindowEN673 "Verifies U value of a glazing record"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   replaceable package Medium = IDEAS.Media.Air "Air medium";
-  parameter SI.Temperature TZone=273.15 + 20
+  parameter Modelica.Units.SI.Temperature TZone=273.15 + 20
     "Fixed interior temperature";
-  parameter SI.Temperature TOut=273.15
+  parameter Modelica.Units.SI.Temperature TOut=273.15
     "Fixed exterior temperature";
 
   Modelica.Units.SI.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow
@@ -107,7 +107,7 @@ protected
         TBlaSkySou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
         TBlaSky=TDryBulFixed));
 
-    parameter SI.Temperature TDryBulFixed=293.15
+    parameter Modelica.Units.SI.Temperature TDryBulFixed=293.15
       "Dry bulb temperature (used if TDryBul=Parameter)";
   end SimInfoManagerFixedBC;
 initial equation

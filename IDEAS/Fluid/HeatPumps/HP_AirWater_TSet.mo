@@ -12,7 +12,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   parameter Real fraLosDesNom=0.68
     "Ratio of power at design conditions over power at 2/35degC";
   parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
-  final parameter SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
+  final parameter Modelica.Units.SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
       fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
   parameter Real modulation_min=20 "Minimal modulation percentage";
   parameter Real modulation_start=35

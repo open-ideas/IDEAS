@@ -2,9 +2,9 @@ within IDEAS.Experimental.Electric.Photovoltaics.Examples;
 model PVSystem
   "Only a PV system, see python script for generating profiles from this model"
   extends Modelica.Icons.Example;
-  parameter SI.Angle inc=40/180*Modelica.Constants.pi
+  parameter Modelica.Units.SI.Angle inc=40/180*Modelica.Constants.pi
     annotation (evaluate=False);
-  parameter SI.Angle azi=45/180*Modelica.Constants.pi
+  parameter Modelica.Units.SI.Angle azi=45/180*Modelica.Constants.pi
     annotation (evaluate=False);
 
   IDEAS.Experimental.Electric.Photovoltaics.PVSystemGeneral pVSystemGeneral(

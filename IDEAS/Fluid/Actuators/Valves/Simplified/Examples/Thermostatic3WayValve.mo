@@ -9,7 +9,7 @@ model Thermostatic3WayValve "Example of a thermostatic three way valve"
                         annotation (Placement(transformation(extent={{8,8},{28,28}})));
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
 
-  parameter SI.MassFlowRate m_flow_nominal=2 "Nominal mass flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=2 "Nominal mass flow rate";
 
   IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,

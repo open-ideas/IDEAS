@@ -73,7 +73,7 @@ protected
     "True when a convection + radiation equation should be used to model the layer instead of conduction";
 
 public
-  parameter SI.TemperatureDifference dT_nom_air=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number";
 equation
   connect(E_internal, monLayDyn.E);

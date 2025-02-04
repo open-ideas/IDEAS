@@ -4,7 +4,7 @@ model HeatPump_WaterWaterTSet
   extends Modelica.Icons.Example;
     package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (choicesAllMatching=true);
-  constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
+  constant Modelica.Units.SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
 
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)
     annotation (Placement(transformation(extent={{8,24},{-10,42}})));

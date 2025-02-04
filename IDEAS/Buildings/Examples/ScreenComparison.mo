@@ -4,7 +4,7 @@ model ScreenComparison "Comparison between a model with and without screen"
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
    replaceable package Medium = IDEAS.Media.Air;
-  parameter SI.MassFlowRate m_flow_nominal = zoneWithScreen.V*1.2*ACH/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal = zoneWithScreen.V*1.2*ACH/3600
     "Nominal mass flow rate of trickle vent";
   parameter Real ACH = 1
     "Ventilation air change rate";

@@ -41,7 +41,7 @@ protected
       Z) for i in 1:3};
   parameter Modelica.Units.SI.Reactance[3,Nodes] X3={Modelica.ComplexMath.imag(
       Z) for i in 1:3};
-  //  parameter SI.ComplexVoltage[3] Vsource3={Vsource*(cos(c.pi*2*i/3)+MCM.j*sin(c.pi*2*i/6)) for i in 1:3};
+  //  parameter Modelica.Units.SI.ComplexVoltage[3] Vsource3={Vsource*(cos(c.pi*2*i/3)+MCM.j*sin(c.pi*2*i/6)) for i in 1:3};
 
   //Absolute voltages at the nodes
   output Modelica.Units.SI.Voltage Vabs[3,Nodes];

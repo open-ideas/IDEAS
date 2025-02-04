@@ -14,8 +14,8 @@ partial model PartialDynamicHeaterWithLosses
   parameter Modelica.Units.SI.Mass mWater=5 "Mass of water in the condensor";
   parameter Modelica.Units.SI.HeatCapacity cDry=4800
     "Capacity of dry material lumped to condensor";
-  parameter SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
-  parameter SI.Pressure dp_nominal=0 "Pressure";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
+  parameter Modelica.Units.SI.Pressure dp_nominal=0 "Pressure";
   parameter Boolean dynamicBalance=true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Dialog(tab="Flow resistance"));

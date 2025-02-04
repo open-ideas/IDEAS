@@ -27,7 +27,7 @@ model MultiLayer "multiple material layers in series"
   parameter Boolean disableInitPortB= false
     "Remove initial equation at port b"
     annotation(Evaluate=true, Dialog(group="Dynamics"));
-  parameter SI.TemperatureDifference dT_nom_air=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number"
     annotation(Dialog(enable=linIntCon));
   parameter Boolean checkCoatings = false
