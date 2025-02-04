@@ -162,8 +162,8 @@ initial equation
   end if;
 
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
-  assert(hAbs_floor_a+hRelSurfBot_a==hAbs_floor_b+hRelSurfBot_b,"The absolute height of internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones",level=AssertionLevel.error);
-  assert(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a==hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b,"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones",level=AssertionLevel.error);
+  assert(hAbs_floor_a+hRelSurfBot_a==hAbs_floor_b+hRelSurfBot_b,"The absolute height of internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the absolute surface starting height is "+String(hAbs_floor_a+hRelSurfBot_a)+"m while at propsbus_b the absolute surface starting height is "+String(hAbs_floor_b+hRelSurfBot_b)+"m",level=AssertionLevel.error);
+  assert(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a==hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b,"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the opening its absolute starting height is "+String(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a)+"m while at propsbus_b the opening its absolute starting height is "+String(hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b)+"m",level=AssertionLevel.error);
   end if;
 
 equation
