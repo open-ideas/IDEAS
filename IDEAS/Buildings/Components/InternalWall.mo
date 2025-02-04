@@ -67,6 +67,8 @@ model InternalWall "interior opaque wall between two zones"
   parameter Boolean use_y_doo = false
     "=true, to enable controllable cavity (door) input"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Boolean CheckVH=true "Enable to not check vertical heights, if an internal floor or element is connected to the same zone at both sides this should be set to false" annotation(Dialog(group="Vertical height check",tab="Airflow"));
+
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
@@ -155,16 +157,18 @@ initial equation
     assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities without airflow are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   end if;
 
-  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,0) then
+  if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,0) then
     assert(hAbs_floor_a<hAbs_floor_b, getInstanceName()+ " is a ceiling, but the floor of the zone at probsbus_b (hfloor="+String(hAbs_floor_b) +") does not lie below the floor of zone at probsbus_a (hfloor="+String(hAbs_floor_a) +"), this should be fixed",level=AssertionLevel.error);
-  elseif sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then
+  elseif CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then
     assert(hAbs_floor_a>hAbs_floor_b, getInstanceName()+ " is a floor, but the floor of the zone at probsbus_a (hfloor="+String(hAbs_floor_a) +") does not lie below the floor of zone at probsbus_b (hfloor="+String(hAbs_floor_b) +"), this should be fixed",level=AssertionLevel.error);
   end if;
 
-  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+  if CheckVH and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
   assert(hAbs_floor_a+hRelSurfBot_a==hAbs_floor_b+hRelSurfBot_b,"The absolute height of internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the absolute surface starting height is "+String(hAbs_floor_a+hRelSurfBot_a)+"m while at propsbus_b the absolute surface starting height is "+String(hAbs_floor_b+hRelSurfBot_b)+"m",level=AssertionLevel.error);
   assert(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a==hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b,"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the opening its absolute starting height is "+String(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a)+"m while at propsbus_b the opening its absolute starting height is "+String(hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b)+"m",level=AssertionLevel.error);
   end if;
+
+  assert(CheckVH and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,"Vertical height check was disabled for "+getInstanceName()+" but InterZonalAirFlow.TwoPorts is active",AssertionLevel.warning);
 
 equation
   connect(constOne.y, crackOrOperableDoor.y);
@@ -271,6 +275,10 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions = "<html>
 <ul>
+<li>
+February 4, 2025, by Klaas De Jonge:<br/>
+Boolean to disable vertical height check was added
+</li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>
 Add dummy connections for <code>hzone</code> and <code>hfloor</code> in <code>propsbus_b</code> to avoid translation warnings.
