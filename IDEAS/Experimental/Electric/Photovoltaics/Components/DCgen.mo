@@ -1,8 +1,7 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components;
 model DCgen
 
-  import Modelica.Electrical.Analog.Interfaces;
-  extends Interfaces.OnePort;
+  extends Modelica.Electrical.Analog.Interfaces.OnePort;
 
   annotation (Documentation(revisions="<html>
 <ul>
