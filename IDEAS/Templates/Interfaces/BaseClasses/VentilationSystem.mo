@@ -56,12 +56,17 @@ partial model VentilationSystem
                                          graphics),
     Documentation(revisions="<html>
 <ul>
-<li>December 23, 2024, by Lucas Verleyen:<br>
-Removed nZones parameter, since it is already declared in PartialSystem, from which this model extends.<br>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1401\">#1401</a>.</li>
-<li>May 22, 2022, by Filip Jorissen:<br>
-Fixed Modelica specification compatibility issue.<br>
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">#1254</a>.</li>
+<li>
+December 23, 2024, by Lucas Verleyen:<br>
+Removed nZones parameter, since it is already declared in PartialSystem, from which this model extends.
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1401\">#1401</a>.
+</li>
+<li>
+May 22, 2022, by Filip Jorissen:<br/>
+Fixed Modelica specification compatibility issue.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
+#1254</a>
+</li>
 </ul>
 </html>"));
 end VentilationSystem;
