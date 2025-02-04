@@ -176,6 +176,11 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 August 9, 2022, by Filip Jorissen:<br/>
 Updated documentation and added parameters for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a>.

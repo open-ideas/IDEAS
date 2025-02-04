@@ -150,6 +150,11 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 September 9, 2019, by Kristoff Six:<br/>
 Updated with <code>checkCoating</code> for issue
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1038\">#1038</a>.

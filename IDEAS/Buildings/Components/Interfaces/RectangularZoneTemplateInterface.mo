@@ -1546,6 +1546,11 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 March 27, 2024, by Lucas Verleyen:<br>
 Added parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 According to the changes in SlabOnGround.<br>

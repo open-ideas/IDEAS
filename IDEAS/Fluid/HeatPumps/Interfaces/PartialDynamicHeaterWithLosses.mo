@@ -152,11 +152,19 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/821\">#821</a>.
 </li>
-<li>2014 March, Filip Jorissen, Annex60 compatibility</li>
+<li>
+March, 2014, by Filip Jorissen:<br/>
+Annex60 compatibility
+</li>
 </ul>
 </html>"));
 end PartialDynamicHeaterWithLosses;
