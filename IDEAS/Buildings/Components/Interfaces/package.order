@@ -5,6 +5,7 @@ PartialSurface
 PartialZone
 RealConnector
 BooleanConnector
+IntegerConnector
 RectangularZoneTemplateInterface
 SolBus
 WeaBus
