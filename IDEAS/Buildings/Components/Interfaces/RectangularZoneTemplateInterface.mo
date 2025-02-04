@@ -1548,7 +1548,7 @@ components cannot be propagated.
 <li>
 January 30, 2025, by Jelger Jansen:<br/>
 Updated default window glazing type to avoid obsolete type warning.
-See <a href=https://github.com/open-ideas/IDEAS/issues/1404>#1404</a>
+See <a href=https://github.com/open-ideas/IDEAS/issues/1402>#1402</a>
 and <a href=https://github.com/open-ideas/IDEAS/issues/1410>#1410</a>.
 </li>
 <li>
