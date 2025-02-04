@@ -89,7 +89,7 @@ protected
     annotation (Placement(transformation(extent={{8,-384},{-12,-364}})));
   Modelica.Blocks.Routing.RealPassThrough TRefZon
     "Reference zone temperature for calculation of design heat load"
-    annotation (Placement(transformation(extent={{8,-356},{-12,-336}})));
+    annotation (Placement(transformation(extent={{8,-450},{-12,-430}})));
 
 equation
   connect(QTra_design.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},

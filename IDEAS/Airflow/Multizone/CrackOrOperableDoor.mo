@@ -151,7 +151,7 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-   vZer=vZer*MFtrans*rho_default)
+   vZer=MFtrans/(rho_default*doo.wOpe*doo.hOpe))
    if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
     Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
@@ -226,6 +226,11 @@ revisions="<html>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
+January 30, 2025, by Klaas De Jonge:<br/>
+Changed wrong parameter declaration <code>doo.vZer</code> to have compatible units.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>.
 </li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>

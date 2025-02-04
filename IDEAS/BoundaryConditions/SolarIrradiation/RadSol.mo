@@ -3,9 +3,9 @@ model RadSol "Block that computes surface-dependent environment data"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Real rho=0.2 "Ground reflectance";
-  parameter Modelica.Units.SI.Angle inc(displayUnit="degree") "inclination";
-  parameter Modelica.Units.SI.Angle azi(displayUnit="degree") "azimuth";
-  parameter Modelica.Units.SI.Angle lat(displayUnit="degree") "latitude";
+  parameter Modelica.Units.SI.Angle inc(displayUnit="deg") "inclination";
+  parameter Modelica.Units.SI.Angle azi(displayUnit="deg") "azimuth";
+  parameter Modelica.Units.SI.Angle lat(displayUnit="deg") "latitude";
   parameter Boolean remDefVals = false "Remove default signal values";
   parameter Boolean outputAngles=true "Set to false when linearising only";
 
@@ -140,6 +140,11 @@ equation
           fillPattern=FillPattern.Solid)}),
     Documentation(revisions="<html>
 <ul>
+<li>
+January 24, 2025, by Klaas De Jonge:<br/>
+Changed <code>displayUnit</code> angles from <code>degree</code> to <code>deg</code> to avoid warnings.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a> 
+</li>
 <li>
 November 28, 2019, by Ian Beausoleil-Morrison:<br/>
 Add RealInput's for wind speed and wind direction.<br/>
