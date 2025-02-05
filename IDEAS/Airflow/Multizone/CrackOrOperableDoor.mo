@@ -16,19 +16,14 @@ model CrackOrOperableDoor
     Modelica.Media.Interfaces.PartialMedium "Medium in the component"
       annotation (choices(
         choice(redeclare package Medium = IDEAS.Media.Air "Moist air")));
-
-  parameter Modelica.Units.SI.Length wOpe=0.9 "Width of opening"
-    annotation (Dialog(group="Geometry"));
-  parameter Modelica.Units.SI.Length hOpe=2.1 "Height of opening"
-    annotation (Dialog(group="Geometry"));
-  parameter SI.Angle inc=Modelica.Constants.pi/2
-    "inclination angle (vertical=pi/2)"
-                                       annotation (Dialog(group="Geometry"));
   parameter BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType
     "Interzonal air flow type";
-  final parameter Modelica.Units.SI.PressureDifference dpCloRat(displayUnit="Pa")=50
-                           "Pressure drop at rating condition of closed door"
-    annotation (Dialog(group="Rating conditions"));
+  parameter SI.Angle inc=Modelica.Constants.pi/2 "inclination angle (vertical=pi/2)";
+  parameter Modelica.Units.SI.Area A_q50 "Surface area for leakage computation (closed door)" annotation (Dialog(group="Crack or Closed door"));
+  parameter Real q50(unit="m3/(h.m2)") "Surface air tightness" annotation (Dialog(group="Crack or Closed door"));
+  parameter Modelica.Units.SI.Length wOpe=0.9 "Width of opening"   annotation (Dialog(group="Open door"));
+  parameter Modelica.Units.SI.Length hOpe=2.1 "Height of opening" annotation (Dialog(group="Open door"));
+  parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else max(2,integer(abs(hOpe*sin(inc))/4)) "Number of compartments for the discretization" annotation (Dialog(group="Open door"));
 
   parameter Modelica.Units.SI.Length h_b1 "Height of crack at port b1 (hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
   parameter Modelica.Units.SI.Length h_b2 = 0 "Height of crack at port b2(hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
@@ -42,11 +37,13 @@ model CrackOrOperableDoor
     "Height of reference pressure at port b1 for opening (hasCavity=true) model, opening starting height is 0"
                                                                                                               annotation (Dialog(group="Density Column Heights"));
 
+  final parameter Modelica.Units.SI.PressureDifference dpCloRat(displayUnit="Pa")=50
+                           "Pressure drop at rating condition of closed door"
+    annotation (Dialog(group="Rating conditions"));
   final parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"
       annotation (Dialog(group="Rating conditions"));
-   parameter Modelica.Units.SI.Area A_q50 "Surface area for leakage computation (closed door)";
-   parameter Real q50(unit="m3/(h.m2)") "Surface air tightness";
+
 
   final parameter Modelica.Units.SI.Area LClo(min=0) = ((q50*A_q50/3600)/(dpCloRat)^mClo)/(((dpCloRat)^(0.5-mClo))*sqrt(2/rho_default))
     "Effective leakage area of internal wall (when door is fully closed)"
@@ -61,11 +58,10 @@ model CrackOrOperableDoor
   parameter Real mClo= 0.65 "Flow exponent for crack or crack of closed door"
     annotation (Dialog(group="Crack or Closed door"));
 
-  parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else max(2,integer(abs(hOpe*sin(inc))/4)) "Number of compartments for the discretization";
 
-  parameter Boolean useDoor = false  "=true, to use operable door instead of a crack";
-  parameter Boolean use_y = true "=true, to use control input";
-  parameter Boolean openDoorOnePort = false "Sets whether a door is open or closed in one port configuration";
+  parameter Boolean useDoor = false  "=true, to use operable door instead of a crack" annotation (Dialog(group="Open door"));
+  parameter Boolean use_y = true "=true, to use control input" annotation (Dialog(group="Open door"));
+  parameter Boolean openDoorOnePort = false "Sets whether a door is open or closed in one port configuration" annotation (Dialog(group="Open door"));
 
   parameter Modelica.Units.SI.PressureDifference dp_turbulent(
     min=0,
