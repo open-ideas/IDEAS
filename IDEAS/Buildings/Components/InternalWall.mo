@@ -12,10 +12,12 @@ model InternalWall "interior opaque wall between two zones"
 	final QTra_design(fixed=false),
     q50_zone(v50_surf=0, nDum=4),
     crackOrOperableDoor(
-      h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
-      h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b,
-      hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b,
-      hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a,
+      h_b1=-0.5*hzone_a + 0.75*hVertical + hRelSurfBot_a + hThCor,
+      h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b - hThCor,
+      h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b - hThCor,
+      h_a2=-0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a + hThCor,
+      hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b + hThCor,
+      hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a - hThCor,
       openDoorOnePort=true,
       useDoor=hasCavity,
       use_y=use_y_doo,
@@ -145,6 +147,7 @@ protected
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   final parameter Boolean useDooOpe = hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts;
+  final parameter Real hThCor=cos(inc)*sum(constructionType.mats.d)/2 "Vertically projected internal wall thickness";
 
 initial equation
   hzone_b = propsBus_b.hzone;
@@ -164,8 +167,8 @@ initial equation
   end if;
 
   if CheckVH and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
-  assert(hAbs_floor_a+hRelSurfBot_a==hAbs_floor_b+hRelSurfBot_b,"The absolute height of internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the absolute surface starting height is "+String(hAbs_floor_a+hRelSurfBot_a)+"m while at propsbus_b the absolute surface starting height is "+String(hAbs_floor_b+hRelSurfBot_b)+"m",level=AssertionLevel.error);
-  assert(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a==hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b,"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match between both sides of the wall, check the input for hfloor and hzone of the corresponding zones. At propsbus_a the opening its absolute starting height is "+String(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a)+"m while at propsbus_b the opening its absolute starting height is "+String(hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b)+"m",level=AssertionLevel.error);
+  assert(Modelica.Math.isEqual(hAbs_floor_a+hRelSurfBot_a+hThCor,hAbs_floor_b+hRelSurfBot_b-hThCor,0.15),"The absolute height of internal wall (centerline) "+ getInstanceName() +" does not match within a 15cm margin between both sides of the wall, check the input for the floor thickness and hfloor,hzone of the corresponding zones. At propsbus_a the absolute surface centerline height is "+String(hAbs_floor_a+hRelSurfBot_a+hThCor)+"m while at propsbus_b the absolute surface centerline height is "+String(hAbs_floor_b+hRelSurfBot_b-hThCor)+"m",level=AssertionLevel.error);
+  assert(Modelica.Math.isEqual(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a+hThCor,hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b-hThCor,0.15),"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match within a 15cm margin between both sides of the wall, check the input for the relative opening height, the floor thickness and hfloor,hzone of the corresponding zones. At propsbus_a the opening its absolute starting height is "+String(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a+hThCor)+"m while at propsbus_b the opening its absolute starting height is "+String(hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b-hThCor)+"m",level=AssertionLevel.error);
   end if;
 
   assert(CheckVH and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,"Vertical height check was disabled for "+getInstanceName()+" but InterZonalAirFlow.TwoPorts is active",AssertionLevel.warning);
@@ -275,6 +278,10 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions = "<html>
 <ul>
+<li>
+February 5, 2025, by Klaas De Jonge:<br/>
+Support was added to the twoport airflow implementation that acounts for the floor thickness.
+</li>
 <li>
 February 4, 2025, by Klaas De Jonge:<br/>
 Boolean to disable vertical height check was added
