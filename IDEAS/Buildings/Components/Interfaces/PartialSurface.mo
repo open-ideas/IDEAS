@@ -51,8 +51,8 @@ partial model PartialSurface "Partial model for building envelope component"
 
   final parameter Modelica.Units.SI.Length hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Modelica.Units.SI.Length hAbs_floor_a( fixed=false);
-  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
-  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"
+  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
+  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"
                                                                                                                                                                                                         annotation(Evaluate=true);
   final parameter Modelica.Units.SI.Length Habs_surf=hAbs_floor_a+hRelSurfBot_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
@@ -102,7 +102,7 @@ partial model PartialSurface "Partial model for building envelope component"
     h_b1=-0.5*hzone_a + 0.75*hVertical + hRelSurfBot_a,
     h_a2=-0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a,
     interZonalAirFlowType = sim.interZonalAirFlowType,
-    inc=inc)                                           if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
+    inc=incInt)                                           if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
     Placement(transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
