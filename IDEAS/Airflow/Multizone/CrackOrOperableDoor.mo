@@ -17,28 +17,30 @@ model CrackOrOperableDoor
       annotation (choices(
         choice(redeclare package Medium = IDEAS.Media.Air "Moist air")));
 
-  parameter Modelica.Units.SI.Velocity vZer=0.001
-    "Minimum velocity to prevent zero flow. Recommended: 0.001";
   parameter Modelica.Units.SI.Length wOpe=0.9 "Width of opening"
     annotation (Dialog(group="Geometry"));
   parameter Modelica.Units.SI.Length hOpe=2.1 "Height of opening"
     annotation (Dialog(group="Geometry"));
-
+  parameter SI.Angle inc=Modelica.Constants.pi/2
+    "inclination angle (vertical=pi/2)"
+                                       annotation (Dialog(group="Geometry"));
   parameter BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType
     "Interzonal air flow type";
   final parameter Modelica.Units.SI.PressureDifference dpCloRat(displayUnit="Pa")=50
                            "Pressure drop at rating condition of closed door"
     annotation (Dialog(group="Rating conditions"));
 
-  parameter Modelica.Units.SI.Length h_b1 "Height at port b1 (hasCavity=false)";
-  parameter Modelica.Units.SI.Length h_b2 = 0 "Height at port b2(hasCavity=false)";
-  parameter Modelica.Units.SI.Length h_a1 = 0 "Height at port a1(hasCavity=false)";
-  parameter Modelica.Units.SI.Length h_a2  "Height at port a2(hasCavity=false)";
+  parameter Modelica.Units.SI.Length h_b1 "Height of crack at port b1 (hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
+  parameter Modelica.Units.SI.Length h_b2 = 0 "Height of crack at port b2(hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
+  parameter Modelica.Units.SI.Length h_a1 = 0 "Height of crack at port a1(hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
+  parameter Modelica.Units.SI.Length h_a2  "Height at of crack port a2(hasCavity=false), center of conected zone is 0" annotation (Dialog(group="Density Column Heights"));
 
   parameter SI.Length hA=(h_a1 + h_b2)/2
-    "Height of reference pressure at port a1 for opening (hasCavity=true) model";
+    "Height of reference pressure at port a1 for opening (hasCavity=true) model, opening starting height is 0"
+                                                                                                              annotation (Dialog(group="Density Column Heights"));
   parameter SI.Length hB=(h_a2 + h_b1)/2
-    "Height of reference pressure at port b1 for opening (hasCavity=true) model";
+    "Height of reference pressure at port b1 for opening (hasCavity=true) model, opening starting height is 0"
+                                                                                                              annotation (Dialog(group="Density Column Heights"));
 
   final parameter Real CDCloRat(min=0, max=1)=1
     "Discharge coefficient at rating conditions of closed door"
@@ -68,14 +70,19 @@ model CrackOrOperableDoor
   parameter Modelica.Units.SI.PressureDifference dp_turbulent(
     min=0,
     displayUnit="Pa") = 0.01
-    "Pressure difference where laminar and turbulent flow relation coincide. Recommended: 0.01";
+    "Pressure difference where laminar and turbulent flow relation coincide. Recommended: 0.01" annotation (Dialog(tab="Advanced",group="Crack model regularisation"));
 
    parameter Modelica.Units.SI.PressureDifference dp_turbulent_ope(min=0,displayUnit="Pa") = (MFtrans/(rho_default*(CDOpe * hOpe*wOpe * sqrt(2/rho_default))))^(1/mOpe)
-   if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities";
-   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation";
-   parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter";
-   constant Modelica.Units.SI.ReynoldsNumber REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed Reynolds number at transition";
-   constant Modelica.Units.SI.DynamicViscosity VItrans=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed dynamic viscosity of air at transition";
+   if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Pressure difference where laminar and turbulent flow relation coincide for large cavities"
+                                                                                                                                                                                                annotation (Dialog(tab="Advanced",group="Door model regularisation"));
+   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Recommended massflowrate used for reguralisation"
+                                                                                                                                                                                                        annotation (Dialog(tab="Advanced",group="Door model regularisation"));
+   parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe) if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Estimated hydraulic diameter of the opening - 4*A/Perimeter"
+                                                                                                                                                                                                        annotation (Dialog(tab="Advanced",group="Door model regularisation"));
+   constant Modelica.Units.SI.ReynoldsNumber REtrans=30 if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed Reynolds number at transition"
+                                                                                                                                                                                                 annotation (Dialog(tab="Advanced",group="Door model regularisation"));
+   constant Modelica.Units.SI.DynamicViscosity VItrans=0.0000181625  if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts "Assumed dynamic viscosity of air at transition"
+                                                                                                                                                                                                        annotation (Dialog(tab="Advanced",group="Door model regularisation"));
 
    final parameter Medium.ThermodynamicState state_default=Medium.setState_pTX(
       T=Medium.T_default,
@@ -151,7 +158,7 @@ model CrackOrOperableDoor
    hOpe=hOpe,
    dpCloRat=dpCloRat,
    LClo=LClo,
-   vZer=MFtrans/(rho_default*doo.wOpe*doo.hOpe))
+   vZer=MFtrans/(rho_default*doo.wOpe*doo.hOpe)/1000)
    if useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation (
     Placement(visible = true, transformation(origin={-2,0},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Fluid.Sources.Boundary_pT bou(
@@ -165,8 +172,7 @@ model CrackOrOperableDoor
    "Door constantly opened" annotation (
     Placement(visible = true, transformation(origin = {-54, -14}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
 
-  parameter SI.Angle inc=Modelica.Constants.pi/2
-    "inclination angle (vertical=pi/2)";
+
 initial equation
   assert( not (interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and useDoor and use_y),
   "In " +getInstanceName() + ": Cannot use a controllable door unless interZonalAirFlowType == TwoPorts.");
