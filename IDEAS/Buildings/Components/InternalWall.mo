@@ -3,7 +3,7 @@ within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
-    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) or IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then 0 else 2,
+    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(incInt, 0) or IDEAS.Utilities.Math.Functions.isAngle(incInt, Modelica.Constants.pi) then 0 else 2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
@@ -89,7 +89,7 @@ model InternalWall "interior opaque wall between two zones"
 
 
   parameter Modelica.Units.SI.Length hRelSurfBot_b=if
-      IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor)
+      IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor)
        then hzone_b else 0
     "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
   Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe 
@@ -108,7 +108,7 @@ model InternalWall "interior opaque wall between two zones"
     "Boundary for bus b" annotation(
     Placement(transformation(origin = {-48, -4}, extent = {{28, -76}, {8, -56}}, rotation = -0)));
 protected
-  parameter Real Ope_hvert = sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation (
+  parameter Real Ope_hvert = sin(incInt)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation (
     Dialog(enable=hasCavity,group="Cavity or open door"));
   final parameter Real U_value = 1/(1/8 + sum(constructionType.mats.R) + 1/8) "Wall U-value";
   constant Real r = 287 "Gas constant";
@@ -147,7 +147,7 @@ protected
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   final parameter Boolean useDooOpe = hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts;
-  final parameter Real hThCor=cos(inc)*sum(constructionType.mats.d)/2 "Vertically projected internal wall thickness";
+  final parameter Real hThCor=cos(incInt)*sum(constructionType.mats.d)/2 "Vertically projected internal wall thickness";
 
 initial equation
   hzone_b = propsBus_b.hzone;
@@ -160,9 +160,9 @@ initial equation
     assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities without airflow are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   end if;
 
-  if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,0) then
+  if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,0) then
     assert(hAbs_floor_a<hAbs_floor_b, getInstanceName()+ " is a ceiling, but the floor of the zone at probsbus_b (hfloor="+String(hAbs_floor_b) +") does not lie below the floor of zone at probsbus_a (hfloor="+String(hAbs_floor_a) +"), this should be fixed",level=AssertionLevel.error);
-  elseif CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then
+  elseif CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,Modelica.Constants.pi) then
     assert(hAbs_floor_a>hAbs_floor_b, getInstanceName()+ " is a floor, but the floor of the zone at probsbus_a (hfloor="+String(hAbs_floor_a) +") does not lie below the floor of zone at probsbus_b (hfloor="+String(hAbs_floor_b) +"), this should be fixed",level=AssertionLevel.error);
   end if;
 
