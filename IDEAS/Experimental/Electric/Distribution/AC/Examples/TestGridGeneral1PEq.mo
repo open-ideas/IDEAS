@@ -1,7 +1,6 @@
 within IDEAS.Experimental.Electric.Distribution.AC.Examples;
 model TestGridGeneral1PEq
-  import IDEAS;
-    extends Modelica.Icons.Example;
+  extends Modelica.Icons.Example;
   IDEAS.Experimental.Electric.Distribution.AC.Examples.Components.SinePower
     risingflankSingle1(amplitude=12000)
     annotation (Placement(transformation(extent={{40,0},{60,20}})));
@@ -26,6 +25,11 @@ equation
             100,100}}),
             graphics), Documentation(revisions="<html>
 <ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
 <li>
 May 22, 2022, by Filip Jorissen:<br/>
 Removed experiment annotation to avoid failing OMC tests.

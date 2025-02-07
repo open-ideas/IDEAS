@@ -1,7 +1,6 @@
 within IDEAS.Fluid.Taps.Interfaces;
 partial model BalancedTap "partial DHW model"
   extends Modelica.Icons.ObsoleteModel;
-  import IDEAS;
 
   parameter Modelica.Units.SI.Temperature TDHWSet(max=273.15 + 60) = 273.15 +
     45 "DHW temperature setpoint";
@@ -193,6 +192,7 @@ An example of this model is given in
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+Removed <code>import IDEAS</code> statement.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
 </li>
 <li>

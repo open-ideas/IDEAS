@@ -1,7 +1,6 @@
 within IDEAS.Controls.Discrete.Examples;
 model HysteresisRelease_Cooling
   "Example model for hysteresis with variable uLow and uHigh"
-  import IDEAS;
   extends Modelica.Icons.Example;
   IDEAS.Controls.Discrete.HysteresisRelease con(revert=false)
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
@@ -94,7 +93,15 @@ This example can be simulated with the \"simulate and plot\" command in the Comm
 </p>
 </html>", revisions="<html>
 <ul>
-<li>November 2014, Roel De Coninck and Damien Picard</li>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
+<li>
+November, 2014, by Roel De Coninck and Damien Picard:<br/>
+First implementation.
+</li>
 </ul>
 </html>"));
 end HysteresisRelease_Cooling;
