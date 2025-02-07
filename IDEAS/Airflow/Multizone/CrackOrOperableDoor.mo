@@ -35,9 +35,9 @@ model CrackOrOperableDoor
   parameter Modelica.Units.SI.Length h_a1 = 0 "Height at port a1(hasCavity=false)";
   parameter Modelica.Units.SI.Length h_a2  "Height at port a2(hasCavity=false)";
 
-  parameter SI.Length hA=(h_a1 + h_b2)/2
+  parameter Modelica.Units.SI.Length hA=(h_a1 + h_b2)/2
     "Height of reference pressure at port a1 for opening (hasCavity=true) model";
-  parameter SI.Length hB=(h_a2 + h_b1)/2
+  parameter Modelica.Units.SI.Length hB=(h_a2 + h_b1)/2
     "Height of reference pressure at port b1 for opening (hasCavity=true) model";
 
   final parameter Real CDCloRat(min=0, max=1)=1
@@ -165,7 +165,7 @@ model CrackOrOperableDoor
    "Door constantly opened" annotation (
     Placement(visible = true, transformation(origin = {-54, -14}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
 
-  parameter SI.Angle inc=Modelica.Constants.pi/2
+  parameter Modelica.Units.SI.Angle inc=Modelica.Constants.pi/2
     "inclination angle (vertical=pi/2)";
 initial equation
   assert( not (interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts and useDoor and use_y),
@@ -222,6 +222,11 @@ There is no support for open doors when using only a single fluid port.
 </html>",
 revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
 <li>
 January 30, 2025, by Klaas De Jonge:<br/>
 Changed wrong parameter declaration <code>doo.vZer</code> to have compatible units.

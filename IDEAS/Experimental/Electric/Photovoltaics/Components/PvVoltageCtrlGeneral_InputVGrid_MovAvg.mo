@@ -1,7 +1,6 @@
 within IDEAS.Experimental.Electric.Photovoltaics.Components;
 model PvVoltageCtrlGeneral_InputVGrid_MovAvg
   "Basic controller based on moving average, with fixed shut down time, with RealInput for grid voltage"
-  import IDEAS;
 
   extends Modelica.Blocks.Icons.Block;
 
@@ -61,5 +60,14 @@ equation
       points={{-100,-60},{-64,-60},{-64,-42},{-26,-42}},
       color={0,0,127},
       smooth=Smooth.None));
-  annotation (Diagram(graphics));
+  annotation (Diagram(graphics),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
+</ul>
+</html>"));
 end PvVoltageCtrlGeneral_InputVGrid_MovAvg;

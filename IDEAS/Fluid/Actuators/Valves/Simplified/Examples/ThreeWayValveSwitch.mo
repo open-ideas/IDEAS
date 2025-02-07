@@ -1,6 +1,5 @@
 within IDEAS.Fluid.Actuators.Valves.Simplified.Examples;
 model ThreeWayValveSwitch "Test the new component ThreeWayValveSwitch"
-  import IDEAS;
   extends Modelica.Icons.Example;
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
 
@@ -84,6 +83,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>

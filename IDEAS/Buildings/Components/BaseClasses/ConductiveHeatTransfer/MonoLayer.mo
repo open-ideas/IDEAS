@@ -73,7 +73,7 @@ protected
     "True when a convection + radiation equation should be used to model the layer instead of conduction";
 
 public
-  parameter SI.TemperatureDifference dT_nom_air=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nom_air=1
     "Nominal temperature difference for air layers, used for linearising Rayleigh number";
 equation
   connect(E_internal, monLayDyn.E);
@@ -149,6 +149,11 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
 <li>
 September 9, 2019, by Kristoff Six:<br/>
 Updated with <code>checkCoating</code> for issue

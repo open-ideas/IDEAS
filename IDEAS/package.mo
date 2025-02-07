@@ -2,7 +2,6 @@ within ;
 package IDEAS "Integrated District Energy Assessment Simulation"
 
 extends Modelica.Icons.Package;
-import      Modelica.Units.SI;
 
 annotation (
   uses(Modelica(version="4.0.0")),

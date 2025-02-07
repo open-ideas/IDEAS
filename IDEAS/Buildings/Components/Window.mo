@@ -124,16 +124,16 @@ model Window "Multipane window"
   parameter Boolean use_trickle_vent = false
     "= true, to enable trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow"));
-  parameter SI.MassFlowRate m_flow_nominal = 0
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal = 0
     "Nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-  parameter SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
+  parameter Modelica.Units.SI.PressureDifference dp_nominal(displayUnit="Pa") = 5
     "Pressure drop at nominal mass flow rate of trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
   parameter Boolean use_trickle_vent_control = false
     "=true, to enable trickle vent control input"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
-  parameter SI.Length hTrickleVent= hVertical+hRelSurfBot_a
+  parameter Modelica.Units.SI.Length hTrickleVent= hVertical+hRelSurfBot_a
     "vertical distance between the floor of the zone (top) and the trickle vent"
     annotation(Dialog(group="Trickle vent", tab="Airflow", enable=use_trickle_vent));
 
@@ -466,6 +466,11 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
 <li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
