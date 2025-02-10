@@ -10,7 +10,7 @@ model InternalWall "interior opaque wall between two zones"
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
 	final QTra_design(fixed=false),
-    q50_zone(v50_surf = 0),
+    q50_zone(v50_surf=0, nDum=4),
     crackOrOperableDoor(
       h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
       h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b,
@@ -198,6 +198,8 @@ equation
     Line(points = {{-40, -70}, {-52, -70}, {-52, 20}, {-100, 20}}, color = {0, 127, 255}));
   connect(boundary3_a.ports[1], propsBusInt.port_3) annotation(
     Line(points = {{40, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
+  connect(q50_zone.dummy_h[3], propsBus_b.hzone);
+  connect(q50_zone.dummy_h[4], propsBus_b.hfloor);
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
@@ -257,6 +259,11 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 </p>
 </html>", revisions = "<html>
 <ul>
+<li>
+January 24, 2025, by Klaas De Jonge:<br/>
+Add dummy connections for <code>hzone</code> and <code>hfloor</code> in <code>propsbus_b</code> to avoid translation warnings.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>
+</li>
 <li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
