@@ -316,7 +316,7 @@ Small changes.
         Line(
           points={{-60,-2},{-64,-10},{-68,-10},{-74,10}},
           color={0,0,0},
-          smooth=Smooth.None)})),
+          smooth=Smooth.None)}),
 Documentation(revisions="<html>
 <ul>
 <li>
