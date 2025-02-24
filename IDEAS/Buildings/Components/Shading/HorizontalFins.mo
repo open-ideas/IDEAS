@@ -146,7 +146,9 @@ The implementation is illustrated using this figure:
 <ul>
 <li>
 Febrauri 24, 2025 by Filip Jorissen:<br/>
-Added <code>Ctrl_to_beta_internal=0</code> when not using beta input. Otherwise the variable is undefined, resulting in a singular system.
+Added <code>Ctrl_to_beta_internal=0</code> when not using beta input.
+Otherwise the variable is undefined, resulting in a singular system.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1426\">#1426</a>.
 </li>
 <li>
 July 1, 2024 by Lucas Verleyen:<br/>
