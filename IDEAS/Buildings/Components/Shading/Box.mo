@@ -174,6 +174,7 @@ and IDEAS.Buildings.Components.Shading.SideFins.
 <li>
 February 24, 2025 by Filip Jorissen:<br/>
 Added missing m_flow connections.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1424\">#1424</a>.
 </li>
 <li>
 December 15, 2022 by Filip Jorissen:<br/>
