@@ -56,6 +56,7 @@ initial equation
 equation
   if not use_betaInput then
     beta_internal = beta;
+    Ctrl_to_beta_internal = 0;
   else
     beta_internal = Ctrl_to_beta_internal*beta_max;
     connect(Ctrl_to_beta_internal,Ctrl);
@@ -143,6 +144,10 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+Febrauri 24, 2025 by Filip Jorissen:<br/>
+Added <code>Ctrl_to_beta_internal=0</code> when not using beta input. Otherwise the variable is undefined, resulting in a singular system.
+</li>
 <li>
 July 1, 2024 by Lucas Verleyen:<br/>
 Added <code>Ctrl_to_beta_internal</code> to linearly map the Ctrl input [0,1]
