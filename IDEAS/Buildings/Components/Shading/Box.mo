@@ -158,6 +158,10 @@ equation
           33.3333},{-1.5,33.3333}}, color={0,0,127}));
   connect(TDryBul, sideFins.TDryBul) annotation (Line(points={{40,-10},{3.5,-10},
           {3.5,26.6667}}, color={0,0,127}));
+  connect(m_flow, sideFins.m_flow) annotation(
+    Line(points = {{40, -90}, {2, -90}, {2, 20}}, color = {0, 0, 127}));
+  connect(m_flow, overhang.m_flow) annotation(
+    Line(points = {{40, -90}, {4, -90}, {4, 60}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,200}})),  Documentation(info="<html>
 <p>
@@ -167,6 +171,10 @@ and IDEAS.Buildings.Components.Shading.SideFins.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 24, 2025 by Filip Jorissen:<br/>
+Added missing m_flow connections.
+</li>
 <li>
 December 15, 2022 by Filip Jorissen:<br/>
 Bugfix for #1308.
