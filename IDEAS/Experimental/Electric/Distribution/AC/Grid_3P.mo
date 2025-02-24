@@ -129,7 +129,7 @@ equation
         Line(
           points={{-100,60},{-42,12},{0,36}},
           color={0,0,0},
-          smooth=Smooth.Bezier)})),
+          smooth=Smooth.Bezier)}),
 Documentation(revisions="<html>
 <ul>
 <li>
