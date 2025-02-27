@@ -1964,14 +1964,15 @@ equation
       Line(points={{100,140},{100,180}},        color={28,108,200}),
       Line(points={{-160,20},{-160,60}},        color={28,108,200})}),
     experiment(
-      StopTime=86400,
+      StopTime=604800,
+      Tolerance=1e-06,
       __Dymola_fixedstepsize=15,
-      __Dymola_Algorithm="Euler"),
+      __Dymola_Algorithm="Lsodar"),
     __Dymola_experimentSetupOutput(events=false),
     Documentation(info="<html>
 <p>
-Example model of a detailed residential building structure consisting of 10 thermal zones.
-This model only contains the building structure. The user can implement its own control algorithm using the real inputs of the model.
+Example model of a detailed residential building structure consisting of 10 thermal zones (divided over two storeys).
+This model only contains the building structure. The user can implement its own control algorithm using the real inputs (ventilation and screens) of the model.
 </p>
 </html>", revisions="<html>
 <ul>
@@ -1984,5 +1985,8 @@ January 5, 2023 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    __Dymola_Commands(file=
+          "modelica://IDEAS/Resources/Scripts/Dymola/Examples/DetailedResidentialNoHeating.mos"
+        "Simulate and plot"));
 end DetailedResidentialNoHeating;
