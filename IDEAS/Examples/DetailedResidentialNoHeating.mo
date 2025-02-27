@@ -6,7 +6,7 @@ model DetailedResidentialNoHeating
     lineariseJModelica=false,
     interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort,
     incAndAziInBus={{IDEAS.Types.Tilt.Ceiling,0},{IDEAS.Types.Tilt.Wall,downAngle},{IDEAS.Types.Tilt.Wall,leftAngle},{IDEAS.Types.Tilt.Wall,upAngle},{IDEAS.Types.Tilt.Wall,rightAngle}, {IDEAS.Types.Tilt.Floor,0}})
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+    annotation (Placement(transformation(extent={{-200,260},{-180,280}})));
 
 
   parameter Real mSenFac = 5;
@@ -24,118 +24,118 @@ model DetailedResidentialNoHeating
   Modelica.Blocks.Interfaces.RealInput window_living_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__living'"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,-230})));
   Modelica.Blocks.Interfaces.RealInput window_hall_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__hall'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,-170})));
   Modelica.Blocks.Interfaces.RealInput window_diner_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__diner'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,-140})));
   Modelica.Blocks.Interfaces.RealInput window_bed_strt1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_strt1'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,140})));
   Modelica.Blocks.Interfaces.RealInput window_box_2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__box_2'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,80})));
   Modelica.Blocks.Interfaces.RealInput window_box_mid_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__box_mid'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
-  Modelica.Blocks.Interfaces.RealInput window_bathroom_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bathroom'"
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,50})));
+    Modelica.Blocks.Interfaces.RealInput window_bathroom_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bathroom'"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,230})));
   Modelica.Blocks.Interfaces.RealInput window_bed_garden2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_garden2'"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,170})));
   Modelica.Blocks.Interfaces.RealInput window_bed_garden1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_garden1'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,200})));
   Modelica.Blocks.Interfaces.RealInput window_bed_strt2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_strt2'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,110})));
   Modelica.Blocks.Interfaces.RealInput window_hall_2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__hall__2'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,-200})));
   Modelica.Blocks.Interfaces.RealInput window_living_slide_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__living_slide'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,-260})));
   Modelica.Blocks.Interfaces.RealInput window_kitchen_slide_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__kitchen_slide'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,-290})));
   Modelica.Blocks.Interfaces.RealInput skylight_zone_polyvalent_skylight_type_1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'skylight_zone__polyvalent__skylight_type_1'"
     annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-500,20})));
   Modelica.Blocks.Interfaces.RealInput extractionfan_extraction_fan_1_controlsignal(min=0, max=1000) "Control signal for extraction fan extractionFan__extraction_fan_1"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,-20})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_kitchen_vavr_type_1_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__kitchen__vavr_type_1"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,-50})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_storage_vavr_type_2_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__storage__vavr_type_2"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,-80})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_toilet_vavr_type_3_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__toilet__vavr_type_3"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,-110})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bathroom_vavr_type_2_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bathroom__vavr_type_2"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,380})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bed_garden_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bed_garden__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,320})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bed_street_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bed_street__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,350})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_polyvalent_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__polyvalent__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,290})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_toilet2_vavr_type_3_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__toilet2__vavr_type_3"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={0,120})));
+        rotation=0,
+        origin={-500,260})));
 
 
   // records
@@ -213,7 +213,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={54.705882352941174,0.0})));
+        origin={0,-70})));
   IDEAS.Buildings.Components.SlabOnGround slabonground__2(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -226,7 +226,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={37.69230769230769,-16.73076923076923})));
+        origin={50,-200})));
   IDEAS.Buildings.Components.SlabOnGround slabonground__3(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -239,7 +239,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={30.0,1.25})));
+        origin={-30,-140})));
   IDEAS.Buildings.Components.SlabOnGround slabonground__4(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -252,7 +252,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={14.166666666666664,-15.0})));
+        origin={-120,-200})));
   IDEAS.Buildings.Components.SlabOnGround slabonground__5(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -265,7 +265,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={30.0,-15.0})));
+        origin={-30,-200})));
   IDEAS.Buildings.Components.OuterWall ceiling__1(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__roof constructionType,
@@ -278,7 +278,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-70,110})));
   IDEAS.Buildings.Components.OuterWall ceiling__2(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__roof constructionType,
@@ -291,7 +291,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={271.25,-12.083333333333332})));
+        origin={90,110})));
   IDEAS.Buildings.Components.OuterWall ceiling__3(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__roof constructionType,
@@ -304,7 +304,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={265.6818181818182,30.909090909090907})));
+        origin={90,250})));
   IDEAS.Buildings.Components.OuterWall ceiling__4(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__roof constructionType,
@@ -317,7 +317,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={215.35714285714283,35.0})));
+        origin={-100,250})));
   IDEAS.Buildings.Components.OuterWall ceiling__5(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__roof constructionType,
@@ -330,7 +330,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={205.0,15.0})));
+        origin={-130,170})));
   IDEAS.Buildings.Components.InternalWall floor__1(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -344,7 +344,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-70,70})));
   IDEAS.Buildings.Components.InternalWall floor__2(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -358,7 +358,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={60,70})));
   IDEAS.Buildings.Components.InternalWall floor__3(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -372,7 +372,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-40,70})));
   IDEAS.Buildings.Components.InternalWall floor__4(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -386,7 +386,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-100,70})));
   IDEAS.Buildings.Components.InternalWall floor__5(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -400,7 +400,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-10,70})));
   IDEAS.Buildings.Components.InternalWall floor__6(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -414,7 +414,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={271.25,-12.083333333333332})));
+        origin={90,70})));
   IDEAS.Buildings.Components.InternalWall floor__7(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -428,7 +428,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={265.6818181818182,30.909090909090907})));
+        origin={90,210})));
   IDEAS.Buildings.Components.InternalWall floor__8(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -442,7 +442,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={215.35714285714283,35.0})));
+        origin={-100,210})));
   IDEAS.Buildings.Components.InternalWall floor__9(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor_outer constructionType,
@@ -456,7 +456,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={205.0,15.0})));
+        origin={-130,150})));
   IDEAS.Buildings.Components.OuterWall floor__10(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -469,7 +469,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={228.15789473684214,-3.552631578947368})));
+        origin={-130,70})));
   IDEAS.Buildings.Components.OuterWall floor__11(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__floor constructionType,
@@ -482,7 +482,7 @@ model DetailedResidentialNoHeating
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={271.25,-12.083333333333332})));
+        origin={120,70})));
   model ExtractionFan
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -516,7 +516,9 @@ model DetailedResidentialNoHeating
     m_flow_nominal=m_flow_nominal,
     inputType=inputType,
     riseTime=90,
-    per(hydraulicEfficiency(V_flow={1}, eta={etaHydPar})),
+    per(efficiency(V_flow={1}, eta={etaHydPar}),
+        powerOrEfficiencyIsHydraulic = true,
+        etaHydMet=IDEAS.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate),
     dp_nominal=dp_fan)     "Fan" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -594,7 +596,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={4.705882352941177,0.0})));
+        origin={0,-50})));
   IDEAS.Buildings.Components.Zone zone__entrance(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -610,7 +612,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={-12.307692307692308,-16.73076923076923})));
+        origin={50,-180})));
   IDEAS.Buildings.Components.Zone zone__hallway(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -626,7 +628,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={-20.0,1.25})));
+        origin={-30,-120})));
   IDEAS.Buildings.Components.Zone zone__storage(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -643,7 +645,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={-35.833333333333336,-15.0})));
+        origin={-120,-180})));
   IDEAS.Buildings.Components.Zone zone__toilet(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -660,7 +662,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={-20.0,-15.0})));
+        origin={-30,-180})));
 
   IDEAS.Buildings.Components.OuterWall outerwall__1(
     redeclare package Medium=MediumAir,
@@ -674,7 +676,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={-2.5,55.0})));
+        origin={0,-20})));
   IDEAS.Buildings.Components.OuterWall outerwall__2(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -687,7 +689,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={47.5,32.5})));
+        origin={160,-50})));
   IDEAS.Buildings.Components.OuterWall outerwall__3(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -700,7 +702,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-52.5,32.5})));
+        origin={-160,-60})));
   IDEAS.Buildings.Components.InternalWall internalwall__1(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -714,7 +716,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-1.25,10.0})));
+        origin={50,-100})));
   IDEAS.Buildings.Components.OuterWall outerwall__4(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -727,12 +729,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-52.5,-15.0})));
+        origin={-160,-230})));
   IDEAS.Buildings.Components.InternalWall internalwall__2(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=0.6827258618602858,
+    azi=0.68272586186029,
     T_start=T_start,
     custom_q50=2,
     A=8.450000000000001)
@@ -741,7 +743,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={2.5,-6.25})));
+        origin={80,-132})));
   IDEAS.Buildings.Components.OuterWall outerwall__5(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -754,12 +756,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={45.0,-6.25})));
+        origin={160,-150})));
   IDEAS.Buildings.Components.OuterWall outerwall__6(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=2.2535221886551824,
+    azi=2.2535221886553,
     T_start=T_start,
     A=10.149999999999999)
     "Opaque wall model"
@@ -767,7 +769,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={27.5,-37.5})));
+        origin={140,-280})));
   IDEAS.Buildings.Components.OuterWall outerwall__7(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -780,7 +782,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={45.0,-30.0})));
+        origin={160,-250})));
   IDEAS.Buildings.Components.OuterWall outerwall__8(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -793,7 +795,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-40.0,-40.0})));
+        origin={-120,-280})));
   IDEAS.Buildings.Components.InternalWall internalwall__3(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -807,12 +809,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-27.5,-31.25})));
+        origin={-80,-250})));
   IDEAS.Buildings.Components.InternalWall internalwall__4(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=2.2535221886551824,
+    azi=2.2535221886553,
     T_start=T_start,
     custom_q50=2,
     A=1.3)
@@ -821,7 +823,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={-25.0,-22.5})));
+        origin={-8,-220})));
   IDEAS.Buildings.Components.InternalWall internalwall__5(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -835,7 +837,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-16.25,-7.5})));
+        origin={-10,-160})));
   IDEAS.Buildings.Components.InternalWall internalwall__6(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -849,7 +851,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-10.0,1.25})));
+        origin={20,-130})));
   IDEAS.Buildings.Components.InternalWall internalwall__7(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -863,12 +865,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-16.25,10.0})));
+        origin={-10,-100})));
   IDEAS.Buildings.Components.InternalWall internalwall__8(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=2.2535221886551824,
+    azi=2.2535221886553,
     T_start=T_start,
     custom_q50=204.2360212326767,
     A=3.25)
@@ -877,7 +879,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={-16.25,-22.5})));
+        origin={-50,-220})));
   IDEAS.Buildings.Components.InternalWall internalwall__9(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -891,7 +893,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-10.0,-15.0})));
+        origin={20,-190})));
   IDEAS.Buildings.Components.InternalWall internalwall__10(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -905,7 +907,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-25.0,-7.5})));
+        origin={-50,-160})));
   IDEAS.Buildings.Components.InternalWall internalwall__11(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -919,7 +921,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={-27.5,-15.0})));
+        origin={-80,-190})));
   IDEAS.Buildings.Components.InternalWall internalwall__12(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -933,7 +935,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-40.0,10.0})));
+        origin={-120,-100})));
   IDEAS.Buildings.Components.InternalWall internalwall__13(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -947,7 +949,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={-27.5,1.25})));
+        origin={-80,-130})));
   IDEAS.Buildings.Components.InternalWall internalwall__14(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -961,12 +963,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-25.0,10.0})));
+        origin={-50,-100})));
   IDEAS.Buildings.Components.OuterWall outerwall__9(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=2.2535221886551824,
+    azi=2.2535221886553,
     T_start=T_start,
     A=2.175)
     "Opaque wall model"
@@ -974,7 +976,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={6.25,-40.0})));
+        origin={100,-280})));
   IDEAS.Buildings.Components.OuterWall outerwall__10(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -987,12 +989,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-10.0,-40.0})));
+        origin={-50,-280})));
   IDEAS.Buildings.Components.InternalWall internalwall__15(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=0.6827258618602858,
+    azi=0.68272586186029,
     T_start=T_start,
     custom_q50=146.45430088048337,
     A=4.55)
@@ -1001,7 +1003,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={2.5,-31.25})));
+        origin={80,-250})));
 
   IDEAS.Buildings.Components.Zone zone__polyvalent(
     redeclare package Medium = MediumAir,
@@ -1019,7 +1021,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={178.15789473684214,-3.552631578947368})));
+        origin={-70,90})));
   IDEAS.Buildings.Components.Zone zone__bed_street(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -1036,7 +1038,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={221.25,-12.083333333333332})));
+        origin={90,90})));
   IDEAS.Buildings.Components.Zone zone__bed_garden(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -1053,7 +1055,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={215.68181818181816,30.909090909090907})));
+        origin={90,230})));
   IDEAS.Buildings.Components.Zone zone__bathroom(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -1070,7 +1072,7 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={165.35714285714283,35.0})));
+        origin={-100,230})));
   IDEAS.Buildings.Components.Zone zone__toilet2(
     redeclare package Medium = MediumAir,
     redeclare IDEAS.Buildings.Components.InterzonalAirFlow.AirTight interzonalAirFlow,
@@ -1087,13 +1089,13 @@ First implementation.
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
-        origin={155.0,15.0})));
+        origin={-130,160})));
 
   IDEAS.Buildings.Components.OuterWall outerwall__15(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=0.6827258618602858,
+    azi=0.68272586186029,
     T_start=T_start,
     A=13.5)
     "Opaque wall model"
@@ -1101,7 +1103,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={247.5,-15.0})));
+        origin={160,110})));
   IDEAS.Buildings.Components.OuterWall outerwall__16(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1114,7 +1116,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={225.0,-40.0})));
+        origin={90,20})));
   IDEAS.Buildings.Components.InternalWall internalwall__18(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1128,12 +1130,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={202.5,-6.25})));
+        origin={20,110})));
   IDEAS.Buildings.Components.OuterWall outerwall__17(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=0.6827258618602858,
+    azi=0.68272586186029,
     T_start=T_start,
     A=2.9)
     "Opaque wall model"
@@ -1141,12 +1143,12 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={247.5,15.0})));
+        origin={160,180})));
   IDEAS.Buildings.Components.OuterWall outerwall__18(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
-    azi=0.6827258618602858,
+    azi=0.68272586186029,
     T_start=T_start,
     A=10.149999999999999)
     "Opaque wall model"
@@ -1154,7 +1156,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={247.5,37.5})));
+        origin={160,240})));
   IDEAS.Buildings.Components.OuterWall outerwall__19(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1167,7 +1169,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={232.5,55.0})));
+        origin={130,280})));
   IDEAS.Buildings.Components.InternalWall internalwall__19(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1181,7 +1183,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={213.75,10.0})));
+        origin={60,140})));
   IDEAS.Buildings.Components.InternalWall internalwall__20(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1195,7 +1197,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={225.0,15.0})));
+        origin={100,160})));
   IDEAS.Buildings.Components.InternalWall internalwall__21(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1209,7 +1211,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={221.25,20.0})));
+        origin={60,180})));
   IDEAS.Buildings.Components.InternalWall internalwall__22(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1223,7 +1225,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={236.25,10.0})));
+        origin={130,140})));
   IDEAS.Buildings.Components.OuterWall outerwall__20(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1236,7 +1238,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={156.25,55.0})));
+        origin={-140,280})));
   IDEAS.Buildings.Components.OuterWall outerwall__21(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1249,7 +1251,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={147.5,15.0})));
+        origin={-160,160})));
   IDEAS.Buildings.Components.OuterWall outerwall__22(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1262,7 +1264,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={147.5,37.5})));
+        origin={-160,230})));
   IDEAS.Buildings.Components.OuterWall outerwall__23(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1275,7 +1277,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={202.5,55.0})));
+        origin={30,280})));
   IDEAS.Buildings.Components.InternalWall internalwall__23(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1289,7 +1291,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={202.5,20.0})));
+        origin={0,180})));
   IDEAS.Buildings.Components.InternalWall internalwall__24(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1303,7 +1305,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={162.5,15.0})));
+        origin={-100,160})));
   IDEAS.Buildings.Components.InternalWall internalwall__25(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1317,7 +1319,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={155.0,20.0})));
+        origin={-130,180})));
   IDEAS.Buildings.Components.InternalWall internalwall__26(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1331,7 +1333,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={155.0,10.0})));
+        origin={-130,140})));
   IDEAS.Buildings.Components.OuterWall outerwall__24(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1344,7 +1346,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={142.5,-22.5})));
+        origin={-170,60})));
   IDEAS.Buildings.Components.OuterWall outerwall__25(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1357,7 +1359,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={147.5,-31.25})));
+        origin={-160,40})));
   IDEAS.Buildings.Components.OuterWall outerwall__26(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1370,7 +1372,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={147.5,5.0})));
+        origin={-160,120})));
   IDEAS.Buildings.Components.OuterWall outerwall__27(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1383,7 +1385,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={137.5,-11.25})));
+        origin={-190,90})));
   IDEAS.Buildings.Components.InternalWall internalwall__27(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1397,7 +1399,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={185.0,37.5})));
+        origin={-40,230})));
   IDEAS.Buildings.Components.OuterWall outerwall__28(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1410,7 +1412,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={175.0,55.0})));
+        origin={-60,280})));
   IDEAS.Buildings.Components.InternalWall internalwall__28(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1424,7 +1426,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={175.0,20.0})));
+        origin={-70,180})));
   IDEAS.Buildings.Components.OuterWall outerwall__29(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__wall constructionType,
@@ -1437,7 +1439,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={168.75,-40.0})));
+        origin={-90,20})));
   IDEAS.Buildings.Components.InternalWall internalwall__29(
     redeclare package Medium=MediumAir,
     redeclare constructiontype__brick_internal_wall constructionType,
@@ -1451,7 +1453,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={202.5,-31.25})));
+        origin={20,50})));
 
   IDEAS.Buildings.Components.Window window__living(
     redeclare package Medium=MediumAir,
@@ -1473,7 +1475,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={47.5,25.0})));
+        origin={160,-90})));
   IDEAS.Buildings.Components.Window window__hall(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1491,7 +1493,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={-2.5,-40.0})));
+        origin={-10,-280})));
   IDEAS.Buildings.Components.Window window__diner(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1509,7 +1511,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={45.0,-10.0})));
+        origin={160,-190})));
   IDEAS.Buildings.Components.Window window__bed_strt1(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1530,7 +1532,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={235.0,-40.0})));
+        origin={130,20})));
   IDEAS.Buildings.Components.Window window__box_2(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1548,7 +1550,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={142.5,0.0})));
+        origin={-170,100})));
   IDEAS.Buildings.Components.Window window__box_mid(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1566,7 +1568,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-180.0,
-        origin={137.5,-12.5})));
+        origin={-190,70})));
   IDEAS.Buildings.Components.Window window__bathroom(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1584,7 +1586,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={170.0,55.0})));
+        origin={-100,280})));
   IDEAS.Buildings.Components.Window window__bed_garden2(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1605,7 +1607,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={225.0,55.0})));
+        origin={90,280})));
   IDEAS.Buildings.Components.Window window__bed_garden1(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1626,7 +1628,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={197.5,55.0})));
+        origin={-10,280})));
   IDEAS.Buildings.Components.Window window__bed_strt2(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1647,7 +1649,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=0.0,
-        origin={247.5,-30.0})));
+        origin={160,50})));
   IDEAS.Buildings.Components.Window window__hall__2(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1665,7 +1667,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=-90.0,
-        origin={197.5,-40.0})));
+        origin={-10,20})));
   IDEAS.Buildings.Components.Window window__living_slide(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1683,7 +1685,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={22.5,55.0})));
+        origin={90,-20})));
   IDEAS.Buildings.Components.Window window__kitchen_slide(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1701,7 +1703,7 @@ First implementation.
         transformation(
         extent={{6,-10},{-6,10}},
         rotation=90.0,
-        origin={-20.0,55.0})));
+        origin={-90,-20})));
   IDEAS.Buildings.Components.Window skylight_zone__polyvalent__skylight_type_1(
     redeclare package Medium=MediumAir,
     redeclare parameter IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing,
@@ -1718,7 +1720,7 @@ First implementation.
     dp_nominal=100,
     dp_fan=200,
     etaHydPar=0.35,
-    inputType=IDEAS.Fluid.Types.InputType.Continuous) annotation(Placement(transformation(extent={{297.5,-40.0},{317.5,-20.0}})));
+    inputType=IDEAS.Fluid.Types.InputType.Continuous) annotation(Placement(transformation(extent={{-200,220},{-180,240}})));
   IDEAS.Fluid.Actuators.Dampers.Vav returnVav_zone__kitchen__vavr_type_1(
     redeclare package Medium = MediumAir,
     m_flow_nominal=0.025,
@@ -1932,75 +1934,35 @@ equation
   connect(window__living_slide.propsBus_a,zone__kitchen.propsBus[22]);
   connect(window__kitchen_slide.propsBus_a,zone__kitchen.propsBus[23]);
 
-
-  annotation (Diagram(coordinateSystem(extent={{-52.5,-40.0},{317.5,55.0}},initialScale=0.1),
+  annotation(
+    Icon(coordinateSystem(extend={{-100,-100},{100,100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-480,-300},{180,380}}),
     graphics={
-      Line(points={{-52.5,55.0},{47.5,55.0}},  color={28,108,200}),
-      Line(points={{47.5,55.0},{47.5,10.0}},  color={28,108,200}),
-      Line(points={{-52.5,10.0},{-52.5,55.0}},  color={28,108,200}),
-      Line(points={{47.5,10.0},{45.0,10.0}},  color={28,108,200}),
-      Line(points={{10.0,-37.5},{10.0,-40.0}},  color={28,108,200}),
-      Line(points={{-5.0,10.0},{-7.5,10.0}},  color={28,108,200}),
-      Line(points={{2.5,10.0},{-5.0,10.0}},  color={28,108,200}),
-      Line(points={{-52.5,-40.0},{-52.5,10.0}},  color={28,108,200}),
-      Line(points={{-22.5,-40.0},{-25.0,-40.0}},  color={28,108,200}),
-      Line(points={{2.5,10.0},{2.5,-22.5}},  color={28,108,200}),
-      Line(points={{45.0,-22.5},{45.0,10.0}},  color={28,108,200}),
-      Line(points={{10.0,-37.5},{45.0,-37.5}},  color={28,108,200}),
-      Line(points={{45.0,-37.5},{45.0,-22.5}},  color={28,108,200}),
-      Line(points={{-52.5,-40.0},{-27.5,-40.0}},  color={28,108,200}),
-      Line(points={{-27.5,-40.0},{-27.5,-22.5}},  color={28,108,200}),
-      Line(points={{-27.5,-22.5},{-22.5,-22.5}},  color={28,108,200}),
-      Line(points={{-25.0,-40.0},{-27.5,-40.0}},  color={28,108,200}),
-      Line(points={{-22.5,-7.5},{-10.0,-7.5}},  color={28,108,200}),
-      Line(points={{-10.0,-7.5},{-10.0,10.0}},  color={28,108,200}),
-      Line(points={{-10.0,10.0},{-22.5,10.0}},  color={28,108,200}),
-      Line(points={{-22.5,-22.5},{-10.0,-22.5}},  color={28,108,200}),
-      Line(points={{-10.0,-22.5},{-10.0,-7.5}},  color={28,108,200}),
-      Line(points={{-7.5,10.0},{-10.0,10.0}},  color={28,108,200}),
-      Line(points={{-27.5,-7.5},{-22.5,-7.5}},  color={28,108,200}),
-      Line(points={{-27.5,-7.5},{-27.5,-22.5}},  color={28,108,200}),
-      Line(points={{-27.5,10.0},{-52.5,10.0}},  color={28,108,200}),
-      Line(points={{-27.5,10.0},{-27.5,-7.5}},  color={28,108,200}),
-      Line(points={{-22.5,10.0},{-27.5,10.0}},  color={28,108,200}),
-      Line(points={{2.5,-40.0},{10.0,-40.0}},  color={28,108,200}),
-      Line(points={{-22.5,-40.0},{2.5,-40.0}},  color={28,108,200}),
-      Line(points={{2.5,-40.0},{2.5,-22.5}},  color={28,108,200}),
-      Line(points={{247.5,10.0},{247.5,-40.0}},  color={28,108,200}),
-      Line(points={{247.5,-40.0},{202.5,-40.0}},  color={28,108,200}),
-      Line(points={{202.5,10.0},{202.5,-22.5}},  color={28,108,200}),
-      Line(points={{192.5,-40.0},{202.5,-40.0}},  color={28,108,200}),
-      Line(points={{247.5,10.0},{247.5,20.0}},  color={28,108,200}),
-      Line(points={{247.5,20.0},{247.5,55.0}},  color={28,108,200}),
-      Line(points={{247.5,55.0},{217.5,55.0}},  color={28,108,200}),
-      Line(points={{202.5,10.0},{225.0,10.0}},  color={28,108,200}),
-      Line(points={{225.0,10.0},{225.0,20.0}},  color={28,108,200}),
-      Line(points={{225.0,20.0},{217.5,20.0}},  color={28,108,200}),
-      Line(points={{225.0,10.0},{247.5,10.0}},  color={28,108,200}),
-      Line(points={{165.0,55.0},{147.5,55.0}},  color={28,108,200}),
-      Line(points={{147.5,20.0},{147.5,10.0}},  color={28,108,200}),
-      Line(points={{147.5,20.0},{147.5,55.0}},  color={28,108,200}),
-      Line(points={{217.5,55.0},{187.5,55.0}},  color={28,108,200}),
-      Line(points={{217.5,20.0},{187.5,20.0}},  color={28,108,200}),
-      Line(points={{162.5,20.0},{162.5,10.0}},  color={28,108,200}),
-      Line(points={{147.5,20.0},{162.5,20.0}},  color={28,108,200}),
-      Line(points={{162.5,10.0},{147.5,10.0}},  color={28,108,200}),
-      Line(points={{165.0,20.0},{162.5,20.0}},  color={28,108,200}),
-      Line(points={{137.5,-22.5},{147.5,-22.5}},  color={28,108,200}),
-      Line(points={{147.5,-22.5},{147.5,-40.0}},  color={28,108,200}),
-      Line(points={{147.5,10.0},{147.5,0.0}},  color={28,108,200}),
-      Line(points={{147.5,0.0},{137.5,0.0}},  color={28,108,200}),
-      Line(points={{137.5,0.0},{137.5,-22.5}},  color={28,108,200}),
-      Line(points={{185.0,20.0},{185.0,55.0}},  color={28,108,200}),
-      Line(points={{187.5,55.0},{185.0,55.0}},  color={28,108,200}),
-      Line(points={{185.0,55.0},{165.0,55.0}},  color={28,108,200}),
-      Line(points={{187.5,20.0},{185.0,20.0}},  color={28,108,200}),
-      Line(points={{185.0,20.0},{165.0,20.0}},  color={28,108,200}),
-      Line(points={{147.5,-40.0},{190.0,-40.0}},  color={28,108,200}),
-      Line(points={{192.5,-40.0},{190.0,-40.0}},  color={28,108,200}),
-      Line(points={{202.5,-40.0},{202.5,-22.5}},  color={28,108,200})}),
-    uses(Modelica(version="4.0.0"),
-         IDEAS(version="3.0.0")),
+      Line(points={{-160,-100},{80,-100}},     color={28,108,200}),
+      Line(points={{160,-20},{160,-280}},     color={28,108,200}),
+      Line(points={{-160,-280},{-160,-20}},     color={28,108,200}),
+      Line(points={{-160,-280},{160,-280}},       color={28,108,200}),
+      Line(points={{-100,140},{-100,180}},      color={28,108,200}),
+      Line(points={{20,140},{160,140}},         color={28,108,200}),
+      Line(points={{-190,60},{-160,60}},          color={28,108,200}),
+      Line(points={{-160,100},{-190,100}},    color={28,108,200}),
+      Line(points={{-190,100},{-190,60}},       color={28,108,200}),
+      Line(points={{-40,180},{-40,280}},        color={28,108,200}),
+      Line(points={{100,180},{-160,180}},       color={28,108,200}),
+      Line(points={{-160,100},{-160,280}},      color={28,108,200}),
+      Line(points={{-160,280},{160,280}},      color={28,108,200}),
+      Line(points={{160,280},{160,20}},       color={28,108,200}),
+      Line(points={{-160,20},{160,20}},           color={28,108,200}),
+      Line(points={{-160,140},{-100,140}},      color={28,108,200}),
+      Line(points={{20,20},{20,140}},           color={28,108,200}),
+      Line(points={{-160,-20},{160,-20}},      color={28,108,200}),
+      Line(points={{-80,-280},{-80,-100}},      color={28,108,200}),
+      Line(points={{80,-280},{80,-100}},        color={28,108,200}),
+      Line(points={{20,-220},{20,-100}},        color={28,108,200}),
+      Line(points={{-80,-160},{20,-160}},      color={28,108,200}),
+      Line(points={{-80,-220},{20,-220}},      color={28,108,200}),
+      Line(points={{100,140},{100,180}},        color={28,108,200}),
+      Line(points={{-160,20},{-160,60}},        color={28,108,200})}),
     experiment(
       StopTime=86400,
       __Dymola_fixedstepsize=15,
@@ -2013,6 +1975,10 @@ This model only contains the building structure. The user can implement its own 
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 27, 2025, by Jelger Jansen:<br/>
+Improve graphical representation of the building envelope, fix errors, and add unit test.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1405\">#1405</a>.
 <li>
 January 5, 2023 by Filip Jorissen:<br/>
 First implementation.
