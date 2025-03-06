@@ -8,9 +8,6 @@ model Occupants "Constant sensible, latent and CO2 heat production per person"
   parameter Real radFra(min=0,max=1) = occupancyType.radFra
     "Radiant fraction of sensible heat exchange, default based on Ashrae fundamentals chap 18.4 for low air velocity";
 protected
-  constant Modelica.Units.SI.SpecificEnthalpy lambdaWater=if (Medium.nX) > 1
-       then Medium.enthalpyOfCondensingGas(T=273.15 + 35) else 2566120
-    "Latent heat of evaporation of water at 35 degrees Celsius";
   constant Modelica.Units.SI.SpecificEnthalpy E_glu=16e6
     "Calorific value of glucose";
   constant Real MM_glu = 180
@@ -21,10 +18,6 @@ protected
     "CO2 production per person, based on oxidation of suger with calorific value of 16 kJ/g";
   final parameter Modelica.Units.SI.MassFlowRate m_flow_h2o_pp=QlatPp/
       lambdaWater "Vapor production per person";
-  final parameter Real s_co2[max(Medium.nC,1)] = {if Modelica.Utilities.Strings.isEqual(string1=if Medium.nC>0 then Medium.extraPropertiesNames[i] else "",
-                                             string2="CO2",
-                                             caseSensitive=false)
-                                             then 1 else 0 for i in 1:max(Medium.nC,1)};
   Modelica.Blocks.Math.Gain gaiHea(k=QsenPp)
                 "Gain for computing heat flow rate"
     annotation (Placement(transformation(extent={{-60,-50},{-40,-30}})));

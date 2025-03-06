@@ -1,7 +1,6 @@
 within IDEAS.BoundaryConditions.Examples;
 model StrobeInfoManager_offset
   "Unit test for SimInfoManager with time offset on read data"
-  import IDEAS;
   extends Modelica.Icons.Example;
   inner IDEAS.BoundaryConditions.Occupants.Extern.StrobeInfoManager strobe(
     nOcc=10,
@@ -25,6 +24,11 @@ model StrobeInfoManager_offset
         "Unit test 1"),
     Documentation(revisions="<html>
 <ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
 <li>
 December 20, 2017 by Bram van der Heijde:<br/>
 First implementation.

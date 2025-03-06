@@ -12,7 +12,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   parameter Real fraLosDesNom=0.68
     "Ratio of power at design conditions over power at 2/35degC";
   parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
-  final parameter SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
+  final parameter Modelica.Units.SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
       fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
   parameter Real modulation_min=20 "Minimal modulation percentage";
   parameter Real modulation_start=35
@@ -219,6 +219,11 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 September 10, 2020 by Filip Jorissen:<br/>
 Fixed real equality comparison for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1172\">#1172</a>.
@@ -228,9 +233,18 @@ June 5, 2018 by Filip Jorissen:<br/>
 Cleaned up implementation for
 <a href=\"https://github.com/open-ideas/IDEAS/issues/821\">#821</a>.
 </li>
-<li>2014 March, Filip Jorissen, Annex60 compatibility</li>
-<li>2013 May, Roel De Coninck: propagation of heatSource parameters and better definition of QNom used.  Documentation and example added</li>
-<li>2011 Roel De Coninck: first version</li>
+<li>
+March, 2014, by Filip Jorissen:<br/>
+Annex60 compatibility
+</li>
+<li>
+May, 2013, by Roel De Coninck:<br/>
+Propagation of heatSource parameters and better definition of QNom used.  Documentation and example added
+</li>
+<li>
+2011, by Roel De Coninck:<br/>
+First version
+</li>
 </ul>
 </html>"));
 end HP_AirWater_TSet;

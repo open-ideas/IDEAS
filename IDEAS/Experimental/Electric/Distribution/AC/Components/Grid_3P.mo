@@ -41,7 +41,7 @@ protected
       Z) for i in 1:3};
   parameter Modelica.Units.SI.Reactance[3,Nodes] X3={Modelica.ComplexMath.imag(
       Z) for i in 1:3};
-  //  parameter SI.ComplexVoltage[3] Vsource3={Vsource*(cos(c.pi*2*i/3)+MCM.j*sin(c.pi*2*i/6)) for i in 1:3};
+  //  parameter Modelica.Units.SI.ComplexVoltage[3] Vsource3={Vsource*(cos(c.pi*2*i/3)+Modelica.ComplexMath.j*sin(c.pi*2*i/6)) for i in 1:3};
 
   //Absolute voltages at the nodes
   output Modelica.Units.SI.Voltage Vabs[3,Nodes];
@@ -162,5 +162,15 @@ equation
           points={{-100,-60},{-42,20},{0,44}},
           color={85,170,255},
           smooth=Smooth.Bezier,
-          pattern=LinePattern.Dash)}));
+          pattern=LinePattern.Dash)}),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+Added <code>Modelica.ComplexMath.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/Experimental/Electric/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+</ul>
+</html>"));
 end Grid_3P;

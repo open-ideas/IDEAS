@@ -9,13 +9,19 @@ model OutsideAir
   parameter Modelica.Units.SI.Angle azi "Surface azimuth (South:0, West:pi/2)"
     annotation (choicesAllMatching=true);
 
-  parameter Real Cs = (A0*A0)*((Habs/Hwin)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
+  parameter Real Cs = (A0*A0)*((Habs/sim.Hwind)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length Habs=10
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(group="Wind"));
-
-
-  constant Modelica.Units.SI.Density rho=1.2 "Air density";
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " 
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+    annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  Modelica.Units.SI.Density rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
+        p=Medium.p_default,
+        T= sim.Te,
+        X_w=sim.XiEnv.X[1]);
+  
   Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
@@ -25,18 +31,13 @@ model OutsideAir
 
   Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
     "Sum of atmospheric pressure and wind pressure";
+
   Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
     "Optional override input for the dry bulb temperature" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput m_flow = sum(ports.m_flow) "Total mass flow rate" annotation(
+    Placement(visible = true, transformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 180), iconTransformation(origin = {-110, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 protected
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " annotation(Dialog(group="Wind"));
-  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-                                                                                                                             annotation(Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length Hwin=sim.Hwin
-    "Height above ground of meteorological wind speed measurement"
-    annotation (Dialog(group="Wind"));
-
-
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
@@ -118,6 +119,8 @@ end windPressureProfile;
     "Angle of surface that is used to compute angle of attack of wind";
   Modelica.Blocks.Interfaces.RealInput vWin(final unit="m/s") = sim.Va   "Wind speed from weather bus";
   Modelica.Blocks.Interfaces.RealInput winDir( final unit="rad",displayUnit="deg") = sim.Vdir "Wind direction from weather bus";
+  Modelica.Blocks.Math.Add adder;
+  Modelica.Blocks.Sources.RealExpression dpStack(y=-(Habs-sim.HPres)*Modelica.Constants.g_n*rho);
 equation
 
   alpha = winDir-surOut;
@@ -129,7 +132,9 @@ equation
   connect(bus,sim.weaDatBus);
 
   connect(p_link.u, bus.pAtm);
-  connect(p_link.y,p_in_internal);
+  connect(p_link.y,adder.u1);
+  connect(adder.u2, dpStack.y);
+  connect(p_in_internal, adder.y);
 
   // must use sim.weaBus.Te for linearisation
   if (use_TDryBul_in) then
@@ -209,6 +214,14 @@ with exception of boundary pressure, do not have an effect.
 </html>",
 revisions="<html>
 <ul>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for wind pressure,ambient pressure and wind speed modifiers used in interzonal airflow.
+</li>
+<li>
+November 13, 2023 by Filip Jorissen:<br/>
+Computing stack height.
+</li>
 <li>
 July 21, 2022 by Filip Jorissen:<br/>
 Added optional dry bulb temperature input for #1270.
