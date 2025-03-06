@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Data.Constructions;
 record InsulatedFloorHeating "Floor heating example with heat injection between PUR and screed"
   extends IDEAS.Buildings.Data.Interfaces.Construction(
-    locGain={2},
+    locGain={3},
     incLastLay = IDEAS.Types.Tilt.Floor,
     mats={IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02),
     IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
