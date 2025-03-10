@@ -13,6 +13,8 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
       - run: echo "The following commands are used to remove files inside container to ensure cleanup and avoid permission errors"
       - run: docker stop dymimg > /dev/null 2>&1 || true 
+      - name: Change permissions of repository folder
+        run: chmod -R 777 /home/u0148284/actions-runner/_work
       - run: docker run --name dymimg --detach=true --rm -v /home/u0148284/actions-runner/_work/IDEAS/IDEAS:/home/developer/IDEAS -w /home/developer/IDEAS -it dymimg
       - run: docker exec -t dymimg /bin/bash -c "rm -rf IDEAS && exit"
       - run: docker stop dymimg > /dev/null 2>&1 || true
@@ -20,8 +22,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           clean: true
-      - name: Change permissions of repository folder
-        run: chmod -R 777 /home/u0148284/actions-runner/_work
       - name: List of files in the repository
         run: | 
          ls ${{ github.workspace }}
