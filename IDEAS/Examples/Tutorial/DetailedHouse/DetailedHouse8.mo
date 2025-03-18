@@ -8,7 +8,7 @@ model DetailedHouse8 "JSON writer"
     outputTime=IDEAS.Utilities.IO.Files.BaseClasses.OutputTime.Terminal)
     annotation (Placement(transformation(extent={{308,70},{328,90}})));
 equation
-  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{308,80},{301,80}},
+  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{308,80},{304,80},{304,50},{301,50}},
                              color={0,0,127}));
   annotation (Documentation(info="<html>
 <p>
@@ -55,13 +55,13 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
-        "Simulate and plot"),
- experiment(
+    experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
+        "Simulate and plot"));
 end DetailedHouse8;

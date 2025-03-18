@@ -1,14 +1,17 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse5 "New building model with two connected zones"
   extends Modelica.Icons.Example;
-  replaceable package Medium = IDEAS.Media.Air "Air medium";
+
+  replaceable package MediumAir = IDEAS.Media.Air "Air medium";
   parameter Modelica.Units.SI.Length l=8 "Zone length";
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.8 "Zone height";
+
   inner BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Buildings.Components.RectangularZoneTemplate recZon1(
-    redeclare package Medium = Medium,
+  Buildings.Components.RectangularZoneTemplate recZon(
+    redeclare package Medium = MediumAir,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -19,48 +22,40 @@ model DetailedHouse5 "New building model with two connected zones"
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     l=w,
     w=l/2,
     hasWinA=true,
-    A_winA=2*1.3,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingA,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo)
-    "Northern part of the zone"
-    annotation (Placement(transformation(extent={{-10,20},{10,40}})));
-  Buildings.Components.RectangularZoneTemplate recZon2(
-    redeclare package Medium = Medium,
+    A_winA=1.5*1.4,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
+      "Northern part of the zone" annotation (Placement(transformation(extent={{-10,20},{10,40}})));
+  Buildings.Components.RectangularZoneTemplate recZon1(
+    redeclare package Medium = MediumAir,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
+    bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
+    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypB,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypFlo,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     l=w,
     w=l/2,
     hasWinC=true,
-    A_winC=2*1.3,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazingC)
+    A_winC=1.5*1.4,
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingC)
     "Southern part of the zone"
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
 equation
-  connect(recZon1.proBusFlo, recZon1.proBusCei) annotation (Line(
-      points={{0,24},{-20,24},{-20,36},{-0.2,36}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(recZon2.proBusA, recZon1.proBusC) annotation (Line(
+  connect(recZon1.proBusA, recZon.proBusC) annotation (Line(
       points={{-6,-21},{-6,2},{6.8,2},{6.8,20.2}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(recZon2.proBusCei, recZon2.proBusFlo) annotation (Line(
-      points={{-0.2,-24},{-20,-24},{-20,-36},{0,-36}},
       color={255,204,51},
       thickness=0.5));
   annotation (Documentation(info="<html>
@@ -92,12 +87,12 @@ The model consists of two <code>RectangularZoneTemplates</code> and a <code>SimI
 the templates, with careful attention to all tabs. The internal wall is defined in only one of the two 
 templates, while an <i>external connection</i> is used for the other template. The <code>InternalWall</code> and 
 <code>External</code> options cause a yellow bus connector to appear on each template, which must then be connected to each other.
+The northern and southern wall both have a window of <i>1.5 m</i> by <i>1.4 m</i> (double glazing type <i>Saint Gobain Planitherm</i>).
 </p>
 <h4>Reference result</h4>
 <p>
-The figure below shows the operative zone temperatures of the zone with north oriented window (blue)
-and the zone with the south-oriented window (red). Note the large effect of the
-window placement on the zone dynamics!
+The figure below shows the operative zone temperatures of the zone with north oriented window (blue) and the zone with the south-oriented window (red). 
+Note the large effect that the window placement has on the zone dynamics!
 </p>
 <p align=\"center\">
 <img alt=\"Zone temperature for the zone with the north oriented window (blue) and the zone with the south
@@ -118,13 +113,13 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"
-        "Simulate and plot"),
- experiment(
+    experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"
+        "Simulate and plot"));
 end DetailedHouse5;

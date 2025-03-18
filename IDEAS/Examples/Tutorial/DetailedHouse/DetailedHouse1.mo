@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse1 "First example model of a one-zone building"
   extends Modelica.Icons.Example;
   package MediumAir = IDEAS.Media.Air "Air medium";
@@ -53,7 +53,7 @@ model DetailedHouse1 "First example model of a one-zone building"
     inc=IDEAS.Types.Tilt.Wall,
     A=3*1.4,
     azi=IDEAS.Types.Azimuth.S,
-    redeclare TwinHouses.BaseClasses.Data.Materials.Glazing glazing)
+    redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazing)
     "Window model" annotation (Placement(transformation(extent={{-6,-10},{6,10}},
         rotation=0,
         origin={-54,-10})));
@@ -185,7 +185,8 @@ This model is simulated with the following settings:
 </ol>
 <p>
 The simulation starts 10<sup>7</sup> seconds after New Year and ends 10<sup>6</sup> seconds later, covering a period of 11.6 days. 
-The operative zone temperature, <code>zon.TSensor</code>, is plotted, which represents the mean of the air temperature and the mean radiative temperature of all surfaces. The results are shown in the figure below.
+The figure below shows the operative zone temperature, <code>zon.TSensor</code>, 
+which represents the mean of the air temperature and the mean radiative temperature of all surfaces.
 </p>
 <p align=\"center\">
 <img alt=\"Zone temperature as function of time.\"

@@ -124,21 +124,18 @@ equation
           -30},{248,-30},{248,11},{260,11}},      color={0,127,255}));
   connect(pumPri.port_a, bou.ports[2]) annotation (Line(points={{240,60},{248,60},
           {248,9},{260,9}}, color={0,127,255}));
-  connect(rad.heatPortCon, recZon1.gainCon) annotation (Line(points={{42.8,-8},{
-          20,-8},{20,27},{10,27}}, color={191,0,0}));
-  connect(rad.heatPortRad, recZon1.gainRad) annotation (Line(points={{42.8,-12},
-          {16,-12},{16,24},{10,24}}, color={191,0,0}));
-  connect(rad1.heatPortCon, recZon2.gainCon) annotation (Line(points={{82.8,-8},
+  connect(rad.heatPortCon, recZon.gainCon) annotation (Line(points={{42.8,-8},{20,-8},{20,27},{10,27}}, color={191,0,0}));
+  connect(rad.heatPortRad, recZon.gainRad) annotation (Line(points={{42.8,-12},{16,-12},{16,24},{10,24}}, color={191,0,0}));
+  connect(rad1.heatPortCon,recZon1.gainCon)  annotation (Line(points={{82.8,-8},
           {66,-8},{66,-33},{10,-33}}, color={191,0,0}));
-  connect(rad1.heatPortRad, recZon2.gainRad) annotation (Line(points={{82.8,-12},
+  connect(rad1.heatPortRad,recZon1.gainRad)  annotation (Line(points={{82.8,-12},
           {70,-12},{70,-36},{10,-36}}, color={191,0,0}));
   connect(heaPumOn.y, heaPum.stage) annotation (Line(points={{181,-52},{187,-52},
           {187,-2}}, color={255,127,0}));
   connect(heaPum.P, EEl.u)
     annotation (Line(points={{190,21},{190,50},{278,50}}, color={0,0,127}));
-  connect(recZon1.TSensor, val.T) annotation (Line(points={{11,32},{26,32},{26,30},
-          {39.4,30}}, color={0,0,127}));
-  connect(recZon2.TSensor, val1.T) annotation (Line(points={{11,-28},{32,-28},{32,
+  connect(recZon.TSensor, val.T) annotation (Line(points={{11,32},{26,32},{26,30},{39.4,30}}, color={0,0,127}));
+  connect(recZon1.TSensor, val1.T) annotation (Line(points={{11,-28},{32,-28},{32,
           12},{79.4,12},{79.4,30}}, color={0,0,127}));
   connect(bou1.ports[1], pumSec.port_b)
     annotation (Line(points={{110,80},{100,80},{100,60}}, color={0,127,255}));
@@ -230,8 +227,8 @@ which will set the absolute pressure at the connection point.
 <p>
 <h4>Reference result</h4>
 <p>
-The following figures show the zone temperatures <code>rectangularZoneTemplate.TSensor</code> and <code>rectangularZoneTemplate1</code>.
-TSensor, the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
+The figures below show the operative zone temperatures <code>recZon.TSensor</code> and <code>recZon1.TSensor</code>, 
+the radiator heat flow rates <code>rad.Q_flow</code> and <code>rad1.Q_flow</code>, the heat pump condenser temperature
 <code>heaPum.con.T</code> and the heat pump heat flow rate <code>heaPum.QCon_flow</code>.
 </p>
 <p align=\"center\">

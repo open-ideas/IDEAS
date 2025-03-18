@@ -3,32 +3,34 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   extends DetailedHouse7(
     pumSec(nominalValuesDefineDefaultPressureCurve=true),
     pumPri(nominalValuesDefineDefaultPressureCurve=true),
-    recZon2(redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
-        redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
-    recZon1(redeclare OccSched occNum(k=2), redeclare
-        Buildings.Components.OccupancyType.OfficeWork occTyp),
-    redeclare package Medium = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
+    recZon1(
+      redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
+      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+    recZon(
+      redeclare OccSched occNum(k=2),
+      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+    redeclare package MediumAir = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
 
   Fluid.Actuators.Dampers.PressureIndependent vavSup(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for first zone"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
   Fluid.Actuators.Dampers.PressureIndependent vavSup1(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for second zone"
     annotation (Placement(transformation(extent={{-120,-20},{-100,0}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for first zone"
     annotation (Placement(transformation(extent={{-100,20},{-120,40}})));
   Fluid.Actuators.Dampers.PressureIndependent vavRet1(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for second zone"
@@ -36,7 +38,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Fluid.Movers.FlowControlled_dp fanSup(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     dp_nominal=200,
     m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Supply fan"
@@ -44,14 +46,14 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Fluid.Movers.FlowControlled_dp fanRet(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     dp_nominal=200,
     m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Return fan"
     annotation (Placement(transformation(extent={{-200,-30},{-220,-10}})));
   Fluid.HeatExchangers.ConstantEffectiveness hex(
-    redeclare package Medium1 = Medium,
-    redeclare package Medium2 = Medium,
+    redeclare package Medium1 = MediumAir,
+    redeclare package Medium2 = MediumAir,
     m1_flow_nominal=fanSup.m_flow_nominal,
     m2_flow_nominal=fanRet.m_flow_nominal,
     dp1_nominal=100,
@@ -72,7 +74,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
   Fluid.Sources.OutsideAir outAir(
-    redeclare package Medium = Medium,
+    redeclare package Medium = MediumAir,
     azi=0,
     nPorts=2) "Source model that takes properties from SimInfoManager"
     annotation (Placement(transformation(extent={{-280,10},{-260,-10}})));
@@ -113,10 +115,9 @@ equation
     annotation (Line(points={{-110,-38},{-110,2}}, color={0,0,127}));
   connect(vavSup1.y, conPID1.y)
     annotation (Line(points={{-110,2},{-110,10},{-61,10}}, color={0,0,127}));
-  connect(recZon2.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{14,-30},
+  connect(recZon1.ppm, conPID1.u_m) annotation (Line(points={{11,-30},{14,-30},
           {14,-2},{-50,-2}}, color={0,0,127}));
-  connect(recZon1.ppm, conPID.u_m) annotation (Line(points={{11,30},{14,30},{14,
-          78},{-50,78}}, color={0,0,127}));
+  connect(recZon.ppm, conPID.u_m) annotation (Line(points={{11,30},{14,30},{14,78},{-50,78}}, color={0,0,127}));
   connect(ppmSet.y, conPID.u_s)
     annotation (Line(points={{19,90},{-38,90}}, color={0,0,127}));
   connect(ppmSet.y, conPID1.u_s) annotation (Line(points={{19,90},{-20,90},{-20,
@@ -125,13 +126,11 @@ equation
           1},{-250,-6}}, color={0,127,255}));
   connect(outAir.ports[2], hex.port_a1) annotation (Line(points={{-260,-1},{-252,
           -1},{-252,6},{-250,6}}, color={0,127,255}));
-  connect(vavSup.port_b, recZon1.ports[1]) annotation (Line(points={{-100,60},{
-          -2,60},{-2,40},{0,40}}, color={0,127,255}));
-  connect(vavRet.port_a, recZon1.ports[2]) annotation (Line(points={{-100,30},{
-          -14,30},{-14,40},{0,40}}, color={0,127,255}));
-  connect(vavSup1.port_b, recZon2.ports[1])
+  connect(vavSup.port_b, recZon.ports[1]) annotation (Line(points={{-100,60},{-2,60},{-2,40},{0,40}}, color={0,127,255}));
+  connect(vavRet.port_a, recZon.ports[2]) annotation (Line(points={{-100,30},{-14,30},{-14,40},{0,40}}, color={0,127,255}));
+  connect(vavSup1.port_b,recZon1.ports[1])
     annotation (Line(points={{-100,-10},{0,-10},{0,-20}}, color={0,127,255}));
-  connect(vavRet1.port_a, recZon2.ports[2]) annotation (Line(points={{-100,-50},
+  connect(vavRet1.port_a,recZon1.ports[2])  annotation (Line(points={{-100,-50},
           {-34,-50},{-34,-20},{0,-20}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-280,-100},{280,100}})), Icon(
         coordinateSystem(extent={{-100,-100},{100,100}})),
@@ -209,8 +208,8 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </p>
 <h4>Reference result</h4>
 <p>
-The zone temperature, CO2 concentrations and PI control signals are shown in the figure below.
-Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO2
+The figures below show the operative zone temperature, CO2 concentrations and PI control signals in both zones.
+Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO<sub>2</sub>
 concentration when there are no occupants.
 </p>
 <p align=\"center\">

@@ -1,4 +1,4 @@
-﻿within IDEAS.Examples.Tutorial.DetailedHouse;
+within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse4 "Including custom occupant schedule"
   extends DetailedHouse3(zon(redeclare OccSch occNum(k=2)));
 protected
@@ -52,12 +52,8 @@ logical checks for the calendar outputs <code>weekDay</code> and <code>hour</cod
 </p>
 <h4>Reference result</h4>
 <p>
-The operative zone temperature as a function of time is plotted in the figure below. The blue line depicts the operative zone temperature using the old
-occupancy model (<a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3\">
-IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse3</a>), while the red line illustrates the operative zone temperature
-with the new occupancy model from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\">
-IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a>. Note the much more peaked behaviour of the zone
-temperature during the weekdays when there are occupants present (red line).
+The figure below shows the operative zone temperature with the old (blue) and new (red) occupancy model.
+Note the much more peaked behaviour of the zone temperature during the weekdays when there are occupants present.
 </p>
 <p align=\"center\">
 <img alt=\"The operative zone temperature with old (blue) and new (red) occupant model.\"
@@ -76,12 +72,12 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
-        "Simulate and plot"),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file="Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse4.mos"
+        "Simulate and plot"));
 end DetailedHouse4;

@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse3 "Adding occupancy and lighting"
   extends DetailedHouse2(
-                   zon(
+    zon(
       redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
       redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
       redeclare Buildings.Components.RoomType.Office rooTyp,
@@ -42,8 +42,7 @@ Set the appropriate replaceable models in the dialogue window of the zone model.
 </p>
 <h4>Reference result</h4>
 <p>
-The operative zone temperature without (blue) and with (red) occupant and lighting 
-(both with screen model) are plotted in the figure below. 
+The figure below shows the operative zone temperature without (blue) and with (red) occupant and lighting. 
 </p>
 <p align=\"center\">
 <img alt=\"The operative zone temperature without (blue) and with (red) occupant and lighting (both with screen model).\"
@@ -62,13 +61,13 @@ First implementation for the IDEAS crash course.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse3.mos"
-        "Simulate and plot"),
     experiment(
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"));
+      __Dymola_Algorithm="Lsodar"),
+    __Dymola_Commands(file=
+          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse3.mos"
+        "Simulate and plot"));
 end DetailedHouse3;
