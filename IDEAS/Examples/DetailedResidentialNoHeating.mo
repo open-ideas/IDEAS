@@ -25,117 +25,150 @@ model DetailedResidentialNoHeating
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,-230})));
+        origin={-500,-230}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput window_hall_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__hall'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,-170})));
+        origin={-500,-170}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_diner_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__diner'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,-140})));
+        origin={-500,-140}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_bed_strt1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_strt1'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,140})));
+        origin={-500,140}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_box_2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__box_2'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,80})));
+        origin={-500,80}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_box_mid_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__box_mid'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,50})));
+        origin={-500,50}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
     Modelica.Blocks.Interfaces.RealInput window_bathroom_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bathroom'"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,230})));
+        origin={-500,230}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput window_bed_garden2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_garden2'"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,170})));
+        origin={-500,170}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput window_bed_garden1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_garden1'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,200})));
+        origin={-500,200}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_bed_strt2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__bed_strt2'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,110})));
+        origin={-500,110}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_hall_2_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__hall__2'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,-200})));
+        origin={-500,-200}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_living_slide_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__living_slide'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,-260})));
+        origin={-500,-260}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput window_kitchen_slide_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'window__kitchen_slide'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,-290})));
+        origin={-500,-290}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput skylight_zone_polyvalent_skylight_type_1_controlsignal(min=0, max=1) "Screen control signal, 1 means closed 'skylight_zone__polyvalent__skylight_type_1'"
     annotation (Placement(transformation(
         extent={{20,20},{-20,-20}},
         rotation=180,
-        origin={-500,20})));
+        origin={-500,20}), iconTransformation(
+        extent={{20,20},{-20,-20}},
+        rotation=180,
+        origin={-120,0})));
   Modelica.Blocks.Interfaces.RealInput extractionfan_extraction_fan_1_controlsignal(min=0, max=1000) "Control signal for extraction fan extractionFan__extraction_fan_1"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,-20})));
+        origin={-500,-20}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_kitchen_vavr_type_1_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__kitchen__vavr_type_1"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,-50})));
+        origin={-500,-50}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_storage_vavr_type_2_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__storage__vavr_type_2"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,-80})));
+        origin={-500,-80}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_toilet_vavr_type_3_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__toilet__vavr_type_3"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,-110})));
+        origin={-500,-110}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bathroom_vavr_type_2_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bathroom__vavr_type_2"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,380})));
+        origin={-500,380}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bed_garden_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bed_garden__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,320})));
+        origin={-500,320}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_bed_street_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__bed_street__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,350})));
+        origin={-500,350}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_polyvalent_vavr_type_4_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__polyvalent__vavr_type_4"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,290})));
+        origin={-500,290}), iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput returnvav_zone_toilet2_vavr_type_3_controlsignal(min=0, max=1) "Control signal for extraction VAV returnVav_zone__toilet2__vavr_type_3"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-500,260})));
+        origin={-500,260}), iconTransformation(extent={{-140,-20},{-100,20}})));
 
 
   // records
