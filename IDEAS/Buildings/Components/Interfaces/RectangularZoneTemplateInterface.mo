@@ -59,6 +59,9 @@ partial model RectangularZoneTemplateInterface
   parameter Boolean hasWinD = false
     "Modelling window for face D if true"
     annotation(Dialog(tab="Face D", group="Window details", enable=not (bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.None)));
+  parameter Boolean hasWinFlo = false
+    "Modelling window for floor if true"
+    annotation(Dialog(tab="Floor", group="Window details", enable= (bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall)));
   parameter Boolean hasWinCei = false
     "Modelling window for ceiling if true"
     annotation(Dialog(tab="Ceiling", group="Window details", enable=not (bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.None)));
@@ -119,6 +122,11 @@ partial model RectangularZoneTemplateInterface
       tab="Face D",
       group="Window details",
       enable=hasWinD));
+  parameter Modelica.Units.SI.Area A_winFlo=0 "Surface area of window of floor"
+    annotation (Dialog(
+      tab="Floor",
+      group="Window details",
+      enable=hasWinFlo));
   parameter Modelica.Units.SI.Area A_winCei=0
     "Surface area of window of ceiling" annotation (Dialog(
       tab="Ceiling",
@@ -149,6 +157,12 @@ partial model RectangularZoneTemplateInterface
       tab="Face D",
       group="Window details",
       enable=hasWinD));
+  parameter Modelica.Units.SI.Length h_winFlo(min=0.1) = max(0.1,sqrt(A_winFlo))
+    "Floor window height, including frame"
+    annotation (Dialog(
+      tab="Floor",
+      group="Window details",
+      enable=hasWinFlo));
   parameter Modelica.Units.SI.Length h_winCei(min=0.1) = max(0.1,sqrt(A_winCei))
     "Ceiling window height, including frame"
     annotation (Dialog(
@@ -171,6 +185,10 @@ partial model RectangularZoneTemplateInterface
     "Area fraction of the window frame of face D"
     annotation(Dialog(tab="Face D", group="Window details",
     enable=hasWinD));
+  parameter Real fracFlo=0.15
+    "Area fraction of the window frame of the floor"
+    annotation(Dialog(tab="Floor", group="Window details",
+    enable=hasWinFlo));
   parameter Real fracCei=0.15
     "Area fraction of the window frame of the ceiling"
     annotation(Dialog(tab="Ceiling", group="Window details",
@@ -191,6 +209,10 @@ partial model RectangularZoneTemplateInterface
     "Scaling factor to model nWinD identical windows in facade D"
     annotation(Dialog(tab="Face D", group="Window details",
     enable=hasWinD));
+  parameter Real nWinFlo=1
+    "Scaling factor to model nWinFlo identical windows in the floor"
+    annotation(Dialog(tab="Floor", group="Window details",
+    enable=hasWinFlo));
   parameter Real nWinCei=1
     "Scaling factor to model nWinCei identical windows in the ceiling"
     annotation(Dialog(tab="Ceiling", group="Window details",
@@ -320,6 +342,11 @@ partial model RectangularZoneTemplateInterface
     annotation (choicesAllMatching=true,
     Dialog(tab="Face D", group="Window details",
            enable = hasWinD));
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingFlo
+    constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of floor"
+    annotation (choicesAllMatching=true,
+    Dialog(tab="Floor", group="Window details",
+           enable = hasWinFlo));
   replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingCei
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of ceiling"
     annotation (
@@ -359,6 +386,14 @@ partial model RectangularZoneTemplateInterface
            choicesAllMatching=true,
            Dialog(tab="Face D", group="Window details",
            enable = hasWinD));
+  replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypFlo
+    constrainedby
+    IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
+    "Shading type and properties of window of floor"
+    annotation (
+           choicesAllMatching=true,
+           Dialog(tab="Floor", group="Window details",
+           enable = hasWinFlo));
   replaceable parameter IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypCei
     constrainedby
     IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties
@@ -387,6 +422,11 @@ partial model RectangularZoneTemplateInterface
     "Window frame type for surface D"
     annotation (choicesAllMatching=true,
                 Dialog(tab="Face D", group="Window details", enable=hasWinD));
+  replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypFlo
+    constrainedby IDEAS.Buildings.Data.Interfaces.Frame
+    "Window frame type for surface Flo"
+    annotation (choicesAllMatching=true,
+                Dialog(tab="Floor", group="Window details", enable=hasWinFlo));
   replaceable parameter IDEAS.Buildings.Data.Frames.None fraTypCei
     constrainedby IDEAS.Buildings.Data.Interfaces.Frame
     "Window frame type for surface Cei"
@@ -722,6 +762,23 @@ partial model RectangularZoneTemplateInterface
     if hasOutD
     "Outer wall for face D of this zone"
     annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
+  IDEAS.Buildings.Components.OuterWall outFlo(
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=aziAInt,
+    A=max(0,AFloNet),
+    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
+      locGain=conTypFlo.locGain,
+      incLastLay=conTypFlo.incLastLay,
+      mats=conTypFlo.mats),
+    T_start=T_start,
+    linIntCon_a=linIntCon,
+    dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
+    linExtCon=linExtCon,
+    linExtRad=linExtRad)
+    if hasOutFlo
+    "Outer wall for zone floor."
+    annotation (Placement(transformation(extent={{-140,-80},{-130,-60}})));
   IDEAS.Buildings.Components.OuterWall outCei(
     inc=IDEAS.Types.Tilt.Ceiling,
     azi=aziAInt,
@@ -1001,7 +1058,8 @@ partial model RectangularZoneTemplateInterface
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb]
  if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround or
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall
     "Floor node for embedded heat gain if case of floor heating or CCA."
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 protected
@@ -1030,6 +1088,8 @@ protected
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasOutD=
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
+  final parameter Boolean hasOutFlo=
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasOutCei=
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasIntA=
@@ -1071,6 +1131,7 @@ protected
   parameter Modelica.Units.SI.Area AWallBNet(fixed=false);
   parameter Modelica.Units.SI.Area AWallCNet(fixed=false);
   parameter Modelica.Units.SI.Area AWallDNet(fixed=false);
+  parameter Modelica.Units.SI.Area AFloNet(fixed=false);
   parameter Modelica.Units.SI.Area ACeiNet(fixed=false);
 
   final parameter Integer indWalA = if hasNoA then 0 else 1;
@@ -1097,7 +1158,8 @@ protected
   final parameter Integer indWinB = indWinA + (if hasWinB then 1 else 0);
   final parameter Integer indWinC = indWinB + (if hasWinC then 1 else 0);
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
-  final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
+  final parameter Integer indWinFlo = indWinD + (if hasWinFlo then 1 else 0);
+  final parameter Integer indWinCei = indWinFlo + (if hasWinCei then 1 else 0);
 
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
@@ -1122,6 +1184,8 @@ initial equation
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
   assert(not (hasWinD and bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
+  assert(not (hasWinFlo and bouTypFlo <> IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall),
+    "Combining a window with a floor that is no outer wall is not supported.");
   assert(not (hasWinCei and bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall),
     "Combining an internal wall with an (exterior) window is not allowed since this is non-physical.");
 
@@ -1139,6 +1203,7 @@ initial equation
   AWallBNet = lB*h - (if hasWinB then  propsBusInt[indWinB].area else 0);
   AWallCNet = lC*h - (if hasWinC then  propsBusInt[indWinC].area else 0);
   AWallDNet = lD*h - (if hasWinD then  propsBusInt[indWinD].area else 0);
+  AFloNet = AZone - (if hasWinFlo then propsBusInt[indWinFlo].area else 0);
   ACeiNet = ACei - (if hasWinCei then  propsBusInt[indWinCei].area else 0);
 
   // assert that the windows are not bigger than the wall
@@ -1146,6 +1211,7 @@ initial equation
   assert(AWallBNet >= 0, "The net surface area of wall B is negative. This is not allowed.");
   assert(AWallDNet >= 0, "The net surface area of wall C is negative. This is not allowed.");
   assert(AWallDNet >= 0, "The net surface area of wall D is negative. This is not allowed.");
+  assert(AFloNet >= 0, "The net surface area of the floor is negative. This is not allowed.");
   assert(ACeiNet >= 0, "The net surface area of the ceiling is negative. This is not allowed.");
 
   if hasIntA then
@@ -1212,6 +1278,10 @@ equation
       thickness=0.5));
   connect(outD.propsBus_a, propsBusInt[indWalD]) annotation (Line(
       points={{-130.833,-48},{-124,-48},{-124,40},{-80,40}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(outFlo.propsBus_a, propsBusInt[indFlo]) annotation (Line(
+      points={{-130.833,-68},{-124,-68},{-124,40},{-80,40}},
       color={255,204,51},
       thickness=0.5));
   connect(slaOnGro.propsBus_a, propsBusInt[indFlo]) annotation (Line(
@@ -1325,6 +1395,8 @@ equation
           {-88,-104},{100,-104},{100,-90}}, color={191,0,0}));
   connect(slaOnGro.port_emb, gainEmb) annotation (Line(points={{-155,-80},{-156,
           -80},{-156,-104},{100,-104},{100,-90}}, color={191,0,0}));
+  connect(outFlo.port_emb, gainEmb) annotation (Line(points={{-135,-80},{-144,
+          -80},{-144,-104},{100,-104},{100,-90}}, color={191,0,0}));
     annotation(Dialog(tab="Floor", group="Floor heating / CCA", enable=
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall),
@@ -1545,6 +1617,11 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 11, 2025, by Lucas Verleyen:<br/>
+Implemented <code>OuterWall</code> (including possibility to add windows) for Floor construction.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a> .
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
