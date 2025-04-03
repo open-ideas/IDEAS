@@ -16,7 +16,7 @@ Example implementation of a floor heating construction record.
 </html>", revisions="<html>
 <ul>
 <li>
-Jan 3, 2025, by Anna Dell'Isola:<br/>
+January 3, 2025, by Anna Dell'Isola:<br/>
 Additional gypsum layer. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
 <li>
 June 8, 2018, by Filip Jorissen:<br/>

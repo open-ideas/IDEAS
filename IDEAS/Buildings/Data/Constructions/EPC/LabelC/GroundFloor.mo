@@ -1,7 +1,7 @@
 within IDEAS.Buildings.Data.Constructions.EPC.LabelC;
 record GroundFloor  "Construction data of GroundFloor"
   extends IDEAS.Buildings.Data.Interfaces.Construction(
-    locGain={3},
+    locGain={2},
     incLastLay=IDEAS.Types.Tilt.Floor,
     final mats={
         IDEAS.Buildings.Data.Materials.EPC.DenseCastConcreteAlsoForFinishing(d=
@@ -10,13 +10,19 @@ record GroundFloor  "Construction data of GroundFloor"
         IDEAS.Buildings.Data.Materials.EPC.ScreedOrLightCastConcrete(d=0.06),
         IDEAS.Buildings.Data.Materials.EPC.CeramicTileForFinishing(
         d=0.02)});
-  annotation (Documentation(revisions="<html> 
-                  <ul> 
-                  <li>March 10, 2024, by Lucas Verleyen:<br> 
-                  Add locGain={3}.</li>
+		annotation (Documentation(info="<html>
+<p>
+Construction data of a ground floor in an EPC C building
+</p>
+</html>",revisions="<html> 
+<ul> 
 <li>
-Jan 3, 2025, by Anna Dell'Isola:<br/>
+January 3, 2025, by Anna Dell'Isola:<br/>
 Implementation in IDEAS. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+</li>
+<li>
+March 10, 2024, by Lucas Verleyen:<br/> 
+Add locGain.
 </li>
 </ul>
 </html>"));

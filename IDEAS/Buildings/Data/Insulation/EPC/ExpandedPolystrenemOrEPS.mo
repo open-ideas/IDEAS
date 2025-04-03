@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Insulation.EPC;
-record ExpandedPolystrenemOrEPS = IDEAS.Buildings.Data.Interfaces.Material (
+record ExpandedPolystrenemOrEPS = IDEAS.Buildings.Data.Interfaces.Insulation (
       k=0.036,
       c=1470,
       rho=26,
@@ -9,7 +9,7 @@ record ExpandedPolystrenemOrEPS = IDEAS.Buildings.Data.Interfaces.Material (
     annotation (Documentation(revisions="<html>
 <ul>
 <li>
-Jan 3, 2025, by Anna Dell'Isola:<br/>
+January 3, 2025, by Anna Dell'Isola:<br/>
 First implementation. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
 </li>
 </ul>
