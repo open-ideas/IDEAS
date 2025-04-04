@@ -3,8 +3,8 @@ record InnerWall  "Construction data of InnerWall"
   extends IDEAS.Buildings.Data.Interfaces.Construction(final mats={
         IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02),
         IDEAS.Buildings.Data.Materials.EPC.MediumMasonryForInteriorApplications(d=0.1),
-		IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02)});
-		annotation (Documentation(info="<html>
+        IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02)});
+  annotation (Documentation(info="<html>
 <p>
 Construction data of an inner wall in an EPC C building
 </p>

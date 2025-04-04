@@ -4,7 +4,7 @@ record WindowFrame "Frame data of Window"
     present=true,
     U_value=1,
     redeclare parameter IDEAS.Buildings.Components.ThermalBridges.LineLosses briTyp(psi=0.06, len=3.5176479597266095));
-	annotation (Documentation(revisions="<html>
+ annotation (Documentation(revisions="<html>
 <ul>
 <li>
 January 3, 2025, by Anna Dell'Isola:<br/>

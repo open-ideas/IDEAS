@@ -5,7 +5,7 @@ record GroundFloor  "Construction data of GroundFloor"
     incLastLay=IDEAS.Types.Tilt.Floor,
     final mats={
         IDEAS.Buildings.Data.Materials.EPC.DenseCastConcreteAlsoForFinishing(d=0.2),
-		IDEAS.Buildings.Data.Insulation.EPC.ExpandedPolystrenemOrEPS(d=0.13413005339301134),
+        IDEAS.Buildings.Data.Insulation.EPC.ExpandedPolystrenemOrEPS(d=0.13413005339301134),
         IDEAS.Buildings.Data.Materials.EPC.ScreedOrLightCastConcrete(d=0.06),
         IDEAS.Buildings.Data.Materials.EPC.CeramicTileForFinishing(d=0.02)});
   annotation (Documentation(info="<html>

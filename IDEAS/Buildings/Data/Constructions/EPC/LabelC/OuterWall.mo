@@ -3,9 +3,9 @@ record OuterWall  "Construction data of OuterWall"
   extends IDEAS.Buildings.Data.Interfaces.Construction(final mats={
         IDEAS.Buildings.Data.Materials.EPC.HeavyMasonryForExteriorApplications(d=0.09),
         IDEAS.Buildings.Data.Materials.EPC.LargeCavityHorizontalHeatTransfer(d=0.025),
-		IDEAS.Buildings.Data.Insulation.Rockwool(d=0.037261869785843296),
+        IDEAS.Buildings.Data.Insulation.Rockwool(d=0.037261869785843296),
         IDEAS.Buildings.Data.Materials.EPC.HeavyMasonryForInteriorApplications(d=0.14),
-		IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02)});
+        IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02)});
         annotation (Documentation(info="<html>
 <p>
 Construction data of an outer wall in an EPC C building

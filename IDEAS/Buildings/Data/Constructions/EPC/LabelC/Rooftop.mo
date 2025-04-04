@@ -4,7 +4,7 @@ record Rooftop  "Construction data of Rooftop"
         IDEAS.Buildings.Data.Insulation.EPC.Rockwool415TimberForFinishing35(d=0.03872196743554952),
         IDEAS.Buildings.Data.Materials.EPC.TimberForFinishing(d=0.01),
         IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.025)});
-		annotation (Documentation(info="<html>
+  annotation (Documentation(info="<html>
 <p>
 Construction data of a rooftop in an EPC C building
 </p>
