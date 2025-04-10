@@ -59,8 +59,7 @@ model DetailedHouse1 "First example model of a one-zone building"
         origin={-54,-10})));
 
   Buildings.Components.SlabOnGround slaOnGro(
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
-      constructionType,
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround constructionType,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
     A=l*w) "Floor model" annotation (Placement(transformation(
@@ -164,7 +163,7 @@ and windows. The surface orientation can be set using the parameters <code>incOp
 inclination depending on the type of outer wall (wall, floor, ceiling), and <code>aziOpt</code>, which automatically sets the
 azimuth (north, east, south, west). Furthermore, the zone Medium must be set to <a href=\"modelica://IDEAS.Media.Air\">
 IDEAS.Media.Air</a>. Glazing and wall types must also be specified. This example uses the <i>BESTEST Heavy Wall</i> for the
-walls, the <i>BESTEST Heavy Floor</i> for the floor, the <i>BESTEST light roof</i> for the roof and the double glazing
+walls, the <i>FloorOnGround</i> for the floor, the <i>BESTEST light roof</i> for the roof and the double glazing
 type <i>Saint Gobain Planitherm</i> and a south orientation for the window.
 </p>
 <p>
@@ -194,6 +193,13 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 10, 2025, by Anna Dell'Isola:<br/>
+Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>,
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">
+#1418</a>
+</li>
 <li>
 January 14, 2025, by Lone Meertens:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">

@@ -29,7 +29,7 @@ model DetailedHouse5 "New building model with two connected zones"
     A_winA=1.5*1.4,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
       "Northern part of the zone" annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = MediumAir,
@@ -102,6 +102,13 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 10, 2025, by Anna Dell'Isola:<br/>
+Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>,
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">
+#1418</a>
+</li>
 <li>
 January 14, 2025, by Lone Meertens:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
