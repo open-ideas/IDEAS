@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse7 "Adding a controller"
   extends DetailedHouse6(heaPum(enable_variable_speed=true));
-  Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 40, uHigh=273.15 + 45)
+  Modelica.Blocks.Logical.Hysteresis hys(uLow=273.15 + 45, uHigh=273.15 + 50)
     "Hysteresis controller"
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
   Modelica.Blocks.Math.BooleanToReal booToRea(realTrue=0, realFalse=1)
@@ -13,8 +13,8 @@ equation
           {98,-70}}, color={255,0,255}));
   connect(booToRea.y, heaPum.y)
     annotation (Line(points={{121,-70},{187,-70},{187,-2}}, color={0,0,127}));
-  connect(senTemSup.T, hys.u) annotation (Line(points={{136,49},{136,4},{120,4},
-          {120,-40},{40,-40},{40,-70},{58,-70}}, color={0,0,127}));
+  connect(senTan.T, hys.u) annotation (Line(points={{127.2,8},{126,8},{126,-42},
+          {48,-42},{48,-70},{58,-70}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>
@@ -38,11 +38,11 @@ Modelica.Blocks.Math.BooleanToReal</a>
 </ul>
 <h4>Connection instructions</h4>
 <p>
-The temperature sensor between the storage tank and the secondary circulation pump serves as an input to the hysteresis controller.
+The temperature sensor in the storage tank serves as an input to the hysteresis controller.
 The controller is configured such that it switches to a <i>false</i> signal below <i>40°C</i> and to <i>true</i> above <i>45°C</i>.
 </p>
 <p>
-The output of the hysteresis controller is thus true when the supply temperature is high enough and false
+The output of the hysteresis controller is thus true when the tank top temperature is high enough and false
 otherwise. This Boolean signal has to be converted in a real control signal that can be accepted by the heat
 pump model using the <code>BooleanToReal</code> block. The heat pump already has a control signal.
 Since blocks cannot be removed from an extension of a model, the heat pump model input type is set to 
@@ -54,8 +54,8 @@ connections to the other control signal.
 The figure below shows the operative zone temperature <code>recZon.TSensor</code>, the heat pump condenser temperature<code>heaPum.con.T</code>
 and the radiator heat flow rate <code>rad.Q_flow</code> in the north-oriented zone with (red) and without (blue) hysteresis control.
 We see that the supply temperature is indeed reduced significantly. 
-This causes the zone temperature to be slightly lower, up to about <i>0.25°C</i>. 
-The electrical energy use however decreases from <i>22.0 kWh</i> to <i>16.1 kWh</i>. 
+This causes the zone temperature to be slightly lower, up to about <i>0.2°C</i>. 
+The electrical energy use however decreases from <i>25.8 kWh</i> to <i>15.7 kWh</i>. 
 Note that this heating system configuration is still not efficient since 
 the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small COP.
 COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
