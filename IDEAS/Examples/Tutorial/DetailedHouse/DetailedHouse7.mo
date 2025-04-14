@@ -13,7 +13,7 @@ equation
           {98,-70}}, color={255,0,255}));
   connect(booToRea.y, heaPum.y)
     annotation (Line(points={{121,-70},{187,-70},{187,-2}}, color={0,0,127}));
-  connect(senTan.T, hys.u) annotation (Line(points={{127.2,8},{126,8},{126,-42},
+  connect(senTan.T, hys.u) annotation (Line(points={{121.2,10},{126,10},{126,-42},
           {48,-42},{48,-70},{58,-70}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
@@ -55,7 +55,7 @@ The figure below shows the operative zone temperature <code>recZon.TSensor</code
 and the radiator heat flow rate <code>rad.Q_flow</code> in the north-oriented zone with (red) and without (blue) hysteresis control.
 We see that the supply temperature is indeed reduced significantly. 
 This causes the zone temperature to be slightly lower, up to about <i>0.2°C</i>. 
-The electrical energy use however decreases from <i>25.8 kWh</i> to <i>15.7 kWh</i>. 
+The electrical energy use however decreases from <i>25.5 kWh</i> to <i>15.9 kWh</i>. 
 Note that this heating system configuration is still not efficient since 
 the small flow rates still cause large temperatures to occur within the heat pump and thus cause a small COP.
 COPs of more than 5 are obtainable when using a bypass and a separate pump to charge the storage tank.
