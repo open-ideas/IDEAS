@@ -1,0 +1,37 @@
+#1
+double tab1(2,30)
+#LOCATION,Uccle,VLG,BEL,SRC-TMYx,064470,50.79690,4.35810,1.0,101.0
+#COMMENTS 2,"Based on an existing weather file: 10 degrees dry bulb at night, no wind."
+#DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+#C1 Time in seconds. Beginning of a year is 0s.
+#C2 Dry bulb temperature in Celsius at indicated time
+#C3 Dew point temperature in Celsius at indicated time
+#C4 Relative humidity in percent at indicated time
+#C5 Atmospheric station pressure in Pa at indicated time
+#C6 Extraterrestrial horizontal radiation in Wh/m2
+#C7 Extraterrestrial direct normal radiation in Wh/m2
+#C8 Horizontal infrared radiation intensity in Wh/m2
+#C9 Global horizontal radiation in Wh/m2
+#C10 Direct normal radiation in Wh/m2
+#C11 Diffuse horizontal radiation in Wh/m2
+#C12 Averaged global horizontal illuminance in lux during minutes preceding the indicated time
+#C13 Direct normal illuminance in lux during minutes preceding the indicated time
+#C14 Diffuse horizontal illuminance in lux  during minutes preceding the indicated time
+#C15 Zenith luminance in Cd/m2 during minutes preceding the indicated time
+#C16 Wind direction at indicated time. N=0, E=90, S=180, W=270
+#C17 Wind speed in m/s at indicated time
+#C18 Total sky cover at indicated time
+#C19 Opaque sky cover at indicated time
+#C20 Visibility in km at indicated time
+#C21 Ceiling height in m
+#C22 Present weather observation
+#C23 Present weather codes
+#C24 Precipitable water in mm
+#C25 Aerosol optical depth
+#C26 Snow depth in cm
+#C27 Days since last snowfall
+#C28 Albedo
+#C29 Liquid precipitation depth in mm at indicated time
+#C30 Liquid precipitation quantity
+0	10.00	4.60	69	101477	0	0	270	0	0	0	0	0	0	0	270	0.00	0	6	777.7	2000	9	999999999	16	0.2170	0	88	0.190	0.0	0.0	
+1E11	10.00	4.60	69	101477	0	0	270	0	0	0	0	0	0	0	270	0.00	0	6	777.7	2000	9	999999999	16	0.2170	0	88	0.190	0.0	0.0	

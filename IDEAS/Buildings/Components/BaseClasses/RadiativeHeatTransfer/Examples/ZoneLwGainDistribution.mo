@@ -1,6 +1,5 @@
 within IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.Examples;
 model ZoneLwGainDistribution
-  import IDEAS;
   extends Modelica.Icons.Example;
   Modelica.Blocks.Sources.Ramp ramDir(
     duration=1,
@@ -89,6 +88,11 @@ equation
         "Simulate and plot"),
     Documentation(revisions="<html>
 <ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
 <li>
 January 19, 2017 by Filip Jorissen:<br/>
 First implementation

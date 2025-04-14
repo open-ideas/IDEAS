@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Examples.DetailedResidentialNoHeating", stopTime=6.0480e+05, method="Lsodar", tolerance=1e-06, resultFile="DetailedResidentialNoHeating");
+createPlot(id=1, position={0, 0, 792, 1247}, range={0.0, 604800.0, 14, 23}, grid=true, 
+			y={"zone__kitchen.TSensor", "zone__entrance.TSensor", "zone__hallway.TSensor", "zone__storage.TSensor", "zone__toilet.TSensor"},
+			colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});
+createPlot(id=1, position={0, 0, 792, 1247}, range={0.0, 604800.0, 14, 23}, grid=true, subPlot=2,
+			y={"zone__polyvalent.TSensor", "zone__bed_street.TSensor", "zone__bed_garden.TSensor", "zone__bathroom.TSensor", "zone__toilet2.TSensor"},
+			colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});

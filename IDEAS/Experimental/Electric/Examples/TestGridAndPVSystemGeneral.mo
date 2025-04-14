@@ -8,7 +8,7 @@ extends Modelica.Icons.Example;
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Distribution.AC.Grid_3P                             gridGeneral(
-    VSource=(230*1.02) + 0*MCM.j,
+    VSource=(230*1.02) + 0*Modelica.ComplexMath.j,
     redeclare Data.Grids.Ieee34_AL120                grid,
     redeclare Data.TransformerImp.Transfo_100kVA transformer,
     traTCal=true)
@@ -20,6 +20,11 @@ equation
       smooth=Smooth.None));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.ComplexMath.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/Experimental/Electric/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
 <li>
 May 22, 2022, by Filip Jorissen:<br/>
 Removed experiment annotation to avoid failing OMC tests.

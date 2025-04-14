@@ -4,9 +4,9 @@ model SlabOnGround "opaque floor on ground slab"
     custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    add_cracks=false,
-    dT_nominal_a=-3,
     final QTra_design(fixed=false),
+    add_door=false,
+    dT_nominal_a=-3,
     inc=IDEAS.Types.Tilt.Floor,
     azi=0,
     redeclare replaceable Data.Constructions.FloorOnGround constructionType,
@@ -47,9 +47,9 @@ model SlabOnGround "opaque floor on ground slab"
   IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0)
+    final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-    annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
+    annotation (Placement(transformation(origin = {0, 16}, extent = {{-28, -76}, {-8, -56}})));
 protected
   final parameter IDEAS.Buildings.Data.Materials.Ground ground1(final d=0.50);
   final parameter IDEAS.Buildings.Data.Materials.Ground ground2(final d=0.33);
@@ -97,9 +97,15 @@ protected
       outputAngles=sim.outputAngles)
     "Weather data bus connectable to weaBus connector from Buildings Library"
     annotation (Placement(transformation(extent={{46,-90},{66,-70}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {0, -4}, extent = {{-28, -76}, {-8, -56}})));
 
 initial equation
-    QTra_design=UEqui*A*(TRefZon - weaBus.TGroundDes);
+    QTra_design=UEqui*A*(TRefZon - TdesGround.y);
 equation
   connect(TdesGround.u, weaBus.TGroundDes);
   connect(periodicFlow.port, layMul.port_b) annotation (Line(points={{-20,22},{
@@ -124,8 +130,10 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(boundary1.ports[1], propsBusInt.port_1) annotation (Line(points={{-8,-30},
           {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
-          {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
+  connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-50},
+          {44,-50},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
+  connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{-8, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -185,6 +193,11 @@ zone that is surrounded by air at the ambient temperature.
 </html>", revisions="<html>
 <ul>
 <li>
+January 30, 2025, by Klaas De Jonge:<br/>
+Use <code>TdesGround.y</code> for calculating <code>QTra_design</code> to avoid causality warning.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>.
+</li>
+<li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
@@ -193,6 +206,10 @@ See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
 May 16, 2024, by Lucas Verleyen:<br>
 Created final and protected parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
+</li>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
 </li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>

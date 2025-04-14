@@ -24,6 +24,8 @@ model OverhangAndScreen "Roof overhangs and screen shading"
   extends IDEAS.Buildings.Components.Shading.Interfaces.DoubleShading(
       redeclare IDEAS.Buildings.Components.Shading.Screen stateShading1(
         azi=azi,
+        epsSw_shading=epsSw_shading,
+        refSw_shading=1-epsSw_shading-shaCorr,
         shaCorr=shaCorr),
       redeclare IDEAS.Buildings.Components.Shading.Overhang stateShading2(
         azi=azi,
@@ -32,7 +34,8 @@ model OverhangAndScreen "Roof overhangs and screen shading"
         wLeft=wLeft,
         wRight=wRight,
         dep=dep,
-        gap=gap));
+        gap=gap,
+        haveBoundaryPorts=false));
 
 initial equation
 
