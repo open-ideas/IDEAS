@@ -96,8 +96,8 @@ model DetailedHouse6
     annotation (Placement(transformation(extent={{146,70},{126,50}})));
   Fluid.Sources.Boundary_pT bou1(
     nPorts=1,
-    redeclare package Medium = MediumWater,
-    T=283.15) "Cold water source for heat pump"
+    redeclare package Medium = MediumWater)
+              "Cold water source for heat pump"
               annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
@@ -108,10 +108,10 @@ model DetailedHouse6
     VTan=0.1,
     hTan=0.5,
     dIns=0.1) "Buffer tank for avoiding excessive heat pump on/off switches"
-    annotation (Placement(transformation(extent={{164,0},{144,20}})));
+    annotation (Placement(transformation(extent={{146,0},{166,20}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTan
     "Temperature sensor of tank volume"
-    annotation (Placement(transformation(extent={{144,0},{128,16}})));
+    annotation (Placement(transformation(extent={{138,2},{122,18}})));
   Fluid.Movers.FlowControlled_dp pumSec(
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
@@ -153,19 +153,19 @@ equation
   connect(senTemSup.port_b,pumEmi. port_a)
     annotation (Line(points={{126,60},{120,60}}, color={0,127,255}));
   connect(heaPum.port_a1, tan.port_b) annotation (Line(points={{184,0},{184,-32},
-          {154,-32},{154,0}}, color={0,127,255}));
-  connect(senTemSup.port_a, tan.port_a)
-    annotation (Line(points={{146,60},{146,20},{154,20}}, color={0,127,255}));
-  connect(rad.port_b, tan.port_b) annotation (Line(points={{50,-20},{50,-32},{
-          146,-32},{146,0},{154,0}}, color={0,127,255}));
-  connect(rad1.port_b, tan.port_b) annotation (Line(points={{90,-20},{90,-32},{
-          146,-32},{146,0},{154,0}}, color={0,127,255}));
+          {156,-32},{156,0}}, color={0,127,255}));
   connect(tan.heaPorVol[1], senTan.port)
-    annotation (Line(points={{154,10},{154,8},{144,8}}, color={191,0,0}));
+    annotation (Line(points={{156,10},{138,10}},        color={191,0,0}));
   connect(heaPum.port_b1, pumSec.port_a)
     annotation (Line(points={{184,20},{184,60},{180,60}}, color={0,127,255}));
   connect(pumSec.port_b, tan.port_a)
-    annotation (Line(points={{160,60},{154,60},{154,20}}, color={0,127,255}));
+    annotation (Line(points={{160,60},{156,60},{156,20}}, color={0,127,255}));
+  connect(senTemSup.port_a, tan.fluPorVol[1])
+    annotation (Line(points={{146,60},{146,10},{151,10}}, color={0,127,255}));
+  connect(rad1.port_b, tan.fluPorVol[2]) annotation (Line(points={{90,-20},{90,
+          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
+  connect(rad.port_b, tan.fluPorVol[2]) annotation (Line(points={{50,-20},{50,
+          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
