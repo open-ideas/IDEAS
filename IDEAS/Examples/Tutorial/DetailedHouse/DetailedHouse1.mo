@@ -111,7 +111,7 @@ equation
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse1.mos"
         "Simulate and plot"),
@@ -177,7 +177,7 @@ the weather data have to be generated only once, instead of for each surface.
 This model is simulated with the following settings:
 </p>
 <ol>
-<li>Lsodar as the solver with tolerance = 1e-06 </li>
+<li>Dassl as the solver with tolerance = 1e-06 </li>
 <li>Start time = 1e7,</li>
 <li>Stop time = 1.1e7,</li>
 <li>Number of intervals = 5000.</li>
@@ -194,7 +194,7 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </html>", revisions="<html>
 <ul>
 <li>
-April 10, 2025, by Anna Dell'Isola:<br/>
+April 14, 2025, by Anna Dell'Isola:<br/>
 Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>,
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">

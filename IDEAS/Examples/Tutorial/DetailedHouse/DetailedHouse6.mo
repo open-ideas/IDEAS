@@ -181,7 +181,7 @@ equation
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
 This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
@@ -264,12 +264,7 @@ pump are assumed to be active continuously, which is detrimental for the system 
 </html>", revisions="<html>
 <ul>
 <li>
-April 10, 2025, by Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
-</li>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
+April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>
 </li>

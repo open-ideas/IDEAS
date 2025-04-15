@@ -103,7 +103,7 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 revisions="<html>
 <ul>
 <li>
-April 10, 2025, by Anna Dell'Isola:<br/>
+April 14, 2025, by Anna Dell'Isola:<br/>
 Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>,
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">
@@ -125,7 +125,7 @@ First implementation for the IDEAS crash course.
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"
         "Simulate and plot"));
