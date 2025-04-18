@@ -1,10 +1,10 @@
 - model_name: IDEAS.Examples.DetailedResidentialNoHeating
   dymola:
     time_out: 900
-- model_name: IDEAS.Examples.Tutorial.Example10
+- model_name: IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10
   dymola:
     time_out: 900
-- model_name: IDEAS.Examples.Tutorial.Example9
+- model_name: IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse9
   dymola:
     time_out: 3600
 - model_name: IDEAS.Fluid.Examples.FlowSystem.Basic
