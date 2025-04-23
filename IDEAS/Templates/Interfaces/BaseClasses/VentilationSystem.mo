@@ -7,12 +7,10 @@ partial model VentilationSystem
     constrainedby Modelica.Media.Interfaces.PartialMedium
     "Medium in the component"
       annotation (choicesAllMatching = true);
-  parameter Integer nZones(min=1)
-    "Number of conditioned thermal building zones";
   parameter Real[nZones] VZones "Conditioned volumes of the zones";
-
   parameter Modelica.Units.SI.Power[nZones] Q_design=zeros(nZones)
     "Design heat loss due to ventilation";//must be calculated depending on the case
+
   Modelica.Blocks.Interfaces.RealInput[nZones] TSensor(
     each final quantity="ThermodynamicTemperature",
     each unit="K",
@@ -58,6 +56,11 @@ partial model VentilationSystem
                                          graphics),
     Documentation(revisions="<html>
 <ul>
+<li>
+December 23, 2024, by Lucas Verleyen:<br>
+Removed nZones parameter, since it is already declared in PartialSystem, from which this model extends.
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1401\">#1401</a>.
+</li>
 <li>
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.

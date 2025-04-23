@@ -7,7 +7,7 @@ model Adsolair58 "Adsolair58 example model"
   replaceable package Medium = IDEAS.Media.Air;
   replaceable package MediumWater = IDEAS.Media.Water "Heating medium";
   parameter Modelica.Units.SI.Pressure dp_nominal=100 "Constant output value";
-  parameter SI.MassFlowRate m_flow_nominal=0.3 "Nominal air mass flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.3 "Nominal air mass flow rate";
   Adsolair58HeaCoi             adsolair58(
     redeclare package MediumAir = Medium,
     redeclare BaseClasses.Adsolair14200 per,
@@ -360,6 +360,11 @@ A PI controller is used to track the set point temperature.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>

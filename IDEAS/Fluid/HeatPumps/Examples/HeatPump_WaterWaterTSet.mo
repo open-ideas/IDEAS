@@ -4,7 +4,7 @@ model HeatPump_WaterWaterTSet
   extends Modelica.Icons.Example;
     package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater
     annotation (choicesAllMatching=true);
-  constant SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
+  constant Modelica.Units.SI.MassFlowRate m_flow_nominal=0.3 "Nominal mass flow rate";
 
   Modelica.Blocks.Sources.Constant const(k=273.15 + 35)
     annotation (Placement(transformation(extent={{8,24},{-10,42}})));
@@ -129,12 +129,18 @@ equation
         "Simulate and plot"),  Documentation(revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
 See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
 (and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
 </li>
-<li>March 2014 by Filip Jorissen:<br/> 
+<li>
+March 2014 by Filip Jorissen:<br/> 
 Initial version
 </li>
 </ul>

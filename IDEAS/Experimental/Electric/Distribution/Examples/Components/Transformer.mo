@@ -1,6 +1,5 @@
 within IDEAS.Experimental.Electric.Distribution.Examples.Components;
 model Transformer
-  import IDEAS;
 
   parameter Modelica.Units.SI.Temperature THsRef=326.6;
   parameter Modelica.Units.SI.Temperature TToRef=314.44;
@@ -36,5 +35,14 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
+            -100},{100,100}}), graphics),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
+</ul>
+</html>"));
 end Transformer;

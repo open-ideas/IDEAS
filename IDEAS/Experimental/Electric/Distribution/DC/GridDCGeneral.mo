@@ -1,6 +1,5 @@
 within IDEAS.Experimental.Electric.Distribution.DC;
 model GridDCGeneral
-  import IDEAS;
 
 replaceable parameter Data.Interfaces.DirectCurrent.GridType grid
     "Choose a grid Layout" annotation (choicesAllMatching=true);
@@ -92,5 +91,14 @@ annotation(Icon(graphics={
           points={{48,20},{48,0},{96,0}},
           color={0,0,255},
           smooth=Smooth.None)}),                                    Diagram(
-        graphics));
+        graphics),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
+</ul>
+</html>"));
 end GridDCGeneral;
