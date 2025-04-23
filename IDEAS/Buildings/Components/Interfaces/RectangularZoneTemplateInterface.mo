@@ -202,7 +202,7 @@ partial model RectangularZoneTemplateInterface
   parameter Interfaces.WindowDynamicsType windowDynamicsType=IDEAS.Buildings.Components.Interfaces.WindowDynamicsType.Two
     "Type of dynamics for glazings and frames: using zero, one combined or two states"
     annotation(Dialog(group="Windows", tab="Advanced"));
-  parameter SI.TemperatureDifference dT_nominal_win=-3
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_win=-3
     "Nominal temperature difference used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(group="Convective heat transfer", tab="Advanced"));
   parameter Boolean linExtCon=sim.linExtCon
@@ -215,35 +215,35 @@ partial model RectangularZoneTemplateInterface
     "= true, if exterior radiative heat transfer for windows should be linearised"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  parameter SI.TemperatureDifference dT_nominal_bou=-1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_bou=-1
     "Nominal temperature difference for boundary walls, used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_out=-3
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_out=-3
     "Nominal temperature difference for outer walls, used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_sla=-3
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_sla=-3
     "Nominal temperature difference of slab on ground, used for linearisation, negative temperatures indicate the solid is colder"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.Temperature TeAvg=273.15 + 10.8
+  parameter Modelica.Units.SI.Temperature TeAvg=273.15 + 10.8
     "Annual average outdoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  parameter SI.Temperature TiAvg=273.15 + 22
+  parameter Modelica.Units.SI.Temperature TiAvg=273.15 + 22
     "Annual average indoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  parameter SI.TemperatureDifference dTeAvg=4
+  parameter Modelica.Units.SI.TemperatureDifference dTeAvg=4
     "Amplitude of variation of monthly average outdoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  parameter SI.TemperatureDifference dTiAvg=2
+  parameter Modelica.Units.SI.TemperatureDifference dTiAvg=2
     "Amplitude of variation of monthly average indoor temperature"
     annotation(Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
   parameter Modelica.Units.SI.Temperature T_start_gro[3]=fill(TeAvg, 3)
     "Initial temperatures of the ground layers (with first value = deepest layer
     and last value = shallowest layer"
     annotation(Evaluate=true,Dialog(tab="Floor", group="Slab on ground", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
-  parameter SI.TemperatureDifference dT_nominal_intA=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_intA=1
     "Nominal temperature difference between zone air and interior walls, used for linearisation"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
-  parameter SI.TemperatureDifference dT_nominal_intB=1
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal_intB=1
     "Nominal temperature difference between interior walls exterior connection, used for linearisation"
     annotation(Dialog(tab="Advanced", group="Convective heat transfer"));
   replaceable parameter IDEAS.Buildings.Data.Constructions.CavityWall conTypA
@@ -300,27 +300,27 @@ partial model RectangularZoneTemplateInterface
     choicesAllMatching=true,
     Placement(transformation(extent={{-228,-72},{-224,-68}})),
     Dialog(tab="Internal wall",group="Construction details", enable=hasInt));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingA
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face A"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face A", group="Window details",
            enable = hasWinA));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingB
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingB
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face B"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face B", group="Window details",
            enable = hasWinB));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingC
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingC
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face C"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face C", group="Window details",
            enable = hasWinC));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingD
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingD
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of face D"
     annotation (choicesAllMatching=true,
     Dialog(tab="Face D", group="Window details",
            enable = hasWinD));
-  replaceable IDEAS.Buildings.Data.Glazing.Ins2 glazingCei
+  replaceable IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingCei
     constrainedby IDEAS.Buildings.Data.Interfaces.Glazing "Glazing type of window of ceiling"
     annotation (
            choicesAllMatching=true,
@@ -496,40 +496,40 @@ partial model RectangularZoneTemplateInterface
   parameter Boolean hasBuildingShadeA=false
     "=true, to enable computation of shade cast by opposite building or object on OuterWall"
     annotation(Dialog(tab="Face A", group="Building shade", enable=(bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall)));
-  parameter SI.Length LShaA=0
+  parameter Modelica.Units.SI.Length LShaA=0
     "Distance between shading object and wall, perpendicular to wall"
     annotation(Dialog(enable=hasBuildingShadeA,tab="Face A", group="Building shade"));
-  parameter SI.Length dhShaA=0
+  parameter Modelica.Units.SI.Length dhShaA=0
     "Height difference between top of shading object and top of wall A"
     annotation(Dialog(enable=hasBuildingShadeA,tab="Face A", group="Building shade"));
   parameter Boolean hasBuildingShadeB=false
     "=true, to enable computation of shade cast by opposite building or object on OuterWall"
     annotation(Dialog(tab="Face B", group="Building shade", enable=(bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall)));
-  parameter SI.Length LShaB=0
+  parameter Modelica.Units.SI.Length LShaB=0
     "Distance between shading object and wall, perpendicular to wall"
     annotation(Dialog(enable=hasBuildingShadeB,tab="Face B", group="Building shade"));
-  parameter SI.Length dhShaB=0
+  parameter Modelica.Units.SI.Length dhShaB=0
     "Height difference between top of shading object and top of wall B"
     annotation(Dialog(enable=hasBuildingShadeB,tab="Face B", group="Building shade"));
   parameter Boolean hasBuildingShadeC=false
     "=true, to enable computation of shade cast by opposite building or object on OuterWall"
     annotation(Dialog(tab="Face C", group="Building shade", enable=(bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall)));
-  parameter SI.Length LShaC=0
+  parameter Modelica.Units.SI.Length LShaC=0
     "Distance between shading object and wall, perpendicular to wall"
     annotation(Dialog(enable=hasBuildingShadeC,tab="Face C", group="Building shade"));
-  parameter SI.Length dhShaC=0
+  parameter Modelica.Units.SI.Length dhShaC=0
     "Height difference between top of shading object and top of wall C"
     annotation(Dialog(enable=hasBuildingShadeC,tab="Face C", group="Building shade"));
   parameter Boolean hasBuildingShadeD=false
     "=true, to enable computation of shade cast by opposite building or object on OuterWall"
     annotation(Dialog(tab="Face D", group="Building shade", enable=(bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall)));
-  parameter SI.Length LShaD=0
+  parameter Modelica.Units.SI.Length LShaD=0
     "Distance between shading object and wall, perpendicular to wall"
     annotation(Dialog(enable=hasBuildingShadeD,tab="Face D", group="Building shade"));
-  parameter SI.Length dhShaD=0
+  parameter Modelica.Units.SI.Length dhShaD=0
     "Height difference between top of shading object and top of wall D"
     annotation(Dialog(enable=hasBuildingShadeD,tab="Face D", group="Building shade"));
-  parameter SI.Length PWall = (if hasOutA then lA else 0) + (if hasOutB then lB else 0) + (if hasOutC then lC else 0) + (if hasOutD then lD else 0)
+  parameter Modelica.Units.SI.Length PWall = (if hasOutA then lA else 0) + (if hasOutB then lB else 0) + (if hasOutC then lC else 0) + (if hasOutD then lD else 0)
     "Total floor slab perimeter length" annotation(Dialog(tab="Advanced", group="SlabOnGround", enable=(bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround)));
 
 
@@ -1546,7 +1546,18 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
-March 27, 2024, by Lucas Verleyen:<br>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
+January 30, 2025, by Jelger Jansen:<br/>
+Updated default window glazing type to avoid obsolete type warning.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1402>#1402</a>
+and <a href=https://github.com/open-ideas/IDEAS/issues/1410>#1410</a>.
+</li>
+<li>
+March 27, 2024, by Lucas Verleyen:<br/>
 Added parameter <code>T_start_gro</code> for initial temperature of the ground (<code>layGro</code>).<br>
 According to the changes in SlabOnGround.<br>
 See <a href=https://github.com/open-ideas/IDEAS/issues/1292>#1292</a> for more information.
