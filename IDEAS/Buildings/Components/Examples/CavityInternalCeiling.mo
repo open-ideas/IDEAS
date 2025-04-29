@@ -1,0 +1,43 @@
+within IDEAS.Buildings.Components.Examples;
+model CavityInternalCeiling
+  "Illustration of an internal ceiling with an operable cavity"
+  extends IDEAS.Buildings.Examples.ZoneExample(
+    sim(                                       interZonalAirFlowType     = IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),internalWall(
+      redeclare parameter
+        IDEAS.Buildings.Validation.Data.Constructions.LightRoof
+        constructionType,
+      incOpt=3,                                                                                                                                    hasCavity = true),
+    zone1(hFloor=zone.hFloor + zone.hZone + 0.15));
+equation
+
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)),
+    experiment(
+      StopTime=108000,
+      Interval=720,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Dassl"),
+    __Dymola_Commands(file="Resources/Scripts/Dymola/Buildings/Components/Examples/CavityInternalCeiling.mos"
+        "Simulate and plot"),
+    Documentation(info="<html>
+<p>
+This example contains an example use of a controllable cavity in an internal wall. Note that it requires TwoPorts interzonal air flow.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+February 05 2025, Klaas De Jonge<br/>
+First implementation.
+</li>
+</ul>
+</html>"),
+    __Dymola_experimentSetupOutput,
+    __Dymola_experimentFlags(
+      Advanced(
+        EvaluateAlsoTop=false,
+        GenerateAnalyticJacobian=true,
+        OutputModelicaCode=false),
+      Evaluate=true,
+      OutputCPUtime=true,
+      OutputFlatModelica=false));
+end CavityInternalCeiling;

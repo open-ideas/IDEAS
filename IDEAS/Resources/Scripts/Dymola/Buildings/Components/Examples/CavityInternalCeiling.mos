@@ -1,0 +1,10 @@
+simulateModel("IDEAS.Buildings.Components.Examples.CavityInternalCeiling", stopTime=108000, method="Dassl", tolerance=1e-06, resultFile="CavityInternalCeiling");
+
+createPlot(id=1, 
+y={"zone1.TSensor", "zone.TSensor"}, 
+range={0.0, 108000.0, 274.0, 294.0}, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}});
+createPlot(id=1, position={0, 0, 1549, 435}, y={"zone.airModel.phi", "zone1.airModel.phi"}, range={0.0, 108000.0, 0.64, 0.88}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
