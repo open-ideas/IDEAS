@@ -114,7 +114,11 @@ equation
   connect(hForcedConExt, stateShading1.hForcedConExt) annotation (Line(points={{-60,110},
           {-8,110},{-8,-3.33333},{-25.5,-3.33333}},          color={0,0,127}));
   connect(TEnv, stateShading1.TEnv) annotation (Line(points={{-60,90},{-10,90},
-          {-10,-4.66667},{-25.5,-4.66667}},color={0,0,127}));
+          {-10,-4.66667},{-25.5,-4.66667}},color={0,0,127}));  
+  connect(stateShading2.m_flow, m_flow) annotation(
+    Line(points = {{2, -18}, {40, -18}, {40, -90}}, color = {0, 0, 127}));
+  connect(stateShading1.m_flow, m_flow) annotation(
+    Line(points = {{-22, -18}, {40, -18}, {40, -90}}, color = {0, 0, 127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
 <li>

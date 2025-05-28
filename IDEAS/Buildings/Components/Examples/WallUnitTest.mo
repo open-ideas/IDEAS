@@ -1,7 +1,9 @@
 within IDEAS.Buildings.Components.Examples;
 model WallUnitTest "Unit test for verifying results for all wall components"
+  package Medium = IDEAS.Media.Air;
   extends Modelica.Icons.Example;
   BoundaryWall boundaryWall(
+    redeclare package Medium=Medium,
     redeclare Data.Constructions.CavityWall constructionType,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
@@ -9,6 +11,7 @@ model WallUnitTest "Unit test for verifying results for all wall components"
     use_T_in=true) "Boundary wall example"
     annotation (Placement(transformation(extent={{-36,60},{-26,80}})));
   InternalWall internalWall(
+    redeclare package Medium=Medium,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
     A=2,
@@ -17,6 +20,7 @@ model WallUnitTest "Unit test for verifying results for all wall components"
     "Internal wall example"
     annotation (Placement(transformation(extent={{-36,20},{-24,40}})));
   OuterWall outerWall(
+    redeclare package Medium=Medium,
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
     A=2,
@@ -24,28 +28,27 @@ model WallUnitTest "Unit test for verifying results for all wall components"
     "Outer wall example"
     annotation (Placement(transformation(extent={{-36,-20},{-26,0}})));
   SlabOnGround slabOnGround(
+    redeclare package Medium=Medium,
     inc=IDEAS.Types.Tilt.Floor,
     azi=IDEAS.Types.Azimuth.S,
     A=2,
     redeclare Validation.Data.Constructions.HeavyFloor constructionType)
     "Slab on ground example"
     annotation (Placement(transformation(extent={{-36,-60},{-26,-40}})));
-public
-  inner BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-public
+  inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType = IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts) annotation(
+    Placement(transformation(extent = {{-100, 80}, {-80, 100}})));
   Modelica.Blocks.Sources.Constant Tconst(k=300)
     "Constant temperature boundary condition"
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-  Interfaces.DummyConnection dummyConnection(isZone=true)
+  Interfaces.DummyConnection dummyConnection(redeclare package Medium=Medium, isZone=true)
     annotation (Placement(transformation(extent={{20,60},{0,80}})));
-  Interfaces.DummyConnection dummyConnection1(isZone=true)
+  Interfaces.DummyConnection dummyConnection1(redeclare package Medium=Medium, isZone=true)
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
-  Interfaces.DummyConnection dummyConnection2(isZone=true)
+  Interfaces.DummyConnection dummyConnection2(redeclare package Medium=Medium, isZone=true)
     annotation (Placement(transformation(extent={{20,-20},{0,0}})));
-  Interfaces.DummyConnection dummyConnection3(isZone=true)
+  Interfaces.DummyConnection dummyConnection3(redeclare package Medium=Medium, isZone=true)
     annotation (Placement(transformation(extent={{20,-60},{0,-40}})));
-  Interfaces.DummyConnection dummyConnection4(isZone=true)
+  Interfaces.DummyConnection dummyConnection4(redeclare package Medium=Medium, isZone=true)
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 equation
   connect(Tconst.y, boundaryWall.T) annotation (Line(points={{-59,70},{-48,70},
@@ -88,6 +91,10 @@ For windows see other examples.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+January 2, 2023, by Filip Jorissen:<br/>
+Added support for stack effect airflow.
+</li>
 <li>
 July 19, 2016, by Filip Jorissen:<br/>
 Revised implementation that uses <code>DummyConnections</code>.

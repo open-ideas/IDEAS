@@ -29,7 +29,7 @@ model DetailedHouse5 "New building model with two connected zones"
     A_winA=1.5*1.4,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo)
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
       "Northern part of the zone" annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = MediumAir,
@@ -103,6 +103,13 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 revisions="<html>
 <ul>
 <li>
+April 14, 2025, by Anna Dell'Isola:<br/>
+Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
+#1404</a>,
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">
+#1418</a>
+</li>
+<li>
 January 14, 2025, by Lone Meertens:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>
@@ -118,7 +125,7 @@ First implementation for the IDEAS crash course.
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse5.mos"
         "Simulate and plot"));

@@ -15,12 +15,12 @@ model MvLvTransformer_1P
     "Grid frequency: should normally not be changed when simulating belgian grids!";
   parameter Modelica.Units.SI.ComplexVoltage VSource=230 + 0*Modelica.ComplexMath.j
     "Voltage" annotation (choices(
-      choice=(230*1) + 0*MCM.j "100% at HVpin of transformer",
-      choice=(230*1.02) + 0*MCM.j "102% at HVpin of transformer",
-      choice=(230*1.05) + 0*MCM.j "105% at HVpin of transformer",
-      choice=(230*1.1) + 0*MCM.j "110% at HVpin of transformer",
-      choice=(230*0.95) + 0*MCM.j "95% at HVpin of transformer",
-      choice=(230*0.9) + 0*MCM.j "90% at HVpin of transformer"));
+      choice=(230*1) + 0* Modelica.ComplexMath.j "100% at HVpin of transformer",
+      choice=(230*1.02) + 0* Modelica.ComplexMath.j "102% at HVpin of transformer",
+      choice=(230*1.05) + 0* Modelica.ComplexMath.j "105% at HVpin of transformer",
+      choice=(230*1.1) + 0* Modelica.ComplexMath.j "110% at HVpin of transformer",
+      choice=(230*0.95) + 0* Modelica.ComplexMath.j "95% at HVpin of transformer",
+      choice=(230*0.9) + 0* Modelica.ComplexMath.j "90% at HVpin of transformer"));
 
   final parameter Modelica.Units.SI.HeatFlowRate traLosQRef=transformer.P0 +
       Modelica.ComplexMath.real(transformer.Zd)*(transformer.Sn/3/
@@ -212,5 +212,14 @@ equation
           points={{50,-60},{80,-60},{80,40},{140,40}},
           color={85,170,255},
           smooth=Smooth.None,
-          pattern=LinePattern.Dash)}));
+          pattern=LinePattern.Dash)}),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.ComplexMath.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/Experimental/Electric/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+</ul>
+</html>"));
 end MvLvTransformer_1P;

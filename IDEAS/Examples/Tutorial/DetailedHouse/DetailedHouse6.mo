@@ -7,7 +7,7 @@ model DetailedHouse6
   Fluid.HeatPumps.ScrollWaterToWater heaPum(
     m2_flow_nominal=pumPri.m_flow_nominal,
     enable_variable_speed=false,
-    m1_flow_nominal=pumSec.m_flow_nominal,
+    m1_flow_nominal=pumEmi.m_flow_nominal,
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumWater,
     datHeaPum=
@@ -52,7 +52,7 @@ model DetailedHouse6
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={50,30})));
-  Fluid.Movers.FlowControlled_dp pumSec(
+  Fluid.Movers.FlowControlled_dp pumEmi(
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
@@ -91,32 +91,43 @@ model DetailedHouse6
     "Electrical energy meter with conversion to kWh"
     annotation (Placement(transformation(extent={{280,40},{300,60}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
-        MediumWater, m_flow_nominal=pumSec.m_flow_nominal)
+        MediumWater, m_flow_nominal=pumEmi.m_flow_nominal)
     "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{146,70},{126,50}})));
   Fluid.Sources.Boundary_pT bou1(
     nPorts=1,
-    redeclare package Medium = MediumWater,
-    T=283.15) "Cold water source for heat pump"
+    redeclare package Medium = MediumWater)
+              "Cold water source for heat pump"
               annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={110,90})));
   Fluid.Storage.Stratified tan(
     redeclare package Medium = MediumWater,
-    m_flow_nominal=pumSec.m_flow_nominal,
+    m_flow_nominal=pumEmi.m_flow_nominal,
     VTan=0.1,
     hTan=0.5,
     dIns=0.1) "Buffer tank for avoiding excessive heat pump on/off switches"
-    annotation (Placement(transformation(extent={{178,50},{158,70}})));
+    annotation (Placement(transformation(extent={{146,0},{166,20}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTan
+    "Temperature sensor of tank volume"
+    annotation (Placement(transformation(extent={{138,2},{122,18}})));
+  Fluid.Movers.FlowControlled_dp pumSec(
+    dp_nominal=20000,
+    inputType=IDEAS.Fluid.Types.InputType.Constant,
+    m_flow_nominal=pumEmi.m_flow_nominal,
+    redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Circulation pump at secondary side"
+    annotation (Placement(transformation(extent={{180,50},{160,70}})));
 equation
   connect(val.port_b, rad.port_a)
     annotation (Line(points={{50,20},{50,0}}, color={0,127,255}));
   connect(val1.port_b, rad1.port_a)
     annotation (Line(points={{90,20},{90,0}}, color={0,127,255}));
-  connect(val.port_a, pumSec.port_b)
+  connect(val.port_a,pumEmi. port_b)
     annotation (Line(points={{50,40},{50,60},{100,60}}, color={0,127,255}));
-  connect(val1.port_a, pumSec.port_b)
+  connect(val1.port_a,pumEmi. port_b)
     annotation (Line(points={{90,40},{90,60},{100,60}}, color={0,127,255}));
   connect(heaPum.port_a2, pumPri.port_b)
     annotation (Line(points={{196,20},{196,60},{220,60}}, color={0,127,255}));
@@ -137,19 +148,24 @@ equation
   connect(recZon.TSensor, val.T) annotation (Line(points={{11,32},{26,32},{26,30},{39.4,30}}, color={0,0,127}));
   connect(recZon1.TSensor, val1.T) annotation (Line(points={{11,-28},{32,-28},{32,
           12},{79.4,12},{79.4,30}}, color={0,0,127}));
-  connect(bou1.ports[1], pumSec.port_b)
+  connect(bou1.ports[1],pumEmi. port_b)
     annotation (Line(points={{110,80},{100,80},{100,60}}, color={0,127,255}));
-  connect(senTemSup.port_b, pumSec.port_a)
+  connect(senTemSup.port_b,pumEmi. port_a)
     annotation (Line(points={{126,60},{120,60}}, color={0,127,255}));
-  connect(senTemSup.port_a, tan.port_b)
-    annotation (Line(points={{146,60},{158,60},{158,50},{168,50}},
-                                                 color={0,127,255}));
-  connect(tan.port_a, heaPum.port_b1)
-    annotation (Line(points={{168,70},{184,70},{184,20}}, color={0,127,255}));
-  connect(rad1.port_b, heaPum.port_a1) annotation (Line(points={{90,-20},{90,
-          -30},{184,-30},{184,0}}, color={0,127,255}));
-  connect(rad.port_b, heaPum.port_a1) annotation (Line(points={{50,-20},{50,-30},
-          {184,-30},{184,0}}, color={0,127,255}));
+  connect(heaPum.port_a1, tan.port_b) annotation (Line(points={{184,0},{184,-32},
+          {156,-32},{156,0}}, color={0,127,255}));
+  connect(tan.heaPorVol[1], senTan.port)
+    annotation (Line(points={{156,10},{138,10}},        color={191,0,0}));
+  connect(heaPum.port_b1, pumSec.port_a)
+    annotation (Line(points={{184,20},{184,60},{180,60}}, color={0,127,255}));
+  connect(pumSec.port_b, tan.port_a)
+    annotation (Line(points={{160,60},{156,60},{156,20}}, color={0,127,255}));
+  connect(senTemSup.port_a, tan.fluPorVol[1])
+    annotation (Line(points={{146,60},{146,10},{151,10}}, color={0,127,255}));
+  connect(rad1.port_b, tan.fluPorVol[2]) annotation (Line(points={{90,-20},{90,
+          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
+  connect(rad.port_b, tan.fluPorVol[2]) annotation (Line(points={{50,-20},{50,
+          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
@@ -165,7 +181,7 @@ equation
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
 This model extends <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5\">
@@ -243,12 +259,12 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 <p>
 This example illustrates the importance of control, which is currently not modelled. All pumps and the heat
 pump are assumed to be active continuously, which is detrimental for the system performance. The COP
-(heaPum.com.COP) is only about 2.9.
+(heaPum.com.COP) is only about 2.5.
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
-January 14, 2025, by Lone Meertens:<br/>
+April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>
 </li>

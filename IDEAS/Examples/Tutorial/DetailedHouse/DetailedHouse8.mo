@@ -45,7 +45,7 @@ Check the contents of the generated file. Depending on the chosen value for the 
 </html>", revisions="<html>
 <ul>
 <li>
-January 14, 2025, by Lone Meertens:<br/>
+April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>
 </li>
@@ -60,7 +60,7 @@ First implementation for the IDEAS crash course.
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
         "Simulate and plot"));

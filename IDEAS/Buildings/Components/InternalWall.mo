@@ -1,15 +1,27 @@
 within IDEAS.Buildings.Components;
+
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
-    custom_q50=2,
+    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(inc, 0) or IDEAS.Utilities.Math.Functions.isAngle(inc, Modelica.Constants.pi) then 0 else 2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
     Qgai(y=(if sim.openSystemConservationOfEnergy or not sim.computeConservationOfEnergy
            then 0 else sum(port_emb.Q_flow))),
-    q50_zone(v50_surf=0),
-    final QTra_design(fixed=false));
+	final QTra_design(fixed=false),
+    q50_zone(v50_surf=0, nDum=4),
+    crackOrOperableDoor(
+      h_a1=-0.5*hzone_b + 0.75*hVertical + hRelSurfBot_b,
+      h_b2=-0.5*hzone_b + 0.25*hVertical + hRelSurfBot_b,
+      hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b,
+      hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a,
+      openDoorOnePort=true,
+      useDoor=hasCavity,
+      use_y=use_y_doo,
+      wOpe=w,
+      hOpe=h,
+      CDOpe=CD));
   //using custom q50 since this model is not an external component
 
   parameter Boolean linIntCon_b=sim.linIntCon
@@ -20,75 +32,84 @@ model InternalWall "interior opaque wall between two zones"
     annotation (Dialog(tab="Convection"));
   Modelica.Units.SI.Temperature TRef_b = propsBus_b.TRefZon
     "Reference temperature of zone on side of propsBus_b, for calculation of design heat loss";
+
   // open door modelling
   parameter Boolean hasCavity = false
     "=true, to model open door or cavity in wall"
     annotation(Dialog(group="Cavity or open door"));
-  parameter Modelica.Units.SI.Length h=2
+  parameter Modelica.Units.SI.Length h = 2
     "Height of (rectangular) cavity in wall"
-    annotation (Dialog(enable=hasCavity, group="Cavity or open door"));
-  parameter Modelica.Units.SI.Length w=1
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
+  parameter Modelica.Units.SI.Length w = 1
     "Width of (rectangular) cavity in wall"
-    annotation (Dialog(enable=hasCavity, group="Cavity or open door"));
-  parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n
-    "Gravity, for computation of buoyancy" annotation (Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
-  parameter Modelica.Units.SI.Pressure p=101300
-    "Absolute pressure for computation of buoyancy" annotation (Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
-  parameter Modelica.Units.SI.Density rho=p/r/T
-    "Nominal density for computation of buoyancy mass flow rate" annotation (
-      Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
-  parameter Modelica.Units.SI.SpecificHeatCapacity c_p=1013
-    "Nominal heat capacity for computation of buoyancy heat flow rate"
-    annotation (Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
-  parameter Modelica.Units.SI.Temperature T=293
-    "Nominal temperature for linearising heat flow rate" annotation (Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
-  parameter Modelica.Units.SI.TemperatureDifference dT=1
-    "Nominal temperature difference when linearising heat flow rate"
-    annotation (Dialog(
-      enable=hasCavity,
-      group="Cavity or open door",
-      tab="Advanced"));
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
 
+  parameter  Modelica.Units.SI.Length hRelOpeBot_a=0 "Vertical distance at propsbus a between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door"));
+  parameter  Modelica.Units.SI.Length hRelOpeBot_b=0 "Vertical distance at propsbus b between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door"));
+  parameter Modelica.Units.SI.Acceleration g = Modelica.Constants.g_n
+    "Gravity, for computation of buoyancy"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.Pressure p=101300
+    "Absolute pressure for computation of buoyancy"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.Density rho = p/r/T
+    "Nominal density for computation of buoyancy mass flow rate"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.SpecificHeatCapacity c_p = 1013
+    "Nominal heat capacity for computation of buoyancy heat flow rate"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.Temperature T=293
+    "Nominal temperature for linearising heat flow rate"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Modelica.Units.SI.TemperatureDifference dT = 1
+    "Nominal temperature difference when linearising heat flow rate"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
+  parameter Boolean use_y_doo = false
+    "=true, to enable controllable cavity (door) input"
+    annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     redeclare final package Medium = Medium,
     numIncAndAziInBus=sim.numIncAndAziInBus,
     outputAngles=sim.outputAngles,
-    final use_port_1=sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
-    final use_port_2=sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts)
-                                   "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
-    If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling."
-        annotation (Placement(transformation(extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={-100,20}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={-50,20})));
+    final use_port_1=sim.use_port_1,
+    final use_port_2=sim.use_port_2)
+    "If inc = Floor, then propsbus_b should be connected to the zone below this floor.
+      If inc = Ceiling, then propsbus_b should be connected to the zone above this ceiling." 
+      annotation(
+    Placement(transformation(extent = {{-20, -20}, {20, 20}}, rotation = 90, origin = {-100, 20}), iconTransformation(extent = {{-20, -20}, {20, 20}}, rotation = 90, origin = {-50, 20})));
+  parameter Real CD = 0.78
+    "Discharge coefficient of cavity" 
+    annotation(Dialog(group="Cavity or open door",tab="Advanced"));
+  final parameter Real hzone_b(fixed=false);
+  final parameter Real hfloor_b(fixed=false);
 
 
-  parameter Real CD=0.78 "Discharge coefficient of cavity"
-    annotation (Dialog(tab="Airflow"));
+  parameter Modelica.Units.SI.Length hRelSurfBot_b=if
+      IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor)
+       then hzone_b else 0
+    "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
+  Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe 
+    "Control input for the door" annotation(
+    Placement(visible = true, transformation(origin = {-80, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-64, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3_a(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {48, -4}, extent = {{-28, -76}, {-8, -56}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3_b(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts 
+    "Boundary for bus b" annotation(
+    Placement(transformation(origin = {-48, -4}, extent = {{28, -76}, {8, -56}}, rotation = -0)));
 protected
-  final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
-    "Wall U-value";
+  parameter Real Ope_hvert = sin(inc)*h "Vertical opening height, height of the surface projected to the vertical, 0 for openings in horizontal floors and ceilings" annotation (
+    Dialog(enable=hasCavity,group="Cavity or open door"));
+  final parameter Real U_value = 1/(1/8 + sum(constructionType.mats.R) + 1/8) "Wall U-value";
   constant Real r = 287 "Gas constant";
-
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection
-    intCon_b(
+  Modelica.Blocks.Sources.Constant constOne(final k = 1) if useDooOpe and not use_y_doo "Constant value of one";
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.InteriorConvection intCon_b(
     linearise=linIntCon_b or sim.linearise,
     dT_nominal=dT_nominal_b,
     final inc=incInt + Modelica.Constants.pi,
@@ -105,13 +126,10 @@ protected
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow iSolDif1(final Q_flow=0);
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow iSolDir1(final Q_flow=0);
   Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow Qgai_b(final Q_flow=0);
-  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy
-    E_b;
+  IDEAS.Buildings.Components.BaseClasses.ConservationOfEnergy.PrescribedEnergy E_b;
   Modelica.Blocks.Sources.Constant E0(final k=0)
-    "All internal energy is assigned to right side";
-
-  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.CavityAirflow
-                                        theConDoor(
+    "All internal energy is assigned to right side"; 
+  IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.CavityAirflow theConDoor(
     linearise=sim.linearise or linIntCon_a or linIntCon_b,
     h=h,
     w=w,
@@ -124,53 +142,32 @@ protected
     if hasCavity and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
-public
-  IDEAS.Airflow.Multizone.DoorDiscretizedOpen dooOpe(
-    redeclare package Medium = Medium,
-    wOpe=w,
-    hOpe=h)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
-    "2-port model for open door"
-    annotation (Placement(transformation(extent={{-10,80},{10,100}})));
-  Airflow.Multizone.Orifice resDoor(
-    redeclare package Medium = Medium,
-    A=w*h,
-    CD=CD)
-    if hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
-    "1-port model for open door"
-    annotation (Placement(transformation(extent={{-10,58},{10,78}})));
+  final parameter Boolean useDooOpe = hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts;
+
 initial equation
+  hzone_b = propsBus_b.hzone;
+  hfloor_b = propsBus_b.hfloor;
   QTra_design=U_value*A*(TRefZon - TRef_b)
     "TRefZon is the reference temperature for heat loss calculations of the zone connected to propsbus_a,
      TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
+
 equation
-  assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall),
-    "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.",
-    level=AssertionLevel.warning);
-  connect(layMul.port_b, propsBus_b.surfRad) annotation (Line(
-      points={{-10,0},{-18,0},{-18,20.1},{-100.1,20.1}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(propsBus_b.surfCon, intCon_b.port_b) annotation (Line(
-      points={{-100.1,20.1},{-48,20.1},{-48,0},{-42,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(layMul.port_b, intCon_b.port_a) annotation (Line(
-      points={{-10,0},{-22,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(layMul.iEpsSw_b, propsBus_b.epsSw) annotation (Line(
-      points={{-10,4},{-22,4},{-22,20.1},{-100.1,20.1}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(layMul.iEpsLw_b, propsBus_b.epsLw) annotation (Line(
-      points={{-10,8},{-20,8},{-20,20.1},{-100.1,20.1}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(layMul.area, propsBus_b.area) annotation (Line(
-      points={{0,10},{0,20.1},{-100.1,20.1}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(constOne.y, crackOrOperableDoor.y);
+//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,0) and hAbs_floor_a>hfloor_b, getInstanceName()+ "is a ceiling, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+//assert(IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) and hAbs_floor_a<hfloor_b, getInstanceName()+ "is a floor, but the floor of the zone at probsbus_b lies above the floor of zone at probsbus_a, this is probably a mistake",level=AssertionLevel.warning);
+  assert(hasCavity == false or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
+  connect(layMul.port_b, propsBus_b.surfRad) annotation(
+    Line(points = {{-10, 0}, {-18, 0}, {-18, 20.1}, {-100.1, 20.1}}, color = {191, 0, 0}, smooth = Smooth.None));
+  connect(propsBus_b.surfCon, intCon_b.port_b) annotation(
+    Line(points = {{-100.1, 20.1}, {-48, 20.1}, {-48, 0}, {-42, 0}}, color = {191, 0, 0}, smooth = Smooth.None));
+  connect(layMul.port_b, intCon_b.port_a) annotation(
+    Line(points = {{-10, 0}, {-22, 0}}, color = {191, 0, 0}, smooth = Smooth.None));
+  connect(layMul.iEpsSw_b, propsBus_b.epsSw) annotation(
+    Line(points = {{-10, 4}, {-22, 4}, {-22, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}, smooth = Smooth.None));
+  connect(layMul.iEpsLw_b, propsBus_b.epsLw) annotation(
+    Line(points = {{-10, 8}, {-20, 8}, {-20, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}, smooth = Smooth.None));
+  connect(layMul.area, propsBus_b.area) annotation(
+    Line(points = {{0, 10}, {0, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(iSolDif1.port, propsBus_b.iSolDif);
   connect(iSolDir1.port, propsBus_b.iSolDir);
   connect(QDesign_b.y, propsBus_b.QTra_design);
@@ -179,32 +176,30 @@ equation
   connect(Qgai_b.port, propsBus_b.Qgai);
   connect(E_b.port, propsBus_b.E);
   connect(E_b.E, E0.y);
-
-  connect(theConDoor.port_a, propsBus_b.surfCon) annotation (Line(points={{-10,40},
-          {-48,40},{-48,20.1},{-100.1,20.1}}, color={191,0,0}));
-  connect(theConDoor.port_b, propsBusInt.surfCon) annotation (Line(points={{10,40},
-          {46,40},{46,19.91},{56.09,19.91}},
-                                           color={191,0,0}));
-  connect(dooOpe.port_a2, propsBusInt.port_1) annotation (Line(points={{10,84},{
-          38,84},{38,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(dooOpe.port_b1, propsBusInt.port_2) annotation (Line(points={{10,96},{
-          42,96},{42,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(dooOpe.port_a1, propsBus_b.port_2) annotation (Line(points={{-10,96},{
-          -42,96},{-42,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(dooOpe.port_b2, propsBus_b.port_1) annotation (Line(points={{-10,84},{
-          -38,84},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(resDoor.port_a, propsBus_b.port_1) annotation (Line(points={{-10,68},{
-          -38,68},{-38,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(resDoor.port_b, propsBusInt.port_1) annotation (Line(points={{10,68},{
-          38,68},{38,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(res1.port_a, propsBus_b.port_1) annotation (Line(points={{20,-40},{-60,
-          -40},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(res2.port_a, propsBus_b.port_2) annotation (Line(points={{20,-60},{-60,
-          -60},{-60,20.1},{-100.1,20.1}}, color={0,127,255}));
-  connect(q50_zone.v50, propsBus_b.v50) annotation (Line(points={{79,-58},{56,
-          -58},{56,20.1},{-100.1,20.1}},   color={0,0,127}));
-  connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation (Line(points={{79,-52},
-          {56,-52},{56,20.1},{-100.1,20.1}},      color={0,0,127}));
+  connect(theConDoor.port_a, propsBus_b.surfCon) annotation(
+    Line(points = {{-10, 40}, {-48, 40}, {-48, 20.1}, {-100.1, 20.1}}, color = {191, 0, 0}));
+  connect(theConDoor.port_b, propsBusInt.surfCon) annotation(
+    Line(points = {{10, 40}, {46, 40}, {46, 19.91}, {56.09, 19.91}}, color = {191, 0, 0}));
+  connect(q50_zone.v50, propsBus_b.v50) annotation(
+    Line(points = {{79, -58}, {56, -58}, {56, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}));
+  connect(q50_zone.using_custom_q50, propsBus_b.use_custom_q50) annotation(
+    Line(points = {{79, -52}, {56, -52}, {56, 20.1}, {-100.1, 20.1}}, color = {0, 0, 127}));
+   if sim.use_port_1 then
+    connect(crackOrOperableDoor.port_a1, propsBus_b.port_1) annotation(
+      Line(points = {{20, -46}, {-60, -46}, {-60, 20}, {-100, 20}}, color = {0, 127, 255}));
+  end if;
+  if sim.use_port_2 then
+    connect(crackOrOperableDoor.port_b2, propsBus_b.port_2) annotation(
+      Line(points = {{20, -58}, {-58, -58}, {-58, 20}, {-100, 20}}));
+  end if;
+  connect(y_doo, crackOrOperableDoor.y) annotation(
+    Line(points = {{-80, 90}, {-52, 90}, {-52, -52}, {20, -52}}, color = {0, 0, 127}));
+  connect(boundary3_b.ports[1], propsBus_b.port_3) annotation(
+    Line(points = {{-40, -70}, {-52, -70}, {-52, 20}, {-100, 20}}, color = {0, 127, 255}));
+  connect(boundary3_a.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{40, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
+  connect(q50_zone.dummy_h[3], propsBus_b.hzone);
+  connect(q50_zone.dummy_h[4], propsBus_b.hfloor);
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
         graphics={
@@ -254,7 +249,7 @@ Each propsbus needs to be connected to a zone, which may be the same zone.
 </p>
 <p>
 Note that this model is not symmetric: the convection equations depend on the inclination <code>inc</code>,
-which is turned 180 degrees between both side. The value of <code>inc</code> is applied to the right side of the model.
+which is turned 180 degrees between both side. The value of <code>inc</code> is applied to the right side of the model (propsBus_a).
 </p>
 <p>
 Parameter <code>hasCavity</code> can be set to <code>true</code> to simulate heat transfer
@@ -262,12 +257,29 @@ through a cavity such as an open door in a simplified way.
 The cavity height <code>h</code> and width <code>w</code> then have to be specified.
 We assume that the value of <code>A</code> excludes the surface area of the cavity.
 </p>
-</html>", revisions="<html>
+</html>", revisions = "<html>
 <ul>
+<li>
+January 24, 2025, by Klaas De Jonge:<br/>
+Add dummy connections for <code>hzone</code> and <code>hfloor</code> in <code>propsbus_b</code> to avoid translation warnings.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>
+</li>
 <li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for stack-effect interzonal airflow heights.
+</li>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
+<li>
+July 9, 2023, by Filip Jorissen:<br/>
+Replaced door by operable door.
 </li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>

@@ -6,9 +6,9 @@ model WindowEN673 "Verifies U value of a glazing record"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   replaceable package Medium = IDEAS.Media.Air "Air medium";
-  parameter SI.Temperature TZone=273.15 + 20
+  parameter Modelica.Units.SI.Temperature TZone=273.15 + 20
     "Fixed interior temperature";
-  parameter SI.Temperature TOut=273.15
+  parameter Modelica.Units.SI.Temperature TOut=273.15
     "Fixed exterior temperature";
 
   Modelica.Units.SI.CoefficientOfHeatTransfer U_EN673=windowEN673.layMul.port_a.Q_flow
@@ -92,6 +92,7 @@ model WindowEN673 "Verifies U value of a glazing record"
     inc=IDEAS.Types.Tilt.Wall,
     azi=IDEAS.Types.Azimuth.S,
     A=1,
+    frac=0,
     gainDir(k=0),
     gainDif(k=0),
     redeclare Data.Glazing.Ins2Ar2020 glazing,
@@ -106,7 +107,7 @@ protected
         TBlaSkySou=IDEAS.BoundaryConditions.Types.DataSource.Parameter,
         TBlaSky=TDryBulFixed));
 
-    parameter SI.Temperature TDryBulFixed=293.15
+    parameter Modelica.Units.SI.Temperature TDryBulFixed=293.15
       "Dry bulb temperature (used if TDryBul=Parameter)";
   end SimInfoManagerFixedBC;
 initial equation
@@ -146,6 +147,15 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Lsodar"),        Documentation(revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
+November 6, 2023, by Filip Jorissen:<br/>
+Set frame fraction to zero in normal window.
+</li>
 <li>
 July 20, 2020, by Filip Jorissen:<br/>
 Updated glazing type.

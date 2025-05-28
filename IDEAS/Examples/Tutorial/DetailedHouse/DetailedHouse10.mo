@@ -62,9 +62,9 @@ end HeavyWall;
       StartTime=10000000,
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
-      __Dymola_Algorithm="Euler",
+      Tolerance=1e-06,
       __Dymola_fixedstepsize=20,
-      Tolerance=1e-6),
+      __Dymola_Algorithm="Euler"),
   __Dymola_experimentFlags(
       Advanced(
         EvaluateAlsoTop=true,
@@ -75,9 +75,10 @@ end HeavyWall;
       OutputFlatModelica=false),
     Documentation(info="<html>
 <p>
-The created models tend to exhibit slow performance, with computation time significantly increasing due to 
-controller oscillations or frequent on/off switching of the heat pump. These effects cause a lot of fast
-transients that force the solver to take small steps, which takes a lot of time.
+The created models present quite a good performance, however the computation time 
+can significantly increase for larger simulation time due to frequent on/off switching 
+of the heat pump. These effects cause a lot of fast transients that force the solver
+to take small steps, which takes a lot of time.
 <p>
 Fortunately, there are many tricks that can be used to speed up the solver. The fundamental principle is to
 remove small time constants from the problem.  
@@ -104,7 +105,7 @@ that you are using, including some of the more advanced parameters. To learn mor
 </html>", revisions="<html>
 <ul>
 <li>
-January 14, 2025, by Lone Meertens:<br/>
+April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
 Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
 #1404</a>
 </li>
