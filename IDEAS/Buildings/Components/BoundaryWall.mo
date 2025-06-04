@@ -4,31 +4,36 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     final custom_q50=0,
     final use_custom_q50=true,
     final nWin=1,
-    QTra_design=U_value*A*(273.15 + 21 - TRef_a),
     dT_nominal_a=-1,
-    add_cracks=false,
+    add_door=false,
+    final QTra_design(fixed=false),
     layMul(disableInitPortB=use_T_in or use_T_fixed, monLay(monLayDyn(each
             addRes_b=(sim.lineariseDymola and (use_T_in or use_T_fixed))))));
 
+  parameter Boolean use_T_in = false
+    "Use a temperature boundary condition which is read from the input connector T_in"
+    annotation(Dialog(group="Boundary conditions"));
   parameter Boolean use_T_fixed = false
-    "Get the boundary temperature from the input connector"
+    "Use a fixed temperature boundary condition which is read from the parameter T_fixed"
     annotation(Dialog(group="Boundary conditions"));
   parameter Modelica.Units.SI.Temperature T_fixed=294.15
     "Fixed boundary temperature"
-    annotation (Dialog(group="Boundary conditions", enable=use_T_fixed));
-  parameter Boolean use_T_in = false
-    "Get the boundary temperature from the input connector"
-    annotation(Dialog(group="Boundary conditions"));
+    annotation (Dialog(group="Boundary conditions",enable=use_T_fixed));
+  parameter Modelica.Units.SI.Temperature T_in_nom=T_fixed
+    "Nominal boundary temperature, for calculation of design heat loss"
+    annotation (Dialog(group="Design power", tab="Advanced",enable=use_T_fixed or use_T_in));
   parameter Boolean use_Q_in = false
-    "Get the boundary heat flux from the input connector"
+    "Use a heat flow boundary condition which is read from the input connection Q_in"
     annotation(Dialog(group="Boundary conditions"));
-
+  parameter Modelica.Units.SI.HeatFlowRate Q_in_nom=0
+    "Nominal boundary heat flux, for calculation of design heat loss (positive if entering the wall)"
+    annotation (Dialog(group="Design power", tab="Advanced", enable=use_Q_in));
   Modelica.Blocks.Interfaces.RealInput T if use_T_in
     "Input for boundary temperature"                 annotation (Placement(
         transformation(extent={{-120,10},{-100,30}}),iconTransformation(extent={{-120,10},
             {-100,30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow if use_Q_in
-    "Input for boundary heat flow rate entering the wall" annotation (Placement(
+    "Input for boundary heat flow rate entering the wall (positive)" annotation (Placement(
         transformation(extent={{-120,-30},{-100,-10}}),
                                                     iconTransformation(extent={{-120,
             -30},{-100,-10}})));
@@ -40,18 +45,24 @@ model BoundaryWall "Opaque wall with optional prescribed heat flow rate or tempe
     "Constant block for temperature"
     annotation (Placement(transformation(extent={{-110,32},{-100,42}})));
 
-  Fluid.Sources.MassFlowSource_T       boundary1(
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
     redeclare package Medium = Medium,
     nPorts=1,
     final m_flow=1e-10)
     if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     annotation (Placement(transformation(extent={{-28,-40},{-8,-20}})));
-  Fluid.Sources.MassFlowSource_T       boundary2(
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary2(
     redeclare package Medium = Medium,
     nPorts=1,
-    final m_flow=0)
+    final m_flow=1e-10)
     if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     annotation (Placement(transformation(extent={{-28,-76},{-8,-56}})));
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)
+    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts annotation(
+    Placement(transformation(origin = {0, -14}, extent = {{-28, -76}, {-8, -56}})));
 protected
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/8)
     "Wall U-value";
@@ -64,6 +75,8 @@ protected
   IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(final numSolBus=sim.numIncAndAziInBus,
       outputAngles=sim.outputAngles)                  "Weather bus"
     annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
+initial equation
+    QTra_design=if use_T_in or use_T_fixed then U_value*A*(TRefZon - T_in_nom) else -Q_in_nom;
 equation
   assert(not (use_T_in and use_Q_in or use_T_in and use_T_fixed or use_Q_in and use_T_fixed),
     "In "+getInstanceName()+": Only one of the following options can be used simultaneously: use_T_in, use_Q_in, use_T_fixed");
@@ -107,50 +120,12 @@ equation
           {42,-30},{42,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(boundary2.ports[1], propsBusInt.port_2) annotation (Line(points={{-8,-66},
           {44,-66},{44,19.91},{56.09,19.91}},                   color={0,127,255}));
-  annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
-            100}})),
-    Icon(coordinateSystem(preserveAspectRatio=false,extent={{-60,-100},{60,100}}),
-        graphics={
-        Rectangle(
-          extent={{-50,-90},{50,-70}},
-          pattern=LinePattern.None,
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-50,80},{50,100}},
-          pattern=LinePattern.None,
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{-50,80},{50,80}},
-          color={175,175,175}),
-        Line(
-          points={{-50,-70},{50,-70}},
-          color={175,175,175}),
-        Line(
-          points={{-50,-90},{50,-90}},
-          color={175,175,175}),
-        Line(
-          points={{-50,100},{50,100}},
-          color={175,175,175}),
-        Rectangle(
-          extent={{-10,80},{10,-70}},
-          fillColor={175,175,175},
-          fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None),
-        Line(
-          points={{-10,80},{-10,-70}},
-          smooth=Smooth.None,
-          color={175,175,175}),
-        Line(
-          points={{10,80},{10,-70}},
-          smooth=Smooth.None,
-          color={0,0,0},
-          thickness=0.5)}),
-    Documentation(info="<html>
+  connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{-8, -80}, {56, -80}, {56, 20}}, color = {0, 127, 255}));
+  annotation(
+    Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -100}, {60, 100}}), graphics = {Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, -90}, {50, -70}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-50, 80}, {50, 100}}), Line(points = {{-50, 80}, {50, 80}}, color = {175, 175, 175}), Line(points = {{-50, -70}, {50, -70}}, color = {175, 175, 175}), Line(points = {{-50, -90}, {50, -90}}, color = {175, 175, 175}), Line(points = {{-50, 100}, {50, 100}}, color = {175, 175, 175}), Rectangle(fillColor = {175, 175, 175}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-10, 80}, {10, -70}}), Line(points = {{-10, 80}, {-10, -70}}, color = {175, 175, 175}), Line(points = {{10, 80}, {10, -70}}, thickness = 0.5)}),
+    Documentation(info = "<html>
 <p>
 This is a wall model that should be used
 to simulate a wall between a zone and a prescribed temperature or prescribed heat flow rate boundary condition.
@@ -169,10 +144,21 @@ to enable an input for a prescribed boundary condition temperature or heat flow 
 Alternatively, parameters <code>use_T_fixed</code> and <code>T_fixed</code> can be used
 to specify a fixed boundary condition temperature.
 It is not allowed to enabled multiple of these three options. 
-If all are disabled then an adiabatic boundary (<code>Q_flow=0</code>) is used.
+If all are disabled, an adiabatic boundary (<code>Q_flow=0</code>) is used.</p>
+Parameters <code>T_in_nom</code> and <code>Q_in_nom</code> are used for the calculation 
+of heat losses, when the temperature boundary condition and heat flow boundary condition are applied, respectively.  
 </p>
-</html>", revisions="<html>
+</html>", revisions = "<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 April 26, 2020, by Filip Jorissen:<br/>
 Refactored <code>SolBus</code> to avoid many instances in <code>PropsBus</code>.

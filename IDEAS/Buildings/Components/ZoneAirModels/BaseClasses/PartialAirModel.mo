@@ -10,7 +10,7 @@ partial model PartialAirModel "Partial for air models"
   parameter Integer nSurf "Number of connected surfaces";
   parameter Integer nSeg(min=1)=1 "Number of air segments";
   parameter Integer nPorts "Number of fluid port connections to zone air volume";
-  parameter Modelica.Units.SI.Volume Vtot "Total zone air volume";
+  parameter Modelica.Units.SI.Volume Vtot(min=Modelica.Constants.small) "Total zone air volume";
   parameter Boolean allowFlowReversal=true
      "= false to simplify equations, assuming, but not enforcing, no flow reversal"
     annotation(Dialog(tab="Advanced"));
@@ -79,6 +79,11 @@ protected
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(revisions="<html>
 <ul>
+<li>
+January 24, 2025, by Klaas De Jonge:<br/>
+Added minimum zone air volume to avoid division by zero warning.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1402\">#1402</a>.
+</li>
 <li>
 July 27, 2018 by Filip Jorissen:<br/>
 Added output for the CO2 concentration.

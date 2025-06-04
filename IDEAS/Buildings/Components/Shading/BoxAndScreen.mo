@@ -36,6 +36,8 @@ model BoxAndScreen "Box and screen shading"
       redeclare IDEAS.Buildings.Components.Shading.Screen stateShading1(
         azi=azi,
         shaCorr=shaCorr,
+        epsSw_shading=epsSw_shading,
+        refSw_shading=1-epsSw_shading-shaCorr,
         haveBoundaryPorts=false),
       redeclare IDEAS.Buildings.Components.Shading.Box stateShading2(
         azi=azi,

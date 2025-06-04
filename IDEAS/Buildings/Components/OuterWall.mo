@@ -4,7 +4,7 @@ model OuterWall "Opaque building envelope construction"
      setArea(A=A),
      final nWin=1,
      dT_nominal_a=-3,
-     QTra_design(fixed=false));
+     final QTra_design(fixed=false));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
@@ -26,8 +26,17 @@ model OuterWall "Opaque building envelope construction"
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
-  parameter Real coeffsCp[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,
-      -0.35; 270,-0.3; 315,0.1; 360,0.4]
+
+  replaceable parameter
+    IDEAS.Buildings.Data.WindPressureCoeff.Lowrise_Square_Exposed Cp_table
+    constrainedby IDEAS.Buildings.Data.Interfaces.WindPressureCoeff
+    "Table with default table for wind pressure coefficients for walls, floors and roofs"
+    annotation (
+    __Dymola_choicesAllMatching=true,
+    HideResult=true,
+    Placement(transformation(extent={{-34,78},{-30,82}})),
+    Dialog(tab="Airflow", group="Wind Pressure"));
+  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
@@ -51,17 +60,27 @@ model OuterWall "Opaque building envelope construction"
       choicesAllMatching=true,
       Dialog(tab="Advanced",group="Shading"));
 
+
+  parameter Boolean use_custom_Cs = false
+    "if checked, Cs will be used instead of the default related to the interzonal airflow type "
+    annotation(Evaluate=true, choices(checkBox=true),Dialog(enable=true,tab="Airflow", group="Wind Pressure"));
+
+  parameter Boolean  use_sim_Cs =sim.use_sim_Cs "if checked, the default Cs of each surface in the building is sim.Cs"
+  annotation(choices(checkBox=true),Dialog(enable=not use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+
   parameter Real Cs=sim.Cs
                        "Wind speed modifier"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real Habs=1
-    "Absolute height of boundary for correcting the wind speed"
-    annotation (Dialog(tab="Airflow", group="Wind Pressure"));
+    annotation (Dialog(enable=use_custom_Cs,tab="Airflow", group="Wind Pressure"));
+  final parameter Real Habs=hAbs_floor_a + hRelSurfBot_a + (hVertical/2)
+    "Absolute height of the center of the surface for correcting the wind speed, used in TwoPort implementation"
+    annotation (Dialog(tab="Airflow", group="Wind"));
+
   IDEAS.BoundaryConditions.SolarIrradiation.RadSolData radSolData(
     inc=incInt,
     azi=aziInt,
     useLinearisation=sim.lineariseDymola)
     annotation (Placement(transformation(extent={{-100,-6},{-80,14}})));
+
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
@@ -88,15 +107,26 @@ protected
     redeclare package Medium = Medium,
     final table=coeffsCp,
     final azi=aziInt,
-    Cs=Cs,
-    Habs=Habs,
+    Cs=if not use_custom_Cs and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         and not use_sim_Cs then sim.Cs_coeff*(Habs^(2*sim.a)) elseif not
+        use_custom_Cs then sim.Cs else Cs,
+    Habs=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+         then Habs else sim.HPres,
     nPorts=if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort
          then 1 else 2)
  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Outside air model"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
+    
+  IDEAS.Fluid.Sources.MassFlowSource_T boundary3(
+    redeclare package Medium = Medium, 
+    m_flow = 1e-10, 
+    nPorts = 1)  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+     "Boundary for bus a" annotation(
+    Placement(transformation(origin = {48, -4}, extent = {{-28, -76}, {-8, -56}})));
+
 initial equation
-  QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
+  QTra_design =U_value*A*(TRefZon - Tdes.y);
 
 equation
   if hasBuildingShade then
@@ -170,11 +200,17 @@ equation
   connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-64.5,36},
           {-56,36},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
   connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{-79.4,
-          -8.2},{-46,-8.2},{-46,-22},{-44,-22}},           color={0,0,127}));
-  connect(res1.port_a, outsideAir.ports[1]) annotation (Line(points={{20,-40},{16,
-          -40},{16,-50},{-80,-50}}, color={0,127,255}));
-  connect(res2.port_a, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
+          -8.2},{-46,-8.2},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},color={0,0,127}));
+  if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None then
+    connect(crackOrOperableDoor.port_a1, outsideAir.ports[1]) annotation (Line(points={{20,-36},{
+          16,-36},{16,-50},{-80,-50}},color={0,127,255}));
+  end if;
+  if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
+    connect(crackOrOperableDoor.port_b2, outsideAir.ports[2]) annotation (Line(points={{20,-60},{16,
           -60},{16,-50},{-80,-50}}, color={0,127,255}));
+  end if;
+  connect(boundary3.ports[1], propsBusInt.port_3) annotation(
+    Line(points = {{40, -70}, {56, -70}, {56, 20}}, color = {0, 127, 255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -267,6 +303,19 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Update calculation of transmission design losses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
+October 30, 2024, by Klaas De Jonge:<br/>
+Modifications for stack-effect interzonal airflow heights and wind pressure profiles.
+</li>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 July 18, 2022, by Filip Jorissen:<br/>
 Revised code for supporting new shading model.

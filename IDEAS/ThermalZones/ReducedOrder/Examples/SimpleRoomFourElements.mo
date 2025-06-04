@@ -288,13 +288,13 @@ equation
     annotation (Line(points={{27,56},{40,56},{40,31},{43,31}}, color={0,0,127}));
   annotation ( Documentation(info="<html>
   <p>This example shows the application of
-  <a href=\"IDEAS.ThermalZones.ReducedOrder.RC.FourElements\">
+  <a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.RC.FourElements\">
   IDEAS.ThermalZones.ReducedOrder.RC.FourElements</a>
   in combination with
-  <a href=\"IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow\">
+  <a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow\">
  IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow</a>
   and
-  <a href=\"IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane\">
+  <a href=\"modelica://IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane\">
   IDEAS.ThermalZones.ReducedOrder.SolarGain.CorrectionGDoublePane</a>.
   Solar radiation on tilted surface is calculated using models of
   IDEAS. The thermal zone is a simple room defined in Guideline
@@ -319,7 +319,7 @@ equation
   September 6, 2021, by Ettore Zanetti:<br/>
   Changed <code>lat</code> from being a parameter to an input from weather bus.<br/>
   This is for
-  <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IDEAS, #1477</a>.
+  <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
   </li>
   <li>
   July 11, 2019, by Katharina Brinkmann:<br/>

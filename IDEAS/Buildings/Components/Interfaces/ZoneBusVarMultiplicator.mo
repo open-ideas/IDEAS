@@ -32,16 +32,18 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
     annotation (Placement(transformation(extent={{8,-324},{-12,-304}})));
 protected
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier2(
-      redeclare package Medium = Medium,                                 final k=k)
-    if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+      redeclare package Medium = Medium,final k=k) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
     "Mass flow rate multiplier for port 2"
     annotation (Placement(transformation(extent={{-10,-200},{10,-180}})));
   IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier1(
-      redeclare package Medium = Medium,                                 final k=k)
-     if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+      redeclare package Medium = Medium,final k=k) if sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
     "Mass flow rate multiplier for port 1"
     annotation (Placement(transformation(extent={{-10,-170},{10,-150}})));
-  Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
+  IDEAS.Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier3(
+      redeclare package Medium = Medium,final k=k) if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+    "Mass flow rate multiplier for port 3"
+    annotation (Placement(transformation(origin = {0, -208}, extent = {{-10, -200}, {10, -180}})));
+  Modelica.Blocks.Math.Gain QTra_design(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
   Modelica.Blocks.Math.Gain area(k=k) "Heat exchange surface area"
     annotation (Placement(transformation(extent={{-10,150},{10,170}})));
@@ -80,10 +82,19 @@ protected
   Modelica.Blocks.Routing.BooleanPassThrough use_custom_q50
     "0 if the surface has a custom q50"
     annotation (Placement(transformation(extent={{-12,-296},{8,-276}})));
+  Modelica.Blocks.Routing.RealPassThrough hzone "zone height"
+    annotation (Placement(transformation(extent={{8,-356},{-12,-336}})));
+  Modelica.Blocks.Routing.RealPassThrough hFloor
+    "Absolute height of the zone floor"
+    annotation (Placement(transformation(extent={{8,-384},{-12,-364}})));
+  Modelica.Blocks.Routing.RealPassThrough TRefZon
+    "Reference zone temperature for calculation of design heat load"
+    annotation (Placement(transformation(extent={{8,-450},{-12,-430}})));
+
 equation
-  connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
+  connect(QTra_design.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
-  connect(QTra_desgin.y, propsBus_b.QTra_design) annotation (Line(points={{11,188},
+  connect(QTra_design.y, propsBus_b.QTra_design) annotation (Line(points={{11,188},
           {100.1,188},{100.1,-0.1}},color={0,0,127}));
   connect(area.u, propsBus_a.area) annotation (Line(points={{-12,160},{-100.1,
           160},{-100.1,0.1}},color={0,0,127}));
@@ -162,6 +173,22 @@ equation
   connect(use_custom_n50.y, propsBus_a.use_custom_n50) annotation (Line(points={{-13,
           -314},{-100,-314},{-100,0.1},{-100.1,0.1}},
                                                 color={255,0,255}));
+  connect(hzone.u, propsBus_b.hzone) annotation (Line(points={{10,-346},{100,
+          -346},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(hzone.y, propsBus_a.hzone) annotation (Line(points={{-13,-346},{-100,
+          -346},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(hFloor.u, propsBus_b.hfloor) annotation (Line(points={{10,-374},{100,
+          -374},{100,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(hFloor.y, propsBus_a.hfloor) annotation (Line(points={{-13,-374},{
+          -100,-374},{-100,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(massFlowRateMultiplier3.port_a, propsBus_a.port_3) annotation(
+    Line(points = {{-10, -398}, {-100, -398}, {-100, 0}}, color = {0, 127, 255}));
+  connect(massFlowRateMultiplier3.port_b, propsBus_b.port_3) annotation(
+    Line(points = {{10, -398}, {100, -398}, {100, 0}}, color = {0, 127, 255}));
+  connect(TRefZon.u, propsBus_b.TRefZon) annotation (Line(points={{10,-346},{
+          100.1,-346},{100.1,-0.1}},  color={0,0,127}));
+  connect(TRefZon.y, propsBus_a.TRefZon) annotation (Line(points={{-13,-346},{
+          -100.1,-346},{-100.1,0.1}},  color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(
@@ -182,9 +209,18 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="%name")}),                                 Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
+        coordinateSystem(preserveAspectRatio=false, extent={{-120,200},{120,-380}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
+Add connector <code>TRefZon</code> to be used when calculating <code>QTra_design</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>
+</li>
+<li>
+Februari 18, 2024, by Filip Jorissen:<br/>
+Modifications for supporting trickle vents and interzonal airflow.
+</li>
 <li>
 August 10, 2020, by Filip Jorissen:<br/>
 Modifications for supporting interzonal airflow.

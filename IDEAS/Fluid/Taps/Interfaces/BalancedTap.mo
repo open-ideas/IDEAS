@@ -1,6 +1,6 @@
 within IDEAS.Fluid.Taps.Interfaces;
 partial model BalancedTap "partial DHW model"
-  import IDEAS;
+  extends Modelica.Icons.ObsoleteModel;
 
   parameter Modelica.Units.SI.Temperature TDHWSet(max=273.15 + 60) = 273.15 +
     45 "DHW temperature setpoint";
@@ -8,7 +8,7 @@ partial model BalancedTap "partial DHW model"
     "Nominal cold water temperature";
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=1
     "Nominal mass flow rate";
-  parameter SI.Time tau=30
+  parameter Modelica.Units.SI.Time tau=30
     "Tin time constant of temperature sensor at nominal flow rate";
 protected
   Modelica.Units.SI.MassFlowRate mFlo60C "DHW flow rate at 60 degC";
@@ -190,14 +190,29 @@ An example of this model is given in
 </html>", revisions="<html>
 <ul>
 <li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
 May 22, 2022, by Filip Jorissen:<br/>
 Fixed Modelica specification compatibility issue.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1254\">
 #1254</a>
 </li>
-<li>2013 June, Roel De Coninck: documentation.</li>
-<li>2012 September, Roel De Coninck, simplification of equations.</li>
-<li>2012 August, Roel De Coninck, first implementation.</li>
+<li>
+June, 2013, by Roel De Coninck:<br/>
+Add documentation.
+</li>
+<li>
+September, 2012, by Roel De Coninck:<br/>
+Simplification of equations.
+</li>
+<li>
+August, 2012, by Roel De Coninck:<br/>
+First implementation.
+</li>
 </ul>
 </html>"));
 end BalancedTap;

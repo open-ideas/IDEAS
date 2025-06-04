@@ -163,12 +163,12 @@ model WetCoilDryWetRegime
   Real dryFra(final unit="1", min=0, max=1)
     "Dry fraction, 0.3 means condensation occurs at 30% heat exchange length from air inlet";
 protected
-  Modelica.Units.SI.MassFlowRate mAirNonZer_flow(min=Modelica.Constants.eps)=
+  Modelica.Units.SI.MassFlowRate mAirNonZer_flow(min=Modelica.Constants.eps) =
     IDEAS.Utilities.Math.Functions.smoothMax(
     x1=mAir_flow,
     x2=1E-3*mAir_flow_nominal,
     deltaX=0.25E-3*mAir_flow_nominal) "Mass flow rate of air";
-  Modelica.Units.SI.MassFlowRate mWatNonZer_flow(min=Modelica.Constants.eps)=
+  Modelica.Units.SI.MassFlowRate mWatNonZer_flow(min=Modelica.Constants.eps) =
     IDEAS.Utilities.Math.Functions.smoothMax(
     x1=mWat_flow,
     x2=1E-3*mWat_flow_nominal,
@@ -231,7 +231,7 @@ equation
           textStyle={TextStyle.Bold},
           pattern=LinePattern.None,
           textString="WET",
-          lineColor={0,0,0}),
+          textColor={0,0,0}),
         Line(
           points={{20,0},{120,0}},
           color={28,108,200},

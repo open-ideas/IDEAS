@@ -1,6 +1,5 @@
 within IDEAS.Experimental.Electric.Distribution.DC.Examples;
 model TestGridDC
-  import IDEAS;
 extends Modelica.Icons.Example;
   IDEAS.Experimental.Electric.Distribution.DC.GridDCGeneral gridGeneralDC(
       redeclare
@@ -33,5 +32,14 @@ equation
       color={0,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})));
+            -100},{100,100}})),
+Documentation(revisions="<html>
+<ul>
+<li>
+February 7, 2025, by Jelger Jansen:<br/>
+Removed <code>import IDEAS</code> statement.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a>.
+</li>
+</ul>
+</html>"));
 end TestGridDC;

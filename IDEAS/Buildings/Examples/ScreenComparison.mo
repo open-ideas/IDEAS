@@ -4,7 +4,7 @@ model ScreenComparison "Comparison between a model with and without screen"
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
    replaceable package Medium = IDEAS.Media.Air;
-  parameter SI.MassFlowRate m_flow_nominal = zoneWithScreen.V*1.2*ACH/3600
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal = zoneWithScreen.V*1.2*ACH/3600
     "Nominal mass flow rate of trickle vent";
   parameter Real ACH = 1
     "Ventilation air change rate";
@@ -50,9 +50,9 @@ model ScreenComparison "Comparison between a model with and without screen"
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan1(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    use_inputFilter=false,
     dp_nominal=5) "Fan" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -61,9 +61,9 @@ model ScreenComparison "Comparison between a model with and without screen"
   IDEAS.Fluid.Movers.FlowControlled_m_flow fan2(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    use_riseTime=false,
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
-    use_inputFilter=false,
     dp_nominal=5) "Fan" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -87,6 +87,17 @@ equation
       __Dymola_Algorithm="Dassl"),
     Documentation(revisions="<html>
 <ul>
+<li>
+February 4, 2025, by Jelger Jansen:<br/>
+Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1415\">#1415</a> .
+</li>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
+(and <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\">IBPSA, #1926</a>).
+</li>
 <li>
 July 18th, 2022 by Filip Jorissen<br/>
 First implementation for #1270.

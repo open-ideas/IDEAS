@@ -12,7 +12,7 @@ model Thermostatic3WayValve "Thermostatic 3-way valve with hot and cold side"
     annotation(Dialog(tab="Advanced"));
   parameter Real y_start(min=0, max=1) = 0 "Initial valve opening"
     annotation(Dialog(enable=dynamicValve,tab="Dynamics", group="Filter"));
-  parameter Modelica.Units.SI.Temperature dT_nominal=50
+  parameter Modelica.Units.SI.TemperatureDifference dT_nominal=50
     "Nominal/maximum temperature difference between inlet ports, used for regularization";
 
   Modelica.Blocks.Interfaces.RealInput TMixedSet
@@ -137,16 +137,41 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+November 7, 20024, by Jelger Jansen:<br/>
+Change unit of parameter <code>dT_nominal</code> to <code>Modelica.Units.SI.TemperatureDifference</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1390\">#1390</a>.
+</li>
+<li>
 May 15, 2018, by Filip Jorissen:<br/>
 Changes for setting unique initial conditions.
 </li>
-<li>2014 October, Filip Jorissen, Added parameter for regularization range</li>
-<li>2014 October, Filip Jorissen, Regularized implementation and documentation </li>
-<li>2014 May, Filip Jorissen, Both legs can be hot or cold</li>
-<li>2014 March, Filip Jorissen, Annex60 compatibility</li>
-<li>2013 May, Roel De Coninck, documentation</li>
-<li>2013 March, Ruben Baetens, graphics</li>
-<li>2010, Roel De Coninck, first version</li>
+<li>
+October 2014, by Filip Jorissen:<br/>
+Added parameter for regularization range.
+</li>
+<li>October 2014, by Filip Jorissen:<br/>
+Regularized implementation and documentation.
+</li>
+<li>
+May, 2014, by Filip Jorissen:<br/>
+Both legs can be hot or cold.
+</li>
+<li>
+March, 2014, by Filip Jorissen:<br/>
+Annex60 compatibility.
+</li>
+<li>
+May, 2013, by Roel De Coninck:<br/>
+Documentation.
+</li>
+<li>
+March, 2013, by Ruben Baetens:<br/>
+Graphics.
+</li>
+<li>
+2010, by Roel De Coninck:<br/>
+First version.
+</li>
 </ul>
 </html>"));
 end Thermostatic3WayValve;
