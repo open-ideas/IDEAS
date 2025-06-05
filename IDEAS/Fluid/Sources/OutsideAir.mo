@@ -23,8 +23,8 @@ model OutsideAir
         X_w=sim.XiEnv.X[1]);
   
   Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
-  Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
+  Real CpAct(final unit="1") = windPressureProfile(u=alpha,xd=xd,yd=yd,d=d) "Actual wind pressure coefficient";
 
   Modelica.Units.SI.Pressure pWin(displayUnit="Pa")
     "Change in pressure due to wind force";
@@ -38,6 +38,22 @@ model OutsideAir
   Modelica.Blocks.Interfaces.RealOutput m_flow = sum(ports.m_flow) "Total mass flow rate" annotation(
     Placement(visible = true, transformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 180), iconTransformation(origin = {-110, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 protected
+
+//Get support points and derivatives for spline interpolation of the extended table
+  parameter Real Radtable[:,:] = [Modelica.Constants.D2R*table[:,1],table[:,2]];
+
+  //extends table with 1 point at the beginning and end for correct derivative at 0 and 360
+  parameter Real prevPoint[1,2] = [Radtable[size(table, 1)-1, 1] - (2*Modelica.Constants.pi), Radtable[size(table, 1)-1, 2]];
+  parameter Real nextPoint[1,2] = [Radtable[2, 1] + (2*Modelica.Constants.pi), Radtable[2, 2]];
+  parameter Real exTable[:,:] = [prevPoint;Radtable;nextPoint]; //Extended table
+
+  parameter Real xd[:]=exTable[:, 1] "Support points x-value";
+  parameter Real yd[size(xd,1)]=exTable[:, 2] "Support points y-value";
+  parameter Real d[size(xd,1)]=IDEAS.Utilities.Math.Functions.splineDerivatives(
+      x=xd,
+      y=yd,
+      ensureMonotonicity=false) "derivative values at the support points";
+
   constant Integer s[:]= {
     if ( Modelica.Utilities.Strings.isEqual(string1=Medium.extraPropertiesNames[i],
                                             string2="CO2",
@@ -58,33 +74,17 @@ protected
   Modelica.Blocks.Routing.RealPassThrough p_link;
 
 function windPressureProfile
-  "Function for the cubic spline interpolation of table input of a windpressureprofile"
 
-    input Modelica.Units.SI.Angle u
-      "independent variable, wind incidence angle";
-  input Real table[:,:];
+  input Modelica.Units.SI.Angle u   "independent variable, wind incidence angle";
+  parameter input Real xd[:];
+  parameter input Real yd[size(xd, 1)];
+  parameter input Real d[size(xd, 1)];
 
-  output Real z "Dependent variable without monotone interpolation, CpAct";
+output Real z;
 
-  //extend table with 1 point at the beginning and end for correct derivative at 0 and 360
-
-  protected
-  Real Radtable[:,:] = [Modelica.Constants.D2R*table[:,1],table[:,2]];
-
-  Real prevPoint[1,2] = [Radtable[size(table, 1)-1, 1] - (2*Modelica.Constants.pi), Radtable[size(table, 1)-1, 2]];
-  Real nextPoint[1,2] = [Radtable[2, 1] + (2*Modelica.Constants.pi), Radtable[2, 2]];
-  Real exTable[:,:] = [prevPoint;Radtable;nextPoint]; //Extended table
-
-  Real[:] xd=exTable[:,1] "Support points x-value";
-  Real[size(xd, 1)] yd=exTable[:,2] "Support points y-value";
-  Real[size(xd, 1)] d=IDEAS.Utilities.Math.Functions.splineDerivatives(
-    x=xd,
-    y=yd,
-    ensureMonotonicity=false); // Get the derivative values at the support points
-
-  Integer i "Integer to select data interval";
+protected
   Real aR "u, restricted to 0...2*pi";
-
+  Integer i "Integer to select data interval";
 
 algorithm
 
@@ -103,8 +103,6 @@ algorithm
     end if;
   end for;
 
-  // Interpolate the data
-
   z :=IDEAS.Utilities.Math.Functions.cubicHermiteLinearExtrapolation(
         x=aR,
         x1=xd[i],
@@ -113,7 +111,6 @@ algorithm
         y2=yd[i + 1],
         y1d=d[i],
         y2d=d[i + 1]);
-   annotation(Inline=false);
 end windPressureProfile;
   Modelica.Units.SI.Angle surOut=azi - Modelica.Constants.pi
     "Angle of surface that is used to compute angle of attack of wind";
