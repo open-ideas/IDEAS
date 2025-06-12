@@ -5,7 +5,7 @@ model Typ1
   parameter String pvtTyp = "Typ1";
   parameter String datSet = "DatasetA";
   parameter Integer nSeg = 3 "Number of segments used to discretize the collector model";
-  parameter Real U_pvt = 32.76 "Heat transfer coefficient between thermal and electrical part of pvt";
+  parameter Real uPvt  = 32.76 "Heat transfer coefficient between thermal and electrical part of pvt";
   // Define the PVT data once and reuse it throughout the model
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PvtCollectors.Data.WISC.WISC_TRNSYSValidation()
@@ -19,8 +19,8 @@ model Typ1
   parameter Modelica.Units.SI.Angle azi = 0 "Surface azimuth (0°=south, 90°=west, 180°=north, 270°=east)";
   parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma = -0.0041 "Temperature coefficient of the photovoltaic panel(s)";
   parameter Real tolEl = 1.0 "Tolerenace on electrical power output following datasheet";
-  parameter Modelica.Units.SI.Power P_STC = tolEl*280 "Power of one photovoltaic panel at Standard Conditions, usually equal to power at Maximum Power Point (MPP)";
-  parameter Real P_loss_factor = 0.07;
+  parameter Modelica.Units.SI.Power Pstc = tolEl*280 "Power of one photovoltaic panel at Standard Conditions, usually equal to power at Maximum Power Point (MPP)";
+  parameter Real pLossFactor = 0.07;
 
   inner IDEAS.BoundaryConditions.SimInfoManager sim(final filNam=Modelica.Utilities.Files.loadResource(
   "modelica://PvtMod/Resources/Validation/WeatherData/" + datSet + "/" + pvtTyp +
@@ -55,8 +55,8 @@ model Typ1
     CTot=CTot,
     nPanels=1,
     per=per,
-    P_loss_factor=P_loss_factor,
-    U_pvt=U_pvt,
+    pLossFactor=pLossFactor,
+    uPvt =uPvt,
     shaCoe=0,
     azi=0,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -64,7 +64,7 @@ model Typ1
     nSeg=nSeg,
     til=til,
     totalArea=totalArea,
-    P_STC=P_STC,
+    Pstc=Pstc,
     gamma=gamma,
     T_start=T_start,
     show_T=true) annotation (Placement(transformation(extent={{4,54},{24,74}})));

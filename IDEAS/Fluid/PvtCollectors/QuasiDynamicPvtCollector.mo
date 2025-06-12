@@ -75,7 +75,7 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(G_glob.y, heaLos.G) annotation (Line(points={{24,67},{24,34},{-32,34},
+  connect(gGlob.y, heaLos.G) annotation (Line(points={{24,67},{24,34},{-32,34},
           {-32,18.6},{-22,18.6}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
