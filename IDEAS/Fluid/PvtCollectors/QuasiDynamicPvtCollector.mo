@@ -5,6 +5,8 @@ model QuasiDynamicPvtCollector
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
+  Real windSpeTil "Effective wind speed normal to collector plane";
+
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -30,6 +32,13 @@ model QuasiDynamicPvtCollector
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
 equation
+   // Compute plane wind speed (using inherited azi/til and connected weaBus):
+  windSpeTil = weaBus.winSpe
+    * abs(cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
+        + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til));
+
+  heaLos.windSpePlane = windSpeTil;
+
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));

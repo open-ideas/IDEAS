@@ -31,6 +31,10 @@ model EN12975HeatLoss_QuasiDynamic
     "Temperature of the heat transfer fluid [K]"
     annotation (Placement(transformation(extent={{-140,-64},{-100,-24}})));
 
+   Modelica.Blocks.Interfaces.RealInput windSpePlane
+    "Wind speed normal to collector plane (m/s)"
+    annotation (Placement(transformation(extent={{-140,-92},{-100,-52}})));
+
   IDEAS.BoundaryConditions.WeatherData.Bus WeaBus
     "Bus with weather data"
     annotation (Placement(transformation(extent={{-114,62},{-94,82}})));
@@ -51,7 +55,7 @@ equation
   connect(G, partialLoss.G);
   connect(partialLoss.TEnv, WeaBus.TDryBul);
   connect(partialLoss.E_L, WeaBus.HHorIR);
-  connect(partialLoss.u, WeaBus.winSpe);
+  connect(partialLoss.u, windSpePlane);
   connect(partialLoss.QLos_flow, QLos_flow);
 
   annotation (
