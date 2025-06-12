@@ -4,15 +4,15 @@ extends Modelica.Icons.MaterialPropertiesPackage;
 
   record GenericQuasiDynamic
     "Generic data record for PVT collector models following ISO 9806:2013 Quasi Dynamic approach"
-    extends IDEAS.Fluid.PvtCollectors.Data.BaseClasses.Generic;
+    extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
     parameter Real IAMDiff(final min=0, final max=1, final unit="1")
       "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
     parameter Real eta0(final min=0, final max=1, final unit="1")
       "Optical efficiency (Maximum efficiency)";
-    parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
+    parameter Modelica.Units.SI.CoefficientOfHeatTransfer a1(final min=0)
       "First order heat loss coefficient";
-    parameter Real c2(final unit="W/(m2.K2)", final min=0)
+    parameter Real a2(final unit="W/(m2.K2)", final min=0)
       "Second order heat loss coefficient";
     parameter Real c3(final unit="J/(m3.K)", final min=0)
       "Windspeed dependence of heat losses";
@@ -42,132 +42,38 @@ This is for
 </html>"));
   end GenericQuasiDynamic;
 
-  package GlazedFlatPlate "Package with SRCC rating information for glazed flat-plate solar thermal collectors"
+  package WISC "Package with SRCC rating information for WISC PVT collectors"
   extends Modelica.Icons.MaterialPropertiesPackage;
 
-
-    record FP_GuangdongFSPTY95 =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        final A=2,
-        final mDry=35,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final V=1.7/1000,
-        final dp_nominal=235,
-        final mperA_flow_nominal=0.02,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,0.9967,0.9862,0.9671,0.9360,0.8868,0.8065,0.6686,0.4906,0.0},
-        final y_intercept=0.678,
-        final slope=-4.426)
-      "FP - Guandong Fivestar Solar Energy Co, FS-PTY95-2.0"
+    record WISC_TRNSYSValidation =
+      IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic (
+        final A=1.66,
+        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
+        final C=42200*1.66,
+        final V=5/1000,
+        final mDry=28,
+        final mperA_flow_nominal=0.03,
+        final dp_nominal=60000,
+        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,90}),
+        final incAngModDat={1,1,1,0.99,0.99,0.98,0.96,0.92,0.00},
+        final IAMDiff=1,
+        final eta0=0.475,
+        final a1=7.411,
+        final a2=0.0,
+        final c3=1.7,
+        final c4=0.437,
+        final c6=0.003)
         annotation (
     defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
+    defaultComponentName="datPVT",
     Documentation(info = "<html>
-<h4>References</h4>
-<p>
-Ratings data taken from the <a href=\"http://www.solar-rating.org\">
-Solar Rating and Certification Corporation website</a>. SRCC# = 2012043A.<br/>
-</p>
-</html>"));
-    record FP_SolahartKf =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        final A=2.003,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final mDry=42,
-        final V=3.8/1000,
-        final dp_nominal=93.89,
-        final mperA_flow_nominal=0.0194,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,0.9979,0.9913,0.9792,0.9597,0.929,0.8796,0.7979,0.724,0.0},
-        final y_intercept=0.775,
-        final slope=-5.103) "FP - Solahart Kf"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info = "<html>
-<h4>References</h4>
-<p>
-Ratings data taken from the <a href=\"http://www.solar-rating.org\">
-Solar Rating and Certification Corporation website</a>. SRCC# = 2012021A.<br/>
-</p>
-</html>"));
-    record FP_TRNSYSValidation =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        A=5,
-        CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        C=0,
-        mDry=8.6,
-        V=0.6/1000,
-        dp_nominal=100,
-        mperA_flow_nominal=0.0111,
-        incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        incAngModDat={1.0,0.9969,0.9872,0.9691,0.9389,0.8889,0.8,0.6152,0.0482,0.0},
-        y_intercept=0.8,
-        slope=-3.6111)
-      "Default values in the TRNSYS Simulation Studio SDHW example"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info="<html>
-<p>
-Default values in the TRNSYS Simualtion Studio SDHW example.
-No value for <code>dp_nominal</code> was provided in TRNSYS, so 100
-Pascal was used as a placeholder.<br/>
-</p>
-</html>"));
-    record FP_ThermaLiteHS20 =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        final A=1.97,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final mDry=26,
-        final V=2.8/1000,
-        final dp_nominal=242.65,
-        final mperA_flow_nominal=0.1777,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,0.9989,0.9946,0.9836,0.9567,0.8882,0.6935,0.0,0.0,0.0},
-        final y_intercept=0.762,
-        final slope=-3.710) "FP - Therma-Lite, HS-20"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info = "<html>
-<h4>References</h4>
-<p>
-Ratings data taken from the <a href=\"http://www.solar-rating.org\">
-Solar Rating and Certification Corporation website</a>. SRCC# = 2012047A.
-</p>
-</html>"));
-    record FP_VerificationModel =
-      IDEAS.Fluid.SolarCollectors.Data.GenericEN12975 (
-        final A=4.302,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final V=4.4/1000,
-        final dp_nominal = 100,
-        final mperA_flow_nominal=0.0241,
-        final eta0=0.720,
-        final IAMDiff=0.133,
-        final a1=2.8312,
-        final a2=0.00119,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,0.9967,0.9862,0.9671,0.9360,0.8868,0.8065,0.6686,0.4906,0.0},
-        final mDry=484)
-      "FP - All inputs necessary for verification of EN12975 models"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info = "<html>
-<p>
-No model on the <a href=\"http://www.solar-rating.org\"> Solar Rating and
-Certification Corporation </a> website tested to EN12975 standards provides all
-of the necessary information for modeling.
-This data record was created to allow verification of EN12975 base classes
-despite the limitations in available data.
-</p>
-</html>"));
+    
+    <h4>References</h4>
+      <p>
+        Ratings data taken from the <a href=\"http://www.solar-rating.org\">
+        Solar Rating and Certification Corporation website</a>. 
+      </p>
+    </html>"));
   annotation (Documentation(info="<html>
   <p>
     Package with records for SRCC rating information for glazed flat-plate solar thermal collector.
@@ -182,74 +88,7 @@ despite the limitations in available data.
       </li>
     </ul>
   </html>"));
-  end GlazedFlatPlate;
-
-  package Tubular "Package with SRCC rating information for tubular solar thermal collectors"
-  extends Modelica.Icons.MaterialPropertiesPackage;
-
-    record T_AMKCollectraAGOWR20 =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        final A=3.457,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final mDry=73,
-        final V=3.5/1000,
-        final dp_nominal=100,
-        final mperA_flow_nominal=0.0201,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,1.0088,1.0367,1.0884,1.1743,1.3164,1.567,2.0816,3.6052,0.0},
-        final y_intercept=0.446,
-        final slope=-1.432) "T - AMG Collectra AG, OWR 20"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info = "<html>
-<h4>References</h4>
-<p>
-Ratings data taken from the <a href=\"http://www.solar-rating.org\">
-Solar Rating and Certification Corporation website</a>.
-SRCC# = 2012018A.
-</p>
-<p>
-The ratings provided for <code>dp_nominal</code> were suspicious
-so 100 Pa is used instead.<br/>
-</p>
-</html>"));
-    record T_JiaxingDiyiC0130 =
-        IDEAS.Fluid.SolarCollectors.Data.GenericASHRAE93 (
-        final A=4.650,
-        final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.DryMass,
-        final C=0,
-        final mDry=95,
-        final V=1.7/1000,
-        final dp_nominal=100,
-        final mperA_flow_nominal=0.0142,
-        final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
-        final incAngModDat={1.0,1.0222,1.0897,1.2034,1.3596,1.5272,1.5428,0.4206,0.0,0.0},
-        final y_intercept=0.388,
-        final slope=-1.453) "T - Jiaxing Diyi New Energy Co., Ltd., DIYI-C01-30"
-        annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datSolCol",
-    Documentation(info = "<html>
-<h4>References</h4>
-<p>
-Ratings data taken from the <a href=\"http://www.solar-rating.org\">
-Solar Rating and Certification Corporation website</a>.
-SRCC# = 2012036A.
-</p>
-<p>
-The ratings provided for <code>dp_nominal</code> were suspicious
-so 100 Pa is used instead.<br/>
-</p>
-</html>"));
-      annotation(Documentation(info="<html>
-      <p>
-        Package with data describing tubular solar collectors. All models in the Tubular
-        pacakage use ASHRAE93 test data.
-      </p>
-    </html>"));
-  end Tubular;
+  end WISC;
 
   package BaseClasses "Package with base classes for data records of solar thermal collectors"
     extends Modelica.Icons.BasesPackage;
