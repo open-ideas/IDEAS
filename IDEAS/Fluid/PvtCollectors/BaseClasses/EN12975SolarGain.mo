@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
-model EN12975SolarGain "Model calculating solar gains per the EN12975 standard"
+model EN12975SolarGain
+  "Model calculating solar gains per the EN12975 standard"
   extends Modelica.Blocks.Icons.Block;
   extends SolarCollectors.BaseClasses.PartialParameters;
 
@@ -194,7 +195,7 @@ This is for
 <li>
 September 17, 2016, by Michael Wetter:<br/>
 Corrected quantity from <code>Temperature</code> to <code>ThermodynamicTemperature</code>
-to avoid an error in the pedantic model check in Dymola 2017 FD01 beta2.<br/>
+to avoid an error in the pedantic model check in Dymola 2017 FD01 betc2.<br/>
 This is for
 <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/557\">issue 557</a>.
 </li>

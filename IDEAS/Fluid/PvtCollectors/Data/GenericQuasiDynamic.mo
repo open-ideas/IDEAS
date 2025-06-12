@@ -7,9 +7,9 @@ record GenericQuasiDynamic
     "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
   parameter Real eta0(final min=0, final max=1, final unit="1")
     "Optical efficiency (Maximum efficiency)";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer a1(final min=0)
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
     "First order heat loss coefficient";
-  parameter Real a2(final unit="W/(m2.K2)", final min=0)
+  parameter Real c2(final unit="W/(m2.K2)", final min=0)
     "Second order heat loss coefficient";
   parameter Real c3(final unit="J/(m3.K)", final min=0)
     "Windspeed dependence of heat losses";

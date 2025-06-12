@@ -2,8 +2,8 @@ within IDEAS.Fluid.PvtCollectors;
 model QuasiDynamicPvtCollector
   "Model of a photovoltaic–thermal collector using the EN 12975 quasi-dynamic thermal procedure with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector(
-      redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector
+    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
@@ -20,8 +20,8 @@ model QuasiDynamicPvtCollector
   IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss_QuasiDynamic heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
-    final a1=per.a1,
-    final a2=per.a2,
+    final c1=per.c1,
+    final c2=per.c2,
     final c3=per.c3,
     final c4=per.c4,
     final c6=per.c6,
@@ -30,9 +30,9 @@ model QuasiDynamicPvtCollector
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
 equation
-  // Make sure the model is only used with the EN ratings data, and hence a1 > 0
-  assert(per.a1 > 0,
-    "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained a1 = " + String(per.a1));
+  // Make sure the model is only used with the EN ratings data, and hence c1 > 0
+  assert(per.c1 > 0,
+    "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
   connect(shaCoe_internal, solGai.shaCoe_in);
 
   connect(HDirTil.inc, solGai.incAng)    annotation (Line(

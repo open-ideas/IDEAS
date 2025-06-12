@@ -1,8 +1,8 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 block PartialEN12975HeatLoss_QuasiDynamic
   "Calculate the heat loss of a solar collector per EN12975"
-  extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
-    QLos_internal=A_c/nSeg*{dT[i] * (a1 - a2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
+  extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss(
+    QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
         c6*u*G for i in 1:nSeg});
 
 // Constants
@@ -44,7 +44,7 @@ block PartialEN12975HeatLoss_QuasiDynamic
 
   // Equations for terms
 equation
-    c1_c2_term = sum(A_c/nSeg*{dT[i]*(a1 - a2*dT[i]) for i in 1:nSeg});
+    c1_c2_term = sum(A_c/nSeg*{dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
     c3_term = sum(A_c/nSeg*{dT[i]*(c3*u) for i in 1:nSeg});
     c4_term = sum(A_c/nSeg*{c4*(E_L - sigma*TEnv^4) for i in 1:nSeg});
     c6_term = sum(A_c/nSeg*{(-1)* c6*u*G  for i in 1:nSeg});

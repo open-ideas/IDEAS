@@ -6,9 +6,9 @@ model EN12975HeatLoss_QuasiDynamic
     "Medium in the system";
   parameter Integer nSeg = 3 "Number of segments";
 
-  parameter Real a1(final unit="W/(m2.K)", final min=0)
+  parameter Real c1(final unit="W/(m2.K)", final min=0)
     "Linear heat loss coefficient";
-  parameter Real a2(final unit="W/(m2.K2)", final min=0)
+  parameter Real c2(final unit="W/(m2.K2)", final min=0)
     "Quadratic heat loss coefficient";
   parameter Real c3(final unit="J/(m3.K)", final min=0)
     "Windspeed dependence of heat losses";
@@ -39,8 +39,8 @@ model EN12975HeatLoss_QuasiDynamic
     partialLoss(
     redeclare package Medium = IDEAS.Media.Water,
     nSeg=nSeg,
-    a1=a1,
-    a2=a2,
+    c1=c1,
+    c2=c2,
     c3=c3,
     c4=c4,
     c6=c6,

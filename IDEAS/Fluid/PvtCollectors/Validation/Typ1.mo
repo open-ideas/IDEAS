@@ -20,7 +20,6 @@ model Typ1
   parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma = -0.0041 "Temperature coefficient of the photovoltaic panel(s)";
   parameter Real tolEl = 1.0 "Tolerenace on electrical power output following datasheet";
   parameter Modelica.Units.SI.Power P_STC = tolEl*280 "Power of one photovoltaic panel at Standard Conditions, usually equal to power at Maximum Power Point (MPP)";
-  parameter Modelica.Units.SI.Efficiency module_efficiency = 0.1687 "Module efficiency of the photovoltaic installation";
   parameter Real P_loss_factor = 0.07;
 
   inner IDEAS.BoundaryConditions.SimInfoManager sim(final filNam=Modelica.Utilities.Files.loadResource(
@@ -70,8 +69,6 @@ model Typ1
     T_start=T_start,
     show_T=true) annotation (Placement(transformation(extent={{4,54},{24,74}})));
 
-  Validation.Collector collector
-    annotation (Placement(transformation(extent={{2,-4},{22,18}})));
 equation
   connect(meaDat.y[13], TAmbKel.Celsius) annotation (Line(points={{-91,68},{-78,
           68}},                                                                                         color={0,0,127}));
