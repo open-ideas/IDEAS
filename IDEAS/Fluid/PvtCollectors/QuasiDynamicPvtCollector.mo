@@ -34,9 +34,10 @@ model QuasiDynamicPvtCollector
 equation
    // Compute plane wind speed (using inherited azi/til and connected weaBus):
   windSpeTil = weaBus.winSpe
-    * abs(cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
-        + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til));
-
+    * sqrt(1 - (
+      cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
+    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
+   ^2);
   heaLos.windSpePlane = windSpeTil;
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
