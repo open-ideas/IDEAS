@@ -3,7 +3,7 @@ model QuasiDynamicPvtCollector
   "Model of a photovoltaic–thermal collector using the EN 12975 quasi-dynamic thermal procedure with integrated electrical coupling"
 
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector(
-    redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+      redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
@@ -27,7 +27,7 @@ model QuasiDynamicPvtCollector
     final c6=per.c6,
     final A_c=ATot_internal)
     "Calculates the heat lost to the surroundings using the EN12975 standard calculations"
-      annotation (Placement(transformation(extent={{-20,10},{0,30}})));
+    annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
 equation
   // Make sure the model is only used with the EN ratings data, and hence a1 > 0
