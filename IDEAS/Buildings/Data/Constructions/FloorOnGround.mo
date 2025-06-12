@@ -7,7 +7,7 @@ record FloorOnGround "Floor on ground for floor heating system"
       IDEAS.Buildings.Data.Materials.Concrete(d=0.20),
       IDEAS.Buildings.Data.Insulation.Eps(d=0.1),
       IDEAS.Buildings.Data.Materials.Screed(d=0.08),
-      IDEAS.Buildings.Data.Materials.Tile(d=0.015)});
+      IDEAS.Buildings.Data.Materials.Tile(d=0.02)});
 
 
   annotation (Documentation(revisions="<html>
