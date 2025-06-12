@@ -1,5 +1,7 @@
 within IDEAS.Fluid.PvtCollectors;
-model QuasiDynamicPvtCollector "Model of a solar thermal collector according to the ASHRAE Standard 93"
+model QuasiDynamicPvtCollector
+  "Model of a photovoltaic–thermal collector using the EN 12975 quasi-dynamic thermal procedure with integrated electrical coupling"
+
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector(
     redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
@@ -76,64 +78,49 @@ equation
   connect(G_glob.y, heaLos.G) annotation (Line(points={{24,67},{24,34},{-32,34},
           {-32,18.6},{-22,18.6}}, color={0,0,127}));
   annotation (
-  defaultComponentName="solCol",
-  Documentation(info="<html>
-<p>
-This component models a solar thermal collector according to the EN12975
-test standard.
-</p>
-
-<h4>References</h4>
-<p>
-CEN 2022, European Standard 12975:2022, European Committee for Standardization
-</p>
-<p>
-<a href=\"https://energyplus.net/assets/nrel_custom/pdfs/pdfs_v23.2.0/EngineeringReference.pdf\">
-EnergyPlus 23.2.0 Engineering Reference</a>
-</p>
-</html>",
-      revisions="<html>
-<ul>
-<li>
-February 28, 2024, by Jelger Jansen:<br/>
-Refactor model.<br/>
-This is for
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/3604\">Buildings, #3604</a>.
-</li>
-<li>
-December 11, 2023, by Michael Wetter:<br/>
-Corrected implementation of pressure drop calculation for the situation where the collectors are in parallel,
-e.g., if <code>sysConfig == IDEAS.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel</code>.<br/>
-Changed assignment of <code>computeFlowResistance</code> to <code>final</code> based on
-<code>dp_nominal</code>.<br/>
-This is for
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/3597\">Buildings, #3597</a>.
-</li>
-<li>
-September 16, 2021, by Michael Wetter:<br/>
-Changed <code>lat</code> from being a parameter to an input from weather bus.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
-</li>
-<li>
-December 17, 2017, by Michael Wetter:<br/>
-Revised computation of heat loss.<br/>
-This is for
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/1100\">
-issue 1100</a>.
-</li>
-<li>
-November 21, 2017, by Michael Wetter:<br/>
-Corrected error in heat loss calculations that did not scale correctly with <code>nPanels</code>.<br/>
-This is for
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/1073\">issue 1073</a>.
-</li>
-<li>
-January 4, 2013, by Peter Grant:<br/>
-First implementation.
-</li>
-</ul>
-</html>"),
+  defaultComponentName="PvtCol",
+  Documentation(info = "<html>
+  <p>
+    This component models a photovoltaic–thermal (PVT) collector by
+    coupling the ISO 9806 quasi-dynamic thermal procedure (EN 12975)
+    with an internal electrical model. The model uses only
+    datasheet parameters (no measured calibration data). The
+    electrical output is calculated via a two-node PV–fluid coupling.
+    The model has been validated experimentally on unglazed PVT
+    collectors under a wide range of weather conditions.
+  </p>
+  <h4>References</h4>
+  <ul>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). “Development and
+      Experimental Validation of an Unglazed Photovoltaic-Thermal
+      Collector Modelica Model that only needs Datasheet Parameters.”
+      <em>Proceedings of the Modelica Conference 2025</em>.
+    </li>
+    <li>
+      ISO 9806:2017. “Solar thermal collectors—Test methods.” CEN,
+      European Committee for Standardization.
+    </li>
+    <li>
+      IDEAS issue:
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+      Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436</a>
+    </li>
+  </ul>
+  </html>"),
+  revisions = "<html>
+  <ul>
+    <li>
+      June 12, 2025, by Lone Meertens:<br/>
+      Added validated quasi-dynamic PVT collector model that couples
+      EN 12975 thermal calculations with electrical generation
+      submodel using only manufacturer datasheet parameters.
+      This work is tracked in
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+      IDEAS, #1436</a>.
+    </li>
+  </ul>
+  </html>",
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),
       graphics={
@@ -203,5 +190,10 @@ First implementation.
           smooth=Smooth.None,
           thickness=1,
           origin={0,40},
-          rotation=90)}));
+          rotation=90),
+        Polygon(
+          points={{72,96},{36,26},{60,34},{48,-24},{88,58},{64,48},{72,96}},
+          lineColor={0,0,0},
+          fillColor={0,255,0},
+          fillPattern=FillPattern.Solid)}));
 end QuasiDynamicPvtCollector;
