@@ -414,7 +414,7 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.</a>
       "Temperature coefficient of the PV panel(s)";
     parameter Modelica.Units.SI.Efficiency   P_loss_factor = 0.10
       "Loss factor of the PV panel(s)";
-    parameter Modelica.Units.SI.CoefficientOfHeatTransfer U_pvt = 35
+    parameter Modelica.Units.SI.CoefficientOfHeatTransfer U_pvt = 50
       "Heat transfer coefficient used in cell temperature calculation";
     constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
       "Reference cell temperature (K)";
