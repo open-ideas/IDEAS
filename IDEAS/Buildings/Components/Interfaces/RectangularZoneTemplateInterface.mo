@@ -1099,6 +1099,9 @@ protected
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
   final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
 
+  final parameter Boolean hasCavity = hasCavityA or hasCavityB or hasCavityC or hasCavityD or hasCavityFlo
+    "Boolean to enable open door modelling parameters if the RectangularZone has a cavity";
+
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     "The value for bouTypA is not supported");
@@ -1545,6 +1548,11 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 13, 2025, by Jelger Jansen:<br/>
+Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
