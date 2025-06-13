@@ -5,18 +5,18 @@ model PartialQuasiDynamicPvtCollector
       redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
   // ===== Photovoltaic Parameters =====
-  parameter Modelica.Units.SI.Irradiance Gstc = 1000
+  final parameter Modelica.Units.SI.Irradiance Gstc = 1000
     "Irradiance at Standard Conditions (W/m2)";
   parameter Modelica.Units.SI.Power      Pstc = 500
-    "PV panel power at STC (W)";
+    "PV panel power at STC (W)" annotation(Dialog(group="Electrical parameters"));
   parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma = -0.0037
-    "Temperature coefficient of the PV panel(s)";
+    "Temperature coefficient of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
-    "Loss factor of the PV panel(s)";
+    "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
     "Reference cell temperature (K)";
   parameter Real eta0El = 0.17
-    "Zero-loss electrical efficiency at STC";
+    "Zero-loss electrical efficiency at STC" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Unglazed
     "Type of collector (used to select (tau*alpha)_eff)";
