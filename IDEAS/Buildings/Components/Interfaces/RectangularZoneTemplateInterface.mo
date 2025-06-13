@@ -1550,7 +1550,7 @@ components cannot be propagated.
 <ul>
 <li>
 June 13, 2025, by Jelger Jansen:<br/>
-Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters.
+Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters and fix typo <code>bouTyp</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
 </li>
 <li>
