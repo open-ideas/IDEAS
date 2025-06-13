@@ -18,7 +18,7 @@ protected
   final parameter Real tauAlphaEff =
     if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
     "Effective transmittance–absorptance product";
-  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer uPvt =
+  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
   ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*Gstc))
   / ((tauAlphaEff - per.eta0El) - per.eta0)
   "Heat transfer coefficient calculated from EN12975 parameters";
@@ -71,7 +71,7 @@ equation
     // Compute the local thermal power density (W/m2)
     qth[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal/nSeg);
     // Estimate the cell temperature using fluid temperature and thermal flux
-    temCell[i] = Tm[i] + qth[i] / uPvt;
+    temCell[i] = Tm[i] + qth[i] / UAbsFluid;
     // Determine the temperature difference relative to the reference temperature
     temDiff[i] = temCell[i] - _T_ref;
     // Calculate electrical power output per segment using the PV performance equation

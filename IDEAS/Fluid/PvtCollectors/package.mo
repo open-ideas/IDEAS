@@ -16,7 +16,7 @@ annotation (
       Line(origin = {-48.3585, 20.4861}, points = {{-6, 16}, {0, -18}}),
       Line(origin = {-35.6812, 25.8008}, points = {{-6, 16}, {14, -12}}),
         Polygon(
-          points={{64,90},{28,20},{52,28},{40,-30},{80,52},{56,42},{64,90}},
+          points={{66,72},{40,26},{56,32},{50,0},{76,50},{60,42},{66,72}},
           lineColor={5,18,34},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid)}));
