@@ -20,20 +20,17 @@ record UN_PVTHERMAU300 =
     final Pstc = 300,
     final gamma = -0.00375,
     final eta0El = 0.183)
-  "Parameters for a flat‑plate, uncovered & uninsulated PVT collector"
+  "Parameters for an uncovered flat-plate PVT collector without rear cover or back-side insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTHERMAU300",
   Documentation(info = "<html>
 <p>
-This record contains performance parameters for a flat‑plate, <b>uncovered</b> and <b>uninsulated</b> PVT collector, derived from <i>PVT 2</i>—the real‑operation dataset on a test bench in Austria (1.66 m² gross).</p>
+This record contains performance parameters for a flat‑plate, <b>uncovered</b> and <b>uninsulated</b> PVT collector, derived from manufacturer datasheets and thermal rating documentation. Thermal parameters follow the ISO 9806:2013 quasi‑dynamic format and correspond to operation at the PV module’s maximum power point (MPP).
+</p>
 
-<h4>Dataset description</h4>
-<ul>
-  <li>Measurement period: 58 summer days (July 11 – September 6, 5 s sampling interval).</li>
-  <li>Publicly available; used for data‑driven and grey‑box PVT modelling.</li>
-</ul>
-<p>See Veynandt, Inschlag, et al. (2023) for the raw measurement data and Veynandt, Klanatsky, et al. (2023) for a grey‑box model built on this dataset.</p>
+<p>
+For this PVT collector, additional real-life measurement data is publicly available (Veynandt, 2023) and has been used in the validation of the <code>QuasiDynamicPvtCollector</code> PVT model (Meertens, 2025).
 
 <h4>Certificate</h4>
 <ul>
@@ -42,7 +39,7 @@ This record contains performance parameters for a flat‑plate, <b>uncovered</b>
 
 <h4>Data conversion</h4>
 <p>
-Thermal coefficients were originally obtained via the unglazed steady‑state method and then converted to quasi‑dynamic form following Solar Keymark Network’s approach (2019).
+The thermal coefficients were originally obtained using the ISO 9806:2013 unglazed steady-state method, and converted to quasi‑dynamic form according to the Solar Keymark Network procedure (2019).
 </p>
 
 <h4>References</h4>
@@ -58,8 +55,15 @@ Thermal coefficients were originally obtained via the unglazed steady‑state me
   </li>
   <li>
     ISO 9806:2013. <i>Solar thermal collectors — Test methods</i>.
-  </li>
+    </li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). “Development and
+      Experimental Validation of an Unglazed Photovoltaic-Thermal
+      Collector Modelica Model that only needs Datasheet Parameters.”
+      <em>Proceedings of the Modelica Conference 2025</em>.
+    </li>
 </ul>
+
 </html>"),
   revisions = "<html>
 <ul>

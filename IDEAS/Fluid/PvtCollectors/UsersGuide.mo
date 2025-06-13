@@ -113,6 +113,8 @@ datasheet values.
   <li>Lämmle, M. (2018). “Thermal management of PVT collectors…” PhD thesis, University Freiburg.</li>
   <li>Dobos, A. P. (2014). <i>PVWatts Version 5 Manual</i>. NREL/TP-6A20-62641.</li>
   <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
+  <li>IDEAS issue: <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+  Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436</a>  </li>
 </ul>
 </html>"));
 end UsersGuide;

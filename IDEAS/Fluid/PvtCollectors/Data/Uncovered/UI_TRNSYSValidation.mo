@@ -20,27 +20,19 @@ record UI_TRNSYSValidation=
     final Pstc = 280,
     final gamma = -0.0041,
     final eta0El = 0.1687)
-    "Parameters for an uncovered flat-plate PVT collector that
-features a rear cover and thermal insulation on the back
-of the absorber"
+    "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datWiscPvt",
   Documentation(info = "<html>
 <p>
-This record contains performance parameters for an uncovered (WISC) flat-plate PVT collector,
-tested under ISO 9806:2013 quasi-dynamic conditions (Solar Keymark Certificate No. 011-7S2782P). Thermal performance parameters are given for the PV module operating
-at maximum power point (MPP mode). Data retrieved from the Solar Keymark database on certified PVT products.
+This record contains anonymized thermal and electrical performance parameters for an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 
+tested under ISO 9806:2013 quasi-dynamic conditions. Thermal performance parameters correspond to operation
+of the PV module at maximum power point (MPP mode). 
 </p>
-<h4>Certificate</h4>
-<ul>
-  <li>Solar Keymark Certificate No. 011-7S2782P</li>
-</ul>
+
 <h4>References</h4>
 <ul>
-  <li>
-    Solar Keymark Certificate 011-7S2782P, SRCC database.
-  </li>
   <li>
     ISO 9806:2013. Solar thermal collectors — Test methods.
   </li>
@@ -49,13 +41,13 @@ at maximum power point (MPP mode). Data retrieved from the Solar Keymark databas
     <a href=\"https://www.iea-shc.org/task60\">iea-shc.org/task60</a>.
   </li>
 </ul>
+
 </html>",
   revisions = "<html>
 <ul>
   <li>
     June 12, 2025, by Lone Meertens:<br/>
-    Added SRCC-validated data record for uncovered (WISC) flat-plate PVT collector.<br/>
-    Solar Keymark Certificate No. 011-7S2782P.<br/>
+    Added validated data record for an <b>uncovered</b> PVT collector with <b>rear insulation</b> using anonymized input parameters.<br/>
     Thermal parameters correspond to MPP operation mode.
   </li>
 </ul>

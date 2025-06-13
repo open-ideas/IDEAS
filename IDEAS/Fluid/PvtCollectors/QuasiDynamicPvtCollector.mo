@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors;
 model QuasiDynamicPvtCollector
-  "Model of a photovoltaic–thermal collector using the EN 12975 quasi-dynamic thermal procedure with integrated electrical coupling"
+  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
@@ -92,12 +92,12 @@ equation
   Documentation(info = "<html>
   <p>
     This component models a photovoltaic–thermal (PVT) collector by
-    coupling the ISO 9806 quasi-dynamic thermal procedure (EN 12975)
+    coupling the ISO 9806 quasi-dynamic thermal method
     with an internal electrical model. The model uses only
     datasheet parameters (no measured calibration data). The
     electrical output is calculated via a two-node PV–fluid coupling.
-    The model has been validated experimentally on unglazed PVT
-    collectors under a wide range of weather conditions.
+    The model has been validated experimentally on unglazed (with and without 
+    rear insulation) PVT collectors under a wide range of weather conditions.
   </p>
   <h4>References</h4>
   <ul>
@@ -122,8 +122,8 @@ equation
   <ul>
     <li>
       June 12, 2025, by Lone Meertens:<br/>
-      Added validated quasi-dynamic PVT collector model that couples
-      EN 12975 thermal calculations with electrical generation
+      Added validated quasi-dynamic PVT collector model that couples the
+      ISO 9806:2013 quasi-dynamic thermal calculations with electrical generation
       submodel using only manufacturer datasheet parameters.
       This work is tracked in
       <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">

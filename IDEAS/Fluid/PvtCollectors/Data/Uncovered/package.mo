@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Data;
-package Uncovered "Performance data for uncovered (WISC) PVT collectors"
+package Uncovered
+  "Performance data for uncovered (WISC) PVT collectors"
 extends Modelica.Icons.MaterialPropertiesPackage;
 
 /**  
@@ -12,12 +13,12 @@ extends Modelica.Icons.MaterialPropertiesPackage;
   annotation (
 Documentation(info = "<html>
 <p>
-This package contains performance data for uncovered (WISC)
-flat-plate photovoltaic-thermal collectors. All records conform to
-ISO 9806:2013 quasi-dynamic testing, with parameters sourced from
-Solar Keymark Certificate. Thermal performance parameters
-apply to the PV module in maximum power point (MPP) operation mode.
+This package contains thermal and electrical performance data for uncovered (WISC) photovoltaic–thermal collectors. 
+All records conform to ISO 9806:2013 quasi-dynamic thermal testing, with parameters sourced from 
+Solar Keymark Certificates. The thermal parameters apply to the PV module operating in maximum power point (MPP) mode, 
+and the electrical performance parameters can be retrieved from manufacturer datasheets.
 </p>
+
 </html>"));
 
 end Uncovered;
