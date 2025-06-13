@@ -19,7 +19,7 @@ record WISC_TRNSYSValidation =
     final c6=0.003)
     annotation (
 defaultComponentPrefixes="parameter",
-defaultComponentName="datPVT",
+defaultComponentName="datPvtCol",
 Documentation(info = "<html>
     
     <h4>References</h4>

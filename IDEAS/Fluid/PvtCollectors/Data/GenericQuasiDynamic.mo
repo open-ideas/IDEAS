@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Data;
 record GenericQuasiDynamic
-  "Generic data record for PVT collector models following ISO 9806:2013 Quasi Dynamic approach"
+  "Generic data record for PVT collector models following ISO 9806:2013 Quasi Dynamic procedure"
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
   parameter Real IAMDiff(final min=0, final max=1, final unit="1")
@@ -23,16 +23,28 @@ defaultComponentPrefixes="parameter",
 defaultComponentName="datPvtCol",
 Documentation(info="<html>
 <p>
-Record containing performance parameters for ISO 9806:2013 Quasi Dynamic tested PVT collector models.
+Record containing thermal performance parameters for PVT collectors tested
+according to the ISO 9806:2013 quasi-dynamic procedure. These parameters can
+be used for glazed and unglazed photovoltaic–thermal collectors, and represent
+the thermal side of the PVT performance.
 </p>
-</html>", revisions="<html>
+<h4>References</h4>
+<ul>
+<li>
+IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
+<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
+</li>
+<li>
+ISO 9806:2013. Solar thermal collectors — Test methods.
+</li>
+</ul>
+</html>", evisions = "<html>
 <ul>
 <li>
 June 12, 2025, by Lone Meertens:<br/>
-Refactor model.<br/>
-This is for
+Added performance record for PVT collectors following ISO 9806 quasi-dynamic procedure.<br/>
+Based on collector classifications in IEA SHC Task 60.<br/>
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
-
 </li>
 </ul>
 </html>"));

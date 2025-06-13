@@ -1,11 +1,8 @@
 within IDEAS.Fluid.PvtCollectors.Examples;
-model Wisc "Test model for FlatPlate"
+model Wisc "Test model for uncovered (WISC) PVT collectors"
   extends Modelica.Icons.Example;
   replaceable package Medium = Modelica.Media.Incompressible.Examples.Glycol47
     "Medium in the system";
-  parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
-      IDEAS.Fluid.PvtCollectors.Data.WISC.WISC_TRNSYSValidation()
-    "PVT data structure";
 
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
     Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
@@ -44,11 +41,13 @@ model Wisc "Test model for FlatPlate"
     azi=0,
     til=0.78539816339745,
     rho=0.2,
-    CTot=per.C,
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
-    per=per)
+    per=datPvtCol,
+    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+  parameter Data.Uncovered.UI_TRNSYSValidation datPvtCol
+    annotation (Placement(transformation(extent={{64,64},{84,84}})));
 equation
   connect(sou.ports[1], TIn.port_a) annotation (Line(
       points={{-38,0},{-28,0}},

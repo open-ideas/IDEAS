@@ -8,7 +8,7 @@ model Typ1
   parameter Real uPvt  = 32.76 "Heat transfer coefficient between thermal and electrical part of pvt";
   // Define the PVT data once and reuse it throughout the model
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
-      IDEAS.Fluid.PvtCollectors.Data.WISC.WISC_TRNSYSValidation()
+      IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
     "PVT data structure";
   parameter Real CTot = per.C "Total capacity of collector (J/K)";
   parameter Real rho = 0.2;

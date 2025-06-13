@@ -2,7 +2,7 @@ within IDEAS.Fluid.PvtCollectors.BaseClasses.Examples;
 model EN12975HeatLoss "Example showing the use of EN12975HeatLoss"
   extends Modelica.Icons.Example;
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
-      IDEAS.Fluid.PvtCollectors.Data.WISC.WISC_TRNSYSValidation()
+      IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
     "Performance data" annotation (choicesAllMatching=true);
   Modelica.Blocks.Sources.Sine T1(
     amplitude=15,
