@@ -13,10 +13,21 @@ model PartialQuasiDynamicPvtCollector
     "Temperature coefficient of the PV panel(s)";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer uPvt  = 50
-    "Heat transfer coefficient used in cell temperature calculation";
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
     "Reference cell temperature (K)";
+  parameter Real eta0El = 0.17
+    "Zero-loss electrical efficiency at STC";
+  parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
+  IDEAS.Fluid.PvtCollectors.Types.CollectorType.Unglazed
+    "Type of collector (used to select (tau*alpha)_eff)";
+protected
+  final parameter Real tauAlphaEff =
+    if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Unglazed then 0.901 else 0.84
+    "Effective transmittance–absorptance product";
+  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer uPvt =
+  ((tauAlphaEff - eta0El) * (per.c1 + abs(gamma)*Gstc))
+  / ((tauAlphaEff - eta0El) - per.eta0)
+  "Heat transfer coefficient calculated from EN12975 parameters";
 
   // ===== Measurement Data =====
   // (Assumes that an outer meaDat is available providing measurement data)
