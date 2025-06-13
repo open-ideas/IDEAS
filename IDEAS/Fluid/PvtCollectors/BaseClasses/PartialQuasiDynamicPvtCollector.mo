@@ -7,16 +7,10 @@ model PartialQuasiDynamicPvtCollector
   // ===== Photovoltaic Parameters =====
   final parameter Modelica.Units.SI.Irradiance Gstc = 1000
     "Irradiance at Standard Conditions (W/m2)";
-  parameter Modelica.Units.SI.Power      Pstc = 500
-    "PV panel power at STC (W)" annotation(Dialog(group="Electrical parameters"));
-  parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma = -0.0037
-    "Temperature coefficient of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
     "Reference cell temperature (K)";
-  parameter Real eta0El = 0.17
-    "Zero-loss electrical efficiency at STC" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
@@ -25,8 +19,8 @@ protected
     if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
     "Effective transmittance–absorptance product";
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer uPvt =
-  ((tauAlphaEff - eta0El) * (per.c1 + abs(gamma)*Gstc))
-  / ((tauAlphaEff - eta0El) - per.eta0)
+  ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*Gstc))
+  / ((tauAlphaEff - per.eta0El) - per.eta0)
   "Heat transfer coefficient calculated from EN12975 parameters";
 
   // ===== Measurement Data =====
@@ -81,8 +75,9 @@ equation
     // Determine the temperature difference relative to the reference temperature
     temDiff[i] = temCell[i] - _T_ref;
     // Calculate electrical power output per segment using the PV performance equation
-    solarPowerInternal[i] = (ATot_internal/nSeg) * (Pstc/per.A) * (G / Gstc) *
-                             (1 + gamma * temDiff[i]) * (1 - pLossFactor);
+    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/Gstc) *
+                         (1 + per.gamma*temDiff[i]) * (1 - per.eta0El);
+
   end for;
 
   // Assign the sum of the segment electrical outputs to the output connector pel

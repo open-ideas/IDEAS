@@ -4,19 +4,26 @@ record GenericQuasiDynamic
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
   parameter Real IAMDiff(final min=0, final max=1, final unit="1")
-    "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
+  "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
   parameter Real eta0(final min=0, final max=1, final unit="1")
-    "Optical efficiency (Maximum efficiency)";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
-    "First order heat loss coefficient";
-  parameter Real c2(final unit="W/(m2.K2)", final min=0)
-    "Second order heat loss coefficient";
-  parameter Real c3(final unit="J/(m3.K)", final min=0)
-    "Windspeed dependence of heat losses";
-  parameter Real c4(final unit="", final min=0)
-    "Sky temperature dependence of the heat-loss coefficient";
-  parameter Real c6(final unit="s/m", final min=0)
-    "Windspeed dependence of zero-loss efficiency";
+    "Optical thermal efficiency (Maximum efficiency)";
+  parameter Real c1(final min=0, final unit="W/(m2.K)")
+    "First order thermal heat loss coefficient";
+  parameter Real c2(final min=0, final unit="W/(m2.K2)")
+    "Second order thermal heat loss coefficient";
+  parameter Real c3(final min=0, final unit="J/(m3.K)")
+    "Windspeed dependence of thermal heat losses";
+  parameter Real c4(final min=0, final unit="1")
+    "Sky temperature dependence of the thermal heat-loss coefficient";
+  parameter Real c6(final min=0, final unit="s/m")
+    "Windspeed dependence of thermal zero-loss efficiency";
+  parameter Real Pstc(final min=0, final unit="W")
+    "PV panel power at STC (W)";
+  parameter Real gamma(final unit="1/K")
+    "Temperature coefficient of the PV panel(s)";
+  parameter Real eta0El(final min=0, final max=1, final unit="1")
+    "Module efficiency of the photovoltaic installation";
+
 
 annotation (
 defaultComponentPrefixes="parameter",
