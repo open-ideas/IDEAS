@@ -14,6 +14,12 @@ equation
   annotation (Documentation(revisions="<html>
 <ul>
 <li>
+June 13, 2025, Jelger Jansen:<br/>
+Remove <code>visible=not allowFlowReversal</code> in annotation of icon elements.
+Improve placement of icon elements.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
+<li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1029\">#1029</a>.
@@ -45,21 +51,16 @@ from the environment with the ambient temperature and humidity.
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
-          visible=not allowFlowReversal,
-          origin={-118,19},
+          origin={-115.5,20},
           rotation=180),
         Polygon(
           points={{-11,10},{20,0},{-11,-10},{-11,10}},
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
-          visible=not allowFlowReversal,
-          origin={-54,19},
+          origin={-54.5,20},
           rotation=360),
         Line(
-          points={{57.5,0},{-11,-0.5}},
-          color={0,128,255},
-          visible=not allowFlowReversal,
-          origin={-60.5,19},
-          rotation=180)}));
+          points={{-120,20},{-50,20}},
+          color={0,128,255})}));
 end FixedPressure;
