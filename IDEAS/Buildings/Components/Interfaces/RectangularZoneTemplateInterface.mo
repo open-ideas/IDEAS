@@ -396,7 +396,7 @@ partial model RectangularZoneTemplateInterface
   // open door modelling
   parameter Boolean hasCavityA = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face A", group="Cavity or open door", enable=(bouTypeA==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face A", group="Cavity or open door", enable=(bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hA(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityA,
@@ -409,7 +409,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityB = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face B", group="Cavity or open door", enable=(bouTypeB==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face B", group="Cavity or open door", enable=(bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hB(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityB,
@@ -422,7 +422,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityC = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face C", group="Cavity or open door", enable=(bouTypeC==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face C", group="Cavity or open door", enable=(bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hC(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityC,
@@ -435,7 +435,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityD = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face D", group="Cavity or open door", enable=(bouTypeD==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face D", group="Cavity or open door", enable=(bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hD(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityD,
@@ -448,7 +448,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityFlo = false
     "=true, to model open door or cavity in internal floor"
-    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypeFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length bFlo(min=0) = 2
     "Breadth of (rectangular) cavity in internal floor" annotation (Dialog(
       enable=hasCavityFlo,
@@ -1099,6 +1099,9 @@ protected
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
   final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
 
+  final parameter Boolean hasCavity = hasCavityA or hasCavityB or hasCavityC or hasCavityD or hasCavityFlo
+    "Boolean to enable open door modelling parameters if the RectangularZone has a cavity";
+
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     "The value for bouTypA is not supported");
@@ -1545,6 +1548,11 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 13, 2025, by Jelger Jansen:<br/>
+Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters and fix typo <code>bouTyp</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.

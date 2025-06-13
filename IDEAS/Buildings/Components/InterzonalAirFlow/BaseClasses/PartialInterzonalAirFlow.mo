@@ -18,6 +18,7 @@ partial model PartialInterzonalAirFlow "Partial for interzonal air flow"
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_vent
     "Nominal mass flow rate of ventilation system"
     annotation (Dialog(tab="Advanced"));
+
   Modelica.Fluid.Interfaces.FluidPort_b port_b_interior(
     redeclare package Medium = Medium,
     m_flow(nominal=m_flow_nominal_vent),
@@ -67,29 +68,21 @@ equation
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(
-          extent={{-15,80},{15,-80}},
+          extent={{-100,100},{60,70}},
           fillColor={192,192,192},
           fillPattern=FillPattern.Backward,
-          pattern=LinePattern.None,
-          origin={-19,86},
-          rotation=90),
+          pattern=LinePattern.None),
         Rectangle(
           extent={{-70,100},{-100,40}},
           fillColor={192,192,192},
           fillPattern=FillPattern.Backward,
           pattern=LinePattern.None),
         Line(
-          points={{57.5,0},{-11,-0.5}},
-          color={0,128,255},
-          visible=not allowFlowReversal,
-          origin={-20.5,31},
-          rotation=90),
+          points={{-20,20},{-20,90}},
+          color={0,128,255}),
         Line(
-          points={{57.5,0},{-13,-0.5}},
-          color={0,128,255},
-          visible=not allowFlowReversal,
-          origin={19.5,33},
-          rotation=90),
+          points={{20,20},{20,90}},
+          color={0,128,255}),
         Rectangle(
           extent={{-70,0},{-100,-60}},
           fillColor={192,192,192},
@@ -100,8 +93,7 @@ equation
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
-          visible=not allowFlowReversal,
-          origin={20,41},
+          origin={20,40},
           rotation=270),
         Line(
           points={{60,70},{-70,70},{-70,-60}},
@@ -113,12 +105,17 @@ equation
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
-          visible=not allowFlowReversal,
-          origin={-20,69},
+          origin={-20,70},
           rotation=90)}),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+June 13, 2025, Jelger Jansen:<br/>
+Remove <code>visible=not allowFlowReversal</code> in annotation of icon elements.
+Improve placement of icon elements.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
 <li>
 March 17, 2020, Filip Jorissen:<br/>
 Added support for vector fluidport.
