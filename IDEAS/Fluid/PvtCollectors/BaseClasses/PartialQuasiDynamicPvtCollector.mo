@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 model PartialQuasiDynamicPvtCollector
-  "Extended solar thermal collector with discretized PV electrical calculations"
+  "Extended partial solar (thermal) collector with discretized PV electrical calculations"
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
       redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
@@ -24,7 +24,7 @@ protected
   "Heat transfer coefficient calculated from EN12975 parameters";
 
   // ===== Measurement Data =====
-  // (Assumes that an outer meaDat is available providing measurement data)
+  // (Assumes that an outer measurement is available providing measurement data)
 
   // ===== Variables for PV Electrical Calculations per Segment =====
   // (Assuming that the base model provides arrays: temSen, QGai, QLos, and the scalar ATot_internal)

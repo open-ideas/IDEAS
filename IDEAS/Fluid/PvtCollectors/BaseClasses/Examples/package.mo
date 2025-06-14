@@ -6,8 +6,8 @@ extends Modelica.Icons.ExamplesPackage;
 annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains examples for the use of models that can be found in
-<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses\">
-IDEAS.Fluid.SolarCollectors.BaseClasses.</a>
+<a href=\"modelica://IDEAS.Fluid.PvtCollectors.BaseClasses\">
+IDEAS.Fluid.PvtCollectors.BaseClasses.</a>
 </p>
 </html>"));
 end Examples;

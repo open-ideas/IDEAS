@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 model EN12975HeatLoss_QuasiDynamic
+  "Calculate the quasi-dynamic heat loss of a pvt/solar collector following ISO 9806:2013 quasi-dynamic method"
   extends Modelica.Blocks.Icons.Block;
 
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium

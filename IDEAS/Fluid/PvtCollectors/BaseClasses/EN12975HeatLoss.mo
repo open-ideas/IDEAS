@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 block EN12975HeatLoss
-  "Calculate the heat loss of a solar collector per EN12975"
+  "Calculate the steady-state heat loss of a solar collector per EN12975"
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialHeatLoss(
     QLos_internal = A_c/nSeg * {dT[i] * (c1 - c2 * dT[i]) for i in 1:nSeg});
 
