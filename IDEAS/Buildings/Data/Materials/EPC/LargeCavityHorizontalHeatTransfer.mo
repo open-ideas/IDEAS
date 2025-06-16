@@ -7,7 +7,6 @@ record LargeCavityHorizontalHeatTransfer =
       epsLw=0.88,
       epsSw=0.55,
       final gas=true)
-  "Material name: LargeCavityHorizontalHeatTransfer, Material ID: 0abbb1a0-83ff-11e6-9986-2cd444b2e704"
       annotation (Documentation(revisions="<html>
 <ul>
 <li>

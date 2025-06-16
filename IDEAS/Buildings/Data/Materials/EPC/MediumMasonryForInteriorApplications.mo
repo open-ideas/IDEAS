@@ -6,7 +6,6 @@ record MediumMasonryForInteriorApplications =
       rho=1400,
       epsLw=0.88,
       epsSw=0.55)
-  "Material name: MediumMasonryForInteriorApplications, Material ID: bea89b1c-ad85-11eb-a67c-484d7ef975f7"
       annotation (Documentation(revisions="<html>
 <ul>
 <li>

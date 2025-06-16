@@ -6,7 +6,6 @@ record HeavyMasonryForInteriorApplications =
       rho=1850,
       epsLw=0.88,
       epsSw=0.55)
-  "Material name: HeavyMasonryForInteriorApplications, Material ID: 0abb1554-83ff-11e6-bed8-2cd444b2e704"
       annotation (Documentation(revisions="<html>
 <ul>
 <li>
