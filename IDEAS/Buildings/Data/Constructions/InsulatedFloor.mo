@@ -1,5 +1,6 @@
 within IDEAS.Buildings.Data.Constructions;
-record InsulatedFloorHeating "Floor heating example with heat injection between PUR and screed"
+record InsulatedFloor
+  "Floor heating example with heat injection between PUR and screed"
   extends IDEAS.Buildings.Data.Interfaces.Construction(
     locGain={3},
     incLastLay = IDEAS.Types.Tilt.Floor,
@@ -18,10 +19,11 @@ Example implementation of a floor heating construction record.
 <li>
 January 3, 2025, by Anna Dell'Isola:<br/>
 Additional gypsum layer. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+</li>
 <li>
 June 8, 2018, by Filip Jorissen:<br/>
 First implementation
 </li>
 </ul>
 </html>"));
-end InsulatedFloorHeating;
+end InsulatedFloor;
