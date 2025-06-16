@@ -2,7 +2,7 @@ within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
 model QDPvtCollectorValidationPVT2
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector
+  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per, break
       gGlob);
 

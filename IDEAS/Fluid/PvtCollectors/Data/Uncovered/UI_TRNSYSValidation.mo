@@ -23,7 +23,7 @@ record UI_TRNSYSValidation=
     "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
-  defaultComponentName     = "datWiscPvt",
+  defaultComponentName     = "datPvtCol",
   Documentation(info = "<html>
 <p>
 This record contains anonymized thermal and electrical performance parameters for an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 

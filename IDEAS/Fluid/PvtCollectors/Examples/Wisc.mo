@@ -38,6 +38,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
   QuasiDynamicPvtCollector pvtCol(
     redeclare package Medium = Medium,
+    show_T=true,
     azi=0,
     til=0.78539816339745,
     rho=0.2,

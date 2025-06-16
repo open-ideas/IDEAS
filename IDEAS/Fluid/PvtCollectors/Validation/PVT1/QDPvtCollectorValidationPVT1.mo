@@ -2,11 +2,14 @@ within IDEAS.Fluid.PvtCollectors.Validation.PVT1;
 model QDPvtCollectorValidationPVT1
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialQuasiDynamicPvtCollector
-    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per, break
-      gGlob);
+  extends IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.PartialPvtCollectorValidationPVT1
+    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
   Real windSpeTil "Effective wind speed normal to collector plane";
+  output Real pel = pelOut   "Total electrical power output (W)";
+  output Real qTh = qThOut   "Total thermal power output (W)";
+  output Real temMod = temModOut   "Average cell (module) temperature (K)";
+  output Real temMea = temMeaOut   "Average fluid temperature (K)";
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
@@ -32,13 +35,6 @@ model QDPvtCollectorValidationPVT1
     "Calculates the heat lost to the surroundings using the EN12975 standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
-    tableOnFile=true,
-    tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://PvtMod/Resources/Validation/MeasurementData/Typ1_modelica.txt"),
-    columns=1:25)                                     annotation (Placement(transformation(extent={{30,70},
-            {10,90}})));
   Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
     "[W/m2]"                                                                        annotation (Placement(transformation(extent={{-49.5,
             82},{-30.5,98}})));
@@ -68,12 +64,7 @@ model QDPvtCollectorValidationPVT1
     annotation (Placement(transformation(extent={{-93.5,-46},{-74.5,-30}})));
 equation
    // Compute plane wind speed (using inherited azi/til and connected weaBus):
-  windSpeTil = weaBus.winSpe
-    * sqrt(1 - (
-      cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
-    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
-   ^2);
-  heaLos.windSpePlane = windSpeTil;
+  windSpeTil = winSpe.y;
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -100,14 +91,8 @@ equation
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(meaDat.y[5],degToRad. u) annotation (Line(points={{9,80},{-40,80},{
-          -40,66}},                                                                    color={0,0,127}));
-  connect(meaDat.y[12], TAmbKel.Celsius) annotation (Line(points={{9,80},{-68,
-          80},{-68,28},{-46,28}},                                                                     color={0,0,127}));
   connect(solGai.HDirTil, Qdir.y) annotation (Line(points={{-22,52},{-26,52},{
           -26,90},{-29.55,90}}, color={0,0,127}));
-  connect(solGai.HSkyDifTil, meaDat.y[3])
-    annotation (Line(points={{-22,58},{-22,80},{9,80}}, color={0,0,127}));
   connect(solGai.incAng, degToRad.y)
     annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
   connect(heaLos.TEnv, TAmbKel.Kelvin)
@@ -129,6 +114,12 @@ equation
           -32,10},{-35.55,10}}, color={0,0,127}));
   connect(heaLos.E_L, longWaveRadiationModel.lonRad) annotation (Line(points={{
           -22.1,10.1},{-26,10.1},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
+  connect(meaDat.y[5], degToRad.u)
+    annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
+  connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,
+          28},{-68,78},{5,78}}, color={0,0,127}));
+  connect(solGai.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{-24,
+          58},{-24,78},{5,78}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>

@@ -23,7 +23,7 @@ record UN_PVTHERMAU300 =
   "Parameters for an uncovered flat-plate PVT collector without rear cover or back-side insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
-  defaultComponentName     = "datPVTHERMAU300",
+  defaultComponentName     = "datPvtCol",
   Documentation(info = "<html>
 <p>
 This record contains performance parameters for a flat‑plate, <b>uncovered</b> and <b>uninsulated</b> PVT collector, derived from manufacturer datasheets and thermal rating documentation. Thermal parameters follow the ISO 9806:2013 quasi‑dynamic format and correspond to operation at the PV module’s maximum power point (MPP).

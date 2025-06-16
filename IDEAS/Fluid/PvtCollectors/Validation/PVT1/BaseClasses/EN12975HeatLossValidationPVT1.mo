@@ -1,8 +1,7 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses;
 block EN12975HeatLossValidationPVT1
-  extends PvtMod.Components.Stc.BaseClasses.EN12975HeatLoss
-                         (QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*(if linearize
-         then -abs(dT_nominal) else dT[i]) + c3*u) + c4*(E_L - sigma*TEnv^4) -
+  extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss
+                         ( QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
         c6*u*G for i in 1:nSeg});
 
   // Constants
@@ -50,7 +49,7 @@ block EN12975HeatLossValidationPVT1
 
   // Equations for terms
 equation
-    c1_c2_term = sum(A_c/nSeg*{dT[i]*(c1 - c2*(if linearize then -abs(dT_nominal) else dT[i])) for i in 1:nSeg});
+    c1_c2_term = sum(A_c/nSeg*{dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
     c3_term = sum(A_c/nSeg*{dT[i]*(c3*u) for i in 1:nSeg});
     c4_term = sum(A_c/nSeg*{c4*(E_L - sigma*TEnv^4) for i in 1:nSeg});
     EL_term = E_L - sigma*TEnv^4;
