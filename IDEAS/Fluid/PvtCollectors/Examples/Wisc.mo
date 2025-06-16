@@ -69,38 +69,20 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.SolarCollectors.ASHRAE93\">
-IDEAS.Fluid.SolarCollectors.ASHRAE93</a>
+<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">
+IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
-February 15, 2024, by Jelger Jansen:<br/>
-Refactor model.<br/>
-This is for
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/3604\">Buildings, #3604</a>.
-</li>
-<li>
-September 16, 2021, by Michael Wetter:<br/>
-Removed parameter assignment for <code>lat</code>.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, #1477</a>.
-</li>
-<li>
-December 22, 2014 by Michael Wetter:<br/>
-Removed <code>Modelica.Fluid.System</code>
-to address issue
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/311\">#311</a>.
-</li>
-<li>
-September 18, 2014, by Michael Wetter:<br/>
-Changed medium from water to glycol.
-</li>
-<li>
-Mar 27, 2013, by Peter Grant:<br/>
-First implementation.
+June 16, 2025, by Lone Meertens:<br/>
+Added test model for an uncovered quasi-dynamic PVT collector (WISC)
+with variable mass flow and weather data input.
+Tracked in
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS, #1436</a>.
 </li>
 </ul>
 </html>"),
