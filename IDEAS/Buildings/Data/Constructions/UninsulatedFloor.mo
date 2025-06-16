@@ -1,13 +1,12 @@
 within IDEAS.Buildings.Data.Constructions;
 record UninsulatedFloor "Construction data of Uninsulated Floor"
   extends IDEAS.Buildings.Data.Interfaces.Construction(
-	locGain={3},	
-	incLastLay=IDEAS.Types.Tilt.Floor,
-	final mats={IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02),
-        IDEAS.Buildings.Data.Materials.EPC.DenseCastConcreteAlsoForFinishing(d=0.075),
-        IDEAS.Buildings.Data.Materials.EPC.DenseCastConcreteAlsoForFinishing(d=0.075),
-        IDEAS.Buildings.Data.Materials.EPC.ScreedOrLightCastConcrete(d=0.08),
-        IDEAS.Buildings.Data.Materials.EPC.CeramicTileForFinishing(d=0.02)});
+ locGain={2},
+ incLastLay=IDEAS.Types.Tilt.Floor,
+ final mats={IDEAS.Buildings.Data.Materials.Gypsum(d=0.02),
+        IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
+        IDEAS.Buildings.Data.Materials.Screed(d=0.08),
+        IDEAS.Buildings.Data.Materials.Tile(d=0.02)});
         annotation (Documentation(revisions="<html>
 <ul>
 <li>
