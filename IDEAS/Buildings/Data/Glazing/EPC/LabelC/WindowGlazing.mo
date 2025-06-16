@@ -1,4 +1,4 @@
-within IDEAS.Buildings.Data.Constructions.EPC.LabelC;
+within IDEAS.Buildings.Data.Glazing.EPC.LabelC;
 record WindowGlazing =  IDEAS.Buildings.Data.Glazing.EpcDouble
   "Glazing data of Window"
 annotation (Documentation(revisions="<html>

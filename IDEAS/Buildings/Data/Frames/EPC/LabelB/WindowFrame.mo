@@ -1,9 +1,9 @@
-within IDEAS.Buildings.Data.Constructions.EPC.LabelC;
+within IDEAS.Buildings.Data.Frames.EPC.LabelB;
 record WindowFrame "Frame data of Window"
     extends IDEAS.Buildings.Data.Interfaces.Frame(
     present=true,
-    U_value=3.4,
-    redeclare parameter IDEAS.Buildings.Components.ThermalBridges.LineLosses briTyp(psi=0.06, len=4.419343590975968));
+    U_value=1,
+    redeclare parameter IDEAS.Buildings.Components.ThermalBridges.LineLosses briTyp);
  annotation (Documentation(revisions="<html>
 <ul>
 <li>
