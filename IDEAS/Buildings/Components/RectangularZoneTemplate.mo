@@ -7,7 +7,6 @@ model RectangularZoneTemplate
     fraTypB(briTyp(len=2*h_winB + 2*A_winB/h_winB)),
     fraTypC(briTyp(len=2*h_winC + 2*A_winC/h_winC)),
     fraTypD(briTyp(len=2*h_winD + 2*A_winD/h_winD)),
-    fraTypFlo(briTyp(len=2*h_winFlo + 2*A_winFlo/h_winFlo)),
     fraTypCei(briTyp(len=2*h_winCei + 2*A_winCei/h_winCei)));
 
 
@@ -48,16 +47,6 @@ model RectangularZoneTemplate
         extent={{11,-11},{-11,11}},
         rotation=180,
         origin={-112,72})));
-  Modelica.Blocks.Interfaces.RealInput ctrlFlo
-                                            if shaTypFlo.controlled
-    "Control input for windows in floor, if controlled" annotation (Placement(
-        transformation(
-        extent={{11,-11},{-11,11}},
-        rotation=-90,
-        origin={-107,-111}), iconTransformation(
-        extent={{11,-11},{-11,11}},
-        rotation=180,
-        origin={-50,82})));
   Modelica.Blocks.Interfaces.RealInput ctrlCei
                                             if shaTypCei.controlled
     "Control input for windows in ceiling, if controlled" annotation (Placement(
@@ -303,64 +292,6 @@ replaceable
         rotation=0,
         origin={-95,-50})));
   replaceable
-  IDEAS.Buildings.Components.Window winFlo(inc=IDEAS.Types.Tilt.Floor, azi=aziAInt,
-    glazing(
-      checkLowPerformanceGlazing=glazingFlo.checkLowPerformanceGlazing,
-      nLay=glazingFlo.nLay,
-      mats=glazingFlo.mats,
-      SwAbs=glazingFlo.SwAbs,
-      SwTrans=glazingFlo.SwTrans,
-      SwAbsDif=glazingFlo.SwAbsDif,
-      SwTransDif=glazingFlo.SwTransDif,
-      U_value=glazingFlo.U_value,
-      g_value=glazingFlo.g_value),
-    A=A_winFlo,
-    hWin=h_winFlo,
-    redeclare package Medium = Medium,
-    frac=fracFlo,
-    T_start=T_start,
-    linIntCon_a=linIntCon,
-    dT_nominal_a=dT_nominal_win,
-    linExtCon=linExtCon,
-    windowDynamicsType=windowDynamicsType,
-    redeclare IDEAS.Buildings.Components.Shading.Shading shaType(shaPro(
-      controlled=shaTypFlo.controlled,
-  shaType=shaTypFlo.shaType,
-  hWin=shaTypFlo.hWin,
-  wWin=shaTypFlo.wWin,
-  wLeft=shaTypFlo.wLeft,
-  wRight=shaTypFlo.wRight,
-  ovDep=shaTypFlo.ovDep,
-  ovGap=shaTypFlo.ovGap,
-  hFin=shaTypFlo.hFin,
-  finDep=shaTypFlo.finDep,
-  finGap=shaTypFlo.finGap,
-  L=shaTypFlo.L,
-  dh=shaTypFlo.dh,
-  shaCorr=shaTypFlo.shaCorr)),
-    fraType(present=fraTypFlo.present,  U_value=fraTypFlo.U_value),
-    linExtRad=linExtRadWin,
-    nWin=nWinD)
-    if hasWinFlo constrainedby Window(
-       azi=aziFlo,
-       hWin=h_winFlo,
-       inc=IDEAS.Types.Tilt.Floor,
-       T_start=T_start,
-       linIntCon_a=linIntCon,
-       dT_nominal_a=dT_nominal_win,
-       linExtCon=linExtCon,
-       windowDynamicsType=windowDynamicsType,
-       linExtRad=linExtRadWin,
-       nWin=nWinFlo)
-    "Window for floor of this zone" annotation (Dialog(tab="Advanced",group="Windows"),
-      enable=hasWinFlo,
-      choicesAllMatching=true,
-      Placement(
-        transformation(
-        extent={{-5,-10},{5,10}},
-        rotation=0,
-        origin={-95,-70})));
-  replaceable
   IDEAS.Buildings.Components.Window winCei(inc=IDEAS.Types.Tilt.Ceiling, azi=aziAInt,
     glazing(
       checkLowPerformanceGlazing=glazingCei.checkLowPerformanceGlazing,
@@ -435,10 +366,6 @@ equation
       points={{-90.8333,-48},{-88,-48},{-88,40},{-80,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(winFlo.propsBus_a, propsBusInt[indWinFlo]) annotation (Line(
-      points={{-90.8333,-68},{-88,-68},{-88,40},{-80,40}},
-      color={255,204,51},
-      thickness=0.5));
   connect(winCei.propsBus_a, propsBusInt[indWinCei]) annotation (Line(
       points={{-90.8333,-88},{-88,-88},{-88,40},{-80,40}},
       color={255,204,51},
@@ -446,8 +373,6 @@ equation
 
   connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-91,-111},{-90,-111},
           {-90,-100},{-98.3333,-100}},    color={0,0,127}));
-  connect(ctrlFlo, winFlo.Ctrl) annotation (Line(points={{-107,-111},{-107,-100},
-          {-98.3333,-100},{-98.3333,-80}},color={0,0,127}));
   connect(ctrlD, winD.Ctrl) annotation (Line(points={{-123,-111},{-123,-106},{
           -124,-106},{-124,-100},{-98.3333,-100},{-98.3333,-60}},
                                                              color={0,0,127}));
@@ -667,7 +592,7 @@ components cannot be propagated.
 <ul>
 <li>
 March 11, 2025, by Lucas Verleyen:<br/>
-Implemented <code>OuterWall</code> (including possibility to add windows) for Floor construction.
+Implemented <code>OuterWall</code> for Floor construction.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a> .
 </li>
 <li>
