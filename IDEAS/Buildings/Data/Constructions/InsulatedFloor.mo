@@ -4,7 +4,7 @@ record InsulatedFloor
   extends IDEAS.Buildings.Data.Interfaces.Construction(
     locGain={3},
     incLastLay = IDEAS.Types.Tilt.Floor,
-    mats={IDEAS.Buildings.Data.Materials.EPC.GypsumPlasterForFinishing(d=0.02),
+    mats={IDEAS.Buildings.Data.Materials.Gypsum(d=0.02),
     IDEAS.Buildings.Data.Materials.Concrete(d=0.10),
     IDEAS.Buildings.Data.Insulation.Pur(d=0.07),
     IDEAS.Buildings.Data.Materials.Screed(d=0.05),
@@ -18,7 +18,7 @@ Example implementation of a floor heating construction record.
 <ul>
 <li>
 January 3, 2025, by Anna Dell'Isola:<br/>
-Additional gypsum layer. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
+Additional gypsum layer and changed terminology. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1267\">#1267</a>.
 </li>
 <li>
 June 8, 2018, by Filip Jorissen:<br/>
