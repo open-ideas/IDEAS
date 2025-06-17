@@ -89,7 +89,7 @@ model DetailedHouse6
     annotation (Placement(transformation(extent={{160,-62},{180,-42}})));
   Modelica.Blocks.Continuous.Integrator EEl(k=1/3600000)
     "Electrical energy meter with conversion to kWh"
-    annotation (Placement(transformation(extent={{280,40},{300,60}})));
+    annotation (Placement(transformation(extent={{260,40},{280,60}})));
   Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
         MediumWater, m_flow_nominal=pumEmi.m_flow_nominal)
     "Supply water temperature sensor"
@@ -144,7 +144,7 @@ equation
   connect(heaPumOn.y, heaPum.stage) annotation (Line(points={{181,-52},{187,-52},
           {187,-2}}, color={255,127,0}));
   connect(heaPum.P, EEl.u)
-    annotation (Line(points={{190,21},{190,50},{278,50}}, color={0,0,127}));
+    annotation (Line(points={{190,21},{190,50},{258,50}}, color={0,0,127}));
   connect(recZon.TSensor, val.T) annotation (Line(points={{11,32},{26,32},{26,30},{39.4,30}}, color={0,0,127}));
   connect(recZon1.TSensor, val1.T) annotation (Line(points={{11,-28},{32,-28},{32,
           12},{79.4,12},{79.4,30}}, color={0,0,127}));
