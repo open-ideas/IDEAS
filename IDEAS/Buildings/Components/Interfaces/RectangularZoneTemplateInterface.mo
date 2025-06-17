@@ -1580,7 +1580,9 @@ components cannot be propagated.
 <li>
 June 16, 2025, by Lucas Verleyen:<br/>
 Implemented <code>OuterWall</code> for Floor construction.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a> .
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a>.
+</li>
+<li>
 June 13, 2025, by Jelger Jansen:<br/>
 Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters and fix typo <code>bouTyp</code>.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
