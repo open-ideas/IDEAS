@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Constructions.EPC;
-package LabelA "Library of building envelope constructions label A"
+package LabelA "Library of EPC label A building envelope constructions"
 
   extends Modelica.Icons.MaterialPropertiesPackage;
 
