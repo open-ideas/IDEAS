@@ -39,7 +39,7 @@ Modelica.Blocks.Math.BooleanToReal</a>
 <h4>Connection instructions</h4>
 <p>
 The temperature sensor in the storage tank serves as an input to the hysteresis controller.
-The controller is configured such that it switches to a <i>false</i> signal below <i>40°C</i> and to <i>true</i> above <i>45°C</i>.
+The controller is configured such that it switches to a <i>false</i> signal below <i>45°C</i> and to <i>true</i> above <i>50°C</i>.
 </p>
 <p>
 The output of the hysteresis controller is thus true when the tank temperature is high enough and false
