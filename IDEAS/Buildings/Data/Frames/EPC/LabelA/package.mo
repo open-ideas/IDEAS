@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Frames.EPC;
-package LabelA "Library of building glazing frame label A"
+package LabelA "Library of EPC label A building glazing frame"
 
   extends Modelica.Icons.MaterialPropertiesPackage;
 
