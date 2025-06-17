@@ -97,28 +97,30 @@ equation
           color={0,0,0},
           thickness=0.5)}), Documentation(info="<html>
 <p>
-The interior natural convective heat transfer coefficient 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-eZGZlJrg.png\"/> 
+The interior natural convective heat transfer coefficient <i>h<sub>c,i</sub></i>
 is computed for each interior surface as 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-KNBSKUDK.png\"/>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-W5kvS3SS.png\"/> is the characteristic length of the surface, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-jhC1rqax.png\"/> is the indoor air temperature and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-sbXAgHuQ.png\"/> are correlation coefficients. These parameters {
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-nHmmePq5.png\"/>,
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-zJZmNUzp.png\"/>,
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-7nwXbcLp.png\"/>} are identical to {1.823,-0.121,0.293} for vertical surfaces [Awbi 1999], 
-{2.175,-0.076,0.308} for horizontal surfaces wherefore the heat flux is in the same direction as the buoyancy force <a href=\"IDEAS.Buildings.UsersGuide.References\">[Khalifa 2001]</a>, 
-and {2.72,-,0.13} for horizontal surfaces wherefore the heat flux is in the opposite direction as the buoyancy force <a href=\"IDEAS.Buildings.UsersGuide.References\">[Awbi 1999]</a>. 
-The interior natural convective heat transfer coefficient is only described as function 
+<i>h<sub>c,i</sub> = n<sub>1</sub> * D<sup>n2</sup> * (T<sub>a</sub> - T<sub>s</sub>)<sup>n3</sub></i> where 
+<i>D</i> is the characteristic length of the surface, 
+<i>T<sub>a</sub></i> is the indoor air temperature and 
+<i>n<sub>i</sub></i> are correlation coefficients. These parameters {<i>n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub></i>} 
+are identical to {1.823, -0.121, 0.293} for vertical surfaces [Awbi 1999], 
+{2.175, -0.076, 0.308} for horizontal surfaces, wherefore the heat flux is in the same direction as the buoyancy force [<a href=\"IDEAS.Buildings.UsersGuide.References\">Khalifa 2001</a>], 
+and {0.704, -0.601, 0.133} for horizontal surfaces, wherefore the heat flux is in the opposite direction as the buoyancy force [<a href=\"IDEAS.Buildings.UsersGuide.References\">Awbi 1999</a>]. 
+The interior natural convective heat transfer coefficient is only described as a function 
 of the temperature difference. Similar to the thermal model for heat transfer through a wall, 
 a thermal circuit formulation for the direct radiant exchange between surfaces can be derived 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[ Buchberg 1955, Oppenheim 1956]</a>.
+[<a href=\"IDEAS.Buildings.UsersGuide.References\">Buchberg 1955, Oppenheim 1956</a>].
 </p>
 <p>
 [Awbi 1999]: H.B. Awbi, A. Hatton, Natural convection from heated room surfaces, Energy and Buildings 30 (1999) 233&ndash;244.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 17, 2025, by Lucas Verleyen:<br/>
+Replaced images with inline equations.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1440>#1440</a>.
+</li>
 <li>
 July 11, 2016 by Filip Jorissen:<br/>
 Adjusted formulation of correlation such that the Jacobian computation of 

@@ -32,11 +32,11 @@ initial equation
   R=1/(Modelica.Constants.sigma*A*epsLw);
 
 equation
-  connect(preTem.port, heaRad.port_b) annotation(
-    Line(points = {{-40, 0}, {-40, -0.5}, {-18, -0.5}, {-18, 1}, {-10, 1}, {-10, 0}}, color = {191, 0, 0}));
-  connect(heaRad.port_a, port_a) annotation(
+  connect(preTem.port, heaRad.port_b) annotation (
+    Line(points={{-40,0},{-10,0}},                                                    color = {191, 0, 0}));
+  connect(heaRad.port_a, port_a) annotation (
     Line(points = {{10, 0}, {100, 0}}, color = {191, 0, 0}));
-  connect(preTem.T, Tenv) annotation(
+  connect(preTem.T, Tenv) annotation (
     Line(points = {{-62, 0}, {-100, 0}}, color = {0, 0, 127}));
   annotation (Icon(graphics={
         Line(points={{-40,10},{40,10}}, color={191,0,0}),
@@ -56,21 +56,30 @@ equation
         Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{90, 80}, {60, -80}}),
         Line(points = {{60, 80}, {60, -80}}, thickness = 0.5)}), Documentation(info="<html>
 <p>
-Longwave radiation between the surface and environment 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-AMjoTx5S.png\"/> is determined as
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-nt0agyic.png\"/>as derived from the Stefan-Boltzmann law wherefore 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-C6ZFvd5P.png\"/> the Stefan-Boltzmann constant 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[Mohr 2008]</a>, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-sLNH0zgx.png\"/> the longwave emissivity of the exterior surface, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-Q5X4Yht9.png\"/> the radiant-interchange configuration factor between the surface and sky 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[Hamilton 1952]</a>, and the surface and the environment respectively and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-k2V39u5g.png\"/> and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-GuSnzLxW.png\"/> are the exterior surface and sky temperature respectively. 
+Longwave radiation between the surface and the environment 
+<i>Q<sub>LW</sub></i> is determined as
+<i>Q<sub>LW</sub> = &sigma; * &epsilon;<sub>LW</sub> * A * (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> * T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) * T<sub>db</sub><sup>4</sup></i> 
+as derived from the Stefan-Boltzmann law, wherefore 
+<i>&sigma;</i> the Stefan-Boltzmann constant 
+[<a href=\"IDEAS.Buildings.UsersGuide.References\">Mohr 2008</a>], 
+<i>&epsilon;<sub>LW</sub></i> the longwave emissivity of the exterior surface <i>A</i>, 
+<i>F<sub>sky</sub></i> the radiant-interchange configuration factor between the surface and sky 
+[<a href=\"IDEAS.Buildings.UsersGuide.References\">Hamilton 1952</a>], and the surface and the environment, respectively, and 
+<i>T<sub>s</sub></i> and 
+<i>T<sub>sky</sub></i> are the exterior surface and sky temperature, respectively. 
 Shortwave solar irradiation absorbed by the exterior surface is determined as 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-cISf3Itz.png\"/>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-IKuIUMef.png\"/> is the shortwave absorption of the surface and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-Vuo4fgcb.png\"/> the total irradiation on the depicted surface.
+<i>Q<sub>SW</sub> = &epsilon;<sub>SW</sub> * A * E<sub>SW</sub></i>, where 
+<i>&epsilon;<sub>SW</sub></i> is the shortwave absorption of the surface <i>A</i> and 
+<i>E<sub>SW</sub></i> the total irradiation on the depicted surface.
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+June 17, 2025, by Lucas Verleyen:<br/>
+Replaced images with inline equations.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1440>#1440</a>.
+</li>
+</ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})));
