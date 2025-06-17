@@ -44,7 +44,7 @@ model DetailedHouse5 "New building model with two connected zones"
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
     redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor conTypFlo,
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     l=w,
     w=l/2,
