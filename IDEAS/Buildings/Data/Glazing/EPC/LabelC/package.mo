@@ -1,5 +1,5 @@
 within IDEAS.Buildings.Data.Glazing.EPC;
-package LabelC "Library of building glazing system label C"
+package LabelC "Library of EPC label C building glazing system"
 
   extends Modelica.Icons.MaterialPropertiesPackage;
 
