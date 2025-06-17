@@ -32,7 +32,7 @@ model SingleZoneResidentialHydronicHeatPump
     w=6*sqrt(scalingFactor),
     lInt=3*case900Template.w + 2*case900Template.l,
     A_winA=24,
-    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
+    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloor
       conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
           IDEAS.Buildings.Data.Insulation.Pur(d=0.2),
           IDEAS.Buildings.Data.Materials.Screed(d=0.05),
