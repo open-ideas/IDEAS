@@ -17,7 +17,7 @@ compared to the predefined maximal thickness of this layer, determining the fina
 If the new U-value does not yet satisfy the desired U-value, a non-ventilated air cavity 
 with a maximal thickness of <i>2.5 cm</i> is added. 
 <p>
-The resistance is calculated following EN ISO 6946. If the new U-value still does 
+The thermal resistance is calculated following EN ISO 6946. If the new U-value still does 
 not satisfy the desired U-value, mineral wool is added until the sampled U-value is reached. 
 A similar approach can be used for the ground floor and roof. 
 </p>
