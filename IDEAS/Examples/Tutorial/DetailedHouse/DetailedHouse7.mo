@@ -55,7 +55,7 @@ The figure below shows the operative zone temperature <code>recZon.TSensor</code
 and the radiator heat flow rate <code>rad.Q_flow</code> in the north-oriented zone with (red) and without (blue) hysteresis control.
 We see that the supply temperature is indeed reduced significantly. 
 This causes the zone temperature to be slightly lower, up to about <i>0.2°C</i>. 
-However, the COP increases to around 4-5 and the electrical energy use decreases from <i>25.4 kWh</i> to <i>15.8 kWh</i>. 
+However, the COP increases to around <i>4-5</i> and the electrical energy use decreases from <i>28.1 kWh</i> to <i>17.4 kWh</i>. 
 </p>
 <p align=\"center\">
 <img alt=\"Comparison with (red) and without (blue) control for zone temperature, supply water temperature

@@ -8,8 +8,8 @@ model DetailedHouse8 "JSON writer"
     outputTime=IDEAS.Utilities.IO.Files.BaseClasses.OutputTime.Terminal)
     annotation (Placement(transformation(extent={{308,70},{328,90}})));
 equation
-  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{308,80},{304,80},{304,50},{301,50}},
-                             color={0,0,127}));
+  connect(jsonWri.u[1], EEl.y) annotation (Line(points={{308,80},{304,80},{304,50},
+          {281,50}},         color={0,0,127}));
   annotation (Documentation(info="<html>
 <p>
 Extracting results from Dymola can be tedious. Therefore, several custom tools have been developed to facilitate 
@@ -40,7 +40,7 @@ saved. Connect the appropriate signal to the input of the block.
 <h4>Reference result</h4>
 <p>
 Check the contents of the generated file. Depending on the chosen value for the parameter
-<code>varKeys</code>, the result should be similar to: {\"Electrical energy [kWH]\"}: 1.2577137592e+01
+<code>varKeys</code>, the result should be similar to: {\"Electrical energy [kWh]\"}: 1.7425569229e+01
 </p>
 </html>", revisions="<html>
 <ul>
@@ -60,8 +60,5 @@ First implementation for the IDEAS crash course.
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Dassl"),
-    __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Examples/Tutorial/DetailedHouse/DetailedHouse8.mos"
-        "Simulate and plot"));
+      __Dymola_Algorithm="Dassl"));
 end DetailedHouse8;
