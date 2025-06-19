@@ -129,17 +129,17 @@ Within this context, the wall is modelled with lumped elements, i.e. a model whe
 fluxes are determined from a system composed of a sequence of discrete resistances <i>R<sub>n+1</sub></i> and capacitances <i>C<sub>n</sub></i>. 
 The number of capacitive elements <i>n</i> used in modelling the transient thermal response of the wall denotes the order of the lumped capacitance model.
 </p>
-<p><i>C<sub>c</sub> &#183; dT<sub>c</sub> / dt = &Sigma;<sub>i=1</sub><sup>n</sup> Q<sub>res,i</sub> + Q<sub>source</sub></i></p>
+<p><i>C<sub>c</sub> &#183; dT<sub>c</sub> / dt = &Sigma;<sub>i=1</sub><sup>n</sup> Q&#775;<sub>res,i</sub> + Q&#775;<sub>source</sub></i></p>
 <p>where 
-<i>Q<sub>source</sub></i> is the added energy to the lumped capacity, 
+<i>Q&#775;<sub>source</sub></i> is the added energy to the lumped capacity, 
 <i>T<sub>c</sub></i> is the temperature of the lumped capacity, 
 <i>C<sub>c</sub></i> is the thermal capacity of the lumped capacity equal to
 <i>&rho; &#183; c<sub>p</sub> &#183; d<sub>c</sub> &#183; A</i> for which <i>&rho;</i> denotes the density and 
 <i>c<sub>p</sub></i> is the specific heat capacity of the material and 
 <i>d<sub>c</sub></i> the equivalent thickness of the lumped element, where 
-<i>Q<sub>res</sub></i> the heat flux through the lumped resistance and 
+<i>Q&#775;<sub>res</sub></i> the heat flux through the lumped resistance and 
 <i>R<sub>res</sub></i> is the total thermal resistance of the lumped resistance, and where 
-<i>Q<sub>source</sub></i> are internal thermal sources.
+<i>Q&#775;<sub>source</sub></i> are internal thermal sources.
 </p>
 </html>", revisions="<html>
 <ul>
