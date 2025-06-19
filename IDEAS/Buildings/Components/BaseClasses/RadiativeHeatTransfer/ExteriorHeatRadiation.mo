@@ -58,7 +58,7 @@ equation
 <p>
 Longwave radiation <i>Q&#775;<sub>lw</sub></i> between the surface and the environment is determined according to the Stefan-Boltzmann law as</p>
 <p>
-<i>Q&#775;<sub>lw</sub> = &sigma; &#183; &epsilon;<sub>lw</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup></i></p>
+<i>Q&#775;<sub>lw</sub> = &sigma; &#183; &epsilon;<sub>lw</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup>)</i></p>
 <p>where</p>
 <p style=\"margin-left: 30px;\"><i>&sigma;</i> is the Stefan-Boltzmann constant [<a href=\"IDEAS.Buildings.UsersGuide.References\">Mohr 2008</a>],<br>
 <i>&epsilon;<sub>lw</sub></i> is the longwave emissivity of the exterior surface <i>A</i>,<br> 
