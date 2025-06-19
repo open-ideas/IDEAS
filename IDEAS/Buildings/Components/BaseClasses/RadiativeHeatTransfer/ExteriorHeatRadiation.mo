@@ -58,7 +58,7 @@ equation
 <p>
 Longwave radiation between the surface and the environment 
 <i>Q<sub>LW</sub></i> is determined as
-<i>Q<sub>LW</sub> = &sigma; * &epsilon;<sub>LW</sub> * A * (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> * T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) * T<sub>db</sub><sup>4</sup></i> 
+<i>Q<sub>LW</sub> = &sigma; &#183; &epsilon;<sub>LW</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup></i> 
 as derived from the Stefan-Boltzmann law, wherefore 
 <i>&sigma;</i> the Stefan-Boltzmann constant 
 [<a href=\"IDEAS.Buildings.UsersGuide.References\">Mohr 2008</a>], 
@@ -68,7 +68,7 @@ as derived from the Stefan-Boltzmann law, wherefore
 <i>T<sub>s</sub></i> and 
 <i>T<sub>sky</sub></i> are the exterior surface and sky temperature, respectively. 
 Shortwave solar irradiation absorbed by the exterior surface is determined as 
-<i>Q<sub>SW</sub> = &epsilon;<sub>SW</sub> * A * E<sub>SW</sub></i>, where 
+<i>Q<sub>SW</sub> = &epsilon;<sub>SW</sub> &#183; A &#183; E<sub>SW</sub></i>, where 
 <i>&epsilon;<sub>SW</sub></i> is the shortwave absorption of the surface <i>A</i> and 
 <i>E<sub>SW</sub></i> the total irradiation on the depicted surface.
 </p>

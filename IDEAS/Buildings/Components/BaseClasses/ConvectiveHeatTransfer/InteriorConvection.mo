@@ -99,7 +99,7 @@ equation
 <p>
 The interior natural convective heat transfer coefficient <i>h<sub>c,i</sub></i>
 is computed for each interior surface as 
-<i>h<sub>c,i</sub> = n<sub>1</sub> * D<sup>n2</sup> * (T<sub>a</sub> - T<sub>s</sub>)<sup>n3</sub></i> where 
+<i>h<sub>c,i</sub> = n<sub>1</sub> &#183; D<sup>n2</sup> &#183; (T<sub>a</sub> - T<sub>s</sub>)<sup>n3</sub></i> where 
 <i>D</i> is the characteristic length of the surface, 
 <i>T<sub>a</sub></i> is the indoor air temperature and 
 <i>n<sub>i</sub></i> are correlation coefficients. These parameters {<i>n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub></i>} 
