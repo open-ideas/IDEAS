@@ -9,6 +9,10 @@ model DetailedHouse10 "Speeding up the code"
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       use_riseTime=false),
+    pumEmi(
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      allowFlowReversal=false,
+      use_riseTime=false),
     recZon1(
       redeclare Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,
       redeclare HeavyWall conTypA,
@@ -63,7 +67,8 @@ end HeavyWall;
       StopTime=11000000,
       __Dymola_NumberOfIntervals=5000,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Dassl"),
+      __Dymola_fixedstepsize=20,
+      __Dymola_Algorithm="Euler"),
   __Dymola_experimentFlags(
       Advanced(
         EvaluateAlsoTop=true,
@@ -83,11 +88,11 @@ Fortunately, there are many tricks that can be used to speed up the solver. The 
 remove small time constants from the problem.  
 The example in <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10</a> implements changes
-that cause the simulation to become 1.5 times faster. These are modest improvements since this small example model behaves rather well.
-However, the simulation time can be further reduced by systematically removing fast time constants and by 
-switching the solver to a simpler method, such as Euler integration. 
-For large models, the difference in computation time when using Euler integration with a fixed time step can become a factor 1000. 
-The modifications however require a bit of knowledge about solvers and the models
+that cause the simulation to become almost 3 times faster. By systematically removing fast time constants, the solver can be 
+switched to a simpler method, such as Euler integration, with a fixed time step of 20 seconds. 
+These are modest improvements since this small example model behaves rather well. 
+However, for large models, the difference in computation time when using Euler integration
+can become a factor 1000. The modifications however require a bit of knowledge about solvers and the models
 that you are using, including some of the more advanced parameters. To learn more about this, we refer to
 [1, 2, 3].
 </p>
