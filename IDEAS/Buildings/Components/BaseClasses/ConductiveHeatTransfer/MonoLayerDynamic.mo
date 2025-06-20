@@ -137,9 +137,10 @@ The number of capacitive elements <i>n</i> used in modelling the transient therm
 <li><i>Q&#775;<sub>source</sub></i> are internal thermal sources that represent the added energy to the lumped capacity, and</li>
 <li><i>C<sub>c</sub></i> is the thermal capacity of the lumped capacity, equal to
 <i>(&rho; &#183; c<sub>p</sub> &#183; d<sub>c</sub> &#183; A)</i>, where</li>
-<li><ul><li><i>&rho;</i> denotes the density,</li> 
-<li><i>c<sub>p</sub></i> is the specific heat capacity of the material, and</li>
-<li><i>d<sub>c</sub></i> is the equivalent thickness of the lumped capacity.</li></ul></li>
+<ul><li><i>&rho;</i> denotes the density,</li> 
+<li><i>c<sub>p</sub></i> is the specific heat capacity of the material,</li>
+<li><i>d<sub>c</sub></i> is the equivalent thickness of the lumped capacity, and
+<li><i>A</i> is the surface area of the wall.</li></ul>
 </ul>
 </html>", revisions="<html>
 <ul>
