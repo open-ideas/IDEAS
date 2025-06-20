@@ -4,7 +4,7 @@ package PvtCollectors
 
 annotation (
   Documentation(info = "<html>
-  This package contains models which can be used to simulate photovoltaic-thermal (PVT)
+  This package contains models to simulate photovoltaic-thermal (PVT)
   solar systems, combining both thermal and electrical energy generation.
   </html>"),
   Icon(
