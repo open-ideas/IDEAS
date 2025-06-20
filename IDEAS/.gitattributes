@@ -1,0 +1,2 @@
+IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/*.mos filter=lfs diff=lfs merge=lfs -text
+IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/*.txt filter=lfs diff=lfs merge=lfs -text
