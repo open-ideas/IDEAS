@@ -49,6 +49,6 @@ equation
     c6_term = sum(A_c/nSeg*{(-1)* c6*u*G  for i in 1:nSeg});
 
   annotation (Documentation(info="<html>
-<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p></html>
+<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
 </html>"));
 end PartialEN12975HeatLoss_QuasiDynamic;
