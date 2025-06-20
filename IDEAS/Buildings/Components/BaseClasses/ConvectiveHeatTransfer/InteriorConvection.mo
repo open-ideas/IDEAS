@@ -114,6 +114,7 @@ equation
 of the temperature difference. Similar to the thermal model for heat transfer through a wall, 
 a thermal circuit formulation for the direct radiant exchange between surfaces can be derived 
 [Buchberg 1955, Oppenheim 1956].</p>
+<h4>References</h4>
 <p>
 [Awbi 1999]: H.B. Awbi, A. Hatton, \"Natural convection from heated room surfaces\", <i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
 [Buchberg 1955]: H. Buchberg, \"Electric analogue prediction of thermal behavior of an inhabitable enclosure\", <i>ASHRAE Transactions</i>, vol. 61, pp. 339&ndash;386, 1955.<br>
