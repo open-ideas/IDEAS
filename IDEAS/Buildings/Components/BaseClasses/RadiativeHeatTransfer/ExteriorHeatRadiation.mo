@@ -55,22 +55,22 @@ equation
         Line(points = {{-60, 80}, {-60, -80}}, thickness = 0.5),
         Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{90, 80}, {60, -80}}),
         Line(points = {{60, 80}, {60, -80}}, thickness = 0.5)}), Documentation(info="<html>
-<p>
-Longwave radiation <i>Q&#775;<sub>lw</sub></i> between the surface and the environment is determined according to the Stefan-Boltzmann law as</p>
-<p>
-<i>Q&#775;<sub>lw</sub> = &sigma; &#183; &epsilon;<sub>lw</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup>)</i></p>
+<p>Longwave radiation <i>Q&#775;<sub>lw</sub></i> between the surface and the environment is determined according to the Stefan-Boltzmann law as</p>
+<p><i>Q&#775;<sub>lw</sub> = &sigma; &#183; &epsilon;<sub>lw</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup>)</i></p>
 <p>where</p>
-<p style=\"margin-left: 30px;\"><i>&sigma;</i> is the Stefan-Boltzmann constant [<a href=\"IDEAS.Buildings.UsersGuide.References\">Mohr 2008</a>],<br>
-<i>&epsilon;<sub>lw</sub></i> is the longwave emissivity of the exterior surface <i>A</i>,<br> 
-<i>F<sub>sky</sub></i> is the radiant-interchange configuration factor between the surface and sky [<a href=\"IDEAS.Buildings.UsersGuide.References\">Hamilton 1952</a>], and the surface and the environment, respectively, and<br> 
-<i>T<sub>s</sub></i> and <i>T<sub>sky</sub></i> are the exterior surface and sky temperature, respectively.</p>
+<ul>
+<li><i>&sigma;</i> is the Stefan-Boltzmann constant [Mohr 2008],</li>
+<li><i>&epsilon;<sub>lw</sub></i> is the longwave emissivity of the exterior surface <i>A</i>,</li> 
+<li><i>F<sub>sky</sub></i> is the radiant-interchange configuration factor between the surface and sky [Hamilton 1952], and the surface and the environment, respectively, and</li> 
+<li><i>T<sub>s</sub></i> and <i>T<sub>sky</sub></i> are the exterior surface and sky temperature, respectively.</li>
+</ul>
 <p>Shortwave solar irradiation absorbed by the exterior surface <i>Q&#775;<sub>sw</sub></i> is determined as </p>
-<p>
-<i>Q&#775;<sub>sw</sub> = &epsilon;<sub>sw</sub> &#183; A &#183; E<sub>sw</sub></i></p>
+<p><i>Q&#775;<sub>sw</sub> = &epsilon;<sub>sw</sub> &#183; A &#183; E<sub>sw</sub></i></p>
 <p>where</p> 
-<p style=\"margin-left: 30px;\"><i>&epsilon;<sub>sw</sub></i> is the shortwave absorption of the surface <i>A</i>, and<br>
-<i>E<sub>sw</sub></i> the total irradiation on the depicted surface.
-</p>
+<ul>
+<li><i>&epsilon;<sub>sw</sub></i> is the shortwave absorption of the surface <i>A</i>, and</li>
+<li><i>E<sub>sw</sub></i> the total irradiation on the depicted surface.</li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>

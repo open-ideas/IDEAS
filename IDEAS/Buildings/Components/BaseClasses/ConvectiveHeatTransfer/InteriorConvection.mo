@@ -96,27 +96,24 @@ equation
           points={{-60,80},{-60,-80}},
           color={0,0,0},
           thickness=0.5)}), Documentation(info="<html>
-<p>
-The interior natural convective heat transfer coefficient <i>h<sub>c,i</sub></i>
-is computed for each interior surface as 
+<p>The interior natural convective heat transfer coefficient <i>h<sub>c,i</sub></i> is computed for each interior surface as</p>
 <p><i>h<sub>c,i</sub> = n<sub>1</sub> &#183; D<sup>n2</sup> &#183; (T<sub>a</sub> - T<sub>s</sub>)<sup>n3</sub></i></p>
 <p>where</p>
-<p style=\"margin-left: 30px;\"><i>D</i> is the characteristic length of the surface,<br>
-<i>T<sub>a</sub></i> is the indoor air temperature, and<br> 
-<i>n<sub>i</sub></i> are correlation coefficients.</p>
-<p>The parameters {<i>n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub></i>} 
-are equal to
+<ul>
+<li><i>D</i> is the characteristic length of the surface,</li>
+<li><i>T<sub>a</sub></i> is the indoor air temperature, and</li> 
+<li><i>n<sub>i</sub></i> are correlation coefficients.</li>
+</ul>
+<p>The parameters {<i>n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub></i>} are equal to</p>
 <ul>
 <li>{1.823, -0.121, 0.293} for vertical surfaces [Awbi 1999],</li>
 <li>{2.175, -0.076, 0.308} for horizontal surfaces, wherefore the heat flux is in the same direction as the buoyancy force [Khalifa 2001], and</li>
 <li>{0.704, -0.601, 0.133} for horizontal surfaces, wherefore the heat flux is in the opposite direction as the buoyancy force [Awbi 1999].</li>
-</ul></p>
-<p>
-The interior natural convective heat transfer coefficient is only described as a function 
+</ul>
+<p>The interior natural convective heat transfer coefficient is only described as a function 
 of the temperature difference. Similar to the thermal model for heat transfer through a wall, 
 a thermal circuit formulation for the direct radiant exchange between surfaces can be derived 
-[Buchberg 1955, Oppenheim 1956].
-</p>
+[Buchberg 1955, Oppenheim 1956].</p>
 <p>
 [Awbi 1999]: H.B. Awbi, A. Hatton, \"Natural convection from heated room surfaces\", <i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
 [Buchberg 1955]: H. Buchberg, \"Electric analogue prediction of thermal behavior of an inhabitable enclosure\", <i>ASHRAE Transactions</i>, vol. 61, pp. 339&ndash;386, 1955.<br>

@@ -127,19 +127,20 @@ time and space model of heat transport through a solid is most often simplified 
 equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. 
 Within this context, the wall is modelled with lumped elements, i.e. a model where temperatures and heat 
 fluxes are determined from a system composed of a sequence of discrete resistances <i>R<sub>n+1</sub></i> and capacitances <i>C<sub>n</sub></i>. 
-The number of capacitive elements <i>n</i> used in modelling the transient thermal response of the wall denotes the order of the lumped capacitance model.
-</p>
+The number of capacitive elements <i>n</i> used in modelling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
 <p><i>C<sub>c</sub> &#183; dT<sub>c</sub> / dt = &Sigma;<sub>i=1</sub><sup>n</sup> Q&#775;<sub>res,i</sub> + Q&#775;<sub>source</sub></i></p>
 <p>where</p>
-<p style=\"margin-left: 30px;\"><i>T<sub>c</sub></i> is the temperature of the lumped capacity,<br>
-<i>Q&#775;<sub>res</sub></i> is the heat flux through the lumped resistance,<br>
-<i>R<sub>res</sub></i> is the total thermal resistance of the lumped resistance,
-<i>Q&#775;<sub>source</sub></i> are internal thermal sources that represent the added energy to the lumped capacity, and<br>
-<i>C<sub>c</sub></i> is the thermal capacity of the lumped capacity, equal to
-<i>(&rho; &#183; c<sub>p</sub> &#183; d<sub>c</sub> &#183; A)</i>, where</p>
-<p style=\"margin-left: 60px;\"> <i>&rho;</i> denotes the density,<br> 
-<i>c<sub>p</sub></i> is the specific heat capacity of the material, and<br>
-<i>d<sub>c</sub></i> is the equivalent thickness of the lumped capacity.</p>
+<ul>
+<li><i>T<sub>c</sub></i> is the temperature of the lumped capacity,</li>
+<li><i>Q&#775;<sub>res</sub></i> is the heat flux through the lumped resistance,</li>
+<li><i>R<sub>res</sub></i> is the total thermal resistance of the lumped resistance,</li>
+<li><i>Q&#775;<sub>source</sub></i> are internal thermal sources that represent the added energy to the lumped capacity, and</li>
+<li><i>C<sub>c</sub></i> is the thermal capacity of the lumped capacity, equal to
+<i>(&rho; &#183; c<sub>p</sub> &#183; d<sub>c</sub> &#183; A)</i>, where</li>
+<li><ul><li><i>&rho;</i> denotes the density,</li> 
+<li><i>c<sub>p</sub></i> is the specific heat capacity of the material, and</li>
+<li><i>d<sub>c</sub></i> is the equivalent thickness of the lumped capacity.</li></ul></li>
+</ul>
 </html>", revisions="<html>
 <ul>
 <li>
