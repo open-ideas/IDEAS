@@ -71,6 +71,10 @@ equation
 <li><i>&epsilon;<sub>sw</sub></i> is the shortwave absorption of the surface <i>A</i>, and</li>
 <li><i>E<sub>sw</sub></i> the total irradiation on the depicted surface.</li>
 </ul>
+<p>
+[Hamilton 1952]: D.C. Hamilton, W.R. Morgan, \"Radiant-interchange configuration factors\", <i>Technical Report &ndash; National Advisory Committee for Aeronautics</i>, 1952.<br>
+[Mohr 2008]: P.J. Mohr, B.N. Taylor, D.B. Newell, \"CODATA Recommended values of the fundamental physical constants: 2006\", <i>Review of Modern Physics</i>, vol. 80, pp. 633&ndash;730, 2008.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
