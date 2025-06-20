@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 model EN12975HeatLoss_QuasiDynamic
-  "Calculate the quasi-dynamic heat loss of a pvt/solar collector following ISO 9806:2013 quasi-dynamic method"
+  "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
   extends Modelica.Blocks.Icons.Block;
 
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
@@ -26,22 +26,24 @@ model EN12975HeatLoss_QuasiDynamic
 
   Modelica.Blocks.Interfaces.RealInput G
     "Global solar irradiance [W/m2]"
-    annotation (Placement(transformation(extent={{-140,-34},{-100,6}})));
+    annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
+        iconTransformation(extent={{-140,-20},{-100,20}})));
 
   Modelica.Blocks.Interfaces.RealInput TFlu[nSeg]
     "Temperature of the heat transfer fluid [K]"
-    annotation (Placement(transformation(extent={{-140,-64},{-100,-24}})));
+    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}}),
+        iconTransformation(extent={{-140,-60},{-100,-20}})));
 
-   Modelica.Blocks.Interfaces.RealInput windSpePlane
+  Modelica.Blocks.Interfaces.RealInput windSpePlane
     "Wind speed normal to collector plane (m/s)"
-    annotation (Placement(transformation(extent={{-140,-92},{-100,-52}})));
+    annotation (Placement(transformation(extent={{-140,-100},{-100,-60}}),
+        iconTransformation(extent={{-140,-100},{-100,-60}})));
 
   IDEAS.BoundaryConditions.WeatherData.Bus WeaBus
     "Bus with weather data"
-    annotation (Placement(transformation(extent={{-114,62},{-94,82}})));
+    annotation (Placement(transformation(extent={{-110,60},{-90,80}})));
 
-  IDEAS.Fluid.PvtCollectors.BaseClasses.PartialEN12975HeatLoss_QuasiDynamic
-    partialLoss(
+  IDEAS.Fluid.PvtCollectors.BaseClasses.PartialEN12975HeatLoss_QuasiDynamic partialLoss(
     redeclare package Medium = IDEAS.Media.Water,
     nSeg=nSeg,
     c1=c1,
@@ -61,5 +63,8 @@ equation
 
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
-    Diagram(coordinateSystem(preserveAspectRatio=false)));
+    Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
+</html>"));
 end EN12975HeatLoss_QuasiDynamic;
