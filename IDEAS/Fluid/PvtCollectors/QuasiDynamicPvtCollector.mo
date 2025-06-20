@@ -7,11 +7,6 @@ model QuasiDynamicPvtCollector
 
   Real windSpeTil "Effective wind speed normal to collector plane";
 
-  output Real pel = pelOut   "Total electrical power output (W)";
-  output Real qTh = qThOut   "Total thermal power output (W)";
-  output Real temMod = temModOut   "Average cell (module) temperature (K)";
-  output Real temMea = temMeaOut   "Average fluid temperature (K)";
-
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
     final nSeg=nSeg,

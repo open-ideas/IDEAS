@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Thermal;
-model PVT1_Thermal_DayType1 "Test model for uncovered (WISC) PVT collectors"
-  import Buildings;
+model PVT1_Thermal_DayType1
+  "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   parameter String pvtTyp = "Typ1";
@@ -31,13 +31,13 @@ model PVT1_Thermal_DayType1 "Test model for uncovered (WISC) PVT collectors"
     columns=1:25) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
-  Buildings.Fluid.Sources.Boundary_pT sou(
+  IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
     p(displayUnit="Pa") = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-10},{42,10}})));
-  Buildings.Fluid.Sources.MassFlowSource_T bou(
+  IDEAS.Fluid.Sources.MassFlowSource_T bou(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
@@ -108,10 +108,10 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCol
           textStyle={TextStyle.Bold}),
         Rectangle(extent={{-82,-46},{-10,-82}}, lineColor={28,108,200}),
         Text(
-          extent={{-78,-54},{-6,-58}},
+          extent={{-80,-46},{-10,-62}},
           textColor={28,108,200},
-          textString="Experimental and 
-simulated qTh",
           horizontalAlignment=TextAlignment.Left,
-          textStyle={TextStyle.Bold})}));
+          textStyle={TextStyle.Bold},
+          textString="Measured and simulated
+thermal power")}));
 end PVT1_Thermal_DayType1;

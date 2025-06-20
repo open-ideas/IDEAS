@@ -1,7 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Electrical;
 model PVT1_Electrical_DayType1
-  "Test model for uncovered (WISC) PVT collectors"
-  import Buildings;
+  "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   parameter String pvtTyp = "Typ1";
@@ -32,13 +31,13 @@ model PVT1_Electrical_DayType1
     columns=1:25) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
-  Buildings.Fluid.Sources.Boundary_pT sou(
+  IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
     p(displayUnit="Pa") = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-10},{42,10}})));
-  Buildings.Fluid.Sources.MassFlowSource_T bou(
+  IDEAS.Fluid.Sources.MassFlowSource_T bou(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
@@ -47,14 +46,8 @@ model PVT1_Electrical_DayType1
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
     annotation (Placement(transformation(extent={{-77,-82},{-51,-66}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLos.c1_c2_term) "[W]"
-          annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLos.c3_term) "[W]"
-    annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLos.c4_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLos.c6_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.UAbsFluid)
+    "[W/m2K]" annotation (Placement(transformation(extent={{15,-84},{41,-68}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.pel) "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
 equation
@@ -99,18 +92,20 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCol
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Diagram(graphics={
-        Rectangle(extent={{12,-46},{96,-92}}, lineColor={28,108,200}),
+        Rectangle(extent={{12,-44},{46,-84}}, lineColor={28,108,200}),
         Text(
-          extent={{14,-44},{96,-60}},
+          extent={{8,-46},{48,-64}},
           textColor={28,108,200},
-          textString="Distribution of heat losses ",
-          textStyle={TextStyle.Bold}),
+          textStyle={TextStyle.Bold},
+          textString="Calculated 
+UAbsFluid 
+[W/m2K]"),
         Rectangle(extent={{-82,-46},{-10,-82}}, lineColor={28,108,200}),
         Text(
-          extent={{-78,-54},{-6,-58}},
+          extent={{-80,-40},{-14,-68}},
           textColor={28,108,200},
           horizontalAlignment=TextAlignment.Left,
           textStyle={TextStyle.Bold},
-          textString="Experimental and 
-simulated pel")}));
+          textString="Measured and simulated
+electrical power")}));
 end PVT1_Electrical_DayType1;

@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors;
-package Examples "Examples demonstrating the use of models in the SolarCollectors package"
+package Examples "Examples demonstrating the use of models in the PvtCollectors package"
   extends Modelica.Icons.ExamplesPackage;
 
 
@@ -14,7 +14,7 @@ package Examples "Examples demonstrating the use of models in the SolarCollector
   annotation(Documentation(info="<html>
     <p>
       This package contains example model demonstrating the use of models in
-      the SolarCollectors package.
+      the PvtCollectors package.
     </p>
   </html>"));
 end Examples;

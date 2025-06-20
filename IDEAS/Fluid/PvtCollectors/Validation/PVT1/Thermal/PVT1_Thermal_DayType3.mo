@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Thermal;
 model PVT1_Thermal_DayType3
+  "Test model for Unglazed Rear-Insulated PVT Collector"
   extends PVT1_Thermal_DayType1
                             (pvtTyp="Typ3", T_start=36.70783953 + 273.15);
   annotation (experiment(

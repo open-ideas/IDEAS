@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Electrical;
 model PVT1_Electrical_DayType2
+  "Test model for Unglazed Rear-Insulated PVT Collector"
   extends PVT1_Electrical_DayType1(pvtTyp="Typ2", T_start=24.79173678 + 273.15);
   annotation (experiment(
       StartTime=17228880,

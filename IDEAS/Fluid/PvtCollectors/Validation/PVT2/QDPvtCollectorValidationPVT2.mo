@@ -2,24 +2,9 @@ within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
 model QDPvtCollectorValidationPVT2
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
-    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per, break
-      gGlob);
+  extends IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.PartialPvtCollectorValidation
+    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
-  Real windSpeTil "Effective wind speed normal to collector plane";
-
-  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
-    redeclare package Medium = Medium,
-    final nSeg=nSeg,
-    final incAngDat=per.incAngDat,
-    final incAngModDat=per.incAngModDat,
-    final iamDiff=per.IAMDiff,
-    final eta0=per.eta0,
-    final use_shaCoe_in=use_shaCoe_in,
-    final shaCoe=shaCoe,
-    final A_c=ATot_internal)
-    "Identifies heat gained from the sun using the EN12975 standard calculations"
-     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.EN12975HeatLossValidationPVT1 heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -32,35 +17,27 @@ model QDPvtCollectorValidationPVT2
     "Calculates the heat lost to the surroundings using the EN12975 standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
-    tableOnFile=true,
-    tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://PvtMod/Resources/Validation/MeasurementData/PVT_Austria_modelica.txt"),
-    columns=1:25)                                     annotation (Placement(transformation(extent={{40,70},
-            {20,90}})));
   Modelica.Blocks.Sources.RealExpression globIrrTil(y=(meaDat.y[4])) "[W/m2]"
     annotation (Placement(transformation(extent={{-67.5,6},{-48.5,22}})));
   Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
     annotation (Placement(transformation(extent={{-67.5,16},{-48.5,32}})));
+  BaseClasses.EN12975SolarGainHGlob solGai(
+    redeclare package Medium = Medium,
+    final nSeg=nSeg,
+    final eta0=per.eta0,
+    final use_shaCoe_in=use_shaCoe_in,
+    final shaCoe=shaCoe,
+    final A_c=ATot_internal)
+    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+  Modelica.Blocks.Sources.RealExpression Gglob(y=meaDat.y[4]) "[W/m2]"
+    annotation (Placement(transformation(extent={{-51.5,66},{-32.5,82}})));
 equation
-   // Compute plane wind speed (using inherited azi/til and connected weaBus):
-  windSpeTil = weaBus.winSpe
-    * sqrt(1 - (
-      cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
-    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
-   ^2);
-  heaLos.windSpePlane = windSpeTil;
+
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
-  connect(shaCoe_internal, solGai.shaCoe_in);
 
-  connect(shaCoe_in, solGai.shaCoe_in) annotation (Line(
-      points={{-120,40},{-40,40},{-40,45},{-22,45}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(heaLos.TFlu, temSen.T) annotation (Line(
       points={{-22,14},{-30,14},{-30,-20},{-11,-20}},
       color={0,0,127},
@@ -69,20 +46,6 @@ equation
       points={{1,20},{26,20},{26,20},{50,20}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line(
-      points={{1,50},{50,50}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(temSen.T, solGai.TFlu) annotation (Line(
-      points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(HDifTilIso.H, solGai.HSkyDifTil) annotation (Line(points={{-59,80},{
-          -30,80},{-30,58},{-22,58}}, color={0,0,127}));
-  connect(solGai.HDirTil, HDirTil.H) annotation (Line(points={{-22,52},{-56,52},
-          {-56,50},{-59,50}}, color={0,0,127}));
-  connect(solGai.incAng, HDirTil.inc) annotation (Line(points={{-22,48},{-56,48},
-          {-56,46},{-59,46}}, color={0,0,127}));
   connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line(
       points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
       color={255,204,51},
@@ -104,6 +67,12 @@ equation
           {-32,17.9},{-21.9,17.9}}, color={0,0,127}));
   connect(winSpe.y, heaLos.u) annotation (Line(points={{-47.55,24},{-32,24},{
           -32,22.1},{-22.1,22.1}}, color={0,0,127}));
+  connect(solGai.QSol_flow, QGai.Q_flow)
+    annotation (Line(points={{1,50},{50,50}}, color={0,0,127}));
+  connect(temSen.T, solGai.TFlu) annotation (Line(points={{-11,-20},{-30,-20},{-30,
+          42},{-22,42}}, color={0,0,127}));
+  connect(Gglob.y, solGai.HGlob) annotation (Line(points={{-31.55,74},{-30,74},{
+          -30,58},{-22,58}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
