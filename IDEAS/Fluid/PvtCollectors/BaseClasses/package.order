@@ -2,4 +2,4 @@ EN12975HeatLoss_QuasiDynamic
 Examples
 PartialEN12975HeatLoss_QuasiDynamic
 PartialPvtCollector
-EN12975HeatLoss
+EN12975HeatLoss_SteadyState

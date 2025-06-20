@@ -1,7 +1,7 @@
-﻿within IDEAS.Fluid.PvtCollectors.BaseClasses;
+within IDEAS.Fluid.PvtCollectors.BaseClasses;
 block PartialEN12975HeatLoss_QuasiDynamic
   "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss(
+  extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss_SteadyState(
     QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
         c6*u*G for i in 1:nSeg});
 
