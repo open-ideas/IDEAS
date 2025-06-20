@@ -12,6 +12,7 @@ RectangularZoneEmbedded
 RectangularZoneExternalSurfaces
 RectangularZoneRedeclarationWindows
 RectangularZoneTemplate
+RectangularZoneTemplateFloor
 RectangularZoneTemplateOnePort
 RectangularZoneTemplateTwoPort
 ScalingWindow

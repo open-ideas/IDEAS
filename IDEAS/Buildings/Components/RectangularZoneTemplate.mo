@@ -1,7 +1,8 @@
 within IDEAS.Buildings.Components;
 model RectangularZoneTemplate
   "Rectangular zone including walls, floor and ceiling"
-  extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
+  extends
+    IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
     fraTypA(briTyp(len=2*h_winA + 2*A_winA/h_winA)),
     fraTypB(briTyp(len=2*h_winB + 2*A_winB/h_winB)),
     fraTypC(briTyp(len=2*h_winC + 2*A_winC/h_winC)),
@@ -52,14 +53,14 @@ model RectangularZoneTemplate
         transformation(
         extent={{11,-11},{-11,11}},
         rotation=-90,
-        origin={-107,-111}), iconTransformation(
+        origin={-91,-111}), iconTransformation(
         extent={{-11,-11},{11,11}},
         rotation=-90,
         origin={50,82})));
 
 
 replaceable
-  IDEAS.Buildings.Components.Window winA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall, 
+  IDEAS.Buildings.Components.Window winA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     glazing(
       checkLowPerformanceGlazing=glazingA.checkLowPerformanceGlazing,
       nLay=glazingA.nLay,
@@ -370,9 +371,8 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-107,-111},{-106.5,
-          -111},{-106.5,-100},{-98.3333,-100}},
-                                          color={0,0,127}));
+  connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-91,-111},{-90,-111},
+          {-90,-100},{-98.3333,-100}},    color={0,0,127}));
   connect(ctrlD, winD.Ctrl) annotation (Line(points={{-123,-111},{-123,-106},{
           -124,-106},{-124,-100},{-98.3333,-100},{-98.3333,-60}},
                                                              color={0,0,127}));
@@ -590,6 +590,11 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 11, 2025, by Lucas Verleyen:<br/>
+Implemented <code>OuterWall</code> for Floor construction.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a> .
+</li>
 <li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 

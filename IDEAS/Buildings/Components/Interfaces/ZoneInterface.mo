@@ -17,7 +17,7 @@ partial model ZoneInterface "Partial model for thermal building zones"
   parameter Modelica.Units.SI.Length hZone = 2.8
     "Zone height: distance between floor and ceiling"
     annotation(Dialog(group="Building physics"));
-      parameter Modelica.Units.SI.Length hFloor = 0
+  parameter Modelica.Units.SI.Length hFloor = 0
     "Absolute height of zone floor"
     annotation(Dialog(group="Building physics"));
   parameter Modelica.Units.SI.Area A = V/hZone "Total conditioned floor area"
