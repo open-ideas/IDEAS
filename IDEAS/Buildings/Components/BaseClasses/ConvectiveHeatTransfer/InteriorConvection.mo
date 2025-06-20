@@ -108,17 +108,20 @@ is computed for each interior surface as
 are equal to
 <ul>
 <li>{1.823, -0.121, 0.293} for vertical surfaces [Awbi 1999],</li>
-<li>{2.175, -0.076, 0.308} for horizontal surfaces, wherefore the heat flux is in the same direction as the buoyancy force [<a href=\"IDEAS.Buildings.UsersGuide.References\">Khalifa 2001</a>], and</li>
-<li>{0.704, -0.601, 0.133} for horizontal surfaces, wherefore the heat flux is in the opposite direction as the buoyancy force [<a href=\"IDEAS.Buildings.UsersGuide.References\">Awbi 1999</a>].</li>
+<li>{2.175, -0.076, 0.308} for horizontal surfaces, wherefore the heat flux is in the same direction as the buoyancy force [Khalifa 2001], and</li>
+<li>{0.704, -0.601, 0.133} for horizontal surfaces, wherefore the heat flux is in the opposite direction as the buoyancy force [Awbi 1999].</li>
 </ul></p>
 <p>
 The interior natural convective heat transfer coefficient is only described as a function 
 of the temperature difference. Similar to the thermal model for heat transfer through a wall, 
 a thermal circuit formulation for the direct radiant exchange between surfaces can be derived 
-[<a href=\"IDEAS.Buildings.UsersGuide.References\">Buchberg 1955, Oppenheim 1956</a>].
+[Buchberg 1955, Oppenheim 1956].
 </p>
 <p>
-[Awbi 1999]: H.B. Awbi, A. Hatton, Natural convection from heated room surfaces, Energy and Buildings 30 (1999) 233&ndash;244.
+[Awbi 1999]: H.B. Awbi, A. Hatton, \"Natural convection from heated room surfaces\", <i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
+[Buchberg 1955]: H. Buchberg, \"Electric analogue prediction of thermal behavior of an inhabitable enclosure\", <i>ASHRAE Transactions</i>, vol. 61, pp. 339&ndash;386, 1955.<br>
+[Khalifa 2001]: A.J.N. Khalifa, \"Natural convective heat transfer coefficient - a review: II. Surfaces in two-and three-dimensional enclosures\", <i>Energy Conversion and Management</i>, vol. 42, no. 4, pp. 505&ndash;517, 2001.<br>
+[Oppenheim 1956]: A.K. Oppenheim, \"Radiation analysis by the network method\", <i>Transaction of American Society of Mechanical Engineers</i>, vol. 78, pp. 725&ndash;735, 1956.
 </p>
 </html>", revisions="<html>
 <ul>
