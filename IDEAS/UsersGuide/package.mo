@@ -39,7 +39,7 @@ the use of <a href=modelica://IDEAS.Buildings>Buildings</a> and <a href=modelica
 </ul>
 <h4>Feedback</h4>
 <p>
-<code>IDEAS</code> is developed at <a href=https://github.com/open-ideas/IDEAS>github</a>.
+<code>IDEAS</code> is developed at <a href=https://github.com/open-ideas/IDEAS>GitHub</a>.
 Feel free to create an <a href=https://github.com/open-ideas/IDEAS/issues>issue</a>
 in case you have a problem or a suggestion.
 </p>
@@ -47,40 +47,31 @@ in case you have a problem or a suggestion.
 <p>
 The following people have contributed to the <code>IDEAS</code> code.
 <ul>
-<li>
-<a href=https://be.linkedin.com/in/arnoutaertgeerts>Arnout Aertgeerts</a>
-</li>
-<li>
-<a href=https://www.linkedin.com/in/rubenbaetens>Ruben Baetens</a>
-</li>
-<li>
-<a href=https://www.linkedin.com/in/roel-de-coninck-3647596>Roel De Coninck</a>
-</li>
-<li>
-<a href=https://be.linkedin.com/in/filip-jorissen-19a26437>Filip Jorissen</a>
-</li>
-<li>
-<a href=https://be.linkedin.com/in/damien-picard-5ab507139>Damien Picard</a>
-</li>
-<li>
-<a href=https://be.linkedin.com/in/glennreynders>Glenn Reynders</a>
-</li>
-<li>
-<a href=https://be.linkedin.com/in/juanvanroy>Juan van Roy</a>
-</li>
-<li>
-Bart Verbruggen
-</li>
+<li><a href=https://www.linkedin.com/in/arnoutaertgeerts>Arnout Aertgeerts</a></li>
+<li><a href=https://www.linkedin.com/in/javier-arroyo-bastida>Javier Arroyo</a></li>
+<li><a href=https://www.linkedin.com/in/rubenbaetens>Ruben Baetens</a></li>
+<li><a href=https://www.linkedin.com/in/ian-beausoleil-morrison-0a84131b3>Ian Beausoleil-Morrison</a></li>
+<li><a href=https://www.linkedin.com/in/roel-de-coninck-3647596>Roel De Coninck</a></li>
+<li><a href=https://www.linkedin.com/in/klaas-de-jonge-61917016a>Klaas De Jonge</a></li>
+<li><a href=https://www.linkedin.com/in/annadellisola>Anna Dell'Isola</a></li>
+<li><a href=https://www.linkedin.com/in/louis-hermans-850317154>Louis Hermans</a></li>
+<li><a href=https://www.linkedin.com/in/jelger-jansen>Jelger Jansen</a></li>
+<li><a href=https://www.linkedin.com/in/filip-jorissen-19a26437>Filip Jorissen</a></li>
+<li><a href=https://www.linkedin.com/in/damien-picard-5ab507139>Damien Picard</a></li>
+<li><a href=https://www.linkedin.com/in/glennreynders>Glenn Reynders</a></li>
+<li><a href=https://www.linkedin.com/in/juanvanroy>Juan van Roy</a></li>
+<li><a href=https://www.linkedin.com/in/bverbruggen>Bart Verbruggen</a></li>
+<li><a href=https://www.linkedin.com/in/lucas-verleyen>Lucas Verleyen</a></li>
 </ul>
 <p>
 Furthermore, a large part of the code was originally developed within
 the <a href=http://www.iea-annex60.org>IEA EBC Annex 60 project</a>,
 which is continued as <a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>.
-For models originating from this library
-bug reports are preferable submitted on the 
+For models originating from this library,
+bug reports are preferably submitted on the 
 <a href=https://github.com/iea-annex60/modelica-annex60>Annex 60</a> or 
 <a href=https://github.com/ibpsa/project1>IBPSA project 1</a>
-github pages.
+GitHub pages.
 </p>
 <h4>Funding</h4>
 <p>
@@ -94,8 +85,11 @@ F. Jorissen (contract number 131012).
 </p>
 </html>", revisions="<html>
 <ul>
+<li>June 20, 2025, by Lucas Verleyen:<br>
+Update for IDEAS v4.0.0.
+</li>
 <li>
-January 12, 2017 by Filip Jorissen:<br/>
+January 12, 2017, by Filip Jorissen:<br>
 Updated for IDEAS 1.0
 </li>
 </ul>
