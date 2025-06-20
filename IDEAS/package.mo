@@ -15,10 +15,10 @@ annotation (
       to="2.2.1"), from(version="2.2.1", script=
           "modelica://IDEAS/Resources/Scripts/ConvertFromIDEAS_2.2.1.mos")),
   Documentation(info="<html>
-<p>Licensed by KU Leuven and 3E</p>
+<p>Licensed by KU Leuven and 3E.</p>
 <p>Copyright &copy; 2013-2025, KU Leuven and 3E. </p>
 <p>
-This Modelica package is <u>free</u> software and the use is completely at <u>your own risk</u>;
+This Modelica package is <u>free</u> software and the use is completely at <u>your own risk</u>.
 For license information, view our <a href=\"https://github.com/open-ideas/IDEAS\">GitHub page</a>.
 </p>
 </html>"));
