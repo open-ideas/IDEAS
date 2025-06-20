@@ -3,35 +3,10 @@ class RevisionHistory "Revision History"
   extends Modelica.Icons.ReleaseNotes;
 
   annotation (Documentation(info="<html>
-<h4>Version 0.1.0, December 11th, 2011</h4>
-<p>
-This is the first version integrated in the IDEAS tool and made available for the public. 
-</p>
-<h4>Version 0.2.0, January 26th, 2015</h4>
-<p>
-Major changes compared to v0.1 are: 
-</p>
-<ul>
-<li>*.TMY3 is used as default climate file and its reader is adopted from the LBNL Buildings library.</li>
-<li>The IDEAS/Buildings/. package is updated so that the building components only require a single connector to be connected with the zone.</li>
-<li>All hydronic components in IDEAS/Fluid/. are defined and updated based on the IEA EBC Annex60 models.</li>
-</ul>
-<h4>Version 0.3.0, September, 2016</h4>
-<p>
-Major changes compared to v0.2 are: 
-</p>
-<ul>
-<li>Added code for checking conservation of energy</li>
-<li>Added options for linear / non-linear radiative heat exchange and convection for exterior and interior faces of walls and floors/ceilings. Respective correlations have been changed.</li>
-<li>Overall improvements resulting in more efficient code and less warnings.</li>
-<li>The emissivity of window coatings must now be specified as a property of the solid (glass sheet) and not as a property of the gas between the glass sheets. This is only relevant if you create your own glazing.</li>
-<li>Merged Annex 60 library up to commit d7749e3</li>
-<li>Expanded unit tests</li>
-<li>More correct implementation of Koschenz's model for TABS. Also added the option for discretising TABS sections.</li>
-<li>Added new building shade components.</li>
-<li>Removed inefficient code that would lead to numerical Jacobians in grid.</li>
-<li>Added new AC and DC electrical models.</li>
-</ul>
+<h4>Version 4.0.0, August, 2025</h4>
+<p>To be completed...</p>
+<h4>Version 2.0.0 - Version 3.0.0</h4>
+<p>See IDEAS/ReleaseNotes.md</p>
 <h4>Version 1.0.0, January 12, 2017</h4>
 <p>
 Major changes compared to v0.3 are: 
@@ -54,8 +29,7 @@ Interfaces such as HeatingSystem and BaseCircuits have been moved to IDEAS.Templ
 <li>Some variables have been renamedA conversion script is provided for converting the user's models to accomodate these changes.<br/>
 TStar has been renamed into TRad in the zone model.<br/>
 flowPort_Out and flowPort_In have been renamed in the zone model, heating system, ventilaiton system and structure models.<br/>
-Some Annex 60 models were renamed.
-</li>
+Some Annex 60 models were renamed.</li>
 <li>Added example model of a terraced house in IDEAS.Examples.PPD12</li>
 <li>Added twin house validation models in IDEAS.Examples.TwinHouse</li>
 <li>Added solar irradiation model for window frames.</li>
@@ -69,6 +43,40 @@ Some Annex 60 models were renamed.
 <li>Cleaned up implementation of BESTEST models.</li>
 <li>Added new, specialised window types.</li>
 <li>Added options for model linearisation.</li>
+<li>Improved accuracy of model that computes internal longwave radiation.</li>
+<li>Improved accuracy of model that computes exterior sky temperature.</li>
+<li>Moved Electrical package into Experimental package since this package contains broken models.</li>
+<li>Added unit tests for templates.</li>
+<li>Added Menerga Adsolair model.</li>
 </ul>
+<h4>Version 0.3.0, September, 2016</h4>
+<p>
+Major changes compared to v0.2 are: 
+</p>
+<ul>
+<li>Added code for checking conservation of energy</li>
+<li>Added options for linear / non-linear radiative heat exchange and convection for exterior and interior faces of walls and floors/ceilings. Respective correlations have been changed.</li>
+<li>Overall improvements resulting in more efficient code and less warnings.</li>
+<li>The emissivity of window coatings must now be specified as a property of the solid (glass sheet) and not as a property of the gas between the glass sheets. This is only relevant if you create your own glazing.</li>
+<li>Merged Annex 60 library up to commit d7749e3</li>
+<li>Expanded unit tests</li>
+<li>More correct implementation of Koschenz's model for TABS. Also added the option for discretising TABS sections.</li>
+<li>Added new building shade components.</li>
+<li>Removed inefficient code that would lead to numerical Jacobians in grid.</li>
+<li>Added new AC and DC electrical models.</li>
+</ul>
+<h4>Version 0.2.0, January 26th, 2015</h4>
+<p>
+Major changes compared to v0.1 are: 
+</p>
+<ul>
+<li>*.TMY3 is used as default climate file and its reader is adopted from the LBNL Buildings library.</li>
+<li>The IDEAS/Buildings/. package is updated so that the building components only require a single connector to be connected with the zone.</li>
+<li>All hydronic components in IDEAS/Fluid/. are defined and updated based on the IEA EBC Annex60 models.</li>
+</ul>
+<h4>Version 0.1.0, December 11th, 2011</h4>
+<p>
+This is the first version integrated in the IDEAS tool and made available for the public. 
+</p>
 </html>", revisions=""));
 end RevisionHistory;
