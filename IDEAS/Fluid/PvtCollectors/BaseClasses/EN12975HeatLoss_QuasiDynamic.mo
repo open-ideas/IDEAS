@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 model EN12975HeatLoss_QuasiDynamic
-  "Calculate the quasi-dynamic heat loss of a pvt/solar collector following ISO 9806:2013 quasi-dynamic method"
+  "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
   extends Modelica.Blocks.Icons.Block;
 
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
@@ -40,8 +40,7 @@ model EN12975HeatLoss_QuasiDynamic
     "Bus with weather data"
     annotation (Placement(transformation(extent={{-114,62},{-94,82}})));
 
-  IDEAS.Fluid.PvtCollectors.BaseClasses.PartialEN12975HeatLoss_QuasiDynamic
-    partialLoss(
+  IDEAS.Fluid.PvtCollectors.BaseClasses.PartialEN12975HeatLoss_QuasiDynamic partialLoss(
     redeclare package Medium = IDEAS.Media.Water,
     nSeg=nSeg,
     c1=c1,
@@ -61,5 +60,8 @@ equation
 
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
-    Diagram(coordinateSystem(preserveAspectRatio=false)));
+    Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
+</html>"));
 end EN12975HeatLoss_QuasiDynamic;
