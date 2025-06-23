@@ -1,8 +1,7 @@
 within IDEAS.Buildings.Components;
 model RectangularZoneTemplate
   "Rectangular zone including walls, floor and ceiling"
-  extends
-    IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
+  extends IDEAS.Buildings.Components.Interfaces.RectangularZoneTemplateInterface(
     fraTypA(briTyp(len=2*h_winA + 2*A_winA/h_winA)),
     fraTypB(briTyp(len=2*h_winB + 2*A_winB/h_winB)),
     fraTypC(briTyp(len=2*h_winC + 2*A_winC/h_winC)),
