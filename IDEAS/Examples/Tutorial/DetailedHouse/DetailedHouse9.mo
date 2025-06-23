@@ -4,54 +4,52 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     pumSec(nominalValuesDefineDefaultPressureCurve=true),
     pumPri(nominalValuesDefineDefaultPressureCurve=true),
     recZon1(
-      redeclare Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
-      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+      redeclare IDEAS.Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
+      redeclare IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp),
     recZon(
       redeclare OccSched occNum(k=2),
-      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp),
+      redeclare IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp),
     redeclare package MediumAir = IDEAS.Media.Air (extraPropertiesNames={"CO2"}));
 
-  Fluid.Actuators.Dampers.PressureIndependent vavSup(
+  IDEAS.Fluid.Actuators.Dampers.PressureIndependent vavSup(
     redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for first zone"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
-  Fluid.Actuators.Dampers.PressureIndependent vavSup1(
+  IDEAS.Fluid.Actuators.Dampers.PressureIndependent vavSup1(
     redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Supply VAV for second zone"
     annotation (Placement(transformation(extent={{-120,-20},{-100,0}})));
-  Fluid.Actuators.Dampers.PressureIndependent vavRet(
+  IDEAS.Fluid.Actuators.Dampers.PressureIndependent vavRet(
     redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for first zone"
     annotation (Placement(transformation(extent={{-100,20},{-120,40}})));
-  Fluid.Actuators.Dampers.PressureIndependent vavRet1(
+  IDEAS.Fluid.Actuators.Dampers.PressureIndependent vavRet1(
     redeclare package Medium = MediumAir,
     m_flow_nominal=100*1.2/3600,
     dpDamper_nominal=50,
     dpFixed_nominal=50) "Return VAV for second zone"
     annotation (Placement(transformation(extent={{-100,-60},{-120,-40}})));
-  Fluid.Movers.FlowControlled_dp fanSup(
+  IDEAS.Fluid.Movers.FlowControlled_dp fanSup(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = MediumAir,
     dp_nominal=200,
-    m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Supply fan"
+    m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal) "Supply fan"
     annotation (Placement(transformation(extent={{-220,10},{-200,30}})));
-  Fluid.Movers.FlowControlled_dp fanRet(
+  IDEAS.Fluid.Movers.FlowControlled_dp fanRet(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = MediumAir,
     dp_nominal=200,
-    m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)     "Return fan"
+    m_flow_nominal=vavRet.m_flow_nominal + vavRet1.m_flow_nominal) "Return fan"
     annotation (Placement(transformation(extent={{-200,-30},{-220,-10}})));
-  Fluid.HeatExchangers.ConstantEffectiveness hex(
+  IDEAS.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumAir,
     redeclare package Medium2 = MediumAir,
     m1_flow_nominal=fanSup.m_flow_nominal,
@@ -59,13 +57,13 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     dp1_nominal=100,
     dp2_nominal=100) "Heat exchanger with constant heat recovery effectivity"
     annotation (Placement(transformation(extent={{-250,-10},{-230,10}})));
-  Controls.Continuous.LimPID conPID(
+  IDEAS.Controls.Continuous.LimPID conPID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMin=0.1,
     k=0.005,
     reverseActing=false,
     Ti=300) annotation (Placement(transformation(extent={{-40,80},{-60,100}})));
-  Controls.Continuous.LimPID conPID1(
+  IDEAS.Controls.Continuous.LimPID conPID1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMin=0.1,
     k=0.005,
@@ -73,7 +71,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     Ti=300) annotation (Placement(transformation(extent={{-40,0},{-60,20}})));
   Modelica.Blocks.Sources.Constant ppmSet(k=1000)
     annotation (Placement(transformation(extent={{40,80},{20,100}})));
-  Fluid.Sources.OutsideAir outAir(
+  IDEAS.Fluid.Sources.OutsideAir outAir(
     redeclare package Medium = MediumAir,
     azi=0,
     nPorts=2) "Source model that takes properties from SimInfoManager"
@@ -83,7 +81,7 @@ protected
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
 
     parameter Real k "Number of occupants";
-    Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
+    IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
     Modelica.Blocks.Sources.RealExpression occ(y=if calTim.weekDay < 6 and (
           calTim.hour > 7 and calTim.hour < 18) then k else 0)
@@ -219,9 +217,10 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </html>", revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 November 21, 2020 by Filip Jorissen:<br/>

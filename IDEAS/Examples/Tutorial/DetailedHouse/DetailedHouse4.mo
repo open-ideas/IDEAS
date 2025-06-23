@@ -6,7 +6,7 @@ protected
     extends IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants(final useInput=false);
 
     parameter Real k "Number of occupants";
-    Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
+    IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
     Modelica.Blocks.Sources.RealExpression occ(y=
     if calTim.weekDay < 6 and (calTim.hour > 7 and calTim.hour < 18) then k else 0)
@@ -62,9 +62,10 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </html>", revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>

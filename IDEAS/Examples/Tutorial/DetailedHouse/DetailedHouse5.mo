@@ -7,9 +7,9 @@ model DetailedHouse5 "New building model with two connected zones"
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=2.8 "Zone height";
 
-  inner BoundaryConditions.SimInfoManager sim
+  inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Buildings.Components.RectangularZoneTemplate recZon(
+  IDEAS.Buildings.Components.RectangularZoneTemplate recZon(
     redeclare package Medium = MediumAir,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     aziA=IDEAS.Types.Azimuth.N,
@@ -17,10 +17,10 @@ model DetailedHouse5 "New building model with two connected zones"
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypA,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypB,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypA,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypB,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypC,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypD,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     l=w,
@@ -31,7 +31,7 @@ model DetailedHouse5 "New building model with two connected zones"
     redeclare IDEAS.Buildings.Data.Glazing.Ins2Ar2020 glazingA,
     redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
       "Northern part of the zone" annotation (Placement(transformation(extent={{-10,20},{10,40}})));
-  Buildings.Components.RectangularZoneTemplate recZon1(
+  IDEAS.Buildings.Components.RectangularZoneTemplate recZon1(
     redeclare package Medium = MediumAir,
     aziA=IDEAS.Types.Azimuth.N,
     h=h,
@@ -40,9 +40,9 @@ model DetailedHouse5 "New building model with two connected zones"
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypB,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypC,
-    redeclare Buildings.Validation.Data.Constructions.HeavyWall conTypD,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypB,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypC,
+    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypD,
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
     redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
@@ -103,16 +103,10 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Anna Dell'Isola:<br/>
-Update floor contruction type. See <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>,
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1418\">
-#1418</a>
-</li>
-<li>
-January 14, 2025, by Lone Meertens:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>

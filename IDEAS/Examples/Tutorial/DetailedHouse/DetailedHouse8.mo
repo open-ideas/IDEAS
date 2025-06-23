@@ -1,7 +1,7 @@
 within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse8 "JSON writer"
   extends DetailedHouse7;
-  Utilities.IO.Files.JSONWriter jsonWri(
+  IDEAS.Utilities.IO.Files.JSONWriter jsonWri(
     nin=1,
     fileName="EEl.json",
     varKeys={"Electrical energy [kWh]"},
@@ -45,9 +45,10 @@ Check the contents of the generated file. Depending on the chosen value for the 
 </html>", revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>

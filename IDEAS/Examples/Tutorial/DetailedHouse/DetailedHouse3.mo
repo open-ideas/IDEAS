@@ -2,11 +2,11 @@ within IDEAS.Examples.Tutorial.DetailedHouse;
 model DetailedHouse3 "Adding occupancy and lighting"
   extends DetailedHouse2(
     zon(
-      redeclare replaceable Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
-      redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
-      redeclare Buildings.Components.RoomType.Office rooTyp,
-      redeclare Buildings.Components.LightingType.LED ligTyp,
-      redeclare Buildings.Components.LightingControl.OccupancyBased ligCtr));
+      redeclare replaceable IDEAS.Buildings.Components.Occupants.Fixed occNum(nOccFix=1),
+      redeclare IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp,
+      redeclare IDEAS.Buildings.Components.RoomType.Office rooTyp,
+      redeclare IDEAS.Buildings.Components.LightingType.LED ligTyp,
+      redeclare IDEAS.Buildings.Components.LightingControl.OccupancyBased ligCtr));
   annotation (
     Documentation(info="<html>
 <p>
@@ -51,9 +51,10 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </html>", revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
