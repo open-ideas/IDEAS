@@ -125,24 +125,30 @@ equation
 <p>For the purpose of dynamic building simulation, the partial differential equation of the continuous 
 time and space model of heat transport through a solid is most often simplified into ordinary differential 
 equations with a finite number of parameters representing only one-dimensional heat transport through a construction layer. 
-Within this context, the wall is modeled with lumped elements, i.e. a model where temperatures and heat 
-fluxes are determined from a system composed of a sequence of discrete resistances and capacitances R_{n+1}, C_{n}. 
-The number of capacitive elements $n$ used in modeling the transient thermal response of the wall denotes the order of the lumped capacitance model.
-</p>
-<p align=\"center\"><img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-pqp0E04K.png\"/></p>
-<p>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-I7KXJhSH.png\"/> is the added energy to the lumped capacity, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-B0HPmGTu.png\"/> is the temperature of the lumped capacity, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-t7aqbnLB.png\"/> is the thermal capacity of the lumped capacity equal to
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-JieDs0oi.png\"/> for which rho denotes the density and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-ml5CM4zK.png\"/> is the specific heat capacity of the material and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-hOGNA6h5.png\"/> the equivalent thickness of the lumped element, where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-1pDREAb7.png\"/> the heat flux through the lumped resistance and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-XYf3O3hw.png\"/> is the total thermal resistance of the lumped resistance and where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-dgS5sGAN.png\"/> are internal thermal source.
-</p>
+Within this context, the wall is modelled with lumped elements, i.e. a model where temperatures and heat 
+fluxes are determined from a system composed of a sequence of discrete resistances <i>R<sub>n+1</sub></i> and capacitances <i>C<sub>n</sub></i>. 
+The number of capacitive elements <i>n</i> used in modelling the transient thermal response of the wall denotes the order of the lumped capacitance model.</p>
+<p><i>C<sub>c</sub> &#183; dT<sub>c</sub> / dt = &Sigma;<sub>i=1</sub><sup>n</sup> Q&#775;<sub>res,i</sub> + Q&#775;<sub>source</sub></i></p>
+<p>where</p>
+<ul>
+<li><i>T<sub>c</sub></i> is the temperature of the lumped capacity,</li>
+<li><i>Q&#775;<sub>res</sub></i> is the heat flux through the lumped resistance,</li>
+<li><i>R<sub>res</sub></i> is the total thermal resistance of the lumped resistance,</li>
+<li><i>Q&#775;<sub>source</sub></i> are internal thermal sources that represent the added energy to the lumped capacity, and</li>
+<li><i>C<sub>c</sub></i> is the thermal capacity of the lumped capacity, equal to
+<i>(&rho; &#183; c<sub>p</sub> &#183; d<sub>c</sub> &#183; A)</i>, where</li>
+<ul><li><i>&rho;</i> denotes the density,</li> 
+<li><i>c<sub>p</sub></i> is the specific heat capacity of the material,</li>
+<li><i>d<sub>c</sub></i> is the equivalent thickness of the lumped capacity, and
+<li><i>A</i> is the surface area of the wall.</li></ul>
+</ul>
 </html>", revisions="<html>
 <ul>
+<li>
+June 17, 2025, by Lucas Verleyen:<br/>
+Replaced images with inline equations.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1440>#1440</a>.
+</li>
 <li>
 January 25, 2019, by Filip Jorissen:<br/>
 Revised initial equation implementation.
