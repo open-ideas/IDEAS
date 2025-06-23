@@ -48,6 +48,7 @@ model RectangularZoneTemplateFloor
     experiment(
       StopTime=864000,
       Interval=60,
+      Tolerance=1e-04,
       __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
