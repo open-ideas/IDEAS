@@ -5,63 +5,43 @@ model RectangularZoneTemplateFloor
   extends Modelica.Icons.Example;
   inner BoundaryConditions.SimInfoManager sim "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  IDEAS.Buildings.Components.RectangularZoneTemplate zonOutWal(
-    redeclare replaceable package Medium = IDEAS.Media.Air,
-    h=2.7,
-    l=8,
-    w=6,
-    aziA=IDEAS.Types.Azimuth.S,
-    T_start=293.15,
+
+  model Zone
+    extends IDEAS.Buildings.Components.RectangularZoneTemplate(
+      redeclare package Medium = IDEAS.Media.Air,
+      h=2.7,
+      l=8,
+      w=6,
+      aziA=IDEAS.Types.Azimuth.S,
+      T_start=293.15,
+      bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypA,
+      bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypB,
+      bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypC,
+      bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypD,
+      bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
+      redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
+      hasWinA=true,
+      A_winA=12,
+      fracA=0,
+      redeclare IDEAS.Buildings.Validation.Data.Glazing.GlaBesTest glazingA,
+      redeclare IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypA,
+      hasWinB=false,
+      hasWinC=false,
+      hasWinD=false,
+      hasWinCei=false);
+  end Zone;
+
+  Zone zonOutWal(
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypA,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypB,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypC,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypD,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
-    hasWinA=true,
-    A_winA=12,
-    fracA=0,
-    redeclare IDEAS.Buildings.Validation.Data.Glazing.GlaBesTest glazingA,
-    redeclare IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypA,
-    hasWinB=false,
-    hasWinC=false,
-    hasWinD=false,
-    hasWinCei=false)
+    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo)
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
-  IDEAS.Buildings.Components.RectangularZoneTemplate zonSlaOnGro(
-    redeclare replaceable package Medium = IDEAS.Media.Air,
-    h=2.7,
-    l=8,
-    w=6,
-    aziA=IDEAS.Types.Azimuth.S,
-    T_start=293.15,
+  Zone zonSlaOnGro(
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo,
-    bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypA,
-    bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypB,
-    bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypC,
-    bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall conTypD,
-    bouTypCei=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Validation.Data.Constructions.LightRoof conTypCei,
-    hasWinA=true,
-    A_winA=12,
-    fracA=0,
-    redeclare IDEAS.Buildings.Validation.Data.Glazing.GlaBesTest glazingA,
-    redeclare IDEAS.Buildings.Components.Shading.Interfaces.ShadingProperties shaTypA,
-    hasWinB=false,
-    hasWinC=false,
-    hasWinD=false,
-    hasWinCei=false)
+    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo)
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
