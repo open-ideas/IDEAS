@@ -71,8 +71,9 @@ model RectangularZoneTemplateFloor
       __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
-This example illustrates and compares the use of <code>SlabOnGround</code> and <code>OuterWall</code> 
-as floor model in a room or building, using the RectangularZoneTemplate.
+This example illustrates and compares the use of <a href=modelica://IDEAS.Buildings.Components.SlabOnGround>SlabOnGround</a> 
+and <a href=modelica://IDEAS.Buildings.Components.OuterWall>OuterWall</a> 
+as floor model in a room or building, using the <a href=modelica://IDEAS.Buildings.Components.RectangularZoneTemplate>RectangularZoneTemplate</a>.
 Both zones have identical settings, except for their floor type <code>bouTypFlo</code>, 
 i.e. <code>SlabOnGround</code> and <code>OuterWall</code>, respectively.
 As floor construction <code>conTypFlo</code>, the <code>UninsulatedFloor</code> construction has been chosen 
