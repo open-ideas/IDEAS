@@ -4,47 +4,42 @@ model DetailedHouse6
   extends DetailedHouse5;
   package MediumWater = IDEAS.Media.Water "Water Medium";
 
-  Fluid.HeatPumps.ScrollWaterToWater heaPum(
+  IDEAS.Fluid.HeatPumps.ScrollWaterToWater heaPum(
     m2_flow_nominal=pumPri.m_flow_nominal,
     enable_variable_speed=false,
     m1_flow_nominal=pumEmi.m_flow_nominal,
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumWater,
     datHeaPum=
-        Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A(),
+        IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A(),
     scaling_factor=0.025,
     dp1_nominal=10000,
-    dp2_nominal=10000,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    dp2_nominal=10000)
     "Heat pump model, rescaled for low thermal powers" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={190,10})));
 
-  Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
+  IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
-    T_b_nominal=308.15,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-                        "Radiator for zone 1" annotation (Placement(
+    T_b_nominal=308.15) "Radiator for zone 1" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={50,-10})));
-  Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad1(
+  IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad1(
     redeclare package Medium = MediumWater,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
-    T_b_nominal=308.15,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-                        "Radiator for zone 2" annotation (Placement(
+    T_b_nominal=308.15) "Radiator for zone 2" annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={90,-10})));
-  Fluid.Actuators.Valves.TwoWayTRV val(
+  IDEAS.Fluid.Actuators.Valves.TwoWayTRV val(
     m_flow_nominal=rad.m_flow_nominal,
     dpValve_nominal=20000,
     redeclare package Medium = MediumWater) "Thermostatic valve for first zone"
@@ -52,15 +47,14 @@ model DetailedHouse6
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={50,30})));
-  Fluid.Movers.FlowControlled_dp pumEmi(
+  IDEAS.Fluid.Movers.FlowControlled_dp pumEmi(
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
-    redeclare package Medium = MediumWater,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-    "Circulation pump at secondary side"
+    redeclare package Medium = MediumWater)
+    "Circulation pump of the heat emission (radiator) side of the circuit"
     annotation (Placement(transformation(extent={{120,50},{100,70}})));
-  Fluid.Sources.Boundary_pT bou(
+  IDEAS.Fluid.Sources.Boundary_pT bou(
     nPorts=2,
     redeclare package Medium = MediumWater,
     T=283.15) "Cold water source for heat pump"
@@ -68,7 +62,7 @@ model DetailedHouse6
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={270,10})));
-  Fluid.Actuators.Valves.TwoWayTRV val1(
+  IDEAS.Fluid.Actuators.Valves.TwoWayTRV val1(
     dpValve_nominal=20000,
     m_flow_nominal=rad1.m_flow_nominal,
     redeclare package Medium = MediumWater)
@@ -77,24 +71,23 @@ model DetailedHouse6
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={90,30})));
-  Fluid.Movers.FlowControlled_dp pumPri(
+  IDEAS.Fluid.Movers.FlowControlled_dp pumPri(
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal=10000,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
-    redeclare package Medium = MediumWater,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-    "Circulation pump at primary side"
+    redeclare package Medium = MediumWater)
+    "Circulation pump at the primary (evaporator) side of the heat pump"
     annotation (Placement(transformation(extent={{240,50},{220,70}})));
   Modelica.Blocks.Sources.IntegerConstant heaPumOn(k=1) "Heat pump is on"
     annotation (Placement(transformation(extent={{160,-62},{180,-42}})));
   Modelica.Blocks.Continuous.Integrator EEl(k=1/3600000)
     "Electrical energy meter with conversion to kWh"
     annotation (Placement(transformation(extent={{260,40},{280,60}})));
-  Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
+  IDEAS.Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
         MediumWater, m_flow_nominal=pumEmi.m_flow_nominal)
     "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{146,70},{126,50}})));
-  Fluid.Sources.Boundary_pT bou1(
+  IDEAS.Fluid.Sources.Boundary_pT bou1(
     nPorts=1,
     redeclare package Medium = MediumWater)
               "Cold water source for heat pump"
@@ -102,7 +95,7 @@ model DetailedHouse6
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={110,90})));
-  Fluid.Storage.Stratified tan(
+  IDEAS.Fluid.Storage.Stratified tan(
     redeclare package Medium = MediumWater,
     m_flow_nominal=pumEmi.m_flow_nominal,
     VTan=0.1,
@@ -112,13 +105,12 @@ model DetailedHouse6
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTan
     "Temperature sensor of tank volume"
     annotation (Placement(transformation(extent={{138,2},{122,18}})));
-  Fluid.Movers.FlowControlled_dp pumSec(
+  IDEAS.Fluid.Movers.FlowControlled_dp pumSec(
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=pumEmi.m_flow_nominal,
-    redeclare package Medium = MediumWater,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-    "Circulation pump at secondary side"
+    redeclare package Medium = MediumWater)
+    "Circulation pump at the secondary (condenser) side of the heat pump"
     annotation (Placement(transformation(extent={{180,50},{160,70}})));
 equation
   connect(val.port_b, rad.port_a)
@@ -161,11 +153,12 @@ equation
   connect(pumSec.port_b, tan.port_a)
     annotation (Line(points={{160,60},{156,60},{156,20}}, color={0,127,255}));
   connect(senTemSup.port_a, tan.fluPorVol[1])
-    annotation (Line(points={{146,60},{146,10},{151,10}}, color={0,127,255}));
-  connect(rad1.port_b, tan.fluPorVol[2]) annotation (Line(points={{90,-20},{90,
-          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
-  connect(rad.port_b, tan.fluPorVol[2]) annotation (Line(points={{50,-20},{50,
-          -32},{146,-32},{146,10},{151,10}}, color={0,127,255}));
+    annotation (Line(points={{146,60},{150,60},{150,10},{151,10}},
+                                                          color={0,127,255}));
+  connect(rad1.port_b, tan.fluPorVol[2]) annotation (Line(points={{90,-20},{90,-32},
+          {150,-32},{150,10},{151,10}},      color={0,127,255}));
+  connect(rad.port_b, tan.fluPorVol[2]) annotation (Line(points={{50,-20},{50,-32},
+          {150,-32},{150,10},{151,10}},      color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{280,100}},
           initialScale=0.1), graphics={Text(
           extent={{138,98},{224,90}},
@@ -240,7 +233,6 @@ defined somewhere: pumps and valves only provide information about <i>differenti
 use <a href=\"modelica://IDEAS.Fluid.Sources.Boundary_pT\"> IDEAS.Fluid.Sources.Boundary_pT</a> and connect it to the loop, 
 which will set the absolute pressure at the connection point.
 </p>
-<p>
 <h4>Reference result</h4>
 <p>
 The figures below show the operative zone temperatures <code>recZon.TSensor</code> and <code>recZon1.TSensor</code>, 
@@ -264,9 +256,10 @@ pump are assumed to be active continuously, which is detrimental for the system 
 </html>", revisions="<html>
 <ul>
 <li>
-April 14, 2025, by Lone Meertens and Anna Dell'Isola:<br/>
-Updates detailed in <a href=\"https://github.com/open-ideas/IDEAS/issues/1404\">
-#1404</a>
+April 14, 2025, by Anna Dell'Isola and Lone Meertens:<br/>
+Update and restructure IDEAS tutorial models.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1374\">#1374</a> 
+and <a href=\"https://github.com/open-ideas/IDEAS/issues/1389\">#1389</a>.
 </li>
 <li>
 September 18, 2019 by Filip Jorissen:<br/>
