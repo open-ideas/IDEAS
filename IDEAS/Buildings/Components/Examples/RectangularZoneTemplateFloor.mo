@@ -75,9 +75,9 @@ This example illustrates and compares the use of <a href=modelica://IDEAS.Buildi
 and <a href=modelica://IDEAS.Buildings.Components.OuterWall>OuterWall</a> 
 as floor model in a room or building, using the <a href=modelica://IDEAS.Buildings.Components.RectangularZoneTemplate>RectangularZoneTemplate</a>.
 Both zones have identical settings, except for their floor type <code>bouTypFlo</code>, 
-i.e. <code>SlabOnGround</code> and <code>OuterWall</code>, respectively.
+which is set as <code>SlabOnGround</code> and <code>OuterWall</code>, respectively.
 As floor construction <code>conTypFlo</code>, the <code>UninsulatedFloor</code> construction has been chosen 
-to see a bigger impact of the ground temperature <code>Tground</code> and the air temperature <code>Te</code>.
+to see a bigger impact of the ground temperature <code>Tground</code> and the air temperature <code>Te</code> on the zone temperature <code>TSensor</code>.
 </p>
 </html>", revisions="<html>
 <ul>
