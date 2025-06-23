@@ -1578,7 +1578,7 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
-June 16, 2025, by Lucas Verleyen:<br/>
+June 20, 2025, by Lucas Verleyen:<br/>
 Implemented <code>OuterWall</code> for Floor construction.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a>.
 </li>
