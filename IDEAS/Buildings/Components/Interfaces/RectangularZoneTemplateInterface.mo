@@ -1169,7 +1169,7 @@ initial equation
   // assert that the windows are not bigger than the wall
   assert(AWallANet >= 0, "The net surface area of wall A is negative. This is not allowed.");
   assert(AWallBNet >= 0, "The net surface area of wall B is negative. This is not allowed.");
-  assert(AWallDNet >= 0, "The net surface area of wall C is negative. This is not allowed.");
+  assert(AWallCNet >= 0, "The net surface area of wall C is negative. This is not allowed.");
   assert(AWallDNet >= 0, "The net surface area of wall D is negative. This is not allowed.");
   assert(AFloNet >= 0, "The net surface area of the floor is negative. This is not allowed.");
   assert(ACeiNet >= 0, "The net surface area of the ceiling is negative. This is not allowed.");
