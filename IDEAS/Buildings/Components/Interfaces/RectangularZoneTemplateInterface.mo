@@ -726,7 +726,7 @@ partial model RectangularZoneTemplateInterface
     inc=IDEAS.Types.Tilt.Floor,
     azi=aziAInt,
     A=max(0,AFloNet),
-    redeclare IDEAS.Buildings.Data.Constructions.CavityWall constructionType(
+    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloor constructionType(
       locGain=conTypFlo.locGain,
       incLastLay=conTypFlo.incLastLay,
       mats=conTypFlo.mats),
