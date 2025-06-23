@@ -588,11 +588,6 @@ components cannot be propagated.
 </html>", revisions="<html>
 <ul>
 <li>
-March 11, 2025, by Lucas Verleyen:<br/>
-Implemented <code>OuterWall</code> for Floor construction.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a> .
-</li>
-<li>
 October 13, 2019, by Filip Jorissen:<br/>
 Refactored the parameter definition of <code>inc</code> 
 and <code>azi</code> by adding the option to use radio buttons.
