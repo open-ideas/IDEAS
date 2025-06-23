@@ -37,11 +37,11 @@ model RectangularZoneTemplateFloor
 
   Zone zonOutWal(
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
-    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo)
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   Zone zonSlaOnGro(
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
-    redeclare IDEAS.Buildings.Data.Constructions.UninsulatedFloor conTypFlo)
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround conTypFlo)
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
