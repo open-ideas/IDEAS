@@ -81,8 +81,10 @@ to see a bigger impact of the ground temperature <code>Tground</code> and the ai
 </p>
 </html>", revisions="<html>
 <ul>
-<li>June 20, 2025, by Lucas Verleyen:<br>
-Initial implementation. See <a href=\"https://github.com/open-ideas/IDEAS/pull/1431\">#1431</a>.</li>
+<li>
+June 20, 2025, by Lucas Verleyen:<br>
+Initial implementation. See <a href=\"https://github.com/open-ideas/IDEAS/pull/1431\">#1431</a>.
+</li>
 </ul>
 </html>"));
 end RectangularZoneTemplateFloor;
