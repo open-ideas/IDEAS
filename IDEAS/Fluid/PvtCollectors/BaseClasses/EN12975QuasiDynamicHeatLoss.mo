@@ -18,7 +18,7 @@ model EN12975QuasiDynamicHeatLoss
   parameter Modelica.Units.SI.TimePerLength c6(final unit="s/m", final min=0)
     "Wind speed dependence of zero-loss efficiency";
   parameter Modelica.Units.SI.Area A_c(final unit="m2", final min=0)
-    "Collector gross area";
+    "Collector area";
 
   Modelica.Blocks.Interfaces.RealOutput QLos_flow[nSeg]
     "Limited heat loss rate at current conditions"
