@@ -5,7 +5,7 @@ model PartialPvtCollector
       redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
   // =====  Parameters =====
-  final parameter Modelica.Units.SI.Irradiance Gstc = 1000
+  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
     "Irradiance at Standard Conditions (W/m2)";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
@@ -18,7 +18,7 @@ model PartialPvtCollector
     if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
     "Effective transmittance–absorptance product";
   output Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
-  ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*Gstc))
+  ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*HGloHorNom))
   / ((tauAlphaEff - per.eta0El) - per.eta0)
   "Heat transfer coefficient calculated from datasheet parameters";
 
@@ -64,7 +64,7 @@ equation
     // Determine the temperature difference relative to the reference temperature
     temDiff[i] = temCell[i] - _T_ref;
     // Calculate electrical power output per segment using the PV performance equation
-    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/Gstc) *
+    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/HGloHorNom) *
                          (1 + per.gamma*temDiff[i]) * (1 - pLossFactor);
 
   end for;
