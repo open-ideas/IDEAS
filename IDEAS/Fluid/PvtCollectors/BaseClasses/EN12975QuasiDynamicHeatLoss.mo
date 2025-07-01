@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
-model EN12975HeatLoss_QuasiDynamic
+model EN12975QuasiDynamicHeatLoss
   "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
   extends Modelica.Blocks.Icons.Block;
 
@@ -64,4 +64,4 @@ equation
     Documentation(info="<html>
 <p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
 </html>"));
-end EN12975HeatLoss_QuasiDynamic;
+end EN12975QuasiDynamicHeatLoss;

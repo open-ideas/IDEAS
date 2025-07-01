@@ -19,7 +19,7 @@ model EN12975HeatLoss_QD "Example showing the use of EN12975HeatLoss_QuasiDynami
     amplitude=15,
     offset=273.15 + 20) "Temperature of the third segment"
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  BaseClasses.EN12975HeatLoss_QuasiDynamic eN12975HeatLoss_QuasiDynamic(
+  EN12975QuasiDynamicHeatLoss eN12975HeatLoss_QuasiDynamic(
     nSeg=3,
     redeclare package Medium = IDEAS.Media.Water,
     a1=per.a1,
