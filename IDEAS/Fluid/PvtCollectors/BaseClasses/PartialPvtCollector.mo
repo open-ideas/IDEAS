@@ -9,7 +9,7 @@ model PartialPvtCollector
     "Global irradiance at nominal conditions [W/m2]";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
+  constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273
     "Reference cell temperature [K]";
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
@@ -62,7 +62,7 @@ equation
     // Estimate the cell temperature using fluid temperature and thermal flux
     temCell[i] = Tm[i] + qth[i] / UAbsFluidCalc;
     // Determine the temperature difference relative to the reference temperature
-    temDiff[i] = temCell[i] - _T_ref;
+    temDiff[i] = temCell[i] - TpvtRef;
     // Calculate electrical power output per segment using the PV performance equation
     solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/HGloHorNom) *
                          (1 + per.gamma*temDiff[i]) * (1 - pLossFactor);
