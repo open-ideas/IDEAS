@@ -36,7 +36,7 @@ model EN12975QuasiDynamicHeatLoss
     "Wind speed normal to collector plane (m/s)"
     annotation (Placement(transformation(extent={{-140,-92},{-100,-52}})));
 
-  IDEAS.BoundaryConditions.WeatherData.Bus WeaBus
+  IDEAS.BoundaryConditions.WeatherData.Bus weaBus
     "Bus with weather data"
     annotation (Placement(transformation(extent={{-114,62},{-94,82}})));
 
@@ -53,8 +53,8 @@ model EN12975QuasiDynamicHeatLoss
 equation
   connect(TFlu, partialLoss.TFlu);
   connect(G, partialLoss.G);
-  connect(partialLoss.TEnv, WeaBus.TDryBul);
-  connect(partialLoss.E_L, WeaBus.HHorIR);
+  connect(partialLoss.TEnv,weaBus. TDryBul);
+  connect(partialLoss.E_L,weaBus. HHorIR);
   connect(partialLoss.u, windSpePlane);
   connect(partialLoss.QLos_flow, QLos_flow);
 

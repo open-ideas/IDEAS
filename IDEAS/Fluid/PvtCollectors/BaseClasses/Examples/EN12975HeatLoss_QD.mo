@@ -35,7 +35,7 @@ model EN12975HeatLoss_QD "Example showing the use of EN12975HeatLoss_QuasiDynami
   Modelica.Blocks.Sources.RealExpression globIrrTil(y=600)           "[W/m2]"
     annotation (Placement(transformation(extent={{-47.5,26},{-28.5,42}})));
 equation
-  connect(weaDat.weaBus, eN12975HeatLoss_QuasiDynamic.WeaBus) annotation (Line(
+  connect(weaDat.weaBus,eN12975HeatLoss_QuasiDynamic.weaBus)  annotation (Line(
       points={{-64,80},{68,80},{68,29.2},{73.6,29.2}},
       color={255,204,51},
       thickness=0.5));

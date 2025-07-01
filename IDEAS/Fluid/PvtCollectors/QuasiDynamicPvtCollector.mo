@@ -77,7 +77,7 @@ equation
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLos.WeaBus, weaBus) annotation (Line(
+  connect(heaLos.weaBus, weaBus) annotation (Line(
       points={{-20.4,27.2},{-90,27.2},{-90,80},{-100,80}},
       color={255,204,51},
       thickness=0.5), Text(
