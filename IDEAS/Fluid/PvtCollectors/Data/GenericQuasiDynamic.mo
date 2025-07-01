@@ -19,9 +19,9 @@ record GenericQuasiDynamic
     "Windspeed dependence of thermal zero-loss efficiency";
   parameter Real P_nominal(final min=0, final unit="W")
     "PV panel power at nominal conditions (W)";
-  parameter Real gamma(final unit="1/K")
+  parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma
     "Temperature coefficient of the PV panel(s)";
-  parameter Real eta0El(final min=0, final max=1, final unit="1")
+  parameter Modelica.Units.SI.Efficiency eta0El(final min=0, final max=1)
     "Module efficiency of the photovoltaic installation";
 
 
