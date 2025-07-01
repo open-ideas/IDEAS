@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors;
-model QuasiDynamicPvtCollector
+model PVTQuasiDynamicCollector
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
@@ -206,4 +206,4 @@ equation
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end QuasiDynamicPvtCollector;
+end PVTQuasiDynamicCollector;

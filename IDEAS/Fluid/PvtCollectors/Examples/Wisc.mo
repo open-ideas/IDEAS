@@ -36,7 +36,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector pvtCol(
+  IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector pvtCol(
     redeclare package Medium = Medium,
     show_T=true,
     azi=0,
@@ -70,7 +70,7 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">
+<a href=\"modelica://IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector\">
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>

@@ -74,7 +74,7 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">
+<a href=\"modelica://IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector\">
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
