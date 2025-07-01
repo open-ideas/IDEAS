@@ -18,8 +18,8 @@ model PartialPvtCollector
     (if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
-  ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*HGloHorNom))
-  / ((tauAlphaEff - per.eta0El) - per.eta0)
+  ((tauAlphaEff - per.etaEl) * (per.c1 + abs(per.gamma)*HGloHorNom))
+  / ((tauAlphaEff - per.etaEl) - per.eta0)
   "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // ===== Variables  =====
