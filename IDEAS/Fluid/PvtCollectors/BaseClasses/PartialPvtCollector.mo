@@ -14,10 +14,10 @@ model PartialPvtCollector
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
-  parameter co tauAlphaEff =
+  parameter Modelica.Units.SI.DimensionlessRatio tauAlphaEff =
     (if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
-  output Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
+  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
   ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*HGloHorNom))
   / ((tauAlphaEff - per.eta0El) - per.eta0)
   "Heat transfer coefficient calculated from datasheet parameters";
