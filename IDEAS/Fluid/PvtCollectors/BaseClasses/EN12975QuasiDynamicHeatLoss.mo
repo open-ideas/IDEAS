@@ -12,11 +12,11 @@ model EN12975QuasiDynamicHeatLoss
   parameter Real c2(final unit="W/(m2.K2)", final min=0)
     "Quadratic heat loss coefficient";
   parameter Real c3(final unit="J/(m3.K)", final min=0)
-    "Windspeed dependence of heat losses";
+    "Wind speed dependence of heat loss";
   parameter Real c4(final unit="", final min=0)
     "Sky temperature dependence of the heat-loss coefficient";
   parameter Real c6(final unit="s/m", final min=0)
-    "Windspeed dependence of zero-loss efficiency";
+    "Wind speed dependence of zero-loss efficiency";
   parameter Real A_c(final unit="m2", final min=0)
     "Collector gross area";
 
