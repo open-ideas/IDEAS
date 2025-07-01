@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses.Examples;
-model EN12975HeatLoss "Example showing the use of EN12975HeatLoss_QuasiDynamic"
+model EN12975HeatLoss
+  "Example showing the use of EN12975HeatLoss_QuasiDynamic"
   extends Modelica.Icons.Example;
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
@@ -28,7 +29,7 @@ model EN12975HeatLoss "Example showing the use of EN12975HeatLoss_QuasiDynamic"
     c4=per.c4,
     c6=per.c6,
     A_c=per.A) annotation (Placement(transformation(extent={{74,12},{94,32}})));
-  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-84,70},{-64,90}})));
@@ -42,7 +43,8 @@ equation
   connect(heaLosQuaDyn.HGloHor, globIrrTil.y) annotation (Line(points={{72,20.6},
           {-24,20.6},{-24,34},{-27.55,34}}, color={0,0,127}));
   connect(T3.y, heaLosQuaDyn.TFlu[1]) annotation (Line(points={{-29,-40},{62,
-          -40},{62,16.9333},{72,16.9333}}, color={0,0,127}));
+          -40},{62,16.9333},{72,16.9333}},
+                                      color={0,0,127}));
   connect(T2.y, heaLosQuaDyn.TFlu[2]) annotation (Line(points={{11,-60},{62,-60},
           {62,17.6},{72,17.6}}, color={0,0,127}));
   connect(T1.y, heaLosQuaDyn.TFlu[3]) annotation (Line(points={{51,-80},{62,-80},
