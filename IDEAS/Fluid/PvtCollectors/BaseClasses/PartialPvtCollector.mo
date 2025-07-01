@@ -7,15 +7,15 @@ model PartialPvtCollector
   // =====  Parameters =====
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
     "Global irradiance at nominal conditions [W/m2]";
-  parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
+  parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273.15
     "Reference cell temperature [K]";
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
-  parameter Real tauAlphaEff =
-    if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
+  parameter co tauAlphaEff =
+    (if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
   output Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
   ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*HGloHorNom))
