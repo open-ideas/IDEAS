@@ -17,7 +17,7 @@ model EN12975QuasiDynamicHeatLoss
     "Sky temperature dependence of the heat-loss coefficient";
   parameter Real c6(final unit="s/m", final min=0)
     "Wind speed dependence of zero-loss efficiency";
-  parameter Modelica.Units.SI.Area A_c( final min=0)
+  parameter Modelica.Units.SI.Area A_c(final min=0)
     "Collector area";
 
   Modelica.Blocks.Interfaces.RealOutput QLos_flow[nSeg]
