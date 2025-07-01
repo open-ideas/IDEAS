@@ -7,7 +7,7 @@ model PVTQuasiDynamicCollector
 
   final Real windSpeTil "Effective wind speed normal to collector plane";
 
-  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
+  final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final incAngDat=per.incAngDat,
@@ -19,7 +19,7 @@ model PVTQuasiDynamicCollector
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the EN12975 standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975QuasiDynamicHeatLoss heaLos(
+  final IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975QuasiDynamicHeatLoss heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
