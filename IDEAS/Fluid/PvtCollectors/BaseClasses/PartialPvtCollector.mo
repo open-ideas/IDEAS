@@ -6,11 +6,11 @@ model PartialPvtCollector
 
   // =====  Parameters =====
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
-    "Global irradiance at Standard Conditions (W/m2)";
+    "Global irradiance at Standard Conditions [W/m2]";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
-    "Reference cell temperature (K)";
+    "Reference cell temperature [K]";
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
@@ -25,9 +25,9 @@ model PartialPvtCollector
   // ===== Variables  =====
 
   Real Tm[nSeg]         "Mean fluid temperature for each segment";
-  Real temCell[nSeg]     "Cell temperature for each segment (K)";
-  Real temDiff[nSeg]     "Temperature difference of the cell relative to reference (K)";
-  Real G                "Global irradiance on the panel (W/m2)";
+  Real temCell[nSeg]     "Cell temperature for each segment [K]";
+  Real temDiff[nSeg]     "Temperature difference of the cell relative to reference [K]";
+  Real G                "Global irradiance on the panel [W/m2]";
   Real qth[nSeg]        "Thermal power density per segment [W/m2]";
   Real temMod     "Average cell temperature";
   Real temMea     "Average fluid temperature";
@@ -43,7 +43,7 @@ model PartialPvtCollector
     annotation(Placement(transformation(extent={{100,-90},{120,-70}})));
 
    Modelica.Blocks.Interfaces.RealOutput solarPowerInternal[nSeg]
-  "Electrical power produced by each discretized PV segment (W)";
+  "Electrical power produced by each discretized PV segment [W]";
   Modelica.Blocks.Math.Add gGlob "Total irradiation on tilted surface"
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -57,7 +57,7 @@ equation
   for i in 1:nSeg loop
     // Retrieve the mean fluid temperature from the sensor array (provided by the base model)
     Tm[i] = temSen[i].T;
-    // Compute the local thermal power density (W/m2)
+    // Compute the local thermal power density [W/m2]
     qth[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal/nSeg);
     // Estimate the cell temperature using fluid temperature and thermal flux
     temCell[i] = Tm[i] + qth[i] / UAbsFluidCalc;
