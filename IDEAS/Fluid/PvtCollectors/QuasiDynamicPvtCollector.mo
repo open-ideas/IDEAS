@@ -5,7 +5,7 @@ model QuasiDynamicPvtCollector
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
-  Real windSpeTil "Effective wind speed normal to collector plane";
+  final Real windSpeTil "Effective wind speed normal to collector plane";
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
@@ -85,8 +85,8 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(HGloTil.y, heaLos.HGloHor) annotation (Line(points={{24,67},{24,34},{
-          -32,34},{-32,18.6},{-22,18.6}}, color={0,0,127}));
+  connect(HGloTil.y, heaLos.HGloHor) annotation (Line(points={{24,67},{24,34},{-32,
+          34},{-32,18.6},{-22,18.6}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
