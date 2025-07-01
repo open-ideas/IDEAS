@@ -19,7 +19,7 @@ model EN12975HeatLoss "Example showing the use of EN12975HeatLoss_QuasiDynamic"
     amplitude=15,
     offset=273.15 + 20) "Temperature of the third segment"
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  EN12975QuasiDynamicHeatLoss eN12975HeatLoss_QuasiDynamic(
+  EN12975QuasiDynamicHeatLoss heaLosQuaDyn(
     nSeg=3,
     redeclare package Medium = IDEAS.Media.Water,
     a1=per.a1,
@@ -35,21 +35,18 @@ model EN12975HeatLoss "Example showing the use of EN12975HeatLoss_QuasiDynamic"
   Modelica.Blocks.Sources.RealExpression globIrrTil(y=600)           "[W/m2]"
     annotation (Placement(transformation(extent={{-47.5,26},{-28.5,42}})));
 equation
-  connect(weaDat.weaBus,eN12975HeatLoss_QuasiDynamic.weaBus)  annotation (Line(
+  connect(weaDat.weaBus, heaLosQuaDyn.weaBus) annotation (Line(
       points={{-64,80},{68,80},{68,29.2},{73.6,29.2}},
       color={255,204,51},
       thickness=0.5));
-  connect(eN12975HeatLoss_QuasiDynamic.HGloHor, globIrrTil.y) annotation (Line(
-        points={{72,20.6},{-24,20.6},{-24,34},{-27.55,34}}, color={0,0,127}));
-  connect(T3.y, eN12975HeatLoss_QuasiDynamic.TFlu[1]) annotation (Line(points={{-29,-40},
-          {62,-40},{62,16.9333},{72,16.9333}},                         color={0,
-          0,127}));
-  connect(T2.y, eN12975HeatLoss_QuasiDynamic.TFlu[2]) annotation (Line(points={{11,-60},
-          {62,-60},{62,17.6},{72,17.6}},
-        color={0,0,127}));
-  connect(T1.y, eN12975HeatLoss_QuasiDynamic.TFlu[3]) annotation (Line(points={{51,-80},
-          {62,-80},{62,18.2667},{72,18.2667}},
-                       color={0,0,127}));
+  connect(heaLosQuaDyn.HGloHor, globIrrTil.y) annotation (Line(points={{72,20.6},
+          {-24,20.6},{-24,34},{-27.55,34}}, color={0,0,127}));
+  connect(T3.y, heaLosQuaDyn.TFlu[1]) annotation (Line(points={{-29,-40},{62,
+          -40},{62,16.9333},{72,16.9333}}, color={0,0,127}));
+  connect(T2.y, heaLosQuaDyn.TFlu[2]) annotation (Line(points={{11,-60},{62,-60},
+          {62,17.6},{72,17.6}}, color={0,0,127}));
+  connect(T1.y, heaLosQuaDyn.TFlu[3]) annotation (Line(points={{51,-80},{62,-80},
+          {62,18.2667},{72,18.2667}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>
