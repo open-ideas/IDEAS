@@ -5,7 +5,7 @@ model PVTQuasiDynamicCollector
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
-  final Real windSpeTil "Effective wind speed normal to collector plane";
+  final Modelica.Units.SI.Velocity windSpeTil "Effective wind speed normal to collector plane";
 
   final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
