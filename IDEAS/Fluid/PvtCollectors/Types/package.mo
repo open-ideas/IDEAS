@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors;
-package Types "Package with type definitions used in Pvt collector model"
+package Types "Package with type definitions used in PVT collector model"
   extends Modelica.Icons.TypesPackage;
 
 annotation (Documentation(info="<html>
