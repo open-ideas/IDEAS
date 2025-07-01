@@ -38,7 +38,7 @@ equation
       cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
     + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
    ^2);
-  heaLos.windSpePlane = windSpeTil;
+  heaLos.winSpePla = windSpeTil;
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -85,8 +85,8 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(gGlob.y, heaLos.G) annotation (Line(points={{24,67},{24,34},{-32,34},
-          {-32,18.6},{-22,18.6}}, color={0,0,127}));
+  connect(gGlob.y, heaLos.HGloHor) annotation (Line(points={{24,67},{24,34},{-32,
+          34},{-32,18.6},{-22,18.6}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>

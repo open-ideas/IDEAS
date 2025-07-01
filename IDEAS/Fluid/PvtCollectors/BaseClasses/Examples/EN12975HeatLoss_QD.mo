@@ -39,8 +39,8 @@ equation
       points={{-64,80},{68,80},{68,29.2},{73.6,29.2}},
       color={255,204,51},
       thickness=0.5));
-  connect(eN12975HeatLoss_QuasiDynamic.G, globIrrTil.y) annotation (Line(points={{72,20.6},
-          {-24,20.6},{-24,34},{-27.55,34}},            color={0,0,127}));
+  connect(eN12975HeatLoss_QuasiDynamic.HGloHor, globIrrTil.y) annotation (Line(
+        points={{72,20.6},{-24,20.6},{-24,34},{-27.55,34}}, color={0,0,127}));
   connect(T3.y, eN12975HeatLoss_QuasiDynamic.TFlu[1]) annotation (Line(points={{-29,-40},
           {62,-40},{62,16.9333},{72,16.9333}},                         color={0,
           0,127}));
