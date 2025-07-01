@@ -20,7 +20,7 @@ model PartialPvtCollector
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
   ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*HGloHorNom))
   / ((tauAlphaEff - per.eta0El) - per.eta0)
-  "Heat transfer coefficient calculated from datasheet parameters";
+  "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // ===== Variables  =====
 
