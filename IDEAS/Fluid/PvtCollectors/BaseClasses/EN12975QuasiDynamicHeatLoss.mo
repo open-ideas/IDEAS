@@ -7,17 +7,17 @@ model EN12975QuasiDynamicHeatLoss
     "Medium in the system";
   parameter Integer nSeg = 3 "Number of segments";
 
-  parameter Real c1(final unit="W/(m2.K)", final min=0)
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final unit="W/(m2.K)", final min=0)
     "Linear heat loss coefficient";
-  parameter Real c2(final unit="W/(m2.K2)", final min=0)
+  parameter Modelica.Units.SI.CoefficientOfHeatTransferPerTemperature c2(final unit="W/(m2.K2)", final min=0)
     "Quadratic heat loss coefficient";
-  parameter Real c3(final unit="J/(m3.K)", final min=0)
+  parameter Modelica.Units.SI.SpecificHeatCapacity c3(final unit="J/(m3.K)", final min=0)
     "Wind speed dependence of heat loss";
-  parameter Real c4(final unit="", final min=0)
+  parameter Modelica.Units.SI.DimensionlessRatio c4(final unit="", final min=0)
     "Sky temperature dependence of the heat-loss coefficient";
-  parameter Real c6(final unit="s/m", final min=0)
+  parameter Modelica.Units.SI.TimePerLength c6(final unit="s/m", final min=0)
     "Wind speed dependence of zero-loss efficiency";
-  parameter Real A_c(final unit="m2", final min=0)
+  parameter Modelica.Units.SI.Area A_c(final unit="m2", final min=0)
     "Collector gross area";
 
   Modelica.Blocks.Interfaces.RealOutput QLos_flow[nSeg]
