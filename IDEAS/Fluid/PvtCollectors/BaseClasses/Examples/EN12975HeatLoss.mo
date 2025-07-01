@@ -33,7 +33,7 @@ model EN12975HeatLoss
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-84,70},{-64,90}})));
-  Modelica.Blocks.Sources.RealExpression globIrrTil(y=600)           "[W/m2]"
+  Modelica.Blocks.Sources.RealExpression globIrrTil(y=600) "[W/m2]"
     annotation (Placement(transformation(extent={{-47.5,26},{-28.5,42}})));
 equation
   connect(weaDat.weaBus, heaLosQuaDyn.weaBus) annotation (Line(
