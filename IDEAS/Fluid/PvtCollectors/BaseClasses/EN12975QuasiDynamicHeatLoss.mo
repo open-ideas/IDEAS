@@ -58,6 +58,7 @@ equation
   connect(partialLoss.QLos_flow, QLos_flow);
 
   annotation (
+  defaultComponentName="heaLos",
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
