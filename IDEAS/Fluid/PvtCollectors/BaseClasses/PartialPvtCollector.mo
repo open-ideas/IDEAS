@@ -62,7 +62,7 @@ equation
     // Determine the temperature difference relative to the reference temperature
     temDiff[i] = temCell[i] - TpvtRef;
     // Calculate electrical power output per segment using the PV performance equation
-    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/HGloHorNom) *
+    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.P_nominal/per.A) * (G/HGloHorNom) *
                          (1 + per.gamma*temDiff[i]) * (1 - pLossFactor);
 
   end for;

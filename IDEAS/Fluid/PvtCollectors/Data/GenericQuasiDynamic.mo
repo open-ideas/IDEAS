@@ -17,8 +17,8 @@ record GenericQuasiDynamic
     "Sky temperature dependence of the thermal heat-loss coefficient";
   parameter Real c6(final min=0, final unit="s/m")
     "Windspeed dependence of thermal zero-loss efficiency";
-  parameter Real Pstc(final min=0, final unit="W")
-    "PV panel power at STC (W)";
+  parameter Real P_nominal(final min=0, final unit="W")
+    "PV panel power at nominal conditions (W)";
   parameter Real gamma(final unit="1/K")
     "Temperature coefficient of the PV panel(s)";
   parameter Real eta0El(final min=0, final max=1, final unit="1")

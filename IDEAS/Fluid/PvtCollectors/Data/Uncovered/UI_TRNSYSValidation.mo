@@ -17,7 +17,7 @@ record UI_TRNSYSValidation=
     final c3     = 1.7,
     final c4     = 0.437,
     final c6     = 0.003,
-    final Pstc = 280,
+    final P_nominal = 280,
     final gamma = -0.0041,
     final eta0El = 0.1687)
     "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"

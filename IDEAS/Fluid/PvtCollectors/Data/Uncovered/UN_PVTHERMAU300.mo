@@ -17,7 +17,7 @@ record UN_PVTHERMAU300 =
     final c3     = 1.7,
     final c4     = 0.437,
     final c6     = 0.003,
-    final Pstc = 300,
+    final P_nominal = 300,
     final gamma = -0.00375,
     final eta0El = 0.183)
   "Parameters for an uncovered flat-plate PVT collector without rear cover or back-side insulation"
