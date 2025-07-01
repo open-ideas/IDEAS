@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses.Examples;
-model EN12975HeatLoss_QD "Example showing the use of EN12975HeatLoss_QuasiDynamic"
+model EN12975HeatLoss "Example showing the use of EN12975HeatLoss_QuasiDynamic"
   extends Modelica.Icons.Example;
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
@@ -76,4 +76,4 @@ First implementation.
           "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/BaseClasses/Examples/EN12975HeatLoss.mos"
         "Simulate and plot"),
         experiment(Tolerance=1e-6, StopTime=100));
-end EN12975HeatLoss_QD;
+end EN12975HeatLoss;
