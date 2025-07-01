@@ -36,7 +36,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  QuasiDynamicPvtCollector pvtCol(
+  IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector pvtCol(
     redeclare package Medium = Medium,
     show_T=true,
     azi=0,
