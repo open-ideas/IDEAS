@@ -9,7 +9,7 @@ model PartialPvtCollector
     "Global irradiance at nominal conditions [W/m2]";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273
+  constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273.15
     "Reference cell temperature [K]";
   parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
   IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
