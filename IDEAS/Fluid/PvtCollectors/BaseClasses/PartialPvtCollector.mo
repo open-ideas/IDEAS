@@ -6,7 +6,7 @@ model PartialPvtCollector
 
   // =====  Parameters =====
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
-    "Irradiance at Standard Conditions (W/m2)";
+    "Global irradiance at Standard Conditions (W/m2)";
   parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
