@@ -4,14 +4,11 @@ model EN12975QuasiDynamicHeatLoss
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
-    QLos_internal = A_c/nSeg * {
-      dT[i] * (c1 - c2*dT[i] + c3*winSpePla)
-      + c4 * (E_L - sigma*TEnv^4)
-      - c6*winSpePla*HGloTil
-      for i in 1:nSeg},
+    QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*dT[i] + c3*winSpePla) + c4*(HHorIR
+         - sigma*TEnv^4) - c6*winSpePla*HGloTil for i in 1:nSeg},
     // Map original a1, a2 to renamed c1, c2
-    a1 = c1,
-    a2 = c2);
+    a1=c1,
+    a2=c2);
 
   // —— Renamed EN12975 coefficients ——
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
@@ -44,15 +41,14 @@ model EN12975QuasiDynamicHeatLoss
     unit="W/m2",
     displayUnit="W/m2")
     "Global irradiance on tilted plane";
-  Modelica.Blocks.Interfaces.RealInput E_L(
+  Modelica.Blocks.Interfaces.RealInput HHorIR(
     quantity="Long-wave solar irradiance",
     unit="W/m2",
-    displayUnit="W/m2")
-    "Long-wave (sky) irradiance" annotation (Placement(
-        transformation(extent={{-20,-20},{20,20}},
+    displayUnit="W/m2") "Long-wave (sky) irradiance [W/m2]" annotation (
+      Placement(transformation(
+        extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-120,-20}),  iconTransformation(
-          extent={{-140,-40},{-100,0}})));
+        origin={-120,-20}), iconTransformation(extent={{-140,-40},{-100,0}})));
 
 annotation (
     defaultComponentName="heaLos",

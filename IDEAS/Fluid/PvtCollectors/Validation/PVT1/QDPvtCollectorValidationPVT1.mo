@@ -94,8 +94,8 @@ equation
     annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
   connect(heaLos.TEnv, TAmbKel.Kelvin)
     annotation (Line(points={{-22,26},{-22,28},{-34.5,28}}, color={0,0,127}));
-  connect(winSpe.y, heaLos.u) annotation (Line(points={{-35.55,20},{-36,22.1},{
-          -22.1,22.1}}, color={0,0,127}));
+  connect(winSpe.y, heaLos.winSpePla) annotation (Line(points={{-35.55,20},{-36,
+          22.1},{-22.1,22.1}}, color={0,0,127}));
   connect(longWaveRadiationModel.rH,rH. y) annotation (Line(points={{-60,-60.4},
           {-70,-60.4},{-70,-74},{-73.55,-74}},                     color={0,0,127}));
   connect(Tamb.y,longWaveRadiationModel. Tamb) annotation (Line(points={{-73.55,
@@ -107,10 +107,10 @@ equation
                                          color={0,0,127}));
   connect(Eglob.y,longWaveRadiationModel.Eglobh_h)  annotation (Line(points={{-73.55,
           -38},{-68,-38},{-68,-47.2},{-60,-47.2}}, color={0,0,127}));
-  connect(heaLos.G, I_tot.y) annotation (Line(points={{-21.9,17.9},{-32,17.9},{
-          -32,10},{-35.55,10}}, color={0,0,127}));
-  connect(heaLos.E_L, longWaveRadiationModel.lonRad) annotation (Line(points={{
-          -22.1,10.1},{-26,10.1},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
+  connect(heaLos.HGloTil, I_tot.y) annotation (Line(points={{-21.9,17.9},{-32,
+          17.9},{-32,10},{-35.55,10}}, color={0,0,127}));
+  connect(heaLos.HHorIR, longWaveRadiationModel.lonRad) annotation (Line(points
+        ={{-22.1,10.1},{-26,10.1},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
   connect(meaDat.y[5], degToRad.u)
     annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,

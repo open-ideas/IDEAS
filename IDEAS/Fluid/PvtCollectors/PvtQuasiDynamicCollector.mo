@@ -71,10 +71,7 @@ equation
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-
   connect(heaLos.QLos_flow, QLos.Q_flow);
-
-
   connect(heaLos.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{-30,
           -20},{-11,-20}}, color={0,0,127}));
   connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line(
@@ -85,9 +82,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.HHorIR, heaLos.E_L) annotation (Line(
-      points={{-99.95,80.05},{-90,80.05},{-90,10},{-32,10},{-32,10.1},{-22.1,
-          10.1}},
+  connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line(
+      points={{-99.95,80.05},{-90,80.05},{-90,18},{-22,18}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",

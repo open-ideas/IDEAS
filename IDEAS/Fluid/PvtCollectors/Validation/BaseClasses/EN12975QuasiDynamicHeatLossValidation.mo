@@ -1,7 +1,8 @@
 within IDEAS.Fluid.PvtCollectors.Validation.BaseClasses;
 block EN12975QuasiDynamicHeatLossValidation
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
-    QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) - c6*u*G for i in 1:nSeg},
+    QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*dT[i] + c3*winSpePla) + c4*(HHorIR
+         - sigma*TEnv^4) - c6*winSpePla*HGloTil for i in 1:nSeg},
     a1=c1,
     a2=c2);
 
@@ -16,27 +17,31 @@ block EN12975QuasiDynamicHeatLossValidation
   parameter Real sigma = 5.67e-8 "Stefan-Boltzmann constant [W/m²K^4]";
 
   // Inputs
-  Modelica.Blocks.Interfaces.RealInput u(
+  Modelica.Blocks.Interfaces.RealInput winSpePla(
     quantity="Windspeed",
     unit="m/s",
-    displayUnit="m/s") "windspeed of surrounding air"
-    annotation (Placement(transformation(extent={{-140,0},{-100,40}}),
-        iconTransformation(extent={{-140,0},{-100,40}})));
+    displayUnit="m/s")
+    "windspeed of surrounding air measured in collector plane" annotation (
+      Placement(transformation(extent={{-140,0},{-100,40}}), iconTransformation(
+          extent={{-140,0},{-100,40}})));
 
-  Modelica.Blocks.Interfaces.RealInput E_L(
+  Modelica.Blocks.Interfaces.RealInput HHorIR(
     quantity="long-wave solar irradiance",
     unit="W/m2",
-    displayUnit="W/m2") "Long-wave solar irradiance [W/m2]"
-    annotation (Placement(transformation(extent={{-20,-20},{20,20}}, rotation=0, origin={-120,
-            -100}),
-        iconTransformation(extent={{-140,-120},{-100,-80}})));
+    displayUnit="W/m2") "Long-wave solar irradiance [W/m2]" annotation (
+      Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=0,
+        origin={-120,-100}), iconTransformation(extent={{-140,-120},{-100,-80}})));
 
-  Modelica.Blocks.Interfaces.RealInput G(
+  Modelica.Blocks.Interfaces.RealInput HGloTil(
     quantity="Global solar irradiance",
     unit="W/m2",
-    displayUnit="W/m2") "global solar irradiance [W/m2]"
-    annotation (Placement(transformation(extent={{-21,-21},{21,21}}, rotation=0, origin={-121,-21}),
-        iconTransformation(extent={{-140,-40},{-100,0}})));
+    displayUnit="W/m2") "global solar irradiance on tilted surface [W/m2]"
+    annotation (Placement(transformation(
+        extent={{-21,-21},{21,21}},
+        rotation=0,
+        origin={-121,-21}), iconTransformation(extent={{-140,-40},{-100,0}})));
 
   // Internal variables to be visible in simulation results
   Real c1_c2_term(unit="W");
@@ -52,10 +57,10 @@ block EN12975QuasiDynamicHeatLossValidation
 
 equation
   c1_c2_term = sum(A_c/nSeg*{dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
-  c3_term = sum(A_c/nSeg*{dT[i]*c3*u for i in 1:nSeg});
-  c4_term = sum(A_c/nSeg*{c4*(E_L - sigma*TEnv^4) for i in 1:nSeg});
-  c6_term = sum(A_c/nSeg*{(-1)*c6*u*G for i in 1:nSeg});
-  EL_term = E_L - sigma*TEnv^4;
+  c3_term =sum(A_c/nSeg*{dT[i]*c3*winSpePla for i in 1:nSeg});
+  c4_term =sum(A_c/nSeg*{c4*(HHorIR - sigma*TEnv^4) for i in 1:nSeg});
+  c6_term =sum(A_c/nSeg*{(-1)*c6*winSpePla*HGloTil for i in 1:nSeg});
+  EL_term =HHorIR - sigma*TEnv^4;
 
   pvt_st_st = c1_c2_term;
   pvt_c3 = c1_c2_term + c3_term;

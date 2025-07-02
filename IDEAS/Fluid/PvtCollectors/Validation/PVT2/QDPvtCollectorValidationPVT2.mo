@@ -55,19 +55,19 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.HHorIR, heaLos.E_L) annotation (Line(
-      points={{-99.95,80.05},{-94,80.05},{-94,80},{-90,80},{-90,10},{-32,10},{
-          -32,10.1},{-22.1,10.1}},
+  connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line(
+      points={{-99.95,80.05},{-94,80.05},{-94,80},{-90,80},{-90,10},{-32,10},{-32,
+          10.1},{-22.1,10.1}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(globIrrTil.y, heaLos.G) annotation (Line(points={{-47.55,14},{-32,14},
-          {-32,17.9},{-21.9,17.9}}, color={0,0,127}));
-  connect(winSpe.y, heaLos.u) annotation (Line(points={{-47.55,24},{-32,24},{
-          -32,22.1},{-22.1,22.1}}, color={0,0,127}));
+  connect(globIrrTil.y, heaLos.HGloTil) annotation (Line(points={{-47.55,14},{-32,
+          14},{-32,17.9},{-21.9,17.9}}, color={0,0,127}));
+  connect(winSpe.y, heaLos.winSpePla) annotation (Line(points={{-47.55,24},{-32,
+          24},{-32,22.1},{-22.1,22.1}}, color={0,0,127}));
   connect(solGai.QSol_flow, QGai.Q_flow)
     annotation (Line(points={{1,50},{50,50}}, color={0,0,127}));
   connect(temSen.T, solGai.TFlu) annotation (Line(points={{-11,-20},{-30,-20},{-30,
