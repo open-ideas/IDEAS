@@ -1,9 +1,14 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 block PartialEN12975HeatLoss_QuasiDynamic
   "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss_SteadyState(
-    QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
-        c6*u*G for i in 1:nSeg});
+  extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
+    QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) - c6*u*G for i in 1:nSeg},
+    a1=c1,
+    a2=c2);
+
+  // Required: define the renamed parameters
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0) "Linear heat loss coefficient (alias for a1)";
+  parameter Real c2(final unit="W/(m2.K2)", final min=0) "Quadratic heat loss coefficient (alias for a2)";
 
 // Constants
   parameter Real c3(final unit = "J/(m3.K)", final min=0) "a3 from ratings data";
