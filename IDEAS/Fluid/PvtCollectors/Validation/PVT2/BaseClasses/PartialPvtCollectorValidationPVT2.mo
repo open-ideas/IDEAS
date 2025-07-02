@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses;
-model PartialPvtCollectorValidation
+model PartialPvtCollectorValidationPVT2
   "Extended partial solar (thermal) collector with discretized PV electrical calculations"
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
       redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
@@ -18,8 +18,8 @@ model PartialPvtCollectorValidation
     if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
     "Effective transmittance–absorptance product";
   output Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
-  ((tauAlphaEff - per.eta0El) * (per.c1 + abs(per.gamma)*Gstc))
-  / ((tauAlphaEff - per.eta0El) - per.eta0)
+  ((tauAlphaEff - per.etaEl) * (per.c1 + abs(per.gamma)*Gstc))
+  / ((tauAlphaEff - per.etaEl) - per.eta0)
   "Heat transfer coefficient calculated from datasheet parameters";
 
   // ===== Variables  =====
@@ -65,7 +65,7 @@ equation
     // Determine the temperature difference relative to the reference temperature
     temDiff[i] = temCell[i] - _T_ref;
     // Calculate electrical power output per segment using the PV performance equation
-    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.Pstc/per.A) * (G/Gstc) *
+    solarPowerInternal[i] = (ATot_internal/nSeg) * (per.P_nominal/per.A) * (G/Gstc) *
                          (1 + per.gamma*temDiff[i]) * (1 - pLossFactor);
 
   end for;
@@ -82,4 +82,4 @@ equation
   // Calculate the average fluid temperature, defined as module temperature
   temMea = sum(Tm)/nSeg;
 
-end PartialPvtCollectorValidation;
+end PartialPvtCollectorValidationPVT2;
