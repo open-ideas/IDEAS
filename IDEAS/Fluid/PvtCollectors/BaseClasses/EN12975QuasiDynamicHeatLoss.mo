@@ -33,9 +33,7 @@ model EN12975QuasiDynamicHeatLoss
     quantity="Windspeed",
     unit="m/s",
     displayUnit="m/s")
-    "Wind speed normal to collector plane" annotation (Placement(
-    transformation(extent={{-140,0},{-100,40}}),
-        iconTransformation(extent={{-140,0},{-100,40}})));
+    "Wind speed normal to collector plane";
   Modelica.Blocks.Interfaces.RealInput HGloTil(
     quantity="Global solar irradiance",
     unit="W/m2",
@@ -48,7 +46,7 @@ model EN12975QuasiDynamicHeatLoss
       Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-120,-20}), iconTransformation(extent={{-140,-40},{-100,0}})));
+        origin={-120,0}),   iconTransformation(extent={{-140,-20},{-100,20}})));
 
 annotation (
     defaultComponentName="heaLos",
