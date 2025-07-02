@@ -1,5 +1,5 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses;
-block EN12975HeatLossValidationPVT1
+within IDEAS.Fluid.PvtCollectors.Validation.BaseClasses;
+block EN12975QuasiDynamicHeatLossValidation
   extends IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975HeatLoss_SteadyState
                          ( QLos_internal=A_c/nSeg*{dT[i] * (c1 - c2 * dT[i] + c3*u) + c4*(E_L - sigma*TEnv^4) -
         c6*u*G for i in 1:nSeg});
@@ -59,4 +59,4 @@ equation
     pvt_c4 = c1_c2_term + c3_term + c4_term;
     pvt_c6 = c1_c2_term + c3_term + c4_term + c6_term;
 
-end EN12975HeatLossValidationPVT1;
+end EN12975QuasiDynamicHeatLossValidation;

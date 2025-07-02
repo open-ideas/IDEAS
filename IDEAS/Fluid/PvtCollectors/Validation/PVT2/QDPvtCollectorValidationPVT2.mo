@@ -5,7 +5,8 @@ model QDPvtCollectorValidationPVT2
   extends IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.PartialPvtCollectorValidation
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
-  IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.EN12975HeatLossValidationPVT1 heaLos(
+  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.EN12975QuasiDynamicHeatLossValidation
+    heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,

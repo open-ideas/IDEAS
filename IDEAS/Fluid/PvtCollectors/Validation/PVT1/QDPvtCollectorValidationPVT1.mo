@@ -20,7 +20,8 @@ model QDPvtCollectorValidationPVT1
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the EN12975 standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.EN12975HeatLossValidationPVT1 heaLos(
+  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.EN12975QuasiDynamicHeatLossValidation
+    heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
