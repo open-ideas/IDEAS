@@ -1,6 +1,5 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses.Examples;
-model EN12975HeatLoss
-  "Example showing the use of EN12975HeatLoss_QuasiDynamic"
+model ISO9806HeatLoss "Example showing the use of ISO9806QuasiDynamicHeatLoss"
   extends Modelica.Icons.Example;
   parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
@@ -20,7 +19,7 @@ model EN12975HeatLoss
     amplitude=15,
     offset=273.15 + 20) "Temperature of the third segment"
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  EN12975QuasiDynamicHeatLoss heaLosQuaDyn(
+  ISO9806QuasiDynamicHeatLoss heaLosQuaDyn(
     nSeg=3,
     redeclare package Medium = IDEAS.Media.Water,
     a1=per.a1,
@@ -75,4 +74,4 @@ First implementation.
           "modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/BaseClasses/Examples/EN12975HeatLoss.mos"
         "Simulate and plot"),
         experiment(Tolerance=1e-6, StopTime=100));
-end EN12975HeatLoss;
+end ISO9806HeatLoss;

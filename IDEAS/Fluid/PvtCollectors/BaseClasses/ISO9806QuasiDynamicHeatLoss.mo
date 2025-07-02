@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
-model EN12975QuasiDynamicHeatLoss
-  "Model to calculate the quasi-dynamic heat loss of a PVT/solar collector following the ISO 9806:2013 quasi-dynamic method, extending the EN12975HeatLoss base"
+model ISO9806QuasiDynamicHeatLoss
+  "Model to calculate the quasi-dynamic heat loss of a PVT/solar collector following the ISO 9806:2013 quasi-dynamic method, extending the ISO9806HeatLoss base"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
@@ -55,4 +55,4 @@ annotation (
     Documentation(info="<html>\
 <p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>\
 </html>"));
-end EN12975QuasiDynamicHeatLoss;
+end ISO9806QuasiDynamicHeatLoss;

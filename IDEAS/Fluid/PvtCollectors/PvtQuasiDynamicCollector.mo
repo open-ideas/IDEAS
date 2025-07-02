@@ -19,7 +19,7 @@ model PVTQuasiDynamicCollector
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the EN12975 standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  final IDEAS.Fluid.PvtCollectors.BaseClasses.EN12975QuasiDynamicHeatLoss heaLos(
+  final IDEAS.Fluid.PvtCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
@@ -83,7 +83,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line(
-      points={{-99.95,80.05},{-90,80.05},{-90,18},{-22,18}},
+      points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",

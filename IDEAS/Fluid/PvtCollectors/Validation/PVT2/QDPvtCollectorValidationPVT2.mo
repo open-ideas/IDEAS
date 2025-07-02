@@ -5,7 +5,7 @@ model QDPvtCollectorValidationPVT2
   extends IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.PartialPvtCollectorValidationPVT2
     (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
 
-  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.EN12975QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -22,7 +22,7 @@ model QDPvtCollectorValidationPVT2
     annotation (Placement(transformation(extent={{-67.5,6},{-48.5,22}})));
   Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
     annotation (Placement(transformation(extent={{-67.5,16},{-48.5,32}})));
-  BaseClasses.EN12975SolarGainHGlob solGai(
+  BaseClasses.ISO9806SolarGainHGlob solGai(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final eta0=per.eta0,
