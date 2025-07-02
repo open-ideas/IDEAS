@@ -100,5 +100,15 @@ are internally mapped to <code>c1</code> and <code>c2</code> for clarity.
 ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods<br/>
 Duffie, J.A., and Beckman, W.A., <i>Solar Engineering of Thermal Processes</i>, 4th ed., Wiley, 2013
 </p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+July 2, 2025, by Lone Meertens:<br/>
+First implementation of ISO 9806 quasi-dynamic heat loss block.<br/>
+This is for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
+</li>
+</ul>
 </html>"));
 end ISO9806QuasiDynamicHeatLoss;
