@@ -40,8 +40,7 @@ equation
    ^2);
   heaLos.winSpePla = windSpeTil;
 
-  heaLos.HGloHor = HGloTil;
-
+  heaLos.HGloTil = HGloTil;
 
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0

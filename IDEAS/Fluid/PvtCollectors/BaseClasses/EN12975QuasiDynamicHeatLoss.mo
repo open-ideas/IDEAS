@@ -24,16 +24,16 @@ model EN12975QuasiDynamicHeatLoss
     "Limited heat loss rate at current conditions"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 
-  Modelica.Blocks.Interfaces.RealInput HGloHor "Global solar irradiance [W/m2]"
-    annotation (Placement(transformation(extent={{-140,-34},{-100,6}})));
-
   Modelica.Blocks.Interfaces.RealInput TFlu[nSeg]
     "Temperature of the heat transfer fluid [K]"
     annotation (Placement(transformation(extent={{-140,-64},{-100,-24}})));
 
-   Modelica.Blocks.Interfaces.RealInput winSpePla
+  Modelica.Blocks.Interfaces.RealInput winSpePla
     "Wind speed normal to collector plane [m/s]"
     annotation (Placement(transformation(extent={{-140,-92},{-100,-52}})));
+
+  Modelica.Blocks.Interfaces.RealInput HGloTil "Global solar irradiance [W/m2]"
+      annotation (Placement(transformation(extent={{-140,-34},{-100,6}})));
 
   IDEAS.BoundaryConditions.WeatherData.Bus weaBus
     "Bus with weather data"
@@ -50,8 +50,9 @@ model EN12975QuasiDynamicHeatLoss
     A_c=A_c) annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
 equation
+
   connect(TFlu, partialLoss.TFlu);
-  connect(HGloHor, partialLoss.G);
+  connect(HGloTil, partialLoss.G);
   connect(partialLoss.TEnv,weaBus. TDryBul);
   connect(partialLoss.E_L,weaBus. HHorIR);
   connect(partialLoss.u, winSpePla);
