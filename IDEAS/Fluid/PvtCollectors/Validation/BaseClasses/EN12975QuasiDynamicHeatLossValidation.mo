@@ -20,22 +20,23 @@ block EN12975QuasiDynamicHeatLossValidation
     quantity="Windspeed",
     unit="m/s",
     displayUnit="m/s") "windspeed of surrounding air"
-    annotation (Placement(transformation(extent={{-142,0},{-100,42}}),
-        iconTransformation(extent={{-142,0},{-100,42}})));
+    annotation (Placement(transformation(extent={{-140,0},{-100,40}}),
+        iconTransformation(extent={{-140,0},{-100,40}})));
 
   Modelica.Blocks.Interfaces.RealInput E_L(
     quantity="long-wave solar irradiance",
     unit="W/m2",
     displayUnit="W/m2") "Long-wave solar irradiance [W/m2]"
-    annotation (Placement(transformation(extent={{-21,-21},{21,21}}, rotation=0, origin={-121,-99}),
-        iconTransformation(extent={{-142,-120},{-100,-78}})));
+    annotation (Placement(transformation(extent={{-20,-20},{20,20}}, rotation=0, origin={-120,
+            -100}),
+        iconTransformation(extent={{-140,-120},{-100,-80}})));
 
   Modelica.Blocks.Interfaces.RealInput G(
     quantity="Global solar irradiance",
     unit="W/m2",
     displayUnit="W/m2") "global solar irradiance [W/m2]"
     annotation (Placement(transformation(extent={{-21,-21},{21,21}}, rotation=0, origin={-121,-21}),
-        iconTransformation(extent={{-140,-42},{-98,0}})));
+        iconTransformation(extent={{-140,-40},{-100,0}})));
 
   // Internal variables to be visible in simulation results
   Real c1_c2_term(unit="W");
