@@ -41,19 +41,6 @@ block PartialEN12975HeatLoss_QuasiDynamic
         origin={-121,-21}),                               iconTransformation(
           extent={{-140,-42},{-98,0}})));
 
-  // Internal variables to be visible in simulation results
-  Real c1_c2_term(unit="W");
-  Real c3_term(unit="W");
-  Real c4_term(unit="W");
-  Real c6_term(unit="W");
-
-  // Equations for terms
-equation
-    c1_c2_term = sum(A_c/nSeg*{dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
-    c3_term = sum(A_c/nSeg*{dT[i]*(c3*u) for i in 1:nSeg});
-    c4_term = sum(A_c/nSeg*{c4*(E_L - sigma*TEnv^4) for i in 1:nSeg});
-    c6_term = sum(A_c/nSeg*{(-1)* c6*u*G  for i in 1:nSeg});
-
   annotation (Documentation(info="<html>
 <p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
 </html>"));
