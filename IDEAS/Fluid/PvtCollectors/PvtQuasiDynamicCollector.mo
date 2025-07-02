@@ -40,6 +40,10 @@ equation
    ^2);
   heaLos.winSpePla = windSpeTil;
 
+  heaLos.HGloHor = HGloTil;
+
+
+
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
@@ -85,8 +89,7 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(HGloTil.y, heaLos.HGloHor) annotation (Line(points={{24,67},{24,34},{-32,
-          34},{-32,18.6},{-22,18.6}}, color={0,0,127}));
+
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
