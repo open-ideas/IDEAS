@@ -31,16 +31,14 @@ model EN12975QuasiDynamicHeatLoss
   parameter Real sigma = 5.67e-8
     "Stefan–Boltzmann constant [W/m².K⁴]";
 
-  // —— Inputs ——
-  IDEAS.BoundaryConditions.WeatherData.Bus weaBus
-    "Weather data bus (provides TDryBul and HHorIR)";
-
   // Quasi-dynamic inputs
   Modelica.Blocks.Interfaces.RealInput winSpePla(
     quantity="Windspeed",
     unit="m/s",
     displayUnit="m/s")
-    "Wind speed normal to collector plane";
+    "Wind speed normal to collector plane" annotation (Placement(
+    transformation(extent={{-140,0},{-100,40}}),
+        iconTransformation(extent={{-140,0},{-100,40}})));
   Modelica.Blocks.Interfaces.RealInput HGloTil(
     quantity="Global solar irradiance",
     unit="W/m2",
@@ -51,10 +49,10 @@ model EN12975QuasiDynamicHeatLoss
     unit="W/m2",
     displayUnit="W/m2")
     "Long-wave (sky) irradiance" annotation (Placement(
-        transformation(extent={{-21,-21},{21,21}},
+        transformation(extent={{-20,-20},{20,20}},
         rotation=0,
-        origin={-121,-99}),  iconTransformation(
-          extent={{-142,-120},{-100,-78}})));
+        origin={-120,-20}),  iconTransformation(
+          extent={{-140,-40},{-100,0}})));
 
 annotation (
     defaultComponentName="heaLos",
