@@ -39,7 +39,6 @@ equation
     + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
    ^2);
   heaLos.winSpePla = windSpeTil;
-
   heaLos.HGloTil = HGloTil;
 
 
@@ -64,14 +63,6 @@ equation
       points={{-120,40},{-40,40},{-40,45},{-22,45}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLos.TFlu, temSen.T) annotation (Line(
-      points={{-22,15.6},{-30,15.6},{-30,-20},{-11,-20}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heaLos.QLos_flow, QLos.Q_flow) annotation (Line(
-      points={{1,20},{26,20},{26,20},{50,20}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line(
       points={{1,50},{50,50}},
       color={0,0,127},
@@ -80,15 +71,29 @@ equation
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLos.weaBus, weaBus) annotation (Line(
-      points={{-20.4,27.2},{-90,27.2},{-90,80},{-100,80}},
+
+  connect(heaLos.QLos_flow, QLos.Q_flow);
+
+
+  connect(heaLos.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{-30,
+          -20},{-11,-20}}, color={0,0,127}));
+  connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line(
+      points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
       color={255,204,51},
       thickness=0.5), Text(
-      string="%second",
-      index=1,
+      string="%first",
+      index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-
+  connect(weaBus.HHorIR, heaLos.E_L) annotation (Line(
+      points={{-99.95,80.05},{-90,80.05},{-90,10},{-32,10},{-32,10.1},{-22.1,
+          10.1}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>

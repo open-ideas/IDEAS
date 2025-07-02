@@ -1,68 +1,66 @@
 within IDEAS.Fluid.PvtCollectors.BaseClasses;
 model EN12975QuasiDynamicHeatLoss
-  "Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method"
-  extends Modelica.Blocks.Icons.Block;
+  "Model to calculate the quasi-dynamic heat loss of a PVT/solar collector following the ISO 9806:2013 quasi-dynamic method, extending the EN12975HeatLoss base"
 
-  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
-    "Medium in the system";
-  parameter Integer nSeg = 3 "Number of segments";
+  extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
+    // Override the internal heat-loss expression to include c3, c4 and c6 terms
+    QLos_internal = A_c/nSeg * {
+      dT[i] * (c1 - c2*dT[i] + c3*winSpePla)
+      + c4 * (E_L - sigma*TEnv^4)
+      - c6*winSpePla*HGloTil
+      for i in 1:nSeg},
+    // Map original a1, a2 to renamed c1, c2
+    a1 = c1,
+    a2 = c2);
 
+  // —— Renamed EN12975 coefficients ——
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
-    "Linear heat loss coefficient";
+    "Linear heat loss coefficient (alias for a1)";
   parameter Real c2(final unit="W/(m2.K2)", final min=0)
-    "Quadratic heat loss coefficient";
+    "Quadratic heat loss coefficient (alias for a2)";
+
+  // —— Additional quasi-dynamic coefficients ——
   parameter Modelica.Units.SI.SpecificHeatCapacity c3(final min=0)
-    "Wind speed dependence of heat loss";
+    "Wind-speed dependence of heat loss";
   parameter Modelica.Units.SI.DimensionlessRatio c4(final min=0)
-    "Sky temperature dependence of the heat-loss coefficient";
+    "Sky long-wave irradiance dependence";
   parameter Real c6(final unit="s/m", final min=0)
-    "Wind speed dependence of zero-loss efficiency";
-  parameter Modelica.Units.SI.Area A_c(final min=0)
-    "Collector area";
+    "Wind-speed × global irradiance dependence";
 
-  Modelica.Blocks.Interfaces.RealOutput QLos_flow[nSeg]
-    "Limited heat loss rate at current conditions"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  // —— Physical constant ——
+  parameter Real sigma = 5.67e-8
+    "Stefan–Boltzmann constant [W/m².K⁴]";
 
-  Modelica.Blocks.Interfaces.RealInput TFlu[nSeg]
-    "Temperature of the heat transfer fluid [K]"
-    annotation (Placement(transformation(extent={{-140,-64},{-100,-24}})));
-
-  Modelica.Blocks.Interfaces.RealInput winSpePla
-    "Wind speed normal to collector plane [m/s]"
-    annotation (Placement(transformation(extent={{-140,-92},{-100,-52}})));
-
-  Modelica.Blocks.Interfaces.RealInput HGloTil "Global solar irradiance [W/m2]"
-      annotation (Placement(transformation(extent={{-140,-34},{-100,6}})));
-
+  // —— Inputs ——
   IDEAS.BoundaryConditions.WeatherData.Bus weaBus
-    "Bus with weather data"
-    annotation (Placement(transformation(extent={{-114,62},{-94,82}})));
+    "Weather data bus (provides TDryBul and HHorIR)";
 
-  IDEAS.Fluid.PvtCollectors.BaseClasses.PartialEN12975HeatLoss_QuasiDynamic partialLoss(
-    redeclare package Medium = IDEAS.Media.Water,
-    nSeg=nSeg,
-    c1=c1,
-    c2=c2,
-    c3=c3,
-    c4=c4,
-    c6=c6,
-    A_c=A_c) annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+  // Quasi-dynamic inputs
+  Modelica.Blocks.Interfaces.RealInput winSpePla(
+    quantity="Windspeed",
+    unit="m/s",
+    displayUnit="m/s")
+    "Wind speed normal to collector plane";
+  Modelica.Blocks.Interfaces.RealInput HGloTil(
+    quantity="Global solar irradiance",
+    unit="W/m2",
+    displayUnit="W/m2")
+    "Global irradiance on tilted plane";
+  Modelica.Blocks.Interfaces.RealInput E_L(
+    quantity="Long-wave solar irradiance",
+    unit="W/m2",
+    displayUnit="W/m2")
+    "Long-wave (sky) irradiance" annotation (Placement(
+        transformation(extent={{-21,-21},{21,21}},
+        rotation=0,
+        origin={-121,-99}),  iconTransformation(
+          extent={{-142,-120},{-100,-78}})));
 
-equation
-
-  connect(TFlu, partialLoss.TFlu);
-  connect(HGloTil, partialLoss.G);
-  connect(partialLoss.TEnv,weaBus. TDryBul);
-  connect(partialLoss.E_L,weaBus. HHorIR);
-  connect(partialLoss.u, winSpePla);
-  connect(partialLoss.QLos_flow, QLos_flow);
-
-  annotation (
-  defaultComponentName="heaLos",
+annotation (
+    defaultComponentName="heaLos",
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
-    Documentation(info="<html>
-<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>
+    Documentation(info="<html>\
+<p>Model to calculate the quasi-dynamic heat loss of a pvt/solar collector following the ISO 9806:2013 quasi-dynamic method.</p>\
 </html>"));
 end EN12975QuasiDynamicHeatLoss;
