@@ -1,8 +1,8 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses;
-model PartialPvtCollectorValidationPVT2
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
+model PartialPVTCollectorValidation
   "Extended partial solar (thermal) collector with discretized PV electrical calculations"
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   // =====  Parameters =====
   final parameter Modelica.Units.SI.Irradiance Gstc = 1000
@@ -11,11 +11,10 @@ model PartialPvtCollectorValidationPVT2
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature _T_ref = 25 + 273
     "Reference cell temperature (K)";
-  parameter IDEAS.Fluid.PvtCollectors.Types.CollectorType collectorType =
-  IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
   parameter Real tauAlphaEff =
-    if collectorType == IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84
+    if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
   output Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
   ((tauAlphaEff - per.etaEl) * (per.c1 + abs(per.gamma)*Gstc))
@@ -82,4 +81,4 @@ equation
   // Calculate the average fluid temperature, defined as module temperature
   temMea = sum(Tm)/nSeg;
 
-end PartialPvtCollectorValidationPVT2;
+end PartialPVTCollectorValidation;

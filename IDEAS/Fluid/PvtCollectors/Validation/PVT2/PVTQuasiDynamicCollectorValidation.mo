@@ -1,11 +1,11 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
-model QDPvtCollectorValidationPVT2
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
+model PVTQuasiDynamicCollectorValidation
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.PartialPvtCollectorValidationPVT2
-    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+  extends IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.PartialPVTCollectorValidation
+    (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
-  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -33,7 +33,6 @@ model QDPvtCollectorValidationPVT2
   Modelica.Blocks.Sources.RealExpression Gglob(y=meaDat.y[4]) "[W/m2]"
     annotation (Placement(transformation(extent={{-51.5,66},{-32.5,82}})));
 equation
-
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -193,4 +192,4 @@ equation
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end QDPvtCollectorValidationPVT2;
+end PVTQuasiDynamicCollectorValidation;

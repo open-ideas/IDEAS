@@ -13,7 +13,7 @@ model OutsideAir
   parameter Modelica.Units.SI.Length Habs=10
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(group="Wind"));
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " 
+  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) "
     annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
   parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
     annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
@@ -21,7 +21,7 @@ model OutsideAir
         p=Medium.p_default,
         T= sim.Te,
         X_w=sim.XiEnv.X[1]);
-  
+
   Modelica.Units.SI.Angle alpha "Wind incidence angle (0: normal to wall)";
   Real CpAct(final unit="1") = windPressureProfile(u=alpha, table=table[:, :]) "Actual wind pressure coefficient";
 
@@ -32,7 +32,7 @@ model OutsideAir
   Modelica.Blocks.Interfaces.RealOutput pTot(min=0, nominal=1E5, final unit="Pa")
     "Sum of atmospheric pressure and wind pressure";
 
-  Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in 
+  Modelica.Blocks.Interfaces.RealInput TDryBul_in if use_TDryBul_in
     "Optional override input for the dry bulb temperature" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput m_flow = sum(ports.m_flow) "Total mass flow rate" annotation(

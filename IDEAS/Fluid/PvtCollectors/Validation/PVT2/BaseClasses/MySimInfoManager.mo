@@ -1,15 +1,16 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
 model MySimInfoManager
   "Simulation information manager for handling time and climate data required in each for simulation."
-  extends IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.MyPartialSimInfoManager
+  extends IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MyPartialSimInfoManager
                                                          (
-    Te = TDryBul.y,TeAv = Te,
+    Te=TDryBul.y,
+    TeAv=Te,
     Tground=TdesGround,
-    relHum = phiEnv.y,
-    TDewPoi = TDewPoiData.y,
-    Tsky = TBlaSkyData.y,
-    Va = winSpeData.y,
-    Vdir = winDirData.y);
+    relHum=phiEnv.y,
+    TDewPoi=TDewPoiData.y,
+    Tsky=TBlaSkyData.y,
+    Va=winSpeData.y,
+    Vdir=winDirData.y);
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,

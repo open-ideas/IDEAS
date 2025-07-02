@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
 block MyReaderTMY3 "Reader for TMY3 weather data"
 
   IDEAS.BoundaryConditions.WeatherData.Bus weaBus "Weather data bus" annotation (Placement(transformation(extent={{

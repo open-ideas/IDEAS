@@ -1,3 +1,3 @@
-within IDEAS.Fluid.PvtCollectors.Validation;
+within IDEAS.Fluid.PVTCollectors.Validation;
 package BaseClasses
 end BaseClasses;

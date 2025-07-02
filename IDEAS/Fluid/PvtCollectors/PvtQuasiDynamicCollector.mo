@@ -1,9 +1,9 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 model PVTQuasiDynamicCollector
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.BaseClasses.PartialPvtCollector
-    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+  extends IDEAS.Fluid.PVTCollectors.BaseClasses.PartialPVTCollector
+    (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   final Modelica.Units.SI.Velocity windSpeTil "Effective wind speed normal to collector plane";
 
@@ -19,7 +19,7 @@ model PVTQuasiDynamicCollector
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the EN12975 standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  final IDEAS.Fluid.PvtCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
+  final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
@@ -40,7 +40,6 @@ equation
    ^2);
   heaLos.winSpePla = windSpeTil;
   heaLos.HGloTil = HGloTil;
-
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,

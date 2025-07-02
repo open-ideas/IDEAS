@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 package Examples "Examples demonstrating the use of models in the PvtCollectors package"
   extends Modelica.Icons.ExamplesPackage;
 

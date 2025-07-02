@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Examples;
+within IDEAS.Fluid.PVTCollectors.Examples;
 model Wisc "Test model for uncovered (WISC) PVT collectors"
   extends Modelica.Icons.Example;
   replaceable package Medium = Modelica.Media.Incompressible.Examples.Glycol47
@@ -36,7 +36,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector pvtCol(
+  IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector pvtCol(
     redeclare package Medium = Medium,
     show_T=true,
     azi=0,
@@ -45,9 +45,9 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  parameter IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation datPvtCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_TRNSYSValidation datPvtCol
     annotation (Placement(transformation(extent={{64,64},{84,84}})));
 equation
   connect(sou.ports[1], TIn.port_a) annotation (Line(
@@ -70,7 +70,7 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>

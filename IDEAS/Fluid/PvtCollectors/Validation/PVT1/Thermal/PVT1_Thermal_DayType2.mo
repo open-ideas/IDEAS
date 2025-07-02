@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Thermal;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1.Thermal;
 model PVT1_Thermal_DayType2
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends PVT1_Thermal_DayType1

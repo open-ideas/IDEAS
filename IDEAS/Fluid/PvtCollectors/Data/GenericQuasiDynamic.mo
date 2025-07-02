@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Data;
+within IDEAS.Fluid.PVTCollectors.Data;
 record GenericQuasiDynamic
   "Generic data record for PVT collector models"
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
@@ -23,7 +23,6 @@ record GenericQuasiDynamic
     "Temperature coefficient of the PV panel(s)";
   parameter Modelica.Units.SI.Efficiency etaEl(final min=0, final max=1)
     "Module efficiency of the photovoltaic installation";
-
 
 annotation (
 defaultComponentPrefixes="parameter",

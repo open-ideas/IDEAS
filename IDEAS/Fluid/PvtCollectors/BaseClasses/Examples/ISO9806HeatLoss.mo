@@ -1,8 +1,8 @@
-within IDEAS.Fluid.PvtCollectors.BaseClasses.Examples;
+within IDEAS.Fluid.PVTCollectors.BaseClasses.Examples;
 model ISO9806HeatLoss "Example showing the use of ISO9806QuasiDynamicHeatLoss"
   extends Modelica.Icons.Example;
-  parameter IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per=
-      IDEAS.Fluid.PvtCollectors.Data.Uncovered.UI_TRNSYSValidation()
+  parameter IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per=
+      IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_TRNSYSValidation()
     "Performance data" annotation (choicesAllMatching=true);
   Modelica.Blocks.Sources.Sine T1(
     amplitude=15,

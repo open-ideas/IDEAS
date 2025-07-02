@@ -1,5 +1,5 @@
 within IDEAS.Fluid;
-package PvtCollectors
+package PVTCollectors
   extends Modelica.Icons.Package;
 
 annotation (
@@ -21,5 +21,4 @@ annotation (
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid)}));
 
-
-end PvtCollectors;
+end PVTCollectors;

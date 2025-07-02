@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Thermal;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1.Thermal;
 model PVT1_Thermal_DayType1
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -9,7 +9,7 @@ model PVT1_Thermal_DayType1
   parameter Data.Uncovered.UI_TRNSYSValidation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
-  QDPvtCollectorValidationPVT1 PvtCol(
+  PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -22,7 +22,7 @@ model PVT1_Thermal_DayType1
     nPanels=1,
     per=datPvtCol,
     pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -74,7 +74,7 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.PVTQuasiDynamicCollector\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>

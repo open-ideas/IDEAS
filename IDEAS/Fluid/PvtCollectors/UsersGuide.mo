@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 package UsersGuide "User’s Guide"
   extends Modelica.Icons.Information;
   annotation(preferredView="info",

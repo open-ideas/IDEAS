@@ -1,12 +1,11 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1;
-model QDPvtCollectorValidationPVT1
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1;
+model PVTQuasiDynamicCollectorValidation
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.PartialPvtCollectorValidationPVT1
-    (redeclare IDEAS.Fluid.PvtCollectors.Data.GenericQuasiDynamic per);
+  extends IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation
+    (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   Real windSpeTil "Effective wind speed normal to collector plane";
-
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
@@ -20,7 +19,7 @@ model QDPvtCollectorValidationPVT1
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the EN12975 standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  IDEAS.Fluid.PvtCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLos(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -49,7 +48,7 @@ model QDPvtCollectorValidationPVT1
   Modelica.Blocks.Sources.RealExpression rH(y=(meaDat.y[8]))
     "Relative humidity [%]"
     annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
-  IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation longWaveRadiationModel
+  IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation longWaveRadiationModel
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
   Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
@@ -236,4 +235,4 @@ equation
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end QDPvtCollectorValidationPVT1;
+end PVTQuasiDynamicCollectorValidation;

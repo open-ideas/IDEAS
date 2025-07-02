@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
 model PVT2_Electrical
   "Electrical Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -28,7 +28,7 @@ model PVT2_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  PVT2.QDPvtCollectorValidationPVT2 PvtCol(
+  PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -40,7 +40,7 @@ model PVT2_Electrical
     nPanels=1,
     per=datPvtCol,
     pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_PVTHERMAU300 datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));

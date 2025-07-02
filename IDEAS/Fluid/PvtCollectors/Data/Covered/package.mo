@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Data;
+within IDEAS.Fluid.PVTCollectors.Data;
 package Covered "Performance data for covered PVT collectors"
 extends Modelica.Icons.MaterialPropertiesPackage;
 

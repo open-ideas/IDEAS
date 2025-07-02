@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 block ISO9806QuasiDynamicHeatLossValidation
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*dT[i] + c3*winSpePla) + c4*(HHorIR

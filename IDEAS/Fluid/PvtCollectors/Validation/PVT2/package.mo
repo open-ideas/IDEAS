@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation;
+within IDEAS.Fluid.PVTCollectors.Validation;
 package PVT2
     annotation (preferredView="info", Documentation(info=
     "<html>

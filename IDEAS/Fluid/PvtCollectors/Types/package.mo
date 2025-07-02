@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 package Types "Package with type definitions used in PVT collector model"
   extends Modelica.Icons.TypesPackage;
 

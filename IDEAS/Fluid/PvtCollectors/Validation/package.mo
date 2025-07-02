@@ -1,12 +1,11 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 package Validation "Collection of validation models"
   extends Modelica.Icons.ExamplesPackage;
 
-annotation (preferredView="info", Documentation(info=
-  "<html>
+annotation (preferredView="info", Documentation(info="<html>
   <p>
   This package provides validation models for the classes in 
-  <a href=\"modelica://IDEAS.Fluid.PvtCollectors\">IDEAS.Fluid.PvtCollectors</a>.
+  <a href=\"modelica://IDEAS.Fluid.PVTCollectors\">IDEAS.Fluid.PvtCollectors</a>.
   </p>
 
   <p>

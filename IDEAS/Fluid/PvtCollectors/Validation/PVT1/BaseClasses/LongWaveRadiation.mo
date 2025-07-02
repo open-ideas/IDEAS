@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses;
 model LongWaveRadiation
   extends Modelica.Blocks.Icons.Block;
 

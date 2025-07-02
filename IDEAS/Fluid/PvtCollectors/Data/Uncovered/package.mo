@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Data;
+within IDEAS.Fluid.PVTCollectors.Data;
 package Uncovered
   "Performance data for uncovered (WISC) PVT collectors"
 extends Modelica.Icons.MaterialPropertiesPackage;

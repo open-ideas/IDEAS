@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
 model PVT2_Thermal
   "Thermal Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -42,7 +42,7 @@ model PVT2_Thermal
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
-  QDPvtCollectorValidationPVT2 PvtCol(
+  PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -54,7 +54,7 @@ model PVT2_Thermal
     nPanels=1,
     per=datPvtCol,
     pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_PVTHERMAU300 datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));

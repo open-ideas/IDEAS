@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors;
+within IDEAS.Fluid.PVTCollectors;
 package Data "Data for photovoltaic–thermal (PVT) collectors"
 extends Modelica.Icons.MaterialPropertiesPackage;
 

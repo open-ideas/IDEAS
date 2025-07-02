@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1;
 package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   annotation (preferredView="info", Documentation(info=
 "<html>

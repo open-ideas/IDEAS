@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ISO9806QuasiDynamicHeatLoss
   "Model to calculate the quasi-dynamic heat loss of a PVT/solar collector following the ISO 9806:2013 quasi-dynamic method, extending the ISO9806HeatLoss base"
 
