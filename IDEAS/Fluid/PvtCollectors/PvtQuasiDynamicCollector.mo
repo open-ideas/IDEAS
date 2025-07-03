@@ -17,7 +17,7 @@ model PVTQuasiDynamicCollector
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Identifies heat gained from the sun using the EN12975 standard calculations"
+    "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
      annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
     redeclare package Medium = Medium,
@@ -28,7 +28,7 @@ model PVTQuasiDynamicCollector
     final c4=per.c4,
     final c6=per.c6,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the EN12975 standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
 equation
@@ -41,11 +41,11 @@ equation
   heaLos.winSpePla = winSpeTil;
   heaLos.HGloTil = HGloTil;
 
-  // Make sure the model is only used with the EN ratings data, and hence c1 > 0
+  // Make sure the model is only used with the ISO 9806:2013 quasi-dynamic ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
-  connect(shaCoe_internal, solGai.shaCoe_in);
 
+  connect(shaCoe_internal, solGai.shaCoe_in);
   connect(HDirTil.inc, solGai.incAng)    annotation (Line(
       points={{-59,46},{-50,46},{-50,48},{-22,48}},
       color={0,0,127},
