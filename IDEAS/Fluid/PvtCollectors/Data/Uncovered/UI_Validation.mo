@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
-record UI_TRNSYSValidation=
+record UI_Validation =
   IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
     final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
@@ -21,7 +21,7 @@ record UI_TRNSYSValidation=
     final P_nominal=280,
     final gamma=-0.0041,
     final etaEl=0.1687)
-    "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
+  "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPvtCol",
@@ -29,7 +29,7 @@ annotation(
 <p>
 This record contains anonymized thermal and electrical performance parameters for an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 
 tested under ISO 9806:2013 quasi-dynamic conditions. Thermal performance parameters correspond to operation
-of the PV module at maximum power point (MPP mode). 
+of the PVT collector at maximum power point (MPP mode). 
 </p>
 
 <h4>References</h4>

@@ -6,7 +6,7 @@ model PVT1_Thermal_DayType1
   parameter String pvtTyp = "Typ1";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
 
-  parameter Data.Uncovered.UI_TRNSYSValidation datPvtCol
+  parameter Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
   PVTQuasiDynamicCollectorValidation PvtCol(

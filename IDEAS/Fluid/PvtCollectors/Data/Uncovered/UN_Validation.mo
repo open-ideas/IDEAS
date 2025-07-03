@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
-record UN_PVTHERMAU300 =
+record UN_Validation =
   IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
     final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,

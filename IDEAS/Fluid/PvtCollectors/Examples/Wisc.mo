@@ -47,7 +47,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     per=datPvtCol,
     collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_TRNSYSValidation datPvtCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{64,64},{84,84}})));
 equation
   connect(sou.ports[1], TIn.port_a) annotation (Line(

@@ -56,7 +56,7 @@ model PVT2_Thermal
     pLossFactor=0.07,
     collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-  parameter Data.Uncovered.UN_PVTHERMAU300 datPvtCol
+  parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
   inner BaseClasses.MySimInfoManager sim(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
