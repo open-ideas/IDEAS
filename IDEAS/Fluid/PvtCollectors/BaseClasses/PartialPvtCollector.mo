@@ -73,4 +73,46 @@ equation
   // Calculate the average fluid temperature, defined as module temperature
   temMea = sum(Tm)/nSeg;
 
+ annotation (
+  defaultComponentName="pvtCol",
+  Documentation(info="<html>
+<p>
+This component is a partial model of a photovoltaic-thermal (PVT) collector.
+It extends the base solar thermal collector model 
+(<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector\">IDEAS.Fluid.
+SolarCollectors.BaseClasses.PartialSolarCollector</a>) and adds a discretized
+electrical submodel to compute the PV power output per segment.
+</p>
+
+<p>
+The electrical performance is based on the PVWatts v5 approach (Dobos, 2014),
+using datasheet parameters and an overall system loss factor <code>pLossFactor</code>.
+This factor accounts for typical losses such as soiling, shading, wiring, and mismatch.
+</p>
+
+<p>
+The model calculates the cell temperature for each segment based on the fluid temperature 
+and an internal heat transfer coefficient, which is derived from parameters provided in the datasheet. 
+This temperature is then used to compute the electrical power output. The total 
+electrical and thermal outputs are subsequently aggregated.
+</p>
+
+<h4>References</h4>
+<p>
+Dobos, A. P. (2014). PVWatts Version 5 Manual. National Renewable Energy Laboratory (NREL).<br/>
+Meertens et al. (2025). Experimental validation of PVT collector performance under dynamic conditions.
+</p>
+</html>",
+revisions="<html>
+<ul>
+  <li>
+  July 2, 2025, by Lone Meertens:<br/>
+  First implementation of partial PVT collector model with discretized PV calculations.<br/>
+  This is for
+  <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
+  </li>
+</ul>
+</html>"));
+
+
 end PartialPVTCollector;
