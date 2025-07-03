@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Examples;
-model Wisc "Test model for uncovered (WISC) PVT collectors"
+model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncovered PVT collectors"
   extends Modelica.Icons.Example;
   replaceable package Medium = Modelica.Media.Incompressible.Examples.Glycol47
     "Medium in the system";
@@ -67,27 +67,37 @@ equation
   connect(pvtCol.port_b, TOut.port_a)
     annotation (Line(points={{20,0},{32,0}}, color={0,127,255}));
   annotation (
-    Documentation(info="<html>
+  Documentation(info="<html>
 <p>
-This example demonstrates the implementation of
+This example demonstrates the implementation of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
-IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
+IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a> 
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
-</html>",
+
+<p>
+The collector modeled here is an <b>uncovered PVT collector</b>, also referred to as a 
+<b>WISC</b> (Wind and Infrared Sensitive Collector). These collectors are sensitive to 
+ambient wind and infrared radiation due to the absence of a glazing layer. 
+They can be either <i>unglazed insulated</i> or <i>unglazed non-insulated</i>, 
+depending on the thermal insulation applied to the back side of the collector.
+</p>
+
+<p>
+This test model uses the <code>Uncovered.UI_Validation</code> parameter set and simulates 
+performance under dynamic weather conditions using TMY3 data for San Francisco.
+</p>
+</html>"),
 revisions="<html>
 <ul>
 <li>
 June 16, 2025, by Lone Meertens:<br/>
 Added test model for an uncovered quasi-dynamic PVT collector (WISC)
 with variable mass flow and weather data input.
-Tracked in
+Tracked in 
 <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
 IDEAS, #1436</a>.
 </li>
 </ul>
-</html>"),
-__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
-        "Simulate and plot"),
- experiment(Tolerance=1e-6, StopTime=86400.0));
-end Wisc;
+</html>",experiment(Tolerance=1e-6, StopTime=86400.0));
+end WISC;
