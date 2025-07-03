@@ -1,7 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
-model ElectricalPVT
-  "Visible block to compute electrical power output using PVWatts v5 approach"
-
+model ElectricalPVT "Visible block to compute electrical power output using PVWatts v5 approach"
+  extends Modelica.Blocks.Icons.Block;
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";
   parameter Modelica.Units.SI.Area ATot_internal "Total collector area";
@@ -16,14 +15,32 @@ model ElectricalPVT
   parameter Real c1 "First-order heat loss coefficient";
 
   // Inputs
-  input Real Tm[nSeg] "Fluid temperatures per segment [K]";
-  input Real qth[nSeg] "Thermal power density per segment [W/m2]";
-  input Real HGloTil "Global tilted irradiance [W/m2]";
+  Modelica.Blocks.Interfaces.RealInput Tm[nSeg]
+    "Fluid temperatures per segment [K]"
+    annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
+        iconTransformation(extent={{-140,40},{-100,80}})));
+  Modelica.Blocks.Interfaces.RealInput qth[nSeg]
+    "Thermal power density per segment [W/m2]"
+    annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
+        iconTransformation(extent={{-140,-20},{-100,20}})));
+  Modelica.Blocks.Interfaces.RealInput HGloTil
+    "Global tilted irradiance [W/m2]"
+    annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
+        iconTransformation(extent={{-140,-80},{-100,-40}})));
 
   // Outputs
-  output Real pEl "Total electrical power output [W/m2]";
-  output Real temMod "Average cell temperature [K]";
-  output Real temMea "Average fluid temperature [K]";
+  Modelica.Blocks.Interfaces.RealOutput pEl
+    "Total electrical power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,40},{140,80}}),
+        iconTransformation(extent={{100,40},{140,80}})));
+  Modelica.Blocks.Interfaces.RealOutput temMod
+    "Average cell temperature [K]"
+    annotation (Placement(transformation(extent={{100,-20},{140,20}}),
+        iconTransformation(extent={{100,-20},{140,20}})));
+  Modelica.Blocks.Interfaces.RealOutput temMea
+    "Average fluid temperature [K]"
+    annotation (Placement(transformation(extent={{100,-80},{140,-40}}),
+        iconTransformation(extent={{100,-80},{140,-40}})));
 
 protected
   Real temCell[nSeg];
@@ -45,13 +62,4 @@ equation
   temMod = sum(temCell)/nSeg;
   temMea = sum(Tm)/nSeg;
 
-annotation (
-  Diagram(graphics={
-    Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255}),
-    Text(extent={{-90,60},{90,-60}}, textString="Electrical PVT Block", fontSize=12)}), Icon(
-        graphics={              Rectangle(
-        extent={{-100,-100},{100,100}},
-        lineColor={0,0,127},
-        fillColor={255,255,255},
-        fillPattern=FillPattern.Solid)}));
 end ElectricalPVT;
