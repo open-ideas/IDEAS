@@ -1,5 +1,5 @@
-PartialPVTCollectorValidation
 ISO9806SolarGainHGlob
-MySimInfoManager
 MyPartialSimInfoManager
 MyReaderTMY3
+MySimInfoManager
+PartialPVTCollectorValidation
