@@ -105,7 +105,7 @@ The graphical representation of the final model is given below.
 </p>
 <p align=\"center\">
 <img alt=\"Graphical representation of the final simple house model.\"
-src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse10.png\"/>
+src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/DetailedHouse10.png\" width=\"1000\"/>
 </p>
 <p>
 A more detailed explanation and step-by-step approach are provided in Exercises 3 and 4 
