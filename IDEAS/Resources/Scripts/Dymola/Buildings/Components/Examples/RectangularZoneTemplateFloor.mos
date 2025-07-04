@@ -1,0 +1,2 @@
+simulateModel("IDEAS.Buildings.Components.Examples.RectangularZoneTemplateFloor", startTime=0, stopTime=864000, method="Dassl", tolerance=1e-04, resultFile="RectangularZoneTemplateFloor");
+createPlot(id=1, position={0, 0, 1283, 740}, y={"sim.Te","sim.Tground","zonSlaOnGro.TSensor","zonOutWal.TSensor"}, range={0.0, 864000.0, 0, 21.0}, grid=true);
