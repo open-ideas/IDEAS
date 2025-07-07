@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
 model PartialPVTCollectorValidation
-  "Adapted partial solar (thermal) collector"
+  "Adapted partial solar (thermal) collector for validation purposes"
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
       redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 

@@ -18,6 +18,8 @@ annotation (preferredView="info", Documentation(info="<html>
 
   <p>
   These are implemented in the subpackages <code>PVT1</code> and <code>PVT2</code>, respectively.
+  The naming convention for these datasets (PVT1 and PVT2) originates from Meertens et al. (2025),
+  where the datasets are described in detail.
   </p>
 
   <p>

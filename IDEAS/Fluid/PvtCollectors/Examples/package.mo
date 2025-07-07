@@ -1,11 +1,11 @@
 within IDEAS.Fluid.PVTCollectors;
-package Examples "Examples demonstrating the use of models in the PvtCollectors package"
+package Examples "Examples demonstrating the use of models in the PVTCollectors package"
   extends Modelica.Icons.ExamplesPackage;
 
   annotation(Documentation(info="<html>
     <p>
       This package contains example model demonstrating the use of models in
-      the PvtCollectors package.
+      the PVTCollectors package.
     </p>
   </html>",
 revisions="<html>

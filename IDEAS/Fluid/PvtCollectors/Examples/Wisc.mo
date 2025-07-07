@@ -79,7 +79,7 @@ for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 The collector modeled here is an <b>uncovered PVT collector</b>, also referred to as a 
 <b>WISC</b> (Wind and Infrared Sensitive Collector). These collectors are sensitive to 
 ambient wind and infrared radiation due to the absence of a glazing layer. 
-They can be either <i>unglazed insulated</i> or <i>unglazed non-insulated</i>, 
+They can be either <i>unglazed insulated (UI)</i> or <i>unglazed non-insulated (UN)</i>, 
 depending on the thermal insulation applied to the back side of the collector.
 </p>
 
