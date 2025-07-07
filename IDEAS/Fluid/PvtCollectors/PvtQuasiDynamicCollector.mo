@@ -4,141 +4,118 @@ model PVTQuasiDynamicCollector
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
     redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
- // =====  Parameters =====
+
+  // ===== Parameters =====
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
     "Global irradiance at nominal conditions [W/m2]";
   parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273.15
     "Reference cell temperature [K]";
-  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
   parameter Modelica.Units.SI.DimensionlessRatio tauAlphaEff =
-    (if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84)
+    (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
-  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
 
-  // Internal variables
+  // ===== Output Connectors =====
+  Modelica.Blocks.Interfaces.RealOutput pEl
+    "Total electrical power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
+        iconTransformation(extent={{100,-60},{120,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
+        iconTransformation(extent={{100,-100},{120,-80}})));
+
+  // ===== Internal Variables =====
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
   Real qThSeg[nSeg] "Thermal power per segment";
   Real HGloTil;
 
+  // ===== Subcomponents =====
   final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
-    final nSeg=nSeg,
-    final incAngDat=per.incAngDat,
-    final incAngModDat=per.incAngModDat,
-    final iamDiff=per.IAMDiff,
-    final eta0=per.eta0,
-    final use_shaCoe_in=use_shaCoe_in,
-    final shaCoe=shaCoe,
-    final A_c=ATot_internal)
+    final nSeg = nSeg,
+    final incAngDat = per.incAngDat,
+    final incAngModDat = per.incAngModDat,
+    final iamDiff = per.IAMDiff,
+    final eta0 = per.eta0,
+    final use_shaCoe_in = use_shaCoe_in,
+    final shaCoe = shaCoe,
+    final A_c = ATot_internal)
     "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
-     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
     redeclare package Medium = Medium,
-    final nSeg=nSeg,
-    final c1=per.c1,
-    final c2=per.c2,
-    final c3=per.c3,
-    final c4=per.c4,
-    final c6=per.c6,
-    final A_c=ATot_internal)
+    final nSeg = nSeg,
+    final c1 = per.c1,
+    final c2 = per.c2,
+    final c3 = per.c3,
+    final c4 = per.c4,
+    final c6 = per.c6,
+    final A_c = ATot_internal)
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
-    final nSeg=nSeg,
-    final A_c=ATot_internal,
-    final HGloHorNom=HGloHorNom,
-    final pLossFactor=pLossFactor,
-    final TpvtRef=TpvtRef,
-    final gamma=per.gamma,
-    final P_nominal=per.P_nominal,
-    final A=per.A,
-    final eta0=per.eta0,
-    final tauAlphaEff=tauAlphaEff,
-    final c1=per.c1,
+    final nSeg = nSeg,
+    final A_c = ATot_internal,
+    final HGloHorNom = HGloHorNom,
+    final pLossFactor = pLossFactor,
+    final TpvtRef = TpvtRef,
+    final gamma = per.gamma,
+    final P_nominal = per.P_nominal,
+    final A = per.A,
+    final eta0 = per.eta0,
+    final tauAlphaEff = tauAlphaEff,
+    final c1 = per.c1,
     final etaEl = per.etaEl)
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
 equation
-   // Compute plane wind speed (using inherited azi/til and connected weaBus):
-  winSpeTil = weaBus.winSpe
-    * sqrt(1 - (
-      cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
-    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))
-   ^2);
+  // Compute effective wind speed on tilted plane
+  winSpeTil = weaBus.winSpe * sqrt(1 - (
+    cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
+    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))^2);
+
+  // Assign inputs to submodels
   heaLos.winSpePla = winSpeTil;
   heaLos.HGloTil = HGloTil;
   eleGen.HGloTil = HGloTil;
- // per‐segment thermal power density [W/m2]:
-  for i in 1:nSeg loop
-    qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow)
-                / (ATot_internal/nSeg);
-  end for;
   eleGen.qth = qThSeg;
-  // pEl = eleGen.pEl;
 
-  // total thermal power [W]:
-  // qTh = sum(QGai.Q_flow + QLos.Q_flow);
-  // Directly calculate global irradiance from measurement data
+  // Compute global irradiance on tilted surface
   HGloTil = HDifTilIso.H + HDirTil.H;
 
+  // Compute per-segment thermal power
+  for i in 1:nSeg loop
+    qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
+  end for;
 
-  // Make sure the model is only used with the ISO 9806:2013 quasi-dynamic ratings data, and hence c1 > 0
+  // Assign electrical and thermal outputs
+  pEl = eleGen.pEl;
+  qTh = sum(QGai.Q_flow + QLos.Q_flow);
+
+  // Validity check
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
 
+  // ===== Connectors =====
   connect(shaCoe_internal, solGai.shaCoe_in);
-  connect(HDirTil.inc, solGai.incAng)    annotation (Line(
-      points={{-59,46},{-50,46},{-50,48},{-22,48}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(HDifTilIso.H, solGai.HSkyDifTil) annotation (Line(
-      points={{-59,80},{-30,80},{-30,58},{-22,58}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(HDirTil.H, solGai.HDirTil) annotation (Line(
-      points={{-59,50},{-50,50},{-50,52},{-22,52}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(shaCoe_in, solGai.shaCoe_in) annotation (Line(
-      points={{-120,40},{-40,40},{-40,45},{-22,45}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line(
-      points={{1,50},{50,50}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(temSen.T, solGai.TFlu) annotation (Line(
-      points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(HDirTil.inc, solGai.incAng) annotation (Line( points={{-59,46},{-50,46},{-50,48},{-22,48}}, color={0,0,127}, smooth=Smooth.None));
+  connect(HDifTilIso.H, solGai.HSkyDifTil) annotation (Line( points={{-59,80},{-30,80},{-30,58},{-22,58}}, color={0,0,127}, smooth=Smooth.None));
+  connect(HDirTil.H, solGai.HDirTil) annotation (Line( points={{-59,50},{-50,50},{-50,52},{-22,52}}, color={0,0,127}, smooth=Smooth.None));
+  connect(shaCoe_in, solGai.shaCoe_in) annotation (Line( points={{-120,40},{-40,40},{-40,45},{-22,45}}, color={0,0,127}, smooth=Smooth.None));
+  connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line( points={{1,50},{50,50}}, color={0,0,127}, smooth=Smooth.None));
+  connect(temSen.T, solGai.TFlu) annotation (Line( points={{-11,-20},{-30,-20},{-30,42},{-22,42}}, color={0,0,127}, smooth=Smooth.None));
   connect(heaLos.QLos_flow, QLos.Q_flow) annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
-  connect(heaLos.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{-30,
-          -20},{-11,-20}}, color={0,0,127}));
-  connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line(
-      points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line(
-      points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
+  connect(heaLos.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{-30, -20},{-11,-20}}, color={0,0,127}));
+  connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line( points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
+  connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line( points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
+  connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
 
-  connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20},
-          {-30,-64},{-22,-64}}, color={0,0,127}));
-
-
-  annotation (
+    annotation (
     defaultComponentName = "PvtCol",
 
     Documentation(info = "<html>
@@ -199,5 +176,4 @@ equation
         Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={28,32}, rotation=180),
         Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={0,40}, rotation=90),
         Polygon(points={{72,96},{36,26},{60,34},{48,-24},{88,58},{64,48},{72,96}}, lineColor={0,0,0}, fillColor={0,255,0}, fillPattern=FillPattern.Solid)}));
-
 end PVTQuasiDynamicCollector;
