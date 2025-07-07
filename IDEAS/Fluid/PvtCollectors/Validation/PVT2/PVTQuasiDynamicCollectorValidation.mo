@@ -5,6 +5,15 @@ model PVTQuasiDynamicCollectorValidation
   extends IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.PartialPVTCollectorValidation
     (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
+  // Ouput connectors
+  Modelica.Blocks.Interfaces.RealOutput pEl
+    "Total electrical power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
+        iconTransformation(extent={{100,-60},{120,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
+        iconTransformation(extent={{100,-100},{120,-80}})));
+
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLos(
     redeclare package Medium = Medium,
@@ -33,6 +42,9 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Sources.RealExpression Gglob(y=meaDat.y[4]) "[W/m2]"
     annotation (Placement(transformation(extent={{-51.5,66},{-32.5,82}})));
 equation
+   // Assign electrical and thermal outputs
+  pEl = eleGen.pEl;
+  qTh = sum(QGai.Q_flow + QLos.Q_flow);
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -56,7 +68,7 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line(
       points={{-99.95,80.05},{-94,80.05},{-94,80},{-90,80},{-90,10},{-32,10},{-32,
-          10.1},{-22.1,10.1}},
+          10},{-22,10}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -64,15 +76,19 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(globIrrTil.y, heaLos.HGloTil) annotation (Line(points={{-47.55,14},{-32,
-          14},{-32,17.9},{-21.9,17.9}}, color={0,0,127}));
+          14},{-32,18},{-22,18}},       color={0,0,127}));
   connect(winSpe.y, heaLos.winSpePla) annotation (Line(points={{-47.55,24},{-32,
-          24},{-32,22.1},{-22.1,22.1}}, color={0,0,127}));
+          24},{-32,22},{-22,22}},       color={0,0,127}));
   connect(solGai.QSol_flow, QGai.Q_flow)
     annotation (Line(points={{1,50},{50,50}}, color={0,0,127}));
   connect(temSen.T, solGai.TFlu) annotation (Line(points={{-11,-20},{-30,-20},{-30,
           42},{-22,42}}, color={0,0,127}));
   connect(Gglob.y, solGai.HGlob) annotation (Line(points={{-31.55,74},{-30,74},{
           -30,58},{-22,58}}, color={0,0,127}));
+  connect(eleGen.HGloTil, Gglob.y) annotation (Line(points={{-22,-76},{-30,-76},
+          {-30,74},{-31.55,74}}, color={0,0,127}));
+  connect(eleGen.Tm, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
+          -26,-20},{-11,-20}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
