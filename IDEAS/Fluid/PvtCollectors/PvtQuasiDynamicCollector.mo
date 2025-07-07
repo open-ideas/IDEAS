@@ -22,11 +22,10 @@ model PVTQuasiDynamicCollector
   Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
+  Modelica.Blocks.Interfaces.RealOutput winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Blocks.Interfaces.RealInput qThSeg[nSeg] "Thermal power per segment";
+  Modelica.Blocks.Interfaces.RealInput HGloTil;
 
-  // ===== Internal Variables =====
-  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
-  Real qThSeg[nSeg] "Thermal power per segment";
-  Real HGloTil;
 
   // ===== Subcomponents =====
   final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
@@ -73,12 +72,6 @@ equation
     cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
     + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))^2);
 
-  // Assign inputs to submodels
-  heaLos.winSpePla = winSpeTil;
-  heaLos.HGloTil = HGloTil;
-  eleGen.HGloTil = HGloTil;
-  eleGen.qth = qThSeg;
-
   // Compute global irradiance on tilted surface
   HGloTil = HDifTilIso.H + HDirTil.H;
 
@@ -108,6 +101,11 @@ equation
   connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line( points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
   connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line( points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
   connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
+  connect(qThSeg, eleGen.qth);
+  connect(HGloTil, eleGen.HGloTil);
+  connect(HGloTil, heaLos.HGloTil);
+  connect(winSpeTil, heaLos.winSpePla);
+
 
     annotation (
     defaultComponentName = "PvtCol",

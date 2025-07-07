@@ -7,6 +7,7 @@ model PVTQuasiDynamicCollectorValidation
 
   Real windSpeTil "Effective wind speed normal to collector plane";
 
+
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
@@ -116,6 +117,10 @@ equation
           28},{-68,78},{5,78}}, color={0,0,127}));
   connect(solGai.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{-24,
           58},{-24,78},{5,78}}, color={0,0,127}));
+  connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20},{-30,
+          -64},{-22,-64}}, color={0,0,127}));
+  connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
+          {-32,-76},{-22,-76}}, color={0,0,127}));
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
