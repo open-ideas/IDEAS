@@ -94,7 +94,7 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Sources.RealExpression rH(y=(meaDat.y[8]))
     "Relative humidity [%]"
     annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation longWaveRadiationModel
+  IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation longWaveRad
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
   Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
@@ -150,21 +150,20 @@ equation
     annotation (Line(points={{-22,26},{-22,28},{-34.5,28}}, color={0,0,127}));
   connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{-35.55,
           22},{-22,22}}, color={0,0,127}));
-  connect(longWaveRadiationModel.rH,rH. y) annotation (Line(points={{-60,-60.4},
-          {-70,-60.4},{-70,-74},{-73.55,-74}},                     color={0,0,127}));
-  connect(Tamb.y,longWaveRadiationModel. Tamb) annotation (Line(points={{-73.55,
-          -86},{-68,-86},{-68,-64.8},{-60,-64.8}}, color={0,0,127}));
-  connect(Patm.y,longWaveRadiationModel. patm) annotation (Line(points={{-73.55,
-          -62},{-72,-62},{-72,-56},{-60,-56}},                     color={0,0,127}));
-  connect(Ediff.y,longWaveRadiationModel.Edif_h)  annotation (Line(points={{-73.55,
-          -50},{-73.55,-51.6},{-60,-51.6}},
-                                         color={0,0,127}));
-  connect(Eglob.y,longWaveRadiationModel.Eglobh_h)  annotation (Line(points={{-73.55,
-          -38},{-68,-38},{-68,-47.2},{-60,-47.2}}, color={0,0,127}));
+  connect(longWaveRad.rH, rH.y) annotation (Line(points={{-60,-60.4},{-70,-60.4},
+          {-70,-74},{-73.55,-74}}, color={0,0,127}));
+  connect(Tamb.y, longWaveRad.Tamb) annotation (Line(points={{-73.55,-86},{-68,
+          -86},{-68,-64.8},{-60,-64.8}}, color={0,0,127}));
+  connect(Patm.y, longWaveRad.patm) annotation (Line(points={{-73.55,-62},{-72,
+          -62},{-72,-56},{-60,-56}}, color={0,0,127}));
+  connect(Ediff.y, longWaveRad.Edif_h) annotation (Line(points={{-73.55,-50},{-73.55,
+          -51.6},{-60,-51.6}}, color={0,0,127}));
+  connect(Eglob.y, longWaveRad.Eglobh_h) annotation (Line(points={{-73.55,-38},
+          {-68,-38},{-68,-47.2},{-60,-47.2}}, color={0,0,127}));
   connect(heaLosStc.HGloTil, I_tot.y) annotation (Line(points={{-22,18},{-32,18},
           {-32,10},{-35.55,10}}, color={0,0,127}));
-  connect(heaLosStc.HHorIR, longWaveRadiationModel.lonRad) annotation (Line(
-        points={{-22,10},{-26,10},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
+  connect(heaLosStc.HHorIR, longWaveRad.lonRad) annotation (Line(points={{-22,
+          10},{-26,10},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
   connect(meaDat.y[5], degToRad.u)
     annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,

@@ -28,7 +28,7 @@ model PVT2_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  PVTQuasiDynamicCollectorValidation PvtCol(
+  PVT2.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -78,12 +78,12 @@ equation
   </p>
   <ul>
     <li>Temperature-dependent efficiency losses</li>
-    <li>Datasheet-based estimation of <code>U<sub>AbsFluid</sub></code></li>
+    <li>Datasheet-based estimation of <i>UAbsFluid</i></li>
     <li>Constant system loss factor (7%)</li>
   </ul>
 
   <p>
-  The PV cell temperature is derived from the thermal model using a two-node coupling via <code>U<sub>AbsFluid</sub></code>, ensuring accurate representation of the thermal-electrical interaction.
+  The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
   </p>
 
   <p>
@@ -91,7 +91,7 @@ equation
   </p>
 
   <p>
-  The model's accuracy confirms the reliability of the datasheet-based estimation method for <code>U<sub>AbsFluid</sub></code>, even under challenging real-world conditions.
+  The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, even under challenging real-world conditions.
   </p>
   </html>",
 revisions="<html>

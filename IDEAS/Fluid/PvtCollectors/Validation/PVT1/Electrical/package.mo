@@ -7,7 +7,7 @@ package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector
   </p>
 
   <p>
-  Each model compares simulated and measured electrical output and computes the absorber-to-fluid heat transfer coefficient <code>U<sub>AbsFluid</sub></code> using a datasheet-based method (Meertens et al., 2025).
+  Each model compares simulated and measured electrical output and computes the absorber-to-fluid heat transfer coefficient <i>UAbsFluid</i> using a datasheet-based method (Meertens et al., 2025).
   </p>
 
   <p>
@@ -15,15 +15,15 @@ package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector
   </p>
   <ul>
     <li>Temperature-dependent efficiency losses</li>
-    <li>Constant system loss factor (7%)</li>
+    <li>Constant system loss factor (10%)</li>
   </ul>
 
   <p>
-  The PV cell temperature is derived from the thermal model using a two-node coupling via <code>U<sub>AbsFluid</sub></code>. This coupling ensures accurate representation of the thermal-electrical interaction.
+  The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>. This coupling ensures accurate representation of the thermal-electrical interaction.
   </p>
 
   <p>
-  Validation results show excellent agreement across all day types, with normalized MAE and RMSE values below 3.1%. The model is robust to variations in <code>U<sub>AbsFluid</sub></code>, confirming the reliability of the datasheet-based estimation.
+  Validation results show excellent agreement across all day types, with normalized MAE and RMSE values below 3.1%. The model is robust to variations in <i>UAbsFluid</i>, confirming the reliability of the datasheet-based estimation.
   </p>
   <h4>References</h4>
   <ul>
