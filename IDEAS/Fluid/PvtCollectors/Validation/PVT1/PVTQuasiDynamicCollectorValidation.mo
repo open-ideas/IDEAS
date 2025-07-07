@@ -5,7 +5,17 @@ model PVTQuasiDynamicCollectorValidation
   extends IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation
     (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
+  // Internal variables
   Real windSpeTil "Effective wind speed normal to collector plane";
+
+  // Ouput connectors
+  Modelica.Blocks.Interfaces.RealOutput pEl
+    "Total electrical power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
+        iconTransformation(extent={{100,-60},{120,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
+    annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
+        iconTransformation(extent={{100,-100},{120,-80}})));
 
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
@@ -62,6 +72,10 @@ model PVTQuasiDynamicCollectorValidation
 equation
    // Compute plane wind speed (using inherited azi/til and connected weaBus):
   windSpeTil = winSpe.y;
+
+  // Assign electrical and thermal outputs
+  pEl = eleGen.pEl;
+  qTh = sum(QGai.Q_flow + QLos.Q_flow);
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
