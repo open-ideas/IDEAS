@@ -98,7 +98,18 @@ equation
   <p>
   As a result, the raw energy deviation of +63.7% is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +18.9%. When compared only to periods with measured positive output, the deviation is further reduced to +4.9%. These filtered metrics better reflect the model's accuracy under realistic operating conditions.
   </p>
-  </html>"),
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),
   Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(extent={{12,-46},{96,-92}}, lineColor={28,108,200}),

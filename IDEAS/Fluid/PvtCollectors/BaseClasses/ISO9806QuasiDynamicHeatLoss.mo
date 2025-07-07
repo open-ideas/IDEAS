@@ -102,13 +102,14 @@ Duffie, J.A., and Beckman, W.A., <i>Solar Engineering of Thermal Processes</i>, 
 </p>
 </html>",
 revisions="<html>
-<ul>
-<li>
-July 2, 2025, by Lone Meertens:<br/>
-First implementation of ISO 9806 quasi-dynamic heat loss block.<br/>
-This is for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
-</li>
-</ul>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));
 end ISO9806QuasiDynamicHeatLoss;

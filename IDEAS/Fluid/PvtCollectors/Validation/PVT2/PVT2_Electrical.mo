@@ -93,7 +93,18 @@ equation
   <p>
   The model's accuracy confirms the reliability of the datasheet-based estimation method for <code>U<sub>AbsFluid</sub></code>, even under challenging real-world conditions.
   </p>
-  </html>"),
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),
    Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(extent={{14,-42},{48,-82}}, lineColor={28,108,200}),

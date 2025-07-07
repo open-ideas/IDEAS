@@ -194,9 +194,17 @@ Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014<br/>
 Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025<br/>
 ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
 </p>
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));
-
-
-
 
 end ElectricalPVT;
