@@ -143,17 +143,48 @@ The electrical submodel includes an overall system loss factor <code>pLossFactor
 </p>
 
 <table border=\"1\" cellpadding=\"4\">
-  <tr><th>Electrical power loss mechanism</th><th>Default value</th></tr>
-  <tr><td>Soiling</td><td>2 %</td></tr>
-  <tr><td>Shading</td><td>3 %</td></tr>
-  <tr><td>Mismatch</td><td>2 %</td></tr>
-  <tr><td>Wiring</td><td>2 %</td></tr>
-  <tr><td>Connections</td><td>0.5 %</td></tr>
-  <tr><td>Light-induced degradation</td><td>1.5 %</td></tr>
-  <tr><td>Nameplate rating</td><td>1 %</td></tr>
-  <tr><td>Availability</td><td>3 %</td></tr>
-  <tr><th>Total</th><th>14 %</th></tr>
+  <tr>
+    <th style=\"text-align:left;\">Electrical power loss mechanism</th>
+    <th style=\"text-align:center;\">Default value</th>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Soiling</td>
+    <td style=\"text-align:center;\">2 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Shading</td>
+    <td style=\"text-align:center;\">3 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Mismatch</td>
+    <td style=\"text-align:center;\">2 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Wiring</td>
+    <td style=\"text-align:center;\">2 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Connections</td>
+    <td style=\"text-align:center;\">0.5 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Light‑induced degradation</td>
+    <td style=\"text-align:center;\">1.5 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Nameplate rating</td>
+    <td style=\"text-align:center;\">1 %</td>
+  </tr>
+  <tr>
+    <td style=\"text-align:left;\">Availability</td>
+    <td style=\"text-align:center;\">3 %</td>
+  </tr>
+  <tr>
+    <th style=\"text-align:left;\">Total</th>
+    <th style=\"text-align:center;\">14 %</th>
+  </tr>
 </table>
+
 
 <p>
   For the validation cases presented in Meertens et al. (2025), where the PVT modules were unshaded and well‑maintained, values of 
