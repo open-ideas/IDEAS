@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT1;
 model PVTQuasiDynamicCollectorValidation
-  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation
     (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
@@ -108,8 +108,8 @@ equation
     annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
   connect(heaLosStc.TEnv, TAmbKel.Kelvin)
     annotation (Line(points={{-22,26},{-22,28},{-34.5,28}}, color={0,0,127}));
-  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{
-          -35.55,22},{-22,22}}, color={0,0,127}));
+  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{-35.55,
+          22},{-22,22}}, color={0,0,127}));
   connect(longWaveRadiationModel.rH,rH. y) annotation (Line(points={{-60,-60.4},
           {-70,-60.4},{-70,-74},{-73.55,-74}},                     color={0,0,127}));
   connect(Tamb.y,longWaveRadiationModel. Tamb) annotation (Line(points={{-73.55,
@@ -129,8 +129,8 @@ equation
     annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,
           28},{-68,78},{5,78}}, color={0,0,127}));
-  connect(solGaiStc.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},
-          {-24,58},{-24,78},{5,78}}, color={0,0,127}));
+  connect(solGaiStc.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{
+          -24,58},{-24,78},{5,78}}, color={0,0,127}));
   connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20},{-30,
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
@@ -139,46 +139,80 @@ equation
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
   <p>
-    This component models a photovoltaic–thermal (PVT) collector by
-    coupling the ISO 9806 quasi-dynamic thermal method
-    with an internal electrical model. The model uses only
-    datasheet parameters (no measured calibration data). The
-    electrical output is calculated via a two-node PV–fluid coupling.
-    The model has been validated experimentally on unglazed (with and without 
-    rear insulation) PVT collectors under a wide range of weather conditions.
+    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi‑dynamic thermal method with integrated electrical coupling.  
+    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts‑based submodel, relying solely on datasheet parameters.
   </p>
+
+  <h4>Extends</h4>
+  <ul>
+    <li>
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation\">
+        IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation
+      </a>
+    </li>
+  </ul>
+
+  <h4>Submodel References</h4>
+  <ul>
+    <li>
+      Electrical generation: 
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+        IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+      </a>
+    </li>
+    <li>
+      Quasi‑dynamic thermal losses: 
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+        IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+      </a>
+    </li>
+    <li>
+      Long‑wave radiation (derived due to faulty measurements): 
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation\">
+        IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.LongWaveRadiation
+      </a>
+    </li>
+  </ul>
+
+  <h4>Implementation Notes</h4>
+  <p>
+  This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
+  It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
+  Because direct measurements of long‑wave sky irradiance were found to be faulty, the model instead computes long‑wave radiation using the dedicated <code>LongWaveRadiation</code> component.
+  </p>
+
+
   <h4>References</h4>
   <ul>
     <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). “Development and
-      Experimental Validation of an Unglazed Photovoltaic-Thermal
-      Collector Modelica Model that only needs Datasheet Parameters.”
-      <em>Proceedings of the Modelica Conference 2025</em>.
+      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
     </li>
     <li>
-      ISO 9806:2017. “Solar thermal collectors—Test methods.” CEN,
-      European Committee for Standardization.
+      Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025
     </li>
     <li>
-      IDEAS issue:
+      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+    </li>
+    <li>
+      IDEAS issue: 
       <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-      Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436</a>
+        Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436
+      </a>
     </li>
   </ul>
-  </html>"),
-  revisions = "<html>
+
+  <h4>Revisions</h4>
   <ul>
     <li>
       June 12, 2025, by Lone Meertens:<br/>
-      Added validated quasi-dynamic PVT collector model that couples the
-      ISO 9806:2013 quasi-dynamic thermal calculations with electrical generation
-      submodel using only manufacturer datasheet parameters.
-      This work is tracked in
+      Added <code>PVTQuasiDynamicCollectorValidation</code> variant that couples ISO 9806:2013 quasi‑dynamic thermal calculations with the electrical generation submodel using only manufacturer datasheet parameters.  
+      Tracked in 
       <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-      IDEAS, #1436</a>.
+        IDEAS #1436
+      </a>.
     </li>
   </ul>
-  </html>",
+</html>"),
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),
       graphics={

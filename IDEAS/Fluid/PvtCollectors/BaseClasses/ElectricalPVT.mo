@@ -65,4 +65,120 @@ equation
   temMod = sum(temCell)/nSeg;
   temMea = sum(Tm)/nSeg;
 
+annotation (
+  defaultComponentName="eleGen",
+  Documentation(info="<html>
+<p>
+This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the <b>PVWatts v5</b> methodology (Dobos, 2014), adapted for PVT systems. It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
+</p>
+
+<p>
+The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
+</p>
+
+<p align=\"center\" style=\"font-style:italic;\">
+P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) · (G<sub>tilt</sub> / G<sub>nom</sub>) · (1 + γ · ΔT<sub>i</sub>) · (1 - p<sub>loss</sub>)
+</p>
+
+<p>
+where:
+<ul>
+  <li><i>ΔT<sub>i</sub></i> = T<sub>cell,i</sub> - T<sub>ref</sub>: temperature difference between PV cell and reference temperature</li>
+  <li><i>P<sub>nom</sub></i>: nominal PV power under STC [W]</li>
+  <li><i>A</i>: gross collector area [m²]</li>
+  <li><i>A<sub>c</sub></i>: effective collector area (equal to A if not otherwise specified)</li>
+  <li><i>G<sub>tilt</sub></i>: global irradiance on the tilted collector plane [W/m²]</li>
+  <li><i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)</li>
+  <li><i>γ</i>: temperature coefficient of power [%/K]</li>
+  <li><i>p<sub>loss</sub></i>: lumped system loss factor</li>
+</ul>
+</p>
+
+<p>
+The PV cell temperature is estimated from the fluid temperature and thermal power density using:
+</p>
+
+<p align=\"center\" style=\"font-style:italic;\">
+T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
+</p>
+
+
+<p>
+  The internal heat transfer coefficient <code>UAbsFluid</code> is calculated from datasheet parameters as:
+</p>
+
+<div style=\"display:flex; align-items:center; justify-content:center;\">
+  <div style=\"padding-right:8px;\"><code>UAbsFluid =</code></div>
+  <table style=\"border-collapse:collapse; text-align:center;\">
+    <tr>
+      <td style=\"padding:4px;\">
+        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
+      </td>
+    </tr>
+    <tr>
+      <td style=\"border-top:1px solid black; padding:4px;\">
+        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
+        – (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<ul>
+  <li>
+    τ·α<sub>eff</sub> = 0.901 for uncovered PVT; 0.84 for covered PVT.
+  </li>
+  <li>
+    b<sub>1,el</sub> = |γ|·G<sub>STC</sub> (electrical datasheet parameters).
+  </li>
+  <li>
+    u = in‑plane wind speed. <code>UAbsFluid</code> is only weakly dependent on external wind speed
+    when the thermal datasheet parameters are accurate (Stegmann 2011). Therefore, for simplicity, <code>u = 0</code> is used to derive <code>UAbsFluid</code>.
+  </li>
+</ul>
+
+<h5>Electrical performance and losses</h5>
+<p>
+The electrical submodel includes an overall system loss factor <code>pLossFactor</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
+</p>
+
+<table border=\"1\" cellpadding=\"4\">
+  <tr><th>Electrical power loss mechanism</th><th>Default value</th></tr>
+  <tr><td>Soiling</td><td>2 %</td></tr>
+  <tr><td>Shading</td><td>3 %</td></tr>
+  <tr><td>Mismatch</td><td>2 %</td></tr>
+  <tr><td>Wiring</td><td>2 %</td></tr>
+  <tr><td>Connections</td><td>0.5 %</td></tr>
+  <tr><td>Light-induced degradation</td><td>1.5 %</td></tr>
+  <tr><td>Nameplate rating</td><td>1 %</td></tr>
+  <tr><td>Availability</td><td>3 %</td></tr>
+  <tr><th>Total</th><th>14 %</th></tr>
+</table>
+
+<p>
+  For the validation cases presented in Meertens et al. (2025), where the PVT modules were unshaded and well‑maintained, values of 
+  <code>pLossFactor = 10%</code> and <code>pLossFactor = 7%</code> were used for 
+  <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1\">IDEAS.Fluid.PVTCollectors.Validation.PVT1</a> and 
+  <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2\">IDEAS.Fluid.PVTCollectors.Validation.PVT2</a>, respectively, and yielded good agreement with measured electrical output. 
+  Users are encouraged to adjust this value based on site‑specific conditions such as soiling, shading, mismatch, and inverter efficiency.
+</p>
+
+
+<h4>Implementation Notes</h4>
+<p>
+This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. It is compatible with the thermal 
+model based on ISO 9806:2013 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
+</p>
+
+<h4>References</h4>
+<p>
+Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014<br/>
+Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025<br/>
+ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+</p>
+</html>"));
+
+
+
+
 end ElectricalPVT;

@@ -116,8 +116,8 @@ equation
       smooth=Smooth.None));
   connect(heaLosStc.QLos_flow, QLos.Q_flow)
     annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
-  connect(heaLosStc.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},
-          {-30,-20},{-11,-20}}, color={0,0,127}));
+  connect(heaLosStc.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{
+          -30,-20},{-11,-20}}, color={0,0,127}));
   connect(weaBus.TDryBul, heaLosStc.TEnv) annotation (Line(
       points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
       color={255,204,51},
@@ -145,34 +145,49 @@ equation
     defaultComponentName = "PvtCol",
 
     Documentation(info = "<html>
-      <p>
-        This component models a photovoltaic–thermal (PVT) collector by
-        coupling the ISO 9806 quasi-dynamic thermal method
-        with an internal electrical model. The model uses only
-        datasheet parameters (no measured calibration data). The
-        electrical output is calculated via a two-node PV–fluid coupling.
-        The model has been validated experimentally on unglazed (with and without 
-        rear insulation) PVT collectors under a wide range of weather conditions.
-      </p>
-      <h4>References</h4>
-      <ul>
-        <li>
-          Meertens, L., Jansen, J., Helsen, L. (2025). “Development and
-          Experimental Validation of an Unglazed Photovoltaic-Thermal
-          Collector Modelica Model that only needs Datasheet Parameters.”
-          <em>Proceedings of the Modelica Conference 2025</em>.
-        </li>
-        <li>
-          ISO 9806:2017. “Solar thermal collectors—Test methods.” CEN,
-          European Committee for Standardization.
-        </li>
-        <li>
-          IDEAS issue:
-          <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-          Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436</a>
-        </li>
-      </ul>
-    </html>"),
+  <p>
+    This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806 quasi‑dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally on unglazed (with and without rear insulation) PVT collectors under a wide range of weather conditions.
+  </p>
+
+  <h4>Submodel References</h4>
+  <ul>
+    <li>
+      Electrical generation: see 
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+        IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+      </a>
+    </li>
+    <li>
+      Quasi‑dynamic thermal losses: see 
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+        IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+      </a>
+    </li>
+  </ul>
+
+  <h4>Implementation Notes</h4>
+  <p>
+    This model supports (unglazed) PVT collectors, discretized into segments to capture temperature gradients. It is compatible with dynamic simulations where irradiance and fluid temperatures vary over time.
+  </p>
+
+  <h4>References</h4>
+  <ul>
+    <li>
+      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+    </li>
+    <li>
+      Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025
+    </li>
+    <li>
+      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+    </li>
+    <li>
+      IDEAS issue:
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+      Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436</a>
+    </li>
+  </ul>
+</html>"),
 
     revisions = "<html>
       <ul>

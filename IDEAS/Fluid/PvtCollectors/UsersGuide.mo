@@ -52,7 +52,7 @@ with module parameters from the datasheet plus an overall system loss factor
 </table>
 <p>
 For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
-found that using <code>pLossFactor = 7 %</code> gives excellent agreement with
+found that using <code>pLossFactor = 7-10 %</code> gives excellent agreement with
 measured electrical output. Users may adjust <code>pLossFactor</code> to account for
 site-specific soiling or shading effects.
 </p>
@@ -62,7 +62,7 @@ site-specific soiling or shading effects.
 The internal heat transfer coefficient <code>UAbsFluid</code> is calculated from datasheet parameters:
 </p>
 <div style=\"display:flex; align-items:center; justify-content:center;\">
-  <div style=\"padding-right:8px; font-weight:bold;\">UAbsFluid =</div>
+  <div style=\"padding-right:8px;\"><code>UAbsFluid =</code></div>
   <table style=\"border-collapse:collapse; text-align:center;\">
     <tr>
       <td style=\"padding:4px;\">
@@ -77,15 +77,16 @@ The internal heat transfer coefficient <code>UAbsFluid</code> is calculated from
     </tr>
   </table>
 </div>
+
 <ul>
   <li>
-    <b>τ·α<sub>eff</sub></b> = 0.901 for uncovered PVT; 0.84 for covered PVT.
+    τ·α<sub>eff</sub> = 0.901 for uncovered PVT; 0.84 for covered PVT.
   </li>
   <li>
-    <b>b<sub>1,el</sub></b> = |γ|·G<sub>STC</sub> (electrical datasheet parameters).
+    b<sub>1,el</sub> = |γ|·G<sub>STC</sub> (electrical datasheet parameters).
   </li>
   <li>
-    <b>u</b> = in-plane wind speed. <code>UAbsFluid</code> is only weakly dependent on external wind speed
+    u = in‑plane wind speed. <code>UAbsFluid</code> is only weakly dependent on external wind speed
     when the thermal datasheet parameters are accurate (Stegmann 2011). Therefore, for simplicity, <code>u = 0</code> is used to derive <code>UAbsFluid</code>.
   </li>
 </ul>
