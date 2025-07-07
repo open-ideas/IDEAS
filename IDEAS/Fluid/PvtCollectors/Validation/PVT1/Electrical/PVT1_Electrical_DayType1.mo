@@ -9,7 +9,7 @@ model PVT1_Electrical_DayType1
   parameter Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
-  PVTQuasiDynamicCollectorValidation PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT1.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,

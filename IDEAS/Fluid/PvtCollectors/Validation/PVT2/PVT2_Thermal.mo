@@ -42,7 +42,7 @@ model PVT2_Thermal
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
-  PVTQuasiDynamicCollectorValidation PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.PVTQuasiDynamicCollectorValidationn PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -58,7 +58,7 @@ model PVT2_Thermal
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
-  inner BaseClasses.MySimInfoManager sim(filNam=
+  inner IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MySimInfoManager sim(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
 equation
