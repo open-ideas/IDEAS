@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
-model ISO9806SolarGainHGlob
+model ISO9806SolarGainHGloTil
   "Model calculating solar gains per the ISO9806 standard"
   extends Modelica.Blocks.Icons.Block;
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
@@ -90,5 +90,4 @@ and can be directly provided as an input to this block.
   </ul>
 </html>"));
 
-
-end ISO9806SolarGainHGlob;
+end ISO9806SolarGainHGloTil;

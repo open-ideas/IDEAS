@@ -2,10 +2,27 @@ within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
 model PVTQuasiDynamicCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
-  extends IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.PartialPVTCollectorValidation
-    (redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
+  extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
+      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
+
+  // =====  Parameters =====
+  parameter Modelica.Units.SI.Efficiency   pLossFactor = 0.07
+    "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
+    "Type of collector (used to select (tau*alpha)_eff)";
+  parameter Real tauAlphaEff =
+    if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
+    "Effective transmittance–absorptance product";
 
   // Ouput connectors
+  // ===== Real Output Connectors =====
+  outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
+    tableOnFile=true,
+    tableName="data",
+    fileName=Modelica.Utilities.Files.loadResource(
+        "modelica://PvtMod/Resources/Validation/MeasurementData/PVT_Austria_modelica.txt"),
+    columns=1:25) annotation (Placement(transformation(extent={{78,70},
+            {58,90}})));
   Modelica.Blocks.Interfaces.RealOutput pEl
     "Total electrical power output [W/m2]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
@@ -13,6 +30,9 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
+
+  // Input connectors
+   Modelica.Blocks.Interfaces.RealInput qThSeg[nSeg] "Thermal power per segment";
 
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLosStc(
@@ -27,11 +47,8 @@ model PVTQuasiDynamicCollectorValidation
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  Modelica.Blocks.Sources.RealExpression globIrrTil(y=(meaDat.y[4])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-67.5,6},{-48.5,22}})));
-  Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-67.5,16},{-48.5,32}})));
-  BaseClasses.ISO9806SolarGainHGlob solGaiStc(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.ISO9806SolarGainHGloTil
+    solGaiStc(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final eta0=per.eta0,
@@ -40,12 +57,34 @@ model PVTQuasiDynamicCollectorValidation
     final A_c=ATot_internal)
     "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
+    final nSeg = nSeg,
+    final A_c = ATot_internal,
+    final pLossFactor = pLossFactor,
+    final gamma = per.gamma,
+    final P_nominal = per.P_nominal,
+    final A = per.A,
+    final eta0 = per.eta0,
+    final tauAlphaEff = tauAlphaEff,
+    final c1 = per.c1,
+    final etaEl = per.etaEl)
+    annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
+
   Modelica.Blocks.Sources.RealExpression Gglob(y=meaDat.y[4]) "[W/m2]"
     annotation (Placement(transformation(extent={{-51.5,66},{-32.5,82}})));
+  Modelica.Blocks.Sources.RealExpression globIrrTil(y=(meaDat.y[4])) "[W/m2]"
+    annotation (Placement(transformation(extent={{-67.5,6},{-48.5,22}})));
+  Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
+    annotation (Placement(transformation(extent={{-67.5,16},{-48.5,32}})));
 equation
    // Assign electrical and thermal outputs
   pEl = eleGen.pEl;
   qTh = sum(QGai.Q_flow + QLos.Q_flow);
+
+  // Compute per-segment thermal power
+  for i in 1:nSeg loop
+    qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
+  end for;
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -90,6 +129,7 @@ equation
           {-30,74},{-31.55,74}}, color={0,0,127}));
   connect(eleGen.Tm, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
           -26,-20},{-11,-20}}, color={0,0,127}));
+  connect(qThSeg, eleGen.qth);
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info = "<html>
@@ -101,8 +141,8 @@ equation
   <h4>Extends</h4>
   <ul>
     <li>
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.PartialPVTCollectorValidation\">
-        IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses.PartialPVTCollectorValidation
+      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector\">
+        IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector
       </a>
     </li>
   </ul>
@@ -123,8 +163,8 @@ equation
       </li>
     <li>
       Solar (thermal) heat gain: see 
-      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
-        IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.ISO9806SolarGainHGloTil\">
+        IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.ISO9806SolarGainHGloTil
       </a>
     </li>
   </ul>
