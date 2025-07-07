@@ -102,13 +102,12 @@ The PV cell temperature is estimated from the fluid temperature and thermal powe
 T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
 </p>
 
-
 <p>
-  The internal heat transfer coefficient <code>UAbsFluid</code> is calculated from datasheet parameters as:
+  The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
 </p>
 
 <div style=\"display:flex; align-items:center; justify-content:center;\">
-  <div style=\"padding-right:8px;\"><code>UAbsFluid =</code></div>
+  <div style=\"padding-right:8px;\"><i>UAbsFluid</i></div>
   <table style=\"border-collapse:collapse; text-align:center;\">
     <tr>
       <td style=\"padding:4px;\">
@@ -132,8 +131,8 @@ T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
     b<sub>1,el</sub> = |γ|·G<sub>STC</sub> (electrical datasheet parameters).
   </li>
   <li>
-    u = in‑plane wind speed. <code>UAbsFluid</code> is only weakly dependent on external wind speed
-    when the thermal datasheet parameters are accurate (Stegmann 2011). Therefore, for simplicity, <code>u = 0</code> is used to derive <code>UAbsFluid</code>.
+    u = in‑plane wind speed. <i>UAbsFluid</i> is only weakly dependent on external wind speed
+    when the thermal datasheet parameters are accurate (Stegmann 2011). Therefore, for simplicity, <code>u = 0</code> is used to derive <i>UAbsFluid</i>.
   </li>
 </ul>
 
