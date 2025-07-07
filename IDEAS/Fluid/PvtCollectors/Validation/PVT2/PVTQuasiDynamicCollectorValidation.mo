@@ -120,6 +120,12 @@ equation
       <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
         IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
       </a>
+      </li>
+    <li>
+      Solar (thermal) heat gain: see 
+      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
+        IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+      </a>
     </li>
   </ul>
 
