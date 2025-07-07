@@ -93,19 +93,15 @@ where:
   <li><i>p<sub>loss</sub></i>: lumped system loss factor</li>
 </ul>
 </p>
-
 <p>
 The PV cell temperature is estimated from the fluid temperature and thermal power density using:
 </p>
-
 <p align=\"center\" style=\"font-style:italic;\">
 T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
 </p>
-
 <p>
   The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
 </p>
-
 <div style=\"display:flex; align-items:center; justify-content:center;\">
   <div style=\"padding-right:8px;\"><i>UAbsFluid</i></div>
   <table style=\"border-collapse:collapse; text-align:center;\">
@@ -122,25 +118,21 @@ T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
     </tr>
   </table>
 </div>
-
 <ul>
   <li>
-    τ·α<sub>eff</sub> = 0.901 for uncovered PVT; 0.84 for covered PVT.
+    Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
   </li>
   <li>
-    b<sub>1,el</sub> = |γ|·G<sub>STC</sub> (electrical datasheet parameters).
+    The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
   </li>
   <li>
-    u = in‑plane wind speed. <i>UAbsFluid</i> is only weakly dependent on external wind speed
-    when the thermal datasheet parameters are accurate (Stegmann 2011). Therefore, for simplicity, <code>u = 0</code> is used to derive <i>UAbsFluid</i>.
+    <i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
   </li>
 </ul>
-
 <h5>Electrical performance and losses</h5>
 <p>
 The electrical submodel includes an overall system loss factor <code>pLossFactor</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
 </p>
-
 <table border=\"1\" cellpadding=\"4\">
   <tr>
     <th style=\"text-align:left;\">Electrical power loss mechanism</th>
@@ -183,8 +175,6 @@ The electrical submodel includes an overall system loss factor <code>pLossFactor
     <th style=\"text-align:center;\">14 %</th>
   </tr>
 </table>
-
-
 <p>
   For the validation cases presented in Meertens et al. (2025), where the PVT modules were unshaded and well‑maintained, values of 
   <code>pLossFactor = 10%</code> and <code>pLossFactor = 7%</code> were used for 
@@ -192,8 +182,6 @@ The electrical submodel includes an overall system loss factor <code>pLossFactor
   <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2\">IDEAS.Fluid.PVTCollectors.Validation.PVT2</a>, respectively, and yielded good agreement with measured electrical output. 
   Users are encouraged to adjust this value based on site‑specific conditions such as soiling, shading, mismatch, and inverter efficiency.
 </p>
-
-
 <h4>Implementation Notes</h4>
 <p>
 This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. It is compatible with the thermal 

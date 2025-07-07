@@ -147,12 +147,6 @@ equation
     <li>
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
     </li>
-    <li>
-      IDEAS issue: 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        Implement validated dynamic PVT collector model (based on EN12975 + electrical coupling) #1436
-      </a>
-    </li>
   </ul>
   </html>"),
   revisions = "<html>
