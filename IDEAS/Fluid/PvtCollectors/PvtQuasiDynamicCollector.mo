@@ -6,12 +6,8 @@ model PVTQuasiDynamicCollector
     redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   // ===== Parameters =====
-  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000
-    "Global irradiance at nominal conditions [W/m2]";
   parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  constant Modelica.Units.SI.Temperature TpvtRef = 25 + 273.15
-    "Reference cell temperature [K]";
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
   parameter Modelica.Units.SI.DimensionlessRatio tauAlphaEff =
@@ -61,9 +57,7 @@ model PVTQuasiDynamicCollector
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
     final A_c = ATot_internal,
-    final HGloHorNom = HGloHorNom,
     final pLossFactor = pLossFactor,
-    final TpvtRef = TpvtRef,
     final gamma = per.gamma,
     final P_nominal = per.P_nominal,
     final A = per.A,
