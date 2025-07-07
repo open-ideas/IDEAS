@@ -1,9 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ElectricalPVT "Visible block to compute electrical power output using PVWatts v5 approach"
   extends Modelica.Blocks.Icons.Block;
+  extends SolarCollectors.BaseClasses.PartialParameters;
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";
-  parameter Modelica.Units.SI.Area ATot_internal "Total collector area";
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "Nominal global irradiance";
   parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature [K]";
@@ -13,6 +13,7 @@ model ElectricalPVT "Visible block to compute electrical power output using PVWa
   parameter Real eta0 "Zero-loss efficiency";
   parameter Real tauAlphaEff "Effective transmittance–absorptance product";
   parameter Real c1 "First-order heat loss coefficient";
+  parameter Real etaEl "Electrical efficiency";
 
   // Inputs
   Modelica.Blocks.Interfaces.RealInput Tm[nSeg]
@@ -47,14 +48,16 @@ protected
   Real temDiff[nSeg];
   Real solarPowerInternal[nSeg];
 
-  final parameter Real UAbsFluidCalc = ((tauAlphaEff - (P_nominal/A)) * (c1 + abs(gamma)*HGloHorNom)) /
-                                       ((tauAlphaEff - (P_nominal/A)) - eta0);
+ final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
+  ((tauAlphaEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
+  / ((tauAlphaEff - etaEl) - eta0)
+  "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
 equation
   for i in 1:nSeg loop
     temCell[i] = Tm[i] + qth[i] / UAbsFluidCalc;
     temDiff[i] = temCell[i] - TpvtRef;
-    solarPowerInternal[i] = (ATot_internal/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
+    solarPowerInternal[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + gamma * temDiff[i]) * (1 - pLossFactor);
   end for;
 
