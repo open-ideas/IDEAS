@@ -148,20 +148,18 @@ equation
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
     </li>
   </ul>
-  </html>"),
-  revisions = "<html>
+  </html>",
+revisions="<html>
   <ul>
-    <li>
-      June 12, 2025, by Lone Meertens:<br/>
-      Added validated quasi-dynamic PVT collector model that couples the
-      ISO 9806:2013 quasi-dynamic thermal calculations with electrical generation
-      submodel using only manufacturer datasheet parameters.
-      This work is tracked in
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
       <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-      IDEAS, #1436</a>.
+        IDEAS #1436
+      </a>.
     </li>
   </ul>
-  </html>",
+</html>"),
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),
       graphics={

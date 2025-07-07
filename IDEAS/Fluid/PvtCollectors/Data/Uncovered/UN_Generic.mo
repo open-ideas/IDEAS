@@ -36,12 +36,15 @@ This record can be used as a generic representation of a WISC-type collector. Ho
 <ul>
   <li>Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16</li>
 </ul>
-</html>"),
-  revisions = "<html>
-<ul>
-  <li>
-    July 3, 2025, by Lone Meertens:<br/>
-    Added generic record for uncovered, non-insulated PVT collector based on Jonas et al. (2018).
-  </li>
-</ul>
-</html>");
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"));

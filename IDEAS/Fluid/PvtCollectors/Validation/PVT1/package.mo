@@ -57,5 +57,16 @@ package PVT1
     <li>Dobos, A. P. (2014). “PVWatts Version 5 Manual.” Tech. rep. NREL/TP-6A20-62641, Contract No. DE-AC36-08GO28308, Prepared under Task No. SS13.5030. National Renewable Energy Laboratory (NREL), Golden, CO, USA. URL: https://www.nrel.gov/docs/fy14osti/62641.pdf.</li>
       <li>ISO 9806:2013. “Solar thermal collectors—Test methods.” CEN.</li>
   </ul>
-  </html>"));
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"));
 end PVT1;

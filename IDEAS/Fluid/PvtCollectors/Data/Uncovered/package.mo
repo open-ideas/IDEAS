@@ -19,6 +19,17 @@ Solar Keymark Certificates. The thermal parameters apply to the PV module operat
 and the electrical performance parameters can be retrieved from manufacturer datasheets.
 </p>
 
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));
 
 end Uncovered;

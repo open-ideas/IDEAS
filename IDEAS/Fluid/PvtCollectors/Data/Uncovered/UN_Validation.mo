@@ -65,10 +65,14 @@ The thermal coefficients were originally obtained using the ISO 9806:2013 unglaz
 </ul>
 
 </html>"),
-  revisions = "<html>
-<ul>
-  <li>
-    June 13, 2025, by Lone Meertens<br/>
-  </li>
-</ul>
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>");

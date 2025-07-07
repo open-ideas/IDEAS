@@ -87,17 +87,16 @@ depending on the thermal insulation applied to the back side of the collector.
 This test model uses the <code>Uncovered.UI_Validation</code> parameter set and simulates 
 performance under dynamic weather conditions using TMY3 data for San Francisco.
 </p>
-</html>"),
+</html>",
 revisions="<html>
-<ul>
-<li>
-June 16, 2025, by Lone Meertens:<br/>
-Added test model for an uncovered quasi-dynamic PVT collector (WISC)
-with variable mass flow and weather data input.
-Tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS, #1436</a>.
-</li>
-</ul>
-</html>",experiment(Tolerance=1e-6, StopTime=86400.0));
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),experiment(Tolerance=1e-6, StopTime=86400.0));
 end WISC;

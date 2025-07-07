@@ -25,12 +25,16 @@ package PVT2
   <p>
   The electrical model shows excellent agreement with measurements, with a normalized MAE of 5.2% and nRMSE of 9.9%. The model is robust to variations in <code>U<sub>AbsFluid</sub></code>, confirming the reliability of the datasheet-based estimation method.
   </p>
-
-  <h4>References</h4>
+  </html>",
+revisions="<html>
   <ul>
-    <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
-    <li>Veynandt, F., Inschlag, F., et al. (2023). “Measurement data from real operation of a hybrid photovoltaic-thermal solar collector.” Data in Brief 49, 109417.</li>
-    <li>Dobos, A. P. (2014). “PVWatts Version 5 Manual.” Tech. rep. NREL/TP-6A20-62641. URL: https://www.nrel.gov/docs/fy14osti/62641.pdf.</li>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
   </ul>
-  </html>"));
+</html>"));
 end PVT2;

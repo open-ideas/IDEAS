@@ -44,14 +44,16 @@ IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solu
 ISO 9806:2013. Solar thermal collectors — Test methods.
 </li>
 </ul>
-</html>", evisions = "<html>
-<ul>
-<li>
-June 12, 2025, by Lone Meertens:<br/>
-Added performance record for PVT collectors.<br/>
-Based on collector classifications in IEA SHC Task 60.<br/>
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
-</li>
-</ul>
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));
 end GenericQuasiDynamic;

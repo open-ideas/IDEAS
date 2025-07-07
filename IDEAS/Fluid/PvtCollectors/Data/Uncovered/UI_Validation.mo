@@ -44,12 +44,14 @@ of the PVT collector at maximum power point (MPP mode).
 </ul>
 
 </html>",
-  revisions = "<html>
-<ul>
-  <li>
-    June 12, 2025, by Lone Meertens:<br/>
-    Added validated data record for an <b>uncovered</b> PVT collector with <b>rear insulation</b> using anonymized input parameters.<br/>
-    Thermal parameters correspond to MPP operation mode.
-  </li>
-</ul>
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));

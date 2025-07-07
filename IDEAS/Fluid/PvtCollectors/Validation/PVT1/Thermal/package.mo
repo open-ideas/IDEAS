@@ -35,5 +35,16 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
     <li>ISO 9806:2013. “Solar thermal collectors—Test methods.” CEN.</li>
   </ul>
-  </html>"));
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"));
 end Thermal;

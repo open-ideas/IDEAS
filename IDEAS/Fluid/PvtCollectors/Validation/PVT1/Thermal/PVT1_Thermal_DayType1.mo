@@ -80,16 +80,15 @@ for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
 </html>",
 revisions="<html>
-<ul>
-<li>
-June 16, 2025, by Lone Meertens:<br/>
-Added test model for an uncovered quasi-dynamic PVT collector (WISC)
-with variable mass flow and weather data input.
-Tracked in
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS, #1436</a>.
-</li>
-</ul>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
         "Simulate and plot"),

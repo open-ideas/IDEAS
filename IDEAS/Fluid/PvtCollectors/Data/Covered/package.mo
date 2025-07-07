@@ -18,6 +18,17 @@ ISO 9806:2013 quasi-dynamic testing, with parameters sourced from
 Solar Keymark Certificate. Thermal performance parameters
 apply to the PV module in maximum power point (MPP) operation mode.
 </p>
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"));
 
 end Covered;
