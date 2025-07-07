@@ -58,7 +58,7 @@ equation
       dTMax));
   end for;
 annotation (
-  defaultComponentName = "solGai",
+  defaultComponentName = "solGaiStc",
   Documentation(info = "<html>
 <p>
 This component calculates the solar heat gain on a solar thermal collector,

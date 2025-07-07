@@ -147,7 +147,8 @@ equation
   connect(solGaiStc.incAng, degToRad.y)
     annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
   connect(heaLosStc.TEnv, TAmbKel.Kelvin)
-    annotation (Line(points={{-22,26},{-22,28},{-34.5,28}}, color={0,0,127}));
+    annotation (Line(points={{-22,26},{-34,26},{-34,28},{-34.5,28}},
+                                                            color={0,0,127}));
   connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{-35.55,
           22},{-22,22}}, color={0,0,127}));
   connect(longWaveRad.rH, rH.y) annotation (Line(points={{-60,-60.4},{-70,-60.4},
@@ -163,7 +164,7 @@ equation
   connect(heaLosStc.HGloTil, I_tot.y) annotation (Line(points={{-22,18},{-32,18},
           {-32,10},{-35.55,10}}, color={0,0,127}));
   connect(heaLosStc.HHorIR, longWaveRad.lonRad) annotation (Line(points={{-22,
-          10},{-26,10},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
+          20},{-26,20},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
   connect(meaDat.y[5], degToRad.u)
     annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,

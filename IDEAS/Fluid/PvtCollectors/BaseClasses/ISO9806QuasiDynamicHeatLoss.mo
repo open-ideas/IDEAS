@@ -49,7 +49,7 @@ model ISO9806QuasiDynamicHeatLoss
         origin={-120,0}),   iconTransformation(extent={{-140,-20},{-100,20}})));
 
 annotation (
-defaultComponentName="heaLos",
+defaultComponentName="heaLosStc",
 Documentation(info="<html>
 <p>
 This component computes the quasi-dynamic heat loss from a solar thermal or PVT collector
