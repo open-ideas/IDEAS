@@ -30,14 +30,14 @@ model PVT2_Thermal
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "[W]"
     annotation (Placement(transformation(extent={{-77,-82},{-51,-66}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLos.c1_c2_term) "[W]"
-          annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLos.c3_term) "[W]"
-    annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLos.c4_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLos.c6_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
+  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLosStc.c1_c2_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
+  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLosStc.c3_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
+  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLosStc.c4_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
+  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLosStc.c6_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"

@@ -18,7 +18,7 @@ model PVTQuasiDynamicCollectorValidation
         iconTransformation(extent={{100,-100},{120,-80}})));
 
 
-  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
+  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final incAngDat=per.incAngDat,
@@ -28,10 +28,10 @@ model PVTQuasiDynamicCollectorValidation
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Identifies heat gained from the sun using the EN12975 standard calculations"
-     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+    "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
-    heaLos(
+    heaLosStc(
     redeclare package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
@@ -40,7 +40,7 @@ model PVTQuasiDynamicCollectorValidation
     final c4=per.c4,
     final c6=per.c6,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the EN12975 standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
   Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
@@ -80,36 +80,36 @@ equation
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
-  connect(shaCoe_internal, solGai.shaCoe_in);
+  connect(shaCoe_internal, solGaiStc.shaCoe_in);
 
-  connect(shaCoe_in, solGai.shaCoe_in) annotation (Line(
+  connect(shaCoe_in, solGaiStc.shaCoe_in) annotation (Line(
       points={{-120,40},{-40,40},{-40,45},{-22,45}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLos.TFlu, temSen.T) annotation (Line(
+  connect(heaLosStc.TFlu, temSen.T) annotation (Line(
       points={{-22,14},{-30,14},{-30,-20},{-11,-20}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLos.QLos_flow, QLos.Q_flow) annotation (Line(
+  connect(heaLosStc.QLos_flow, QLos.Q_flow) annotation (Line(
       points={{1,20},{26,20},{26,20},{50,20}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line(
+  connect(solGaiStc.QSol_flow, QGai.Q_flow) annotation (Line(
       points={{1,50},{50,50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(temSen.T, solGai.TFlu) annotation (Line(
+  connect(temSen.T, solGaiStc.TFlu) annotation (Line(
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(solGai.HDirTil, Qdir.y) annotation (Line(points={{-22,52},{-26,52},{
-          -26,90},{-29.55,90}}, color={0,0,127}));
-  connect(solGai.incAng, degToRad.y)
+  connect(solGaiStc.HDirTil, Qdir.y) annotation (Line(points={{-22,52},{-26,52},
+          {-26,90},{-29.55,90}}, color={0,0,127}));
+  connect(solGaiStc.incAng, degToRad.y)
     annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
-  connect(heaLos.TEnv, TAmbKel.Kelvin)
+  connect(heaLosStc.TEnv, TAmbKel.Kelvin)
     annotation (Line(points={{-22,26},{-22,28},{-34.5,28}}, color={0,0,127}));
-  connect(winSpe.y, heaLos.winSpePla) annotation (Line(points={{-35.55,20},{
-          -35.55,22},{-22,22}},color={0,0,127}));
+  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{
+          -35.55,22},{-22,22}}, color={0,0,127}));
   connect(longWaveRadiationModel.rH,rH. y) annotation (Line(points={{-60,-60.4},
           {-70,-60.4},{-70,-74},{-73.55,-74}},                     color={0,0,127}));
   connect(Tamb.y,longWaveRadiationModel. Tamb) annotation (Line(points={{-73.55,
@@ -121,16 +121,16 @@ equation
                                          color={0,0,127}));
   connect(Eglob.y,longWaveRadiationModel.Eglobh_h)  annotation (Line(points={{-73.55,
           -38},{-68,-38},{-68,-47.2},{-60,-47.2}}, color={0,0,127}));
-  connect(heaLos.HGloTil, I_tot.y) annotation (Line(points={{-22,18},{-32,18},{
-          -32,10},{-35.55,10}},        color={0,0,127}));
-  connect(heaLos.HHorIR, longWaveRadiationModel.lonRad) annotation (Line(points={{-22,10},
-          {-26,10},{-26,-55.9},{-36.3,-55.9}},                color={0,0,127}));
+  connect(heaLosStc.HGloTil, I_tot.y) annotation (Line(points={{-22,18},{-32,18},
+          {-32,10},{-35.55,10}}, color={0,0,127}));
+  connect(heaLosStc.HHorIR, longWaveRadiationModel.lonRad) annotation (Line(
+        points={{-22,10},{-26,10},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
   connect(meaDat.y[5], degToRad.u)
     annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,
           28},{-68,78},{5,78}}, color={0,0,127}));
-  connect(solGai.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{-24,
-          58},{-24,78},{5,78}}, color={0,0,127}));
+  connect(solGaiStc.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},
+          {-24,58},{-24,78},{5,78}}, color={0,0,127}));
   connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20},{-30,
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},

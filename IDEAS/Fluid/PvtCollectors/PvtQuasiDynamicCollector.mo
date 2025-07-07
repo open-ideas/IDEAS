@@ -28,28 +28,28 @@ model PVTQuasiDynamicCollector
 
 
   // ===== Subcomponents =====
-  final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGai(
+  final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare package Medium = Medium,
-    final nSeg = nSeg,
-    final incAngDat = per.incAngDat,
-    final incAngModDat = per.incAngModDat,
-    final iamDiff = per.IAMDiff,
-    final eta0 = per.eta0,
-    final use_shaCoe_in = use_shaCoe_in,
-    final shaCoe = shaCoe,
-    final A_c = ATot_internal)
+    final nSeg=nSeg,
+    final incAngDat=per.incAngDat,
+    final incAngModDat=per.incAngModDat,
+    final iamDiff=per.IAMDiff,
+    final eta0=per.eta0,
+    final use_shaCoe_in=use_shaCoe_in,
+    final shaCoe=shaCoe,
+    final A_c=ATot_internal)
     "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
 
-  final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLos(
+  final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
     redeclare package Medium = Medium,
-    final nSeg = nSeg,
-    final c1 = per.c1,
-    final c2 = per.c2,
-    final c3 = per.c3,
-    final c4 = per.c4,
-    final c6 = per.c6,
-    final A_c = ATot_internal)
+    final nSeg=nSeg,
+    final c1=per.c1,
+    final c2=per.c2,
+    final c3=per.c3,
+    final c4=per.c4,
+    final c6=per.c6,
+    final A_c=ATot_internal)
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
@@ -89,22 +89,56 @@ equation
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
 
   // ===== Connectors =====
-  connect(shaCoe_internal, solGai.shaCoe_in);
-  connect(HDirTil.inc, solGai.incAng) annotation (Line( points={{-59,46},{-50,46},{-50,48},{-22,48}}, color={0,0,127}, smooth=Smooth.None));
-  connect(HDifTilIso.H, solGai.HSkyDifTil) annotation (Line( points={{-59,80},{-30,80},{-30,58},{-22,58}}, color={0,0,127}, smooth=Smooth.None));
-  connect(HDirTil.H, solGai.HDirTil) annotation (Line( points={{-59,50},{-50,50},{-50,52},{-22,52}}, color={0,0,127}, smooth=Smooth.None));
-  connect(shaCoe_in, solGai.shaCoe_in) annotation (Line( points={{-120,40},{-40,40},{-40,45},{-22,45}}, color={0,0,127}, smooth=Smooth.None));
-  connect(solGai.QSol_flow, QGai.Q_flow) annotation (Line( points={{1,50},{50,50}}, color={0,0,127}, smooth=Smooth.None));
-  connect(temSen.T, solGai.TFlu) annotation (Line( points={{-11,-20},{-30,-20},{-30,42},{-22,42}}, color={0,0,127}, smooth=Smooth.None));
-  connect(heaLos.QLos_flow, QLos.Q_flow) annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
-  connect(heaLos.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{-30, -20},{-11,-20}}, color={0,0,127}));
-  connect(weaBus.TDryBul, heaLos.TEnv) annotation (Line( points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.HHorIR, heaLos.HHorIR) annotation (Line( points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}}, color={255,204,51}, thickness=0.5), Text( string="%first", index=-1, extent={{-6,3},{-6,3}}, horizontalAlignment=TextAlignment.Right));
+  connect(shaCoe_internal, solGaiStc.shaCoe_in);
+  connect(HDirTil.inc, solGaiStc.incAng) annotation (Line(
+      points={{-59,46},{-50,46},{-50,48},{-22,48}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(HDifTilIso.H, solGaiStc.HSkyDifTil) annotation (Line(
+      points={{-59,80},{-30,80},{-30,58},{-22,58}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(HDirTil.H, solGaiStc.HDirTil) annotation (Line(
+      points={{-59,50},{-50,50},{-50,52},{-22,52}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(shaCoe_in, solGaiStc.shaCoe_in) annotation (Line(
+      points={{-120,40},{-40,40},{-40,45},{-22,45}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(solGaiStc.QSol_flow, QGai.Q_flow) annotation (Line(
+      points={{1,50},{50,50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(temSen.T, solGaiStc.TFlu) annotation (Line(
+      points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(heaLosStc.QLos_flow, QLos.Q_flow)
+    annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
+  connect(heaLosStc.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},
+          {-30,-20},{-11,-20}}, color={0,0,127}));
+  connect(weaBus.TDryBul, heaLosStc.TEnv) annotation (Line(
+      points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(weaBus.HHorIR, heaLosStc.HHorIR) annotation (Line(
+      points={{-99.95,80.05},{-90,80.05},{-90,20},{-22,20}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
   connect(qThSeg, eleGen.qth);
   connect(HGloTil, eleGen.HGloTil);
-  connect(HGloTil, heaLos.HGloTil);
-  connect(winSpeTil, heaLos.winSpePla);
+  connect(HGloTil, heaLosStc.HGloTil);
+  connect(winSpeTil, heaLosStc.winSpePla);
 
 
     annotation (
