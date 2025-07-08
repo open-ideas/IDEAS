@@ -7,7 +7,7 @@ model DetailedHouse1 "First example model of a one-zone building"
   parameter Modelica.Units.SI.Length w=4 "Zone width";
   parameter Modelica.Units.SI.Length h=zon.hZone "Zone height (Default)";
 
-  //SimInfoManager must be 'inner' at the top level
+  // SimInfoManager must be 'inner' at the top level
   inner IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Buildings.Components.Zone zon(
