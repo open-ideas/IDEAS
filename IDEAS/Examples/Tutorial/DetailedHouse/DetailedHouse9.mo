@@ -148,7 +148,7 @@ from <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4\"
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4</a> is added to one zone and a 
 fixed occupancy of 1 person to the other zone. The ventilation system
 consists of two fans, two supply and two return air VAVs (Variable Air Volume), a heat recovery unit and an
-outdoor air source. The control consists of PI controllers with a setpoint of 1000 <i>ppm</i>.
+outdoor air source. The control consists of PI controllers with a setpoint of <i>1000 ppm</i>.
 </p>
 <h4>Required models</h4>
 <ul>
