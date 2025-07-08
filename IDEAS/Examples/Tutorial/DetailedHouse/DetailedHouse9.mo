@@ -188,7 +188,7 @@ IDEAS.Fluid.Sources.OutsideAir</a> is used, which is similar to <a href=\"modeli
 IDEAS.Fluid.Sources.Boundary_pT</a> except that it automatically sets the outdoor dry bulb temperature and humidity.
 </p>
 <p>
-For this exercise, assume that the VAV has a nominal flow rate of <i>100 m3/h</i>, which equals <i>0.033 kg/s</i>. A nominal pressure drop of <i>50 Pa</i>
+For this exercise, assume that the VAV has a nominal flow rate of <i>100 m<sup>3</sup>/h</i>, which equals <i>0.033 kg/s</i>. A nominal pressure drop of <i>50 Pa</i>
 is assumed and also <code>dpFixed_nominal=50</code>, which causes the VAV model to include a pressure drop of ducts, grills,
 filters or bends that are connected at the inlet or outlet of the VAV. The fan pressure head is constant at <i>200 Pa</i> and its nominal flow
 rate is the sum of the VAV flow rates. The heat recovery heat exchanger has a constant effectiveness of <i>80 %</i>. 
