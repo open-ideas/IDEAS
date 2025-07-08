@@ -79,7 +79,7 @@ end HeavyWallNoWood;
       OutputFlatModelica=false),
     Documentation(info="<html>
 <p>
-The created models present quite a good performance, however the computation time 
+The previous examples present a rather good computational performance. However, the computation time 
 can significantly increase for larger simulation time due to frequent on/off switching 
 of the heat pump. These effects cause a lot of fast transients that force the solver
 to take small steps, which takes a lot of time.
