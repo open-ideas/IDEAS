@@ -79,13 +79,13 @@ end HeavyWallNoWood;
       OutputFlatModelica=false),
     Documentation(info="<html>
 <p>
-The created models present quite a good performance, however the computation time 
+The previous examples present a rather good computational performance. However, the computation time 
 can significantly increase for larger simulation time due to frequent on/off switching 
-of the heat pump. These effects cause a lot of fast transients that force the solver
+of the heat pump. This effect causes a lot of fast transients that force the solver
 to take small steps, which takes a lot of time.
 </p>
 <p>
-Fortunately, there are many tricks that can be used to speed up the solver. The fundamental principle is to
+Fortunately, many tricks can be used to speed up the solver. The fundamental principle is to
 remove small time constants from the problem.  
 The example in <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10</a> implements changes
