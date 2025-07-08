@@ -85,7 +85,7 @@ of the heat pump. This effect causes a lot of fast transients that force the sol
 to take small steps, which takes a lot of time.
 </p>
 <p>
-Fortunately, there are many tricks that can be used to speed up the solver. The fundamental principle is to
+Fortunately, many tricks can be used to speed up the solver. The fundamental principle is to
 remove small time constants from the problem.  
 The example in <a href=\"modelica://IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10\">
 IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10</a> implements changes
