@@ -36,6 +36,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     dpFixed_nominal=50) "Return VAV for second zone"
     annotation (Placement(transformation(extent={{-100,-60},{-120,-40}})));
   IDEAS.Fluid.Movers.FlowControlled_dp fanSup(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = MediumAir,
@@ -43,6 +44,7 @@ model DetailedHouse9 "Adding CO2-controlled ventilation"
     m_flow_nominal=vavSup.m_flow_nominal + vavSup1.m_flow_nominal) "Supply fan"
     annotation (Placement(transformation(extent={{-220,10},{-200,30}})));
   IDEAS.Fluid.Movers.FlowControlled_dp fanRet(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     nominalValuesDefineDefaultPressureCurve=true,
     redeclare package Medium = MediumAir,

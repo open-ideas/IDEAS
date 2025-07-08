@@ -10,6 +10,7 @@ model DetailedHouse6
     m1_flow_nominal=pumEmi.m_flow_nominal,
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     datHeaPum=
         IDEAS.Fluid.HeatPumps.Data.ScrollWaterToWater.Heating.Viessmann_BW301A21_28kW_5_94COP_R410A(),
     scaling_factor=0.025,
@@ -23,6 +24,7 @@ model DetailedHouse6
 
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
     redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
     T_b_nominal=308.15) "Radiator for zone 1" annotation (Placement(
@@ -32,6 +34,7 @@ model DetailedHouse6
         origin={50,-10})));
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad1(
     redeclare package Medium = MediumWater,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     Q_flow_nominal=500,
     T_a_nominal=318.15,
     T_b_nominal=308.15) "Radiator for zone 2" annotation (Placement(
@@ -48,6 +51,7 @@ model DetailedHouse6
         rotation=90,
         origin={50,30})));
   IDEAS.Fluid.Movers.FlowControlled_dp pumEmi(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
@@ -72,6 +76,7 @@ model DetailedHouse6
         rotation=90,
         origin={90,30})));
   IDEAS.Fluid.Movers.FlowControlled_dp pumPri(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     dp_nominal=10000,
     m_flow_nominal=rad.m_flow_nominal + rad1.m_flow_nominal,
@@ -106,6 +111,7 @@ model DetailedHouse6
     "Temperature sensor of tank volume"
     annotation (Placement(transformation(extent={{138,2},{122,18}})));
   IDEAS.Fluid.Movers.FlowControlled_dp pumSec(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp_nominal=20000,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     m_flow_nominal=pumEmi.m_flow_nominal,
@@ -219,6 +225,12 @@ Modelica.Blocks.Sources.IntegerConstant</a>
 Modelica.Blocks.Continuous.Integrator</a>
 </li>
 </ul>
+<p>
+Most models include a parameter <code>energyDynamics</code>, which determines
+how the energy balance equations are solved. In this example, it should be set to 
+<i>FixedInitial</i>. This setting allows to define specific initial conditions,
+which are by default the values of the <code>Medium</code> model. 
+</p>
 <h4>Connection instructions</h4>
 <p>
 A reference implementation for this example is shown in the figure below. 
