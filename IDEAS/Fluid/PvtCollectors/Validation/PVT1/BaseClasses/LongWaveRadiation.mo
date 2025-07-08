@@ -95,8 +95,8 @@ annotation (
       Buck, A.L., <i>New equations for computing vapor pressure and enhancement factor</i>, Journal of Applied Meteorology, 1981.
     </li>
     <li>
-      Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic–Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025.
-    </li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li
   </ul>
 </html>",
 revisions="<html>

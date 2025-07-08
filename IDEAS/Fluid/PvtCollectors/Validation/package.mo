@@ -5,7 +5,7 @@ package Validation "Collection of validation models"
 annotation (preferredView="info", Documentation(info="<html>
   <p>
   This package provides validation models for the classes in 
-  <a href=\"modelica://IDEAS.Fluid.PVTCollectors\">IDEAS.Fluid.PvtCollectors</a>.
+  <a href=\"modelica://IDEAS.Fluid.PVTCollectors\">IDEAS.Fluid.PVTCollectors</a>.
   </p>
 
   <p>
@@ -24,14 +24,16 @@ annotation (preferredView="info", Documentation(info="<html>
 
   <p>
   The purpose of these models is to assess the accuracy and limitations of the quasi-dynamic PVT model 
-  (<code>IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</code>) under realistic conditions. 
+  (<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>) under realistic conditions. 
   This is done by driving the model with experimental input data and comparing the simulated outputs 
   with measured results.
   </p>
 
   <h4>References</h4>
   <ul>
-    <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
+   <li>
+  Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters”, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+  </li>
   </ul>
   </html>",
 revisions="<html>

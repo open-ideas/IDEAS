@@ -24,13 +24,21 @@ record UI_Validation =
   "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
 annotation(
   defaultComponentPrefixes = "parameter",
-  defaultComponentName     = "datPvtCol",
+  defaultComponentName     = "datPVTCol",
   Documentation(info = "<html>
 <p>
 This record contains anonymized thermal and electrical performance parameters for an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 
 tested under ISO 9806:2013 quasi-dynamic conditions. Thermal performance parameters correspond to operation
-of the PVT collector at maximum power point (MPP mode). 
+of the PVT collector at maximum power point (MPP mode).
 </p>
+
+<p>
+This datasheet is used in the validation of 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
+which can be found in the 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1\">IDEAS.Fluid.PVTCollectors.Validation.PVT1</a> package. 
+</p>
+
 
 <h4>References</h4>
 <ul>
@@ -41,17 +49,19 @@ of the PVT collector at maximum power point (MPP mode).
     IEA SHC Task 60 (2018). <i>PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems</i>.
     <a href=\"https://www.iea-shc.org/task60\">iea-shc.org/task60</a>.
   </li>
+  <li>
+    Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+  </li>
 </ul>
-
 </html>",
 revisions="<html>
   <ul>
-   <li>
+    <li>
       July 7, 2025, by Lone Meertens:<br/>
       First implementation PVT model; tracked in 
       <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
         IDEAS #1436
       </a>.
-    </li>
+      </li>
   </ul>
 </html>"));

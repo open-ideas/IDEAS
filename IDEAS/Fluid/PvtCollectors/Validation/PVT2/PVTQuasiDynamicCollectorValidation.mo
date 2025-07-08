@@ -108,7 +108,7 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus.HHorIR, heaLosStc.HHorIR) annotation (Line(
       points={{-99.95,80.05},{-94,80.05},{-94,80},{-90,80},{-90,10},{-32,10},{-32,
-          10},{-22,10}},
+          20},{-22,20}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -182,7 +182,7 @@ equation
       Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
     </li>
     <li>
-      Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
     </li>
     <li>
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods

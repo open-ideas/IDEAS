@@ -75,16 +75,7 @@ Specifically, this version is intended for use with
 </p>
 
 <p>
-All original functionalities are preserved, including:
-<ul>
-  <li>TMY3 weather data reading,</li>
-  <li>precomputation of solar angles for default orientations,</li>
-  <li>and energy conservation diagnostics.</li>
-</ul>
-</p>
-
-<p>
-Refer to the original model’s documentation for full details:
+All original functionalities are preserved, refer to the original model’s documentation for full details:
 <a href=\"modelica://IDEAS.BoundaryConditions.SimInfoManager\">
 IDEAS.BoundaryConditions.SimInfoManager</a>.
 </p>

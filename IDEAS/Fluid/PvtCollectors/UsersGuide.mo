@@ -5,7 +5,7 @@ package UsersGuide "User’s Guide"
     Documentation(info="<html>
 <p>
 This package contains a model for photovoltaic–thermal (PVT) collectors
-based on the ISO 9806:2013 quasi-dynamic thermal procedure (EN 12975)
+based on the ISO 9806:2013 quasi-dynamic thermal procedure
 coupled with an internal electrical submodel. Only the quasi-dynamic
 approach is directly supported to model the thermal performance.
 </p>
@@ -13,23 +13,30 @@ approach is directly supported to model the thermal performance.
 <h4>Model description</h4>
 
 <h5>Conversion of other ISO 9806 standards (thermal)</h5>
-<p>
-Thermal parameters obtained from other ISO 9806 test procedures, such as
-the ISO 9806:2013 unglazed test or the ISO 9806:2017 quasi-dynamic method, can be
-converted into the <code>c<sub>1</sub>…c<sub>6</sub>, η<sub>0</sub>, K<sub>d</sub></code>
-thermal parameter set required by this model using the procedure detailed in
-<a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
-SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>.
+<p> 
+Thermal parameters obtained from other ISO 9806 test procedures, such as the ISO 9806:2013 unglazed test or the ISO 9806:2017 quasi-dynamic method, 
+can be converted into the thermal parameter set required by this model (<code>c₁</code> to <code>c₆</code>, <code>η₀</code>, and <code>K<sub>d</sub></code>)
+using the procedure detailed in <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
+SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>. 
 </p>
 <p>
-Because <code>QuasiDynamicPvtCollector</code> extends from <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector\">
-IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector</a> and uses
-similar solar gain and heat loss blocks as <a href=\"modelica://IDEAS.Fluid.SolarCollectors.EN12975\">
-IDEAS.Fluid.SolarCollectors.EN12975</a>, it is also advisable to consult
-the SolarCollectors User’s Guide
-(<a href=\"modelica://IDEAS.Fluid.SolarCollectors.UsersGuide\">IDEAS.Fluid.SolarCollectors.UsersGuide</a>) for deeper insights into thermal performance data
-and parameter usage.
+For the thermal part:
+<ul>
+  <li>
+    Quasi‑dynamic thermal losses: see 
+    <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+      IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+    </a>
+  </li>
+  <li>
+    Solar (thermal) heat gain: see 
+    <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
+      IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+    </a>
+  </li>
+</ul>
 </p>
+
 
 <h5>Electrical performance and losses</h5>
 <p>
@@ -88,6 +95,18 @@ measured electrical output. Users may adjust <code>pLossFactor</code> to account
 site-specific soiling or shading effects.
 </p>
 
+<p>
+For the electrical part:
+<ul>
+  <li>
+    Electrical generation: see 
+    <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+      IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+    </a>
+  </li>
+</ul>
+</p>
+
 <h5>Electrical–thermal coupling</h5>
 <p>
   The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
@@ -129,24 +148,24 @@ datasheet values.
 </p>
 <h4>References</h4>
 <ul>
-<li>
-ISO 9806:2013. “Solar thermal collectors—Test methods.” CEN.
-</li>
-<li>
-SKN-N0474R0. “Thermal Performance Parameter Conversion to ISO 9806-2017.” Solar Heat Europe, 2019.
-</li>
-<li>
-Stegmann, M. et al. (2011). “Model of an unglazed PVT collector based on standard test procedures.” SWC 2011.
-</li>
-<li>
-Lämmle, M. (2018). “Thermal management of PVT collectors…” PhD thesis, University Freiburg.
-</li>
-<li>
-Dobos, A. P. (2014). <i>PVWatts Version 5 Manual</i>. NREL/TP-6A20-62641.
-</li>
-<li>
-Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.
-</li>
+  <li>
+    ISO 9806:2013. <i>Solar thermal collectors—Test methods.</i> CEN.
+  </li>
+  <li>
+    SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019.
+  </li>
+  <li>
+    Stegmann, M. et al. (2011). “Model of an unglazed PVT collector based on standard test procedures.</i> SWC 2011.
+  </li>
+  <li>
+    Lämmle, M. (2018). <i>Thermal management of PVT collectors : development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection</i> PhD thesis, University Freiburg.
+  </li>
+  <li>
+    Dobos, A. P. (2014). <i>PVWatts Version 5 Manual</i>. NREL/TP-6A20-62641.
+  </li>
+  <li>
+    Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+  </li>
 </ul>
 </html>",
 revisions="<html>

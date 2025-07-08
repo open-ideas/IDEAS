@@ -23,19 +23,24 @@ record CN_Generic =
   "Generic parameters for a covered, non-insulated PVT collector"
 annotation(
   defaultComponentPrefixes = "parameter",
-  defaultComponentName     = "datPvtCol",
+  defaultComponentName     = "datPVTCol",
   Documentation(info = "<html>
 <p>
-This record contains thermal and electrical parameters for a <b>covered</b> PVT collector <b>without rear insulation</b>, based on experimental identification results from Jonas et al. (2018). 
+This record contains thermal and electrical parameters for a <b>covered</b> PVT collector <b>without rear insulation</b>, 
+based on experimental identification results from Jonas et al. (2018). 
 These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 quasi-dynamic conditions.
 </p>
 <p>
-This record can be used as a generic representation of a covered, non-insulated PVT collector. However, if you know the brand and model of the PVT collector you plan to simulate or install, it is recommended to use the actual datasheet parameters in a custom <code>IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</code> record.
+This record can be used as a generic representation of a covered, non-insulated PVT collector. 
+However, if you know the brand and model of the PVT collector you plan to simulate or install, 
+it is recommended to use the actual datasheet parameters in a custom <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic \">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
 </p>
 <h4>Reference</h4>
-<ul>
-  <li>Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16</li>
-</ul>
+  <ul>
+    <li>
+      Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
+    </li>
+  </ul>
 </html>",
 revisions="<html>
   <ul>

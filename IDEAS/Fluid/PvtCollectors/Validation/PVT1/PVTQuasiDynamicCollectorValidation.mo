@@ -157,8 +157,8 @@ equation
           -86},{-68,-64.8},{-60,-64.8}}, color={0,0,127}));
   connect(Patm.y, longWaveRad.patm) annotation (Line(points={{-73.55,-62},{-72,
           -62},{-72,-56},{-60,-56}}, color={0,0,127}));
-  connect(Ediff.y, longWaveRad.Edif_h) annotation (Line(points={{-73.55,-50},{-73.55,
-          -51.6},{-60,-51.6}}, color={0,0,127}));
+  connect(Ediff.y, longWaveRad.Edif_h) annotation (Line(points={{-73.55,-50},{
+          -73.55,-51.6},{-60,-51.6}}, color={0,0,127}));
   connect(Eglob.y, longWaveRad.Eglobh_h) annotation (Line(points={{-73.55,-38},
           {-68,-38},{-68,-47.2},{-60,-47.2}}, color={0,0,127}));
   connect(heaLosStc.HGloTil, I_tot.y) annotation (Line(points={{-22,18},{-32,18},
@@ -235,7 +235,7 @@ equation
       Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
     </li>
     <li>
-      Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
     </li>
     <li>
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods

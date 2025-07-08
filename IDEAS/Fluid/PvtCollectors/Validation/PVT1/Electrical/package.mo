@@ -27,8 +27,12 @@ package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector
   </p>
   <h4>References</h4>
   <ul>
-    <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
-    <li>Dobos, A. P. (2014). “PVWatts Version 5 Manual.” Tech. rep. NREL/TP-6A20-62641, Contract No. DE-AC36-08GO28308, Prepared under Task No. SS13.5030. National Renewable Energy Laboratory (NREL), Golden, CO, USA. URL: https://www.nrel.gov/docs/fy14osti/62641.pdf.</li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li>
+    <li>
+      Dobos, A. P. (2014). <i>PVWatts Version 5 Manual</i>. NREL/TP-6A20-62641.
+    </li>
   </ul>
   </html>",
 revisions="<html>

@@ -69,7 +69,7 @@ annotation (
   defaultComponentName="eleGen",
   Documentation(info="<html>
 <p>
-This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the <b>PVWatts v5</b> methodology (Dobos, 2014), adapted for PVT systems. It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
+This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the PVWatts v5 methodology (Dobos, 2014), adapted for PVT systems. It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
 </p>
 
 <p>
@@ -77,7 +77,7 @@ The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<
 </p>
 
 <p align=\"center\" style=\"font-style:italic;\">
-P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) · (G<sub>tilt</sub> / G<sub>nom</sub>) · (1 + γ · ΔT<sub>i</sub>) · (1 - p<sub>loss</sub>)
+P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) · (G<sub>tilt</sub> / G<sub>nom</sub>) · (1 + γ · ΔT<sub>i</sub>) · (1 - pLossFactor)
 </p>
 
 <p>
@@ -90,7 +90,7 @@ where:
   <li><i>G<sub>tilt</sub></i>: global irradiance on the tilted collector plane [W/m²]</li>
   <li><i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)</li>
   <li><i>γ</i>: temperature coefficient of power [%/K]</li>
-  <li><i>p<sub>loss</sub></i>: lumped system loss factor</li>
+  <li><i>pLossFactor</i>: lumped system loss factor</li>
 </ul>
 </p>
 <p>
@@ -103,7 +103,7 @@ T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
   The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
 </p>
 <div style=\"display:flex; align-items:center; justify-content:center;\">
-  <div style=\"padding-right:8px;\"><i>UAbsFluid</i></div>
+<div style=\"padding-right:8px;\"><i>UAbsFluid = </i></div>
   <table style=\"border-collapse:collapse; text-align:center;\">
     <tr>
       <td style=\"padding:4px;\">
@@ -189,11 +189,17 @@ model based on ISO 9806:2013 and is suitable for dynamic simulations where irrad
 </p>
 
 <h4>References</h4>
-<p>
-Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014<br/>
-Meertens, L. et al., <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, IMOC 2025<br/>
-ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
-</p>
+  <ul>
+    <li>
+      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+    </li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li>
+    <li>
+      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+    </li>
+  </ul>
 </html>",
 revisions="<html>
   <ul>

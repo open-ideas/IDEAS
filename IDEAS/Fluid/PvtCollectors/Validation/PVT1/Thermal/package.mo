@@ -16,9 +16,9 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   Each model compares the simulated thermal output with measured data and provides a detailed breakdown of thermal losses using the quasi-dynamic ISO 9806 formulation. The following loss mechanisms are included:
   </p>
   <ul>
-    <li>Linear and quadratic heat losses (<code>c₁</code>, <code>c₂</code>)</li>
-    <li>Convective heat losses (wind-dependent, <code>c₃</code>, <code>c₆</code>)</li>
-    <li>Radiative heat losses (sky temperature dependent, <code>c₄</code>)</li>
+    <li>Linear and quadratic heat loss (<code>c₁</code>, <code>c₂</code>)</li>
+    <li>Convective heat loss (wind-dependent, <code>c₃</code>, <code>c₆</code>)</li>
+    <li>Radiative heat loss (sky temperature dependent, <code>c₄</code>)</li>
     <li>Thermal inertia effects (<code>c₅</code>)</li>
   </ul>
 
@@ -32,8 +32,12 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   </p>
   <h4>References</h4>
   <ul>
-  <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
-    <li>ISO 9806:2013. “Solar thermal collectors—Test methods.” CEN.</li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li
+    <li>
+    ISO 9806:2013. <i>Solar thermal collectors—Test methods.</i> CEN.
+    </li>
   </ul>
   </html>",
 revisions="<html>

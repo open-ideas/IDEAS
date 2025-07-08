@@ -90,7 +90,7 @@ vary over time.
 
 <h4>Implementation Notes</h4>
 <p>
-The model inherits from <code>EN12975HeatLoss</code> for structural consistency and reuse of base functionality,
+The model inherits from <code>IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</code> for structural consistency and reuse of base functionality,
 but the naming and equations have been updated to reflect the ISO 9806 standard. Parameters <code>a1</code> and <code>a2</code>
 are internally mapped to <code>c1</code> and <code>c2</code> for clarity.
 </p>

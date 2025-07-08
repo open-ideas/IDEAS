@@ -26,7 +26,7 @@ record GenericQuasiDynamic
 
 annotation (
 defaultComponentPrefixes="parameter",
-defaultComponentName="datPvtCol",
+defaultComponentName="datPVTCol",
 Documentation(info="<html>
 <p>
 Record containing both thermal and electrical performance parameters for PVT
@@ -36,13 +36,13 @@ electrical parameters and system loss factors follow from the manufacturer datas
 </p>
 <h4>References</h4>
 <ul>
-<li>
-IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
-<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
-</li>
-<li>
-ISO 9806:2013. Solar thermal collectors — Test methods.
-</li>
+  <li>
+    IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
+    <a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
+  </li>
+  <li>
+    ISO 9806:2013. Solar thermal collectors — Test methods.
+  </li>
 </ul>
 </html>",
 revisions="<html>
