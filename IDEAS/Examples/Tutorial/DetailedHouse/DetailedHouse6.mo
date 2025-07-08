@@ -251,7 +251,7 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 <p>
 This example illustrates the importance of control, which is currently not modelled. All pumps and the heat
 pump are assumed to be active continuously, which is detrimental for the system performance. The COP
-(heaPum.com.COP) is only about 2.5.
+(heaPum.com.COP) is only about <i>2.5</i>.
 </p>
 </html>", revisions="<html>
 <ul>
