@@ -195,7 +195,7 @@ rate is the sum of the VAV flow rates. The heat recovery heat exchanger has a co
 </p>
 <p>
 The model includes two PI controllers, with their outputs connected to the VAVs. The zone <code>ppm</code> 
-outputs are connected to the measurement inputs <code>u_m</code> of the PI controllers, and a constant set point 
+outputs are connected to the measurement inputs <code>u_m</code> of the PI controllers, and a constant setpoint 
 of <i>1000 ppm</i> is provided at the input <code>u_s</code>. The VAVs have a minimum opening of <i>10 %</i>. 
 The PI controllers are configured with the following parameters: <code>k = 0.005</code>, <code>T_i = 300</code>, <code>reverseAction=false</code>, 
 and <code>controllerType=PI</code>. The schematic representation of the model is shown in the figure below.
