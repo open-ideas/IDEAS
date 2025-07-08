@@ -81,7 +81,7 @@ end HeavyWallNoWood;
 <p>
 The previous examples present a rather good computational performance. However, the computation time 
 can significantly increase for larger simulation time due to frequent on/off switching 
-of the heat pump. These effects cause a lot of fast transients that force the solver
+of the heat pump. This effect causes a lot of fast transients that force the solver
 to take small steps, which takes a lot of time.
 </p>
 <p>
