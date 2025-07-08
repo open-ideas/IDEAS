@@ -206,7 +206,7 @@ src=\"modelica://IDEAS/Resources/Images/Examples/Tutorial/DetailedHouse/Detailed
 </p>
 <h4>Reference result</h4>
 <p>
-The figures below show the operative zone temperature, CO2 concentrations and PI control signals in both zones.
+The figures below show the operative zone temperature, CO<sub>2</sub> concentrations and PI control signals in both zones.
 Note the small overshoot of the PI controller outputs and the exponential decay towards the outdoor CO<sub>2</sub>
 concentration when there are no occupants.
 </p>
