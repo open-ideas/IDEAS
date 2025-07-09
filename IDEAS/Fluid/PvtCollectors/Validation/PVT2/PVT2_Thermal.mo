@@ -43,7 +43,7 @@ model PVT2_Thermal
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT2.PVTQuasiDynamicCollectorValidationn PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
