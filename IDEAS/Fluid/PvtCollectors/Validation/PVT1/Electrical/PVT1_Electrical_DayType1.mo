@@ -46,7 +46,7 @@ model PVT1_Electrical_DayType1
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
     annotation (Placement(transformation(extent={{-77,-82},{-51,-66}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.UAbsFluid)
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{15,-84},{41,-68}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.pEl) "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));

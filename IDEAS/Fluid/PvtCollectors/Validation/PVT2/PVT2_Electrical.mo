@@ -49,7 +49,7 @@ model PVT2_Electrical
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
     annotation (Placement(transformation(extent={{-75,-80},{-49,-64}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.UAbsFluid)
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{17,-82},{43,-66}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.pEl) "[W]"
     annotation (Placement(transformation(extent={{-39,-80},{-13,-64}})));

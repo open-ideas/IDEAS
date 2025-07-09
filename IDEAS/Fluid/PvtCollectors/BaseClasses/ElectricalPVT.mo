@@ -15,6 +15,11 @@ model ElectricalPVT "Visible block to compute electrical power output using PVWa
   parameter Real c1 "First-order heat loss coefficient";
   parameter Real etaEl "Electrical efficiency";
 
+  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
+  ((tauAlphaEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
+  / ((tauAlphaEff - etaEl) - eta0)
+  "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
+
   // Inputs
   Modelica.Blocks.Interfaces.RealInput Tm[nSeg]
     "Fluid temperatures per segment [K]"
@@ -48,14 +53,9 @@ protected
   Real temDiff[nSeg];
   Real solarPowerInternal[nSeg];
 
- final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluidCalc =
-  ((tauAlphaEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
-  / ((tauAlphaEff - etaEl) - eta0)
-  "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
-
 equation
   for i in 1:nSeg loop
-    temCell[i] = Tm[i] + qth[i] / UAbsFluidCalc;
+    temCell[i] = Tm[i] + qth[i] / UAbsFluid;
     temDiff[i] = temCell[i] - TpvtRef;
     solarPowerInternal[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + gamma * temDiff[i]) * (1 - pLossFactor);
