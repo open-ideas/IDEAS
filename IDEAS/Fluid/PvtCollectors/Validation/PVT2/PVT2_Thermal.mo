@@ -6,6 +6,7 @@ model PVT2_Thermal
   property_T = 293.15,
   X_a = 0.43);
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature";
+  parameter Real pLossFactor = 0.07;
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -53,7 +54,7 @@ model PVT2_Thermal
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    pLossFactor=0.07,
+    pLossFactor=pLossFactor,
     collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
