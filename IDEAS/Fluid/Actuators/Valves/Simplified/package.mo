@@ -1,4 +1,4 @@
 within IDEAS.Fluid.Actuators.Valves;
-package Simplified  
+package Simplified 
   extends Modelica.Icons.VariantsPackage;
 end Simplified;

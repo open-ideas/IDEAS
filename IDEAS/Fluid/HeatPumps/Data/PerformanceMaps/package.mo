@@ -1,4 +1,4 @@
 within IDEAS.Fluid.HeatPumps.Data;
-package PerformanceMaps  
+package PerformanceMaps 
 
 end PerformanceMaps;

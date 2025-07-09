@@ -1,4 +1,4 @@
 within IDEAS.Fluid.HeatExchangers;
-package RadiantSlab  
+package RadiantSlab 
 extends Modelica.Icons.VariantsPackage;
 end RadiantSlab;
