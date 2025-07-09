@@ -13,9 +13,9 @@ model OutsideAir
   parameter Modelica.Units.SI.Length Habs=10
     "Absolute height of boundary for correcting the wind speed"
     annotation (Dialog(group="Wind"));
-  parameter Real A0=sim.A0 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) " 
+  parameter Real A0=sim.A0 "Local terrain coefficient." 
     annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
-  parameter Real a=sim.a "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
+  parameter Real a=sim.a "Velocity profile exponent."
     annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
   Modelica.Units.SI.Density rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
         p=Medium.p_default,
@@ -214,6 +214,11 @@ with exception of boundary pressure, do not have an effect.
 </html>",
 revisions="<html>
 <ul>
+<li>
+July 9, 2025, by Jelger Jansen:<br/>
+Update documentation A0 and a.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
+</li>
 <li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for wind pressure,ambient pressure and wind speed modifiers used in interzonal airflow.
