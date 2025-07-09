@@ -615,7 +615,7 @@ Added use_port_1 and use_port_2 for convenience.
 </li>
 <li>
 December 18, 2022 by Filip Jorissen:<br/>
-parameter revisions  for #1244
+parameter revisions  for <a href=\"https://github.com/open-ideas/IDEAS/issues/1244\">#1244</a>.
 </li>
 <li>
 April 28, 2022 by Filip Jorissen:<br/>
