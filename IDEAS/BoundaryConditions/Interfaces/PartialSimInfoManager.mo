@@ -126,7 +126,7 @@ partial model PartialSimInfoManager
     "Wind boundary layer thickness" annotation(Dialog(group="Wind"));
   final parameter Real A0=
     if locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Custom then A0_custom
-    else (270/Hwind)^0.14*(Hwind/delta)
+    else (270/Hwind)^0.14*(Hwind/delta)^a
     "Local terrain coefficient" annotation(Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length H=10
     "Building or roof height" annotation (Dialog(group="Wind"));
