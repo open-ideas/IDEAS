@@ -10,6 +10,9 @@ model BuildingO5_Exp1_2Port
       interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
       unify_n50=true,
         n50=1.64,
+      locTer=IDEAS.BoundaryConditions.Types.LocalTerrain.Custom,
+      a_custom=0.15,
+      A0_custom=1,
       A0=1,
       a=0.15));
 
