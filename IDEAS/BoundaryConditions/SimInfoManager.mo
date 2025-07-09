@@ -51,13 +51,9 @@ It loads TMY3 weather data files and applies transformations
 for computing the solar irradiance on the zone surfaces. 
 </p>
 <h4>Typical use and important parameters</h4>
-<ul>
-<li>
 Parameters <code>filNam</code> and <code>filDir</code> can be used to set the path to the TMY3 weather file.
 This file should include the latitude, longitude and time zone corresponding to the weather file.
 See the included weather files for the correct format.
-</li>
-</ul>
 <h4>Options</h4>
 <ul>
 <li>
@@ -163,8 +159,98 @@ infiltration flow rate is assumed. While this implementation is more detailed
 and comes at no added computational cost, it is disabled by default 
 for backward compatibility reasons.
 </p>
+<h5>Wind speed</h5>
+<p>
+The wind pressure depends on the wind speed, but this one is typically measured at a meteorological station.
+The wind speed at the building is different from this measured one due to the local terrain and elevation effects.
+This is taken into account by the wind speed modifier coefficient <i>C<sub>s</sub></i>,
+which is calculated as [CONTAM2020]:
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  C<sub>s</sub> =  A<sub>0</sub><sup>2</sup> (H/H<sub>ref</sub>)<sup>2a</sup></span>
+</p>
+<p>
+where <i>H</i> is the building height,
+<i>H<sub>ref</sub></i> is the height at which the wind speed is measured,
+<i>A<sub>0</sub></i> is the local terrain constant,
+and <i>a</i> is the velocity profile exponent.
+<p> 
+The AHRAE Fundamentals handbook of 1993 provided values for <i>A<sub>0</sub></i> and <i>a</i>
+for different terrain types (e.g. urban and suburban).
+Since the 2005 version of the ASHRAE Fundamentals handbook [ASHRAE2005],
+the wind boundary layer thickness <i>&delta;</i> is reported
+instead of the coefficient <i>A<sub>0</sub></i>.
+However, the latter can be calculated from the former as [CONTAM2020]:
+</p>
+<p align=\"center\" style=\"font-style:italic;\">
+  A<sub>0</sub> = (&delta;<sub>ref</sub>/H<sub>ref</sub>)<sup>a<sub>ref</sub></sup>(H<sub>ref</sub>/&delta;)<sup>a<sub>ref</sub></sup></span>
+</p>
+<p>
+where <i>&delta;<sub>ref</sub>, H<sub>ref</sub>, and a<sub>ref</sub></i> are the
+wind boundary layer thickness, wind measurement height, and velocity profile exponent
+at the meteorological station.
+</p>
+<p>
+The model allows to set the terrain type parameter <code>locTer</code> to
+<code>Urban</code>, <code>Suburban</code>, <code>Unshielded</code>, or <code>Custom</code>.
+For the former three, coefficients <i>a</i> and <i>delta;</i> are taken from [ASHRAE2005]
+and <i>A<sub>0</sub></i> is calculated using the equation above, assuming 
+a meteorological station in an unshielded area.
+The height at which the wind is measured (<i>H<sub>ref</sub></i>) is set by the parameter <code>Hwind</code>.
+If <code>Custom</code> is selected, the user needs to provide values for <i>a</i> and <i>A0</i>.
+<table summary=\"summary\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\" style=\"border-collapse:collapse;\">
+<tr>
+<th>Terrain type</th>
+<th><i>a</i></th>
+<th><i>&delta; [m]</i></th>
+<th><i>A<sub>0</sub></i></th>
+</tr>
+<tr>
+<td>Urban (large city center)</td>
+<td>0.33</td>
+<td>460</td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/460)<sup>0.33</sup></i></td>
+</tr>
+<tr>
+<td>Suburban</td>
+<td>0.22</td>
+<td>370</td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/370)<sup>0.22</sup></i></td>
+</tr>
+<tr>
+<td>Unshielded (default)</td>
+<td>0.14</td>
+<td>270</td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/270)<sup>0.14</sup></i></td>
+</tr>
+<tr>
+<td>Custom</td>
+<td><i>a<sub>custom</sub></i></td>
+<td>/</td>
+<td><i>A<sub>0,custom</sub></i></td>
+</tr>
+</table>
+<h4>References</h4>
+<p>
+[ASHRAE2005]
+American Society of Heating Refrigerating and Air-Conditioning Engineers.
+2005 ASHRAE handbook: Fundamentals, SI Edition.<br/>
+Atlanta: American Society of Heating, Refrigerating and Air-Conditioning Engineers, 2005.<br/>
+</p>
+<p>
+[CONTAM 2020]
+W. Stuart Dols and Brian J. Polidoro.
+CONTAM User Guide and Program Documentation: Version 3.4.<br/>
+Washington, DC: US Department of Commerce, National Institute of Standards and Technology, 2015.<br/>
+<a href=\"https://doi.org/10.6028/NIST.TN.1887r1\">doi:10.6028/NIST.TN.1887r1</a>.
+</p> 
 </html>", revisions="<html>
 <ul>
+<li>
+July 9, 2025, by Jelger Jansen:<br/>
+Update documentation related to wind speed modifier calculation.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
+</li>
 <li>
 April 16, 2021 by Filip Jorissen:<br/>
 Changed the default weather file to Brussels.mos
