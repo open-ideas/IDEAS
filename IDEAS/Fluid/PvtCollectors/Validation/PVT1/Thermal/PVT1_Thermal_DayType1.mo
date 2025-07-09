@@ -5,6 +5,7 @@ model PVT1_Thermal_DayType1
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
   parameter String pvtTyp = "Typ1";
+  parameter Real pLossFactor = 0.07;
   parameter Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
@@ -20,7 +21,7 @@ model PVT1_Thermal_DayType1
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    pLossFactor=0.10,
+    pLossFactor=pLossFactor,
     collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
