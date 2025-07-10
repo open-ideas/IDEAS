@@ -105,60 +105,55 @@ for the weather station in Uccle, near the Brussels region in Belgium.
 For detailed documentation see 
 <a href=\"modelica://IDEAS.BoundaryConditions.WeatherData.ReaderTMY3\">IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</a>.
 <h4>Interzonal airflow</h4>
-<p>
-IDEAS supports several levels of detail for simulating interzonal airflow and air infiltration,
-which can be selected by setting the value of the parameter <code>interzonalAirFlowType</code>. 
-By <b>default</b>, <code>interzonalAirFlowType = None</code> and a fixed n50 value is assumed for each zone. 
-The corresponding <b>fixed</b> mass flow rate is pushed 
-into (with ambient properties) and extracted from each zone model.
-In practice, air infiltration however depends on the wind pressure 
-and occurs only for zones that have an exterior/outer wall
-or windows. 
-</p>
-<p>
-The other <code>interzonalAirFlowType</code> options model this effect in more detail.
-By default, the <code>OuterWall</code> and <code>Window</code> leakage coefficients are computed
-using the zone n50 values. The volume and n50 value of each zone are used to compute the total
-nominal air infiltration at 50 Pa pressure difference. The total exterior wall and window surface
-area are used to compute an average air leakage coefficient 
-(<code>q50</code> value) such that this total air infiltration
-is obtained at 50 Pa pressure difference. 
-Using these coefficients and the static wind pressures, 
-a flow network is configured that computes the mass flow rates through
-each wall and window.
-When a custom q50 value for a wall or window is known, it can be 
-assigned by the user using the parameters <code>use_custom_q50</code> and <code>custom_q50</code>.
-The algorithm considers these q50 values as known and recomputes all remaining q50 values
-such that the n50 value is reached.
-In a similar way, the total n50 value for one zone can be forced by using
-the zone parameters <code>use_custom_n50<code> and <code>n50</code>.
-In this case, only the remaining zones contribute to the total building
-air leakage, which is subsequently attributed to the surfaces of only those zones.
-When <code>use_custom_q50=false</code>, <code>n50</code> is ignored and 
-<code>sim.n50</code> is used instead for this computation.
-I.e., the whole building is assumed to have the n50 value <code>sim.n50</code> 
-except for zones where <code>use_custom_q50=true</code>.
-</p>
-<p>
-In case <code>interzonalAirFlowType=OnePort</code> then one port is 
-used to model the air exchange through each surface
-and through cavities in internal walls (open doors).
-When <code>interzonalAirFlowType=TwoPorts</code> two ports are used, 
-which increases the level of detail at the cost of having to solve
-a more complex flow network.
-The second port e.g. allows more detailed modelling of bidirectional 
-flow through cavities (e.g. open doors) using two flow paths instead of only
-modelling the total flow through a single flow path.
-The two-port option is still under development.
-</p>
-<p>
-When setting <code>unify_n50=true</code> in the <code>SimInfoManager</code> 
-while <code>interzonalAirFlowType=None</code>, the n50 values are automatically
-redistributed across the zones but instead of using pressure-driven flow, a fixed
-infiltration flow rate is assumed. While this implementation is more detailed
-and comes at no added computational cost, it is disabled by default 
-for backward compatibility reasons.
-</p>
+<p>IDEAS supports several levels of detail for simulating interzonal airflow and air infiltration, 
+which can be selected by setting the value of the parameter <span style=\"font-family: Courier New;\">interzonalAirFlowType</span>.</p>
+
+<p>By <b>default</b>, when <span style=\"font-family: Courier New;\">interzonalAirFlowType = None</span>, a fixed n50 value is assumed for each zone. 
+The corresponding <b>fixed mass flow rate</b> is divided by a fixed factor <span style=\"font-family: Courier New;\">n50toAch</span> 
+and is pushed into (with ambient properties) and extracted from each zone model. 
+In practice, air infiltration however depends on wind pressure and temperature differences and occurs only for zones that have exterior/outer walls or windows. 
+The other <span style=\"font-family: Courier New;\">interzonalAirFlowType</span> options model this effect in more detail. </p>
+
+<p>When setting <u><span style=\"font-family: Courier New;\">unify_n50=true</span></u> while <span style=\"font-family: Courier New;\">interzonalAirFlowType=None</span>, the n50 values are automatically redistributed across the zones as described below and a corrected fixed infiltration flow rate is assumed. While this implementation is more detailed and comes at no added computational cost, it is disabled by default for backward compatibility reasons. </p>
+
+<p>When <span style=\"font-family: Courier New;\">interzonalAirFlowType=OnePort or TwoPort</span>, by <b>default</b>, the <span style=\"font-family: Courier New;\">OuterWall</span> and <span style=\"font-family: Courier New;\">Window</span> leakage coefficients 
+are computed using the building n50 value set in the <span style=\"font-family: Courier New;\">simInfoManager</span>. 
+The zone volumes are added togheter to compute the total nominal air infiltration at 50 Pa pressure difference based on the set building n50 value. 
+Then, the total exterior wall and window surface area are used to compute an average air leakage coefficient 
+(<span style=\"font-family: Courier New;\">q50</span>) value such that this total air infiltration is obtained at 50 Pa pressure difference. 
+Each airflow path is represented by an 
+<span style=\"font-family: Courier New;\">IDEAS.Airflow.Multizone.Point_m_flow</span> class which will compute the real air flow rates at lower pressure differences </p>
+
+<p>When a custom q50 value for a wall or window is known, it can be assigned by the user using the parameters 
+<span style=\"font-family: Courier New;\">use_custom_q50</span> and 
+<span style=\"font-family: Courier New;\">custom_q50</span>. 
+The algorithm considers these q50 values as known and recomputes all remaining q50 values such that the n50 value at building level is reached. 
+
+In a similar way, the total n50 value for one zone can be overridden by using the zone parameters 
+<span style=\"font-family: Courier New;\">use_custom_n50</span> and <span style=\"font-family: Courier New;\">n50</span>. 
+In this case, the <span style=\"font-family: Courier New;\">q50</span> of outer surfaces connected to that zone will correspond to the custom <span style=\"font-family: Courier New;\">n50</span> value of the zone. 
+Subsequently, all other zones and surfaces will be adjusted so that the total building air leakage still corresponds to the building n50. 
+
+
+<ul>
+<li>In case <u><span style=\"font-family: Courier New;\">interzonalAirFlowType=OnePort</span></u>, 
+then one flow path is used to model the air flow through each surface and through cavities in internal walls (open doors). 
+No buoyancy driven airflow (&quot;stack-effect&quot;) is modelled in this case. 
+This implementation is recommended when naturally driven airflows are expected to be negligble (e.g. limited building height, good airtightness) 
+or when the HVAC system pressure differences and corresponding airflowrates are of higher orders of magnitude.</li>
+
+<li>When <u><span style=\"font-family: Courier New;\">interzonalAirFlowType=TwoPorts</span></u> then, 
+two flow paths are used for each external surface and buoyancy/temperature driven airflow (&quot;stack effect&quot;) 
+is added by consistent implemenatation of the <span style=\"font-family: Courier New;\">IDEAS.Airflow.Multizone.MediumColumnReversible</span> class. 
+This increases the level of detail at the cost of having to solve a more complex flow network. 
+This allows more detailed modelling of multi-zone air flow. 
+In this implementation, larger openings (e.g. open doors in internal walls or opened windows) 
+are represented by the <span style=\"font-family: Courier New;\">IDEAS.Airflow.Multizone.DoorDiscretizedOperable</span> class. 
+It is important to set the parameters <span style=\"font-family: Courier New;\">hFloor</span> and 
+<span style=\"font-family: Courier New;\">hZone</span> correctly at zone level .</li>
+</ul>
+
+
 <h5>Wind speed</h5>
 <p>
 The wind pressure depends on the wind speed, but this one is typically measured at a meteorological station.
