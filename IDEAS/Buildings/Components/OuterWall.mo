@@ -36,14 +36,14 @@ model OuterWall "Opaque building envelope construction"
     HideResult=true,
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
-  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+  parameter Real coeffsCp[:,:]= if incInt<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif incInt<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif incInt<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(incInt,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
     final A_glazing=0,
     final A_frame=0,
-    final inc=inc,
+    final inc=incInt,
     final g_glazing=0,
     final Tenv_nom=sim.Tenv_nom,
     final epsSw_frame=1,
