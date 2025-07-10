@@ -145,7 +145,7 @@ such that the n50 value at building level is reached.
 </p>
 <p>
 In a similar way, the total n50 value for one zone can be forced by using
-the zone parameters <code>use_custom_n50<code> and <code>n50</code>.
+the zone parameters <code>use_custom_n50</code> and <code>n50</code>.
 In this case, the <code>q50</code> parameter values of outer surfaces
 connected to that zone will correspond to the custom <code>n50</code> parameter value of the zone. 
 Subsequently, all other zones and surfaces will be adjusted such that
@@ -156,7 +156,7 @@ the total building air leakage still corresponds to the building n50.
 In case <code>interzonalAirFlowType=OnePort</code> then one flow path is 
 used to model the air exchange through each surface
 and through cavities in internal walls (open doors).
-No buoyancy driven airflow ("stack-effect") is modelled in this case.
+No buoyancy driven airflow (stack-effect) is modelled in this case.
 This implementation is recommended when naturally driven airflows 
 are expected to be negligble (e.g. limited building height, good airtightness)
 or when the HVAC system pressure differences and 
@@ -166,7 +166,7 @@ corresponding air flow rates are of higher orders of magnitude.
 <p>
 When <code>interzonalAirFlowType=TwoPorts</code> then two flow paths are
 used for each external surface and 
-buoyancy/temperature driven airflow ("stack-effect") is added by consistent implementation 
+buoyancy/temperature driven airflow (stack-effect) is added by consistent implementation 
 of the <code>IDEAS.Airflow.Multizone.MediumColumnReversible</code> class. 
 This increases the level of detail at the cost of having to solve a more complex flow network. 
 This allows more detailed modelling of multi-zone air flow. 
