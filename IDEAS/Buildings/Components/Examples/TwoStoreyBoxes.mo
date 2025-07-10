@@ -5,7 +5,8 @@ model TwoStoreyBoxes "Model with two zones on different floors, one zone above t
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,n50=1) annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Level(
-    hFloor=5,
+    Medium(extraPropertiesNames={"CO2"}),
+    hFloor=5.25,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -25,6 +26,7 @@ model TwoStoreyBoxes "Model with two zones on different floors, one zone above t
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
+    Medium(extraPropertiesNames={"CO2"}),
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
