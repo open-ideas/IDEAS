@@ -48,7 +48,7 @@ model PVT2_Electrical
   inner IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MySimInfoManager sim(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
-  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
+  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-75,-80},{-49,-64}})));
   Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{17,-82},{43,-66}})));
