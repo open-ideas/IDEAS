@@ -396,7 +396,7 @@ partial model RectangularZoneTemplateInterface
   // open door modelling
   parameter Boolean hasCavityA = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face A", group="Cavity or open door", enable=(bouTypeA==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face A", group="Cavity or open door", enable=(bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hA(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityA,
@@ -409,7 +409,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityB = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face B", group="Cavity or open door", enable=(bouTypeB==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face B", group="Cavity or open door", enable=(bouTypB==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hB(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityB,
@@ -422,7 +422,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityC = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face C", group="Cavity or open door", enable=(bouTypeC==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face C", group="Cavity or open door", enable=(bouTypC==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hC(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityC,
@@ -435,7 +435,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityD = false
     "=true, to model open door or cavity in internal wall"
-    annotation(Dialog(tab="Face D", group="Cavity or open door", enable=(bouTypeD==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Face D", group="Cavity or open door", enable=(bouTypD==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length hD(min=0) = 2
     "Height of (rectangular) cavity in internal wall" annotation (Dialog(
       enable=hasCavityD,
@@ -448,7 +448,7 @@ partial model RectangularZoneTemplateInterface
       group="Cavity or open door"));
   parameter Boolean hasCavityFlo = false
     "=true, to model open door or cavity in internal floor"
-    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypeFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
+    annotation(Dialog(tab="Floor", group="Cavity or open door", enable=(bouTypFlo==IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall)));
   parameter Modelica.Units.SI.Length bFlo(min=0) = 2
     "Breadth of (rectangular) cavity in internal floor" annotation (Dialog(
       enable=hasCavityFlo,
@@ -722,6 +722,23 @@ partial model RectangularZoneTemplateInterface
     if hasOutD
     "Outer wall for face D of this zone"
     annotation (Placement(transformation(extent={{-140,-60},{-130,-40}})));
+  IDEAS.Buildings.Components.OuterWall outFlo(
+    inc=IDEAS.Types.Tilt.Floor,
+    azi=aziAInt,
+    A=max(0,AFloNet),
+    redeclare IDEAS.Buildings.Data.Constructions.FloorOnGround constructionType(
+      locGain=conTypFlo.locGain,
+      incLastLay=conTypFlo.incLastLay,
+      mats=conTypFlo.mats),
+    T_start=T_start,
+    linIntCon_a=linIntCon,
+    dT_nominal_a=dT_nominal_out,
+    redeclare package Medium = Medium,
+    linExtCon=linExtCon,
+    linExtRad=linExtRad)
+    if hasOutFlo
+    "Outer wall for zone floor."
+    annotation (Placement(transformation(extent={{-140,-80},{-130,-60}})));
   IDEAS.Buildings.Components.OuterWall outCei(
     inc=IDEAS.Types.Tilt.Ceiling,
     azi=aziAInt,
@@ -1001,7 +1018,8 @@ partial model RectangularZoneTemplateInterface
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b gainEmb[nGainEmb]
  if bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall or
-    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround or
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall
     "Floor node for embedded heat gain if case of floor heating or CCA."
     annotation (Placement(transformation(extent={{90,-100},{110,-80}})));
 protected
@@ -1030,6 +1048,8 @@ protected
     bouTypC == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasOutD=
     bouTypD == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
+  final parameter Boolean hasOutFlo=
+    bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasOutCei=
     bouTypCei == IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall;
   final parameter Boolean hasIntA=
@@ -1071,6 +1091,7 @@ protected
   parameter Modelica.Units.SI.Area AWallBNet(fixed=false);
   parameter Modelica.Units.SI.Area AWallCNet(fixed=false);
   parameter Modelica.Units.SI.Area AWallDNet(fixed=false);
+  parameter Modelica.Units.SI.Area AFloNet(fixed=false);
   parameter Modelica.Units.SI.Area ACeiNet(fixed=false);
 
   final parameter Integer indWalA = if hasNoA then 0 else 1;
@@ -1098,6 +1119,9 @@ protected
   final parameter Integer indWinC = indWinB + (if hasWinC then 1 else 0);
   final parameter Integer indWinD = indWinC + (if hasWinD then 1 else 0);
   final parameter Integer indWinCei = indWinD + (if hasWinCei then 1 else 0);
+
+  final parameter Boolean hasCavity = hasCavityA or hasCavityB or hasCavityC or hasCavityD or hasCavityFlo
+    "Boolean to enable open door modelling parameters if the RectangularZone has a cavity";
 
 initial equation
   assert(not bouTypA==IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
@@ -1139,13 +1163,15 @@ initial equation
   AWallBNet = lB*h - (if hasWinB then  propsBusInt[indWinB].area else 0);
   AWallCNet = lC*h - (if hasWinC then  propsBusInt[indWinC].area else 0);
   AWallDNet = lD*h - (if hasWinD then  propsBusInt[indWinD].area else 0);
+  AFloNet = AZone;
   ACeiNet = ACei - (if hasWinCei then  propsBusInt[indWinCei].area else 0);
 
   // assert that the windows are not bigger than the wall
   assert(AWallANet >= 0, "The net surface area of wall A is negative. This is not allowed.");
   assert(AWallBNet >= 0, "The net surface area of wall B is negative. This is not allowed.");
-  assert(AWallDNet >= 0, "The net surface area of wall C is negative. This is not allowed.");
+  assert(AWallCNet >= 0, "The net surface area of wall C is negative. This is not allowed.");
   assert(AWallDNet >= 0, "The net surface area of wall D is negative. This is not allowed.");
+  assert(AFloNet >= 0, "The net surface area of the floor is negative. This is not allowed.");
   assert(ACeiNet >= 0, "The net surface area of the ceiling is negative. This is not allowed.");
 
   if hasIntA then
@@ -1212,6 +1238,10 @@ equation
       thickness=0.5));
   connect(outD.propsBus_a, propsBusInt[indWalD]) annotation (Line(
       points={{-130.833,-48},{-124,-48},{-124,40},{-80,40}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(outFlo.propsBus_a, propsBusInt[indFlo]) annotation (Line(
+      points={{-130.833,-68},{-124,-68},{-124,40},{-80,40}},
       color={255,204,51},
       thickness=0.5));
   connect(slaOnGro.propsBus_a, propsBusInt[indFlo]) annotation (Line(
@@ -1325,6 +1355,8 @@ equation
           {-88,-104},{100,-104},{100,-90}}, color={191,0,0}));
   connect(slaOnGro.port_emb, gainEmb) annotation (Line(points={{-155,-80},{-156,
           -80},{-156,-104},{100,-104},{100,-90}}, color={191,0,0}));
+  connect(outFlo.port_emb, gainEmb) annotation (Line(points={{-135,-80},{-144,
+          -80},{-144,-104},{100,-104},{100,-90}}, color={191,0,0}));
     annotation(Dialog(tab="Floor", group="Floor heating / CCA", enable=
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall or
     bouTypFlo == IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall),
@@ -1545,6 +1577,16 @@ components cannot be propagated.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 20, 2025, by Lucas Verleyen:<br/>
+Implemented <code>OuterWall</code> for Floor construction.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1168\">#1168</a>.
+</li>
+<li>
+June 13, 2025, by Jelger Jansen:<br/>
+Add parameter <code>hasCavity</code> as it is used in the enabling of some parameters and fix typo <code>bouTyp</code>.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.

@@ -3,5 +3,7 @@ CavityWallPartialFill
 ConcreteSlab
 EpcSolidWall2
 FloorOnGround
-InsulatedFloorHeating
+InsulatedFloor
 TABS
+UninsulatedFloor
+EPC
