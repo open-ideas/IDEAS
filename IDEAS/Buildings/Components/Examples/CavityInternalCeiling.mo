@@ -21,7 +21,7 @@ equation
         "Simulate and plot"),
     Documentation(info="<html>
 <p>
-This example contains an example use of a controllable cavity in an internal wall. Note that it requires TwoPorts interzonal air flow.
+This example contains an example use of an opening in an internal ceiling. Note that it requires TwoPorts interzonal air flow.
 </p>
 </html>", revisions="<html>
 <ul>
