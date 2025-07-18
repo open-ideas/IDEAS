@@ -223,7 +223,7 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{-44,-66},{-24,-86}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom1(
-    hFloor=hFloor0,
+    hFloor=hFloor0 + 0.3,
     aziA=east,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
@@ -251,7 +251,7 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{140,80},{120,60}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bathRoom(
-    hFloor=hFloor0,
+    hFloor=hFloor0 + 0.3,
     aziA=east,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
     redeclare package Medium = MediumAir,
@@ -280,7 +280,7 @@ model Structure "Ppd 12 example model"
 
   IDEAS.Buildings.Components.RectangularZoneTemplate stairWay(
     redeclare package Medium = MediumAir,
-    hFloor=hFloor0,
+    hFloor=hFloor0 + 0.3,
     h_winA=1.69,
     redeclare IDEAS.Examples.PPD12.Data.OuterWall conTypA,
     redeclare IDEAS.Examples.PPD12.Data.TripleGlazing glazingA,
@@ -302,12 +302,13 @@ model Structure "Ppd 12 example model"
     mSenFac=1,
     n50=n50,
     nSurfExt=0,
-    w=lHalfBuilding, wFlo = 0.8)
+    w=lHalfBuilding, wFlo = 0.8,
+    intFlo(CheckVH=false))
     "Stairway"
     annotation (Placement(transformation(extent={{86,26},{66,6}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom2(
-    hFloor=hFloor0 + hFloor1,
+    hFloor=hFloor0 + hFloor1 + 0.6,
     aziA=east,
     bouTypC=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.BoundaryWall,
@@ -337,7 +338,7 @@ model Structure "Ppd 12 example model"
     annotation (Placement(transformation(extent={{276,82},{256,62}})));
   IDEAS.Buildings.Components.RectangularZoneTemplate bedRoom3(
     redeclare package Medium = MediumAir,
-    hFloor=hFloor0 + hFloor1,
+    hFloor=hFloor0 + hFloor1 + 0.6,
     h_winA=1.1,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypD,
     redeclare IDEAS.Examples.PPD12.Data.CommonWall conTypB,
@@ -380,7 +381,8 @@ model Structure "Ppd 12 example model"
     redeclare IDEAS.Buildings.Validation.Data.Constructions.LightWall
       constructionType,
     A=lHallway*wHallway2,
-    inc=IDEAS.Types.Tilt.Floor)
+    inc=IDEAS.Types.Tilt.Floor,
+    CheckVH=false)
     "Dummy for representing stairway connection between floors"
     annotation (Placement(transformation(extent={{182,-22},{192,-2}})));
 equation
