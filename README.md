@@ -1,6 +1,50 @@
 IDEAS v3.0.0
 ============
-Modelica model environment for Integrated District Energy Assessment Simulations (IDEAS), allowing simultaneous transient simulation of thermal and electrical systems at both building and feeder level. This Modelica library was originally developed by KU Leuven and [3E](https://3e.eu) and is currently developed and maintained by the [Thermal Systems Simulation (The SySi)](http://the.sysi.be) research group of KU Leuven. It includes significant contributions by the [Building Physics and Sustainable Design Section](https://bwk.kuleuven.be/bwf) of KU Leuven, the [Building Physics Research Group](https://www.ugent.be/ea/architectuur/en/research/research-groups/building-physics) of UGent, [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 60](https://iea-annex60.org) and the [Electrical Energy Systems and Applications Section](https://www.esat.kuleuven.be/electa) of KU Leuven. 
+IDEAS is a <i>Modelica</i> library for <b>I<b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
+This free and open-source library enables simultaneous transient simulation of integrated thermal and electrical energy systems
+including buildings at both individual (building) and collective (district) level.
+
+The IDEAS library was originally developed by KU Leuven and [3E](https://3e.eu), and is currently developed and maintained by
+the [Thermal Systems Simulation (The SySi)](http://the.sysi.be) research group of KU Leuven. 
+The library includes significant contributions by the [Building Physics and Sustainable Design Section](https://bwk.kuleuven.be/bwf)
+of KU Leuven, the [Building Physics Research Group](https://www.ugent.be/ea/architectuur/en/research/research-groups/building-physics)
+of UGent, [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 60](https://iea-annex60.org) and the
+[Electrical Energy Systems and Applications Section](https://www.esat.kuleuven.be/electa) of KU Leuven.
+
+The IDEAS library extends from the [Modelica IBPSA library](https://github.com/ibpsa/modelica-ibpsa) and has a particular focus
+on the development of detailed building models. IDEAS has three sister libraries that also extend from the core Modelica IBPSA
+library, i.e. AixLib, Buildings, and BuildingSystems.
+
+## License
+IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.eu) under a [BSD 3 license](https://htmlpreview.github.io/?https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html).
+
+## Contributions and community
+We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail.
+If you like our library, you can support us by adding a star at the top right of our Github page.
+
+## Tool support
+Our goal is to provide support for Dymola and OpenModelica. Consequently, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
+
+## Unit tests
+The library is unit tested using BuildingsPy. Automated unit tests are run on GitHub Actions with a self-hosted runner at KU Leuven.
+
+## Getting started
+Two tutorials are provided at <code>IDEAS.Examples.Tutorial</code>, serving as demonstrations cases of how the IDEAS library
+can be used.
+1. <code>IDEAS.Examples.Tutorial.SimpleHouse</code> contains examples with step-by-step instructions for how to build a system
+model for a simple house with a heating system, ventilation, and weather boundary conditions.
+2. <code>IDEAS.Examples.Tutorial.DetailedHouse</code> ontains examples with step-by-step instructions for how to build a system
+model for an office building (using the detailed building envelope component models within IDEAS.Buildings) with occupants, a
+radiator heating system connected to a heat pump, and a ventilation system.
+
+Furthermore, 
+- <code>IDEAS.Buildings.Examples</code> and <code>IDEAS.Buildings.Components.Examples</code> contain examples focussing on the
+building models, including individual features, developed in this library.
+- <code>IDEAS.Examples.IBPSA</code> collects some models used in [BOPTEST](https://github.com/ibpsa/project1-boptest).
+- <code>IDEAS.Examples.PPD12</code> is an example model of a terraced house, including a heating and ventilation system.
+- <code>IDEAS.Examples.TwinHouses</code> is a model of the Holzkirchen twin house, used in a validation experiment.
+ 
+See the documentation sections of the respective packages and models for more information.
 
 ## Release history
 + May 3rd, 2022: IDEAS v3.0.0 has been released. This includes an update to MSL 4.0.0.
@@ -13,30 +57,9 @@ Modelica model environment for Integrated District Energy Assessment Simulations
    February 16th 2018: A [paper describing IDEAS v1.0](http://www.tandfonline.com/doi/full/10.1080/19401493.2018.1428361) has been published on line.
 + September 2nd, 2015: IDEAS v0.3 has been released.
 
-## Contributions and community
-We love to hear what you are using IDEAS for. Feel free to open an issue to provide feedback or contact us through mail. If you like our library, you can support us by adding a star at the top right of our Github page.
-
-## Getting started
-The following packages contain examples that can help to get started with IDEAS:
- - IDEAS.Buildings.Components.Examples (Simple examples of individual features)
- - IDEAS.Buildings.Examples (Simple examples)
- - IDEAS.Examples.TwinHouses (The Holzkirchen twin house validation experiment)
- - IDEAS.Examples.PPD12 (A model of a terraced house, including heating and ventilation.)
- - IDEAS.Examples.IBPSA (Models for BOPTEST.)
- - IDEAS.Examples.Tutorial (A tutorial.)  
-See the documentation sections of the respective models for more details.
-
-## Tool support
-Our goal is to provide support for Dymola and OpenModelica. Consequently, any tool that supports the full Modelica specification should be able to run our models. Feel free to file a bug report in case we do not adhere to the Modelica specification.
-
 ## Release notes
 [This is a link to detailed release notes.](https://github.com/open-ideas/IDEAS/blob/master/ReleaseNotes.md)
 
-## Unit tests
-The library is unit tested using BuildingsPy. Automated unit tests are run on GitHub Actions with a self-hosted runner at KU Leuven.
-
-## License
-IDEAS is licensed by [KU Leuven](http://www.kuleuven.be) and [3E](http://www.3e.eu) under a [BSD 3 license](https://htmlpreview.github.io/?https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html).
 
 <!-- ### Development and contribution
 
