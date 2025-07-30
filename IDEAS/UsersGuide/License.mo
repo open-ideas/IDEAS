@@ -62,5 +62,7 @@ at the end that makes it easy to accept improvements.
 
 </body>
 
+<p><i>This is a copy of the license in <a href=https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html>IDEAS/legal.html</a>.</i></p>
+
 </html>"));
 end License;
