@@ -32,11 +32,11 @@ initial equation
   R=1/(Modelica.Constants.sigma*A*epsLw);
 
 equation
-  connect(preTem.port, heaRad.port_b) annotation(
-    Line(points = {{-40, 0}, {-40, -0.5}, {-18, -0.5}, {-18, 1}, {-10, 1}, {-10, 0}}, color = {191, 0, 0}));
-  connect(heaRad.port_a, port_a) annotation(
+  connect(preTem.port, heaRad.port_b) annotation (
+    Line(points={{-40,0},{-10,0}},                                                    color = {191, 0, 0}));
+  connect(heaRad.port_a, port_a) annotation (
     Line(points = {{10, 0}, {100, 0}}, color = {191, 0, 0}));
-  connect(preTem.T, Tenv) annotation(
+  connect(preTem.T, Tenv) annotation (
     Line(points = {{-62, 0}, {-100, 0}}, color = {0, 0, 127}));
   annotation (Icon(graphics={
         Line(points={{-40,10},{40,10}}, color={191,0,0}),
@@ -55,22 +55,35 @@ equation
         Line(points = {{-60, 80}, {-60, -80}}, thickness = 0.5),
         Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{90, 80}, {60, -80}}),
         Line(points = {{60, 80}, {60, -80}}, thickness = 0.5)}), Documentation(info="<html>
+<p>Longwave radiation <i>Q&#775;<sub>lw</sub></i> between the surface and the environment is determined according to the Stefan-Boltzmann law as</p>
+<p><i>Q&#775;<sub>lw</sub> = &sigma; &#183; &epsilon;<sub>lw</sub> &#183; A &#183; (T<sub>s</sub><sup>4</sup> - F<sub>sky</sub> &#183; T<sub>sky</sub><sup>4</sup> - (1 - F<sub>sky</sub>) &#183; T<sub>db</sub><sup>4</sup>)</i></p>
+<p>where</p>
+<ul>
+<li><i>&sigma;</i> is the Stefan-Boltzmann constant [Mohr 2008],</li>
+<li><i>&epsilon;<sub>lw</sub></i> is the longwave emissivity of the exterior surface <i>A</i>,</li> 
+<li><i>F<sub>sky</sub></i> is the radiant-interchange configuration factor between the surface and sky [Hamilton 1952], and the surface and the environment, respectively, and</li> 
+<li><i>T<sub>s</sub></i> and <i>T<sub>sky</sub></i> are the exterior surface and sky temperature, respectively.</li>
+</ul>
+<p>Shortwave solar irradiation absorbed by the exterior surface <i>Q&#775;<sub>sw</sub></i> is determined as </p>
+<p><i>Q&#775;<sub>sw</sub> = &epsilon;<sub>sw</sub> &#183; A &#183; E<sub>sw</sub></i></p>
+<p>where</p> 
+<ul>
+<li><i>&epsilon;<sub>sw</sub></i> is the shortwave absorption of the surface <i>A</i>, and</li>
+<li><i>E<sub>sw</sub></i> the total irradiation on the depicted surface.</li>
+</ul>
+<h4>References</h4>
 <p>
-Longwave radiation between the surface and environment 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-AMjoTx5S.png\"/> is determined as
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-nt0agyic.png\"/>as derived from the Stefan-Boltzmann law wherefore 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-C6ZFvd5P.png\"/> the Stefan-Boltzmann constant 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[Mohr 2008]</a>, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-sLNH0zgx.png\"/> the longwave emissivity of the exterior surface, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-Q5X4Yht9.png\"/> the radiant-interchange configuration factor between the surface and sky 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[Hamilton 1952]</a>, and the surface and the environment respectively and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-k2V39u5g.png\"/> and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-GuSnzLxW.png\"/> are the exterior surface and sky temperature respectively. 
-Shortwave solar irradiation absorbed by the exterior surface is determined as 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-cISf3Itz.png\"/>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-IKuIUMef.png\"/> is the shortwave absorption of the surface and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-Vuo4fgcb.png\"/> the total irradiation on the depicted surface.
+[Hamilton 1952]: D.C. Hamilton, W.R. Morgan, \"Radiant-interchange configuration factors\", <i>Technical Report &ndash; National Advisory Committee for Aeronautics</i>, 1952.<br>
+[Mohr 2008]: P.J. Mohr, B.N. Taylor, D.B. Newell, \"CODATA Recommended values of the fundamental physical constants: 2006\", <i>Review of Modern Physics</i>, vol. 80, pp. 633&ndash;730, 2008.
 </p>
+</html>", revisions="<html>
+<ul>
+<li>
+June 17, 2025, by Lucas Verleyen:<br/>
+Replaced images with inline equations.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1440>#1440</a>.
+</li>
+</ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})));

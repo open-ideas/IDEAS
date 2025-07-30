@@ -96,29 +96,38 @@ equation
           points={{-60,80},{-60,-80}},
           color={0,0,0},
           thickness=0.5)}), Documentation(info="<html>
-<p>
-The interior natural convective heat transfer coefficient 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-eZGZlJrg.png\"/> 
-is computed for each interior surface as 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-KNBSKUDK.png\"/>where 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-W5kvS3SS.png\"/> is the characteristic length of the surface, 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-jhC1rqax.png\"/> is the indoor air temperature and 
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-sbXAgHuQ.png\"/> are correlation coefficients. These parameters {
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-nHmmePq5.png\"/>,
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-zJZmNUzp.png\"/>,
-<img alt=\"equation\" src=\"modelica://IDEAS/Images/equations/equation-7nwXbcLp.png\"/>} are identical to {1.823,-0.121,0.293} for vertical surfaces [Awbi 1999], 
-{2.175,-0.076,0.308} for horizontal surfaces wherefore the heat flux is in the same direction as the buoyancy force <a href=\"IDEAS.Buildings.UsersGuide.References\">[Khalifa 2001]</a>, 
-and {2.72,-,0.13} for horizontal surfaces wherefore the heat flux is in the opposite direction as the buoyancy force <a href=\"IDEAS.Buildings.UsersGuide.References\">[Awbi 1999]</a>. 
-The interior natural convective heat transfer coefficient is only described as function 
+<p>The interior natural convective heat transfer coefficient <i>h<sub>c,i</sub></i> is computed for each interior surface as</p>
+<p><i>h<sub>c,i</sub> = n<sub>1</sub> &#183; D<sup>n2</sup> &#183; (T<sub>a</sub> - T<sub>s</sub>)<sup>n3</sub></i></p>
+<p>where</p>
+<ul>
+<li><i>D</i> is the characteristic length of the surface,</li>
+<li><i>T<sub>a</sub></i> is the indoor air temperature, and</li> 
+<li><i>n<sub>i</sub></i> are correlation coefficients.</li>
+</ul>
+<p>The parameters {<i>n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub></i>} are equal to</p>
+<ul>
+<li>{1.823, -0.121, 0.293} for vertical surfaces [Awbi 1999],</li>
+<li>{2.175, -0.076, 0.308} for horizontal surfaces, wherefore the heat flux is in the same direction as the buoyancy force [Khalifa 2001], and</li>
+<li>{0.704, -0.601, 0.133} for horizontal surfaces, wherefore the heat flux is in the opposite direction as the buoyancy force [Awbi 1999].</li>
+</ul>
+<p>The interior natural convective heat transfer coefficient is only described as a function 
 of the temperature difference. Similar to the thermal model for heat transfer through a wall, 
 a thermal circuit formulation for the direct radiant exchange between surfaces can be derived 
-<a href=\"IDEAS.Buildings.UsersGuide.References\">[ Buchberg 1955, Oppenheim 1956]</a>.
-</p>
+[Buchberg 1955, Oppenheim 1956].</p>
+<h4>References</h4>
 <p>
-[Awbi 1999]: H.B. Awbi, A. Hatton, Natural convection from heated room surfaces, Energy and Buildings 30 (1999) 233&ndash;244.
+[Awbi 1999]: H.B. Awbi, A. Hatton, \"Natural convection from heated room surfaces\", <i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
+[Buchberg 1955]: H. Buchberg, \"Electric analogue prediction of thermal behavior of an inhabitable enclosure\", <i>ASHRAE Transactions</i>, vol. 61, pp. 339&ndash;386, 1955.<br>
+[Khalifa 2001]: A.J.N. Khalifa, \"Natural convective heat transfer coefficient - a review: II. Surfaces in two-and three-dimensional enclosures\", <i>Energy Conversion and Management</i>, vol. 42, no. 4, pp. 505&ndash;517, 2001.<br>
+[Oppenheim 1956]: A.K. Oppenheim, \"Radiation analysis by the network method\", <i>Transaction of American Society of Mechanical Engineers</i>, vol. 78, pp. 725&ndash;735, 1956.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 17, 2025, by Lucas Verleyen:<br/>
+Replaced images with inline equations.
+See <a href=https://github.com/open-ideas/IDEAS/issues/1440>#1440</a>.
+</li>
 <li>
 July 11, 2016 by Filip Jorissen:<br/>
 Adjusted formulation of correlation such that the Jacobian computation of 
