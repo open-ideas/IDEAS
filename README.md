@@ -104,10 +104,16 @@ Detailed release notes are available in [ReleaseNotes.md](https://github.com/ope
 - D. Picard, L. Helsen (2014). A New Hybrid Model For Borefield Heat Exchangers Performance Evaluation. 2014 ASHRAE ANNUAL CONFERENCE: Vol. 120 (2). ASHRAE: Ground Source Heat Pumps: State of the Art Design, Performance and Research. Seattle, 1-8.
   
 ### Applications of IDEAS
+- K. De Jonge (2024). Health-Equivalent Energy Efficiency Factor, Combined Metric of Harm and Energy Use. In Retrofitting the Building Stock: Challenges and Opportunities for Indoor Environmental Quality (Book of Proceedings). Dublin, 2024.
+- L. Maton, W. Bracke, K. De Jonge, E. Himpe, J. Laverge (2024). Dynamic study of the influence of building parameters on the self-consumption of solar power. In Proceedings of the ASHRAE Winter Conference 2024. doi: 10.63044/w24mat60.
+- L. Verleyen, J. Arroyo, L. Helsen (2024). The cost of CO<sub>2</sub> emissions abatement in a micro energy community in a Belgian context. *Smart Energy* **16**, 100162. doi: 10.1016/j.segy.2024.100162.
+- J. Arroyo, L. Verleyen, L. Bex, L. Hermans, M.H. Saeed, Y. Lu, J. Depoortere, A. Bálint, E. Delarue, J. Driesen, G. Deconinck, D. Blum, L. Helsen (2023). Prototyping the DOPTEST Framework for Simulation-Based Testing of System Integration Strategies in Districts. In Proceedings of Building Simulation 2023: 18th Conference of IBPSA. Shanghai, China.
+- K. De Jonge (2023). Holistic performance assessment of residential ventilation systems. PhD Thesis. Ghent University. Faculty of Engineering and Architecture, Ghent, Belgium.
 - J. Arroyo, F. Spiessens, L. Helsen (2022). Comparison of Model Complexities in Optimal Control Tested in a Real Thermally Activated Building System. *Buildings*, **12** (5).
 - J. Arroyo, F. Spiessens, L. Helsen (2022). Comparison of Optimal Control Techniques for Building Energy Management. *Frontiers in Built Environment, section Indoor Environment. Research Topic: Artificial Intelligence Applications in Building’s Thermal Management*, **8**.
 - J. Arroyo, C. Manna, F. Spiessens, L. Helsen (2022). Reinforced Model Predictive Control (RL-MPC) for Building Energy Management. *Applied Energy*, **309**.
 - J. Jansen, L. Helsen (2022). Non-linear model predictive control of a small-scale 4th generation district heating network with on/off heat pumps. In Proceedings of the 2nd International Sustainable Energy Conference. Graz, 204-212.
+- L. Verleyen, L. Hermans, J. Arroyo, L. Helsen (2022). TECHPED - Identifying technically feasible and effective solutions towards Positive Energy Districts (PEDs). In Proceedings of the 3rd IBPSA Scotland Conference 'Urban Energy in a Net Zero World', uSIM2022. Gasgow, Scotland.
 - J. Arroyo, C. Manna, F. Spiessens, L. Helsen (2021). An OpenAI-Gym environment for the Building Optimization Testing (BOPTEST) framework. In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September 2021.
 - D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H. Taxt Walnum, C. Yan, K. Benne, D. Vrabie, M. Wetter, L. Helsen (2021). Building Optimization Testing Framework (BOPTEST) for Simulation-Based Benchmarking of Control Strategies in Buildings. *Journal of Building Performance Simulation* **14** (5), 586–610.
 - W. Boydens, S. Feyaerts, A. Vandermeulen, L. Helsen (2021). Control strategy assessment of a small GSHP sourced DH system with end user DHW booster heat pumps. In Proceedings of the 13th IEA Heat Pump Conference. Jeju, art.nr. 301.
@@ -122,7 +128,7 @@ Detailed release notes are available in [ReleaseNotes.md](https://github.com/ope
 - F. Jorissen, D. Picard, K. Six, L. Helsen (2021) Detailed White-Box Non-Linear Model Predictive Control for Scalable Building HVAC Control. In Proceedings of the 14th Modelica Conference 2021. Online.
 - F. Jorissen, D. Picard, L Helsen (2021). Strengths of Non-Linear White-Box MPC for Building HVAC Control. In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September 2021.
 - B. Merema, D. Saelens, H. Breesch (2021). Analysing modelling challenges of smart controlled ventilation systems in educational buildings. *Journal Of Building Performance Simulation* **14** (2), 116-131.
-- B. Merema, H. Breesch (sup.), D. Saelens (sup.) (2021). An MPC framework for all-air systems in non-residential buildings. PhD thesis.
+- B. Merema, H. Breesch (sup.), D. Saelens (sup.) (2021). An MPC framework for all-air systems in non-residential buildings. PhD thesis. KU Leuven.
 - B. Merema, D. Saelens, H. Breesch (2021). Co-Simulation approach to evaluate MPC strategies for all-air systems: case study.  In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September 2021
 - B. Merema, Q. Carton, D. Saelens, H. Breesch (2021). Implementation of MPC for an all-air system in an educational building. In: J. Kurnitski, M. Thalfeldt (Eds.), COLD CLIMATE HVAC & ENERGY 2021: vol. 246, art.nr. 11007. Presented at the 10th International SCANVAC Cold Climate Conference, Tallinn, Estonia, 18-21 April 2021.
 - S. Meunier, C. Protopapadaki, R. Baetens, D. Saelens (2021). Impact of residential low-carbon technologies on low-voltage grid reinforcements. *Applied Energy* **297**, art.nr. 117057, 1-15.
@@ -140,7 +146,7 @@ Detailed release notes are available in [ReleaseNotes.md](https://github.com/ope
 - C. Protopapadaki, D. Saelens (2019). Towards metamodeling the neighborhood-level grid impact of low-carbon technologies. *Energy and Buildings* **194**, 273-288.
 - V. Reinbold, C. Protopapadaki, J.P. Tavella, D. Saelens (2019). Assessing scalability of a low-voltage distribution grid co-simulation through functional mock-up interface. *Journal of Building Performance Simulation* **12** (5), 637-649.
 - D. Saelens, I. De Jaeger, F. Bünning, M. Mans, A. Vandermeulen, B. van der Heijde, E. Garreau, A. Maccarini, Ø. Rønneseth, I. Sartori, L. Helsen (2019). Towards a DESTEST: a District Energy Simulation Test Developed in IBPSA Project 1. Presented at the Building Simulation Conference 2019, Rome, 2-4 Sep 2019
-- R. Andriamamonjy, R. Klein (sup.), D. Saelens (cosup.) (2018). Automated workflows for building design and operation using openBIM and Modelica. PhD thesis
+- R. Andriamamonjy, R. Klein (sup.), D. Saelens (cosup.) (2018). Automated workflows for building design and operation using openBIM and Modelica. PhD thesis. KU Leuven
 - R. Andriamamonjy, D. Saelens, R. Klein (2018). An auto-deployed model-based fault detection and diagnosis approach for Air Handling Units using BIM and Modelica. *Automation in Construction* **96**, 508-526.
 - R. Andriamamonjy, D. Saelens, R. Klein (2018). An automated IFC-based workﬂow for building energy performance simulation with Modelica. *Automation in Construction* **91**, 166-181. doi: 10.1016/j.autcon.2018.03.019
 - I. De Jaeger, G. Reynders, Y. Ma, D. Saelens (2018). Impact of building geometry description within district energy simulations. *Energy* **158**, 1060-1069
