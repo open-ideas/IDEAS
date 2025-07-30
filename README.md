@@ -87,7 +87,7 @@ year = {2018}
 - January 12th, 2015: IDEAS v0.2.0 has been released.
 - December 11th, 2011: IDEAS v0.1.0 has been released. This is the first public IDEAS version.
 
-Detailed release notes are available in [ReleaseNotes.md](https://github.com/open-ideas/IDEAS/blob/master/ReleaseNotes.md).
+Detailed release notes are available in the library itself: [ReleaseNotes](https://github.com/open-ideas/IDEAS/tree/master/IDEAS/UsersGuide/ReleaseNotes).
 
 ## References
 ### Development of IDEAS
