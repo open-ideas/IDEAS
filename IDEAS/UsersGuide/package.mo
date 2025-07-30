@@ -8,51 +8,24 @@ extends Modelica.Icons.Information;
 
 
 annotation (DocumentationClass=true, Documentation(info="<html>
-<p>
-<i><b>Integrated District Energy Assessment by Simulation</b></i> 
-(<code>IDEAS</code>) is a Modelica library that allows integrated transient simulation of 
-thermal and electrical processes at neighborhood level. 
-The <code>IDEAS</code> tool differs from existing building physics and 
-systems based and electrical energy system based models by integrating 
-the dynamics of the hydronic, thermal as well as electrical energy networks 
-at both the building and aggregated level within a single model and solver.
-</p>
-<h4>Content</h4>
-<p>
-Main packages are listed below.
-</p>
+<p><code>IDEAS</code> is a Modelica library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations.
+This free and open-source library enables simultaneous transient simulation of integrated thermal and electrical energy systems
+including buildings at both individual (building) and collective (district) level. The IDEAS library extends from the
+<a href=https://github.com/ibpsa/modelica-ibpsa>Modelica IBPSA library</a> and has a particular focus on the development
+of detailed building models. It is one of the four sister libraries that extend from the core Modelica IBPSA library, alongside
+<a href=https://github.com/RWTH-EBC/AixLib>AixLib</a>, <a href=https://github.com/lbl-srg/modelica-buildings>Modelica Buildings</a>,
+and <a href=https://github.com/UdK-VPT/BuildingSystems>BuildingSystems</a>. IDEAS clearly differs from existing building energy system
+simulation tools by integrating the dynamics of all hydronic, thermal, and electrical components at both the building and aggregated level within a single model and solver.</p>
+<p><b>Content</b></p>
+<p>Main packages are listed below. </p>
 <ul>
-<li>
-<a href=modelica://IDEAS.Buildings>Buildings</a> contains component models for modelling building envelopes. 
-</li>
-<li>
-<a href=modelica://IDEAS.Fluid>Fluid</a> contains component models for modelling fluid systems. 
-</li>
-<li>
-<a href=modelica://IDEAS.Experimental.Electric>Experimental.Electric</a> contains component models for modelling electric distribution grids. 
-These models are not unit tested and are not actively maintained.
-</li>
-<li>
-<a href=modelica://IDEAS.Examples>Examples</a> contains example models that demonstrate 
-the use of <a href=modelica://IDEAS.Buildings>Buildings</a> and <a href=modelica://IDEAS.Fluid>Fluid</a>. 
-</li>
+<li><a href=\"modelica://IDEAS.Buildings\">Buildings</a> contains component models for modelling building envelopes. </li>
+<li><a href=\"modelica://IDEAS.Fluid\">Fluid</a> contains component models for modelling fluid systems. </li>
+<li><a href=\"modelica://IDEAS.Examples\">Examples</a> contains example models that demonstrate the use of <a href=\"modelica://IDEAS.Buildings\">Buildings</a> and <a href=\"modelica://IDEAS.Fluid\">Fluid</a>. </li>
 </ul>
-<h4>Feedback</h4>
-<p>
-<code>IDEAS</code> is developed at <a href=https://github.com/open-ideas/IDEAS>GitHub</a>.
-Feel free to create an <a href=https://github.com/open-ideas/IDEAS/issues>issue</a>
-in case you have a problem or a suggestion.
-</p>
-<p>
-Furthermore, a large part of the code was originally developed within
-the <a href=http://www.iea-annex60.org>IEA EBC Annex 60 project</a>,
-which is continued as <a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>.
-For models originating from this library,
-bug reports are preferably submitted on the 
-<a href=https://github.com/iea-annex60/modelica-annex60>Annex 60</a> or 
-<a href=https://github.com/ibpsa/project1>IBPSA project 1</a>
-GitHub pages.
-</p>
+<p>Package and model specific documentation can be found in the respective User's Guides and model documentation.</p>
+<p><b>Feedback</b></p>
+<p>IDEAS is developed at <a href=\"https://github.com/open-ideas/IDEAS\">GitHub</a>. Feel free to create an <a href=\"https://github.com/open-ideas/IDEAS/issues\">issue</a> in case you have a problem or a suggestion. </p>
 </html>", revisions="<html>
 <ul>
 <li>June 20, 2025, by Lucas Verleyen:<br>
