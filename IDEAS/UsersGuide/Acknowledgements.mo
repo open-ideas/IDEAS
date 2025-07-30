@@ -12,9 +12,18 @@ and the <a href=https://www.esat.kuleuven.be/electa>Electrical Energy Systems an
 It is one of the four sister libraries that extend from the core Modelica IBPSA library, alongside <a href=https://github.com/RWTH-EBC/AixLib>AixLib</a>,
 <a href=https://github.com/lbl-srg/modelica-buildings>Modelica Buildings</a>, and <a href=https://github.com/UdK-VPT/BuildingSystems>BuildingSystems</a>.</p>
 
+<h4>Funding</h4>
+<p>Many contributors have been financially supported for their contributions to IDEAS. Therefore, the authors acknowledge the financial support of:</p>
+<ul>
+<li>the European Commission, through the PhD scholarship of Anna Dell'Isola and the Horizon Europe 'HeriTACE' project</li> 
+<li>KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen and the 'TECHPED' project (C24M/021/21)</li>
+<li>Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen</li>
+<li>the Agency for Innovation by Science and Technology in Flanders (IWT) (2014-2017), through the PhD scholarship of Filip Jorisson (no. 131012)</li>
+<li>the Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project</li>
+</ul>
+
 <h4>Contributors</h4>
-<p>
-The following people have contributed to the <code>IDEAS</code> code.
+<p>The following people have contributed to the <code>IDEAS</code> code.</p>
 <ul>
 <li><a href=https://www.linkedin.com/in/arnoutaertgeerts>Arnout Aertgeerts</a></li>
 <li><a href=https://www.linkedin.com/in/javier-arroyo-bastida>Javier Arroyo</a></li>
@@ -32,20 +41,8 @@ The following people have contributed to the <code>IDEAS</code> code.
 <li><a href=https://www.linkedin.com/in/bverbruggen>Bart Verbruggen</a></li>
 <li><a href=https://www.linkedin.com/in/lucas-verleyen>Lucas Verleyen</a></li>
 </ul>
-<p>
-Furthermore, a large part of the code was originally developed within
+<p>Furthermore, a large part of the code was originally developed within
 the <a href=http://www.iea-annex60.org>IEA EBC Annex 60 project</a>,
-which has been continued as <a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>. Many people have contributed to these projects.
-</p>
-<h4>Funding</h4>
-<p>
-The authors acknowledge the financial support by the Agency for
-Innovation by Science and Technology in Flanders (IWT) and WTCB
-in the frame of the IWT-VIS Traject SMART GEOTHERM focusing
-on integration of thermal energy storage and thermal inertia
-in geothermal concepts for smart heating and cooling of (medium) large buildings.
-The authors also acknowledge the financial support by IWT for the PhD work of
-F. Jorissen (contract number 131012).
-</p>
+which has been continued as <a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>. Many people have contributed to these projects.</p>
 </html>"));
 end Acknowledgements;
