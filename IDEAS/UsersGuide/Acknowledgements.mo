@@ -35,6 +35,7 @@ It is one of the four sister libraries that extend from the core Modelica IBPSA 
 <li><a href=https://www.linkedin.com/in/louis-hermans-850317154>Louis Hermans</a></li>
 <li><a href=https://www.linkedin.com/in/jelger-jansen>Jelger Jansen</a></li>
 <li><a href=https://www.linkedin.com/in/filip-jorissen-19a26437>Filip Jorissen</a></li>
+<li><a href=https://www.linkedin.com/in/lone-meertens-21678b214>Lone Meertens</a></li>
 <li><a href=https://www.linkedin.com/in/damien-picard-5ab507139>Damien Picard</a></li>
 <li><a href=https://www.linkedin.com/in/glennreynders>Glenn Reynders</a></li>
 <li><a href=https://www.linkedin.com/in/juanvanroy>Juan van Roy</a></li>

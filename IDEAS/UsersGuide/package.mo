@@ -28,7 +28,7 @@ simulation tools by integrating the dynamics of all hydronic, thermal, and elect
 <p>IDEAS is developed at <a href=\"https://github.com/open-ideas/IDEAS\">GitHub</a>. Feel free to create an <a href=\"https://github.com/open-ideas/IDEAS/issues\">issue</a> in case you have a problem or a suggestion. </p>
 </html>", revisions="<html>
 <ul>
-<li>June 20, 2025, by Lucas Verleyen:<br>
+<li>July 30, 2025, by Lucas Verleyen:<br>
 Update for IDEAS v4.0.0.
 </li>
 <li>
