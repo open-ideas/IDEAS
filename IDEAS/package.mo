@@ -19,7 +19,7 @@ annotation (
 <p>Copyright &copy; 2013-2025, KU Leuven and 3E. </p>
 <p>
 This Modelica package is <u>free</u> software and the use is completely at <u>your own risk</u>.
-For license information, view our <a href=\"https://github.com/open-ideas/IDEAS\">GitHub page</a>.
+For license information, view our <a href=\"modelica://IDEAS.UsersGuide.License\">License</a>.
 </p>
 </html>"));
 end IDEAS;
