@@ -2,9 +2,9 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_1_0_0 "Version_1_0_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>Major changes compared to v0.3 are:</p>
+<p>Major changes compared to v0.3.0 are:</p>
 <ul>
-<li>IDEAS 1.0 is based on Annex 60 version 1.0.</li>
+<li>IDEAS 1.0.0 is based on Annex 60 version 1.0.</li>
 <li>The IDEAS packages have been restructured to be more in line with the Annex 60 package structure.<br/>
 IDEAS.Constants has been replaced by IDEAS.Types<br/>
 The SimInfoManager has been moved to IDEAS.BoundaryConditions<br/>

@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_2_0 "Version_2_2_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.2 has been released on June 9th, 2021. The most notable changes are:</p>
+<p>IDEAS 2.2.0 has been released on June 9th, 2021. The most notable changes are:</p>
 <ul>
 <li>Interzonal airflow support has been added. See the SimInfoManager documentation for more details.</li>
 <li>IBPSA has been updated to commit 443cb50b7ce58ac1585688</li>

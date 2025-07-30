@@ -33,7 +33,13 @@ on the IDEAS library.
 <a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_1_0_0\">Version 1.0.0</a> (May 5, 2017)
 </li>
 <li>
-<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_0_3_0\">Version 0.3.0</a> (September 2, 2015)
+<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_0_3_0\">Version 0.3.0</a> (October 28, 2015)
+</li>
+<li>
+<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_0_2_0\">Version 0.2.0</a> (January 12, 2015)
+</li>
+<li>
+<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_0_1_0\">Version 0.1.0</a> (December 11, 2011)
 </li>
 </ul>
 </html>"));

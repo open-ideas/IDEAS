@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_1_0 "Version_2_1_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.1 has been released on February 28th, 2019. The most important changes are:</p>
+<p>IDEAS 2.1.0 has been released on February 28th, 2019. The most important changes are:</p>
 <ul>
 <li>IBPSA has been updated up to commit 2d6a5a6ff80.</li>
 <li>The twin house example model has been re-added to the library.</li>

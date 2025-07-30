@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_0_0 "Version_2_0_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.0 has been released on September 28th, 2018. Highlights of this release compared to v1.0 are:</p>
+<p>IDEAS 2.0.0 has been released on September 28th, 2018. Highlights of this release compared to v1.0.0 are:</p>
 <ul>
 <li>Unit tests have been automated. When a developer makes a pull request against the master, unit tests are run automatically using Travis CI. This greatly simplifies the development process when no unit test results change.</li>
 <li>IDEAS has been updated to IBPSA version 3.0. This includes a new heat pump model and a thoroughly updated borefield model.</li>
