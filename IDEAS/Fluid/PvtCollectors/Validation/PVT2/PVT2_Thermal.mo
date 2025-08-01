@@ -14,7 +14,7 @@ model PVT2_Thermal
     fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_measurements.txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
 
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
@@ -48,6 +48,7 @@ model PVT2_Thermal
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
     show_T=true,
+    nSeg=1,
     azi=0,
     til=0.34906585039887,
     rho=0.2,
@@ -63,7 +64,7 @@ model PVT2_Thermal
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
 equation
-  connect(bou.T_in,TAmbKel. Kelvin)
+  connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(PvtCol.port_a, bou.ports[1])
     annotation (Line(points={{-8,0},{-38,0}}, color={0,127,255}));
@@ -71,7 +72,7 @@ equation
     annotation (Line(points={{12,0},{42,0}}, color={0,127,255}));
   connect(bou.m_flow_in, meaDat.y[3])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
-  connect(meaDat.y[2], TAmbKel.Celsius) annotation (Line(points={{-71,34},{-60,34},
+  connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   connect(sim.weaDatBus, PvtCol.weaBus) annotation (Line(
       points={{-72.1,70},{-14,70},{-14,8},{-8,8}},

@@ -30,7 +30,7 @@ model PVT1_Electrical_DayType1
     tableName="data",
     fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT1/PVT1_" + pvtTyp + "_measurements.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
@@ -53,9 +53,9 @@ model PVT1_Electrical_DayType1
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
 equation
 
-  connect(meaDat.y[13],TAmbKel. Celsius) annotation (Line(points={{-71,34},{-60,
+  connect(meaDat.y[13],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,
           34},{-60,16},{-92,16},{-92,4},{-88,4}},                                                       color={0,0,127}));
-  connect(bou.T_in, TAmbKel.Kelvin)
+  connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(bou.m_flow_in, meaDat.y[17])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
