@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_0_0 "Version_2_0_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.0.0 has been released on September 28th, 2018. Highlights of this release compared to v1.0.0 are:</p>
+<p>IDEAS 2.0.0 was released on September 28, 2018. Highlights of this release compared to v1.0.0 are:</p>
 <ul>
 <li>Unit tests have been automated. When a developer makes a pull request against the master, unit tests are run automatically using Travis CI. This greatly simplifies the development process when no unit test results change.</li>
 <li>IDEAS has been updated to IBPSA version 3.0. This includes a new heat pump model and a thoroughly updated borefield model.</li>
@@ -20,10 +20,11 @@ Internal walls can no longer be combined with a window.<br>
 A building shade option has been added for outer walls.<br>
 An option has been added to completely drop one of the surfaces of the model.<br>
 An option has been added to override the default wall lengths.<br>
-An option to add a wall that is entirely enclosed by the zone.<br>
+An option to add a wall entirely enclosed by the zone has been added.<br>
 The Window model has been made replaceable such that a fully configured window can easily be used.<br>
 An option for adding a cavity to internal walls has been added.<br>
-An option has been added for including an internal wall that is completely surrounded by the zone.<br>
+An option to add a cavity to internal walls has been added.<br>
+An option has been added to include an internal wall that is completely surrounded by the zone.<br>
 External proBus connectors are now vectors.</li>
 <li>The EmbeddedPipe model has been modified:<br>
 The parameter useSimplifiedRt has been removed.<br>
@@ -40,16 +41,16 @@ The implementation now has final alpha=0 in the PrescribedHeatFlowRate blocks, w
 <li>The azimuth angle computation has been modified such that the argument of an arcsin cannot become larger than 1 due to roundoff/numerical errors. This caused models to crash in very rare occasions.</li>
 <li>Atmospheric pressure and relative humidity have been added to the weather bus since these variables are sometimes used to set the boundary conditions of a zone using a Boundary_pT.</li>
 <li>Fixed a bug in RunningMeanTemperatureEN15251 where the model output is incorrect for non-zero start times.</li>
-<li>Parameters energyDynamicsAir and mSenFac were not propagated correctly into the zone air model. This is now fixed.</li>
+<li>A bug was fixed to correctly propagate the parameters energyDynamicsAir and mSenFac into the zone air model.</li>
 <li>The StrobeInfoManager has been modified such that it also works for negative simulation times.</li>
 <li>A dry air medium for MPC applications has been added.</li>
 <li>The unit test tolerances have been decrease from the default of 1e-4 to 1e-6 to achieve more consistent results in the automated unit tests. LSodar is now used instead of DASSL.</li>
 <li>The zone air states now have a nominal attribute such that the state variables are better scaled when using implicit integrators. Similarly, the nominal values of the FluidPorts have been set.</li>
-<li>We now allow an OuterWall to be used as a floor.</li>
+<li>OuterWall can now be used as a floor.</li>
 <li>A bug has been corrected in the BESTEST weather file.</li>
 <li>Many old models have been removed and examples that depend on them have been updated to better illustrate how IDEAS can/should be used.</li>
 <li>The OuterWall model now also supports the computation of shading cast by external objects buildings. Future work should extend the set of supported shading models.</li>
-<li>The SimInfoManager has been modified such that it now exposes the same WeatherBus as the one that is used in the LBL Buildings library. The Buildings library solar thermal collectors are thus natively supported.</li>
+<li>The SimInfoManager now exposes the same WeatherBus of the one used in the LBL Buildings library. The Buildings library solar thermal collectors are thus natively supported.</li>
 <li>IDEAS is now licensed under BSD3.</li>
 <li>Added multiple asserts that avoid the improper use of IDEAS models.</li>
 <li>Added an output for the CO2 concentration in the Zone model, which outputs zero when the Zone Medium does not contain CO2.</li>

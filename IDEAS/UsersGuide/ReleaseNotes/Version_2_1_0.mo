@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_1_0 "Version_2_1_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.1.0 has been released on February 28th, 2019. The most important changes are:</p>
+<p>IDEAS 2.1.0 was released on February 28, 2019. The most important changes are:</p>
 <ul>
 <li>IBPSA has been updated up to commit 2d6a5a6ff80.</li>
 <li>The twin house example model has been re-added to the library.</li>
@@ -16,7 +16,7 @@ class Version_2_1_0 "Version_2_1_0"
 <li>Added a bypass for the PPD12 air handling unit.</li>
 <li>Modified the way how initial equations are defined for wall models. This avoids duplicate initial equations.<li>
 <li>Fixed a bug in the zone model when allowFlowReversal was set to false.</li>
-<li>Added the option for setting a fixed boundary condition temperature in BoundaryWall.</li>
+<li>Added an option to set a fixed boundary condition temperature in BoundaryWall.</li>
 <li>Added a utility that automatically checks the git version of library dependencies when running a model, for enhanced version checking of models.</li>
 <li>Revised the implementation of the thermostatic radiator valve model such that it is smooth.</li>
 <li>Revised documentation in ExteriorSolarAbsorption.</li>

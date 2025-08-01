@@ -2,7 +2,7 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_2_2_0 "Version_2_2_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS 2.2.0 has been released on June 9th, 2021. The most notable changes are:</p>
+<p>IDEAS 2.2.0 was released on June 9, 2021. The most notable changes are:</p>
 <ul>
 <li>Interzonal airflow support has been added. See the SimInfoManager documentation for more details.</li>
 <li>IBPSA has been updated to commit 443cb50b7ce58ac1585688</li>
@@ -20,13 +20,13 @@ class Version_2_2_0 "Version_2_2_0"
 <li>An implementation has been added for a simple clock.</li>
 <li>The number of default glazing system options has been reduced.</li>
 <li>The zone Medium now equals IDEAS.Media.Air by default.</li>
-<li>Revised the implementation of ExteriorSolarAbsorption such that no initial equation is needed.</li>
-<li>Improved the orientation detection functionality for horizontal surfaces.</li>
+<li>The implementation of ExteriorSolarAbsorption has been revised such that no initial equation is needed.</li>
+<li>The orientation detection functionality has been improved for horizontal surfaces.</li>
 <li>The heat of evaporation of water has been changed to a more accurate value in the internal gains model.</li>
 <li>The thermostatic radiator valve implementation has been revised to avoid numerical problems.</li>
-<li>Improved errors and warnings in various models.</li>
+<li>Errors and warnings in various models have been improved.</li>
 <li>The specific heat capacity of DryAir was wrong. This has been fixed.</li>
-<li>Various other changes to the EmbeddedPipe model.</li>
+<li>The EmbeddedPipe model has been improved.</li>
 <li>BESTEST results have been updated.</li>
 <li>The glazing and frame thermal mass has been split for numerical reasons.</li>
 <li>The external convection implementation of surfaces has been revised.</li>
@@ -49,7 +49,7 @@ class Version_2_2_0 "Version_2_2_0"
 <li>A reasonable default humidity has been added for the Fanger comfort model when dry air is used.</li>
 <li>A bug has been fixed in the BuildingShade model that caused negative shading fractions.</li>
 <li>Added an assert that verifies the correct flow direction of the EmbeddedPipe.</li>
-<li>Instead of 0, now a sensible initial state for the CO2 concentration has been added for zones.</li>
+<li>A sensible initial state, different from 0, for the CO2 concentration has been added for zones.</li>
 <li>An option has been added for scaling the number of occupants input of a zone by the zone surface area.</li>
 <li>The lateral displacement of horizontal fins can now be controlled instead of controlling the horizontal fin angle.</li>
 <li>An inconsistency in the computation of CO2 concentrations has been fixed.</li>
