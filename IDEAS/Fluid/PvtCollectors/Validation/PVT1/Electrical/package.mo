@@ -15,7 +15,7 @@ package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector
   </p>
   <ul>
     <li>Temperature-dependent efficiency losses</li>
-    <li>Constant system loss factor (10%)</li>
+    <li>Constant system loss factor (9 %)</li>
   </ul>
 
   <p>

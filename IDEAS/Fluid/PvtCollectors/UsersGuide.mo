@@ -90,9 +90,10 @@ with module parameters from the datasheet plus an overall system loss factor
 
 <p>
 For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
-found that using <code>pLossFactor = 7-10 %</code> gives excellent agreement with
-measured electrical output. Users may adjust <code>pLossFactor</code> to account for
-site-specific soiling or shading effects.
+found that using <code>pLossFactor = 9 %</code> gives excellent agreement with
+measured electrical output. For PVT collectors with high positive tolerance on the 
+electrical output, this system loss factor can even be reduced more. 
+Users may adjust <code>pLossFactor</code> to account for site-specific soiling or shading effects.
 </p>
 
 <p>

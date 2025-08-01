@@ -19,7 +19,9 @@ package PVT2
   </ul>
 
   <p>
-  Due to the absence of rear insulation and the continuous operation of the circulation pump, also during periods of negative thermal output, the raw energy deviation of +63.7% is not representative of real-world operation. In practice, the pump would only be activated when thermal gains exceed losses. When filtered to periods with positive thermal output, the deviation improves to +18.9%, and further to +4.9% when compared only to periods with measured positive output. These filtered metrics provide a more meaningful assessment of model performance.
+  Due to the absence of rear insulation and the continuous operation of the circulation pump, also during periods of negative thermal output, the raw energy deviation of +53.1 % 
+  is not representative of real-world operation. In practice, the pump would only be activated when thermal gains exceed losses. When filtered to periods with positive thermal output, 
+  the deviation improves to +6.85%. This filtered metric provides a more meaningful assessment of the model performance.
   </p>
 
   <p>

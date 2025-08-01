@@ -98,7 +98,8 @@ equation
   </p>
 
   <p>
-  As a result, the raw energy deviation of +63.7% is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +18.9%. When compared only to periods with measured positive output, the deviation is further reduced to +4.9%. These filtered metrics better reflect the model's accuracy under realistic operating conditions.
+  As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 %. 
+  This filtered metric better reflects the model's accuracy under realistic operating conditions.
   </p>
   </html>",
 revisions="<html>

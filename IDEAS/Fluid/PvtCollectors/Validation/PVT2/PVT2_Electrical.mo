@@ -80,15 +80,15 @@ equation
   <ul>
     <li>Temperature-dependent efficiency losses</li>
     <li>Datasheet-based estimation of <i>UAbsFluid</i></li>
-    <li>Constant system loss factor (7%)</li>
+    <li>Constant system loss factor (7 %)</li>
   </ul>
 
   <p>
   The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
   </p>
 
-  <p>
-  Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2% and nRMSE of 9.9%.
+  <p> 
+  Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 %.
   </p>
 
   <p>
