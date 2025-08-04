@@ -5,7 +5,7 @@ class License "License"
 
 <body>
 
-<h1>License</h1>
+<h4>License</h4>
 <p>
 Modelica IDEAS Library. Copyright (c) 1998-2025
 Modelica Association,
@@ -62,7 +62,9 @@ at the end that makes it easy to accept improvements.
 
 </body>
 
-<p><i>This is a copy of the license in <a href=https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html>IDEAS/legal.html</a>.</i></p>
+<p>
+<i>This is a copy of the license in <a href=https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html>IDEAS/legal.html</a>.</i>
+</p>
 
 </html>"));
 end License;
