@@ -3,7 +3,8 @@ package IDEAS "Integrated District Energy Assessment Simulation"
 
 annotation (
   uses(Modelica(version="4.0.0")),
-  Icon(graphics={Bitmap(extent={{-100,-80},{100,80}}, fileName="modelica://IDEAS/Resources/Images/Logo/IDEAS_Minimal_Icon.png")}),
+  Icon(graphics={Bitmap(extent={{-100,-80},{100,80}}, fileName=
+            "modelica://IDEAS/Resources/Images/IDEAS-logo-icon.png")}),
   version="3.0.0",
   versionDate="2022-05-03",
   dateModified = "2022-05-03",
