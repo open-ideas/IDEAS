@@ -260,18 +260,19 @@ American Society of Heating Refrigerating and Air-Conditioning Engineers.<br/>
 Atlanta: American Society of Heating, Refrigerating and Air-Conditioning Engineers, 2005.<br/>
 </p>
 <p>
-[DeJonge2021]<br/>
-Klaas De Jonge, Filip Jorissen, Lieve Helsen and Jelle Laverge.<br/>
-Wind-Driven Air Flow Modelling in Modelica: Verification and Implementation in the IDEAS Library.<br/>
-Proceedings of Building Simulation 2021: 17th Conference Of IBPSA. Bruges, Belgium, September, 2021.<br/>
-<a href=\"https://doi.org/10.26868/25222708.2021.30165\">doi:10.26868/25222708.2021.30165</a>.
-<p>
 [CONTAM2020]<br/>
 W. Stuart Dols and Brian J. Polidoro.<br.>
 CONTAM User Guide and Program Documentation: Version 3.4.<br/>
 Washington, DC: US Department of Commerce, National Institute of Standards and Technology, 2015.<br/>
 <a href=\"https://doi.org/10.6028/NIST.TN.1887r1\">doi:10.6028/NIST.TN.1887r1</a>.
-</p> 
+</p>
+<p>
+[DeJonge2021]<br/>
+Klaas De Jonge, Filip Jorissen, Lieve Helsen and Jelle Laverge.<br/>
+Wind-Driven Air Flow Modelling in Modelica: Verification and Implementation in the IDEAS Library.<br/>
+Proceedings of Building Simulation 2021: 17th Conference Of IBPSA. Bruges, Belgium, September, 2021.<br/>
+<a href=\"https://doi.org/10.26868/25222708.2021.30165\">doi:10.26868/25222708.2021.30165</a>.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
