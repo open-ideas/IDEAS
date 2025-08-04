@@ -1,6 +1,6 @@
 <div align="center">
-<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="150">
-<big><b>v3.0.0</b></big>
+<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="120">
+<b>v3.0.0</b>
 </div>
 <br/>
 
