@@ -1,8 +1,8 @@
 <div align="center">
-<figure style="margin: 0 0 30px 0">
-<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="100"> v3.0.0
-</figure> 
+<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="150"> v3.0.0 
 </div>
+<br>
+<br>
 
 IDEAS is a <i>Modelica</i> library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
 This free and open-source library enables simultaneous transient simulation of integrated thermal and electrical energy systems
