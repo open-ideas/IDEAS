@@ -18,6 +18,17 @@ First implementation.
 </ul>
 </html>"));
 
+  type LocalTerrain = enumeration(
+      Unshielded "Unshielded building(s)",
+      Suburban "Building(s) in a suburban area",
+      Urban "Building(s) in an urban area",
+      Custom "Use custom wind speed modifiers")
+      "Local terrain used for wind speed modifiers"
+    annotation(Documentation(info="<html>
+<p>
+Enumeration used to define the local terrain (which affects the wind speed modifiers).
+</p>
+</html>"));
   type RadiationDataSource = enumeration(
       File "Use data from file",
       Input_HGloHor_HDifHor
