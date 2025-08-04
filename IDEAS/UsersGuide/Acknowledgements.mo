@@ -12,22 +12,31 @@ and the <a href=https://www.esat.kuleuven.be/electa>Electrical Energy Systems an
 </p>
 <p>
 The IDEAS library extends from the <a href=https://github.com/ibpsa/modelica-ibpsa>Modelica IBPSA library</a> and has a particular focus on the development of detailed building models. 
-It is one of the four derivative libraries that extend from the core Modelica IBPSA library, alongside <a href=https://github.com/RWTH-EBC/AixLib>AixLib</a>,
+It is one of the four sister libraries that extend from the core Modelica IBPSA library, alongside <a href=https://github.com/RWTH-EBC/AixLib>AixLib</a>,
 <a href=https://github.com/lbl-srg/modelica-buildings>Modelica Buildings</a>, and <a href=https://github.com/UdK-VPT/BuildingSystems>BuildingSystems</a>.
 </p>
-
 <h4>Funding</h4>
 <p>
-Many contributors have been financially supported for their contributions to IDEAS. Therefore, the authors acknowledge the financial support of:
+Many contributors have been financially supported for their contributions to IDEAS. 
+Therefore, the authors acknowledge the financial support of:
 </p>
 <ul>
-<li>the European Commission, through the PhD scholarship of Anna Dell'Isola and the Horizon Europe 'HeriTACE' project</li> 
-<li>KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen and the 'TECHPED' project (C24M/021/21)</li>
-<li>Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen</li>
-<li>the Agency for Innovation by Science and Technology in Flanders (IWT) (2014-2017), through the PhD scholarship of Filip Jorisson (no. 131012)</li>
-<li>the Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project</li>
+<li>
+The European Commission, through the PhD scholarship of Anna Dell'Isola and the Horizon Europe 'HeriTACE' project
+</li> 
+<li>
+KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen and the 'TECHPED' project (C24M/021/21)
+</li>
+<li>
+Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen
+</li>
+<li>
+The Agency for Innovation by Science and Technology in Flanders (IWT) (2014-2017), through the PhD scholarship of Filip Jorisson (no. 131012)
+</li>
+<li>
+The Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project
+</li>
 </ul>
-
 <h4>Contributors</h4>
 <p>
 The following people have contributed to the <code>IDEAS</code> code.

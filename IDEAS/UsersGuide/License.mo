@@ -3,8 +3,6 @@ class License "License"
   extends Modelica.Icons.Information;
   annotation (Documentation(info="<html>
 
-<body>
-
 <h4>License</h4>
 <p>
 Modelica IDEAS Library. Copyright (c) 1998-2025
@@ -59,9 +57,6 @@ such enhancements or derivative works thereof, in binary and source code form.
 Note: The license is a revised 3 clause BSD license with an ADDED paragraph
 at the end that makes it easy to accept improvements.
 </p>
-
-</body>
-
 <p>
 <i>This is a copy of the license in <a href=https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html>IDEAS/legal.html</a>.</i>
 </p>
