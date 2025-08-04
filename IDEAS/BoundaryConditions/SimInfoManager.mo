@@ -122,7 +122,7 @@ and occurs only in zones that have an exterior/outer wall or windows.
 The other <code>interzonalAirFlowType</code> options model this effect in more detail.
 </p>
 <p>
-When setting <code>unify_n50=true</code> while <code>interzonalAirFlowType = None</code>,
+When setting <code>unify_n50=true</code> while <code>interzonalAirFlowType=None</code>,
 the <i>n50</i> values are automatically redistributed across the zones as described below
 and a corrected fixed infiltration flow rate is assumed.
 While this implementation is more detailed and comes at no added computational cost, 
@@ -131,7 +131,7 @@ it is disabled by default for backward compatibility reasons.
 <p>
 When <code>interzonalAirFlowType=OnePort</code> or <code>interzonalAirFlowType=TwoPort</code>,
 by default, the <code>OuterWall</code> and <code>Window</code> leakage coefficients 
-are computed using the building <i>n50</i> value set in the <code>SimInfoManager</code>.
+are computed using the building's <i>n50</i> value set in the <code>SimInfoManager</code>.
 The zone volumes are added together to compute the total nominal air infiltration
 at a 50 Pa pressure difference based on the building's <i>n50</i> value set by the user. 
 Then, the total exterior building area, 
@@ -177,7 +177,7 @@ buoyancy/temperature driven airflow (stack-effect) is added by consistent implem
 of the <code>IDEAS.Airflow.Multizone.MediumColumnReversible</code> class. 
 This increases the level of detail at the cost of having to solve a more complex flow network, 
 thereby allowing the more detailed modelling of multi-zone air flow. 
-In this implementation, larger openings (e.g. open doors in internal walls or opened windows) 
+In this implementation, larger openings (e.g. open doors in internal walls or open windows) 
 are represented by the <code>IDEAS.Airflow.Multizone.DoorDiscretizedOperable</code> class. 
 It is important to set the parameters <code>hFloor</code> and <code>hZone</code> correctly at zone level.
 </p>
