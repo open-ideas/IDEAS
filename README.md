@@ -1,6 +1,6 @@
 <div align="center">
-<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="115">
-<b>v3.0.0</b>
+<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="150">
+<big><b>v3.0.0</b></big>
 </div>
 <br/>
 
@@ -34,7 +34,7 @@ of UGent, [IBPSA project 1](https://ibpsa.github.io/project1/), [IEA EBC Annex 6
 [Electrical Energy Systems and Applications Section](https://www.esat.kuleuven.be/electa) of KU Leuven.
 
 ## Tool support
-IDEAS is fully compliant with the [Modelica Specification](https://specification.modelica.org/), and is therefore, in
+IDEAS is largely compliant with the [Modelica Specification](https://specification.modelica.org/), and is therefore, in
 principle, compatible with any simulation tool that supports this standard, such as Dymola or OpenModelica. However, as
 IDEAS is primarily developed and maintained in Dymola, and the unit testing framework is exclusively implemented in Dymola,
 certain compatibility issues with alternative tools may arise. Users are encouraged to report any deviations from the Modelica
@@ -46,11 +46,11 @@ utilising a self-hosted runner maintained by KU Leuven. Further information on t
 on the [IDEAS Wiki](https://github.com/open-ideas/IDEAS/wiki).
 
 ## Getting started
-Two tutorials are provided at <code>IDEAS.Examples.Tutorial</code>, serving as demonstrations cases of how the IDEAS library
+Two tutorials are provided in <code>IDEAS.Examples.Tutorial</code>, serving as demonstrations cases of how the IDEAS library
 can be used.
 1. <code>IDEAS.Examples.Tutorial.SimpleHouse</code> contains examples with step-by-step instructions for how to build a system
 model for a simple house with a heating system, ventilation, and weather boundary conditions.
-2. <code>IDEAS.Examples.Tutorial.DetailedHouse</code> ontains examples with step-by-step instructions for how to build a system
+2. <code>IDEAS.Examples.Tutorial.DetailedHouse</code> contains examples with step-by-step instructions for how to build a system
 model for an office building (using the detailed building envelope component models within IDEAS.Buildings) with occupants, a
 radiator heating system connected to a heat pump, and a ventilation system.
 
