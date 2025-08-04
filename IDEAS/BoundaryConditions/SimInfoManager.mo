@@ -111,16 +111,19 @@ IDEAS supports several levels of detail for simulating interzonal airflow and ai
 which can be selected by setting the value of the parameter <code>interzonalAirFlowType</code>. 
 </p>
 <p>
-By <b>default</b>, <code>interzonalAirFlowType = None</code> and a fixed n50 value is assumed for each zone. 
+By <b>default</b>, <code>interzonalAirFlowType=None</code> and a fixed <i>n50</i> value is assumed for each zone.
+The <i>n50</i> value represents the airtightness of a building or building zone.
+It is equal to the number of air changes per hour (due to air leakage) at a pressure difference of 50 Pa,
+and is expressed in <i>h<sup>-1</sup></i>.
 The corresponding <b>fixed mass flow rate</b> is divided by a fixed factor <code>n50toAch</code> and is pushed
 into (with ambient properties) and extracted from each zone model.
-In practice, air infiltration however depends on the wind pressure and temperature differences
-and occurs only for zones that have an exterior/outer wall or windows. 
+In practice, however, air infiltration depends on the wind pressure and temperature differences,
+and occurs only in zones that have an exterior/outer wall or windows. 
 The other <code>interzonalAirFlowType</code> options model this effect in more detail.
 </p>
 <p>
 When setting <code>unify_n50=true</code> while <code>interzonalAirFlowType = None</code>,
-the n50 values are automatically redistributed across the zones as described below
+the <i>n50</i> values are automatically redistributed across the zones as described below
 and a corrected fixed infiltration flow rate is assumed.
 While this implementation is more detailed and comes at no added computational cost, 
 it is disabled by default for backward compatibility reasons.
@@ -128,32 +131,35 @@ it is disabled by default for backward compatibility reasons.
 <p>
 When <code>interzonalAirFlowType=OnePort</code> or <code>interzonalAirFlowType=TwoPort</code>,
 by default, the <code>OuterWall</code> and <code>Window</code> leakage coefficients 
-are computed using the building n50 value set in the <code>SimInfoManager</code>.
-The zone volumes are added together to compute the total nominal air infiltrationa
-at 50 Pa pressure difference based on the set building n50 value. 
-Then, the total exterior wall and window surface area are used to compute 
-an average air leakage coefficient (q50) value such that
-this total air infiltration is obtained at 50 Pa pressure difference. 
+are computed using the building <i>n50</i> value set in the <code>SimInfoManager</code>.
+The zone volumes are added together to compute the total nominal air infiltration
+at a 50 Pa pressure difference based on the building's <i>n50</i> value set by the user. 
+Then, the total exterior building area, 
+which is the sum of the area of all <code>OuterWall</code> and <code>Window</code> components,
+is used to compute an average <i>q50</i> value.
+The <i>q50</i> value represents the airtightness of a surface.
+It is equal to the average air leakage flow per hour at a pressure difference of 50 Pa per surface area, 
+and is expressed in <i>m<sup>3</sup>/h/m<sup>2</sup></i>.
 Each airflow path is represented by an <code>IDEAS.Airflow.Multizone.Point_m_flow</code> class
 which will compute the real air flow rates at lower pressure differences.
 </p>
 <p>
-When a custom q50 value for a wall or window is known, it can be 
+When a custom <i>q50</i> value for a wall or window is known, it can be 
 assigned by the user using the parameters <code>use_custom_q50</code> and <code>custom_q50</code>.
-The algorithm considers these q50 values as known and recomputes all remaining q50 values
-such that the n50 value at building level is reached.
+The algorithm considers these <i>q50</i> values as known and recomputes all remaining <i>q50</i> values
+such that the imposed <i>n50</i> value at the building level is reached.
 </p>
 <p>
-In a similar way, the total n50 value for one zone can be forced by using
+In a similar way, the total <i>n50</i> value for one zone can be forced by using
 the zone parameters <code>use_custom_n50</code> and <code>n50</code>.
-In this case, the <code>q50</code> parameter values of outer surfaces
+In this case, the <code>q50</code> parameter values of the outer surfaces
 connected to that zone will correspond to the custom <code>n50</code> parameter value of the zone. 
 Subsequently, all other zones and surfaces will be adjusted such that
-the total building air leakage still corresponds to the building n50. 
+the building's total air leakage still corresponds to the building's <i>n50</i> value. 
 </p>
 <h5>One-port implementation</h5>
 <p>
-In case <code>interzonalAirFlowType=OnePort</code> then one flow path is 
+In case <code>interzonalAirFlowType=OnePort</code>, then one flow path is 
 used to model the air exchange through each surface
 and through cavities in internal walls (open doors).
 No buoyancy driven airflow (stack-effect) is modelled in this case.
@@ -161,15 +167,16 @@ This implementation is recommended when naturally driven airflows
 are expected to be negligble (e.g. limited building height, good airtightness)
 or when the HVAC system pressure differences and 
 corresponding air flow rates are of higher orders of magnitude.
+More information regarding the one-port implementation can be found in [DeJonge2021].
 </p>
 <h5>Two-port implementation</h5>
 <p>
-When <code>interzonalAirFlowType=TwoPorts</code> then two flow paths are
+When <code>interzonalAirFlowType=TwoPorts</code>, then two flow paths are
 used for each external surface and 
 buoyancy/temperature driven airflow (stack-effect) is added by consistent implementation 
 of the <code>IDEAS.Airflow.Multizone.MediumColumnReversible</code> class. 
-This increases the level of detail at the cost of having to solve a more complex flow network. 
-This allows more detailed modelling of multi-zone air flow. 
+This increases the level of detail at the cost of having to solve a more complex flow network, 
+thereby allowing the more detailed modelling of multi-zone air flow. 
 In this implementation, larger openings (e.g. open doors in internal walls or opened windows) 
 are represented by the <code>IDEAS.Airflow.Multizone.DoorDiscretizedOperable</code> class. 
 It is important to set the parameters <code>hFloor</code> and <code>hZone</code> correctly at zone level.
@@ -182,7 +189,7 @@ This is taken into account by the wind speed modifier coefficient <i>C<sub>s</su
 which is calculated as [CONTAM2020]:
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
-  C<sub>s</sub> =  A<sub>0</sub><sup>2</sup> (H/H<sub>ref</sub>)<sup>2a</sup></span>
+  C<sub>s</sub> =  A<sub>0</sub><sup>2</sup> &#183; (H/H<sub>ref</sub>)<sup>2a</sup></span>
 </p>
 <p>
 where <i>H</i> is the building height,
@@ -198,45 +205,45 @@ instead of the coefficient <i>A<sub>0</sub></i>.
 However, the latter can be calculated from the former as [CONTAM2020]:
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
-  A<sub>0</sub> = (&delta;<sub>ref</sub>/H<sub>ref</sub>)<sup>a<sub>ref</sub></sup>(H<sub>ref</sub>/&delta;)<sup>a<sub>ref</sub></sup></span>
+  A<sub>0</sub> = (&delta;<sub>ref</sub>/H<sub>ref</sub>)<sup>a<sub>ref</sub></sup> &#183; (H<sub>ref</sub>/&delta;)<sup>a<sub>ref</sub></sup></span>
 </p>
 <p>
 where <i>&delta;<sub>ref</sub>, H<sub>ref</sub>, and a<sub>ref</sub></i> are the
 wind boundary layer thickness, wind measurement height, and velocity profile exponent
-at the meteorological station.
+at the meteorological station, respectively.
 </p>
 <p>
 The model allows to set the terrain type parameter <code>locTer</code> to
 <code>Urban</code>, <code>Suburban</code>, <code>Unshielded</code>, or <code>Custom</code>.
-For the former three, coefficients <i>a</i> and <i>delta;</i> are taken from [ASHRAE2005]
+For the former three, coefficients <i>a</i> and <i>&delta;</i> are taken from [ASHRAE2005]
 and <i>A<sub>0</sub></i> is calculated using the equation above, assuming 
 a meteorological station in an unshielded area.
 The height at which the wind is measured (<i>H<sub>ref</sub></i>) is set by the parameter <code>Hwind</code>.
-If <code>Custom</code> is selected, the user needs to provide values for <i>a</i> and <i>A0</i>.
+If <code>Custom</code> is selected, the user needs to provide values for <i>a</i> and <i>A<sub>0</sub></i>.
 <table summary=\"summary\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\" style=\"border-collapse:collapse;\">
 <tr>
 <th>Terrain type</th>
 <th><i>a</i></th>
-<th><i>&delta; [m]</i></th>
+<th><i>&delta;</i> [<i>m</i>]</th>
 <th><i>A<sub>0</sub></i></th>
 </tr>
 <tr>
 <td>Urban (large city center)</td>
 <td>0.33</td>
 <td>460</td>
-<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/460)<sup>0.33</sup></i></td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup> &#183; (H<sub>ref</sub>/460)<sup>0.33</sup></i></td>
 </tr>
 <tr>
 <td>Suburban</td>
 <td>0.22</td>
 <td>370</td>
-<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/370)<sup>0.22</sup></i></td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup> &#183; (H<sub>ref</sub>/370)<sup>0.22</sup></i></td>
 </tr>
 <tr>
 <td>Unshielded (default)</td>
 <td>0.14</td>
 <td>270</td>
-<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup>(H<sub>ref</sub>/270)<sup>0.14</sup></i></td>
+<td><i>(270/H<sub>ref</sub>)<sup>0.14</sup> &#183; (H<sub>ref</sub>/270)<sup>0.14</sup></i></td>
 </tr>
 <tr>
 <td>Custom</td>
@@ -247,14 +254,20 @@ If <code>Custom</code> is selected, the user needs to provide values for <i>a</i
 </table>
 <h4>References</h4>
 <p>
-[ASHRAE2005]
-American Society of Heating Refrigerating and Air-Conditioning Engineers.
+[ASHRAE2005]<br/>
+American Society of Heating Refrigerating and Air-Conditioning Engineers.<br/>
 2005 ASHRAE handbook: Fundamentals, SI Edition.<br/>
 Atlanta: American Society of Heating, Refrigerating and Air-Conditioning Engineers, 2005.<br/>
 </p>
 <p>
-[CONTAM 2020]
-W. Stuart Dols and Brian J. Polidoro.
+[DeJonge2021]<br/>
+Klaas De Jonge, Filip Jorissen, Lieve Helsen and Jelle Laverge.<br/>
+Wind-Driven Air Flow Modelling in Modelica: Verification and Implementation in the IDEAS Library.<br/>
+Proceedings of Building Simulation 2021: 17th Conference Of IBPSA. Bruges, Belgium, September, 2021.<br/>
+<a href=\"https://doi.org/10.26868/25222708.2021.30165\">doi:10.26868/25222708.2021.30165</a>.
+<p>
+[CONTAM2020]<br/>
+W. Stuart Dols and Brian J. Polidoro.<br.>
 CONTAM User Guide and Program Documentation: Version 3.4.<br/>
 Washington, DC: US Department of Commerce, National Institute of Standards and Technology, 2015.<br/>
 <a href=\"https://doi.org/10.6028/NIST.TN.1887r1\">doi:10.6028/NIST.TN.1887r1</a>.

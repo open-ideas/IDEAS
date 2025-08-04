@@ -216,7 +216,7 @@ revisions="<html>
 <ul>
 <li>
 July 9, 2025, by Jelger Jansen:<br/>
-Update documentation A0 and a.
+Update documentation of A0 and a.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
 </li>
 <li>

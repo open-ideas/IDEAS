@@ -135,7 +135,7 @@ partial model PartialSimInfoManager
   parameter Modelica.Units.SI.Length HPres=1
     "Height above ground of meteorological atmospheric pressure measurement" annotation(Dialog(group="Wind"));
   final parameter Real Cs_coeff=(A0*A0)*((1/Hwind)^(2*a))
-    "Multiplication factor for Habs" annotation(Dialog(group="Wind"));
+    "Multiplication factor for wind speed modifier Cs" annotation(Dialog(group="Wind"));
   final parameter Real Cs=Cs_coeff*(H^(2*a))
     "Wind speed modifier" annotation(Dialog(group="Wind"));
 
@@ -602,7 +602,7 @@ equation
 <ul>
 <li>
 July 9, 2025, by Jelger Jansen:<br/>
-Update wind speed modifier calculation according to ASHRAE2005 and change default to unshielded.
+Update wind speed modifier calculation according to ASHRAE2005 and change the default local terrain type to unshielded.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
 </li>
 <li>

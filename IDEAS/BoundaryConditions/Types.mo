@@ -21,7 +21,7 @@ First implementation.
   type LocalTerrain = enumeration(
       Unshielded "Unshielded building(s)",
       Suburban "Building(s) in a suburban area",
-      Urban "Building in an urban area",
+      Urban "Building(s) in an urban area",
       Custom "Use custom wind speed modifiers")
       "Local terrain used for wind speed modifiers"
     annotation(Documentation(info="<html>
