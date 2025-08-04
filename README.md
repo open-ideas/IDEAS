@@ -49,7 +49,8 @@ on the [IDEAS Wiki](https://github.com/open-ideas/IDEAS/wiki).
 Two tutorials are provided in <code>IDEAS.Examples.Tutorial</code>, serving as demonstrations cases of how the IDEAS library
 can be used.
 1. <code>IDEAS.Examples.Tutorial.SimpleHouse</code> contains examples with step-by-step instructions for how to build a system
-model for a simple house with a heating system, ventilation, and weather boundary conditions.
+model for a simple house with a heating system, ventilation, and weather boundary conditions. This tutorial does not use the
+detailed IDEAS building envelope components, but instead includes a very simple Resistance-Capacitance (RC) model. 
 2. <code>IDEAS.Examples.Tutorial.DetailedHouse</code> contains examples with step-by-step instructions for how to build a system
 model for an office building (using the detailed building envelope component models within IDEAS.Buildings) with occupants, a
 radiator heating system connected to a heat pump, and a ventilation system.
