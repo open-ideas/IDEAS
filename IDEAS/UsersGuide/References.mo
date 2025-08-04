@@ -187,8 +187,6 @@ Lawrence Berkeley Laboratory,
 <td valign=\"top\">
 <p>
 <br/>
-<br/>
-<br/>
 ....
 </p>
 </td>
