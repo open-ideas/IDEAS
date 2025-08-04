@@ -84,20 +84,11 @@ Detailed release notes are available within the library under the following link
 [ReleaseNotes](https://github.com/open-ideas/IDEAS/tree/master/IDEAS/UsersGuide/ReleaseNotes).
 Notes for the previous releases notes can also be found there. 
 
-## Development and documentation of IDEAS
-- K. De Jonge, F. Jorissen, L. Helsen, J. Laverge (2021).  Wind-Driven Air Flow Modelling in Modelica: Validation and Implementation in the IDEAS Library.  In Proceedings of the 17th IBPSA Conference. Bruges, Belgium, 1-3 September
-- F. Jorissen, L. Helsen (2019). Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS. 13th International Modelica Conference. Regensburg, 4-6 March 2019.
-- F. Jorissen, G. Reynders, R. Baetens, D. Picard, D. Saelens, and L. Helsen. (2018) [Implementation and Verification of the IDEAS Building Energy Simulation Library.](http://www.tandfonline.com/doi/full/10.1080/19401493.2018.1428361) *Journal of Building Performance Simulation*, **11** (6), 669-688, doi: 10.1080/19401493.2018.1428361.
-- F. Jorissen, M. Wetter, L. Helsen (2018). Simplifications for hydronic system models in modelica. *Journal of Building Performance Simulation* **11** (6). 639-654
-- F. Jorissen, W. Boydens, and L. Helsen. (2017) Validated air handling unit model using indirect evaporative cooling. *Journal of Building Performance Simulation*, **11** (1), 48–64, doi: 10.1080/19401493.2016.1273391
-- B. van der Heijde, M. Fuchs,  C. Ribas Tugores, G. Schweiger, K. Sartor, D. Basciotti, D. Müller,C. Nytsch-Geusen, M. Wetter, L. Helsen (2017). Dynamic equation-based thermo-hydraulic pipe model for district heating and cooling systems. *Energy Conversion and Management*, **151**, 158-169.
-- R. Baetens, D. Saelens. (2016) Modelling uncertainty in district energy simulations by stochastic residential occupant behaviour. *Journal of Building Performance Simulation* **9** (4), 431–447, doi:10.1080/19401493.2015.1070203.
-- R. Baetens. (2015) On externalities of heat pump-based low-energy dwellings at the low-voltage distribution grid. PhD thesis, Arenberg Doctoral School, KU Leuven.
-- R. Baetens, R. De Coninck, F. Jorissen, D. Picard, L. Helsen, D. Saelens (2015). OpenIDEAS - An Open Framework for Integrated District Energy Simulations. In Proceedings of Building Simulation 2015, Hyderabad, 347--354.
-- D. Picard, F. Jorissen, L. Helsen (2015). Methodology for Obtaining Linear State Space Building Energy Simulation Models. 11th International Modelica Conference. International Modelica Conference. Paris, 21-23 September 2015 (pp. 51-58).
-- M. Wetter, M. Fuchs, P. Grozman, L. Helsen, F. Jorissen, M. Lauster, M. Dirk, C. Nytsch-geusen, D. Picard, P. Sahlin, and M. Thorade. (2015) IEA EBC Annex 60 Modelica Library - An International Collaboration to Develop a Free Open-Source Model Library for Buildings and Community Energy Systems. In Proceedings of Building Simulation 2015, Hyderabad, 395–402.
-- D. Picard, L. Helsen (2014). Advanced Hybrid Model for Borefield Heat Exchanger Performance Evaluation, an Implementation in Modelica. In Proceedings of the 10th International Modelica Conference. Lund, 857-866.
-- D. Picard, L. Helsen (2014). A New Hybrid Model For Borefield Heat Exchangers Performance Evaluation. 2014 ASHRAE ANNUAL CONFERENCE: Vol. 120 (2). ASHRAE: Ground Source Heat Pumps: State of the Art Design, Performance and Research. Seattle, 1-8.
+## Documentation
+The IDEAS library offers comprehensive documentation. Each model includes a dedicated documentation section explaining its implementation details.
+Many models also reference relevant scientific papers. An overview of the key reference papers is provided in the
+[References](https://github.com/open-ideas/IDEAS/blob/master/IDEAS/UsersGuide/References.mo) section of the
+[User's Guide](https://github.com/open-ideas/IDEAS/tree/master/IDEAS/UsersGuide).
 
 ## Applications of IDEAS
 IDEAS is widly used across various applications. To gain an overview of how the library has been applied, please consult the
