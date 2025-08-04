@@ -1,7 +1,6 @@
 <div align="center">
-<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="150"> v3.0.0 
+<img src="IDEAS/Resources/Images/IDEAS-logo.png" height="115"> <b>v3.0.0</b>
 </div>
-<br>
 <br>
 
 IDEAS is a <i>Modelica</i> library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
