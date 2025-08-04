@@ -1,13 +1,17 @@
-IDEAS <span style="font-size: 0.55em;">v3.0.0</span>
+IDEAS <small><small>v3.0.0</small></small>
 ============
 
-<figure style="float: right; margin: 0 20px 0 20px;">
-    <img src="IDEAS/Resources/Images/IDEAS-logo.png" width="100">
-</figure>
-
-IDEAS is a <i>Modelica</i> library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
+<table>
+<tr>
+<td>IDEAS is a <i>Modelica</i> library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
 This free and open-source library enables simultaneous transient simulation of integrated thermal and electrical energy systems
 including buildings at both individual (building) and collective (district) level.
+</td>
+<td>
+<img src="IDEAS/Resources/Images/IDEAS-logo.png" width="400">
+</td>
+</tr>
+</table>
 
 The IDEAS library was originally developed by KU Leuven and [3E](https://3e.eu), and is currently developed and maintained by
 the [Thermal Systems Simulation (The SySi)](http://the.sysi.be) research group of KU Leuven. 
