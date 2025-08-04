@@ -2,7 +2,7 @@ import buildingspy.development.merger as m
 import os
 import json
 
-fileName = "mergePaths.txt"
+fileName = "Resources/Scripts/mergePaths.txt"
 if os.path.isfile(fileName):
     with open(fileName, 'r') as dataFile:
         data = json.loads(dataFile.read())
