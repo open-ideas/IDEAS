@@ -7,7 +7,7 @@ The IDEAS library was originally developed by KU Leuven and 3E, and is currently
 <a href=https://www.mech.kuleuven.be/en/tme/research/thermal_systems>Thermal Systems Simulation (The SySi)</a> research group of KU Leuven.
 The library includes significant contributions by the <a href=https://bwk.kuleuven.be/bwf>Building Physics and Sustainable Design Section</a> of KU Leuven,
 the <a href=https://www.ugent.be/ea/architectuur/en/research/research-groups/building-physics>Building Physics Research Group</a> of UGent,
-<a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>, <a href=https://iea-annex60.org/>IEA EBC Annex 60</a>,
+<a href=https://ibpsa.github.io/project1>IBPSA project 1</a>, <a href=http://www.iea-annex60.org>IEA EBC Annex 60 project</a>,
 and the <a href=https://www.esat.kuleuven.be/electa>Electrical Energy Systems and Applications Section</a> of KU Leuven.
 </p>
 <p>
@@ -22,19 +22,41 @@ Therefore, the authors acknowledge the financial support of:
 </p>
 <ul>
 <li>
-The European Commission, through the PhD scholarship of Anna Dell'Isola and the Horizon Europe 'HeriTACE' project
-</li> 
+The European Commission and the Province of Vlaams-Brabant (2025-2028), through the research grant of Jelger Jansen, and the INTERREG North-West Europe ‘E2-CUTIES’ project (NWE0400543) 
+</li>
 <li>
-KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen and the 'TECHPED' project (C24M/021/21)
+The European Commission (2024-2028), through the PhD scholarship of Anna Dell'Isola, and the Horizon Europe 'HeriTACE' project (no. 101138672)
+</li>
+<li>
+The European Commission (2024-2028), through the PhD scholarship of Louis Hermans, the research grant of Lone Meertens, and the Horizon Europe 'SEEDS' project (no. 101138211) 
+</li>
+<li>
+KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen, the research grant of Javier Arroyo, and the 'TECHPED' project (C24M/021/21)
 </li>
 <li>
 Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen
 </li>
 <li>
+KU Leuven (2019-2021), through the research grant of Filip Jorissen, and the C3 project (C32/18/063)
+</li>
+<li>
+The European Commission (2016-2021), through the research grant of Filip Jorissen and Damien Picard, and the Horizon 2020 'MPC-:GT - hybridGEOTABS' project (no. 723649)
+</li>
+<li>
 The Agency for Innovation by Science and Technology in Flanders (IWT) (2014-2017), through the PhD scholarship of Filip Jorisson (no. 131012)
 </li>
 <li>
+The European Commission (2012-2015), through the PhD scholarship of Roel De Coninck, and the FP7 ‘PerformancePlus’ project (FP7-308991-2)
+</li>
+<li>
 The Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project
+</li>
+<li>
+3E (2010-2014), through co-funding the PhD scholarship of Roel De Coninck
+</li>
+<li>
+The KU Leuven Energy Institute (2010-2014), through the PhD scholarships of Roel De Coninck and Ruben Baetens, and the ‘Optimal Energy Networks in Buildings' project.
+
 </li>
 </ul>
 <h4>Contributors</h4>
@@ -62,7 +84,7 @@ The following people have contributed to the <code>IDEAS</code> code.
 <p>
 Furthermore, a large part of the code was originally developed within
 the <a href=http://www.iea-annex60.org>IEA EBC Annex 60 project</a>,
-which has been continued as <a href=https://ibpsa.github.io/project1/>IBPSA project 1</a>. 
+which has been continued as <a href=https://ibpsa.github.io/project1>IBPSA project 1</a>. 
 Many people have contributed to these projects.
 </p>
 </html>"));
