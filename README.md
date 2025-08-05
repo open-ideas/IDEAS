@@ -95,5 +95,8 @@ Many models also reference relevant scientific papers. An overview of the key re
 ## Applications of IDEAS
 IDEAS is widly used across various applications. To gain an overview of how the library has been applied, please consult the
 [citations](https://www.tandfonline.com/doi/citedby/10.1080/19401493.2018.1428361) of the reference paper.
+<div align="center">
+<img src="IDEAS/Resources/Images/IDEAS-citations.png">
+</div>
 
 
