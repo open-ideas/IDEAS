@@ -1,4 +1,4 @@
-within IDEAS.UsersGuide;
+﻿within IDEAS.UsersGuide;
 class References "References"
   extends Modelica.Icons.References;
 
@@ -35,6 +35,11 @@ K. De Jonge, F. Jorissen, L. Helsen, and J. Laverge,
 <i>In Proceedings of Buildings Simulation 2021: 17th Conference of IBPSA</i>, Bruges, Belgium, pp. 1099&ndash;1106, 2021.
 </li>
 <li>
+F. Jorissen, W. Boydens, L. Helsen,
+\"<a href=\"https://doi.org/10.1080/19401493.2018.1544277\">Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica</a>\",
+<i>Journal of Building Performance Simulation</i>, vol. 12, no. 4, pp. 445&ndash;464, 2019.
+</li>
+<li>
 F. Jorissen, and L. Helsen,
 \"<a href=\"https://doi.org/10.3384/ecp19157139 \">Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS</a>\",
 <i>In Proceedings of the 13th International Modelica Conference</i>, Regensburg, Germany, 157:14, pp.10, 2019.
@@ -50,10 +55,30 @@ F. Jorissen, M. Wetter, and L. Helsen,
 <i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 639&ndash;654, 2018.
 </li>
 <li>
+B. van der Heijde, M. Fuchs,  C. Ribas Tugores, G. Schweiger, K. Sartor, D. Basciotti, D. Müller, C. Nytsch-Geusen, M. Wetter, and L. Helsen,
+\"<a href=\"https://doi.org/10.1016/j.enconman.2017.08.072\">Dynamic equation-based thermo-hydraulic pipe model for district heating and cooling systems</a>\",
+<i>Energy Conversion and Management</i>, vol. 151, pp. 158&ndash;169; 2017.
+</li>
+<li>
+F. Jorissen, W. Boydens, and L. Helsen,
+\"<a href=\"https://doi.org/10.1080/19401493.2016.1273391\">Validated air handling unit model using indirect evaporative cooling</a>\",
+<i>Journal of Building Performance Simulation</i>, vol. 11, no. 1, pp. 48&ndash;64, 2017.
+</li>
+<li>
 R. Baetens, R. De Coninck, F. Jorissen, D. Picard, L. Helsen, and D. Saelens,
 \"<a href=\"https://doi.org/10.26868/25222708.2015.2243\">OpenIDEAS - An Open Framework for Integrated District Energy Simulations</a>\",
 <i>In Proceedings of Building Simulation 2015: 14th Conference of IBPSA</i>, Hyderabad, India, pp. 347&ndash;354, 2015.
 </li>
+<li>
+M. Wetter, M. Fuchs, P. Grozman, L. Helsen, F. Jorissen, M. Lauster, M. Dirk, C. Nytsch-Geusen, D. Picard, P. Sahlin, and M. Thorade,
+\"<a href=\"https://doi.org/10.26868/25222708.2015.2414\">IEA EBC Annex 60 Modelica Library &ndash; An International Collaboration to Develop a Free Open-Source Model Library for Buildings and Community Energy Systems</a>\",
+<i>In Proceedings of Building Simulation 2015: 14th Conference of IBPSA</i>, Hyderabad, India, pp. 395&ndash;402, 2015.
+</li>
+<li>
+F. Jorissen, L. Helsen, and M. Wetter,
+\"<a href=\"https://doi.org/10.3384/ecp1511859\">Simulation Speed Analysis and Improvements of Modelica Models for Building Energy Simulation</a>\",
+<i>In Proceedings of the 11th International Modelica Conference</i>, Paris France, 118:6, pp. 59&ndash;69, 2015.
+
 <li>
 D. Picard, F. Jorissen, and L. Helsen,
 \"<a href=\"https://doi.org/10.3384/ecp1511851\">Methodology for Obtaining Linear State Space Building Energy Simulation Models</a>\",
