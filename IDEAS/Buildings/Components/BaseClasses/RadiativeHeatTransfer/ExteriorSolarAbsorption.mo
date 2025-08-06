@@ -44,7 +44,15 @@ equation
         Line(points={{-40,-10},{-30,-4}},color={191,0,0}),
         Line(points={{-40,-10},{-30,-16}}, color={191,0,0})}), Documentation(
         info="<html>
-<p>Transmitted shortwave solar radiation is distributed over all surfaces in the zone in a prescribed scale. This scale is an input value which may be dependent on the shape of the zone and the location of the windows, but literature <a href=\"IDEAS.Buildings.UsersGuide.References\">[Liesen 1997]</a> shows that the overall model is not significantly sensitive to this assumption.</p>
+<p>
+Transmitted shortwave solar radiation is distributed over all surfaces in the zone in a prescribed scale. This scale is an input value which may be dependent on the shape of the zone and the location of the windows, but literature [Liesen 1997] shows that the overall model is not significantly sensitive to this assumption.
+</p>
+<h4>References</h4>
+<p>
+[Liesen 1997]: R.J. Liesen, and C.O. Pedersen, 
+\"<a href=\"https://iifiir.org/en/fridoc/an-evaluation-of-inside-surface-heat-balance-models-for-cooling-load-16626\">An evaluation of inside surface heat balance models for cooling load calculations</a>,\" 
+<i>ASHRAE Transactions</i>, vol. 103, no. 2, pp. 485-502, 1997.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
