@@ -28,35 +28,47 @@ year = {2018}<br/>
 </p>
 
 <h4>References on the development of IDEAS</h4>
-<table cellspacing=\"0\" cellpadding=\"2\" border=\"0\" summary=\"references\">
-<tr>
-<td valign=\"top\">
-<p>
-[Jorissen 2018]
-</p>
-</td>
-<td valign=\"top\">
-<p>
+<ul>
+<li>
+K. De Jonge, F. Jorissen, L. Helsen, and J. Laverge,
+\"<a href=\"https://doi.org/10.26868/25222708.2021.30165\">Wind-Driven Air Flow Modelling in Modelica: Validation and Implementation in the IDEAS Library.</a>\",
+<i>In Proceedings of Buildings Simulation 2021: 17th Conference of IBPSA</i>, Bruges, Belgium, pp. 1099&ndash;1106, 2021.
+</li>
+<li>
+F. Jorissen, and L. Helsen,
+\"<a href=\"https://doi.org/10.3384/ecp19157139 \">Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS</a>\",
+<i>In Proceedings of the 13th International Modelica Conference</i>, Regensburg, Germany, 157:14, pp.10, 2019.
+</li>
+<li>
 F. Jorissen, G. Reynders, R. Baetens, D. Picard, D. Saelens, and L. Helsen,
 \"<a href=\"https://www.tandfonline.com/doi/abs/10.1080/19401493.2018.1428361\">Implementation and verification of the IDEAS building energy simulation library</a>\",
 <i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 669&ndash;688, 2018.
-</p>
-</td>
-</tr>
-<tr>
-<td valign=\"top\">
-<p>
-[Baetens 2015]
-</p>
-</td>
-<td valign=\"top\">
-<p>
-R. Baetens, R. De Coninck, F. Jorissen, D. Picard, L. Helsen, and D. Saelens
+</li>
+<li>
+F. Jorissen, M. Wetter, and L. Helsen,
+\"<a href=\"https://www.tandfonline.com/doi/abs/10.1080/19401493.2017.1421263\">Simplifications for hydronic system models in Modelica</a>\",
+<i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 639&ndash;654, 2018.
+</li>
+<li>
+R. Baetens, R. De Coninck, F. Jorissen, D. Picard, L. Helsen, and D. Saelens,
 \"<a href=\"https://doi.org/10.26868/25222708.2015.2243\">OpenIDEAS - An Open Framework for Integrated District Energy Simulations</a>\",
-<i>In Proceedings of Building Simulation 2015, Hyderabad, India</i>, pp. 347&ndash;354, 2015.
-</p>
-</td>
-</tr>
-</table>
+<i>In Proceedings of Building Simulation 2015: 14th Conference of IBPSA</i>, Hyderabad, India, pp. 347&ndash;354, 2015.
+</li>
+<li>
+D. Picard, F. Jorissen, and L. Helsen,
+\"<a href=\"https://doi.org/10.3384/ecp1511851\">Methodology for Obtaining Linear State Space Building Energy Simulation Models</a>\",
+<i>In Proceedings of the 11th International Modelica Conference</i>, Paris France, 118:5, pp. 51&ndash;58, 2015.
+</li>
+<li>
+D. Picard, and L. Helsen,
+\"<a href=\"https://doi.org/10.3384/ecp14096857\">Advanced Hybrid Model for Borefield Heat Exchanger Performance Evaluation, an Implementation in Modelica</a>\",
+<i>In Proceedings of the 10th International Modelica Conference</i>, Lund, Sweden, 96:89, pp. 857&ndash;866, 2014.
+</li>
+<li>
+D. Picard, and L. Helsen,
+\"A New Hybrid Model For Borefield Heat Exchangers Performance Evaluation\",
+<i>In Proceedings of the ASHRAE Annual Conference</i>, vol. 120, no. 2, Seattle, United States, 2014.
+</li>
+</ul>
 </html>"));
 end References;
