@@ -1,0 +1,2 @@
+removePlots();
+simulateModel("IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVT_UN_Electrical", tolerance=1e-6, startTime = 16502400, stopTime = 21513595, method = "dassl", resultFile = "PVT_UN_Electrical");

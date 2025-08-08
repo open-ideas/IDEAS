@@ -1,0 +1,3 @@
+﻿removePlots();
+simulateModel("IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical.PVT_UI_Electrical_DayType_4", tolerance=1e-6, startTime = 17837040, stopTime = 17872560, method = "Cvode", resultFile = "PVT_UI_Electrical_DayType_4");
+

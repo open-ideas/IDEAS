@@ -1,0 +1,3 @@
+﻿removePlots();
+simulateModel("IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Thermal.PVT_UI_Thermal_DayType_1", tolerance=1e-6, startTime = 8872521.2, stopTime = 18909241.2, method = "Cvode", resultFile = "PVT_UI_Thermal_DayType_1");
+
