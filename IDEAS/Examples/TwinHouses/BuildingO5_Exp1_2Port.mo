@@ -10,6 +10,9 @@ model BuildingO5_Exp1_2Port
       interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
       unify_n50=true,
         n50=1.64,
+      locTer=IDEAS.BoundaryConditions.Types.LocalTerrain.Custom,
+      a_custom=0.15,
+      A0_custom=1,
       A0=1,
       a=0.15));
 
@@ -39,5 +42,14 @@ model BuildingO5_Exp1_2Port
         "Simulate and plot"),
     Documentation(info="<html>
 <p>Similar to IDEAS.Examples.TwinHouses.BuildingO5_Exp1 but using the 2-port pressure driven interzonal airflow implementation.</p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+July 9, 2025, by Jelger Jansen:<br/>
+Set local terrain to <code>Custom</code> and update parameter names.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
+</li>
+</ul>
 </html>"));
 end BuildingO5_Exp1_2Port;
