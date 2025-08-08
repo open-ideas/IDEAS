@@ -176,11 +176,11 @@ The electrical submodel includes an overall system loss factor <code>pLossFactor
   </tr>
 </table>
 <p>
-  For the validation cases presented in Meertens et al. (2025), where the PVT modules were unshaded and well‑maintained, values of 
-  <code>pLossFactor = 10%</code> and <code>pLossFactor = 7%</code> were used for 
-  <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1\">IDEAS.Fluid.PVTCollectors.Validation.PVT1</a> and 
-  <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2\">IDEAS.Fluid.PVTCollectors.Validation.PVT2</a>, respectively, and yielded good agreement with measured electrical output. 
-  Users are encouraged to adjust this value based on site‑specific conditions such as soiling, shading, mismatch, and inverter efficiency.
+  For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
+found that using <code>pLossFactor = 9 %</code> gives excellent agreement with
+measured electrical output. For PVT collectors with high positive tolerance on the 
+electrical output, this system loss factor can even be reduced more. 
+Users may adjust <code>pLossFactor</code> to account for site-specific soiling or shading effects.
 </p>
 <h4>Implementation Notes</h4>
 <p>
