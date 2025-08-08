@@ -3,7 +3,10 @@ package PVT_UN
     annotation (preferredView="info", Documentation(info=
     "<html>
   <p>
-  This package contains validation models for the PVT_UN collector (Meertens et al., 2025), an uncovered and uninsulated PVT collector, based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
+  This package contains validation models for the <code>PVT_UN</code> collector 
+  (referred to as <code>PVT2</code> in Meertens et al., 2025), 
+  an uncovered and uninsulated PVT collector, 
+  based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
   </p>
 
   <p>

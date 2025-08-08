@@ -3,7 +3,10 @@ package PVT_UI
   annotation (preferredView="info", Documentation(info=
 "<html>
   <p>
-  This package contains validation models for the PVT_UI collector (Meertens et al, 2025), an uncovered PVT collector with rear insulation, based on experimental data from HTW Saar (Jonas et al., 2019).
+  This package contains validation models for the <code>PVT_UI</code> collector 
+  (referred to as <code>PVT1</code> in Meertens et al., 2025), 
+  an uncovered PVT collector with rear insulation, 
+  based on experimental data from HTW Saar (Jonas et al., 2019).
   </p>
 
   <p>
