@@ -14,8 +14,17 @@ model RectangularZoneEmbedded
   package Medium = IDEAS.Media.Water;
   IDEAS.Fluid.HeatExchangers.RadiantSlab.EmbeddedPipe       embeddedPipe(
     redeclare package Medium = Medium,
-    redeclare IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.FH_ValidationEmpa4_6
-      RadSlaCha,
+    redeclare IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha(
+      tabs=false,
+      T=0.25,
+      S_1=0.08 - 0.01,
+      S_2=0.01 + 1e-6,
+      lambda_b=1.3,
+      c_b=1000,
+      rho_b(displayUnit="kg/m3") = 2000,
+      nParCir=10,
+      lambda_i=0.035,
+      d_i=0.1),
     m_flow_nominal=1,
     nParCir=10,
     computeFlowResistance=true,
@@ -79,6 +88,11 @@ This example illustrates how to implement floorheating or CCA in RectangularZone
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 17, 2025 by Jelger Jansen:<br/>
+Update parameter <code>RadSlaCha</code> in embedded pipe model according to floor structure.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1433\">#1433</a>.
+</li>
 <li>
 August 29, 2018 by Damien Picard:<br/>
 First implementation

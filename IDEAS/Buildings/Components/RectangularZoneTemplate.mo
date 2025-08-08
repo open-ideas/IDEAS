@@ -12,9 +12,9 @@ model RectangularZoneTemplate
   Modelica.Blocks.Interfaces.RealInput ctrlA
                                             if shaTypA.controlled
     "Control input for windows in face A, if controlled"
-    annotation (Placement(transformation(extent={{11,-11},{-11,11}},
+    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-171,-111}), iconTransformation(
+        origin={-170,-110}), iconTransformation(
         extent={{-11,-11},{11,11}},
         rotation=-90,
         origin={84,112})));
@@ -22,17 +22,17 @@ model RectangularZoneTemplate
                                             if shaTypB.controlled
     "Control input for windows in face B, if controlled" annotation (Placement(
         transformation(
-        extent={{11,-11},{-11,11}},
+        extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-155,-111}), iconTransformation(extent={{123,-99},{101,-77}},
+        origin={-154,-110}), iconTransformation(extent={{123,-99},{101,-77}},
           rotation=0)));
   Modelica.Blocks.Interfaces.RealInput ctrlC
                                             if shaTypC.controlled
     "Control input for windows in face C, if controlled" annotation (Placement(
         transformation(
-        extent={{11,-11},{-11,11}},
+        extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-139,-111}), iconTransformation(
+        origin={-138,-110}), iconTransformation(
         extent={{11,-11},{-11,11}},
         rotation=-90,
         origin={-88,-112})));
@@ -40,9 +40,9 @@ model RectangularZoneTemplate
                                             if shaTypD.controlled
     "Control input for windows in face D, if controlled" annotation (Placement(
         transformation(
-        extent={{11,-11},{-11,11}},
+        extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-123,-111}), iconTransformation(
+        origin={-122,-110}), iconTransformation(
         extent={{11,-11},{-11,11}},
         rotation=180,
         origin={-112,72})));
@@ -50,16 +50,16 @@ model RectangularZoneTemplate
                                             if shaTypCei.controlled
     "Control input for windows in ceiling, if controlled" annotation (Placement(
         transformation(
-        extent={{11,-11},{-11,11}},
+        extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-107,-111}), iconTransformation(
+        origin={-90,-110}), iconTransformation(
         extent={{-11,-11},{11,11}},
         rotation=-90,
         origin={50,82})));
 
 
 replaceable
-  IDEAS.Buildings.Components.Window winA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall, 
+  IDEAS.Buildings.Components.Window winA(azi=aziAInt, inc=IDEAS.Types.Tilt.Wall,
     glazing(
       checkLowPerformanceGlazing=glazingA.checkLowPerformanceGlazing,
       nLay=glazingA.nLay,
@@ -370,20 +370,16 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-107,-111},{-106.5,
-          -111},{-106.5,-100},{-98.3333,-100}},
-                                          color={0,0,127}));
-  connect(ctrlD, winD.Ctrl) annotation (Line(points={{-123,-111},{-123,-106},{
-          -124,-106},{-124,-100},{-98.3333,-100},{-98.3333,-60}},
-                                                             color={0,0,127}));
-  connect(ctrlC, winC.Ctrl) annotation (Line(points={{-139,-111},{-139,-104},{
-          -140,-104},{-140,-100},{-98,-100},{-98,-40},{-98.3333,-40}},
-                                                                  color={0,0,127}));
-  connect(ctrlB, winB.Ctrl) annotation (Line(points={{-155,-111},{-155,-100},{
-          -156,-100},{-98,-100},{-98,-20},{-98.3333,-20}},        color={0,0,127}));
-  connect(ctrlA, winA.Ctrl) annotation (Line(points={{-171,-111},{-171,-106},{
-          -172,-106},{-172,-100},{-98.3333,-100},{-98.3333,0}},
-                                                           color={0,0,127}));
+  connect(ctrlCei, winCei.Ctrl) annotation (Line(points={{-90,-110},{-90,-100},
+          {-98.3333,-100}},               color={0,0,127}));
+  connect(ctrlD, winD.Ctrl) annotation (Line(points={{-122,-110},{-122,-100},{
+          -98.3333,-100},{-98.3333,-60}},                    color={0,0,127}));
+  connect(ctrlC, winC.Ctrl) annotation (Line(points={{-138,-110},{-138,-100},{
+          -98,-100},{-98,-40},{-98.3333,-40}},                    color={0,0,127}));
+  connect(ctrlB, winB.Ctrl) annotation (Line(points={{-154,-110},{-154,-100},{
+          -98,-100},{-98,-20},{-98.3333,-20}},                    color={0,0,127}));
+  connect(ctrlA, winA.Ctrl) annotation (Line(points={{-170,-110},{-170,-100},{
+          -98.3333,-100},{-98.3333,0}},                    color={0,0,127}));
 
 
 

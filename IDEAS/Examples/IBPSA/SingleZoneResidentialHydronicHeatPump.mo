@@ -32,11 +32,12 @@ model SingleZoneResidentialHydronicHeatPump
     w=6*sqrt(scalingFactor),
     lInt=3*case900Template.w + 2*case900Template.l,
     A_winA=24,
-    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
+    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloor
       conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
           IDEAS.Buildings.Data.Insulation.Pur(d=0.2),
           IDEAS.Buildings.Data.Materials.Screed(d=0.05),
-          IDEAS.Buildings.Data.Materials.Tile(d=0.01)}),
+          IDEAS.Buildings.Data.Materials.Tile(d=0.01)},
+          locGain={2}),
     hasEmb=true)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
@@ -275,7 +276,7 @@ model SingleZoneResidentialHydronicHeatPump
 initial equation
   heaPum.con.T=293.15;
   heaPum.eva.T=278.15;
-  heaPum.eva.port_a.C_outflow=outAir.Medium.C_default;
+  heaPum.eva.port_a.C_outflow=MediumAir.C_default;
   heaPum.eva.port_a.Xi_outflow={0.01};
 
 equation
@@ -880,6 +881,16 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 19, 2025, by Jelger Jansen:<br/>
+Redeclare <code>locGain</code> parameter of floor construction type.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1442\">#1442</a>.
+</li>
+<li>
+June 4, 2025, by Jelger Jansen:<br/>
+Revise initial equation formulation of <code>heaPum.eva.port_a.C_outflow</code> to avoid translation warning in OpenModelica.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1437\">#1437</a>.
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
