@@ -141,12 +141,6 @@ When the connection type changes from
 is recomputed in such a way that the nominal power consumed by the impedance
 does not change.
 </p>
-<h4>References</h4>
-<p>
-[Kenelly 1899]: A.E. Kenelly, 
-\"Equivalence of triangles and stars in conducting networks\", 
-<i>Electrical World and Engineer</i>, vol. 34, pp. 413&ndash;414, 1899.
-</p>
 </html>", revisions="<html>
 <ul>
 <li>

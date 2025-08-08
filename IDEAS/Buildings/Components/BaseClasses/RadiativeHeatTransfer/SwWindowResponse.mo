@@ -144,7 +144,7 @@ The properties for absorption by and transmission through the glazing are taken 
 </p>
 <h4>References</h4>
 <p>
-[WINDOW 6.3]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW 6.3</a>\", 1993.
+[WINDOW]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW (v6.3)</a>\", 1993.
 </p>
 </html>"));
 end SwWindowResponse;

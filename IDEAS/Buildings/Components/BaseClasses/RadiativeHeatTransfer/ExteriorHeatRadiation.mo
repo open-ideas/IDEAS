@@ -77,7 +77,7 @@ equation
 \"<a href=\"https://ntrs.nasa.gov/citations/19930083529\">Radiant-interchange configuration factors</a>\", 
 <i>Technical Report &ndash; National Advisory Committee for Aeronautics</i>, Washington, 1952.<br>
 [Mohr 2008]: P.J. Mohr, B.N. Taylor, and D.B. Newell, 
-\"<a href=\"https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.80.633\">CODATA recommended values of the fundamental physical constants: 2006</a>\", 
+\"<a href=\"https://doi.org/10.1103/RevModPhys.80.633\">CODATA recommended values of the fundamental physical constants: 2006</a>\", 
 <i>Review of Modern Physics</i>, vol. 80, pp. 633&ndash;730, 2008.
 </p>
 </html>", revisions="<html>

@@ -9,7 +9,7 @@ Please cite IDEAS using the reference provided below.
 </p>
 <p>
 F. Jorissen, G. Reynders, R. Baetens, D. Picard, D. Saelens, and L. Helsen,
-\"<a href=\"https://www.tandfonline.com/doi/abs/10.1080/19401493.2018.1428361\">Implementation and verification of the IDEAS building energy simulation library</a>\",
+\"<a href=\"https://doi.org/10.1080/19401493.2018.1428361\">Implementation and verification of the IDEAS building energy simulation library</a>\",
 <i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 669&ndash;688, 2018.
 </p>
 <p>
@@ -35,24 +35,22 @@ K. De Jonge, F. Jorissen, L. Helsen, and J. Laverge,
 <i>In Proceedings of Buildings Simulation 2021: 17th Conference of IBPSA</i>, Bruges, Belgium, pp. 1099&ndash;1106, 2021.
 </li>
 <li>
-F. Jorissen, W. Boydens, L. Helsen,
-\"<a href=\"https://doi.org/10.1080/19401493.2018.1544277\">Model implementation and verification of the envelope, HVAC and controller of an office building in Modelica</a>\",
-<i>Journal of Building Performance Simulation</i>, vol. 12, no. 4, pp. 445&ndash;464, 2019.
-</li>
-<li>
 F. Jorissen, and L. Helsen,
 \"<a href=\"https://doi.org/10.3384/ecp19157139 \">Integrated Modelica Model and Model Predictive Control of a Terraced House Using IDEAS</a>\",
 <i>In Proceedings of the 13th International Modelica Conference</i>, Regensburg, Germany, 157:14, pp.10, 2019.
 </li>
 <li>
 F. Jorissen, G. Reynders, R. Baetens, D. Picard, D. Saelens, and L. Helsen,
-\"<a href=\"https://www.tandfonline.com/doi/abs/10.1080/19401493.2018.1428361\">Implementation and verification of the IDEAS building energy simulation library</a>\",
+\"<a href=\"https://doi.org/10.1080/19401493.2018.1428361\">Implementation and verification of the IDEAS building energy simulation library</a>\",
 <i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 669&ndash;688, 2018.
 </li>
 <li>
 F. Jorissen, M. Wetter, and L. Helsen,
-\"<a href=\"https://www.tandfonline.com/doi/abs/10.1080/19401493.2017.1421263\">Simplifications for hydronic system models in Modelica</a>\",
+\"<a href=\"https://doi.org/10.1080/19401493.2017.1421263\">Simplifications for hydronic system models in Modelica</a>\",
 <i>Journal of Building Performance Simulation</i>, vol. 11, no. 6, pp. 639&ndash;654, 2018.
+</li>
+<li>
+F. Jorissen, \"Toolchain for Optimal Control and Design of Energy Systems in Buildings\", <i>PhD thesis</i>, KU Leuven, Belgium, 2018.
 </li>
 <li>
 B. van der Heijde, M. Fuchs,  C. Ribas Tugores, G. Schweiger, K. Sartor, D. Basciotti, D. Müller, C. Nytsch-Geusen, M. Wetter, and L. Helsen,
