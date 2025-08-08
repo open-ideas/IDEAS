@@ -16,7 +16,7 @@ model MySimInfoManager
     tableOnFile=true,
     tableName="data",
     fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_measurements.txt"),
+        "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-90,-96},{-70,
             -76}})));
 protected

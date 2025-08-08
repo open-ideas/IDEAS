@@ -20,7 +20,7 @@ model PVTQuasiDynamicCollectorValidation
     tableOnFile=true,
     tableName="data",
     fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://PvtMod/Resources/Validation/MeasurementData/PVT_Austria_modelica.txt"),
+        "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{78,70},
             {58,90}})));
   Modelica.Blocks.Interfaces.RealOutput pEl
