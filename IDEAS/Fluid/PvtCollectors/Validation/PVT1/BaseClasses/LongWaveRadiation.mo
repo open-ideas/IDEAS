@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1.BaseClasses;
 model LongWaveRadiation
   extends Modelica.Blocks.Icons.Block;
 
@@ -69,5 +69,46 @@ equation
 
   // Calculate Longwave Radiation (lonRad) using Tview and the Stefan-Boltzmann Law
   lonRad = sigma*Tamb^4*((epsSky*(1 + cos(tiltAngle)) / 2) + (epsGro*(1 - cos(tiltAngle)) / 2));
+
+annotation (
+  defaultComponentName="LongWaveRad",
+  Documentation(info = "<html>
+  <p>
+    Computes longwave radiation exchange between the sky and a tilted surface using ambient meteorological inputs. 
+    The model estimates sky emissivity based on the dew point temperature derived from ambient temperature and relative humidity, 
+    following Buck's equation. It then applies the Stefan–Boltzmann law to calculate the net longwave radiation on a tilted surface, 
+    accounting for both sky and ground contributions.
+  </p>
+
+  <h4>Implementation Notes</h4>
+  <p>
+  This model is used in the validation of unglazed photovoltaic–thermal (PVT) collectors 
+  (<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT1.PVTQuasiDynamicCollectorValidation\"> IDEAS.Fluid.PVTCollectors.Validation.PVT1.PVTQuasiDynamicCollectorValidation</a>) 
+  where direct longwave irradiance measurements are unreliable or unavailable. It uses a fixed tilt angle of 45° and assumes a ground emissivity of 0.95. 
+  The clear-sky emissivity is calculated using an empirical correlation based on the dew point temperature. 
+  The model is particularly useful in dynamic simulations where longwave radiation must be estimated from standard meteorological data.
+  </p>
+
+  <h4>References</h4>
+  <ul>
+    <li>
+      Buck, A.L., <i>New equations for computing vapor pressure and enhancement factor</i>, Journal of Applied Meteorology, 1981.
+    </li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li
+  </ul>
+</html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"));
 
 end LongWaveRadiation;

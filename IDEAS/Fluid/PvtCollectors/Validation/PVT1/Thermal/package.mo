@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1;
 package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   annotation (preferredView="info", Documentation(info=
 "<html>
@@ -16,9 +16,9 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   Each model compares the simulated thermal output with measured data and provides a detailed breakdown of thermal losses using the quasi-dynamic ISO 9806 formulation. The following loss mechanisms are included:
   </p>
   <ul>
-    <li>Linear and quadratic heat losses (<code>c₁</code>, <code>c₂</code>)</li>
-    <li>Convective heat losses (wind-dependent, <code>c₃</code>, <code>c₆</code>)</li>
-    <li>Radiative heat losses (sky temperature dependent, <code>c₄</code>)</li>
+    <li>Linear and quadratic heat loss (<code>c₁</code>, <code>c₂</code>)</li>
+    <li>Convective heat loss (wind-dependent, <code>c₃</code>, <code>c₆</code>)</li>
+    <li>Radiative heat loss (sky temperature dependent, <code>c₄</code>)</li>
     <li>Thermal inertia effects (<code>c₅</code>)</li>
   </ul>
 
@@ -27,13 +27,29 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   </p>
 
   <p>
-  Validation results show strong agreement for day types 1–3, with thermal energy deviations below 5% and normalized MAE values ranging from 3.3% to 20.0%. For day type 4, 
-  larger deviations (∆E = 36.7%) are observed due to high temperature differences and wind speeds, highlighting limitations in the datasheet-based coefficients under extreme conditions.
+  Validation results show strong agreement for day types 1–3, with thermal energy deviations below 4.2 % and normalized MAE values ranging from 3.3 % to 20.0 %. For day type 4, 
+  larger deviations (∆E = 36.7 %) are observed due to high temperature differences and wind speeds, highlighting limitations in the datasheet-based coefficients under extreme conditions. As the absolute
+  thermal output is low in this case, model limitations have a stronger effect, leading to disproportionately large relative deviations.
   </p>
   <h4>References</h4>
   <ul>
-  <li>Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of a Quasi-Dynamic PVT Modelica Model.” Proc. Modelica Conf. 2025.</li>
-    <li>ISO 9806:2013. “Solar thermal collectors—Test methods.” CEN.</li>
+    <li>
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    </li
+    <li>
+    ISO 9806:2013. <i>Solar thermal collectors—Test methods.</i> CEN.
+    </li>
   </ul>
-  </html>"));
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"));
 end Thermal;

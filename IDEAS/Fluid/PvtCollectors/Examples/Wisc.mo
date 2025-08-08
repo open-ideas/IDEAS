@@ -1,5 +1,5 @@
-within IDEAS.Fluid.PvtCollectors.Examples;
-model Wisc "Test model for uncovered (WISC) PVT collectors"
+within IDEAS.Fluid.PVTCollectors.Examples;
+model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncovered PVT collectors"
   extends Modelica.Icons.Example;
   replaceable package Medium = Modelica.Media.Incompressible.Examples.Glycol47
     "Medium in the system";
@@ -36,7 +36,7 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  QuasiDynamicPvtCollector pvtCol(
+  IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector pvtCol(
     redeclare package Medium = Medium,
     show_T=true,
     azi=0,
@@ -45,9 +45,9 @@ model Wisc "Test model for uncovered (WISC) PVT collectors"
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  parameter Data.Uncovered.UI_TRNSYSValidation datPvtCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{64,64},{84,84}})));
 equation
   connect(sou.ports[1], TIn.port_a) annotation (Line(
@@ -67,27 +67,37 @@ equation
   connect(pvtCol.port_b, TOut.port_a)
     annotation (Line(points={{20,0},{32,0}}, color={0,127,255}));
   annotation (
-    Documentation(info="<html>
+  Documentation(info="<html>
 <p>
-This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">
-IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
+This example demonstrates the implementation of the 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
+IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a> 
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
+</p>
+
+<p>
+The collector modeled here is an <b>uncovered PVT collector</b>, also referred to as a 
+<b>WISC</b> (Wind and Infrared Sensitive Collector). These collectors are sensitive to 
+ambient wind and infrared radiation due to the absence of a glazing layer. 
+They can be either <i>unglazed insulated (UI)</i> or <i>unglazed non-insulated (UN)</i>, 
+depending on the thermal insulation applied to the back side of the collector.
+</p>
+
+<p>
+This test model uses the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">Uncovered.UI_Validation</a> record.
+However, if you know the brand and model of the PVT collector you plan to simulate or install, 
+it is recommended to use the actual datasheet parameters in a custom <a href=\"IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">Data.GenericQuasiDynamic</a> record.
 </p>
 </html>",
 revisions="<html>
-<ul>
-<li>
-June 16, 2025, by Lone Meertens:<br/>
-Added test model for an uncovered quasi-dynamic PVT collector (WISC)
-with variable mass flow and weather data input.
-Tracked in
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS, #1436</a>.
-</li>
-</ul>
-</html>"),
-__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
-        "Simulate and plot"),
- experiment(Tolerance=1e-6, StopTime=86400.0));
-end Wisc;
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),experiment(Tolerance=1e-6, StopTime=86400.0));
+end WISC;

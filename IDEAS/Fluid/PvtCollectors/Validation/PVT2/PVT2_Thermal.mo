@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
 model PVT2_Thermal
   "Thermal Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -6,6 +6,7 @@ model PVT2_Thermal
   property_T = 293.15,
   X_a = 0.43);
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature";
+  parameter Real pLossFactor = 0.07;
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -13,7 +14,7 @@ model PVT2_Thermal
     fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_measurements.txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
 
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
@@ -30,39 +31,40 @@ model PVT2_Thermal
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "[W]"
     annotation (Placement(transformation(extent={{-77,-82},{-51,-66}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLos.c1_c2_term) "[W]"
-          annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLos.c3_term) "[W]"
-    annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLos.c4_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLos.c6_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
+  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLosStc.c1_c2_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
+  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLosStc.c3_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
+  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLosStc.c4_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
+  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLosStc.c6_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
-  QDPvtCollectorValidationPVT2 PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
     show_T=true,
+    nSeg=1,
     azi=0,
     til=0.34906585039887,
     rho=0.2,
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    pLossFactor=pLossFactor,
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-  parameter Data.Uncovered.UN_PVTHERMAU300 datPvtCol
+  parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
-  inner BaseClasses.MySimInfoManager sim(filNam=
+  inner IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MySimInfoManager sim(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
 equation
-  connect(bou.T_in,TAmbKel. Kelvin)
+  connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(PvtCol.port_a, bou.ports[1])
     annotation (Line(points={{-8,0},{-38,0}}, color={0,127,255}));
@@ -70,7 +72,7 @@ equation
     annotation (Line(points={{12,0},{42,0}}, color={0,127,255}));
   connect(bou.m_flow_in, meaDat.y[3])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
-  connect(meaDat.y[2], TAmbKel.Celsius) annotation (Line(points={{-71,34},{-60,34},
+  connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   connect(sim.weaDatBus, PvtCol.weaBus) annotation (Line(
       points={{-72.1,70},{-14,70},{-14,8},{-8,8}},
@@ -96,9 +98,21 @@ equation
   </p>
 
   <p>
-  As a result, the raw energy deviation of +63.7% is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +18.9%. When compared only to periods with measured positive output, the deviation is further reduced to +4.9%. These filtered metrics better reflect the model's accuracy under realistic operating conditions.
+  As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 %. 
+  This filtered metric better reflects the model's accuracy under realistic operating conditions.
   </p>
-  </html>"),
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),
   Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(extent={{12,-46},{96,-92}}, lineColor={28,108,200}),

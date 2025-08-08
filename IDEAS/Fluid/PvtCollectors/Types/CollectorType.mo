@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Types;
+within IDEAS.Fluid.PVTCollectors.Types;
 type CollectorType = enumeration(
     Covered "Covered collector",
     Uncovered "Uncovered collector");

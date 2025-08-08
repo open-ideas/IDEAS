@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2;
 model PVT2_Electrical
   "Electrical Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -6,6 +6,7 @@ model PVT2_Electrical
   property_T = 293.15,
   X_a = 0.43);
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature";
+  parameter Real pLossFactor = 0.07;
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -13,7 +14,7 @@ model PVT2_Electrical
     fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_measurements.txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
 
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-87,-1},
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
@@ -28,7 +29,7 @@ model PVT2_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  PVT2.QDPvtCollectorValidationPVT2 PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -39,22 +40,22 @@ model PVT2_Electrical
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    pLossFactor=pLossFactor,
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-  parameter Data.Uncovered.UN_PVTHERMAU300 datPvtCol
+  parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
-  inner PVT2.BaseClasses.MySimInfoManager sim(filNam=
+  inner IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MySimInfoManager sim(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos"))
     annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
-  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
+  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-75,-80},{-49,-64}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.UAbsFluid)
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{17,-82},{43,-66}})));
-  Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.pel) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.pEl) "[W]"
     annotation (Placement(transformation(extent={{-39,-80},{-13,-64}})));
 equation
-  connect(bou.T_in,TAmbKel. Kelvin)
+  connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(PvtCol.port_a, bou.ports[1])
     annotation (Line(points={{-8,0},{-38,0}}, color={0,127,255}));
@@ -62,7 +63,7 @@ equation
     annotation (Line(points={{12,0},{42,0}}, color={0,127,255}));
   connect(bou.m_flow_in, meaDat.y[3])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
-  connect(meaDat.y[2], TAmbKel.Celsius) annotation (Line(points={{-71,34},{-60,34},
+  connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   connect(sim.weaDatBus, PvtCol.weaBus) annotation (Line(
       points={{-72.1,70},{-14,70},{-14,8},{-8,8}},
@@ -78,22 +79,33 @@ equation
   </p>
   <ul>
     <li>Temperature-dependent efficiency losses</li>
-    <li>Datasheet-based estimation of <code>U<sub>AbsFluid</sub></code></li>
-    <li>Constant system loss factor (7%)</li>
+    <li>Datasheet-based estimation of <i>UAbsFluid</i></li>
+    <li>Constant system loss factor (7 %)</li>
   </ul>
 
   <p>
-  The PV cell temperature is derived from the thermal model using a two-node coupling via <code>U<sub>AbsFluid</sub></code>, ensuring accurate representation of the thermal-electrical interaction.
+  The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
+  </p>
+
+  <p> 
+  Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 %.
   </p>
 
   <p>
-  Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2% and nRMSE of 9.9%.
+  The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, even under challenging real-world conditions.
   </p>
-
-  <p>
-  The model's accuracy confirms the reliability of the datasheet-based estimation method for <code>U<sub>AbsFluid</sub></code>, even under challenging real-world conditions.
-  </p>
-  </html>"),
+  </html>",
+revisions="<html>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+</html>"),
    Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(extent={{14,-42},{48,-82}}, lineColor={28,108,200}),

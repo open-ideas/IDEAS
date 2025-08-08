@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses;
 partial model MyPartialSimInfoManager
   "Partial providing structure for SimInfoManager"
 
@@ -220,8 +220,8 @@ protected
 
   final constant Real MMFraction=1.528635
     "Molar mass of CO2 divided by the molar mass of moist air";
-  IDEAS.Fluid.PvtCollectors.Validation.PVT2.BaseClasses.MyReaderTMY3 weaDat(
-    filNam=filNam)
+  IDEAS.Fluid.PVTCollectors.Validation.PVT2.BaseClasses.MyReaderTMY3 weaDat(filNam=
+        filNam)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
   IDEAS.BoundaryConditions.SolarIrradiation.BaseClasses.RelativeAirMass
     relativeAirMass "Computation of relative air mass"
@@ -573,149 +573,33 @@ equation
           textString="i")}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,120}})),
-    Documentation(info="<html>
-</html>", revisions="<html>
+   Documentation(
+  info="<html>
+<p>
+This model is adapted for validation purposes from
+<a href=\"modelica://IDEAS.BoundaryConditions.Interfaces.PartialSimInfoManager\">
+IDEAS.BoundaryConditions.Interfaces.PartialSimInfoManager</a>.
+</p>
+
+<p>
+The primary extension in this version is the ability to use weather files with 
+<b>5-second time resolution</b>, enabling more detailed and accurate simulation for high-frequency datasets.
+</p>
+
+<p>
+All other behavior and compatibility with the base class remain unchanged. 
+Refer to the original model’s documentation for complete background on interface definitions and usage.
+</p>
+</html>",
+  revisions="<html>
 <ul>
-<li>
-April 28, 2022 by Filip Jorissen:<br/>
-Changed the default weather file to BEL_VLG_Uccle.064470_TMYx.2007-2021.mos.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1239\">
-#1239</a> for more details.
-</li>
-<li>
-August 10, 2020, by Filip Jorissen:<br/>
-Modifications for supporting interzonal airflow.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1066\">
-#1066</a>
-</li>
-<li>
-April 16, 2021 by Filip Jorissen:<br/>
-Changed the default weather file to Brussels.mos.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1209\">
-#1209</a> for more details.
-</li>
-<li>
-June 30, 2020 by Filip Jorissen:<br/>
-Overridable assignments of variables of PartialSimInfoManager.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1148\">
-#1148</a>
-</li>
-<li>
-November 28, 2019 by Ian Beausoleil-Morrison:<br/>
-Remove calculation of convection coefficient at exterior surfaces 
-as this has been moved to a new model. 
-Also, removed this coefficient from WeaBus as it is not surface-dependent.<br/>
-Make wind direction available on weather bus as this is required for new convection model.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1089\">
-#1089</a>
-</li>
-<li>
-October 9, 2019 by Josué Borrajo Bastero:<br/>
-Added button to select the weather file graphically.
-</li>
-<li>
-January 25, 2019 by Filip Jorissen:<br/>
-Corrected molar mass fraction for consistency.
-See <a href=https://github.com/open-ideas/IDEAS/issues/1004>#1004</a>.
-</li>
-<li>
-April 10, 2019 by Filip Jorissen:<br/>
-Avoided redundant consistent initial equation for <code>Etot</code>.
-See <a href=https://github.com/open-ideas/IDEAS/issues/971>#971</a>.
-</li>
-<li>
-July 27, 2018 by Filip Jorissen:<br/>
-Added outputs <code>CEnv</code> and <code>X_wEnv</code> to <code>weaDatBus</code>.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/868\">#868</a>.
-</li>
-<li>
-June 21, 2018, by Damien Picard:<br/>
-Reduce the icon size of weaBus to something very small such that users would
-not try to connect to it.
-Rename and make public the connector weaDatBus such that it can be connected 
-to models from the Buildings library.
-</li>
-<li>
-June 12, 2018, by Filip Jorissen:<br/>
-Refactored implementation such that we use more computations from the weather
-data reader instead of computing them ourself using equations.
-</li>
-<li>
-June 11, 2018, by Filip Jorissen:<br/>
-Revised implementation such that longitude, latitude and time zone are read from
-the TMY3 weather file.
-Removed split between file path and file name to avoid confusion
-and incorrectly formatted paths.
-</li>
-<li>
-June 11, 2018, by Filip Jorissen:<br/>
-Changed table name of TMY3 file from 'data' to IBPSA final default 'tab1'
-for issue <a href=https://github.com/open-ideas/IDEAS/issues/808>#808</a>.
-</li>
-<li>
-June 8, 2018, by Filip Jorissen:<br/>
-Moved input TMY3 file.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/821>#821</a>.
-</li>
-<li>
-June 7, 2018 by Filip Jorissen:<br/>
-Created 'input' for TSky, Va and Fc such that
-they can be overwriten from the extends clause.
-This is for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/838\">#838</a>.
-</li>
-<li>
-March 27, 2018, by Filip Jorissen:<br/>
-Added relative humidity to weather bus.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/780>#780</a>.
-</li>
-<li>
-January 26, 2018, by Filip Jorissen:<br/>
-Added floor orientation to set of precomputed boundary conditions.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/764>#764</a>.
-</li>
-<li>
-January 21, 2018 by Filip Jorissen:<br/>
-Added <code>solTim</code> connections for revised azimuth computations.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/753\">
-#753</a>.
-</li>
-<li>
-March 21, 2017, by Filip Jorissen:<br/>
-Changed linearisation implementation for JModelica compatibility.
-See issue <a href=https://github.com/open-ideas/IDEAS/issues/559>#559</a>.
-</li>
-<li>
-January 10, 2017 by Filip Jorissen:<br/>
-Set <code>linExtRad = false</code>
-and added new parameter <code>linExtRadWin = true</code>
-since only for windows is it necessary that
-<code>linExtRad</code> is true.
-See <a href=https://github.com/open-ideas/IDEAS/issues/615>#615</a>.
-</li>
-<li>
-September 22, 2016 by Filip Jorissen:<br/>
-Reworked implementation such that we use Annex 60 
-baseclasses for boundary condition computations.
-</li>
-<li>
-March 25, 2016 by Filip Jorissen:<br/>
-Reworked radSol implementation to use RealInputs instead of weaBus.
-This simplifies translation and interpretation.
-Also cleaned up connections.
-</li>
-<li>
-January 29, 2015, Filip Jorissen:<br/>
-Made changes for allowing a proper implementation of <code>airLeakage</code>.
-</li>
-<li>
-June 14, 2015, Filip Jorissen:<br/>
-Adjusted implementation for computing conservation of energy.
-</li>
-<li>
-February 10, 2015 by Filip Jorissen:<br/>
-Adjusted implementation for grouping of solar calculations.
-</li>
+  <li>
+    July 7, 2025 by Lone Meertens:<br/>
+    Adapted this model from PartialSimInfoManager to support weather files 
+    with 5-second resolution for validation studies.<br/>
+    Tracked in 
+    <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
+  </li>
 </ul>
 </html>"));
 end MyPartialSimInfoManager;

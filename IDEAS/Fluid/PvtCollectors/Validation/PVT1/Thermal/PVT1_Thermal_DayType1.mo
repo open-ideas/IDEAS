@@ -1,15 +1,15 @@
-within IDEAS.Fluid.PvtCollectors.Validation.PVT1.Thermal;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT1.Thermal;
 model PVT1_Thermal_DayType1
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium model";
-  parameter String pvtTyp = "Typ1";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
-
-  parameter Data.Uncovered.UI_TRNSYSValidation datPvtCol
+  parameter String pvtTyp = "Typ1";
+  parameter Real pLossFactor = 0.10;
+  parameter Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
-  QDPvtCollectorValidationPVT1 PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT1.PVTQuasiDynamicCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -21,8 +21,8 @@ model PVT1_Thermal_DayType1
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    pLossFactor=0.07,
-    collectorType=IDEAS.Fluid.PvtCollectors.Types.CollectorType.Uncovered)
+    pLossFactor=pLossFactor,
+    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -46,14 +46,14 @@ model PVT1_Thermal_DayType1
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-77,-82},{-51,-66}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLos.c1_c2_term) "[W]"
-          annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLos.c3_term) "[W]"
-    annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLos.c4_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLos.c6_term) "[W]"
-    annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
+  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLosStc.c1_c2_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-74},{51,-58}})));
+  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLosStc.c3_term)
+    "[W]" annotation (Placement(transformation(extent={{25,-90},{51,-74}})));
+  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLosStc.c4_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-74},{89,-58}})));
+  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLosStc.c6_term)
+    "[W]" annotation (Placement(transformation(extent={{63,-90},{89,-74}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
@@ -74,22 +74,21 @@ equation
     Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
 </html>",
 revisions="<html>
-<ul>
-<li>
-June 16, 2025, by Lone Meertens:<br/>
-Added test model for an uncovered quasi-dynamic PVT collector (WISC)
-with variable mass flow and weather data input.
-Tracked in
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS, #1436</a>.
-</li>
-</ul>
+  <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
 </html>"),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
         "Simulate and plot"),

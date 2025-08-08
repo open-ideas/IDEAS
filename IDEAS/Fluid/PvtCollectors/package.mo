@@ -1,12 +1,22 @@
 within IDEAS.Fluid;
-package PvtCollectors
+package PVTCollectors
   extends Modelica.Icons.Package;
 
 annotation (
   Documentation(info = "<html>
   This package contains models to simulate photovoltaic-thermal (PVT)
   solar systems, combining both thermal and electrical energy generation.
-  </html>"),
+  </html>",revisions = "<html>
+      <ul>
+   <li>
+      July 7, 2025, by Lone Meertens:<br/>
+      First implementation PVT model; tracked in 
+      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+        IDEAS #1436
+      </a>.
+    </li>
+  </ul>
+    </html>"),
   Icon(
     graphics = {
       Polygon(origin = {14, -34}, fillColor = {136, 138, 133}, pattern = LinePattern.None, fillPattern = FillPattern.Solid,
@@ -21,5 +31,4 @@ annotation (
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid)}));
 
-
-end PvtCollectors;
+end PVTCollectors;
