@@ -106,10 +106,13 @@ Adjusted implementation for grouping of solar calculations.
 </ul>
 </html>", info="<html>
 <p>
-Model of equivalent radiative temperature is according to page 73 in
+Model of equivalent radiative temperature is according to page 73 in [Walton 1983].
 </p>
+<h4>References</h4>
 <p>
-Walton, G. N. 1983. Thermal Analysis Research Program Reference Manual. NBSSIR 83-2655. National Bureau of Standards
+[Walton 1983]: G.N. Walton, 
+\"<a href=\"https://nvlpubs.nist.gov/nistpubs/Legacy/IR/nbsir83-2655.pdf\">Thermal Analysis Research Program Reference Manual (NBSSIR 83-2655)</a>\", 
+U.S. Department of Commerce, National Bureau of Standards, U.S. Department of Energy, 1983.
 </p>
 </html>"));
 end ShadedRadSol;

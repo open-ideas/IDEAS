@@ -270,7 +270,13 @@ equation
           smooth=Smooth.None,
           color={127,0,0})}),
     Documentation(info="<html>
-<p>he properties for absorption by and transmission through the glazingare taken into account depending on the angle of incidence of solar irradiation and are based on the output of the <a href=\"Solarwind.Buildings.UsersGuide.References\">[WINDOW 6.3]</a> software, i.e. the shortwave properties itselves based on the layers in the window are not calculated in the model but are input parameters. </p>
+<p>
+The properties for absorption by and transmission through the glazing are taken into account depending on the angle of incidence of solar irradiation and are based on the output of the [WINDOW 6.3] software, i.e. the shortwave properties itselves based on the layers in the window are not calculated in the model but are input parameters.
+</p>
+<h4>References</h4>
+<p>
+[WINDOW]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW (v6.3)</a>\", 1993.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>

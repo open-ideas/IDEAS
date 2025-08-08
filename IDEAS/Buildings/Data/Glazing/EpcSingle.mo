@@ -84,4 +84,8 @@ with changed implementation of MultiLayerLucent.
 <p>       Out   In       Out   In</p>
 <p>      ----  ----     ----  ----</p>
 <p>Lay1   5.0   5.5     31.0  30.9   </p>
+<h4>References</h4>
+<p>
+[WINDOW]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW (v7.3.4.0)</a>\", 1993.
+</p>
 </html>"));

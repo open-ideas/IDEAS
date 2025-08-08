@@ -190,6 +190,10 @@ environment on the ground temperature.
 The model assumes that the floor plate is connected to a (heated)
 zone that is surrounded by air at the ambient temperature.
 </p>
+<h4>References</h4>
+<p>
+ISO 13370: Thermal performance of buildings - Heat transfer via the ground - Calculation methods.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
