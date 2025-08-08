@@ -84,8 +84,9 @@ depending on the thermal insulation applied to the back side of the collector.
 </p>
 
 <p>
-This test model uses the However, if you know the brand and model of the PVT collector you plan to simulate or install, 
-it is recommended to use the actual datasheet parameters in a custom <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">Uncovered.UI_Validation</a> record.
+This test model uses the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">Uncovered.UI_Validation</a> record.
+However, if you know the brand and model of the PVT collector you plan to simulate or install, 
+it is recommended to use the actual datasheet parameters in a custom <a href=\"IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">Data.GenericQuasiDynamic</a> record.
 </p>
 </html>",
 revisions="<html>

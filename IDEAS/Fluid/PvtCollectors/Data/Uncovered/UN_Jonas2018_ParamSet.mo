@@ -1,38 +1,37 @@
-within IDEAS.Fluid.PVTCollectors.Data.Covered;
-record CI_Generic =
+within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
+record UN_Jonas2018_ParamSet
+                  =
   IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
-    final A=1.79,
+    final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
-    final C=16631*1.79,
+    final C=35800*1.66,
     final V=5/1000,
-    final mDry=26,
+    final mDry=20,
     final mperA_flow_nominal=0.03,
     final dp_nominal=60000,
     final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,90}),
     final incAngModDat={1,1,0.99,0.98,0.97,0.95,0.92,0.88,0.00},
-    final IAMDiff=0.94,
-    final eta0=0.573,
-    final c1=5.008,
-    final c2=0.059,
-    final c3=0.011,
-    final c4=0.039,
-    final c6=0.003,
+    final IAMDiff=0.91,
+    final eta0=0.436,
+    final c1=7.750,
+    final c2=0.026,
+    final c3=1.640,
+    final c4=0.000,
+    final c6=0.008,
     final P_nominal=280,
-    final gamma=-0.00370,
-    final etaEl=0.1390)
-  "Generic parameters for a covered, insulated PVT collector"
+    final gamma=-0.00467,
+    final etaEl=0.1688)
+  "Parameter set for a uncovered, non-insulated PVT collector (WISC type) based on Jonas et al. (2018)"
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTCol",
   Documentation(info = "<html>
 <p>
-This record contains thermal and electrical parameters for a <b>covered</b> and <b>insulated</b> PVT collector, based on experimental identification results from Jonas et al. (2018). 
+This record contains thermal and electrical parameters for an <b>uncovered</b> and <b>non-insulated</b> PVT collector (WISC type), based on experimental identification results from Jonas et al. (2018). 
 These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 quasi-dynamic conditions.
 </p>
 <p>
-This record can be used as a generic representation of a covered, insulated PVT collector. 
-However, if you know the brand and model of the PVT collector you plan to simulate or install, 
-it is recommended to use the actual datasheet parameters in a custom <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic \">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
+This record can be used as a generic representation of a WISC-type collector. However, if you know the brand and model of the PVT collector you plan to simulate or install, it is recommended to use the actual datasheet parameters in a custom <code>IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</code> record.
 </p>
 <h4>Reference</h4>
   <ul>
