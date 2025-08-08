@@ -1,9 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.Validation;
-package PVT1
+package PVT_UI
   annotation (preferredView="info", Documentation(info=
 "<html>
   <p>
-  This package contains validation models for the PVT1 collector (Meertens et al, 2025), an uncovered PVT collector with rear insulation, based on experimental data from HTW Saar (Jonas et al., 2019).
+  This package contains validation models for the PVT_UI collector (Meertens et al, 2025), an uncovered PVT collector with rear insulation, based on experimental data from HTW Saar (Jonas et al., 2019).
   </p>
 
   <p>
@@ -44,7 +44,7 @@ package PVT1
   
   <h4>Model limitations</h4>
   <p>
-  Overall, the PVT1 validation demonstrates strong agreement between the model and measurements for both thermal and electrical outputs under a range of operating conditions. While electrical outputs are accurate and consistent across all day types, 
+  Overall, the PVT_UI validation demonstrates strong agreement between the model and measurements for both thermal and electrical outputs under a range of operating conditions. While electrical outputs are accurate and consistent across all day types, 
   limitations in thermal output are observed under high wind speeds and rapid irradiance changes, primarily due to datasheet parameter constraints. This is particularly evident in Day Type 4, where a large temperature difference between the fluid and ambient air amplifies these limitations. 
   The wind speed over the collector plane during most of the test periods is generated using an artificial blower, producing wind speeds around 3.5&nbsp;m/s. This lies near the upper boundary of the test range for the datasheet thermal parameters, potentially leading to additional discrepancies 
   between the modeled and measured results.
@@ -77,4 +77,4 @@ revisions="<html>
     </li>
   </ul>
 </html>"));
-end PVT1;
+end PVT_UI;

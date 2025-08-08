@@ -1,9 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.Validation;
-package PVT2
+package PVT_UN
     annotation (preferredView="info", Documentation(info=
     "<html>
   <p>
-  This package contains validation models for the PVT2 collector (Meertens et al., 2025), an uncovered and uninsulated PVT collector, based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
+  This package contains validation models for the PVT_UN collector (Meertens et al., 2025), an uncovered and uninsulated PVT collector, based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
   </p>
 
   <p>
@@ -39,4 +39,4 @@ revisions="<html>
     </li>
   </ul>
 </html>"));
-end PVT2;
+end PVT_UN;
