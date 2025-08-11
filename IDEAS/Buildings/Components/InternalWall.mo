@@ -91,8 +91,8 @@ model InternalWall "interior opaque wall between two zones"
   parameter Modelica.Units.SI.Length hRelSurfBot_b=if
       IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor)
        then hzone_b else 0
-    "Height above the zone floor at propsbus_b. Height where the surface starts. e.g. 0 for walls at floor level and floors.  ";
-  Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe 
+    "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_b (e.g. 0 for walls at floor level and floors.)";
+  Modelica.Blocks.Interfaces.RealInput y_doo(min = 0, max = 1) if use_y_doo and useDooOpe
     "Control input for the door" annotation(
     Placement(visible = true, transformation(origin = {-80, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-64, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   IDEAS.Fluid.Sources.MassFlowSource_T boundary3_a(
