@@ -59,11 +59,11 @@ The equations and assumptions related to electrical part can be found in the fol
 
 <h5>Electrical–thermal coupling</h5>
 <p>
-  The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
+The internal heat transfer coefficient <i>UAbsFluid</i> (visualised in the Figure 1) is approximately calculated from datasheet parameters:
 </p>
 
 <div style=\"display:flex; align-items:center; justify-content:center;\">
-  <div style=\"padding-right:8px;\"><i>UAbsFluid</i></div>
+<div style=\"padding-right:8px;\"><i>UAbsFluid =</i></div>
   <table style=\"border-collapse:collapse; text-align:center;\">
     <tr>
       <td style=\"padding:4px;\">
@@ -84,7 +84,7 @@ The equations and assumptions related to electrical part can be found in the fol
     Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
   </li>
   <li>
-    The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
+    The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and  <i>Gnom = 1000 W m<sup>−2</sup></i>.
   </li>
   <li>
     <i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
@@ -96,6 +96,15 @@ This approach removes the need for a hidden fit parameter: both thermal
 and electrical coupling coefficients derive solely from publicly available
 datasheet values.
 </p>
+
+<p align=\"center\">
+  <img alt=\"Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines).\" 
+       src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/RCnetwork_dotted.png\" width=\"500\"/>
+</p>
+<p style=\"text-align:center; font-style:italic; font-size:90%;\">
+Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines) (Meertens et al., 2025).<br/>
+  </p>
+  
 <h4>References</h4>
 <ul>
   <li>
@@ -129,9 +138,8 @@ revisions="<html>
   <ul>
    <li>
       July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
+      First implementation PVT model.
+      see <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436
       </a>.
     </li>
   </ul>
