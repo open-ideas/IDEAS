@@ -352,7 +352,7 @@ IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr</a>.
 <p>
 <code>R_x_val</code> represents thermal resistance between 
 the outer pipe wall temperature and the (fictive) uniform TABS temperature.
-For small concrete/screed layer thicknesses (<i>d<sub>i</sub> < 0.3 &#183; T</i>, with <i>T</i> the distance between the pipes),
+For small concrete/screed layer thicknesses (<i>d<sub>i</sub> &le; 0.3&#183;T</i>, with <i>T</i> the distance between the pipes),
 a correction factor needs to be taken into account (see Eq.4-4 and 4-24 in (Koschenz, 2000)).
 </p>
 <p>
