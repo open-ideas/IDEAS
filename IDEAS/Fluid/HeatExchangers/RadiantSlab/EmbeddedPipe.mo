@@ -1,6 +1,6 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab;
 model EmbeddedPipe
-  "Embedded pipe model based on prEN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
+  "Embedded pipe model based on EN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
   replaceable parameter
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha constrainedby
@@ -56,9 +56,17 @@ annotation(Dialog(tab="Flow resistance"));
       RadSlaCha.T/(3.14*RadSlaCha.d_a)) + corr)/(2*Modelica.Constants.pi*
       RadSlaCha.lambda_b)
     "Fix resistance value of thermal conduction from pipe wall to layer";
-  final parameter Real corr = if RadSlaCha.tabs then 0 else
-    sum( -(RadSlaCha.alp2/RadSlaCha.lambda_b * RadSlaCha.T - 2*3.14*s)/(RadSlaCha.alp2/RadSlaCha.lambda_b * RadSlaCha.T + 2*3.14*s)*exp(-4*3.14*s/RadSlaCha.T*RadSlaCha.S_2)/s for s in 1:10) "correction factor for the floor heating according to Multizone Building modeling with Type56 and TRNBuild (see documentation). 
-    If tabs is used, corr=0 - fixme: deprecated?";
+  final parameter Real corr = if RadSlaCha.S_1/RadSlaCha.T > 0.3 and RadSlaCha.S_2/RadSlaCha.T > 0.3 and RadSlaCha.d_a/RadSlaCha.T < 0.2 then 0 else
+    sum(((RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s)/(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)
+            *exp(-4*Modelica.Constants.pi*s/RadSlaCha.T*RadSlaCha.S_2)
+        +(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s)/(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)
+            *exp(-4*Modelica.Constants.pi*s/RadSlaCha.T*RadSlaCha.S_1)
+        -2*exp(-4*Modelica.Constants.pi*s/RadSlaCha.T*(RadSlaCha.S_1+RadSlaCha.S_2)))/
+        (exp(-4*Modelica.Constants.pi*s/RadSlaCha.T*(RadSlaCha.S_1+RadSlaCha.S_2))
+        -(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)/(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s)
+            *(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)/(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s))
+        for s in 1:10)
+   "Correction factor if the screed thickness(es) are too small compared to the pipe spacing and/or the pipe diameter is too large compared to the pipe spacing.";
 
   parameter Boolean from_dp = false
     "= true, use m_flow = f(dp) else dp = f(m_flow)"
@@ -199,15 +207,10 @@ protected
   Real m_flowSpLimit
     "Specific mass flow rate regularized for no flow conditions";
 initial equation
-  if RadSlaCha.tabs then
-    assert(RadSlaCha.S_1 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer above the tubes is smaller than 0.3 * the tube interdistance. 
-    The model is not valid for this case");
-    assert(RadSlaCha.S_2 > 0.3*RadSlaCha.T, "Thickness of the concrete or screed layer under the tubes is smaller than 0.3 * the tube interdistance. 
-      The model is not valid for this case");
-  else
-    assert(RadSlaCha.alp2 < 1.212, "In order to use the floor heating model, RadSlaCha.alp2 need to be < 1.212");
-    assert(RadSlaCha.d_a/2 < RadSlaCha.S_2, "In order to use the floor heating model, RadSlaCha.alp2RadSlaCha.d_a/2 < RadSlaCha.S_2 needs to be true");
-    assert(RadSlaCha.S_1/RadSlaCha.T <0.3, "In order to use the floor heating model, RadSlaCha.S_1/RadSlaCha.T <0.3 needs to be true");
+  assert(RadSlaCha.d_a < RadSlaCha.S_1+RadSlaCha.S_2, "The pipe diameter is bigger than the total concrete thickness, which is not possible");
+  if RadSlaCha.tabs==false then
+    assert(RadSlaCha.alp2 < 1.212, "In order to use the floor heating model, the thermal resistance of the insulation should be smaller than 1.212 m2.K/W");
+    assert(RadSlaCha.d_a/2 < RadSlaCha.S_2, "In order to use the floor heating model, RadSlaCha.d_a/2 < RadSlaCha.S_2 needs to be true");
   end if;
 equation
   assert(allowFlowReversal or port_a.m_flow>-m_flow_small, "In " + getInstanceName() + ": flow reversal detected.");
@@ -380,6 +383,10 @@ Fixed inconsistency in the mass computation of the MixingVolume.
 See <a href=https://github.com/open-ideas/IDEAS/issues/1116>#1116</a>.
 </li>
 <li>
+August 12, 2025, by Jelger Jansen:<br/>
+Fix correction term and wrong asserts and update documentation.<br/>
+See <a href=https://github.com/open-ideas/IDEAS/issues/1381>#1381</a>.
+<li>
 January 31, 2020 by Filip Jorissen:<br/>
 Propagated <code>allowFlowReversal</code> in <code>TemperatureTwoPort</code> sensor. 
 See <a href=https://github.com/open-ideas/IDEAS/issues/1105>#1105</a>.
@@ -430,14 +437,30 @@ since this leads to a violation of the second
 law for small flow rates.
 See <a href=https://github.com/open-ideas/IDEAS/issues/717>#717</a>.
 </li>
-<li>2015 November, Filip Jorissen: Revised implementation for small flow rates: v3: replaced SmoothMin by min function</li>
-<li>2015 November, Filip Jorissen: Revised implementation for small flow rates: v2</li>
-<li>2015 November, Filip Jorissen: Revised implementation for small flow rates</li>
-<li>2015, Filip Jorissen: Revised implementation</li>
-<li>2014 March, Filip Jorissen: IDEAS baseclasses</li>
-<li>2013 May, Roel De Coninck: documentation</li>
-<li>2012 April, Roel De Coninck: rebasing on common Partial_Emission</li>
-<li>2011, Roel De Coninck: first version and validation</li>
+<li>
+November, 2015, by Filip Jorissen:<br/>
+Revised implementation for small flow rates.
+</li>
+<li>
+2015, by Filip Jorissen:<br/>
+Revised implementation
+</li>
+<li>
+March, 2014, by Filip Jorissen:<br/>
+IDEAS baseclasses
+</li>
+<li>
+May, 2013, by Roel De Coninck:<br/>
+Documentation
+</li>
+<li>
+April, 2012, by Roel De Coninck:<br/>
+Rebasing on common Partial_Emission
+</li>
+<li>
+2011, by Roel De Coninck:
+First version and validation
+</li>
 </ul>
 </html>"));
 end EmbeddedPipe;
