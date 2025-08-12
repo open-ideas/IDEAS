@@ -6,21 +6,15 @@ package UsersGuide "User’s Guide"
 <p>
 This package contains a model for photovoltaic–thermal (PVT) collectors
 based on the ISO 9806:2013 quasi-dynamic thermal procedure
-coupled with an internal electrical submodel. Only the quasi-dynamic
-approach is directly supported to model the thermal performance.
+coupled with an internal electrical submodel. 
 </p>
 
 <h4>Model description</h4>
 
-<h5>Conversion of other ISO 9806 standards (thermal)</h5>
-<p> 
-Thermal parameters obtained from other ISO 9806 test procedures, such as the ISO 9806:2013 unglazed test or the ISO 9806:2017 quasi-dynamic method, 
-can be converted into the thermal parameter set required by this model (<code>c₁</code> to <code>c₆</code>, <code>η₀</code>, and <code>K<sub>d</sub></code>)
-using the procedure detailed in <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
-SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>. 
-</p>
+<h5>Thermal part</h5>
 <p>
-For the thermal part:
+  The equations related to the heat losses and heat gains can be found in the following models:
+</p>
 <ul>
   <li>
     Quasi‑dynamic thermal losses: see 
@@ -38,66 +32,21 @@ For the thermal part:
 </p>
 
 
-<h5>Electrical performance and losses</h5>
-<p>
-The electrical submodel follows the PVWatts v5 approach (Dobos, 2014),
-with module parameters from the datasheet plus an overall system loss factor
-<code>pLossFactor</code>. NREL’s PVWatts reports a total electrical power loss of
-14%, which are a result of the following loss mechanism:
-</p>
-<table border=\"1\" cellpadding=\"4\">
-  <tr>
-    <th style=\"text-align:left;\">Electrical power loss mechanism</th>
-    <th style=\"text-align:center;\">Default value</th>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Soiling</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Shading</td>
-    <td style=\"text-align:center;\">3 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Mismatch</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Wiring</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Connections</td>
-    <td style=\"text-align:center;\">0.5 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Light‑induced degradation</td>
-    <td style=\"text-align:center;\">1.5 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Nameplate rating</td>
-    <td style=\"text-align:center;\">1 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Availability</td>
-    <td style=\"text-align:center;\">3 %</td>
-  </tr>
-  <tr>
-    <th style=\"text-align:left;\">Total</th>
-    <th style=\"text-align:center;\">14 %</th>
-  </tr>
-</table>
-
-<p>
-For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
-found that using <code>pLossFactor = 9 %</code> gives excellent agreement with
-measured electrical output. For PVT collectors with high positive tolerance on the 
-electrical output, this system loss factor can even be reduced more. 
-Users may adjust <code>pLossFactor</code> to account for site-specific soiling or shading effects.
+<p> 
+Thermal parameters used in the Quasi-dynamic thermal losses model follow the ISO 9806:2013 quasi-dynamic thermal procedure.
+Parameters obtained from other ISO 9806 test procedures, such as the ISO 9806:2013 unglazed test or the ISO 9806:2017 quasi-dynamic method, 
+can be converted into the thermal parameter set required by this model (<code>c1</code> to <code>c6</code>, <code>η0</code>, and <code>Kd</code>)
+using the procedure detailed in <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
+SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>. 
 </p>
 
+
+<h5>Electrical part</h5>
+
 <p>
-For the electrical part:
+The equations and assumptions related to electrical part can be found in the following model:
+</p>
+
 <ul>
   <li>
     Electrical generation: see 
@@ -106,7 +55,7 @@ For the electrical part:
     </a>
   </li>
 </ul>
-</p>
+
 
 <h5>Electrical–thermal coupling</h5>
 <p>
@@ -150,22 +99,29 @@ datasheet values.
 <h4>References</h4>
 <ul>
   <li>
-    ISO 9806:2013. <i>Solar thermal collectors—Test methods.</i> CEN.
+    ISO 9806:2013. <i>Solar thermal collectors — Test methods.</i> ISO. 
+    <br/>URL: <a href='https://www.iso.org/standard/59879.html'>https://www.iso.org/standard/59879.html</a>
   </li>
   <li>
-    SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019.
+    SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019. 
+    <br/>PDF: <a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Download</a>
   </li>
   <li>
-    Stegmann, M. et al. (2011). “Model of an unglazed PVT collector based on standard test procedures.</i> SWC 2011.
+    Stegmann, M.; Bertram, E.; Rockendorf, G.; Janßen, S. (2011). <i>Model of an Unglazed Photovoltaic Thermal Collector Based on Standard Test Procedures.</i> ISES Solar World Congress proceedings. 
+    <br/>DOI: <a href='https://doi.org/10.18086/swc.2011.19.30'>10.18086/swc.2011.19.30</a> 
+    <br/>PDF: <a href='https://proceedings.ises.org/conference/swc2011/papers/swc2011-0221-Stegmann.pdf'>Download</a>
   </li>
   <li>
-    Lämmle, M. (2018). <i>Thermal management of PVT collectors : development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection</i> PhD thesis, University Freiburg.
+    Lämmle, M. (2018). <i>Thermal management of PVT collectors: development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection.</i> PhD thesis, University of Freiburg. 
+    <br/>DOI: <a href='https://doi.org/10.6094/UNIFR/16446'>10.6094/UNIFR/16446</a> 
+    <br/>PDF: <a href='https://freidok.uni-freiburg.de/files/16446/_kjSuAarLmHmjl3z/diss_laemmle.pdf'>Download</a>
   </li>
   <li>
-    Dobos, A. P. (2014). <i>PVWatts Version 5 Manual</i>. NREL/TP-6A20-62641.
+    Dobos, A. P. (2014). <i>PVWatts Version 5 Manual.</i> NREL/TP-6A20-62641. 
+    <br/>PDF: <a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>Download</a>
   </li>
   <li>
-    Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+    Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters.</i> Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
   </li>
 </ul>
 </html>",
