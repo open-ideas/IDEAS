@@ -349,17 +349,48 @@ approximation as illustrated by the example
 <a href=\"IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr\">
 IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr</a>.
 </p>
+<p>
+<code>R_x_val</code> represents thermal resistance between 
+the outer pipe wall temperature and the (fictive) uniform TABS temperature.
+For small concrete/screed layer thicknesses (<i>d<sub>i</sub> < 0.3 &#183; T</i>, with <i>T</i> the distance between the pipes),
+a correction factor needs to be taken into account (see Eq.4-4 and 4-24 in (Koschenz, 2000)).
+</p>
+<p>
+<code>R_w_val</code> represents the convective thermal resistance between 
+the embedded pipe wall and the water flowing in that pipe.
+Depending on the Reynolds number <code>rey</code>, laminar or turbulent flow is assumed.
+For turbulent flow, the convective heat transfer coefficient is determined using a correlation (Eq.4-37) from (Koschenz, 2000).
+For laminar flow, the convective heat transfer coefficent is calculated using a constant Nusselt number of 4.
+</p>
 <h4>Typical use and important parameters</h4>
 <p>
 Following parameters need to be set:
 </p>
 <ul>
-<li>RadSlaCha is a record with all the parameters of the geometry, materials and even number of discretization layers in the nakedTabs model.</li>
-<li>mFlow_min is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.</li>
-<li><code>A_floor</code> is the surface area of (one side of) the Thermally Activated Building part (TAB). </li>
-<li><code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction. See above for a more detailed discussion.</li>
-<li><code>nParCir</code> can be used for calculating the pressure drops as if there were multiple EmbeddedPipes connected in parallel. The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.</li>
-<li><code>R_C</code> is the thermal resistivity from the center of the tabs to the zones. Note that the upper and lower resistivities need to be calculated as if they were in parallel. This parameter has a default value based on RadSlaCha but it may be improved if necessary. The impact of the value of this parameter on the model performance is low except in cases of very low mass flow rates.</li>
+<li>
+RadSlaCha is a record with all the parameters of the geometry, materials,
+and even number of discretization layers in the nakedTabs model.
+</li>
+<li>
+mFlow_min is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.
+</li>
+<li>
+<code>A_floor</code> is the surface area of (one side of) the TABS.
+</li>
+<li>
+<code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction.
+See above for a more detailed discussion.
+</li>
+<li>
+<code>nParCir</code> can be used for calculating the pressure drops as if there were multiple EmbeddedPipes connected in parallel. 
+The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.
+</li>
+<li>
+<code>R_C</code> is the thermal resistivity from the center of the tabs to the zones. 
+Note that the upper and lower resistivities need to be calculated as if they were in parallel. 
+This parameter has a default value based on RadSlaCha but it may be improved if necessary. 
+The impact of the value of this parameter on the model performance is low except in cases of very low mass flow rates.
+</li>
 </ul>
 <h4>Options</h4>
 <p>
@@ -373,19 +404,24 @@ Parameter <code>dp_nominal</code> can be used to override the default calculatio
 A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeVerification.
 </p>
 <h4>References</h4>
-<p>[Koshenz, 2000] - Koschenz, Markus, and Beat Lehmann. 2000. <i>Thermoaktive Bauteilsysteme - Tabs</i>. D&uuml;bendorf: EMPA D&uuml;bendorf. </p>
-<p>[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.</p>
+<p>
+[Koshenz, 2000] - Koschenz, Markus, and Beat Lehmann. 2000. <i>Thermoaktive Bauteilsysteme - Tabs</i>. D&uuml;bendorf: EMPA D&uuml;bendorf.
+</p>
+<p>
+[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.
+</p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 12, 2025, by Jelger Jansen:<br/>
+Fix correction term and wrong asserts and update documentation.<br/>
+See <a href=https://github.com/open-ideas/IDEAS/issues/1381>#1381</a>.
+</li>
 <li>
 March 20, 2020 by Filip Jorissen:<br/>
 Fixed inconsistency in the mass computation of the MixingVolume.
 See <a href=https://github.com/open-ideas/IDEAS/issues/1116>#1116</a>.
 </li>
-<li>
-August 12, 2025, by Jelger Jansen:<br/>
-Fix correction term and wrong asserts and update documentation.<br/>
-See <a href=https://github.com/open-ideas/IDEAS/issues/1381>#1381</a>.
 <li>
 January 31, 2020 by Filip Jorissen:<br/>
 Propagated <code>allowFlowReversal</code> in <code>TemperatureTwoPort</code> sensor. 
