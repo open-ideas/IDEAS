@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ISO9806QuasiDynamicHeatLoss
-  "Calculate the heat loss of a PVT/solar collector per ISO9806:2013"
+  "Calculate the heat loss of a PVT/solar collector using ISO9806:2013"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
