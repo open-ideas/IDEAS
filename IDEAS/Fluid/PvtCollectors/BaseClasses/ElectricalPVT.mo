@@ -1,11 +1,11 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
-model ElectricalPVT "Visible block to compute electrical power output using PVWatts v5 approach"
+model ElectricalPVT "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
   extends Modelica.Blocks.Icons.Block;
   extends SolarCollectors.BaseClasses.PartialParameters;
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";
-  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "Nominal global irradiance";
-  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.10 "PV loss factor";
+  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
+  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature [K]";
   parameter Real gamma "Temperature coefficient [1/K]";
   parameter Real P_nominal "Nominal PV power [W]";
