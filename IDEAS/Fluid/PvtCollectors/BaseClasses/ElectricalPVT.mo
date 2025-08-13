@@ -2,7 +2,7 @@ within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ElectricalPVT
   "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
   extends Modelica.Blocks.Icons.Block;
-  extends SolarCollectors.BaseClasses.PartialParameters;
+  extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
 
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";

@@ -30,7 +30,7 @@ model ISO9806HeatLoss
     c6=per.c6,
     A_c=per.A) annotation (Placement(transformation(extent={{18,-2},{38,18}})));
 
-  SolarCollectors.BaseClasses.EN12975HeatLoss heaLosSteSta(
+  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss heaLosSteSta(
     A_c=per.A,
     nSeg=3,
     redeclare package Medium = IDEAS.Media.Water,
