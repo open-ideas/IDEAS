@@ -41,9 +41,9 @@ model CrackOrOperableDoor
   parameter Real mClo= 0.65 "Flow exponent for crack or crack of closed door" annotation (Dialog(group="Crack or Closed door",enable=not useDoor or use_y));
 
   parameter Boolean useDoor=false "Model a large opening in stead of a crack";
-  final parameter Boolean useDoorModel = useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts   "=true, to use operable door instead of a crack";
+  constant Boolean useDoorModel = useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts   "=true, to use operable door instead of a crack";
   parameter Boolean use_y = true "=true, to use control input" annotation (Dialog(group="Open door",enable=useDoor));
-  final parameter Boolean openDoorOnePort = useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort "Sets whether a door is open or closed in one port configuration" annotation (Dialog(group="Open door", enable=interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort));
+  constant Boolean openDoorOnePort = useDoor and interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort "Sets whether a door is open or closed in one port configuration" annotation (Dialog(group="Open door", enable=interZonalAirFlowType==IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort));
 
    parameter Modelica.Units.SI.PressureDifference dp_turbulent(min=0,displayUnit="Pa") = if useDoor then (MFtrans/(rho_default*(CDOpe * hOpe*wOpe * sqrt(2/rho_default))))^(1/mOpe) else 0.01
     "Pressure difference where laminar and turbulent flow relation coincide for large cavities"
