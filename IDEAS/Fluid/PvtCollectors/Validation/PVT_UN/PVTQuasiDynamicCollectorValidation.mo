@@ -56,7 +56,7 @@ protected
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
@@ -69,6 +69,7 @@ protected
     final tauAlpEff = tauAlpEff,
     final c1 = per.c1,
     final etaEl = per.etaEl)
+    "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
   Modelica.Blocks.Sources.RealExpression Gglob(y=meaDat.y[4]) "[W/m2]"

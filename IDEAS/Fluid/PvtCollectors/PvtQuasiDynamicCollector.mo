@@ -38,7 +38,7 @@ protected
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Identifies heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
 
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
@@ -64,13 +64,14 @@ protected
     final tauAlpEff = tauAlpEff,
     final c1 = per.c1,
     final etaEl = per.etaEl)
+    "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
 equation
   // Compute effective wind speed on tilted plane
-  winSpeTil = weaBus.winSpe * sqrt(1 - (
-    cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * cos(til)
-    + sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * sin(til))^2);
+  winSpeTil = weaBus.winSpe * Modelica.Math.sqrt(1 - (
+    Modelica.Math.cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.cos(til)
+    + Modelica.Math.sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.sin(til))^2);
 
   // Compute global irradiance on tilted surface
   HGloTil = HDifTilIso.H + HDirTil.H;
