@@ -178,7 +178,7 @@ equation
           {-32,-76},{-22,-76}}, color={0,0,127}));
 
   annotation (
-  defaultComponentName="PvtCol",
+  defaultComponentName="pvtCol",
   Documentation(info="<html>
   <p>
     Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  

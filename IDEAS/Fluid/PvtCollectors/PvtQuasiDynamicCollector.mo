@@ -143,7 +143,7 @@ equation
 
 
     annotation (
-  defaultComponentName = "PvtCol",
+  defaultComponentName = "pvtCol",
 
 Documentation(info = "<html>
 <p>
