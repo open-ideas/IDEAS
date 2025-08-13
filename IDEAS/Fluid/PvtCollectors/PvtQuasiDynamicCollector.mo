@@ -10,7 +10,7 @@ model PVTQuasiDynamicCollector
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
-  parameter Modelica.Units.SI.DimensionlessRatio tauAlphaEff =
+  parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
 
@@ -61,7 +61,7 @@ model PVTQuasiDynamicCollector
     final P_nominal = per.P_nominal,
     final A = per.A,
     final eta0 = per.eta0,
-    final tauAlphaEff = tauAlphaEff,
+    final tauAlpEff = tauAlpEff,
     final c1 = per.c1,
     final etaEl = per.etaEl)
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));

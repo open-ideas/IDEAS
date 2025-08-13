@@ -11,13 +11,13 @@ model ElectricalPVT "Visible block to compute electrical power output using PVWa
   parameter Real P_nominal "Nominal PV power [W]";
   parameter Real A "PV area [m2]";
   parameter Real eta0 "Zero-loss efficiency";
-  parameter Real tauAlphaEff "Effective transmittance–absorptance product";
+  parameter Real tauAlpEff "Effective transmittance–absorptance product";
   parameter Real c1 "First-order heat loss coefficient";
   parameter Real etaEl "Electrical efficiency";
 
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
-  ((tauAlphaEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
-  / ((tauAlphaEff - etaEl) - eta0)
+  ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
+  / ((tauAlpEff - etaEl) - eta0)
   "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // Inputs
