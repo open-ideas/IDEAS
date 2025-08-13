@@ -9,7 +9,7 @@ model PVTQuasiDynamicCollectorValidation
     break HDirTil);
 
       // ===== Photovoltaic Parameters =====
-  parameter Modelica.Units.SI.Efficiency   eleLosFac = 0.10
+  parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.09
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
