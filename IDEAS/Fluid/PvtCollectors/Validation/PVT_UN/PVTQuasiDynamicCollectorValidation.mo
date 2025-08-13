@@ -14,6 +14,9 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
+protected
+  Real qThSeg[nSeg] "Thermal power per units per segment";
+
   // Ouput connectors
   // ===== Real Output Connectors =====
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
@@ -31,9 +34,7 @@ model PVTQuasiDynamicCollectorValidation
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
 
-  // Input connectors
-   Modelica.Blocks.Interfaces.RealInput qThSeg[nSeg] "Thermal power per segment";
-
+  // IDEAS components
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLosStc(
     redeclare package Medium = Medium,
@@ -86,6 +87,8 @@ equation
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
 
+  eleGen.qth = qThSeg;
+
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
@@ -129,13 +132,14 @@ equation
           {-30,74},{-31.55,74}}, color={0,0,127}));
   connect(eleGen.Tm, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
           -26,-20},{-11,-20}}, color={0,0,127}));
-  connect(qThSeg, eleGen.qth);
+
+
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info="<html>
   <p>
-    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi‑dynamic thermal method with integrated electrical coupling.  
-    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts‑based submodel, relying solely on datasheet parameters.
+    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
+    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
   </p>
 
   <h4>Extends</h4>
@@ -156,7 +160,7 @@ equation
       </a>
     </li>
     <li>
-      Quasi‑dynamic thermal losses: 
+      Quasi-dynamic thermal losses: 
       <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
         IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
       </a>
@@ -182,7 +186,7 @@ equation
       Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
     </li>
     <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
     </li>
     <li>
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods

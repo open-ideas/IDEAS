@@ -13,6 +13,10 @@ model PVTQuasiDynamicCollector
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
+protected
+  Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
+  Real qThSeg[nSeg] "Thermal power per unit per segment [W/m2]";
+  Real HGloTil "Global irradiance per unit on tilted surface [W/m2]";
 
   // ===== Output Connectors =====
   Modelica.Blocks.Interfaces.RealOutput pEl
@@ -22,10 +26,6 @@ model PVTQuasiDynamicCollector
   Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output per unit area[W/m2]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
-  Modelica.Blocks.Interfaces.RealOutput winSpeTil "Effective wind speed normal to collector plane";
-  Modelica.Blocks.Interfaces.RealInput qThSeg[nSeg] "Thermal power per segment";
-  Modelica.Blocks.Interfaces.RealInput HGloTil;
-
 
   // ===== Subcomponents =====
   final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
@@ -84,11 +84,15 @@ equation
   pEl = eleGen.pEl;
   qTh = sum(QGai.Q_flow + QLos.Q_flow);
 
+  eleGen.qth = qThSeg;
+  eleGen.HGloTil = HGloTil;
+  heaLosStc.HGloTil = HGloTil;
+  heaLosStc.winSpePla = winSpeTil;
+
   // Validity check
   assert(per.c1 > 0,
     "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
 
-  // ===== Connectors =====
   connect(shaCoe_internal, solGaiStc.shaCoe_in);
   connect(HDirTil.inc, solGaiStc.incAng) annotation (Line(
       points={{-59,46},{-50,46},{-50,48},{-22,48}},
@@ -135,10 +139,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
-  connect(qThSeg, eleGen.qth);
-  connect(HGloTil, eleGen.HGloTil);
-  connect(HGloTil, heaLosStc.HGloTil);
-  connect(winSpeTil, heaLosStc.winSpePla);
+
 
     annotation (
   defaultComponentName = "PvtCol",

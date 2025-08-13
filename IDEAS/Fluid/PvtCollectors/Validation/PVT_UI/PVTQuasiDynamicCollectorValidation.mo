@@ -8,7 +8,7 @@ model PVTQuasiDynamicCollectorValidation
     break HDifTilIso,
     break HDirTil);
 
-      // ===== Photovoltaic Parameters =====
+      // ===== Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.09
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
@@ -18,11 +18,9 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
-  // Internal variables
-  Real windSpeTil "Effective wind speed normal to collector plane";
-
-  // Input connectors
-  Modelica.Blocks.Interfaces.RealInput qThSeg[nSeg] "Thermal power per segment";
+protected
+  Real winSpeTil "Effective wind speed normal to collector plane";
+  Real qThSeg[nSeg] "Thermal power per segment";
 
   // Ouput connectors
   // ===== Real Output Connectors =====
@@ -77,6 +75,7 @@ model PVTQuasiDynamicCollectorValidation
     final etaEl = per.etaEl)
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
+
   Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
     "[W/m2]"                                                                        annotation (Placement(transformation(extent={{-49.5,
             82},{-30.5,98}})));
@@ -105,7 +104,7 @@ model PVTQuasiDynamicCollectorValidation
     annotation (Placement(transformation(extent={{-93.5,-46},{-74.5,-30}})));
 equation
    // Compute plane wind speed (using inherited azi/til and connected weaBus):
-  windSpeTil = winSpe.y;
+  winSpeTil = winSpe.y;
 
   // Assign electrical and thermal outputs
   pEl = eleGen.pEl;
@@ -115,6 +114,10 @@ equation
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
+
+  heaLosStc.winSpePla = winSpeTil;
+  eleGen.qth = qThSeg;
+
 
   // Make sure the model is only used with the EN ratings data, and hence c1 > 0
   assert(per.c1 > 0,
@@ -148,8 +151,6 @@ equation
   connect(heaLosStc.TEnv, TAmbKel.Kelvin)
     annotation (Line(points={{-22,26},{-34,26},{-34,28},{-34.5,28}},
                                                             color={0,0,127}));
-  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-35.55,20},{-35.55,
-          22},{-22,22}}, color={0,0,127}));
   connect(longWaveRad.rH, rH.y) annotation (Line(points={{-60,-60.4},{-70,-60.4},
           {-70,-74},{-73.55,-74}}, color={0,0,127}));
   connect(Tamb.y, longWaveRad.Tamb) annotation (Line(points={{-73.55,-86},{-68,
@@ -174,13 +175,13 @@ equation
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
           {-32,-76},{-22,-76}}, color={0,0,127}));
-  connect(qThSeg, eleGen.qth);
+
   annotation (
   defaultComponentName="PvtCol",
   Documentation(info="<html>
   <p>
-    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi‑dynamic thermal method with integrated electrical coupling.  
-    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts‑based submodel, relying solely on datasheet parameters.
+    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
+    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
   </p>
 
   <h4>Extends</h4>
@@ -201,9 +202,9 @@ equation
       </a>
     </li>
     <li>
-      Quasi‑dynamic thermal losses: 
+      Quasi-dynamic thermal losses: 
       <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
-        IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+      IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
       </a>
       </li>
     <li>
@@ -213,7 +214,7 @@ equation
       </a>
     </li>
     <li>
-      Long‑wave radiation (derived due to faulty measurements): 
+      Long-wave radiation (derived due to faulty measurements): 
       <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation\">
         IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
       </a>
@@ -224,7 +225,7 @@ equation
   <p>
   This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
   It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
-  Because direct measurements of long‑wave sky irradiance were found to be faulty, the model instead computes long‑wave radiation using the dedicated <code>LongWaveRadiation</code> component.
+  Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation using the dedicated <code>LongWaveRadiation</code> component.
   </p>
 
 
@@ -234,7 +235,7 @@ equation
       Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
     </li>
     <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
     </li>
     <li>
       ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
