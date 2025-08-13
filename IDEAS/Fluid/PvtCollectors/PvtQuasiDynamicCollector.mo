@@ -16,10 +16,10 @@ model PVTQuasiDynamicCollector
 
   // ===== Output Connectors =====
   Modelica.Blocks.Interfaces.RealOutput pEl
-    "Total electrical power output [W/m2]"
+    "Total electrical power output  per unit area[W/m2]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
         iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output [W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output per unit area[W/m2]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
   Modelica.Blocks.Interfaces.RealOutput winSpeTil "Effective wind speed normal to collector plane";
