@@ -6,11 +6,11 @@ model PVTQuasiDynamicCollectorValidation
       redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   // =====  Parameters =====
-  parameter Modelica.Units.SI.Efficiency   eleLosFac = 0.07
+  parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
-  parameter Real tauAlpEff =
+  parameter Real tauAlpEff(min=0, max=1) =
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
