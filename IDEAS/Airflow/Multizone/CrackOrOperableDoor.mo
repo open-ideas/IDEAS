@@ -189,13 +189,17 @@ equation
     Line(points={{8,-6},{20,-6},{20,-34},{100,-34},{100,-60}},             color = {0, 127, 255}));
 
 annotation(Documentation(info="<html>
-<p>
-This models an open/closed door depending on the number of available fluid ports.
-</p>
-<p>
-When only one port is available then an orrifice equation is used to approximate the closed door.
-There is no support for open doors when using only a single fluid port.
-</p>
+<p>This component models infiltration or a large opening in a wall and mainly used for the embedded airflow implementation in IDEAS.Buildings.Components. More information on the consequences of selecting an interZonalAirFlowType can be found in the documentation of <a href=\"IDEAS.BoundaryConditions.SimInfoManager\">IDEAS.BoundaryConditions.SimInfoManager</a>. Based on the selected <b>interZonalAirFlowType</b> either 1 fluid port of 2 fluid ports are used in this model where the 2-port configuration includes <a href=\"IDEAS.Airflow.Multizone.MediumColumnReversible\">density columns</a> to model stack-effect. Then, you can choose if the model needs to represent a large opening or cracks/infiltration. </p>
+<p>for interZonalAirFlowType <b>OnePort</b></p>
+<ul>
+<li>Both the crack or the large opening are represented by a single <a href=\"IDEAS.Airflow.Multizone.Point_m_flow\">airflow path</a> but the inputs to the used model are different. If it is modelled as a large opening, it can not be configured to be an operable. </li>
+</ul>
+<p>for interZonalAirFlowType <b>TwoPort</b></p>
+<ul>
+<li>The cracks are represented by two airflow paths with variable relative stack-effect heights based on parameters <span style=\"font-family: Courier New;\">h_b1, h_b2, h_a1, h_a2</span>. These parameters are the vertical height difference between the reference pressure (typically the middle of the zone) and the airflow path, where height zero is at the reference pressure.</li>
+<li>When the component is configured to represent a large opening, the two airflow path models are replaced by a <a href=\"IDEAS.Airflow.Multizone.DoorDiscretizedOperable\">IDEAS.Airflow.Multizone.DoorDiscretizedOperable</a> model. In this case the relative stack-effect heights follow the convention as set by the underlying model and <span style=\"font-family: Courier New;\">hA and hB </span>need to be set, where height zero is at the bottom point of the large opening. Furthermore, this large opening model can be configured to to be operable. </li>
+</ul>
+<p><br>The model should not be used (or conditionally disabled) for interZonalAirFlowType None.</p>
 </html>",
 revisions="<html>
 <ul>
