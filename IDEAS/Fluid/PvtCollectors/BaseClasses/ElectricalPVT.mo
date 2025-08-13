@@ -1,7 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
-model ElectricalPVT "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
+model ElectricalPVT
+  "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
   extends Modelica.Blocks.Icons.Block;
   extends SolarCollectors.BaseClasses.PartialParameters;
+
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
@@ -16,8 +18,8 @@ model ElectricalPVT "Calculate the electrical power output of a PVT using the PV
   parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
-  ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom)) / ((tauAlpEff - etaEl) - eta0)
-  "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
+    ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom)) / ((tauAlpEff - etaEl) - eta0)
+    "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // Inputs
   Modelica.Blocks.Interfaces.RealInput Tflu[nSeg]
@@ -33,36 +35,41 @@ model ElectricalPVT "Calculate the electrical power output of a PVT using the PV
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
         iconTransformation(extent={{-140,-80},{-100,-40}})));
 
-  // Outputs
+  // Outputs (user-facing)
   Modelica.Blocks.Interfaces.RealOutput pEl
-    "Total electrical power output [W/m2]"
+    "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,40},{140,80}}),
         iconTransformation(extent={{100,40},{140,80}})));
-  Modelica.Blocks.Interfaces.RealOutput temMod
-    "Average cell temperature [K]"
+  Modelica.Blocks.Interfaces.RealOutput TavgCel
+    "Average PV module temperature [K]"
     annotation (Placement(transformation(extent={{100,-20},{140,20}}),
         iconTransformation(extent={{100,-20},{140,20}})));
-  Modelica.Blocks.Interfaces.RealOutput temMea
+  Modelica.Blocks.Interfaces.RealOutput TavgFlu
     "Average fluid temperature [K]"
     annotation (Placement(transformation(extent={{100,-80},{140,-40}}),
         iconTransformation(extent={{100,-80},{140,-40}})));
 
 protected
-  Real temCell[nSeg];
-  Real temDiff[nSeg];
-  Real solarPowerInternal[nSeg];
+  // internal variables (not exposed as connectors)
+  Modelica.Units.SI.Temperature temMod "Average cell/module temperature ";
+  Modelica.Units.SI.Temperature temMea "Average fluid temperature";
+  Real TCel[nSeg];
+  Real TDif[nSeg];
+  Real Qsol_int[nSeg];
 
 equation
   for i in 1:nSeg loop
-    temCell[i] = Tflu[i] + qth[i] / UAbsFluid;
-    temDiff[i] = temCell[i] - TpvtRef;
-    solarPowerInternal[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
-                            (1 + gamma * temDiff[i]) * (1 - eleLosFac);
+    TCel[i] = Tflu[i] + qth[i] / UAbsFluid;
+    TDif[i] = TCel[i] - TpvtRef;
+    Qsol_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
+                            (1 + gamma * TDif[i]) * (1 - eleLosFac);
   end for;
 
-  pEl = sum(solarPowerInternal);
-  temMod = sum(temCell)/nSeg;
-  temMea = sum(Tflu)/nSeg;
+  pEl = sum(Qsol_int);
+  temMod = sum(TCel) / nSeg;
+  temMea = sum(Tflu) / nSeg;
+  TavgCel = temMod;
+  TavgFlu = temMea;
 
 annotation (
   defaultComponentName="eleGen",
