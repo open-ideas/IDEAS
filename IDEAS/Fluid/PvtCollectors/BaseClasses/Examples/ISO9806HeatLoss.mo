@@ -2,6 +2,7 @@ within IDEAS.Fluid.PVTCollectors.BaseClasses.Examples;
 model ISO9806HeatLoss
   "Example showing the use of ISO9806QuasiDynamicHeatLoss"
   extends Modelica.Icons.Example;
+  replaceable package Medium = IDEAS.Media.Water "Medium in the system";
   parameter IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation()
     "Performance data" annotation (choicesAllMatching=true);
@@ -22,7 +23,7 @@ model ISO9806HeatLoss
     annotation (Placement(transformation(extent={{-90,-52},{-70,-32}})));
   ISO9806QuasiDynamicHeatLoss heaLosQuaDyn(
     nSeg=3,
-    redeclare package Medium = IDEAS.Media.Water,
+    redeclare package Medium = Medium,
     c1=per.c1,
     c2=per.c2,
     c3=per.c3,
@@ -33,7 +34,7 @@ model ISO9806HeatLoss
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss heaLosSteSta(
     A_c=per.A,
     nSeg=3,
-    redeclare package Medium = IDEAS.Media.Water,
+    redeclare package Medium = Medium,
     a1=per.c1,
     a2=per.c2)
     annotation (Placement(transformation(extent={{18,-68},{38,-48}})));
