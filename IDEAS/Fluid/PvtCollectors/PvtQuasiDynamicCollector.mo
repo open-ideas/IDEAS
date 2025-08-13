@@ -69,7 +69,7 @@ protected
 
 equation
   // Compute effective wind speed on tilted plane
-  winSpeTil = weaBus.winSpe * Modelica.Math.sqrt(1 - (
+  winSpeTil = weaBus.winSpe * sqrt(1 - (
     Modelica.Math.cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.cos(til)
     + Modelica.Math.sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.sin(til))^2);
 
