@@ -180,79 +180,79 @@ equation
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
-  <p>
-    Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
-    Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
-  </p>
+<p>
+Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
+Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
+</p>
 
-  <h4>Extends</h4>
-  <ul>
-    <li>
-      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector\">
-        IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector
-      </a>
-    </li>
-  </ul>
+<h4>Extends</h4>
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector\">
+IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector
+</a>
+</li>
+</ul>
 
-  <h4>Submodel References</h4>
-  <ul>
-    <li>
-      Electrical generation: 
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
-        IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
-      </a>
-    </li>
-    <li>
-      Quasi-dynamic thermal losses: 
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
-      IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
-      </a>
-      </li>
-    <li>
-      Solar (thermal) heat gain: see 
-      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
-        IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
-      </a>
-    </li>
-    <li>
-      Long-wave radiation (derived due to faulty measurements): 
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation\">
-        IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
-      </a>
-    </li>
-  </ul>
+<h4>Submodel References</h4>
+<ul>
+<li>
+Electrical generation: 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+</a>
+</li>
+<li>
+Quasi-dynamic thermal losses: 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+</a>
+</li>
+<li>
+Solar (thermal) heat gain: see 
+<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+</a>
+</li>
+<li>
+Long-wave radiation (derived due to faulty measurements): 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation\">
+IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
+</a>
+</li>
+</ul>
 
-  <h4>Implementation Notes</h4>
-  <p>
-  This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
-  It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
-  Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation using the dedicated <code>LongWaveRadiation</code> component.
-  </p>
+<h4>Implementation Notes</h4>
+<p>
+This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
+It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
+Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation using the dedicated <code>LongWaveRadiation</code> component.
+</p>
 
 
-  <h4>References</h4>
-  <ul>
-    <li>
-      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
-    </li>
-    <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-    </li>
-    <li>
-      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
-    </li>
-  </ul>
+<h4>References</h4>
+<ul>
+<li>
+Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+</li>
+<li>
+Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+</li>
+<li>
+ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+</li>
+</ul>
 </html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}),

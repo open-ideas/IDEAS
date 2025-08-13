@@ -90,16 +90,16 @@ This test model uses the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Unc
 However, if you know the brand and model of the PVT collector you plan to simulate or install, 
 it is recommended to use the actual datasheet parameters in a custom <a href=\"IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">Data.GenericQuasiDynamic</a> record.
 </p>
-</html>",
-revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+</html>", revisions=
+        "<html>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),experiment(Tolerance=1e-6, StopTime=86400.0));
 end WISC;

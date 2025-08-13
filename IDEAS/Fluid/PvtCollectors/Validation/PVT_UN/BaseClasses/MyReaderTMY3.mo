@@ -977,14 +977,14 @@ Other functionality is retained as in the base class.
 Refer to the original model for detailed documentation of general behavior.
 </p>
 </html>",
-  revisions="<html>
+revisions="<html>
 <ul>
-  <li>
-    July 7, 2025 by Lone Meertens:<br/>
-    Adapted ReaderTMY3 to allow weather data input at 5-second intervals for validation purposes.<br/>
-    Tracked in 
-    <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
-  </li>
+<li>
+July 7, 2025 by Lone Meertens:<br/>
+Adapted ReaderTMY3 to allow weather data input at 5-second intervals for validation purposes.<br/>
+Tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
+</li>
 </ul>
 </html>"),
     Diagram(coordinateSystem(preserveAspectRatio=false,

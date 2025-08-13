@@ -13,21 +13,21 @@ coupled with an internal electrical submodel.
 
 <h5>Thermal part</h5>
 <p>
-  The equations related to the heat losses and heat gains can be found in the following models:
+The equations related to the heat losses and heat gains can be found in the following models:
 </p>
 <ul>
-  <li>
-    Quasi‑dynamic thermal losses: see 
-    <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
-      IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
-    </a>
-  </li>
-  <li>
-    Solar (thermal) heat gain: see 
-    <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
-      IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
-    </a>
-  </li>
+<li>
+Quasi‑dynamic thermal losses: see 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+</a>
+</li>
+<li>
+Solar (thermal) heat gain: see 
+<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+</a>
+</li>
 </ul>
 </p>
 
@@ -48,12 +48,12 @@ The equations and assumptions related to electrical part can be found in the fol
 </p>
 
 <ul>
-  <li>
-    Electrical generation: see 
-    <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
-      IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
-    </a>
-  </li>
+<li>
+Electrical generation: see 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+</a>
+</li>
 </ul>
 
 
@@ -64,31 +64,31 @@ The internal heat transfer coefficient <i>UAbsFluid</i> (visualised in the Figur
 
 <div style=\"display:flex; align-items:center; justify-content:center;\">
 <div style=\"padding-right:8px;\"><i>UAbsFluid =</i></div>
-  <table style=\"border-collapse:collapse; text-align:center;\">
-    <tr>
-      <td style=\"padding:4px;\">
-        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
-      </td>
-    </tr>
-    <tr>
-      <td style=\"border-top:1px solid black; padding:4px;\">
-        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
-        – (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
-      </td>
-    </tr>
-  </table>
+<table style=\"border-collapse:collapse; text-align:center;\">
+<tr>
+<td style=\"padding:4px;\">
+  <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
+</td>
+</tr>
+<tr>
+<td style=\"border-top:1px solid black; padding:4px;\">
+  <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
+  – (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
+</td>
+</tr>
+</table>
 </div>
 
 <ul>
-  <li>
-    Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
-  </li>
-  <li>
-    The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and  <i>Gnom = 1000 W m<sup>−2</sup></i>.
-  </li>
-  <li>
-    <i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
-  </li>
+<li>
+Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
+</li>
+<li>
+The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and  <i>Gnom = 1000 W m<sup>−2</sup></i>.
+</li>
+<li>
+<i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
+</li>
 </ul>
 
 <p>
@@ -98,50 +98,50 @@ datasheet values.
 </p>
 
 <p align=\"center\">
-  <img alt=\"Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines).\" 
-       src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/RCnetwork_dotted.png\" width=\"500\"/>
+<img alt=\"Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines).\" 
+ src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/RCnetwork_dotted.png\" width=\"500\"/>
 </p>
 <p style=\"text-align:center; font-style:italic; font-size:90%;\">
 Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines) (Meertens et al., 2025).<br/>
-  </p>
-  
+</p>
+
 <h4>References</h4>
 <ul>
-  <li>
-    ISO 9806:2013. <i>Solar thermal collectors — Test methods.</i> ISO. 
-    <br/>URL: <a href='https://www.iso.org/standard/59879.html'>https://www.iso.org/standard/59879.html</a>
-  </li>
-  <li>
-    SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019. 
-    <br/>PDF: <a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Download</a>
-  </li>
-  <li>
-    Stegmann, M.; Bertram, E.; Rockendorf, G.; Janßen, S. (2011). <i>Model of an Unglazed Photovoltaic Thermal Collector Based on Standard Test Procedures.</i> ISES Solar World Congress proceedings. 
-    <br/>DOI: <a href='https://doi.org/10.18086/swc.2011.19.30'>10.18086/swc.2011.19.30</a> 
-    <br/>PDF: <a href='https://proceedings.ises.org/conference/swc2011/papers/swc2011-0221-Stegmann.pdf'>Download</a>
-  </li>
-  <li>
-    Lämmle, M. (2018). <i>Thermal management of PVT collectors: development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection.</i> PhD thesis, University of Freiburg. 
-    <br/>DOI: <a href='https://doi.org/10.6094/UNIFR/16446'>10.6094/UNIFR/16446</a> 
-    <br/>PDF: <a href='https://freidok.uni-freiburg.de/files/16446/_kjSuAarLmHmjl3z/diss_laemmle.pdf'>Download</a>
-  </li>
-  <li>
-    Dobos, A. P. (2014). <i>PVWatts Version 5 Manual.</i> NREL/TP-6A20-62641. 
-    <br/>PDF: <a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>Download</a>
-  </li>
-  <li>
-    Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters.</i> Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-  </li>
+<li>
+ISO 9806:2013. <i>Solar thermal collectors — Test methods.</i> ISO. 
+<br/>URL: <a href='https://www.iso.org/standard/59879.html'>https://www.iso.org/standard/59879.html</a>
+</li>
+<li>
+SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019. 
+<br/>PDF: <a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Download</a>
+</li>
+<li>
+Stegmann, M.; Bertram, E.; Rockendorf, G.; Janßen, S. (2011). <i>Model of an Unglazed Photovoltaic Thermal Collector Based on Standard Test Procedures.</i> ISES Solar World Congress proceedings. 
+<br/>DOI: <a href='https://doi.org/10.18086/swc.2011.19.30'>10.18086/swc.2011.19.30</a> 
+<br/>PDF: <a href='https://proceedings.ises.org/conference/swc2011/papers/swc2011-0221-Stegmann.pdf'>Download</a>
+</li>
+<li>
+Lämmle, M. (2018). <i>Thermal management of PVT collectors: development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection.</i> PhD thesis, University of Freiburg. 
+<br/>DOI: <a href='https://doi.org/10.6094/UNIFR/16446'>10.6094/UNIFR/16446</a> 
+<br/>PDF: <a href='https://freidok.uni-freiburg.de/files/16446/_kjSuAarLmHmjl3z/diss_laemmle.pdf'>Download</a>
+</li>
+<li>
+Dobos, A. P. (2014). <i>PVWatts Version 5 Manual.</i> NREL/TP-6A20-62641. 
+<br/>PDF: <a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>Download</a>
+</li>
+<li>
+Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters.</i> Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+</li>
 </ul>
 </html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model.
-      see <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model.
+see <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436
+</a>.
+</li>
+</ul>
 </html>"));
 end UsersGuide;

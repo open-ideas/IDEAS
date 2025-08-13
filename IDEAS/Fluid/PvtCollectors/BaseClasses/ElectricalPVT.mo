@@ -89,14 +89,14 @@ P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) ·
 <p>
 where:
 <ul>
-  <li><i>ΔT<sub>i</sub></i> = T<sub>cell,i</sub> - T<sub>ref</sub>: temperature difference between PV cell and reference temperature</li>
-  <li><i>P<sub>nom</sub></i>: nominal PV power under STC [W]</li>
-  <li><i>A</i>: gross collector area [m²]</li>
-  <li><i>A<sub>c</sub></i>: effective collector area (equal to A if not otherwise specified)</li>
-  <li><i>G<sub>tilt</sub></i>: global irradiance on the tilted collector plane [W/m²]</li>
-  <li><i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)</li>
-  <li><i>γ</i>: temperature coefficient of power [%/K]</li>
-  <li><i>eleLosFac</i>: lumped system loss factor</li>
+<li><i>ΔT<sub>i</sub></i> = T<sub>cell,i</sub> - T<sub>ref</sub>: temperature difference between PV cell and reference temperature</li>
+<li><i>P<sub>nom</sub></i>: nominal PV power under STC [W]</li>
+<li><i>A</i>: gross collector area [m²]</li>
+<li><i>A<sub>c</sub></i>: effective collector area (equal to A if not otherwise specified)</li>
+<li><i>G<sub>tilt</sub></i>: global irradiance on the tilted collector plane [W/m²]</li>
+<li><i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)</li>
+<li><i>γ</i>: temperature coefficient of power [%/K]</li>
+<li><i>eleLosFac</i>: lumped system loss factor</li>
 </ul>
 </p>
 <p>
@@ -106,83 +106,83 @@ The PV cell temperature is estimated from the fluid temperature and thermal powe
 T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
 </p>
 <p>
-  The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
+The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
 </p>
 <div style=\"display:flex; align-items:center; justify-content:center;\">
 <div style=\"padding-right:8px;\"><i>UAbsFluid = </i></div>
-  <table style=\"border-collapse:collapse; text-align:center;\">
-    <tr>
-      <td style=\"padding:4px;\">
-        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
-      </td>
-    </tr>
-    <tr>
-      <td style=\"border-top:1px solid black; padding:4px;\">
-        <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
-        – (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
-      </td>
-    </tr>
-  </table>
+<table style=\"border-collapse:collapse; text-align:center;\">
+<tr>
+<td style=\"padding:4px;\">
+<em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
+</td>
+</tr>
+<tr>
+<td style=\"border-top:1px solid black; padding:4px;\">
+<em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
+– (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
+</td>
+</tr>
+</table>
 </div>
 <ul>
-  <li>
-    Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
-  </li>
-  <li>
-    The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
-  </li>
-  <li>
-    <i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
-  </li>
+<li>
+Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
+</li>
+<li>
+The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
+</li>
+<li>
+<i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
+</li>
 </ul>
 <h5>Electrical performance and losses</h5>
 <p>
 The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
 </p>
 <table border=\"1\" cellpadding=\"4\">
-  <tr>
-    <th style=\"text-align:left;\">Electrical power loss mechanism</th>
-    <th style=\"text-align:center;\">Default value</th>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Soiling</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Shading</td>
-    <td style=\"text-align:center;\">3 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Mismatch</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Wiring</td>
-    <td style=\"text-align:center;\">2 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Connections</td>
-    <td style=\"text-align:center;\">0.5 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Light‑induced degradation</td>
-    <td style=\"text-align:center;\">1.5 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Nameplate rating</td>
-    <td style=\"text-align:center;\">1 %</td>
-  </tr>
-  <tr>
-    <td style=\"text-align:left;\">Availability</td>
-    <td style=\"text-align:center;\">3 %</td>
-  </tr>
-  <tr>
-    <th style=\"text-align:left;\">Total</th>
-    <th style=\"text-align:center;\">14 %</th>
-  </tr>
+<tr>
+<th style=\"text-align:left;\">Electrical power loss mechanism</th>
+<th style=\"text-align:center;\">Default value</th>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Soiling</td>
+<td style=\"text-align:center;\">2 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Shading</td>
+<td style=\"text-align:center;\">3 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Mismatch</td>
+<td style=\"text-align:center;\">2 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Wiring</td>
+<td style=\"text-align:center;\">2 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Connections</td>
+<td style=\"text-align:center;\">0.5 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Light‑induced degradation</td>
+<td style=\"text-align:center;\">1.5 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Nameplate rating</td>
+<td style=\"text-align:center;\">1 %</td>
+</tr>
+<tr>
+<td style=\"text-align:left;\">Availability</td>
+<td style=\"text-align:center;\">3 %</td>
+</tr>
+<tr>
+<th style=\"text-align:left;\">Total</th>
+<th style=\"text-align:center;\">14 %</th>
+</tr>
 </table>
 <p>
-  For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
+For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
 found that using <code>eleLosFac = 9%</code> gives excellent agreement with
 measured electrical output. For PVT collectors with a high positive tolerance on the 
 electrical output, this system loss factor can even be lower. 
@@ -195,28 +195,28 @@ model based on ISO 9806:2013 and is suitable for dynamic simulations where irrad
 </p>
 
 <h4>References</h4>
-  <ul>
-    <li>
-      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
-    </li>
-    <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-    </li>
-    <li>
-      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
-    </li>
-  </ul>
+<ul>
+<li>
+Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+</li>
+<li>
+Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+</li>
+<li>
+ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
+</li>
+</ul>
 </html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 
 end ElectricalPVT;

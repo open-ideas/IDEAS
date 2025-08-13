@@ -73,41 +73,41 @@ equation
       color={255,204,51},
       thickness=0.5));
   annotation (Documentation(info=     "<html>
-  <p>
-  This model validates the electrical performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
-  </p>
+<p>
+This model validates the electrical performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
+</p>
 
-  <p>
-  The model uses the PVWatts V5 formulation and includes:
-  </p>
-  <ul>
-    <li>Temperature-dependent efficiency losses</li>
-    <li>Datasheet-based estimation of <i>UAbsFluid</i></li>
-    <li>Constant system loss factor (7 %)</li>
-  </ul>
+<p>
+The model uses the PVWatts V5 formulation and includes:
+</p>
+<ul>
+<li>Temperature-dependent efficiency losses</li>
+<li>Datasheet-based estimation of <i>UAbsFluid</i></li>
+<li>Constant system loss factor (7 %)</li>
+</ul>
 
-  <p>
-  The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
-  </p>
+<p>
+The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
+</p>
 
-  <p> 
-  Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 %.
-  </p>
+<p> 
+Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 %.
+</p>
 
-  <p>
-  The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, even under challenging real-world conditions.
-  </p>
-  </html>",
+<p>
+The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, even under challenging real-world conditions.
+</p>
+</html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),
    Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={

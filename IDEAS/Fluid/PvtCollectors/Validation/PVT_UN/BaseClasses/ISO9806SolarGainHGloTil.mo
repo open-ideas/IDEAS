@@ -78,16 +78,16 @@ It is primarily intended for validation purposes, where the
 and can be directly provided as an input to this block.
 </p>
 </html>",
-  revisions = "<html>
-  <ul>
-    <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+revisions = "<html>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 
 end ISO9806SolarGainHGloTil;

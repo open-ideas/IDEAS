@@ -37,20 +37,20 @@ However, if you know the brand and model of the PVT collector you plan to simula
 it is recommended to use the actual datasheet parameters in a custom <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic \">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
 </p>
 <h4>Reference</h4>
-  <ul>
-    <li>
-      Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
-    </li>
-  </ul>
-</html>",
-revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
+</li>
+</ul>
+</html>", revisions=
+        "<html>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));

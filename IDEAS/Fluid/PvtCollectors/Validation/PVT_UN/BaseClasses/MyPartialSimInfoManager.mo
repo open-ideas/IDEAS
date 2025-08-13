@@ -591,15 +591,15 @@ All other behavior and compatibility with the base class remain unchanged.
 Refer to the original model’s documentation for complete background on interface definitions and usage.
 </p>
 </html>",
-  revisions="<html>
+revisions="<html>
 <ul>
-  <li>
-    July 7, 2025 by Lone Meertens:<br/>
-    Adapted this model from PartialSimInfoManager to support weather files 
-    with 5-second resolution for validation studies.<br/>
-    Tracked in 
-    <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
-  </li>
+<li>
+July 7, 2025 by Lone Meertens:<br/>
+Adapted this model from PartialSimInfoManager to support weather files 
+with 5-second resolution for validation studies.<br/>
+Tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
+</li>
 </ul>
 </html>"));
 end MyPartialSimInfoManager;

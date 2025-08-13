@@ -80,17 +80,17 @@ All original functionalities are preserved, refer to the original model’s docu
 IDEAS.BoundaryConditions.SimInfoManager</a>.
 </p>
 </html>",
-  revisions = "<html>
-  <ul>
-    <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      Modified from IDEAS.BoundaryConditions.SimInfoManager for validation with 5-second resolution weather file.<br/>
-      Tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+revisions = "<html>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+Modified from IDEAS.BoundaryConditions.SimInfoManager for validation with 5-second resolution weather file.<br/>
+Tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 
 end MySimInfoManager;

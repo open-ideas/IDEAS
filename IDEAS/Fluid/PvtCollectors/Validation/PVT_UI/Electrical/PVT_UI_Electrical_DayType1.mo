@@ -72,17 +72,17 @@ This example demonstrates the implementation of
 IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
-</html>",
-revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+</html>", revisions=
+        "<html>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
         "Simulate and plot"),

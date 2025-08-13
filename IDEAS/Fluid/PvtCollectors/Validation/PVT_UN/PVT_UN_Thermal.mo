@@ -82,39 +82,39 @@ equation
       color={255,204,51},
       thickness=0.5));
   annotation ( Documentation(info=    "<html>
-  <p>
-  This model validates the thermal performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).
-  </p>
+<p>
+This model validates the thermal performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).
+</p>
 
-  <p>
-  The model uses the quasi-dynamic ISO 9806 formulation and includes:
-  </p>
-  <ul>
-    <li>Linear and quadratic heat losses (<code>c₁</code>, <code>c₂</code>)</li>
-    <li>Wind-dependent convective losses (<code>c₃</code>, <code>c₆</code>)</li>
-    <li>Radiative losses based on sky temperature (<code>c₄</code>)</li>
-    <li>Thermal inertia (<code>c₅</code>)</li>
-  </ul>
+<p>
+The model uses the quasi-dynamic ISO 9806 formulation and includes:
+</p>
+<ul>
+<li>Linear and quadratic heat losses (<code>c₁</code>, <code>c₂</code>)</li>
+<li>Wind-dependent convective losses (<code>c₃</code>, <code>c₆</code>)</li>
+<li>Radiative losses based on sky temperature (<code>c₄</code>)</li>
+<li>Thermal inertia (<code>c₅</code>)</li>
+</ul>
 
-  <p>
-  The dataset includes days with several hours of high wind speeds up to 10–12&nbsp;m/s, which significantly increase convective losses. Additionally, the circulation pump remains active throughout the test period, even when thermal output is negative—unlike real-world systems, which would deactivate the pump under such conditions.
-  </p>
+<p>
+The dataset includes days with several hours of high wind speeds up to 10–12&nbsp;m/s, which significantly increase convective losses. Additionally, the circulation pump remains active throughout the test period, even when thermal output is negative—unlike real-world systems, which would deactivate the pump under such conditions.
+</p>
 
-  <p>
-  As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 %. 
-  This filtered metric better reflects the model's accuracy under realistic operating conditions.
-  </p>
-  </html>",
+<p>
+As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 %. 
+This filtered metric better reflects the model's accuracy under realistic operating conditions.
+</p>
+</html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),
   Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={

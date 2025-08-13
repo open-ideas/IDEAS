@@ -40,25 +40,25 @@ equation
     defaultComponentName="heaLosStcVal",
     Documentation(info = "
 <html>
-  <p>
-    Extends the standard quasi‑dynamic heat‑loss model 
-    (<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>).  
-    For validation purposes, this block adds:
-  </p>
-  <ul>
-    <li>A term‑by‑term breakdown of each thermal loss contribution;</li>
-    <li>Cumulative sums showing how each additional term builds up to the total heat loss.</li>
-  </ul>
+<p>
+Extends the standard quasi‑dynamic heat‑loss model 
+(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>).  
+For validation purposes, this block adds:
+</p>
+<ul>
+<li>A term‑by‑term breakdown of each thermal loss contribution;</li>
+<li>Cumulative sums showing how each additional term builds up to the total heat loss.</li>
+</ul>
 </html>
 ", revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 end ISO9806QuasiDynamicHeatLossValidation;

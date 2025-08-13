@@ -69,16 +69,16 @@ Q<sub>los,i</sub> = A<sub>c</sub> / n<sub>seg</sub> · [ΔT<sub>i</sub> · (c<su
 <p>
 where:
 <ul>
-  <li><i>ΔT<sub>i</sub></i> = T<sub>env</sub> - T<sub>flu,i</sub>: temperature difference between environment and fluid in segment <i>i</i></li>
-  <li><i>c<sub>1</sub></i>: linear heat loss coefficient (alias for <code>a1</code>)</li>
-  <li><i>c<sub>2</sub></i>: quadratic heat loss coefficient (alias for <code>a2</code>)</li>
-  <li><i>c<sub>3</sub></i>: wind-speed dependence of heat loss</li>
-  <li><i>c<sub>4</sub></i>: sky long-wave irradiance dependence</li>
-  <li><i>c<sub>6</sub></i>: windspeed dependence of thermal zero-loss efficiency</li>
-  <li><i>u</i>: wind speed normal to the collector plane</li>
-  <li><i>E<sub>L</sub></i>: long-wave irradiance from the sky</li>
-  <li><i>G</i>: global solar irradiance on the tilted collector plane</li>
-  <li><i>σ</i>: Stefan–Boltzmann constant (5.67×10⁻⁸ W/m²·K⁴)</li>
+<li><i>ΔT<sub>i</sub></i> = T<sub>env</sub> - T<sub>flu,i</sub>: temperature difference between environment and fluid in segment <i>i</i></li>
+<li><i>c<sub>1</sub></i>: linear heat loss coefficient (alias for <code>a1</code>)</li>
+<li><i>c<sub>2</sub></i>: quadratic heat loss coefficient (alias for <code>a2</code>)</li>
+<li><i>c<sub>3</sub></i>: wind-speed dependence of heat loss</li>
+<li><i>c<sub>4</sub></i>: sky long-wave irradiance dependence</li>
+<li><i>c<sub>6</sub></i>: windspeed dependence of thermal zero-loss efficiency</li>
+<li><i>u</i>: wind speed normal to the collector plane</li>
+<li><i>E<sub>L</sub></i>: long-wave irradiance from the sky</li>
+<li><i>G</i>: global solar irradiance on the tilted collector plane</li>
+<li><i>σ</i>: Stefan–Boltzmann constant (5.67×10⁻⁸ W/m²·K⁴)</li>
 </ul>
 </p>
 
@@ -102,14 +102,14 @@ Duffie, J.A., and Beckman, W.A., <i>Solar Engineering of Thermal Processes</i>, 
 </p>
 </html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 end ISO9806QuasiDynamicHeatLoss;
