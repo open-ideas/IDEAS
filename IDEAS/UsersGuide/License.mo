@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+within IDEAS.UsersGuide;
+class License "License"
+  extends Modelica.Icons.Information;
+  annotation (Documentation(info="<html>
 
-<body>
-
-<h1>License</h1>
+<h4>License</h4>
 <p>
 Modelica IDEAS Library. Copyright (c) 1998-2025
 Modelica Association,
@@ -31,7 +31,7 @@ without specific prior written permission.
 </li>
 </ol>
 <p>
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
@@ -45,7 +45,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <p>
 You are under no obligation whatsoever to provide any bug fixes, patches,
 or upgrades to the features, functionality or performance of the source code
-("Enhancements") to anyone; however, if you choose to make your Enhancements
+(\"Enhancements\") to anyone; however, if you choose to make your Enhancements
 available either publicly, or directly to its copyright holders,
 without imposing a separate written license agreement for such
 Enhancements, then you hereby grant the following license: a non-exclusive,
@@ -57,7 +57,9 @@ such enhancements or derivative works thereof, in binary and source code form.
 Note: The license is a revised 3 clause BSD license with an ADDED paragraph
 at the end that makes it easy to accept improvements.
 </p>
+<p>
+<i>This is a copy of the license in <a href=https://github.com/open-ideas/IDEAS/blob/master/IDEAS/legal.html>IDEAS/legal.html</a>.</i>
+</p>
 
-</body>
-
-</html>
+</html>"));
+end License;

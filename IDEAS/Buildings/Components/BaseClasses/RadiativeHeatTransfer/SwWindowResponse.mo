@@ -137,8 +137,14 @@ equation
     Line(points = {{20, -70}, {20, -35}}, color = {0, 0, 127}));
    annotation(
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
-    Icon(graphics = {Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-80, 90}, {80, 70}}), Line(points = {{-80, 70}, {80, 70}}, pattern = LinePattern.None, thickness = 0.5), Line(points = {{44, 40}, {44, -50}}, color = {127, 0, 0}), Line(points = {{44, 40}, {38, 30}}, color = {127, 0, 0}), Line(points = {{44, 40}, {50, 30}}, color = {127, 0, 0}), Line(points = {{14, 40}, {14, -50}}, color = {127, 0, 0}), Line(points = {{14, 40}, {8, 30}}, color = {127, 0, 0}), Line(points = {{14, 40}, {20, 30}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-16, -50}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-22, 30}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-10, 30}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-46, -50}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-52, 30}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-40, 30}}, color = {127, 0, 0})}, coordinateSystem(extent = {{-100, -100}, {100, 100}})),
-    Documentation(info = "<html>
-<p>The properties for absorption by and transmission through the glazingare taken into account depending on the angle of incidence of solar irradiation and are based on the output of the <a href=\"IDEAS.Buildings.UsersGuide.References\">[WINDOW 6.3]</a> software, i.e. the shortwave properties itselves based on the layers in the window are not calculated in the model but are input parameters. </p>
+    Icon(graphics={  Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-80, 90}, {80, 70}}), Line(points = {{-80, 70}, {80, 70}}, pattern = LinePattern.None, thickness = 0.5), Line(points = {{44, 40}, {44, -50}}, color = {127, 0, 0}), Line(points = {{44, 40}, {38, 30}}, color = {127, 0, 0}), Line(points = {{44, 40}, {50, 30}}, color = {127, 0, 0}), Line(points = {{14, 40}, {14, -50}}, color = {127, 0, 0}), Line(points = {{14, 40}, {8, 30}}, color = {127, 0, 0}), Line(points = {{14, 40}, {20, 30}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-16, -50}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-22, 30}}, color = {127, 0, 0}), Line(points = {{-16, 40}, {-10, 30}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-46, -50}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-52, 30}}, color = {127, 0, 0}), Line(points = {{-46, 40}, {-40, 30}}, color = {127, 0, 0})}, coordinateSystem(extent = {{-100, -100}, {100, 100}})),
+    Documentation(info="<html>
+<p>
+The properties for absorption by and transmission through the glazing are taken into account depending on the angle of incidence of solar irradiation and are based on the output of the [WINDOW 6.3] software, i.e. the shortwave properties itselves based on the layers in the window are not calculated in the model but are input parameters.
+</p>
+<h4>References</h4>
+<p>
+[WINDOW]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW (v6.3)</a>\", 1993.
+</p>
 </html>"));
 end SwWindowResponse;

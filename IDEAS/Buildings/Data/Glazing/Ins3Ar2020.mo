@@ -124,4 +124,8 @@ Lay1  31.8  31.7     37.9  38.4   <br/>
 Lay2  28.3  28.3     58.5  58.5   <br/>
 Lay3  24.7  24.7     33.3  33.0   
 </p>
+<h4>References</h4>
+<p>
+[WINDOW]: Lawrence Berkeley Laboratory, \"<a href=\"https://windows.lbl.gov/window-software-downloads\">WINDOW (v7.7.10.0)</a>\", 1993.
+</p>
 </html>"));

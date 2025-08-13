@@ -10,8 +10,9 @@ model BuildingO5_Exp1_1Port
       interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.OnePort,
       unify_n50=true,
         n50=1.64,
-      A0=1,
-      a=0.15));
+      locTer=IDEAS.BoundaryConditions.Types.LocalTerrain.Custom,
+      A0_custom=1,
+      a_custom=0.15));
 
   Real comparison_W40[2] = {struct.W40.crackOrOperableDoor.m1_flow, validationDataO5Exp1_Airflow.W40_resDoor};
   Real comparison_W1[2] = {struct.W1.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W1_FlowRate};
@@ -39,5 +40,14 @@ model BuildingO5_Exp1_1Port
         "Simulate and plot"),
     Documentation(info="<html>
 <p>Similar to IDEAS.Examples.TwinHouses.BuildingO5_Exp1 but using the 1-port pressure driven interzonal airflow implementation.</p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+July 9, 2025, by Jelger Jansen:<br/>
+Set local terrain to <code>Custom</code> and update parameter names.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
+</li>
+</ul>
 </html>"));
 end BuildingO5_Exp1_1Port;
