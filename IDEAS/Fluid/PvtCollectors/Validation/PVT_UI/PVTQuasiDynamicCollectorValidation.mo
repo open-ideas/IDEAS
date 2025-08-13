@@ -27,7 +27,7 @@ protected
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource("modelica://PvtMod/Resources/Validation/MeasurementData/Typ1_modelica.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://PvTfluod/Resources/Validation/MeasurementData/Typ1_modelica.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{26,68},
             {6,88}})));
   Modelica.Blocks.Interfaces.RealOutput pEl
@@ -97,7 +97,7 @@ protected
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
   Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
-  Modelica.Blocks.Sources.RealExpression Patm(y=(meaDat.y[9])) "[bar]"
+  Modelica.Blocks.Sources.RealExpression patm(y=(meaDat.y[9])) "[bar]"
     annotation (Placement(transformation(extent={{-93.5,-70},{-74.5,-54}})));
   Modelica.Blocks.Sources.RealExpression Ediff(y=(meaDat.y[3])) "[W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-58},{-74.5,-42}})));
@@ -156,7 +156,7 @@ equation
           {-70,-74},{-73.55,-74}}, color={0,0,127}));
   connect(Tamb.y, longWaveRad.Tamb) annotation (Line(points={{-73.55,-86},{-68,
           -86},{-68,-64.8},{-60,-64.8}}, color={0,0,127}));
-  connect(Patm.y, longWaveRad.patm) annotation (Line(points={{-73.55,-62},{-72,
+  connect(patm.y, longWaveRad.patm) annotation (Line(points={{-73.55,-62},{-72,
           -62},{-72,-56},{-60,-56}}, color={0,0,127}));
   connect(Ediff.y, longWaveRad.Edif_h) annotation (Line(points={{-73.55,-50},{
           -73.55,-51.6},{-60,-51.6}}, color={0,0,127}));
@@ -172,7 +172,7 @@ equation
           28},{-68,78},{5,78}}, color={0,0,127}));
   connect(solGaiStc.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{
           -24,58},{-24,78},{5,78}}, color={0,0,127}));
-  connect(temSen.T, eleGen.Tm) annotation (Line(points={{-11,-20},{-30,-20},{-30,
+  connect(temSen.T, eleGen.Tflu) annotation (Line(points={{-11,-20},{-30,-20},{-30,
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
           {-32,-76},{-22,-76}}, color={0,0,127}));

@@ -131,7 +131,7 @@ equation
           {-30,58},{-22,58}}, color={0,0,127}));
   connect(eleGen.HGloTil, Gglob.y) annotation (Line(points={{-22,-76},{-30,-76},
           {-30,74},{-31.55,74}}, color={0,0,127}));
-  connect(eleGen.Tm, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
+  connect(eleGen.Tflu, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
           -26,-20},{-11,-20}}, color={0,0,127}));
 
 

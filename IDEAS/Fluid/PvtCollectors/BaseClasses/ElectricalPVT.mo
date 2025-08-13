@@ -16,12 +16,11 @@ model ElectricalPVT "Calculate the electrical power output of a PVT using the PV
   parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
-  ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
-  / ((tauAlpEff - etaEl) - eta0)
+  ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom)) / ((tauAlpEff - etaEl) - eta0)
   "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // Inputs
-  Modelica.Blocks.Interfaces.RealInput Tm[nSeg]
+  Modelica.Blocks.Interfaces.RealInput Tflu[nSeg]
     "Fluid temperatures per segment [K]"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
@@ -55,7 +54,7 @@ protected
 
 equation
   for i in 1:nSeg loop
-    temCell[i] = Tm[i] + qth[i] / UAbsFluid;
+    temCell[i] = Tflu[i] + qth[i] / UAbsFluid;
     temDiff[i] = temCell[i] - TpvtRef;
     solarPowerInternal[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + gamma * temDiff[i]) * (1 - eleLosFac);
@@ -63,7 +62,7 @@ equation
 
   pEl = sum(solarPowerInternal);
   temMod = sum(temCell)/nSeg;
-  temMea = sum(Tm)/nSeg;
+  temMea = sum(Tflu)/nSeg;
 
 annotation (
   defaultComponentName="eleGen",
