@@ -143,62 +143,53 @@ equation
     annotation (
   defaultComponentName = "PvtCol",
 
-    Documentation(info = "<html>
-  <p>
-    This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806 quasi‑dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally on unglazed (with and without rear insulation) PVT collectors under a wide range of weather conditions.
-  </p>
-
-  <h4>Submodel References</h4>
-  <ul>
-    <li>
-      Electrical generation: see 
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
-        IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
-      </a>
-    </li>
-    <li>
-      Quasi‑dynamic thermal losses: see 
-      <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
-        IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
-      </a>
-    </li>
-    <li>
-      Solar (thermal) heat gain: see 
-      <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
-        IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
-      </a>
-    </li>
-  </ul>
-
-  <h4>Implementation Notes</h4>
-  <p>
-    This model supports (unglazed) PVT collectors, discretized into segments to capture temperature gradients. It is compatible with dynamic simulations where irradiance and fluid temperatures vary over time.
-  </p>
-
-  <h4>References</h4>
-  <ul>
-    <li>
-      Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
-    </li>
-    <li>
-      Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-    </li>
-    <li>
-      ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
-    </li>
-  </ul>
-  </html>",
+Documentation(info = "<html>
+<p>
+This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806 quasi-dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally for unglazed PVT collectors (with and without rear insulation) under a wide range of weather conditions.
+</p>
+<p>
+The main equations used in this model can be found in the following submodels, as described in the 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.UsersGuide\">
+IDEAS.Fluid.PVTCollectors.UsersGuide.
+</a>
+</p>
+<ul>
+<li>
+Electrical generation: see 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
+</a>
+</li>
+<li>
+Quasi-dynamic thermal losses: see 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+</a>
+</li>
+<li>
+Solar (thermal) heat gain: see 
+<a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
+</a>
+</li>
+</ul>
+<h4>Implementation Notes</h4>
+<p>
+This model supports PVT collectors, discretized into segments to capture temperature gradients. It is compatible with dynamic simulations where irradiance and fluid temperatures vary over time.
+</p>
+</html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"),
+
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
       graphics={
         Rectangle(extent={{-84,100},{84,-100}}, lineColor={27,0,55}, fillColor={26,0,55}, fillPattern=FillPattern.Solid),
