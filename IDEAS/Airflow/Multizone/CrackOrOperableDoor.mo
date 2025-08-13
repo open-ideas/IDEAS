@@ -48,7 +48,7 @@ model CrackOrOperableDoor
    parameter Modelica.Units.SI.PressureDifference dp_turbulent(min=0,displayUnit="Pa") = if useDoor then (MFtrans/(rho_default*(CDOpe * hOpe*wOpe * sqrt(2/rho_default))))^(1/mOpe) else 0.01
     "Pressure difference where laminar and turbulent flow relation coincide for large cavities"
                                                                                                annotation (Dialog(tab="Advanced",group="Model regularisation", enable=useDoor));
-   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe  "Recommended massflowrate used for reguralisation"                                                 annotation (Dialog(tab="Advanced",group="Model regularisation", enable=useDoor));
+   parameter Modelica.Units.SI.MassFlowRate MFtrans=(hOpe*wOpe)*VItrans*REtrans/DOpe  "Recommended mass flow rate used for reguralisation"                                                 annotation (Dialog(tab="Advanced",group="Model regularisation", enable=useDoor));
    parameter Modelica.Units.SI.Length DOpe=4*hOpe*wOpe/(2*hOpe+2*wOpe)  "Estimated hydraulic diameter of the opening - 4*A/Perimeter"                                                    annotation (Dialog(tab="Advanced",group="Model regularisation", enable=useDoor));
    constant Modelica.Units.SI.ReynoldsNumber REtrans=30  "Assumed Reynolds number at transition"
                                                                                                 annotation (Dialog(tab="Advanced",group="Model regularisation"));
