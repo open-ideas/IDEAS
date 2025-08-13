@@ -8,12 +8,12 @@ model ElectricalPVT "Calculate the electrical power output of a PVT using the PV
   parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature [K]";
   parameter Real gamma "Temperature coefficient [1/K]";
-  parameter Real P_nominal "Nominal PV power [W]";
-  parameter Real A "PV area [m2]";
-  parameter Real eta0 "Zero-loss efficiency";
-  parameter Real tauAlpEff "Effective transmittance–absorptance product";
-  parameter Real c1 "First-order heat loss coefficient";
-  parameter Real etaEl "Electrical efficiency";
+  parameter Modelica.Units.SI.Power P_nominal "Nominal PV power [W]";
+  parameter Modelica.Units.SI.Area A "PV area [m2]";
+  parameter Modelica.Units.SI.Efficiency eta0 "Zero-loss efficiency";
+  parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff "Effective transmittance–absorptance product";
+  parameter Real c1 "First-order heat loss coefficient [W/(m2.K)]";
+  parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
   final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
   ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom))
