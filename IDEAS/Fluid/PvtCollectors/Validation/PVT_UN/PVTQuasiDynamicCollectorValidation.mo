@@ -37,7 +37,7 @@ protected
   // IDEAS components
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLosStc(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
     final c2=per.c2,
@@ -50,7 +50,7 @@ protected
 
   IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil
     solGaiStc(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final eta0=per.eta0,
     final use_shaCoe_in=use_shaCoe_in,

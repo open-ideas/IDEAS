@@ -39,7 +39,7 @@ protected
         iconTransformation(extent={{100,-100},{120,-80}})));
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final incAngDat=per.incAngDat,
     final incAngModDat=per.incAngModDat,
@@ -52,7 +52,7 @@ protected
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
     heaLosStc(
-    redeclare package Medium = Medium,
+    redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
     final c2=per.c2,
