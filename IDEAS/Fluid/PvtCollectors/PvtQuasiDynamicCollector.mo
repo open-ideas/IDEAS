@@ -6,7 +6,7 @@ model PVTQuasiDynamicCollector
     redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   // ===== Parameters =====
-  parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10
+  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.10
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
     "Type of collector (used to select (tau*alpha)_eff)";
@@ -56,7 +56,7 @@ model PVTQuasiDynamicCollector
   final IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
     final A_c = ATot_internal,
-    final pLossFactor = pLossFactor,
+    final eleLosFac = eleLosFac,
     final gamma = per.gamma,
     final P_nominal = per.P_nominal,
     final A = per.A,

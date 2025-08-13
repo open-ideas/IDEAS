@@ -5,7 +5,7 @@ model ElectricalPVT "Visible block to compute electrical power output using PVWa
   // Parameters
   parameter Integer nSeg = 1 "Number of segments";
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "Nominal global irradiance";
-  parameter Modelica.Units.SI.Efficiency pLossFactor = 0.10 "PV loss factor";
+  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.10 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature [K]";
   parameter Real gamma "Temperature coefficient [1/K]";
   parameter Real P_nominal "Nominal PV power [W]";
@@ -58,7 +58,7 @@ equation
     temCell[i] = Tm[i] + qth[i] / UAbsFluid;
     temDiff[i] = temCell[i] - TpvtRef;
     solarPowerInternal[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
-                            (1 + gamma * temDiff[i]) * (1 - pLossFactor);
+                            (1 + gamma * temDiff[i]) * (1 - eleLosFac);
   end for;
 
   pEl = sum(solarPowerInternal);
@@ -77,7 +77,7 @@ The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<
 </p>
 
 <p align=\"center\" style=\"font-style:italic;\">
-P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) · (G<sub>tilt</sub> / G<sub>nom</sub>) · (1 + γ · ΔT<sub>i</sub>) · (1 - pLossFactor)
+P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) · (P<sub>nom</sub> / A) · (G<sub>tilt</sub> / G<sub>nom</sub>) · (1 + γ · ΔT<sub>i</sub>) · (1 - eleLosFac)
 </p>
 
 <p>
@@ -90,7 +90,7 @@ where:
   <li><i>G<sub>tilt</sub></i>: global irradiance on the tilted collector plane [W/m²]</li>
   <li><i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)</li>
   <li><i>γ</i>: temperature coefficient of power [%/K]</li>
-  <li><i>pLossFactor</i>: lumped system loss factor</li>
+  <li><i>eleLosFac</i>: lumped system loss factor</li>
 </ul>
 </p>
 <p>
@@ -131,7 +131,7 @@ T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
 </ul>
 <h5>Electrical performance and losses</h5>
 <p>
-The electrical submodel includes an overall system loss factor <code>pLossFactor</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
+The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
 </p>
 <table border=\"1\" cellpadding=\"4\">
   <tr>
@@ -177,10 +177,10 @@ The electrical submodel includes an overall system loss factor <code>pLossFactor
 </table>
 <p>
   For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
-found that using <code>pLossFactor = 9 %</code> gives excellent agreement with
-measured electrical output. For PVT collectors with high positive tolerance on the 
-electrical output, this system loss factor can even be reduced more. 
-Users may adjust <code>pLossFactor</code> to account for site-specific soiling or shading effects.
+found that using <code>eleLosFac = 9%</code> gives excellent agreement with
+measured electrical output. For PVT collectors with a high positive tolerance on the 
+electrical output, this system loss factor can even be lower. 
+Users may adjust <code>eleLosFac</code> to account for site-specific soiling or shading effects.
 </p>
 <h4>Implementation Notes</h4>
 <p>
