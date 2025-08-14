@@ -37,9 +37,10 @@ model LongWaveRadiation
     annotation (Placement(transformation(extent={{-140,68},{-100,108}}),
         iconTransformation(extent={{-140,68},{-100,108}})));
 
+  // Parameter: tilt angle (radians) — can be overridden by the parent/collector
+  parameter Modelica.Units.SI.Angle til "Surface tilt (0 for horizontally mounted collector)";
+
   // Constants
-  constant Real sigma = 5.67e-8 "Stefan-Boltzmann constant [W/m²K⁴]";
-  constant Real tiltAngle = 45 * pi / 180;
   constant Real pi = Modelica.Constants.pi "Pi constant";
   constant Real epsGro = 0.95 "ground emissivity [-]";
 
@@ -68,7 +69,7 @@ equation
   epsSky = 0.711 + 0.56 * (Tdew/100) + 0.73 * (Tdew/100)^2;
 
   // Calculate Longwave Radiation (lonRad) using Tview and the Stefan-Boltzmann Law
-  lonRad = sigma*Tamb^4*((epsSky*(1 + cos(tiltAngle)) / 2) + (epsGro*(1 - cos(tiltAngle)) / 2));
+  lonRad = Modelica.Constants.sigma*Tamb^4*((epsSky*(1 + cos(til)) / 2) + (epsGro*(1 - cos(til)) / 2));
 
 annotation (
   defaultComponentName="LongWaveRad",
