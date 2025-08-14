@@ -407,7 +407,7 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 </p>
 <h4>References</h4>
 <p>
-EN 15377, <i>Heating systems in buildings – Design of embedded water based surface heating and cooling systems.</i>, 2008.
+EN 15377, <i>Heating systems in buildings – Design of embedded water-based surface heating and cooling systems.</i>, 2008.
 </p>
 <p>
 M. Koschenz and B. Lehmann, <i>Thermoaktive Bauteilsysteme tabs.</i>
