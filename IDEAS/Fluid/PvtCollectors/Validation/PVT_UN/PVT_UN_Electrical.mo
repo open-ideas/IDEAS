@@ -91,7 +91,7 @@ The PV cell temperature is derived from the thermal model using a two-node coupl
 </p>
 
 <p> 
-Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 %.
+Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 % (Meertens et al., 2025).
 </p>
 
 <p>

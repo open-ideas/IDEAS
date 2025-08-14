@@ -101,7 +101,7 @@ The dataset includes days with several hours of high wind speeds up to 10–12&n
 </p>
 
 <p>
-As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 %. 
+As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 % (Meertens et al., 2025). 
 This filtered metric better reflects the model's accuracy under realistic operating conditions.
 </p>
 </html>",

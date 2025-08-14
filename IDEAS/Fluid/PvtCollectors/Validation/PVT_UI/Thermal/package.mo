@@ -30,7 +30,7 @@ The model is discretized into <code>nSeg</code> segments to capture temperature 
 <p>
 Validation results show strong agreement for day types 1–3, with thermal energy deviations below 4.2 % and normalized MAE values ranging from 3.3 % to 20.0 %. For day type 4, 
 larger deviations (∆E = 36.7 %) are observed due to high temperature differences and wind speeds, highlighting limitations in the datasheet-based coefficients under extreme conditions. As the absolute
-thermal output is low in this case, model limitations have a stronger effect, leading to disproportionately large relative deviations.
+thermal output is low in this case, model limitations have a stronger effect, leading to disproportionately large relative deviations (Meertens et al., 2025).
 </p>
 <h4>References</h4>
 <ul>

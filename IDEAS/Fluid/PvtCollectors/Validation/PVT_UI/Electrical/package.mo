@@ -24,7 +24,7 @@ The PV cell temperature is derived from the thermal model using a two-node coupl
 </p>
 
 <p>
-Validation results show excellent agreement across all day types, with normalized MAE and RMSE values below 3.1%. The model is robust to variations in <i>UAbsFluid</i>, confirming the reliability of the datasheet-based estimation.
+Validation results show excellent agreement across all day types, with normalized MAE and RMSE values below 3.1% (Meertens et al., 2025). The model is robust to variations in <i>UAbsFluid</i>, confirming the reliability of the datasheet-based estimation.
 </p>
 <h4>References</h4>
 <ul>
