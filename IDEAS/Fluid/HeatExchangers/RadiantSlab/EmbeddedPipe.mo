@@ -403,7 +403,9 @@ Parameter <code>dp_nominal</code> can be used to override the default calculatio
 </p>
 <h4>Validation </h4>
 <p>
-A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeVerification.
+A limited verification has been performed in 
+<a href=\"IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeVerification\">
+IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeVerification</a>.
 </p>
 <h4>References</h4>
 <p>
