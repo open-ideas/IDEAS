@@ -108,31 +108,31 @@ Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806
 <h4>References</h4>
 <ul>
 <li>
-ISO 9806:2013. <i>Solar thermal collectors — Test methods.</i> ISO. 
-<br/>URL: <a href='https://www.iso.org/standard/59879.html'>https://www.iso.org/standard/59879.html</a>
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
+
 <li>
-SKN-N0474R0. <i>Thermal Performance Parameter Conversion to ISO 9806-2017.</i> Solar Heat Europe, 2019. 
-<br/>PDF: <a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Download</a>
+SKN-N0474R0. <i><a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Thermal Performance Parameter Conversion to ISO 9806-2017</a></i>. Solar Heat Europe, 2019.
 </li>
+
 <li>
-Stegmann, M.; Bertram, E.; Rockendorf, G.; Janßen, S. (2011). <i>Model of an Unglazed Photovoltaic Thermal Collector Based on Standard Test Procedures.</i> ISES Solar World Congress proceedings. 
-<br/>DOI: <a href='https://doi.org/10.18086/swc.2011.19.30'>10.18086/swc.2011.19.30</a> 
-<br/>PDF: <a href='https://proceedings.ises.org/conference/swc2011/papers/swc2011-0221-Stegmann.pdf'>Download</a>
+Stegmann, M.; Bertram, E.; Rockendorf, G.; Janßen, S. (2011). <i><a href='https://proceedings.ises.org/conference/swc2011/papers/swc2011-0221-Stegmann.pdf'>Model of an Unglazed Photovoltaic Thermal Collector Based on Standard Test Procedures</a></i>. ISES Solar World Congress proceedings. DOI: 10.18086/swc.2011.19.30
 </li>
+
 <li>
-Lämmle, M. (2018). <i>Thermal management of PVT collectors: development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection.</i> PhD thesis, University of Freiburg. 
-<br/>DOI: <a href='https://doi.org/10.6094/UNIFR/16446'>10.6094/UNIFR/16446</a> 
-<br/>PDF: <a href='https://freidok.uni-freiburg.de/files/16446/_kjSuAarLmHmjl3z/diss_laemmle.pdf'>Download</a>
+Lämmle, M. (2018). <i><a href='https://freidok.uni-freiburg.de/files/16446/_kjSuAarLmHmjl3z/diss_laemmle.pdf'>Thermal management of PVT collectors: development and modelling of highly efficient glazed, flat plate PVT collectors with low emissivity coatings and overheating protection</a></i>. PhD thesis, University of Freiburg. DOI: 10.6094/UNIFR/16446
 </li>
+
 <li>
-Dobos, A. P. (2014). <i>PVWatts Version 5 Manual.</i> NREL/TP-6A20-62641. 
-<br/>PDF: <a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>Download</a>
+Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
+
 <li>
-Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters.</i> Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>. Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li>
 </ul>
+
+
 </html>",
 revisions="<html>
 <ul>
