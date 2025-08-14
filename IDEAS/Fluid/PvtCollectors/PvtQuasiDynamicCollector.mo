@@ -16,7 +16,6 @@ model PVTQuasiDynamicCollector
 
   Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
   Real qThSeg[nSeg] "Thermal power per unit per segment [W/m2]";
-  Real HGloTil "Global irradiance per unit on tilted surface [W/m2]";
 
   // ===== Output Connectors =====
   Modelica.Blocks.Interfaces.RealOutput pEl
@@ -67,14 +66,14 @@ model PVTQuasiDynamicCollector
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
+  Modelica.Blocks.Math.Add HGloTil
+    annotation (Placement(transformation(extent={{-52,-74},{-42,-64}})));
 equation
   // Compute effective wind speed on tilted plane
   winSpeTil = weaBus.winSpe * sqrt(1 - (
     Modelica.Math.cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.cos(til)
     + Modelica.Math.sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.sin(til))^2);
 
-  // Compute global irradiance on tilted surface
-  HGloTil = HDifTilIso.H + HDirTil.H;
 
   // Compute per-segment thermal power
   for i in 1:nSeg loop
@@ -86,8 +85,7 @@ equation
   qTh = sum(QGai.Q_flow + QLos.Q_flow);
 
   eleGen.qth = qThSeg;
-  eleGen.HGloTil = HGloTil;
-  heaLosStc.HGloTil = HGloTil;
+  heaLosStc.HGloTil = HGloTil.y;
   heaLosStc.winSpePla = winSpeTil;
 
   connect(shaCoe_internal, solGaiStc.shaCoe_in);
@@ -138,6 +136,12 @@ equation
   connect(temSen.T, eleGen.Tflu) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
 
 
+  connect(HDifTilIso.H, HGloTil.u1) annotation (Line(points={{-59,80},{-54,80},{
+          -54,14},{-64,14},{-64,-66},{-53,-66}}, color={0,0,127}));
+  connect(HDirTil.H, HGloTil.u2) annotation (Line(points={{-59,50},{-50,50},{-50,
+          52},{-46,52},{-46,14},{-64,14},{-64,-72},{-53,-72}}, color={0,0,127}));
+  connect(HGloTil.y, eleGen.HGloTil) annotation (Line(points={{-41.5,-69},{-41.5,
+          -70},{-30,-70},{-30,-76},{-22,-76}}, color={0,0,127}));
     annotation (
   defaultComponentName = "pvtCol",
 
