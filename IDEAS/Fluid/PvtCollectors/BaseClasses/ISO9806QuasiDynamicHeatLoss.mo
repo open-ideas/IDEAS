@@ -105,14 +105,15 @@ vary over time.
 <h4>Implementation Notes</h4>
 <p>
 The model inherits from <code>IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</code> for structural consistency and reuse of base functionality,
-but the naming and equations have been updated to reflect the ISO 9806 standard. Parameters <code>a1</code> and <code>a2</code>
-are internally mapped to <code>c1</code> and <code>c2</code> for clarity.
+but the naming and equations have been overwritten to reflect the ISO 9806 standard. Parameters <code>a1</code> and <code>a2</code>
+are overwritten to <code>c1</code> and <code>c2</code> for clarity.
 </p>
 
 <h4>References</h4>
 <p>
+<li>
 ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods<br/>
-Duffie, J.A., and Beckman, W.A., <i>Solar Engineering of Thermal Processes</i>, 4th ed., Wiley, 2013
+</li>
 </p>
 </html>",
 revisions="<html>
