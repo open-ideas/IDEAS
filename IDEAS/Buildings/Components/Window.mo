@@ -26,9 +26,9 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A*nWin),
-    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then hzone_a elseif IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) then 0 else
+    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Ceiling) then hzone_a elseif IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor) then 0 else
                                                                                                                                                                                               (hzone_a - hVertical)/2,
-    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
+    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
       wOpe=A/hWin,
@@ -100,7 +100,7 @@ model Window "Multipane window"
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
 
-  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+  parameter Real coeffsCp[:,:]= if incInt<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif incInt<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(incInt,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 

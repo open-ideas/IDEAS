@@ -17,7 +17,7 @@ model PartialZone "Building zone model"
 
   parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
-  final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
+  final parameter Real n50_computed(unit="1/h",min=0.01) = n50_int "Computed n50 value";
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Airflow", group="Air model"));
