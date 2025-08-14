@@ -42,11 +42,11 @@ model LongWaveRadiation
 
   // Constants
   constant Real pi = Modelica.Constants.pi "Pi constant";
-  constant Real epsGro = 0.95 "ground emissivity [-]";
+  constant Modelica.Units.SI.DimensionlessRatio epsGro = 0.95 "ground emissivity [-]";
 
   // Constants for dew point calculation using Buck's equation [Buck, 1981]
   constant Real aBuck = 243.5 "Buck constant for dew point [°C]";
-  constant Real bBuck = 17.67 "Buck constant for dew point";
+  constant Real bBuck = 17.67 "Buck constant for dew point [°C]";
 
   // Intermediate Variables
   Real Tdew "Dew point temperature [°C]";
