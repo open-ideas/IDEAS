@@ -4,7 +4,7 @@
   <source media="(prefers-color-scheme: light)" srcset="IDEAS/Resources/Images/IDEAS-logo-light.png">
   <img src="IDEAS/Resources/Images/IDEAS-logo-light.png" height="120" alt="IDEAS Logo">
 </picture>
-<br/>
+
 <b>v3.0.0</b>
 </div>
 
