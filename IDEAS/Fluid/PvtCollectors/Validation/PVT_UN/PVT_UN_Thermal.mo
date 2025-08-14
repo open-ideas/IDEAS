@@ -61,11 +61,6 @@ model PVT_UN_Thermal
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
-  inner
-    IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.MySimInfoManager sim(filNam=
-        Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_Austria_wheaterData.mos"))
-    annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
 equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
@@ -77,10 +72,6 @@ equation
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
-  connect(sim.weaDatBus, PvtCol.weaBus) annotation (Line(
-      points={{-72.1,70},{-14,70},{-14,8},{-8,8}},
-      color={255,204,51},
-      thickness=0.5));
   annotation ( Documentation(info=    "<html>
 <p>
 This model validates the thermal performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).

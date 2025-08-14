@@ -3,7 +3,10 @@ model PVTQuasiDynamicCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
+      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
+    break weaBus,
+    break HDifTilIso,
+    break HDirTil);
 
   // =====  Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
@@ -14,7 +17,6 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
-protected
   Real qThSeg[nSeg] "Thermal power per units per segment";
 
   // Ouput connectors
@@ -77,7 +79,12 @@ protected
   Modelica.Blocks.Sources.RealExpression globIrrTil(y=(meaDat.y[4])) "[W/m2]"
     annotation (Placement(transformation(extent={{-67.5,6},{-48.5,22}})));
   Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-67.5,16},{-48.5,32}})));
+    annotation (Placement(transformation(extent={{-67.5,28},{-48.5,44}})));
+  Modelica.Blocks.Sources.RealExpression HHorIr(y=Modelica.Constants.sigma*(
+        meaDat.y[23] + 273.15)^4) "[W/m2]"
+    annotation (Placement(transformation(extent={{-67.5,18},{-48.5,34}})));
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{21,77},
+            {11,87}})));
 equation
    // Assign electrical and thermal outputs
   pEl = eleGen.pEl;
@@ -102,27 +109,11 @@ equation
       points={{1,20},{26,20},{26,20},{50,20}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(weaBus.TDryBul, heaLosStc.TEnv) annotation (Line(
-      points={{-99.95,80.05},{-100,80.05},{-100,80},{-90,80},{-90,26},{-22,26}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.HHorIR, heaLosStc.HHorIR) annotation (Line(
-      points={{-99.95,80.05},{-94,80.05},{-94,80},{-90,80},{-90,10},{-32,10},{-32,
-          20},{-22,20}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
   connect(globIrrTil.y, heaLosStc.HGloTil) annotation (Line(points={{-47.55,14},
           {-32,14},{-32,18},{-22,18}}, color={0,0,127}));
-  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-47.55,24},{-32,
-          24},{-32,22},{-22,22}}, color={0,0,127}));
+  connect(winSpe.y, heaLosStc.winSpePla) annotation (Line(points={{-47.55,36},{
+          -32,36},{-32,22},{-22,22}},
+                                  color={0,0,127}));
   connect(solGaiStc.QSol_flow, QGai.Q_flow)
     annotation (Line(points={{1,50},{50,50}}, color={0,0,127}));
   connect(temSen.T, solGaiStc.TFlu) annotation (Line(points={{-11,-20},{-30,-20},
@@ -135,6 +126,12 @@ equation
           -26,-20},{-11,-20}}, color={0,0,127}));
 
 
+  connect(HHorIr.y, heaLosStc.HHorIR) annotation (Line(points={{-47.55,26},{-36,
+          26},{-36,20},{-22,20}}, color={0,0,127}));
+  connect(heaLosStc.TEnv, TFluKel.Kelvin) annotation (Line(points={{-22,26},{
+          -22,30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
+  connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
+          {54,80},{57,80}}, color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>

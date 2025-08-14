@@ -46,11 +46,6 @@ model PVT_UN_Electrical
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
-  inner
-    IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.MySimInfoManager sim(filNam=
-        Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_Austria_wheaterData.mos"))
-    annotation (Placement(transformation(extent={{-92,60},{-72,80}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-75,-80},{-49,-64}})));
   Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
@@ -68,10 +63,6 @@ equation
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
-  connect(sim.weaDatBus, PvtCol.weaBus) annotation (Line(
-      points={{-72.1,70},{-14,70},{-14,8},{-8,8}},
-      color={255,204,51},
-      thickness=0.5));
   annotation (Documentation(info=     "<html>
 <p>
 This model validates the electrical performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
