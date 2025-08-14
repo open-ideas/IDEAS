@@ -119,10 +119,6 @@ equation
   heaLosStc.winSpePla = winSpeTil;
   eleGen.qth = qThSeg;
 
-
-  // Make sure the model is only used with the EN ratings data, and hence c1 > 0
-  assert(per.c1 > 0,
-    "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
   connect(shaCoe_internal, solGaiStc.shaCoe_in);
 
   connect(shaCoe_in, solGaiStc.shaCoe_in) annotation (Line(

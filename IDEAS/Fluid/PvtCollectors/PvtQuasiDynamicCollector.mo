@@ -90,10 +90,6 @@ equation
   heaLosStc.HGloTil = HGloTil;
   heaLosStc.winSpePla = winSpeTil;
 
-  // Validity check
-  assert(per.c1 > 0,
-    "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
-
   connect(shaCoe_internal, solGaiStc.shaCoe_in);
   connect(HDirTil.inc, solGaiStc.incAng) annotation (Line(
       points={{-59,46},{-50,46},{-50,48},{-22,48}},

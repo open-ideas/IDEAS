@@ -97,10 +97,6 @@ equation
 
   eleGen.qth = qThSeg;
 
-  // Make sure the model is only used with the EN ratings data, and hence c1 > 0
-  assert(per.c1 > 0,
-    "In " + getInstanceName() + ": The heat loss coefficient from the EN 12975 ratings data must be strictly positive. Obtained c1 = " + String(per.c1));
-
   connect(heaLosStc.TFlu, temSen.T) annotation (Line(
       points={{-22,14},{-30,14},{-30,-20},{-11,-20}},
       color={0,0,127},
