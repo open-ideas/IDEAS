@@ -1,6 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
-record UN_Jonas2018_ParamSet
-                  =
+record UN_Jonas2018 =
   IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
     final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
