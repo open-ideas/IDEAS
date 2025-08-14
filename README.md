@@ -8,7 +8,6 @@
 </div>
 <br/>
 
-
 IDEAS is a <i>Modelica</i> library for <b>I</b>ntegrated <b>D</b>istrict <b>E</b>nergy <b>A</b>ssessment <b>S</b>imulations. 
 This free and open-source library enables simultaneous transient simulation of integrated thermal and electrical energy systems
 including buildings at both individual (building) and collective (district) level.
