@@ -2,7 +2,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="IDEAS/Resources/Images/IDEAS-logo-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="IDEAS/Resources/Images/IDEAS-logo-light.png">
-  <img src="IDEAS/Resources/Images/IDEAS-logo-light.png" height="120" alt="IDEAS Logo">
+  <img src="IDEAS/Resources/Images/IDEAS-logo-light.png" alt="IDEAS Logo" style="height:120px;">
 </picture>
 <b>v3.0.0</b>
 </div>
