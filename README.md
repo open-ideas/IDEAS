@@ -1,6 +1,6 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="IDEAS/Resources/Images/IDEAS-logo-dar.png" style="height:120px;">
+  <source media="(prefers-color-scheme: dark)" srcset="IDEAS/Resources/Images/IDEAS-logo-dark.png" style="height:120px;">
   <source media="(prefers-color-scheme: light)" srcset="IDEAS/Resources/Images/IDEAS-logo-light.png" style="height:120px;">
   <img src="IDEAS/Resources/Images/IDEAS-logo-light.png" alt="IDEAS Logo" style="height:120px;">
 </picture>
