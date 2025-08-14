@@ -112,7 +112,7 @@ are overwritten to <code>c1</code> and <code>c2</code> for clarity.
 <h4>References</h4>
 <p>
 <li>
-ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods<br/>
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 </p>
 </html>",

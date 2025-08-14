@@ -61,30 +61,28 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 <p>
 The internal heat transfer coefficient <i>UAbsFluid</i> (visualised in the Figure 1) is approximately calculated from datasheet parameters:
 </p>
-
 <div style=\"display:flex; align-items:center; justify-content:center;\">
-<div style=\"padding-right:8px;\"><i>UAbsFluid =</i></div>
+<div style=\"padding-right:8px;\"><i>UAbsFluid = </i></div>
 <table style=\"border-collapse:collapse; text-align:center;\">
 <tr>
 <td style=\"padding:4px;\">
-  <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
+<em>(&tau;·&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
 </td>
 </tr>
 <tr>
 <td style=\"border-top:1px solid black; padding:4px;\">
-  <em>(τ·α)<sub>eff</sub> – η<sub>0,el</sub></em>
-  – (1 – <em>c<sub>6</sub>/η<sub>0,th</sub></em>·u) · η<sub>0,th</sub>
+<em>(&tau;·&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub></em>
+– (1 – <em>c<sub>6</sub>/&eta;<sub>0,th</sub></em>·u) · &eta;<sub>0,th</sub>
 </td>
 </tr>
 </table>
 </div>
-
 <ul>
 <li>
-Here, <i>(τ·α)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
+Here, <i>(&tau;·&alpha;)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
 </li>
 <li>
-The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>β</i>| · G<sub>nom</sub>, where <i>β</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and  <i>Gnom = 1000 W m<sup>−2</sup></i>.
+The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>&gamma;</i>| · G<sub>nom</sub>, where <i>&gamma;</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
 </li>
 <li>
 <i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).

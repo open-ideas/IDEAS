@@ -122,38 +122,13 @@ The PV cell temperature is estimated from the fluid temperature and thermal powe
 T<sub>cell,i</sub> = T<sub>m,i</sub> + q<sub>th,i</sub> / U<sub>AbsFluid</sub>
 </p>
 <p>
-The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters:
+The internal heat transfer coefficient <i>UAbsFluid</i> is approximately calculated from datasheet parameters. 
+For the mathematical description and visualisation, see <a href='modelica://IDEAS.Fluid.PVTCollectors.UsersGuide'>IDEAS.Fluid.PVTCollectors.UsersGuide</a>.
 </p>
-<div style=\"display:flex; align-items:center; justify-content:center;\">
-<div style=\"padding-right:8px;\"><i>UAbsFluid = </i></div>
-<table style=\"border-collapse:collapse; text-align:center;\">
-<tr>
-<td style=\"padding:4px;\">
-<em>(&tau;·&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub></em> · (c<sub>1</sub> + c<sub>3</sub>·u + b<sub>1,el</sub>)
-</td>
-</tr>
-<tr>
-<td style=\"border-top:1px solid black; padding:4px;\">
-<em>(&tau;·&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub></em>
-– (1 – <em>c<sub>6</sub>/&eta;<sub>0,th</sub></em>·u) · &eta;<sub>0,th</sub>
-</td>
-</tr>
-</table>
-</div>
-<ul>
-<li>
-Here, <i>(&tau;·&alpha;)</i><sub>eff</sub> = 0.901 for unglazed PVT collectors as reported in Lämmle (2018), and = 0.84 for covered collectors.
-</li>
-<li>
-The electrical temperature‑dependence term is <i>b</i><sub>1,el</sub> = |<i>&gamma;</i>| · G<sub>nom</sub>, where <i>&gamma;</i> is the temperature coefficient of power (in % K<sup>−1</sup>) and G<sub>nom</sub> = 1000 W m<sup>−2</sup>.
-</li>
-<li>
-<i>u</i> is the in‑plane wind speed. In this approximation, <code>u = 0</code> is used to derive <i>UAbsFluid</i>—the internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
-</li>
-</ul>
+
 <h5>Electrical performance and losses</h5>
 <p>
-The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. NREL’s PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
+The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
 </p>
 <table border=\"1\" cellpadding=\"4\">
 <tr>
@@ -213,13 +188,10 @@ model based on ISO 9806:2013 and is suitable for dynamic simulations where irrad
 <h4>References</h4>
 <ul>
 <li>
-Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
 Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-</li>
-<li>
-ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
 </li>
 </ul>
 </html>",
