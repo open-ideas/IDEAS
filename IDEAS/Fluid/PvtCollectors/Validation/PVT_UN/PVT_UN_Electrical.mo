@@ -41,8 +41,7 @@ model PVT_UN_Electrical
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    eleLosFac=eleLosFac,
-    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
+    eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));

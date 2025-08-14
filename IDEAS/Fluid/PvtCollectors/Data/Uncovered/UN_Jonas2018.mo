@@ -10,6 +10,7 @@ record UN_Jonas2018 =
     final dp_nominal=60000,
     final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,90}),
     final incAngModDat={1,1,0.99,0.98,0.97,0.95,0.92,0.88,0.00},
+    final colTyp=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered,
     final IAMDiff=0.91,
     final eta0=0.436,
     final c1=7.750,

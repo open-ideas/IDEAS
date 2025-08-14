@@ -10,6 +10,7 @@ record UN_Validation =
     final dp_nominal=300000,
     final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,80,90}),
     final incAngModDat={1,1,1,1,0.99,0.97,0.92,0.80,0.55,0.00},
+    final colTyp=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered,
     final IAMDiff=0.93,
     final eta0=0.535,
     final c1=10.74,

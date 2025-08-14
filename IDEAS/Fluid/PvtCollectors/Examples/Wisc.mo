@@ -46,8 +46,7 @@ model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncove
     nPanels=5,
     nSeg=9,
     sysConfig=IDEAS.Fluid.SolarCollectors.Types.SystemConfiguration.Series,
-    per=datPvtCol,
-    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
+    per=datPvtCol)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{64,64},{84,84}})));

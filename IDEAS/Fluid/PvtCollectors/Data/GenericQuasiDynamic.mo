@@ -3,6 +3,8 @@ record GenericQuasiDynamic
   "Generic data record for PVT collector models"
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType colTyp
+  "Type of PVT collector (Covered or Uncovered)";
   parameter Real IAMDiff(final min=0, final max=1, final unit="1")
   "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
   parameter Real eta0(final min=0, final max=1, final unit="1")

@@ -10,6 +10,7 @@ record CI_Jonas2018 =
     final dp_nominal=60000,
     final incAngDat=Modelica.Units.Conversions.from_deg({0,10,20,30,40,50,60,70,90}),
     final incAngModDat={1,1,0.99,0.98,0.97,0.95,0.92,0.88,0.00},
+    final colTyp=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Covered,
     final IAMDiff=0.94,
     final eta0=0.573,
     final c1=5.008,

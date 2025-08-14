@@ -11,7 +11,7 @@ model PVTQuasiDynamicCollectorValidation
       // ===== Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.09
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
     "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
 
   parameter Real tauAlpEff(min=0, max=1) =

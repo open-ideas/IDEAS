@@ -23,8 +23,7 @@ model PVT_UI_Electrical_DayType1
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
     per=datPvtCol,
-    eleLosFac=eleLosFac,
-    collectorType=IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered)
+    eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
