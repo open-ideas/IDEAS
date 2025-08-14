@@ -119,7 +119,8 @@ revisions="<html>
 <ul>
 <li>
 October 29, 2024, by Klaas De Jonge:<br/>
-Unprotected <code>dh</code> and changed prefixes of <code>dh</code>,<code>hAg</code> and <code>hBg</code> to <code>input</code>. This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1935\">#1935</a>.
+Unprotected <code>dh</code> and changed prefixes of <code>dh</code>,<code>hAg</code> and <code>hBg</code> to <code>input</code>.<br/>
+This is for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1935\">#1935</a>.
 </li>
 <li>
 January 8, 2019, by Michael Wetter:<br/>
@@ -163,7 +164,7 @@ Renamed protected parameters for consistency with the naming conventions.
 <li><i>August 12, 2011</i> by Michael Wetter:<br/>
        Changed model to use the new function
        <a href=\"modelica://IDEAS.Airflow.Multizone.BaseClasses.powerLawFixedM\">
-       Buildings.Airflow.Multizone.BaseClasses.powerLawFixedM</a>.
+       IDEAS.Airflow.Multizone.BaseClasses.powerLawFixedM</a>.
 </li>
 <li><i>July 20, 2010</i> by Michael Wetter:<br/>
        Migrated model to Modelica 3.1 and integrated it into the Buildings library.
