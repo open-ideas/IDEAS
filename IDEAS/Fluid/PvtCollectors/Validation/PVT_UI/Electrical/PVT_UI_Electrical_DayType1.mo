@@ -4,7 +4,7 @@ model PVT_UI_Electrical_DayType1
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   parameter String pvtTyp = "Typ1";
-  parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
+  parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09;
 
   parameter Data.Uncovered.UI_Validation datPvtCol

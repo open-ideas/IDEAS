@@ -5,7 +5,7 @@ model PVT_UN_Electrical
   replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater(
   property_T = 293.15,
   X_a = 0.43);
-  parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature";
+  parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.07;
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(

@@ -3,7 +3,7 @@ model PVT_UI_Thermal_DayType1
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium model";
-  parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
+  parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter String pvtTyp = "Typ1";
   parameter Real eleLosFac = 0.09;
   parameter Data.Uncovered.UI_Validation datPvtCol
