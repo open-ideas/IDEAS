@@ -1,11 +1,12 @@
 within IDEAS.Fluid.HeatExchangers.RadiantSlab;
 model EmbeddedPipe
-  "Embedded pipe model based on EN 15377 and (Koschenz, 2000), water capacity lumped to TOut"
+  "Embedded pipe model based on EN 15377 and (Koschenz, 2000). The water capacity is lumped to TOut"
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
+
   replaceable parameter
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar RadSlaCha constrainedby
     IDEAS.Fluid.HeatExchangers.RadiantSlab.BaseClasses.RadiantSlabChar
-    "Properties of the floor heating or TABS, if present"
+    "Properties of the TABS or floor heating system, if present"
     annotation (choicesAllMatching=true);
   final parameter Modelica.Units.SI.Length pipeDiaInt=RadSlaCha.d_a - 2*
       RadSlaCha.s_r "Pipe internal diameter";
@@ -21,7 +22,7 @@ model EmbeddedPipe
       diameter=pipeDiaInt,
       roughness=roughness,
       m_flow_small=m_flow_small/nParCir));
-  parameter Modelica.Units.SI.Area A_floor "Floor/tabs surface area";
+  parameter Modelica.Units.SI.Area A_floor "TABS or floor heating surface area";
   parameter Integer nDiscr(min=1) = 1
     "Number of series discretisations along the flow direction"
     annotation(Evaluate=true);
@@ -31,7 +32,7 @@ model EmbeddedPipe
     "Absolute roughness of pipe, with a default for a smooth steel pipe"
     annotation (Dialog(tab="Flow resistance"));
   parameter Modelica.Units.SI.Length L_floor=A_floor^(1/2)
-    "Floor length - along the pipe direction"
+    "Floor length, along the pipe direction"
     annotation (Dialog(tab="Flow resistance"));
   parameter Real N_pipes = A_floor/L_floor/RadSlaCha.T - 1
     "Number of parallel pipes in the slab"
@@ -45,17 +46,17 @@ annotation(Dialog(tab="Flow resistance"));
     "Total pipe equivalent length, default assuming 180 dg turns starting at RadSlaCha.T from the end of the slab"
     annotation (Dialog(tab="Flow resistance"));
   parameter Modelica.Units.SI.MassFlowRate m_flowMin=m_flow_nominal*0.5
-    "Minimal flowrate when in operation - used for validity check"
+    "Minimal mass flow rate when in operation - used for validity check"
     annotation (Dialog(group="Nominal condition"));
 
   final parameter Modelica.Units.SI.ThermalInsulance R_r_val=RadSlaCha.T*log(
       RadSlaCha.d_a/pipeDiaInt)/(2*Modelica.Constants.pi*RadSlaCha.lambda_r)
-    "Fix resistance value of thermal conduction through pipe wall * surface of floor between 2 pipes (see RadSlaCha documentation)";
-  //Calculation of the resistance from the outer pipe wall to the center of the tabs / floorheating. eqn 4-25 Koschenz
+    "Fixed thermal resistance value of thermal conduction through pipe wall * surface of floor between 2 pipes (see RadSlaCha documentation)";
+  //Calculation of the resistance from the outer pipe wall to the center of the TABS / floor heating system. eqn 4-25 Koschenz
   final parameter Modelica.Units.SI.ThermalInsulance R_x_val=RadSlaCha.T*(log(
       RadSlaCha.T/(3.14*RadSlaCha.d_a)) + corr)/(2*Modelica.Constants.pi*
       RadSlaCha.lambda_b)
-    "Fix resistance value of thermal conduction from pipe wall to layer";
+    "Fixed thermal resistance value of thermal conduction from pipe wall to layer";
   final parameter Real corr = if RadSlaCha.S_1/RadSlaCha.T > 0.3 and RadSlaCha.S_2/RadSlaCha.T > 0.3 and RadSlaCha.d_a/RadSlaCha.T < 0.2 then 0 else
     sum(((RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s)/(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)
             *exp(-4*Modelica.Constants.pi*s/RadSlaCha.T*RadSlaCha.S_2)
@@ -66,7 +67,8 @@ annotation(Dialog(tab="Flow resistance"));
         -(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)/(RadSlaCha.alp1/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s)
             *(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T+2*Modelica.Constants.pi*s)/(RadSlaCha.alp2/RadSlaCha.lambda_b*RadSlaCha.T-2*Modelica.Constants.pi*s))
         for s in 1:10)
-   "Correction factor if the screed thickness(es) are too small compared to the pipe spacing and/or the pipe diameter is too large compared to the pipe spacing.";
+   "Correction factor if the screed thickness(es) are too small compared to the pipe spacing and/or the pipe diameter is too large compared to the pipe spacing
+	(Koschenz, 2000, Eq.4-24). The summation goes to 10 instead of infinity as this does not improve the accuracy.";
 
   parameter Boolean from_dp = false
     "= true, use m_flow = f(dp) else dp = f(m_flow)"
@@ -74,19 +76,19 @@ annotation(Dialog(tab="Flow resistance"));
   constant Boolean homotopyInitialization = true "= true, use homotopy method"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Boolean linearized = false
-    "= true, use linear relation between m_flow and dp for any flow rate"
+    "= true, use linear relation between m_flow and dp for any mass flow rate"
     annotation(Evaluate=true, Dialog(tab="Advanced"));
   parameter Modelica.Units.SI.ThermalInsulance R_c=1/(RadSlaCha.lambda_b/
       RadSlaCha.S_1 + RadSlaCha.lambda_b/RadSlaCha.S_2)
-    "Specific thermal resistivity of (parallel) slabs connected to top and bottom of tabs"
+    "Specific thermal resistivity of (parallel) slabs connected to top and bottom of TABS / floor heating system"
     annotation (Dialog(group="Thermal"));
 
   Modelica.Units.SI.Temperature[nDiscr] Tin=cat(
       1,
       {senTemIn.T},
       vol[1:nDiscr - 1].heatPort.T);
-  Modelica.Units.SI.Power[nDiscr] Q "Thermal power going into tabs";
-  //For high flow rates see [Koshenz, 2000] eqn 4.37 in between
+  Modelica.Units.SI.Power[nDiscr] Q "Thermal power going into the TABS / floor heating system";
+  //For high mass flow rates see (Koshenz, 2000) eqn 4.37 in between
   // for laminar flow Nu_D = 4 is assumed: correlation for heat transfer constant heat flow and constant wall temperature
   Modelica.Units.SI.ThermalInsulance R_w_val=
       IDEAS.Utilities.Math.Functions.spliceFunction(
@@ -372,10 +374,10 @@ RadSlaCha is a record with all the parameters of the geometry, materials,
 and even number of discretization layers in the nakedTabs model.
 </li>
 <li>
-mFlow_min is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.
+<code>mFlow_min</code> is used to check the validity of the operating conditions and is by default half of the nominal mass flow rate.
 </li>
 <li>
-<code>A_floor</code> is the surface area of (one side of) the TABS.
+<code>A_floor</code> is the surface area of (one side of) the radiant slab.
 </li>
 <li>
 <code>nDiscr</code> can be used for discretizing the EmbeddedPipe along the flow direction.
@@ -386,7 +388,7 @@ See above for a more detailed discussion.
 The total mass flow rate is then split over multiple circuits and the pressure drop is calculated accordingly.
 </li>
 <li>
-<code>R_C</code> is the thermal resistivity from the center of the tabs to the zones. 
+<code>R_C</code> is the thermal resistivity from the center of the TABS or floor heating system to the zones. 
 Note that the upper and lower resistivities need to be calculated as if they were in parallel. 
 This parameter has a default value based on RadSlaCha but it may be improved if necessary. 
 The impact of the value of this parameter on the model performance is low except in cases of very low mass flow rates.
@@ -405,10 +407,15 @@ A limited verification has been performed in IDEAS.Fluid.HeatExchangers.RadiantS
 </p>
 <h4>References</h4>
 <p>
-[Koshenz, 2000] - Koschenz, Markus, and Beat Lehmann. 2000. <i>Thermoaktive Bauteilsysteme - Tabs</i>. D&uuml;bendorf: EMPA D&uuml;bendorf.
+EN 15377, <i>Heating systems in buildings – Design of embedded water based surface heating and cooling systems.</i>, 2008.
 </p>
 <p>
-[TRNSYS, 2007] - Multizone Building modeling with Type 56 and TRNBuild.
+M. Koschenz and B. Lehmann, <i>Thermoaktive Bauteilsysteme tabs.</i>
+D&uuml;bendorf, Switzerland: EMPA Energyiesysteme/Haustechnik, 2000, ISBN: 9783905594195.
+</p>
+<p>
+Transsolar, <i>TRNSYS 16 - A TRaNsient SYstem Simulation program, User Manual. Volume 6: Multizone Building modeling with Type56 and TRNBuild.</i>
+Madison, 2007.
 </p>
 </html>", revisions="<html>
 <ul>
