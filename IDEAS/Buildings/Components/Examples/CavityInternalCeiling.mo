@@ -18,7 +18,10 @@ model CavityInternalCeiling
     __Dymola_Commands(file="Resources/Scripts/Dymola/Buildings/Components/Examples/CavityInternalCeiling.mos"
         "Simulate and plot"),
     Documentation(info="<html>
-<p>This example contains an example use of an opening in an internal ceiling. Note that it requires TwoPorts interzonal air flow (interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts).</p>
+<p>
+This example contains an example use of an opening in an internal ceiling. 
+Note that it requires TwoPorts interzonal air flow (interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts).
+</p>
 </html>", revisions="<html>
 <ul>
 <li>August 13 2025, Klaas De Jonge<br>Updated construction type of Internal floor to IDEAS.Buildings.Validation.Data.Constructions.LightWall.</li>
