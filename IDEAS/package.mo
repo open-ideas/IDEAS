@@ -5,9 +5,9 @@ annotation (
   uses(Modelica(version="4.0.0")),
   Icon(graphics={Bitmap(extent={{-100,-80},{100,80}}, fileName=
             "modelica://IDEAS/Resources/Images/IDEAS-logo-icon.png")}),
-  version="3.0.0",
-  versionDate="2022-05-03",
-  dateModified = "2022-05-03",
+  version="4.0.0",
+  versionDate="2025-08-15",
+  dateModified = "2025-08-15",
   conversion(
  from(version={"0.2"},
       script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos",
