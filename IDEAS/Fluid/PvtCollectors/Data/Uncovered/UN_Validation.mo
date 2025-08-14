@@ -41,7 +41,7 @@ SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>.
 For this PVT collector, additional real-life measurement data is publicly available (Veynandt, 2023) and has been used in the validation of 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
 which can be found in the 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT2\">IDEAS.Fluid.PVTCollectors.Validation.PVT2</a> package. 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">IDEAS.Fluid.PVTCollectors.Validation.PVT_UN</a> package. 
 </p>
 
 <h4>Certificate</h4>
@@ -52,32 +52,32 @@ Solar Keymark Licence No. 11‑7S2354 P</a>. </li>
 
 <h4>References</h4>
 <ul>
-  <li>
-    Veynandt, François, Franz Inschlag, et al. <i>Measurement data from real operation of a hybrid photovoltaic‑thermal solar collectors, used for the development of a data‑driven model.</i>Data in Brief 49 (2023): 109417. DOI: 10.1016/j.dib.2023.109417.
-  </li>
-  <li>
-  Veynandt, François, Peter Klanatsky, et al. <i>Hybrid photovoltaic‑thermal solar collector modelling with parameter identification using operation data.</i> Energy and Buildings. 295 (2023): 113277. DOI: 10.1016/j.enbuild.2023.113277.
-  </li>
-  <li>
-    Solar Keymark Network (2019). <i>Thermal performance parameter conversion to the ISO 9806‑2017 quasi‑dynamic method</i>. <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">SKN‑N0474R0</a>.
-  </li>
-  <li>
-    ISO 9806:2013. <i>Solar thermal collectors — Test methods</i>.
-  </li>
-  <li>
-  Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-  </li>
+<li>
+  Veynandt, François, Franz Inschlag, et al. <i>Measurement data from real operation of a hybrid photovoltaic‑thermal solar collectors, used for the development of a data‑driven model.</i>Data in Brief 49 (2023): 109417. DOI: 10.1016/j.dib.2023.109417.
+</li>
+<li>
+Veynandt, François, Peter Klanatsky, et al. <i>Hybrid photovoltaic‑thermal solar collector modelling with parameter identification using operation data.</i> Energy and Buildings. 295 (2023): 113277. DOI: 10.1016/j.enbuild.2023.113277.
+</li>
+<li>
+  Solar Keymark Network (2019). <i>Thermal performance parameter conversion to the ISO 9806‑2017 quasi‑dynamic method</i>. <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">SKN‑N0474R0</a>.
+</li>
+<li>
+  ISO 9806:2013. <i>Solar thermal collectors — Test methods</i>.
+</li>
+<li>
+Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+</li>
 </ul>
 
 </html>"),
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>");

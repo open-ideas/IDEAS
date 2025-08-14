@@ -12,11 +12,11 @@ record GenericQuasiDynamic
   parameter Real c2(final min=0, final unit="W/(m2.K2)")
     "Second order thermal heat loss coefficient";
   parameter Modelica.Units.SI.SpecificHeatCapacity c3(final min=0)
-    "Windspeed dependence of thermal heat loss";
+    "Wind speed dependence of thermal heat loss";
   parameter Modelica.Units.SI.DimensionlessRatio c4(final min=0)
     "Sky temperature dependence of the thermal heat loss coefficient";
   parameter Real c6(final min=0, final unit="s/m")
-    "Windspeed dependence of thermal zero-loss efficiency";
+    "Wind speed dependence of thermal zero-loss efficiency";
   parameter Real P_nominal(final min=0, final unit="W")
     "PV panel power at nominal conditions (W)";
   parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma

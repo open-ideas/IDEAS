@@ -34,13 +34,6 @@ PVT collector types are categorized as follows:
 All record names should begin with one of the above abbreviations to indicate the
 collector classification.
 </p>
-<h4>References</h4>
-<ul>
-<li>
-IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
-<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
-</li>
-</ul>
 </html>",
 revisions="<html>
 <ul>
