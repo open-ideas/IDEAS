@@ -40,16 +40,15 @@ which can be found in the
 
 
 <h4>References</h4>
-<ul>
 <li>
-ISO 9806:2013. Solar thermal collectors — Test methods.
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
 IEA SHC Task 60 (2018). <i>PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems</i>.
 <a href=\"https://www.iea-shc.org/task60\">iea-shc.org/task60</a>.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>. Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li>
 </ul>
 </html>",

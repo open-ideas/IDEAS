@@ -35,7 +35,7 @@ This record can be used as a generic representation of a WISC-type collector. Ho
 <h4>Reference</h4>
 <ul>
 <li>
-Jonas, D., Theis, D., Frey, G. (2018). <i>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
+Jonas, D., Theis, D., Frey, G. (2018). <i><a href='https://doi.org/10.18086/eurosun2018.02.16'>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</a></i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
 </li>
 </ul>
 </html>",

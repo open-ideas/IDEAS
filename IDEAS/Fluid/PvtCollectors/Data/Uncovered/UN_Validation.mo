@@ -53,22 +53,21 @@ Solar Keymark Licence No. 11‑7S2354 P</a>. </li>
 <h4>References</h4>
 <ul>
 <li>
-  Veynandt, François, Franz Inschlag, et al. <i>Measurement data from real operation of a hybrid photovoltaic‑thermal solar collectors, used for the development of a data‑driven model.</i>Data in Brief 49 (2023): 109417. DOI: 10.1016/j.dib.2023.109417.
+Veynandt, François, Franz Inschlag, et al. <i><a href='https://doi.org/10.1016/j.dib.2023.109417'>Measurement data from real operation of a hybrid photovoltaic‑thermal solar collectors, used for the development of a data‑driven model</a></i>. Data in Brief 49 (2023): 109417. DOI: 10.1016/j.dib.2023.109417
 </li>
 <li>
-Veynandt, François, Peter Klanatsky, et al. <i>Hybrid photovoltaic‑thermal solar collector modelling with parameter identification using operation data.</i> Energy and Buildings. 295 (2023): 113277. DOI: 10.1016/j.enbuild.2023.113277.
+Veynandt, François, Peter Klanatsky, et al. <i><a href='https://doi.org/10.1016/j.enbuild.2023.113277'>Hybrid photovoltaic‑thermal solar collector modelling with parameter identification using operation data</a></i>. Energy and Buildings. 295 (2023): 113277. DOI: 10.1016/j.enbuild.2023.113277
 </li>
 <li>
-  Solar Keymark Network (2019). <i>Thermal performance parameter conversion to the ISO 9806‑2017 quasi‑dynamic method</i>. <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">SKN‑N0474R0</a>.
+Solar Keymark Network (2019). <i><a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>Thermal performance parameter conversion to the ISO 9806‑2017 quasi‑dynamic method</a></i>. SKN‑N0474R0
 </li>
 <li>
-  ISO 9806:2013. <i>Solar thermal collectors — Test methods</i>.
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025
 </li>
 </ul>
-
 </html>"),
 revisions="<html>
 <ul>
