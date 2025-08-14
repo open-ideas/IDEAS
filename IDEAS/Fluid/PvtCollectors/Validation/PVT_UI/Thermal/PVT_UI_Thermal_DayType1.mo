@@ -5,7 +5,7 @@ model PVT_UI_Thermal_DayType1
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature";
   parameter String pvtTyp = "Typ1";
-  parameter Real eleLosFac = 0.10;
+  parameter Real eleLosFac = 0.09;
   parameter Data.Uncovered.UI_Validation datPvtCol
     annotation (Placement(transformation(extent={{60,56},{80,76}})));
 
@@ -74,10 +74,11 @@ equation
   annotation (
     Documentation(info="<html>
 <p>
-This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
-IDEAS.Fluid.PvtCollectors.QuasiDynamicPvtCollector</a>
-for a variable fluid flow rate and weather data from San Francisco, CA, USA.
+See the documentation of
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">
+IDEAS.Fluid.PVTCollectors.Validation.PVT_UI
+</a>
+for details on the validation examples and usage.
 </p>
 </html>", revisions=
         "<html>
