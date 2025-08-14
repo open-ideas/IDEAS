@@ -5,30 +5,25 @@ block ISO9806QuasiDynamicHeatLossValidation
   extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss;
 
   // —— Diagnostic internal variables ——
-  Real c1_c2_term(unit="W")
-    "Contribution from c1–c2 (steady‑state) term";
-  Real c3_term(unit="W")
-    "Contribution from wind‑speed dependence (c3)";
-  Real c4_term(unit="W")
-    "Contribution from sky long‑wave (c4)";
-  Real c6_term(unit="W")
-    "Contribution from wind–irradiance coupling (c6)";
-  Real EL_term(unit="W/m2")
-    "Sky long‑wave irradiance difference (HHorIR – σ·TEnv⁴)";
+  Modelica.Units.SI.Power c1_c2_term "Contribution from c1–c2 (steady-state) term";
+  Modelica.Units.SI.Power c3_term "Contribution from wind-speed dependence (c3)";
+  Modelica.Units.SI.Power c4_term "Contribution from sky long-wave (c4)";
+  Modelica.Units.SI.Power c6_term "Contribution from wind–irradiance coupling (c6)";
+  Modelica.Units.SI.Irradiance EL_term "Sky long-wave irradiance difference (HHorIR – σ·TEnv⁴)";
 
   // —— Cumulative sums ——
-  Real pvt_st_st(unit="W") "Steady‑state loss (c1–c2)";
-  Real pvt_c3(   unit="W") "Steady‑state + c3";
-  Real pvt_c4(   unit="W") "Steady‑state + c3 + c4";
-  Real pvt_c6(   unit="W") "Total quasi‑dynamic loss";
+  Modelica.Units.SI.Power pvt_st_st "Steady-state loss (c1–c2)";
+  Modelica.Units.SI.Power pvt_c3 "Steady-state + c3";
+  Modelica.Units.SI.Power pvt_c4 "Steady-state + c3 + c4";
+  Modelica.Units.SI.Power pvt_c6 "Total quasi-dynamic loss";
 
 equation
   // term-by-term breakdown
   c1_c2_term = sum(A_c/nSeg * { dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
   c3_term    = sum(A_c/nSeg * { dT[i]*c3*winSpePla        for i in 1:nSeg});
-  c4_term    = sum(A_c/nSeg * { c4*(HHorIR - sigma*TEnv^4) for i in 1:nSeg});
+  c4_term    = sum(A_c/nSeg * { c4*(HHorIR - Modelica.Constants.sigma*TEnv^4) for i in 1:nSeg});
   c6_term    = sum(A_c/nSeg * { -c6*winSpePla*HGloTil     for i in 1:nSeg});
-  EL_term    = HHorIR - sigma*TEnv^4;
+  EL_term    = HHorIR - Modelica.Constants.sigma*TEnv^4;
 
   // cumulative contributions
   pvt_st_st = c1_c2_term;
