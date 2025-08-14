@@ -43,6 +43,10 @@ KU Leuven (2019-2021), through the research grant of Filip Jorissen, and the C3 
 The European Commission (2016-2021), through the research grant of Filip Jorissen and Damien Picard, and the Horizon 2020 'MPC-:GT - hybridGEOTABS' project (no. 723649)
 </li>
 <li>
+The European Commisson, the European Regional Development Fund (ERDF), Flanders Innovation and Entrepreneurship, and the Province of Limburg (2015-2018), through the research grant of Glenn Reynders
+and the 'EFRO-SALK GeoWatt' project
+</li>
+<li>
 The Agency for Innovation by Science and Technology in Flanders (IWT-VLAIO) (2014-2018), through the research grant of Arnout Aertgeerts, and the 'Living Lab De Schipjes’ project
 </li>
 <li>
@@ -55,11 +59,13 @@ The European Commission (2012-2015), through the PhD scholarship of Roel De Coni
 The Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project
 </li>
 <li>
+VITO (Flemish Institute for Technological Developments) (2011-2015), through the PhD scholarship of Glenn Reynders
+</li>
+<li>
 3E (2010-2014), through co-funding the PhD scholarship of Roel De Coninck
 </li>
 <li>
 The KU Leuven Energy Institute (2010-2014), through the PhD scholarships of Ruben Baetens, Roel De Coninck, Juan van Roy and Bart Verbruggen, and the ‘Optimal Energy Networks in Buildings' project
-
 </li>
 </ul>
 <h4>Contributors</h4>
