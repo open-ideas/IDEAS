@@ -93,8 +93,8 @@ protected
   Modelica.Blocks.Sources.RealExpression rH(y=(meaDat.y[8]))
     "Relative humidity [%]"
     annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation longWaveRad(
-  final til = til)
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation
+    longWaveRad(final til=til)
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
   Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
@@ -217,7 +217,7 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
 </li>
 <li>
 Long-wave radiation (derived due to faulty measurements): 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation\">
 IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
 </a>
 </li>

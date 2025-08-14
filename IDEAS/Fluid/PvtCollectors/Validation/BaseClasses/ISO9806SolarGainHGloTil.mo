@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses;
+within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 model ISO9806SolarGainHGloTil
   "Model calculating solar gains per the ISO9806 standard"
   extends Modelica.Blocks.Icons.Block;

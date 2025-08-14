@@ -50,7 +50,7 @@ model PVTQuasiDynamicCollectorValidation
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806SolarGainHGloTil
     solGaiStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
@@ -165,7 +165,7 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </li>
 <li>
 Solar (thermal) heat gain: see 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806SolarGainHGloTil\">
 IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil
 </a>
 </li>
