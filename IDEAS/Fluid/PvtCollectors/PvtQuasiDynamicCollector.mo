@@ -13,7 +13,7 @@ model PVTQuasiDynamicCollector
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
-protected
+
   Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
   Real qThSeg[nSeg] "Thermal power per unit per segment [W/m2]";
   Real HGloTil "Global irradiance per unit on tilted surface [W/m2]";

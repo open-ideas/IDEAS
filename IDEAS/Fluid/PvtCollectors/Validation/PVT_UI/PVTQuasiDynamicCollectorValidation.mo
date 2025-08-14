@@ -18,7 +18,6 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
-protected
   Real winSpeTil "Effective wind speed normal to collector plane";
   Real qThSeg[nSeg] "Thermal power per segment";
 
