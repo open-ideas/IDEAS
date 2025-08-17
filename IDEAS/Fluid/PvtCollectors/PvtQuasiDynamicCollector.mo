@@ -81,7 +81,7 @@ equation
   end for;
 
   // Assign electrical and thermal outputs
-  Pel = eleGen.pEl;
+  Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
   eleGen.qth = qThSeg;

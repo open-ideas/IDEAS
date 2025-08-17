@@ -36,7 +36,7 @@ model ElectricalPVT
         iconTransformation(extent={{-140,-80},{-100,-40}})));
 
   // Outputs (user-facing)
-  Modelica.Blocks.Interfaces.RealOutput pEl
+  Modelica.Blocks.Interfaces.RealOutput Pel
     "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,40},{140,80}}),
         iconTransformation(extent={{100,40},{140,80}})));
@@ -65,7 +65,7 @@ equation
                             (1 + gamma * TDif[i]) * (1 - eleLosFac);
   end for;
 
-  pEl = sum(Qsol_int);
+  Pel = sum(Qsol_int);
   temMod = sum(TCel) / nSeg;
   temMea = sum(Tflu) / nSeg;
   TavgCel = temMod;

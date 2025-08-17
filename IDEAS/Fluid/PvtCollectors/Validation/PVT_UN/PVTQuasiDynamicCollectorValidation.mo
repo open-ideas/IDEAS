@@ -87,7 +87,7 @@ model PVTQuasiDynamicCollectorValidation
             {11,87}})));
 equation
    // Assign electrical and thermal outputs
-  Pel = eleGen.pEl;
+  Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
   // Compute per-segment thermal power
