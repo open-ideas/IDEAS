@@ -11,13 +11,11 @@ model PVTQuasiDynamicCollectorValidation
   // =====  Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
- parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
+  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
     "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
   parameter Real tauAlpEff(min=0, max=1) =
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
-
-  Real qThSeg[nSeg] "Thermal power per units per segment";
 
   // Ouput connectors
   // ===== Real Output Connectors =====
@@ -35,6 +33,9 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
+  Modelica.Blocks.Interfaces.RealOutput qThSeg[nSeg]
+    "Thermal power per segment [W]"
+    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
 
   // IDEAS components
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
@@ -95,8 +96,6 @@ equation
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
 
-  eleGen.qth = qThSeg;
-
   connect(heaLosStc.TFlu, temSen.T) annotation (Line(
       points={{-22,14},{-30,14},{-30,-20},{-11,-20}},
       color={0,0,127},
@@ -120,14 +119,14 @@ equation
           {-30,74},{-31.55,74}}, color={0,0,127}));
   connect(eleGen.Tflu, temSen.T) annotation (Line(points={{-22,-64},{-26,-64},{
           -26,-20},{-11,-20}}, color={0,0,127}));
-
-
   connect(HHorIr.y, heaLosStc.HHorIR) annotation (Line(points={{-47.55,26},{-36,
           26},{-36,20},{-22,20}}, color={0,0,127}));
   connect(heaLosStc.TEnv, TFluKel.Kelvin) annotation (Line(points={{-22,26},{-22,
           30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
+  connect(eleGen.Qth, qThSeg)
+    annotation (Line(points={{-22,-70},{-50,-70},{-50,-30}}, color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>

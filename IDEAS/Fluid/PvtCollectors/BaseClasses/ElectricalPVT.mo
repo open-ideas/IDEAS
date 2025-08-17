@@ -26,7 +26,7 @@ model ElectricalPVT
     "Fluid temperatures per segment [K]"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.RealInput qth[nSeg]
+  Modelica.Blocks.Interfaces.RealInput Qth[nSeg]
     "Thermal power density per segment [W/m2]"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
         iconTransformation(extent={{-140,-20},{-100,20}})));
@@ -59,7 +59,7 @@ protected
 
 equation
   for i in 1:nSeg loop
-    TCel[i] = Tflu[i] + qth[i] / UAbsFluid;
+    TCel[i] = Tflu[i] +Qth [i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
     Qsol_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + gamma * TDif[i]) * (1 - eleLosFac);

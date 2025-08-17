@@ -15,7 +15,6 @@ model PVTQuasiDynamicCollector
     "Effective transmittance–absorptance product";
 
   Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
-  Real qThSeg[nSeg] "Thermal power per unit per segment [W/m2]";
 
   // ===== Output Connectors =====
   Modelica.Blocks.Interfaces.RealOutput Pel
@@ -25,6 +24,10 @@ model PVTQuasiDynamicCollector
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output[W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
+  Modelica.Blocks.Interfaces.RealOutput qThSeg[nSeg]
+    "Thermal power per segment [W]"
+    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
+
 
   // ===== Subcomponents =====
   final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
@@ -84,7 +87,6 @@ equation
   Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
-  eleGen.qth = qThSeg;
   heaLosStc.HGloTil = HGloTil.y;
   heaLosStc.winSpePla = winSpeTil;
 
@@ -142,6 +144,10 @@ equation
           52},{-46,52},{-46,14},{-64,14},{-64,-72},{-53,-72}}, color={0,0,127}));
   connect(HGloTil.y, eleGen.HGloTil) annotation (Line(points={{-41.5,-69},{-41.5,
           -70},{-30,-70},{-30,-76},{-22,-76}}, color={0,0,127}));
+  connect(qThSeg,eleGen.Qth)  annotation (Line(
+      points={{-50,-30},{-30,-30},{-30,-70},{-22,-70}},
+      color={0,0,127},
+      smooth=Smooth.None));
     annotation (
   defaultComponentName = "pvtCol",
 
