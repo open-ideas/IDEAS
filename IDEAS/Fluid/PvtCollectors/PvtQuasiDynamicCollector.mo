@@ -13,7 +13,14 @@ model PVTQuasiDynamicCollector
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
+  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(
+    min=0) = ((tauAlpEff - per.etaEl) * (per.c1 + abs(per.gamma)*HGloHorNom)) /
+              ((tauAlpEff - per.etaEl) - per.eta0)
+    "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
+    annotation(Dialog(tab="Advanced", group="Electrical parameters"));
 
+  // Parameters
   Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
 
   // ===== Output Connectors =====
@@ -65,7 +72,8 @@ model PVTQuasiDynamicCollector
     final eta0 = per.eta0,
     final tauAlpEff = tauAlpEff,
     final c1 = per.c1,
-    final etaEl = per.etaEl)
+    final etaEl = per.etaEl,
+    final UAbsFluid = UAbsFluid)
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
@@ -115,8 +123,7 @@ equation
       points={{-11,-20},{-30,-20},{-30,42},{-22,42}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heaLosStc.QLos_flow, QLos.Q_flow)
-    annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
+  connect(heaLosStc.QLos_flow, QLos.Q_flow) annotation (Line(points={{1,20},{50,20}}, color={0,0,127}));
   connect(heaLosStc.TFlu, temSen.T) annotation (Line(points={{-22,14},{-30,14},{
           -30,-20},{-11,-20}}, color={0,0,127}));
   connect(weaBus.TDryBul, heaLosStc.TEnv) annotation (Line(
@@ -136,8 +143,6 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(temSen.T, eleGen.Tflu) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
-
-
   connect(HDifTilIso.H, HGloTil.u1) annotation (Line(points={{-59,80},{-54,80},{
           -54,14},{-64,14},{-64,-66},{-53,-66}}, color={0,0,127}));
   connect(HDirTil.H, HGloTil.u2) annotation (Line(points={{-59,50},{-50,50},{-50,

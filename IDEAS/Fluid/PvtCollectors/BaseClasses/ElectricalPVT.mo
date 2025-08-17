@@ -17,7 +17,7 @@ model ElectricalPVT
   parameter Real c1 "First-order heat loss coefficient [W/(m2.K)]";
   parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
-  final parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
     ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom)) / ((tauAlpEff - etaEl) - eta0)
     "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
