@@ -28,11 +28,11 @@ model PVTQuasiDynamicCollectorValidation
         "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{78,70},
             {58,90}})));
-  Modelica.Blocks.Interfaces.RealOutput pEl
-    "Total electrical power output per unit area [W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Pel
+    "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
         iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output per unit area [W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
 
@@ -87,8 +87,8 @@ model PVTQuasiDynamicCollectorValidation
             {11,87}})));
 equation
    // Assign electrical and thermal outputs
-  pEl = eleGen.pEl;
-  qTh = sum(QGai.Q_flow + QLos.Q_flow);
+  Pel = eleGen.pEl;
+  Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
   // Compute per-segment thermal power
   for i in 1:nSeg loop

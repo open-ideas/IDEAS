@@ -18,11 +18,11 @@ model PVTQuasiDynamicCollector
   Real qThSeg[nSeg] "Thermal power per unit per segment [W/m2]";
 
   // ===== Output Connectors =====
-  Modelica.Blocks.Interfaces.RealOutput pEl
-    "Total electrical power output  per unit area[W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Pel
+    "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
         iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output per unit area[W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output[W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
 
@@ -81,8 +81,8 @@ equation
   end for;
 
   // Assign electrical and thermal outputs
-  pEl = eleGen.pEl;
-  qTh = sum(QGai.Q_flow + QLos.Q_flow);
+  Pel = eleGen.pEl;
+  Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
   eleGen.qth = qThSeg;
   heaLosStc.HGloTil = HGloTil.y;

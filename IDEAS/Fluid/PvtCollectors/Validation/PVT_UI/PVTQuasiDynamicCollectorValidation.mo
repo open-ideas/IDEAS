@@ -29,11 +29,11 @@ model PVTQuasiDynamicCollectorValidation
     fileName=Modelica.Utilities.Files.loadResource("modelica://PvTfluod/Resources/Validation/MeasurementData/Typ1_modelica.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{26,68},
             {6,88}})));
-  Modelica.Blocks.Interfaces.RealOutput pEl
-    "Total electrical power output per unit area[W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Pel
+    "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
         iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput qTh "Total thermal power output per unit area[W/m2]"
+  Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
 
@@ -108,8 +108,8 @@ equation
   winSpeTil = winSpe.y;
 
   // Assign electrical and thermal outputs
-  pEl = eleGen.pEl;
-  qTh = sum(QGai.Q_flow + QLos.Q_flow);
+  Pel = eleGen.pEl;
+  Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
   // Compute per-segment thermal power
   for i in 1:nSeg loop
