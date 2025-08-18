@@ -3,7 +3,7 @@ class Version_4_0_0 "Version_4_0_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
 <p>
-IDEAS v4.0.0 has been released on August xx, 2025.
+IDEAS v4.0.0 has been released on August 20, 2025.
 </p>
 <h4>Highlights</h4>
 <ul>
@@ -21,7 +21,8 @@ Significant improvements to the IDEAS.Examples.Tutorial.DetailedHouse tutorial.
 A additional interzonal air flow model has been developed.
 </li>
 <li>
-The DHW tap model has been significantly improved.</li>
+The DHW tap model has been significantly improved.
+</li>
 <li>
 PVT model?
 </li>

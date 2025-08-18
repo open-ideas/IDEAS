@@ -6,16 +6,20 @@ annotation (
   Icon(graphics={Bitmap(extent={{-100,-80},{100,80}}, fileName=
             "modelica://IDEAS/Resources/Images/IDEAS-logo-icon.png")}),
   version="4.0.0",
-  versionDate="2025-08-15",
-  dateModified = "2025-08-15",
+  versionDate="2025-08-20",
+  dateModified="2025-08-20",
   conversion(
  from(version={"0.2"},
       script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos",
       to="2.2.1"), from(version="2.2.1", script=
           "modelica://IDEAS/Resources/Scripts/ConvertFromIDEAS_2.2.1.mos")),
   Documentation(info="<html>
-<p>Licensed by KU Leuven and 3E.</p>
-<p>Copyright &copy; 2013-2025, KU Leuven and 3E. </p>
+<p>
+Licensed by KU Leuven and 3E.
+</p>
+<p>
+Copyright &copy; 2013-2025, KU Leuven and 3E.
+</p>
 <p>
 This Modelica package is <u>free</u> software and the use is completely at <u>your own risk</u>.
 For license information, view our <a href=\"modelica://IDEAS.UsersGuide.License\">License</a>.
