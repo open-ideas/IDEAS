@@ -55,8 +55,7 @@ equation
 
   connect(meaDat.y[13],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,
           34},{-60,16},{-92,16},{-92,4},{-88,4}},                                                       color={0,0,127}));
-  connect(bou.T_in,TFluKel. Kelvin)
-    annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
+  connect(bou.T_in,TFluKel. Kelvin)        annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(bou.m_flow_in, meaDat.y[17])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
   connect(bou.ports[1], PvtCol.port_a)

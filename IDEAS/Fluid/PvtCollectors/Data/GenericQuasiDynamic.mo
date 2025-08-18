@@ -38,24 +38,24 @@ electrical parameters and system loss factors follow from the manufacturer datas
 </p>
 <h4>References</h4>
 <ul>
-  <li>
-    IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
-    <a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
-  </li>
-  <li>
-    ISO 9806:2013. Solar thermal collectors — Test methods.
-  </li>
+<li>
+IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
+<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
+</li>
+<li>
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+</li>
 </ul>
 </html>",
 revisions="<html>
-  <ul>
-   <li>
-      July 7, 2025, by Lone Meertens:<br/>
-      First implementation PVT model; tracked in 
-      <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-        IDEAS #1436
-      </a>.
-    </li>
-  </ul>
+<ul>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model; tracked in 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
+IDEAS #1436
+</a>.
+</li>
+</ul>
 </html>"));
 end GenericQuasiDynamic;

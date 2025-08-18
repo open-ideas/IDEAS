@@ -121,7 +121,6 @@ equation
   heaLosStc.winSpePla = winSpeTil;
 
   connect(shaCoe_internal, solGaiStc.shaCoe_in);
-
   connect(shaCoe_in, solGaiStc.shaCoe_in) annotation (Line(
       points={{-120,40},{-40,40},{-40,45},{-22,45}},
       color={0,0,127},
@@ -144,10 +143,8 @@ equation
       smooth=Smooth.None));
   connect(solGaiStc.HDirTil, Qdir.y) annotation (Line(points={{-22,52},{-26,52},
           {-26,90},{-29.55,90}}, color={0,0,127}));
-  connect(solGaiStc.incAng, degToRad.y)
-    annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
-  connect(heaLosStc.TEnv, TAmbKel.Kelvin)
-    annotation (Line(points={{-22,26},{-34,26},{-34,28},{-34.5,28}},
+  connect(solGaiStc.incAng, degToRad.y) annotation (Line(points={{-22,48},{-40,48},{-40,54.5}}, color={0,0,127}));
+  connect(heaLosStc.TEnv, TAmbKel.Kelvin) annotation (Line(points={{-22,26},{-34,26},{-34,28},{-34.5,28}},
                                                             color={0,0,127}));
   connect(longWaveRad.rH, rH.y) annotation (Line(points={{-60,-60.4},{-70,-60.4},
           {-70,-74},{-73.55,-74}}, color={0,0,127}));
@@ -163,8 +160,7 @@ equation
           {-32,10},{-35.55,10}}, color={0,0,127}));
   connect(heaLosStc.HHorIR, longWaveRad.lonRad) annotation (Line(points={{-22,
           20},{-26,20},{-26,-55.9},{-36.3,-55.9}}, color={0,0,127}));
-  connect(meaDat.y[5], degToRad.u)
-    annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
+  connect(meaDat.y[5], degToRad.u) annotation (Line(points={{5,78},{-40,78},{-40,66}}, color={0,0,127}));
   connect(TAmbKel.Celsius, meaDat.y[12]) annotation (Line(points={{-46,28},{-68,
           28},{-68,78},{5,78}}, color={0,0,127}));
   connect(solGaiStc.HSkyDifTil, meaDat.y[3]) annotation (Line(points={{-22,58},{
@@ -173,9 +169,8 @@ equation
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
           {-32,-76},{-22,-76}}, color={0,0,127}));
-
-  connect(qThSeg, eleGen.Qth)
-    annotation (Line(points={{-50,-30},{-50,-70},{-22,-70}}, color={0,0,127}));
+  connect(qThSeg, eleGen.Qth) annotation (Line(points={{-50,-30},{-50,-70},
+          {-22,-70}}, color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
@@ -232,13 +227,13 @@ Because direct measurements of long-wave sky irradiance were found to be faulty,
 <h4>References</h4>
 <ul>
 <li>
-Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
+</li>
+<li>
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
 Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-</li>
-<li>
-ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
 </li>
 </ul>
 </html>",

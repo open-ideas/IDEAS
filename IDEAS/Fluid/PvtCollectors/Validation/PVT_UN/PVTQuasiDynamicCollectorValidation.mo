@@ -125,8 +125,8 @@ equation
           30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
-  connect(eleGen.Qth, qThSeg)
-    annotation (Line(points={{-22,-70},{-50,-70},{-50,-30}}, color={0,0,127}));
+  connect(eleGen.Qth, qThSeg) annotation (Line(points={{-22,-70},{-50,-70},
+          {-50,-30}}, color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
@@ -176,13 +176,13 @@ It is compatible with dynamic simulations in which irradiance, ambient and fluid
 <h4>References</h4>
 <ul>
 <li>
-Dobos, A.P., <i>PVWatts Version 5 Manual</i>, NREL, 2014
+Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
+</li>
+<li>
+ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
 Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
-</li>
-<li>
-ISO 9806:2013, Solar energy — Solar thermal collectors — Test methods
 </li>
 </ul>
 </html>",
