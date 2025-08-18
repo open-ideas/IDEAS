@@ -167,7 +167,7 @@ initial equation
   end if;
 
   if CheckVH and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts then
-  assert(Modelica.Math.isEqual(hAbs_floor_a+hRelSurfBot_a+hThCor,hAbs_floor_b+hRelSurfBot_b-hThCor,0.15),"The absolute height of internal wall,floor or ceiling (centerline) "+ getInstanceName() +" does not match within a 15cm margin between both sides of the wall,fl, check the input for the floor thickness and hfloor,hzone of the corresponding zones. At propsbus_a the absolute surface centerline height is "+String(hVertical/2+hAbs_floor_a+hRelSurfBot_a+hThCor)+"m while at propsbus_b the absolute surface centerline height is "+String(hVertical/2+hAbs_floor_b+hRelSurfBot_b-hThCor)+"m",level=AssertionLevel.error);
+  assert(Modelica.Math.isEqual(hAbs_floor_a+hRelSurfBot_a+hThCor,hAbs_floor_b+hRelSurfBot_b-hThCor,0.15),"The absolute height of internal wall,floor or ceiling (centerline) "+ getInstanceName() +" does not match within a 15cm margin between both sides of the wall, check the input for the floor thickness and hfloor,hzone of the corresponding zones. At propsbus_a the absolute surface centerline height is "+String(hVertical/2+hAbs_floor_a+hRelSurfBot_a+hThCor)+"m while at propsbus_b the absolute surface centerline height is "+String(hVertical/2+hAbs_floor_b+hRelSurfBot_b-hThCor)+"m",level=AssertionLevel.error);
   assert(Modelica.Math.isEqual(hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a+hThCor,hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b-hThCor,0.15),"The absolute height of the large cavity in internal wall "+ getInstanceName() +" does not match within a 15cm margin between both sides of the wall,floor or ceiling, check the input for the relative opening height, the floor thickness and hfloor,hzone of the corresponding zones. At propsbus_a the opening its absolute starting height is "+String(hVertical/2+hAbs_floor_a+hRelSurfBot_a+hRelOpeBot_a+hThCor)+"m while at propsbus_b the opening its absolute starting height is "+String(hVertical/2+hAbs_floor_b+hRelSurfBot_b+hRelOpeBot_b-hThCor)+"m",level=AssertionLevel.error);
   end if;
 
@@ -282,11 +282,8 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 <ul>
 <li>
 February 5, 2025, by Klaas De Jonge:<br/>
-Support was added to the twoport airflow implementation that acounts for the floor thickness.
-</li>
-<li>
-February 4, 2025, by Klaas De Jonge:<br/>
-Boolean to disable vertical height check was added
+Support was added to, optionally, check vertical heights in the two-port airflow implementation that acounts for the floor thicknesses.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a>
 </li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>
