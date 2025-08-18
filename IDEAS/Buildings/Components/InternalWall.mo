@@ -69,7 +69,7 @@ model InternalWall "interior opaque wall between two zones"
   parameter Boolean use_y_doo = false
     "=true, to enable controllable cavity (door) input"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Boolean CheckVH=true "Enable to not check vertical heights, if an internal floor or element is connected to the same zone at both sides this should be set to false" annotation(Dialog(group="Vertical height check",tab="Airflow"));
+  parameter Boolean CheckVH=true "Enable vertical heights check, if an internal floor or element is connected to the same zone at both sides this should be disabled" annotation(choices(checkBox=true),Dialog(group="Vertical height check",tab="Airflow"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     redeclare final package Medium = Medium,
