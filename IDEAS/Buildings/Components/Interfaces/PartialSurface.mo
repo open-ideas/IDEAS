@@ -43,7 +43,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Boolean use_custom_q50=false
     "check to disable the default q50 computation and to assign a custom q50 value"
     annotation (choices(checkBox=true),Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
-  parameter Real custom_q50(unit="m3/(h.m2)") = 2
+  parameter Real custom_q50(unit="m3/(h.m2)")=2
     "Surface air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
@@ -101,7 +101,7 @@ partial model PartialSurface "Partial model for building envelope component"
     h_b1=-0.5*hzone_a + 0.75*hVertical + hRelSurfBot_a,
     h_a2=-0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a,
     interZonalAirFlowType = sim.interZonalAirFlowType,
-    inc=incInt)                                           if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
+    inc=incInt) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
     Placement(transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
