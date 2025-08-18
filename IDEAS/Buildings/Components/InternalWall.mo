@@ -157,7 +157,7 @@ initial equation
      TRef_b is the reference temperature for heat loss calculations of the zone connected to propsBus_b";
 
   if sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and hasCavity == true then
-    assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": Cavities without airflow are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
+    assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": When the interZonalAirFlowType is IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   end if;
 
   if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,0) then
