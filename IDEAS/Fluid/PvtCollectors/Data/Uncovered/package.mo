@@ -7,9 +7,6 @@ extends Modelica.Icons.MaterialPropertiesPackage;
 Documentation(info = "<html>
 <p>
 This package contains thermal and electrical performance data for uncovered photovoltaic–thermal collectors, also known as WISC (Wind and Infrared Sensitive Collectors).
-All records conform to ISO 9806:2013 quasi-dynamic thermal testing, with parameters sourced from 
-Solar Keymark Certificates. The thermal parameters apply to the PV module operating in maximum power point (MPP) mode, 
-and the electrical performance parameters can be retrieved from manufacturer datasheets.
 </p>
 
 </html>",

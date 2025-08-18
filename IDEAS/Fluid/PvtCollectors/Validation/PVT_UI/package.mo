@@ -3,9 +3,9 @@ package PVT_UI
   annotation (preferredView="info", Documentation(info=
 "<html>
 <p>
-This package contains validation models for the <code>PVT_UI</code> collector 
+This package contains validation models for the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> collector 
 (referred to as <code>PVT1</code> in Meertens et al., 2025), 
-an uncovered PVT collector with rear insulation, 
+an <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">uncovered PVT collector with rear insulation</a>, 
 based on experimental data from HTW Saar (Jonas et al., 2019).
 </p>
 

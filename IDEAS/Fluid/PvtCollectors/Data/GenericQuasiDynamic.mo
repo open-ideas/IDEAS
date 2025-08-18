@@ -32,7 +32,7 @@ defaultComponentName="datPVTCol",
 Documentation(info="<html>
 <p>
 Record containing both thermal and electrical performance parameters for PVT
-collectors. Thermal parameters,tested according to the ISO 9806:2013
+collectors. Thermal parameters, tested according to the ISO 9806:2013
 quasi-dynamic procedure, apply to covered and uncovered designs, while
 electrical parameters and system loss factors follow from the manufacturer datasheets.
 </p>

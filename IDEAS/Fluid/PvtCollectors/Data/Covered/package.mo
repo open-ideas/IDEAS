@@ -2,15 +2,10 @@ within IDEAS.Fluid.PVTCollectors.Data;
 package Covered "Performance data for covered PVT collectors"
 extends Modelica.Icons.MaterialPropertiesPackage;
 
-
   annotation (
 Documentation(info = "<html>
 <p>
-This package contains performance data for uncovered (WISC)
-flat-plate photovoltaic-thermal collectors. All records conform to
-ISO 9806:2013 quasi-dynamic testing, with parameters sourced from
-Solar Keymark Certificate. Thermal performance parameters
-apply to the PV module in maximum power point (MPP) operation mode.
+This package contains performance data for covered photovoltaic-thermal collectors. 
 </p>
 </html>",
 revisions="<html>

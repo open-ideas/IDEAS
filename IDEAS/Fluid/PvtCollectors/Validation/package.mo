@@ -17,9 +17,9 @@ The validation examples use experimental data from two types of unglazed PVT col
 </ul>
 
 <p>
-These are implemented in the subpackages a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> and <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a>, respectively.
+These are implemented in the subpackages <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> and <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a>, respectively.
 The naming convention used in this implementation (<code>PVT_UI</code> and <code>PVT_UN</code>) 
-corresponds to the datasets referred to as <code>PVT1</code> and <code>PVT2</code> 
+corresponds to the datasets referred to as respectively <code>PVT1</code> and <code>PVT2</code> 
 in Meertens et al. (2025), where they are described in detail.
 </p>
 

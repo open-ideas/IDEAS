@@ -42,8 +42,8 @@ it is recommended to use the actual datasheet parameters in a custom <a href=\"m
 Jonas, D., Theis, D., Frey, G. (2018). <i><a href='https://doi.org/10.18086/eurosun2018.02.16'>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</a></i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
 </li>
 </ul>
-</html>", revisions=
-        "<html>
+</html>",
+        revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>

@@ -31,7 +31,8 @@ This record contains thermal and electrical parameters for an <b>uncovered</b> a
 These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 quasi-dynamic conditions.
 </p>
 <p>
-This record can be used as a generic representation of a WISC-type collector. However, if you know the brand and model of the PVT collector you plan to simulate or install, it is recommended to use the actual datasheet parameters in a custom <code>IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</code> record.
+This record can be used as a generic representation of a WISC-type collector. However, if you know the brand and model of the PVT collector you plan to simulate or install, it is recommended to use the actual datasheet parameters in a custom
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic \">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
 </p>
 <h4>Reference</h4>
 <ul>
