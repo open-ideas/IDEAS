@@ -296,7 +296,9 @@ model Structure "Ppd 12 example model"
     bouTypD=IDEAS.Buildings.Components.Interfaces.BoundaryType.External,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.InternalWall,
     fracA=0.1,
-    h=hFloor1, bFlo = 2, hasCavityFlo = true,
+    h=hFloor1,
+    bFlo = 2,
+    hasCavityFlo = true,
     hasWinA=true,
     l=wHallway2,
     mSenFac=1,
@@ -528,6 +530,10 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Disabled CheckVH for the two floors in the stairway (cei3 and StairWay.intFlo) that have thinner construction types then the general floor thicknesses.
+</li>
 <li>
 March 25, 2024, by Jelger Jansen:<br/>
 Use hFloor2 for second floor rooms and use outer wall construction type for bedroom 2 (face C).
