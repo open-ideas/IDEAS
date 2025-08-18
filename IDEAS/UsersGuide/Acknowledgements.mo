@@ -31,13 +31,19 @@ The European Commission (2024-2028), through the PhD scholarship of Anna Dell'Is
 The European Commission (2024-2028), through the PhD scholarship of Louis Hermans, the research grant of Lone Meertens, and the Horizon Europe 'SEEDS' project (no. 101138211) 
 </li>
 <li>
+The Agency for Innovation by Science and Technology in Flanders (VLAIO), through the research grant of Klaas De Jonge (HBC.2023.0488)
+</li>
+<li>
 KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen, the research grant of Javier Arroyo, and the 'TECHPED' project (C24M/021/21)
 </li>
 <li>
-Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen
+Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen (1SC9721N|1SC9723N)
 </li>
 <li>
 KU Leuven (2019-2021), through the research grant of Filip Jorissen, and the C3 project (C32/18/063)
+</li>
+<li>
+Research Foundation Flanders (FWO) (2019-2023), through the PhD scholarship of Klaas De Jonge (1SA7619N)
 </li>
 <li>
 The European Commission (2016-2021), through the research grant of Filip Jorissen and Damien Picard, and the Horizon 2020 'MPC-:GT - hybridGEOTABS' project (no. 723649)
