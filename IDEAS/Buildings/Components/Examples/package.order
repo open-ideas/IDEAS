@@ -1,8 +1,8 @@
 AirflowBoxModel
 BeamRadiationOnFloor
 BuildingShadeExample
-CavityInternalWall
 CavityInternalCeiling
+CavityInternalWall
 CavityWalls
 FacadeShadeExample
 HorizontalFinExample
