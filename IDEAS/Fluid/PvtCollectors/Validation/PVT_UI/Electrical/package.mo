@@ -4,7 +4,8 @@ package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector
   annotation (preferredView="info", Documentation(info=
 "<html>
 <p>
-This subpackage contains four validation models for the electrical performance of the PVT_UI collector, aligned with the same four ISO 9806:2013 day types used in the <code>Thermal</code> subpackage.
+This subpackage contains four validation models for the electrical performance of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> collector, 
+aligned with the same four ISO 9806:2013 day types used in the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Thermal\">Thermal</a> subpackage.
 </p>
 
 <p>

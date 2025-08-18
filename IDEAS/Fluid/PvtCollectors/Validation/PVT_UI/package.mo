@@ -13,7 +13,7 @@ based on experimental data from HTW Saar (Jonas et al., 2019).
 The validation is structured according to the ISO 9806:2013 standard and includes four representative day types:
 </p>
 <ul>
-<li><b>Day Type 1:</b> Clear sky, low temperature difference (η₀ conditions)</li>
+<li><b>Day Type 1:</b> Clear sky, low temperature difference (<i>&eta;<sub>0</sub></i> conditions)</li>
 <li><b>Day Type 2:</b> Partly cloudy, low temperature difference</li>
 <li><b>Day Type 3:</b> Clear sky, medium temperature difference</li>
 <li><b>Day Type 4:</b> Clear sky, high temperature difference</li>
@@ -47,7 +47,7 @@ The electrical model uses the PVWatts V5 formulation and includes temperature-de
 
 <h4>Model limitations</h4>
 <p>
-Overall, the PVT_UI validation demonstrates strong agreement between the model and measurements for both thermal and electrical outputs under a range of operating conditions. While electrical outputs are accurate and consistent across all day types, 
+Overall, the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> validation demonstrates strong agreement between the model and measurements for both thermal and electrical outputs under a range of operating conditions. While electrical outputs are accurate and consistent across all day types, 
 limitations in thermal output are observed under high wind speeds and rapid irradiance changes, primarily due to datasheet parameter constraints. This is particularly evident in Day Type 4, where a large temperature difference between the fluid and ambient air amplifies these limitations. 
 The wind speed over the collector plane during most of the test periods is generated using an artificial blower, producing wind speeds around 3.5&nbsp;m/s. This lies near the upper boundary of the test range for the datasheet thermal parameters, potentially leading to additional discrepancies 
 between the modeled and measured results.

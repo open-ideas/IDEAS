@@ -220,7 +220,8 @@ IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
 <p>
 This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
 It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
-Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation using the dedicated <code>LongWaveRadiation</code> component.
+Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation 
+using the dedicated <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation\">LongWaveRadiation</a> model.
 </p>
 
 

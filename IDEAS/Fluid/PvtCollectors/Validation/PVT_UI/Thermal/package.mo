@@ -4,10 +4,10 @@ package Thermal "Thermal Behavior of Unglazed Rear-Insulated PVT Collector"
   annotation (preferredView="info", Documentation(info=
 "<html>
 <p>
-This subpackage contains four validation models for the thermal performance of the PVT_UI collector, an uncovered PVT collector with rear insulation. The models correspond to the four ISO 9806:2013 day types:
+This subpackage contains four validation models for the thermal performance of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> collector, an uncovered PVT collector with rear insulation. The models correspond to the four ISO 9806:2013 day types:
 </p>
 <ul>
-<li><b>Day Type 1:</b> Clear sky, low temperature difference (η₀ conditions)</li>
+<li><b>Day Type 1:</b> Clear sky, low temperature difference (<i>&eta;<sub>0</sub></i> conditions)</li>
 <li><b>Day Type 2:</b> Partly cloudy, low temperature difference</li>
 <li><b>Day Type 3:</b> Clear sky, medium temperature difference</li>
 <li><b>Day Type 4:</b> Clear sky, high temperature difference</li>

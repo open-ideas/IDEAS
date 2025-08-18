@@ -64,7 +64,7 @@ equation
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   annotation (Documentation(info=     "<html>
 <p>
-This model validates the electrical performance of the PVT_UN collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
+This model validates the electrical performance of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
 </p>
 
 <p>

@@ -3,7 +3,7 @@ package PVT_UN
     annotation (preferredView="info", Documentation(info=
     "<html>
 <p>
-This package contains validation models for the <code>PVT_UN</code> collector 
+This package contains validation models for the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector 
 (referred to as <code>PVT2</code> in Meertens et al., 2025), 
 an uncovered and uninsulated PVT collector, 
 based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
@@ -17,8 +17,8 @@ The dataset spans 58 consecutive summer days with 5-second resolution, capturing
 The package includes two models:
 </p>
 <ul>
-  <li><code>Thermal</code>: Validates thermal output using the quasi-dynamic ISO 9806 formulation.</li>
-  <li><code>Electrical</code>: Validates electrical output using the PVWatts V5 formulation.</li>
+  <li><a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.Thermal\">Thermal</a>: Validates thermal output using the quasi-dynamic ISO 9806 formulation.</li>
+  <li><a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.Electrical\">Electrical</a>: Validates electrical output using the PVWatts V5 formulation.</li>
 </ul>
 
 <p>

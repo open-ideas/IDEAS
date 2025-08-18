@@ -70,9 +70,6 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain</a>.
 <p>
 Unlike <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain</a>, this component does not compute the global irradiance on the tilted surface from direct and diffuse irradiance components and apply an incidence angle modifier.
-</p>
-
-<p>
 It is primarily intended for validation purposes, where the
 <b>total solar irradiance on the tilted collector surface is measured</b>
 and can be directly provided as an input to this block.
