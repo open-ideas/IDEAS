@@ -8,5 +8,6 @@ August 18, 2025, by Klaas De Jonge:<br/>
 Use n50 declaration of extended model(n50=1.1) instead of n50=3
 </li>
 </ul>
-</html>"));
+</html>"),
+experiment(__Dymola_Algorithm="Dassl"));
 end StructureExt_2Port;
