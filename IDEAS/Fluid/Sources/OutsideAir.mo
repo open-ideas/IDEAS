@@ -213,6 +213,12 @@ with exception of boundary pressure, do not have an effect.
 revisions="<html>
 <ul>
 <li>
+August 18, 2025, by Klaas De Jonge:<br/>
+refactored embedded windPressureProfile function to receive support points and derivatives as fixed parameters 
+to avoid overhead each time the funtion is called (which is often for pressure driven airflow models).
+Changed OutsideAir model accordingly.
+</li>
+<li>
 July 9, 2025, by Jelger Jansen:<br/>
 Update documentation of A0 and a.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
