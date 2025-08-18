@@ -2,7 +2,9 @@ within IDEAS.UsersGuide.ReleaseNotes;
 class Version_4_0_0 "Version_4_0_0"
   extends Modelica.Icons.ReleaseNotes;
   annotation (Documentation(info="<html>
-<p>IDEAS v4.0.0 has been released on August xx, 2025.</p>
+<p>
+IDEAS v4.0.0 has been released on August xx, 2025.
+</p>
 <h4>Highlights</h4>
 <ul>
 <li>
@@ -10,8 +12,10 @@ A new IDEAS logo has been developed and added to the README and Modelica package
 </li>
 <li>
 The IDEAS.Buildings.Data package has been revised, and a new library of building envelope constructions with different insulation levels has been added.
-This package allows the selection of building constructions (Constructions, Frames, Glazing, Insulation, Materials) based on their classification in the EPC framework.</li>
-<li>Significant improvements to the IDEAS.Examples.Tutorial.DetailedHouse tutorial.
+This package allows the selection of building constructions (Constructions, Frames, Glazing, Insulation, Materials) based on their classification in the EPC framework.
+</li>
+<li>
+Significant improvements to the IDEAS.Examples.Tutorial.DetailedHouse tutorial.
 </li>
 <li>
 A additional interzonal air flow model has been developed.
