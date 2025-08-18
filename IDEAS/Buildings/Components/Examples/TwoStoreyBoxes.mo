@@ -80,6 +80,7 @@ equation
     experiment(
       StopTime=1209600,
       Interval=3600,
+      Tolerance=0.0001,
       __Dymola_fixedstepsize=15,
       __Dymola_Algorithm="Dassl"),
     Documentation(revisions="<html>
