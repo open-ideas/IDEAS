@@ -3,7 +3,7 @@ within IDEAS.Buildings.Components;
 model InternalWall "interior opaque wall between two zones"
   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
     final use_custom_q50=true,
-    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(incInt, 0) or IDEAS.Utilities.Math.Functions.isAngle(incInt, Modelica.Constants.pi) then 0 else 2,
+    custom_q50=if IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Ceiling) or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor) then 0 else 2,
     final nWin=1,
     dT_nominal_a=1,
     E(y=if sim.computeConservationOfEnergy then layMul.E else 0),
@@ -160,9 +160,9 @@ initial equation
     assert(IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Wall), "In " + getInstanceName() + ": When the interZonalAirFlowType is IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None, cavities are only supported for vertical walls, but inc=" + String(incInt) + ". The model is not accurate.", level = AssertionLevel.warning);
   end if;
 
-  if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,0) then
+  if CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then
     assert(hAbs_floor_a<hAbs_floor_b, getInstanceName()+ " is a ceiling, but the floor of the zone at probsbus_b (hfloor="+String(hAbs_floor_b) +") does not lie below the floor of zone at probsbus_a (hfloor="+String(hAbs_floor_a) +"), this should be fixed",level=AssertionLevel.error);
-  elseif CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,Modelica.Constants.pi) then
+  elseif CheckVH and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None and IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Floor) then
     assert(hAbs_floor_a>hAbs_floor_b, getInstanceName()+ " is a floor, but the floor of the zone at probsbus_a (hfloor="+String(hAbs_floor_a) +") does not lie below the floor of zone at probsbus_b (hfloor="+String(hAbs_floor_b) +"), this should be fixed",level=AssertionLevel.error);
   end if;
 
