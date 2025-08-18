@@ -39,8 +39,8 @@ model OutsideAir
     Placement(visible = true, transformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 180), iconTransformation(origin = {-110, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 protected
 
-//Get support points and derivatives for spline interpolation of the extended table
-  parameter Real Radtable[:,:] = [Modelica.Constants.D2R*table[:,1],table[:,2]];
+  //Get support points and derivatives for spline interpolation of the extended table
+  parameter Real Radtable[:,:] = [Modelica.Constants.D2R*table[:,1],table[:,2]] "table with angles in radians";
 
   //extends table with 1 point at the beginning and end for correct derivative at 0 and 360
   parameter Real prevPoint[1,2] = [Radtable[size(table, 1)-1, 1] - (2*Modelica.Constants.pi), Radtable[size(table, 1)-1, 2]];
