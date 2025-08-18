@@ -33,22 +33,13 @@ model OutsideAir
 <p>
 This model demonstrates the use of a source for ambient conditions that computes
 the wind pressure on a facade of a building using a user-defined wind pressure profile.
-Weather data are used for San Francisco, for a period of a week
-where the wind blows primarily from North-West.
-The plot shows that the wind pressure on the north- and west-facing
-facade is positive,
-whereas it is negative for the south- and east-facing facades.
+<br/>
+Weather data is obtained from the from the SimInfoManager.
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
-February 2, 2022, by Michael Wetter:<br/>
-Revised implementation.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1436\">IBPSA, #1436</a>.
-</li>
-<li>
-Jun 28, 2021 by Klaas De Jonge:<br/>
+September 21, 2019 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
