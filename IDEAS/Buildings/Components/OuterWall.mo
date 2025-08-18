@@ -304,6 +304,10 @@ The correct shading parameter values should then be passed through the redeclara
 </html>", revisions="<html>
 <ul>
 <li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Changed inc to incInt where nececarry.
+</li>
+<li>
 November 7, 2024, by Anna Dell'Isola and Jelger Jansen:<br/>
 Update calculation of transmission design losses.
 See <a href=\"https://github.com/open-ideas/IDEAS/issues/1337\">#1337</a>

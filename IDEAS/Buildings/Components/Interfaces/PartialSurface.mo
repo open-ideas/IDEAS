@@ -281,6 +281,10 @@ equation
     Documentation(revisions="<html>
 <ul>
 <li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Changed inc to incInt where nececarry.
+</li>
+<li>
 January 24, 2025, by Klaas De Jonge:<br/>
 Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 and
 parameter for number of dummy connections in <code>Q50_parameterToConnector</code> to avoid translation warnings.

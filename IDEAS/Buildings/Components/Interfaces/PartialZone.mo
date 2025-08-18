@@ -561,6 +561,10 @@ end for;
 </html>", revisions="<html>
 <ul>
 <li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Simplified n50_computed to n50_int since the if statement was a duplicate.
+</li>
+<li>
 November 11, 2024 by Lucas Verleyen:<br/>
 Change Medium to IDEAS.Media.Air and use 'constrainedby' for Modelica.Media.Interfaces.PartialMedium.
 This is for <a href=https://github.com/open-ideas/IDEAS/issues/1375>#1375</a>.
