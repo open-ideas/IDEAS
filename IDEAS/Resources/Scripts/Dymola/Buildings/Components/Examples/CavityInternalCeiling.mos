@@ -21,7 +21,7 @@ colors={{28,108,200}, {238,46,47}});
 
 createPlot(
 id=1, 
-y={"internalCeiling.crackOrOperableDoor.m2_flow"}, 
+y={"internalWall.crackOrOperableDoor.m2_flow"}, 
 range={0.0, 108000.0, 0.0, 0.006}, 
 erase=false, 
 grid=true, 

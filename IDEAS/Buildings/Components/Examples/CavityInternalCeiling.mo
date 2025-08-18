@@ -24,8 +24,14 @@ Note that it requires TwoPorts interzonal air flow (interZonalAirFlowType=IDEAS.
 </p>
 </html>", revisions="<html>
 <ul>
-<li>August 13 2025, Klaas De Jonge<br>Updated construction type of Internal floor to IDEAS.Buildings.Validation.Data.Constructions.LightWall.</li>
-<li>February 05 2025, Klaas De Jonge<br>First implementation. </li>
+<li>
+August 13 2025, Klaas De Jonge<br>
+Updated construction type of Internal floor to IDEAS.Buildings.Validation.Data.Constructions.LightWall.
+</li>
+<li>
+February 05 2025, Klaas De Jonge<br>
+First implementation.
+</li>
 </ul>
 </html>"),
     __Dymola_experimentSetupOutput,
