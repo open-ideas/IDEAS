@@ -51,9 +51,8 @@ partial model PartialSurface "Partial model for building envelope component"
 
   final parameter Modelica.Units.SI.Length hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Modelica.Units.SI.Length hAbs_floor_a( fixed=false);
-  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
-  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a (e.g. 0 for walls at floor level and floors.)"
-                                                                                                                                                                                                        annotation(Evaluate=true);
+  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical (e.g. 0 for floors and ceilings)" annotation(Evaluate=true,Dialog(group="Vertical position (important if interZonalAirFlowType is TwoPorts)"));
+  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a (e.g. 0 for walls at floor level and floors.)" annotation(Evaluate=true,Dialog(group="Vertical position (important if interZonalAirFlowType is TwoPorts)"));
   final parameter Modelica.Units.SI.Length Habs_surf=hAbs_floor_a+hRelSurfBot_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
