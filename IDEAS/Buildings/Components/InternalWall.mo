@@ -147,7 +147,7 @@ protected
     "Thermal-only model for open door"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   final parameter Boolean useDooOpe = hasCavity and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts;
-  final parameter Real hThCor=cos(incInt)*sum(constructionType.mats.d)/2 "Vertically projected internal wall thickness";
+  final parameter Real hThCor=cos(incInt)*sum(constructionType.mats.d)/2 "Half of the vertically projected internal wall thickness";
 
 initial equation
   hzone_b = propsBus_b.hzone;
