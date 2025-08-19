@@ -281,7 +281,7 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 <li>
 February 5, 2025, by Klaas De Jonge:<br/>
 Support was added to, optionally, check vertical heights in the two-port airflow implementation that acounts for the floor thicknesses.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a> and <a href=\"https://github.com/open-ideas/IDEAS/issues/1417">#1417</a>
 </li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>
