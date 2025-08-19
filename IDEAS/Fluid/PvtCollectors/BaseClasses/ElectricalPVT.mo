@@ -5,16 +5,15 @@ model ElectricalPVT
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
 
   // Parameters
-  parameter Integer nSeg = 1 "Number of segments";
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
   parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
-  parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature [K]";
+  parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature";
   parameter Real gamma "Temperature coefficient [1/K]";
-  parameter Modelica.Units.SI.Power P_nominal "Nominal PV power [W]";
-  parameter Modelica.Units.SI.Area A "PV area [m2]";
+  parameter Modelica.Units.SI.Power P_nominal "Nominal PV power";
+  parameter Modelica.Units.SI.Area A "PV area";
   parameter Modelica.Units.SI.Efficiency eta0 "Zero-loss efficiency";
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff "Effective transmittance–absorptance product";
-  parameter Real c1 "First-order heat loss coefficient [W/(m2.K)]";
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1 "First-order heat loss coefficient";
   parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
@@ -53,19 +52,19 @@ protected
   // internal variables (not exposed as connectors)
   Modelica.Units.SI.Temperature temMod "Average cell/module temperature ";
   Modelica.Units.SI.Temperature temMea "Average fluid temperature";
-  Real TCel[nSeg];
-  Real TDif[nSeg];
-  Real Qsol_int[nSeg];
+  Modelica.Units.SI.Temperature TCel[nSeg];
+  Modelica.Units.SI.Temperature TDif[nSeg];
+  Modelica.Units.SI.Power Pel_int[nSeg];
 
 equation
   for i in 1:nSeg loop
-    TCel[i] = Tflu[i] +Qth [i] / UAbsFluid;
+    TCel[i] = Tflu[i] +Qth[i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
-    Qsol_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
+    Pel_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + gamma * TDif[i]) * (1 - eleLosFac);
   end for;
 
-  Pel = sum(Qsol_int);
+  Pel = sum(Pel_int);
   temMod = sum(TCel) / nSeg;
   temMea = sum(Tflu) / nSeg;
   TavgCel = temMod;
@@ -75,17 +74,16 @@ annotation (
   defaultComponentName="eleGen",
   Documentation(info="<html>
 <p>
-This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the PVWatts v5 methodology (Dobos, 2014), adapted for PVT systems. It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
+This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the PVWatts v5 methodology (Dobos, 2014), adapted for PVT systems.
+It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
 </p>
-
 <p>
 The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
-
 <p align=\"center\" style=\"font-style:italic;\">
-P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) &#183 (P<sub>nom</sub> / A) &#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &gamma; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
+P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) &#183 (P<sub>nom</sub> / A) 
+&#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &gamma; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
 </p>
-
 <p>
 where:
 <ul>
@@ -128,7 +126,8 @@ For the mathematical description and visualisation, see <a href='modelica://IDEA
 
 <h5>Electrical performance and losses</h5>
 <p>
-The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
+The electrical submodel includes an overall system loss factor <code>eleLosFac</code>. 
+PVWatts reports a total electrical power loss of 14%, resulting from the following mechanisms:
 </p>
 <table border=\"1\" cellpadding=\"4\">
 <tr>
@@ -179,10 +178,11 @@ measured electrical output. For PVT collectors with a high positive tolerance on
 electrical output, this system loss factor can even be lower. 
 Users may adjust <code>eleLosFac</code> to account for site-specific soiling or shading effects.
 </p>
+
 <h4>Implementation Notes</h4>
 <p>
-This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. It is compatible with the thermal 
-model based on ISO 9806:2013 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
+This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. 
+It is compatible with the thermal model based on ISO 9806:2013 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
 </p>
 
 <h4>References</h4>
@@ -191,7 +191,9 @@ model based on ISO 9806:2013 and is suitable for dynamic simulations where irrad
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L., Jansen, J., Helsen, L. (2025).
+<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>,
+submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li>
 </ul>
 </html>",
@@ -199,10 +201,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));
