@@ -3,6 +3,7 @@ model ISO9806HeatLoss
   "Example showing the use of ISO9806QuasiDynamicHeatLoss"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium in the system";
+
   parameter IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per=
       IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation()
     "Performance data" annotation (choicesAllMatching=true);
@@ -95,7 +96,6 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>,
 which calculates the quasi-dynamic heat loss of a PVT or solar thermal collector
 according to the ISO 9806:2013 standard.
 </p>
-
 <p>
 In addition to showcasing the ISO 9806-based model, this example also compares its behavior
 to the steady-state heat loss model
@@ -103,7 +103,6 @@ to the steady-state heat loss model
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a>,
 which is based on the now-superseded EN 12975 standard.
 </p>
-
 <p>
 This comparison highlights the differences between the steady-state and quasi-dynamic
 approaches, particularly in how they account for environmental factors such as wind speed
@@ -114,9 +113,8 @@ revisions="<html>
 <ul>
 <li>
 July 2, 2025, by Lone Meertens:<br/>
-First implementation of ISO 9806 quasi-dynamic heat loss example.<br/>
-This is for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">IDEAS, #1436</a>.
+First implementation of ISO 9806 quasi-dynamic heat loss example.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">1436</a>.
 </li>
 </ul>
 </html>"), experiment(Tolerance=1e-6, StopTime=100));

@@ -202,7 +202,7 @@ revisions="<html>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));
