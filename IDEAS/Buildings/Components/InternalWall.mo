@@ -45,8 +45,12 @@ model InternalWall "interior opaque wall between two zones"
     "Width of (rectangular) cavity in wall"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door"));
 
-  parameter  Modelica.Units.SI.Length hRelOpeBot_a=0 "Vertical distance at propsbus a between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door",enable=hasCavity));
-  parameter  Modelica.Units.SI.Length hRelOpeBot_b=0 "Vertical distance at propsbus b between the bottom of the surface that contains an (operable) opening and the bottom of the opening" annotation(Dialog(group="Cavity or open door",enable=hasCavity));
+  parameter  Modelica.Units.SI.Length hRelOpeBot_a=0 
+    "Vertical distance at propsbus a between the bottom of the surface that contains an (operable) opening and the bottom of the opening" 
+    annotation(Dialog(group="Cavity or open door",enable=hasCavity));
+  parameter  Modelica.Units.SI.Length hRelOpeBot_b=0 
+    "Vertical distance at propsbus b between the bottom of the surface that contains an (operable) opening and the bottom of the opening" 
+    annotation(Dialog(group="Cavity or open door",enable=hasCavity));
   parameter Modelica.Units.SI.Acceleration g = Modelica.Constants.g_n
     "Gravity, for computation of buoyancy"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
@@ -68,7 +72,9 @@ model InternalWall "interior opaque wall between two zones"
   parameter Boolean use_y_doo = false
     "=true, to enable controllable cavity (door) input"
     annotation(Dialog(enable=hasCavity,group="Cavity or open door",tab="Advanced"));
-  parameter Boolean CheckVH=true "Enable vertical heights check, if an internal floor or element is connected to the same zone at both sides this should be disabled" annotation(choices(checkBox=true),Dialog(group="Vertical height check",tab="Airflow"));
+  parameter Boolean CheckVH=true 
+    "Enable vertical heights check, if an internal floor or element is connected to the same zone at both sides this should be disabled" 
+    annotation(choices(checkBox=true),Dialog(group="Vertical height check",tab="Airflow"));
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_b(
     redeclare final package Medium = Medium,
@@ -281,7 +287,7 @@ We assume that the value of <code>A</code> excludes the surface area of the cavi
 <li>
 February 5, 2025, by Klaas De Jonge:<br/>
 Support was added to, optionally, check vertical heights in the two-port airflow implementation that acounts for the floor thicknesses.
-See <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a> and <a href=\"https://github.com/open-ideas/IDEAS/issues/1417">#1417</a>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a> and <a href=\"https://github.com/open-ideas/IDEAS/issues/1417\">#1417</a>
 </li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>

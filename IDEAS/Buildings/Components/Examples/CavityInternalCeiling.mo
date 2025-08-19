@@ -26,7 +26,7 @@ Note that it requires TwoPorts interzonal air flow (<code>interZonalAirFlowType=
 <ul>
 <li>
 August 13, 2025, by Klaas De Jonge:<br/>
-Updated construction type of Internal floor to <a href="modelica://IDEAS.Buildings.Validation.Data.Constructions.LightWall">
+Updated construction type of Internal floor to <a href=modelica://IDEAS.Buildings.Validation.Data.Constructions.LightWall>
 IDEAS.Buildings.Validation.Data.Constructions.LightWall</a>
 </li>
 <li>

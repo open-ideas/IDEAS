@@ -153,7 +153,7 @@ model CrackOrOperableDoor
 		annotation (Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  IDEAS.Airflow.Multizone.DoorDiscretizedOperable doo(
 	forceErrorControlOnFlow=forceErrorControlOnFlow,
-	final dh=final dh=
+	final dh=
 		if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) or IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Floor) then 0 
 		else doo.hOpe*sin(inc)/nCom,
 	redeclare package Medium = Medium,
