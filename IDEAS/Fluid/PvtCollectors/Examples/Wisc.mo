@@ -99,5 +99,13 @@ First implementation PVT model.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">1436</a>.
 </li>
 </ul>
-</html>"),experiment(Tolerance=1e-6, StopTime=86400.0));
+</html>"),
+__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Examples/WISC.mos"
+        "Simulate and plot"),
+ experiment(
+      StartTime=0,
+      StopTime=86400,
+      Interval=60,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="dassl"));
 end WISC;
