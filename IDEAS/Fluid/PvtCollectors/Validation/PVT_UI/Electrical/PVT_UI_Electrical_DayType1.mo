@@ -72,18 +72,16 @@ IDEAS.Fluid.PVTCollectors.Validation.PVT_UI
 for details on the validation examples and usage.
 </p>
 </html>", revisions=
-        "<html>
+"<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),
-__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/SolarCollectors/Examples/FlatPlate.mos"
+__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UI/Electrical/PVT_UI_Electrical_DayType1.mos"
         "Simulate and plot"),
  experiment(
       StartTime=18872521.2,

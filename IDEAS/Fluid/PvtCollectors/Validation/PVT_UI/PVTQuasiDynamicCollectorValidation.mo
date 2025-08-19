@@ -18,7 +18,8 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
-  Real winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
 
   // Ouput connectors
   // ===== Real Output Connectors =====
@@ -35,9 +36,6 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
-  Modelica.Blocks.Interfaces.RealOutput qThSeg[nSeg]
-    "Thermal power per segment [W]"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare final package Medium = Medium,
@@ -77,7 +75,6 @@ model PVTQuasiDynamicCollectorValidation
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
-
   Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
     "[W/m2]"                                                                        annotation (Placement(transformation(extent={{-49.5,
             82},{-30.5,98}})));
@@ -105,6 +102,9 @@ model PVTQuasiDynamicCollectorValidation
     annotation (Placement(transformation(extent={{-93.5,-58},{-74.5,-42}})));
   Modelica.Blocks.Sources.RealExpression Eglob(y=(meaDat.y[2])) "[W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-46},{-74.5,-30}})));
+  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
+
 equation
    // Compute plane wind speed (using inherited azi/til and connected weaBus):
   winSpeTil = winSpe.y;
@@ -113,7 +113,7 @@ equation
   Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
-  // Compute per-segment thermal power
+  // Compute thermal power per segment
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
@@ -169,14 +169,16 @@ equation
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
           {-32,-76},{-22,-76}}, color={0,0,127}));
-  connect(qThSeg, eleGen.Qth) annotation (Line(points={{-50,-30},{-50,-70},
-          {-22,-70}}, color={0,0,127}));
+  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
+      points={{-40,-90},{-30,-90},{-30,-70},{-22,-70}},
+      color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
 Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
-Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
+Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
+and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>
 
 <h4>Extends</h4>
@@ -224,7 +226,6 @@ Because direct measurements of long-wave sky irradiance were found to be faulty,
 using the dedicated <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation\">LongWaveRadiation</a> model.
 </p>
 
-
 <h4>References</h4>
 <ul>
 <li>
@@ -242,10 +243,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model. 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),
