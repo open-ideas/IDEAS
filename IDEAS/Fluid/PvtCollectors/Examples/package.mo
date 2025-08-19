@@ -4,19 +4,8 @@ package Examples "Examples demonstrating the use of models in the PVTCollectors 
 
   annotation(Documentation(info="<html>
 <p>
-This package contains example model demonstrating the use of models in
-the PVTCollectors package.
+This package contains examples demonstrating the use of models in the 
+<a href=\"IDEAS.Fluid.PVTCollectors\"> IDEAS.Fluid.PVTCollectors</a> package.
 </p>
-</html>",
-revisions="<html>
-<ul>
-<li>
-July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
-</li>
-</ul>
 </html>"));
 end Examples;

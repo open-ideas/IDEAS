@@ -75,7 +75,6 @@ This example demonstrates the implementation of the
 IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a> 
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>
-
 <p>
 The collector modeled here is an <b>uncovered PVT collector</b>, also referred to as a 
 <b>WISC</b> (Wind and Infrared Sensitive Collector). These collectors are sensitive to 
@@ -83,21 +82,21 @@ ambient wind and infrared radiation due to the absence of a glazing layer.
 They can be either <i>unglazed insulated (UI)</i> or <i>unglazed non-insulated (UN)</i>, 
 depending on the thermal insulation applied to the back side of the collector.
 </p>
-
 <p>
-This test model uses the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">Uncovered.UI_Validation</a> record.
+This test model uses the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\">
+IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation</a> record.
 However, if you know the brand and model of the PVT collector you plan to simulate or install, 
-it is recommended to use the actual datasheet parameters in a custom <a href=\"IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</a> record.
+it is recommended to use the actual datasheet parameters in a custom 
+<a href=\"IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">
+IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</a> record.
 </p>
-</html>", revisions=
-        "<html>
+</html>",
+revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">1436</a>.
 </li>
 </ul>
 </html>"),experiment(Tolerance=1e-6, StopTime=86400.0));
