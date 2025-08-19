@@ -9,10 +9,10 @@ model OutsideAir
   parameter Real table[:,:]=[0,0.4; 45,0.1; 90,-0.3; 135,-0.35; 180,-0.2; 225,-0.35; 270,-0.3; 315,0.1; 360,0.4] "Cp at different angles of attack";
   parameter Modelica.Units.SI.Angle azi "Surface azimuth (South:0, West:pi/2)" annotation (choicesAllMatching=true);
 
-  parameter Real Cs(final unit="1") = (A0*A0)*((Habs/sim.Hwind)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
+  parameter Real Cs= (A0*A0)*((Habs/sim.Hwind)^(2*a)) "Wind speed modifier" annotation(Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length Habs=10 "Absolute height of boundary for correcting the wind speed" annotation (Dialog(group="Wind"));
-  parameter Real A0(final unit="1")=sim.A0 "Local terrain coefficient." annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
-  parameter Real a(final unit="1")=sim.a "Velocity profile exponent." annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Real A0=sim.A0 "Local terrain coefficient." annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
+  parameter Real a=sim.a "Velocity profile exponent." annotation(Dialog(tab="Overwrite",group="Effect of surroundings on wind"));
 
   Modelica.Units.SI.Density rho = IDEAS.Utilities.Psychrometrics.Functions.density_pTX(
         p=Medium.p_default,
