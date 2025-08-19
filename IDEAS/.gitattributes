@@ -1,4 +1,0 @@
-IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/*.mos filter=lfs diff=lfs merge=lfs -text
-IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/*.txt filter=lfs diff=lfs merge=lfs -text
-IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_Austria_wheaterData.mos filter=lfs diff=lfs merge=lfs -text
-IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT2/PVT2_measurements.txt filter=lfs diff=lfs merge=lfs -text
