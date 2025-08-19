@@ -6,8 +6,8 @@ model ISO9806QuasiDynamicHeatLoss
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
     final QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*dT[i] + c3*winSpePla) + c4*(HHorIR
          - Modelica.Constants.sigma*TEnv^4) - c6*winSpePla*HGloTil for i in 1:nSeg},
-        a1=c1,
-        a2=c2);
+    final a1=c1,
+    final a2=c2);
 
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
     "Linear heat loss coefficient (a1)";
