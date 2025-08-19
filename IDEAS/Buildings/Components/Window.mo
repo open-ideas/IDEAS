@@ -35,8 +35,8 @@ model Window "Multipane window"
       hOpe=hWin,
       hA=0.5*hVertical,
       hB=0.5*hzone_a - hRelSurfBot_a,
-          openDoorOnePort=false,
-          useDoor = use_operable_window));
+      useDoor = use_operable_window,
+      use_y=use_operable_window));
   parameter Modelica.Units.SI.Length hWin(min=0.1) = max(0.1,sqrt(A))
     "Window height, including frame"
     annotation ();
@@ -119,7 +119,7 @@ model Window "Multipane window"
     "Absolute height at the middle of the window"
     annotation (Dialog(tab="Airflow", group="Wind"));
   parameter Boolean use_operable_window = false
-    "= true, to enable window control input"
+    "= true, to enable window control input when using sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts"
     annotation(Dialog(group="Operable window", tab="Airflow"));
   parameter Boolean use_trickle_vent = false
     "= true, to enable trickle vent"
@@ -272,6 +272,9 @@ protected
 initial equation
   QTra_design = (U_value*A + fraType.briTyp.G) *(TRefZon - Tdes.y);
   Habs =hAbs_floor_a + hRelSurfBot_a + (hVertical/2);
+
+  assert(not use_operable_window or sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
+    "In " + getInstanceName() + ": The window is set to be operable so sim.interZonalAirFlowType should be IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts, but it isn't");
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
