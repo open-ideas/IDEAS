@@ -20,13 +20,14 @@ model CavityInternalCeiling
     Documentation(info="<html>
 <p>
 This example contains an example use of an opening in an internal ceiling. 
-Note that it requires TwoPorts interzonal air flow (interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts).
+Note that it requires TwoPorts interzonal air flow (<code>interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts</code>).
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
-August 13 2025, Klaas De Jonge<br>
-Updated construction type of Internal floor to IDEAS.Buildings.Validation.Data.Constructions.LightWall.
+August 13, 2025, by Klaas De Jonge:<br/>
+Updated construction type of Internal floor to <a href="modelica://IDEAS.Buildings.Validation.Data.Constructions.LightWall">
+IDEAS.Buildings.Validation.Data.Constructions.LightWall</a>
 </li>
 <li>
 February 05 2025, Klaas De Jonge<br>

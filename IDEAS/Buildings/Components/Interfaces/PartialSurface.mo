@@ -282,7 +282,7 @@ equation
 <ul>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
-Changed inc to incInt where nececarry.
+Changed <code>inc</code> to <code>incInt</code> where nececarry.
 </li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>

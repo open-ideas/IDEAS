@@ -562,7 +562,7 @@ end for;
 <ul>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
-Simplified n50_computed to n50_int since the if statement was a duplicate.
+Simplified <code>n50_computed</code> to <code>n50_int</code> since the if statement was a duplicate.
 </li>
 <li>
 November 11, 2024 by Lucas Verleyen:<br/>

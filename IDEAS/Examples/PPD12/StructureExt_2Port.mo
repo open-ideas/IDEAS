@@ -5,7 +5,7 @@ model StructureExt_2Port "Extended the structure but with 2-port option ON"
 <ul>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
-Use n50 declaration of extended model(n50=1.1) instead of n50=3
+Use n50 declaration of extended model(<code>n50=1.1</code>) instead of <code>n50=3</code>
 </li>
 </ul>
 </html>"),

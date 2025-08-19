@@ -468,7 +468,7 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 <ul>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
-Changed inc to incInt where nececarry.
+Changed <code>inc</code> to <code>incInt</code> where necessary.
 </li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
