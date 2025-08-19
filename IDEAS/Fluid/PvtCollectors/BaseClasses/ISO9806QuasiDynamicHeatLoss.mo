@@ -9,7 +9,6 @@ model ISO9806QuasiDynamicHeatLoss
         a1=c1,
         a2=c2);
 
-
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
     "Linear heat loss coefficient (a1)";
   parameter Real c2(final unit="W/(m2.K2)", final min=0)
@@ -47,19 +46,19 @@ defaultComponentName="heaLosStc",
 Documentation(info="<html>
 <p>
 This component computes the quasi-dynamic heat loss from a solar thermal or PVT collector
-to the environment, following the methodology described in the international standard
-<b>ISO 9806:2013</b>. It extends the original <code>EN12975HeatLoss</code> model for code reuse,
+to the environment, following the methodology described in the international standard <b>ISO 9806:2013</b>. 
+It extends the original <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> model for code reuse,
 but implements the more comprehensive quasi-dynamic formulation.
 </p>
-
 <p>
 The heat loss is calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
-
 <p align=\"center\" style=\"font-style:italic;\">
-Q<sub>los,i</sub> = A<sub>c</sub> / n<sub>seg</sub> &#183; [&Delta;T<sub>i</sub> &#183; (c<sub>1</sub> - c<sub>2</sub> &#183; &Delta;T<sub>i</sub> + c<sub>3</sub> &#183; u) + c<sub>4</sub> &#183; (E<sub>L</sub> - &sigma; &#183; T<sub>env</sub><sup>4</sup>) - c<sub>6</sub> &#183; u &#183; G]
+Q<sub>los,i</sub> = A<sub>c</sub> / n<sub>seg</sub> &#183; [&Delta;T<sub>i</sub> &#183; 
+(c<sub>1</sub> - c<sub>2</sub> &#183; &Delta;T<sub>i</sub> + c<sub>3</sub> &#183; u)
+ + c<sub>4</sub> &#183; (E<sub>L</sub> - &sigma; &#183; T<sub>env</sub><sup>4</sup>) - c<sub>6</sub> &#183; u &#183; G]
 </p>
-
 <p>
 where:
 <ul>
@@ -95,7 +94,6 @@ where:
 </li>
 </ul>
 </p>
-
 <p>
 This model provides a more accurate representation of collector heat loss under dynamic environmental conditions,
 as required by ISO 9806:2013. It is suitable for use in simulations where wind speed, sky radiation, and irradiance
@@ -104,7 +102,9 @@ vary over time.
 
 <h4>Implementation Notes</h4>
 <p>
-The model inherits from <code>IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</code> for structural consistency and reuse of base functionality,
+The model inherits from 
+<a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> for structural consistency and reuse of base functionality,
 but the naming and equations have been overwritten to reflect the ISO 9806 standard. Parameters <code>a1</code> and <code>a2</code>
 are overwritten to <code>c1</code> and <code>c2</code> for clarity.
 </p>
@@ -120,9 +120,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
+First implementation PVT model. 
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </a>.
 </li>
 </ul>
