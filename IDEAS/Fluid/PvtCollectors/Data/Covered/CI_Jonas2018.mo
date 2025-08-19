@@ -27,29 +27,32 @@ annotation(
   defaultComponentName     = "datPVTCol",
   Documentation(info = "<html>
 <p>
-This record contains thermal and electrical parameters for a <b>covered</b> and <b>insulated</b> PVT collector, based on experimental identification results from Jonas et al. (2018). 
+This record contains thermal and electrical parameters for a <b>covered</b> and <b>insulated</b> PVT collector, 
+based on experimental identification results from Jonas et al. (2018). 
 These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 quasi-dynamic conditions.
 </p>
 <p>
 This record can be used as a generic representation of a covered, insulated PVT collector. 
 However, if you know the brand and model of the PVT collector you plan to simulate or install, 
-it is recommended to use the actual datasheet parameters in a custom <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic \">IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
+it is recommended to use the actual datasheet parameters in a custom 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">
+IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</a> record.
 </p>
-<h4>Reference</h4>
+<h4>References</h4>
 <ul>
 <li>
-Jonas, D., Theis, D., Frey, G. (2018). <i><a href='https://doi.org/10.18086/eurosun2018.02.16'>Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</a></i>. EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
+Jonas, D., Theis, D., Frey, G. (2018). <i><a href='https://doi.org/10.18086/eurosun2018.02.16'>
+Implementation and Experimental Validation of a Photovoltaic-Thermal (PVT) Collector Model in TRNSYS</a></i>. 
+EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
 </li>
 </ul>
 </html>",
-        revisions="<html>
+revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));

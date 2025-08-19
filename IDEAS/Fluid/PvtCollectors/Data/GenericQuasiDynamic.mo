@@ -4,9 +4,9 @@ record GenericQuasiDynamic
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType colTyp
-  "Type of PVT collector (Covered or Uncovered)";
+    "Type of PVT collector (Covered or Uncovered)";
   parameter Real IAMDiff(final min=0, final max=1, final unit="1")
-  "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
+    "Incidence angle modifier for diffuse irradiance (incidence angle of 50°)";
   parameter Real eta0(final min=0, final max=1, final unit="1")
     "Optical thermal efficiency (Maximum efficiency)";
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
@@ -20,7 +20,7 @@ record GenericQuasiDynamic
   parameter Real c6(final min=0, final unit="s/m")
     "Wind speed dependence of thermal zero-loss efficiency";
   parameter Real P_nominal(final min=0, final unit="W")
-    "PV panel power at nominal conditions (W)";
+    "PV panel power at nominal conditions";
   parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma
     "Temperature coefficient of the PV panel(s)";
   parameter Modelica.Units.SI.Efficiency etaEl(final min=0, final max=1)
@@ -40,7 +40,8 @@ electrical parameters and system loss factors follow from the manufacturer datas
 <ul>
 <li>
 IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems.
-<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. International Energy Agency Solar Heating and Cooling Programme.
+<a href=\"https://www.iea-shc.org/task60\">https://www.iea-shc.org/task60</a>. 
+International Energy Agency Solar Heating and Cooling Programme.
 </li>
 <li>
 ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
@@ -51,9 +52,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </a>.
 </li>
 </ul>
