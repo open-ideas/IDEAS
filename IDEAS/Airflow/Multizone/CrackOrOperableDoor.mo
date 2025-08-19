@@ -19,7 +19,7 @@ model CrackOrOperableDoor
  parameter Real q50(unit="m3/(h.m2)") "Surface air tightness" annotation (Dialog(group="Crack or Closed door",enable=not useDoor or use_y));
  parameter Modelica.Units.SI.Length wOpe=0.9 "Width of opening"   annotation (Dialog(group="Open door",enable=useDoor));
  parameter Modelica.Units.SI.Length hOpe=2.1 "Height of opening" annotation (Dialog(group="Open door",enable=useDoor));
- parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 2 else max(2,integer(abs(hOpe*sin(inc))/4))
+ parameter Integer nCom=if abs(hOpe*sin(inc)) < 0.01 then 1 else max(2,integer(abs(hOpe*sin(inc))/4))
 	"Number of compartments for the discretization"
 		annotation (Dialog(group="Open door",enable=useDoor));
 
