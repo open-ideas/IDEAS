@@ -18,7 +18,6 @@ model InternalWall "interior opaque wall between two zones"
       h_a2=-0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a + hThCor,
       hA=0.5*hzone_b - hRelSurfBot_b - hRelOpeBot_b + hThCor,
       hB=0.5*hzone_a - hRelSurfBot_a - hRelOpeBot_a - hThCor,
-      openDoorOnePort=true,
       useDoor=hasCavity,
       use_y=use_y_doo,
       wOpe=w,
