@@ -20,8 +20,8 @@ model PVTQuasiDynamicCollector
     "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
     annotation(Dialog(tab="Advanced", group="Electrical parameters"));
 
-  // Parameters
-  Real winSpeTil "Effective wind speed normal to collector plane [m/s]";
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
 
   // ===== Output Connectors =====
   Modelica.Blocks.Interfaces.RealOutput Pel
@@ -31,13 +31,9 @@ model PVTQuasiDynamicCollector
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output[W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
-  Modelica.Blocks.Interfaces.RealOutput qThSeg[nSeg]
-    "Thermal power per segment [W]"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
-
 
   // ===== Subcomponents =====
-  final IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
+  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final incAngDat=per.incAngDat,
@@ -50,7 +46,7 @@ model PVTQuasiDynamicCollector
     "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
 
-  final IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final c1=per.c1,
@@ -62,7 +58,7 @@ model PVTQuasiDynamicCollector
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  final IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
     final A_c = ATot_internal,
     final eleLosFac = eleLosFac,
@@ -78,15 +74,17 @@ model PVTQuasiDynamicCollector
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
   Modelica.Blocks.Math.Add HGloTil
-    annotation (Placement(transformation(extent={{-52,-74},{-42,-64}})));
+    annotation (Placement(transformation(extent={{-55,-95},{-45,-85}})));
+  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+    annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
+
 equation
   // Compute effective wind speed on tilted plane
   winSpeTil = weaBus.winSpe * sqrt(1 - (
     Modelica.Math.cos(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.cos(til)
     + Modelica.Math.sin(weaBus.winDir - (azi + Modelica.Constants.pi)) * Modelica.Math.sin(til))^2);
 
-
-  // Compute per-segment thermal power
+  // Compute thermal power per segment
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
@@ -147,12 +145,12 @@ equation
           -54,14},{-64,14},{-64,-66},{-53,-66}}, color={0,0,127}));
   connect(HDirTil.H, HGloTil.u2) annotation (Line(points={{-59,50},{-50,50},{-50,
           52},{-46,52},{-46,14},{-64,14},{-64,-72},{-53,-72}}, color={0,0,127}));
-  connect(HGloTil.y, eleGen.HGloTil) annotation (Line(points={{-41.5,-69},{-41.5,
-          -70},{-30,-70},{-30,-76},{-22,-76}}, color={0,0,127}));
-  connect(qThSeg,eleGen.Qth)  annotation (Line(
-      points={{-50,-30},{-30,-30},{-30,-70},{-22,-70}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(HGloTil.y, eleGen.HGloTil) annotation (Line(
+      points={{-40,-90},{-30,-90},{-30,-76},{-22,-76}},
+      color={0,0,127}));
+  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
+      points={{-40,-70},{-22,-70}},
+      color={0,0,127}));
     annotation (
   defaultComponentName = "pvtCol",
 
@@ -186,35 +184,34 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
 </a>
 </li>
 </ul>
+
 <h4>Implementation Notes</h4>
 <p>
-This model supports PVT collectors, discretized into segments to capture temperature gradients. It is compatible with dynamic simulations where irradiance and fluid temperatures vary over time.
+This model supports PVT collectors, discretized into segments to capture temperature gradients. 
+It is compatible with dynamic simulations where irradiance and fluid temperatures vary over time.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),
-
-      Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-      graphics={
-        Rectangle(extent={{-84,100},{84,-100}}, lineColor={27,0,55}, fillColor={26,0,55}, fillPattern=FillPattern.Solid),
-        Line(points={{-100,0},{-76,0},{-76,-90},{66,-90},{66,-60},{-64,-60},{-64,-30},{66,-30},{66,0},{-64,0},{-64,28},{66,28},{66,60},{-64,60},{-64,86},{78,86},{78,0},{98,0},{100,0}}, color={0,128,255}, thickness=1),
-        Ellipse(extent={{-24,26},{28,-26}}, lineColor={255,255,0}, fillColor={255,255,0}, fillPattern=FillPattern.Solid),
-        Line(points={{-6,-6},{8,8}}, color={255,255,0}, origin={-24,30}, rotation=90),
-        Line(points={{-50,0},{-30,0}}, color={255,255,0}),
-        Line(points={{-36,-40},{-20,-24}}, color={255,255,0}),
-        Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={2,-40}, rotation=90),
-        Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={30,-30}, rotation=90),
-        Line(points={{32,0},{52,0}}, color={255,255,0}),
-        Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={28,32}, rotation=180),
-        Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={0,40}, rotation=90),
-        Polygon(points={{72,96},{36,26},{60,34},{48,-24},{88,58},{64,48},{72,96}}, lineColor={0,0,0}, fillColor={0,255,0}, fillPattern=FillPattern.Solid)}));
+Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
+graphics={
+Rectangle(extent={{-84,100},{84,-100}}, lineColor={27,0,55}, fillColor={26,0,55}, fillPattern=FillPattern.Solid),
+Line(points={{-100,0},{-76,0},{-76,-90},{66,-90},{66,-60},{-64,-60},{-64,-30},{66,-30},{66,0},{-64,0},{-64,28},{66,28},{66,60},{-64,60},{-64,86},{78,86},{78,0},{98,0},{100,0}}, color={0,128,255}, thickness=1),
+Ellipse(extent={{-24,26},{28,-26}}, lineColor={255,255,0}, fillColor={255,255,0}, fillPattern=FillPattern.Solid),
+Line(points={{-6,-6},{8,8}}, color={255,255,0}, origin={-24,30}, rotation=90),
+Line(points={{-50,0},{-30,0}}, color={255,255,0}),
+Line(points={{-36,-40},{-20,-24}}, color={255,255,0}),
+Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={2,-40}, rotation=90),
+Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={30,-30}, rotation=90),
+Line(points={{32,0},{52,0}}, color={255,255,0}),
+Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={28,32}, rotation=180),
+Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={0,40}, rotation=90),
+Polygon(points={{72,96},{36,26},{60,34},{48,-24},{88,58},{64,48},{72,96}}, lineColor={0,0,0}, fillColor={0,255,0}, fillPattern=FillPattern.Solid)}));
 end PVTQuasiDynamicCollector;
