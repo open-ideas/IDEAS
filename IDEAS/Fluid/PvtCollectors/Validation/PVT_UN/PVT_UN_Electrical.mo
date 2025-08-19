@@ -2,9 +2,10 @@ within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
 model PVT_UN_Electrical
   "Electrical Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
+
   replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater(
-  property_T = 293.15,
-  X_a = 0.43);
+    property_T = 293.15,
+    X_a = 0.43);
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.07;
 
@@ -64,38 +65,44 @@ equation
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   annotation (Documentation(info=     "<html>
 <p>
-This model validates the electrical performance of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
+This model validates the electrical performance of the 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 
+an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
 </p>
-
 <p>
 The model uses the PVWatts V5 formulation and includes:
 </p>
 <ul>
-<li>Temperature-dependent efficiency losses</li>
-<li>Datasheet-based estimation of <i>UAbsFluid</i></li>
-<li>Constant system loss factor (7 %)</li>
+<li>
+Temperature-dependent efficiency losses
+</li>
+<li>
+Datasheet-based estimation of <i>UAbsFluid</i>
+</li>
+<li>
+Constant system loss factor (7 %)
+</li>
 </ul>
-
 <p>
-The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, ensuring accurate representation of the thermal-electrical interaction.
+The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, 
+ensuring accurate representation of the thermal-electrical interaction.
 </p>
-
 <p> 
-Despite the presence of extreme weather conditions, including wind speeds up to 10–12&nbsp;m/s and continuous pump operation, the electrical model remains robust. Validation shows excellent agreement with measurements, with a normalized MAE of 5.2 % and nRMSE of 9.9 % (Meertens et al., 2025).
+Despite the presence of extreme weather conditions, including wind speeds up to <i>10–12&nbsp;m/s</i> and continuous pump operation, 
+the electrical model remains robust. Validation shows excellent agreement with measurements, 
+with a normalized MAE of 5.2 % and nRMSE of 9.9 % (Meertens et al., 2025).
 </p>
-
 <p>
-The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, even under challenging real-world conditions.
+The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, 
+even under challenging real-world conditions.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),
@@ -117,7 +124,9 @@ UAbsFluid
           textStyle={TextStyle.Bold},
           textString="Measured and simulated
 electrical power")}),
-                  experiment(
+__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_Electrical.mos"
+        "Simulate and plot"),
+ experiment(
       StartTime=16502400,
       StopTime=21513595,
       Interval=60,

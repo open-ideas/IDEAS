@@ -73,25 +73,36 @@ equation
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
   annotation ( Documentation(info=    "<html>
 <p>
-This model validates the thermal performance of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).
+This model validates the thermal performance of the 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 
+an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).
 </p>
-
 <p>
 The model uses the quasi-dynamic ISO 9806 formulation and includes:
 </p>
 <ul>
-<li>Linear and quadratic heat losses (<code>c₁</code>, <code>c₂</code>)</li>
-<li>Wind-dependent convective losses (<code>c₃</code>, <code>c₆</code>)</li>
-<li>Radiative losses based on sky temperature (<code>c₄</code>)</li>
-<li>Thermal inertia (<code>c₅</code>)</li>
+<li>
+Linear and quadratic heat losses (<code>c<sub>1</sub></code>, <code>c<sub>2</sub></code>)
+</li>
+<li>
+Wind-dependent convective losses (<code>c<sub>3</sub></code>, <code>c<sub>6</sub></code>)
+</li>
+<li>
+Radiative losses based on sky temperature (<code>c<sub>4</sub></code>)
+</li>
+<li>
+Thermal inertia (<code>c<sub>5</sub></code>)
+</li>
 </ul>
-
 <p>
-The dataset includes days with several hours of high wind speeds up to 10–12&nbsp;m/s, which significantly increase convective losses. Additionally, the circulation pump remains active throughout the test period, even when thermal output is negative—unlike real-world systems, which would deactivate the pump under such conditions.
+The dataset includes days with several hours of high wind speeds up to <i>10–12&nbsp;m/s</i>, 
+which significantly increase convective losses. 
+Additionally, the circulation pump remains active throughout the test period, 
+even when thermal output is negative—unlike real-world systems, which would deactivate the pump under such conditions.
 </p>
-
 <p>
-As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 % (Meertens et al., 2025). 
+As a result, the raw energy deviation of +53.1 % is not a meaningful indicator of model performance. 
+When filtered to periods with positive simulated thermal output, the deviation improves to +6.85 % (Meertens et al., 2025). 
 This filtered metric better reflects the model's accuracy under realistic operating conditions.
 </p>
 </html>",
@@ -99,10 +110,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),
@@ -121,7 +130,10 @@ IDEAS #1436
           horizontalAlignment=TextAlignment.Left,
           textStyle={TextStyle.Bold},
           textString="Measured and simulated
-thermal power")}),experiment(
+thermal power")}),
+__Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_Thermal.mos"
+        "Simulate and plot"),
+ experiment(
       StartTime=16502400,
       StopTime=21513595,
       Interval=60,

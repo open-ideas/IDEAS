@@ -17,6 +17,8 @@ model PVTQuasiDynamicCollectorValidation
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
+  Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
+
   // Ouput connectors
   // ===== Real Output Connectors =====
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
@@ -33,9 +35,6 @@ model PVTQuasiDynamicCollectorValidation
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
-  Modelica.Blocks.Interfaces.RealOutput qThSeg[nSeg]
-    "Thermal power per segment [W]"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
 
   // IDEAS components
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
@@ -86,12 +85,15 @@ model PVTQuasiDynamicCollectorValidation
     annotation (Placement(transformation(extent={{-67.5,18},{-48.5,34}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{21,77},
             {11,87}})));
+  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+    annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
+
 equation
    // Assign electrical and thermal outputs
   Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
-  // Compute per-segment thermal power
+  // Compute thermal power per segment
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
@@ -125,14 +127,16 @@ equation
           30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
-  connect(eleGen.Qth, qThSeg) annotation (Line(points={{-22,-70},{-50,-70},
-          {-50,-30}}, color={0,0,127}));
+  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
+      points={{-40,-70},{-22,-70}},
+      color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
 Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
-Discretizes the collector into segments, computes heat loss and gain per ISO 9806, and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
+Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
+and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>
 
 <h4>Extends</h4>
@@ -172,7 +176,6 @@ This model is designed for (unglazed) PVT collectors and discretizes the flow pa
 It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
 </p>
 
-
 <h4>References</h4>
 <ul>
 <li>
@@ -182,7 +185,9 @@ Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>
 ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L., Jansen, J., Helsen, L. (2025). 
+<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, 
+submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li>
 </ul>
 </html>",
@@ -190,10 +195,8 @@ revisions="<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"),

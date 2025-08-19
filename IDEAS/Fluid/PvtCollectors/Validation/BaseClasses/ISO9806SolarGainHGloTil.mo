@@ -66,10 +66,11 @@ based on
 <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain</a>.
 </p>
-
 <p>
 Unlike <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain\">
-IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain</a>, this component does not compute the global irradiance on the tilted surface from direct and diffuse irradiance components and apply an incidence angle modifier.
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain</a>, 
+this component does not compute the global irradiance on the tilted surface 
+from direct and diffuse irradiance components and apply an incidence angle modifier.
 It is primarily intended for validation purposes, where the
 <b>total solar irradiance on the tilted collector surface is measured</b>
 and can be directly provided as an input to this block.
@@ -79,10 +80,8 @@ revisions = "<html>
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));

@@ -84,7 +84,8 @@ accounting for both sky and ground contributions.
 <h4>Implementation Notes</h4>
 <p>
 This model is used in the validation of unglazed photovoltaic–thermal (PVT) collectors 
-(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation\"> IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation</a>) 
+(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation\">
+IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation</a>) 
 where direct longwave irradiance measurements are unreliable or unavailable. It assumes a ground emissivity of 0.95. 
 The clear-sky emissivity is calculated using an empirical correlation based on the dew point temperature. 
 The model is particularly useful in dynamic simulations where longwave radiation must be estimated from standard meteorological data.
@@ -93,10 +94,13 @@ The model is particularly useful in dynamic simulations where longwave radiation
 <h4>References</h4>
 <ul>
 <li>
-Buck, A.L., <i>New equations for computing vapor pressure and enhancement factor</i>, Journal of Applied Meteorology, 1981.
+Buck, A.L., <i>New equations for computing vapor pressure and enhancement factor</i>, 
+Journal of Applied Meteorology, 1981.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L., Jansen, J., Helsen, L. (2025). 
+<i>Development and Experimental Validation of an Unglazed Photovoltaic‑Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, 
+submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li
 </ul>
 </html>", revisions=
@@ -104,10 +108,8 @@ Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Val
 <ul>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
-First implementation PVT model; tracked in 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">
-IDEAS #1436
-</a>.
+First implementation PVT model.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));
