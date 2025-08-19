@@ -192,6 +192,13 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
+
+  output Modelica.Units.SI.MassFlowRate mBA_flow_TrVent=trickleVent.m_flow
+  if use_trickle_vent
+  "Flow through trickle-vent outwards relative to propsBus_a"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+protected
   Airflow.Multizone.MediumColumnReversible col_trickle(redeclare package Medium
       = Medium, h=hTrickleVent - (hzone_a/2)) if use_trickle_vent and sim.interZonalAirFlowType
      == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
@@ -207,7 +214,6 @@ model Window "Multipane window"
         origin={78,-92},
         extent={{-70,-10},{-50,10}},
         rotation=0)));
-protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";

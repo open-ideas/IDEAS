@@ -87,6 +87,16 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
+  output Modelica.Units.SI.MassFlowRate mBA_flow_1=crackOrOperableDoor.m1_flow
+  if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+  "Flow outwards relative to propsBus_a, part 1"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  output Modelica.Units.SI.MassFlowRate mBA_flow_2=-crackOrOperableDoor.m2_flow
+  if add_door and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+  "Flow outwards relative to propsBus_a, part 2"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+//protected
   Q50_parameterToConnector q50_zone(
     q50_inp=q50_internal,
     v50_surf=q50_internal*A,
