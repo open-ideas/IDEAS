@@ -32,8 +32,6 @@ jobs:
       run:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
-      - name: Test IDEAS.Examples.TwinHouses
-        run: make test-dymola PACKAGE=\"IDEAS.Examples.TwinHouses\" INTERACTIVE=false
       - name: Test IDEAS.Airflow
         run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
       - name: Test IDEAS.BoundaryConditions
@@ -104,3 +102,5 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Examples.IBPSA\" INTERACTIVE=false
       - name: Test IDEAS.Examples.Tutorial
         run: make test-dymola PACKAGE=\"IDEAS.Examples.Tutorial\" INTERACTIVE=false
+      - name: Test IDEAS.Examples.TwinHouses
+        run: make test-dymola PACKAGE=\"IDEAS.Examples.TwinHouses\" INTERACTIVE=false
