@@ -38,6 +38,7 @@ model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncove
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
   IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector pvtCol(
     redeclare package Medium = Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     show_T=true,
     azi=0,
     til=0.78539816339745,
