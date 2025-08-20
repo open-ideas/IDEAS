@@ -1,9 +1,9 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
+﻿within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
 model PVT_UN_Electrical
   "Electrical Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
 
-  replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater(
+  replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater (
     property_T = 293.15,
     X_a = 0.43);
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
@@ -12,7 +12,7 @@ model PVT_UN_Electrical
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
 
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
@@ -63,7 +63,7 @@ equation
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
-  annotation (Documentation(info=     "<html>
+  annotation (Documentation(info =    "<html>
 <p>
 This model validates the electrical performance of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 

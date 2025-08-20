@@ -28,7 +28,7 @@ model PVT_UI_Electrical_DayType1
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UI/PVT_UI_" + pvtTyp + "_measurements.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UI/PVT_UI_" + pvtTyp + "_measurements.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
             {-77,9}})));
