@@ -33,7 +33,8 @@ jobs:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: Test IDEAS.Fluid.PVTCollectors
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors\" INTERACTIVE=false
+        run: make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors.BaseClasses\" INTERACTIVE=false
+            && make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors.Examples\" INTERACTIVE=false
       - name: Test IDEAS.Airflow
         run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
       - name: Test IDEAS.BoundaryConditions
