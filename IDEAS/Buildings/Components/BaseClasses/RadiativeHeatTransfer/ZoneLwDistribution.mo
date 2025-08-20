@@ -192,8 +192,10 @@ It may be used when the initial equation that computes the view factors does not
 </p>
 <h4>References</h4>
 <p>
-Liesen, R. J., &amp; Pedersen, C. O. (1997). An Evaluation of Inside Surface Heat Balance Models for Cooling Load Calculations. ASHRAE Transactions, 3(103), 485-502.<br/>
-Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in rooms. Proceedings of the 2nd Systems Simulation and Economics Analysis Conference, January 23-25
+[Liesen 1997]: R.J. Liesen, and C.O. Pedersen, 
+\"<a href=\"https://iifiir.org/en/fridoc/an-evaluation-of-inside-surface-heat-balance-models-for-cooling-load-16626\">An evaluation of inside surface heat balance models for cooling load calculations</a>,\" 
+<i>ASHRAE Transactions</i>, vol. 103, no. 2, pp. 485-502, 1997.<br>
+[Carroll 1980]: Carroll, J.A. 1980. An \"MRT method\" of computing radiant energy exchange in rooms. Proceedings of the 2nd Systems Simulation and Economics Analysis Conference, January 23-25
 </p>
 </html>", revisions="<html>
 <ul>

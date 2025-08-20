@@ -7,7 +7,7 @@ model LargeHorizontalOpening
   Orifice Opening_Orifice(
     redeclare package Medium = Medium,
     useDefaultProperties=false,
-    dp_turbulent=Opening_CrackOrOperableDoor.dp_turbulent_ope,
+    dp_turbulent=Opening_CrackOrOperableDoor.dp_turbulent,
     A=2,
     CD=0.78) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},

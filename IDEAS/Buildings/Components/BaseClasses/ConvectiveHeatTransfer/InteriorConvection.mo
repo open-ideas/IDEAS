@@ -116,10 +116,16 @@ a thermal circuit formulation for the direct radiant exchange between surfaces c
 [Buchberg 1955, Oppenheim 1956].</p>
 <h4>References</h4>
 <p>
-[Awbi 1999]: H.B. Awbi, A. Hatton, \"Natural convection from heated room surfaces\", <i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
+[Awbi 1999]: H.B. Awbi, and A. Hatton, 
+\"<a href=\"https://doi.org/10.1016/S0378-7788(99)00004-3\">Natural convection from heated room surfaces</a>\", 
+<i>Energy and Buildings</i>, vol. 30, no. 3, pp. 233&ndash;244, 1999.<br>
 [Buchberg 1955]: H. Buchberg, \"Electric analogue prediction of thermal behavior of an inhabitable enclosure\", <i>ASHRAE Transactions</i>, vol. 61, pp. 339&ndash;386, 1955.<br>
-[Khalifa 2001]: A.J.N. Khalifa, \"Natural convective heat transfer coefficient - a review: II. Surfaces in two-and three-dimensional enclosures\", <i>Energy Conversion and Management</i>, vol. 42, no. 4, pp. 505&ndash;517, 2001.<br>
-[Oppenheim 1956]: A.K. Oppenheim, \"Radiation analysis by the network method\", <i>Transaction of American Society of Mechanical Engineers</i>, vol. 78, pp. 725&ndash;735, 1956.
+[Khalifa 2001]: A.J.N. Khalifa, 
+\"<a href=\"https://doi.org/10.1016/S0196-8904(00)00043-1\">Natural convective heat transfer coefficient &ndash; a review: II. Surfaces in two- and three-dimensional enclosures</a>\", 
+<i>Energy Conversion and Management</i>, vol. 42, no. 4, pp. 505&ndash;517, 2001.<br>
+[Oppenheim 1956]: A.K. Oppenheim, 
+\"<a href=\"https://asmedigitalcollection.asme.org/fluidsengineering/article/78/4/735/1137224/Discussion-Radiation-Analysis-by-the-Network\">Radiation analysis by the network method</a>\", 
+<i>Transaction of American Society of Mechanical Engineers</i>, vol. 78, pp. 725&ndash;735, 1956.
 </p>
 </html>", revisions="<html>
 <ul>

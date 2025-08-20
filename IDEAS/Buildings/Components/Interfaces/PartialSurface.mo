@@ -43,7 +43,7 @@ partial model PartialSurface "Partial model for building envelope component"
   parameter Boolean use_custom_q50=false
     "check to disable the default q50 computation and to assign a custom q50 value"
     annotation (choices(checkBox=true),Dialog(tab="Airflow", group="Airtightness"), Evaluate=true);
-  parameter Real custom_q50(unit="m3/(h.m2)") = 2
+  parameter Real custom_q50(unit="m3/(h.m2)")=2
     "Surface air tightness"
     annotation (Dialog(enable=use_custom_q50,tab="Airflow", group="Airtightness"));
   final parameter Real q50_internal(unit="m3/(h.m2)",fixed=false)
@@ -51,9 +51,8 @@ partial model PartialSurface "Partial model for building envelope component"
 
   final parameter Modelica.Units.SI.Length hzone_a( fixed=false);//connected with propsbus in inital equation
   final parameter Modelica.Units.SI.Length hAbs_floor_a( fixed=false);
-  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical, 0 for floors and ceilings" annotation(Evaluate=true);
-  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(inc,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a"
-                                                                                                                                                                                                        annotation(Evaluate=true);
+  parameter Modelica.Units.SI.Length hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then 0 else hzone_a "Vertical surface height, height of the surface projected to the vertical (e.g. 0 for floors and ceilings)" annotation(Evaluate=true,Dialog(group="Vertical position (important if interZonalAirFlowType is TwoPorts)"));
+  parameter Modelica.Units.SI.Length hRelSurfBot_a= if IDEAS.Utilities.Math.Functions.isAngle(incInt,IDEAS.Types.Tilt.Ceiling) then hzone_a else 0  "Height between the lowest point of the surface (bottom) and the floor level of the zone connected at propsBus_a (e.g. 0 for walls at floor level and floors.)" annotation(Evaluate=true,Dialog(group="Vertical position (important if interZonalAirFlowType is TwoPorts)"));
   final parameter Modelica.Units.SI.Length Habs_surf=hAbs_floor_a+hRelSurfBot_a+(hVertical/2)  "Absolute height of the middle of the surface, can be used to check the heights after initialisation";
 
   IDEAS.Buildings.Components.Interfaces.ZoneBus propsBus_a(
@@ -88,6 +87,16 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
+  output Modelica.Units.SI.MassFlowRate mBA_flow_1=crackOrOperableDoor.m1_flow
+  if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
+  "Flow outwards relative to propsBus_a, part 1"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  output Modelica.Units.SI.MassFlowRate mBA_flow_2=-crackOrOperableDoor.m2_flow
+  if add_door and sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
+  "Flow outwards relative to propsBus_a, part 2"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+//protected
   Q50_parameterToConnector q50_zone(
     q50_inp=q50_internal,
     v50_surf=q50_internal*A,
@@ -102,7 +111,7 @@ partial model PartialSurface "Partial model for building envelope component"
     h_b1=-0.5*hzone_a + 0.75*hVertical + hRelSurfBot_a,
     h_a2=-0.5*hzone_a + 0.25*hVertical + hRelSurfBot_a,
     interZonalAirFlowType = sim.interZonalAirFlowType,
-    inc=inc)                                           if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
+    inc=incInt) if add_door and sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None annotation (
     Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression AExp(y = A) "Area expression" annotation(
     Placement(transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
@@ -281,6 +290,10 @@ equation
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-50, -100}, {50, 100}})),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Changed <code>inc</code> to <code>incInt</code> where nececarry.
+</li>
 <li>
 January 24, 2025, by Klaas De Jonge:<br/>
 Addition of BooleanPassThrough and RealPassThrough block for v50 and use_custom_q50 and

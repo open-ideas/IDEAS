@@ -26,17 +26,17 @@ model Window "Multipane window"
       linIntCon=true,
       checkCoatings=glazing.checkLowPerformanceGlazing),
     setArea(A=A*nWin),
-    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then hzone_a elseif IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) then 0 else
+    hRelSurfBot_a=if IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Ceiling) then hzone_a elseif IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor) then 0 else
                                                                                                                                                                                               (hzone_a - hVertical)/2,
-    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(inc, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
+    hVertical=if IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Floor) or IDEAS.Utilities.Math.Functions.isAngle(incInt, IDEAS.Types.Tilt.Ceiling) then 0 else hWin,
     q50_zone(v50_surf=q50_internal*A),
     crackOrOperableDoor(
       wOpe=A/hWin,
       hOpe=hWin,
       hA=0.5*hVertical,
       hB=0.5*hzone_a - hRelSurfBot_a,
-          openDoorOnePort=false,
-          useDoor = use_operable_window));
+      useDoor = use_operable_window,
+      use_y=use_operable_window));
   parameter Modelica.Units.SI.Length hWin(min=0.1) = max(0.1,sqrt(A))
     "Window height, including frame"
     annotation ();
@@ -100,7 +100,7 @@ model Window "Multipane window"
     Placement(transformation(extent={{-34,78},{-30,82}})),
     Dialog(tab="Airflow", group="Wind Pressure"));
 
-  parameter Real coeffsCp[:,:]= if inc<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif inc<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(inc,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
+  parameter Real coeffsCp[:,:]= if incInt<=Modelica.Constants.pi/18 then Cp_table.Cp_Roof_0_10 elseif incInt<=Modelica.Constants.pi/6  then  Cp_table.Cp_Roof_11_30 elseif inc<=Modelica.Constants.pi/4 then Cp_table.Cp_Roof_30_45 elseif  IDEAS.Utilities.Math.Functions.isAngle(incInt,Modelica.Constants.pi) then Cp_table.Cp_Floor else Cp_table.Cp_Wall
       "Cp at different angles of attack, default the correct table will be selected from Cp_table based on the surface tilt"
       annotation(Dialog(tab="Airflow", group="Wind Pressure"));
 
@@ -119,7 +119,7 @@ model Window "Multipane window"
     "Absolute height at the middle of the window"
     annotation (Dialog(tab="Airflow", group="Wind"));
   parameter Boolean use_operable_window = false
-    "= true, to enable window control input"
+    "= true, to enable window control input when using sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts"
     annotation(Dialog(group="Operable window", tab="Airflow"));
   parameter Boolean use_trickle_vent = false
     "= true, to enable trickle vent"
@@ -192,6 +192,13 @@ model Window "Multipane window"
   Modelica.Blocks.Sources.RealExpression y_window_trunc(y = max(0, min(1, y_window_internal)))
     "Truncated control signal" annotation (
     Placement(visible = true, transformation(origin = {-10, -90}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
+
+  output Modelica.Units.SI.MassFlowRate mBA_flow_TrVent=trickleVent.m_flow
+  if use_trickle_vent
+  "Flow through trickle-vent outwards relative to propsBus_a"
+    annotation (Placement(visible = true, transformation(origin = {30, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+protected
   Airflow.Multizone.MediumColumnReversible col_trickle(redeclare package Medium
       = Medium, h=hTrickleVent - (hzone_a/2)) if use_trickle_vent and sim.interZonalAirFlowType
      == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts
@@ -207,7 +214,6 @@ model Window "Multipane window"
         origin={78,-92},
         extent={{-70,-10},{-50,10}},
         rotation=0)));
-protected
   Modelica.Blocks.Interfaces.RealInput y_window_internal;
   final parameter Real U_value=glazing.U_value*(1-frac)+fraType.U_value*frac
     "Average window U-value";
@@ -272,6 +278,9 @@ protected
 initial equation
   QTra_design = (U_value*A + fraType.briTyp.G) *(TRefZon - Tdes.y);
   Habs =hAbs_floor_a + hRelSurfBot_a + (hVertical/2);
+
+  assert(not use_operable_window or sim.interZonalAirFlowType == IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,
+    "In " + getInstanceName() + ": The window is set to be operable so sim.interZonalAirFlowType should be IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts, but it isn't");
 
   assert(not use_trickle_vent or sim.interZonalAirFlowType <> IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None,
     "In " + getInstanceName() + ": Trickle vents can only be enabled when sim.interZonalAirFlowType is not None.");
@@ -466,6 +475,10 @@ IDEAS.Buildings.Components.Validations.WindowEN673</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+August 18, 2025, by Klaas De Jonge:<br/>
+Changed <code>inc</code> to <code>incInt</code> where necessary.
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.

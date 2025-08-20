@@ -104,23 +104,40 @@ partial model PartialSimInfoManager
     annotation(Dialog(enable=interZonalAirFlowType<>
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None or unify_n50,group="Interzonal airflow"));
 
-  parameter Boolean  use_sim_Cs =true "if checked, the default Cs of each surface in the building is sim.Cs"
-  annotation(choices(checkBox=true),Dialog(group="Wind"));
-
-  parameter Modelica.Units.SI.Length H=10 "Building or roof height"
-    annotation (Dialog(group="Wind"));
-  parameter Real A0=0.6 "Local terrain constant. 0.6 for Suburban,0.35 for Urban and 1 for Unshielded (Ashrae 1993) "
-    annotation(Dialog(group="Wind"));
-  parameter Real a=0.28 "Velocity profile exponent. 0.28 for Suburban, 0.4 for Urban and 0.15 for Unshielded (Ashrae 1993) "
-    annotation(Dialog(group="Wind"));
+  parameter Boolean use_sim_Cs=true
+    "if checked, the default Cs of each surface in the building is sim.Cs" annotation(choices(checkBox=true),Dialog(group="Wind"));
+  parameter IDEAS.BoundaryConditions.Types.LocalTerrain locTer=IDEAS.BoundaryConditions.Types.LocalTerrain.Unshielded
+    "Selection of local terrain" annotation(Dialog(group="Wind"));
+  parameter Real a_custom=0.14
+    "Custom velocity profile exponent" annotation(Dialog(group="Wind",enable=locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Custom));
+  parameter Real A0_custom=1.0
+    "Custom local terrain coefficient" annotation(Dialog(group="Wind",enable=locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Custom));
+  final parameter Real a=
+    if locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Unshielded then 0.14
+    elseif locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Suburban then 0.22
+    elseif locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Urban then 0.33
+    else a_custom
+    "Velocity profile exponent" annotation(Dialog(group="Wind"));
+  final parameter Modelica.Units.SI.Length delta=
+    if locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Unshielded then 270
+    elseif locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Suburban then 370
+    elseif locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Urban then 460
+    else 0
+    "Wind boundary layer thickness" annotation(Dialog(group="Wind"));
+  final parameter Real A0=
+    if locTer==IDEAS.BoundaryConditions.Types.LocalTerrain.Custom then A0_custom
+    else (270/Hwind)^0.14*(Hwind/delta)^a
+    "Local terrain coefficient" annotation(Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length H=10
+    "Building or roof height" annotation (Dialog(group="Wind"));
   parameter Modelica.Units.SI.Length Hwind=10
-    "Height above ground of meteorological wind speed measurement"
-    annotation (Dialog(group="Wind"));
-  parameter Modelica.Units.SI.Length  HPres=1 "Height above ground of meteorological atmospheric pressure measurement" annotation (Dialog(group="Wind"));
-  parameter Real Cs_coeff = (A0*A0)*((1/Hwind)^(2*a)) "Multiplication factor for Habs"
-    annotation(Dialog(group="Wind"));
-
-  parameter Real Cs= Cs_coeff*(H^(2*a)) "Wind speed modifier"              annotation(Dialog(group="Wind"));
+    "Height above ground of meteorological wind speed measurement" annotation(Dialog(group="Wind"));
+  parameter Modelica.Units.SI.Length HPres=1
+    "Height above ground of meteorological atmospheric pressure measurement" annotation(Dialog(group="Wind"));
+  final parameter Real Cs_coeff=(A0*A0)*((1/Hwind)^(2*a))
+    "Multiplication factor for wind speed modifier Cs" annotation(Dialog(group="Wind"));
+  final parameter Real Cs=Cs_coeff*(H^(2*a))
+    "Wind speed modifier" annotation(Dialog(group="Wind"));
 
   final parameter Integer numIncAndAziInBus = size(incAndAziInBus,1)
     "Number of pre-computed azimuth";
@@ -584,6 +601,11 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+July 9, 2025, by Jelger Jansen:<br/>
+Update wind speed modifier calculation according to ASHRAE2005 and change the default local terrain type to unshielded.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1340\">#1340</a>.
+</li>
+<li>
 October 30, 2024, by Klaas De Jonge:<br/>
 Modifications for wind pressure,ambient pressure and wind speed modifiers used in interzonal airflow.
 </li>
@@ -593,7 +615,7 @@ Added use_port_1 and use_port_2 for convenience.
 </li>
 <li>
 December 18, 2022 by Filip Jorissen:<br/>
-parameter revisions  for #1244
+parameter revisions  for <a href=\"https://github.com/open-ideas/IDEAS/issues/1244\">#1244</a>.
 </li>
 <li>
 April 28, 2022 by Filip Jorissen:<br/>
