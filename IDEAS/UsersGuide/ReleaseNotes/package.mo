@@ -9,7 +9,7 @@ on the IDEAS library.
 </p>
 <ul>
 <li>
-<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_4_0_0\">Version 4.0.0</a> (August 15, 2025)
+<a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_4_0_0\">Version 4.0.0</a> (August 20, 2025)
 </li>
 <li>
 <a href=\"modelica://IDEAS.UsersGuide.ReleaseNotes.Version_3_0_0\">Version 3.0.0</a> (May 3, 2022)

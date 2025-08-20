@@ -31,16 +31,26 @@ The European Commission (2024-2028), through the PhD scholarship of Anna Dell'Is
 The European Commission (2024-2028), through the PhD scholarship of Louis Hermans, the research grant of Lone Meertens, and the Horizon Europe 'SEEDS' project (no. 101138211) 
 </li>
 <li>
+The Agency for Innovation by Science and Technology in Flanders (VLAIO), through the research grant of Klaas De Jonge (HBC.2023.0488)
+</li>
+<li>
 KU Leuven (2021-2025), through the PhD scholarship of Lucas Verleyen, the research grant of Javier Arroyo, and the 'TECHPED' project (C24M/021/21)
 </li>
 <li>
-Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen
+Research Foundation Flanders (FWO) (2020-2024), through the PhD scholarship of Jelger Jansen (1SC9721N|1SC9723N)
 </li>
 <li>
 KU Leuven (2019-2021), through the research grant of Filip Jorissen, and the C3 project (C32/18/063)
 </li>
 <li>
+Research Foundation Flanders (FWO) (2019-2023), through the PhD scholarship of Klaas De Jonge (1SA7619N)
+</li>
+<li>
 The European Commission (2016-2021), through the research grant of Filip Jorissen and Damien Picard, and the Horizon 2020 'MPC-:GT - hybridGEOTABS' project (no. 723649)
+</li>
+<li>
+The European Commisson, the European Regional Development Fund (ERDF), Flanders Innovation and Entrepreneurship, and the Province of Limburg (2015-2018), through the research grant of Glenn Reynders
+and the 'EFRO-SALK GeoWatt' project
 </li>
 <li>
 The Agency for Innovation by Science and Technology in Flanders (IWT-VLAIO) (2014-2018), through the research grant of Arnout Aertgeerts, and the 'Living Lab De Schipjes’ project
@@ -55,11 +65,13 @@ The European Commission (2012-2015), through the PhD scholarship of Roel De Coni
 The Agency for Innovation by Science and Technology in Flanders (IWT) and WTCB (2011-2016), through the IWT-VIS 'Smart Geotherm' project
 </li>
 <li>
+VITO (Flemish Institute for Technological Developments) (2011-2015), through the PhD scholarship of Glenn Reynders
+</li>
+<li>
 3E (2010-2014), through co-funding the PhD scholarship of Roel De Coninck
 </li>
 <li>
 The KU Leuven Energy Institute (2010-2014), through the PhD scholarships of Ruben Baetens, Roel De Coninck, Juan van Roy and Bart Verbruggen, and the ‘Optimal Energy Networks in Buildings' project
-
 </li>
 </ul>
 <h4>Contributors</h4>

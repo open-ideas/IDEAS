@@ -4,7 +4,7 @@
   <source media="(prefers-color-scheme: light)" srcset="IDEAS/Resources/Images/IDEAS-logo-light.png" style="height:120px;">
   <img src="IDEAS/Resources/Images/IDEAS-logo-light.png" alt="IDEAS Logo" style="height:120px;">
 </picture>
-<b>v3.0.0</b>
+<b>v4.0.0</b>
 </div>
 <br/>
 
@@ -85,7 +85,7 @@ year = {2018}
 ```
 
 ## Release history
-IDEAS v3.0.0 was released on May 3, 2022. This release includes an update to the Modelica Standard Library MSL 4.0.0.
+IDEAS v4.0.0 was released on August 20, 2025.
 Detailed release notes are available within the library under the following link:
 [ReleaseNotes](https://github.com/open-ideas/IDEAS/tree/master/IDEAS/UsersGuide/ReleaseNotes).
 Notes for the previous releases notes can also be found there. 
