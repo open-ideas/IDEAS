@@ -1,12 +1,14 @@
 within IDEAS.Buildings.Components.Examples;
 model CavityInternalWall
   "Illustration of an internal wall with an operable cavity"
-  extends IDEAS.Buildings.Examples.ZoneExample(sim.interZonalAirFlowType = IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts, internalWall(hasCavity = true, use_y_doo = true));
+  extends IDEAS.Buildings.Examples.ZoneExample(sim(
+  interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts),
+  internalWall(hasCavity = true, use_y_doo = true));
   Modelica.Blocks.Sources.Sine sine(amplitude = 0.5, f = 1 / 7200, offset = 0.5)  annotation(
-    Placement(visible = true, transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));equation
+    Placement(visible = true, transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+equation
   connect(internalWall.y_doo, sine.y) annotation(
-    Line(points = {{-16, 6}, {-16, 10}, {-78, 10}}, color = {0, 0, 127}));
-
+    Line(points={{-16.8,6.4},{-16.8,10},{-79,10}},  color = {0, 0, 127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

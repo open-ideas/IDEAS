@@ -4,7 +4,7 @@ extends Modelica.Icons.Information;
 
 annotation (DocumentationClass=true, Documentation(info="<html>
 <div align=\"center\">
-<img height=\"100\" src=\"modelica://IDEAS/Resources/Images/IDEAS-logo.png\"/>
+<img height=\"100\" src=\"modelica://IDEAS/Resources/Images/IDEAS-logo-light.png\"/>
 </div>
 <p>
 <span style=\"font-family: Courier New;\">IDEAS</span> is a Modelica library for 

@@ -1,4 +1,0 @@
-simulateModel("IDEAS.Buildings.Components.Examples.TwoStoreyBoxes", stopTime=1.2096e+06, method="Dassl", tolerance=1e-12, resultFile="TwoStoreyBoxes");
-createPlot(id=1, position={0, 0, 1521, 716}, y={"Level.intFlo.crackOrOperableDoor.m1_flow"}, range={0.0, 1220000.0, 0.0028, 0.005}, grid=true, subPlot=101, colors={{28,108,200}}, timeUnit="s", displayUnits={"kg/s"});
-createPlot(id=1, position={0, 0, 1521, 716}, y={"Level.intFlo.crackOrOperableDoor.doo.dpAB[1]", "Level.intFlo.crackOrOperableDoor.doo.dpAB[2]"}, range={0.0, 1220000.0, 1.0000000000000002E-06, 4.000000000000001E-06}, grid=true, subPlot=102, colors={{28,108,200}, {238,46,47}}, timeUnit="s", displayUnits={"Pa", "Pa"});
-
