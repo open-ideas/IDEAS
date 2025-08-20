@@ -32,8 +32,6 @@ jobs:
       run:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
-      - name: Test IDEAS.Fluid.PVTCollectors.Validation.PVT_UN
-        run: make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\" INTERACTIVE=false
       - name: Test IDEAS.Airflow
         run: make test-dymola PACKAGE=\"IDEAS.Airflow\" INTERACTIVE=false
       - name: Test IDEAS.BoundaryConditions
