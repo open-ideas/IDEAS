@@ -95,6 +95,6 @@ First implementation
 <p>Model with two zones on different floors, one zone above the other, with a large opening between these zones and stack-effect airflow enabled.</p>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Buildings/Examples/TwoStoreyBoxes.mos"
+          "Resources/Scripts/Dymola/Buildings/Components/Examples/TwoStoreyBoxes.mos"
         "Simulate and Plot"));
 end TwoStoreyBoxes;
