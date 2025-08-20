@@ -1,6 +1,5 @@
 # Set default behaviour, in case users don't have core.autocrlf set.
 * text=auto
-
 # Explicitly declare text files we want to always be normalized and converted 
 # to native line endings on checkout.
 *.mo text
@@ -8,10 +7,9 @@
 *.mop text
 *.py text
 *.txt text
-
 # Declare files that will always have CRLF line endings on checkout.
 #*.sln text eol=crlf
-
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
+IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements.txt filter=lfs diff=lfs merge=lfs -text
