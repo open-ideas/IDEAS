@@ -5,7 +5,8 @@ model TwoStoreyBoxes "Model with two zones on different floors, one zone above t
   inner BoundaryConditions.SimInfoManager sim(interZonalAirFlowType=IDEAS.BoundaryConditions.Types.InterZonalAirFlow.TwoPorts,n50=1) annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Level(
-    hFloor=5,
+    Medium(extraPropertiesNames={"CO2"},C_nominal={1e-6}),
+    hFloor=5.25,
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -25,6 +26,7 @@ model TwoStoreyBoxes "Model with two zones on different floors, one zone above t
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
 
   IDEAS.Buildings.Components.RectangularZoneTemplate Groundfloor(
+    Medium(extraPropertiesNames={"CO2"},C_nominal={1e-6}),
     T_start=291.15,
     bouTypA=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
     bouTypB=IDEAS.Buildings.Components.Interfaces.BoundaryType.OuterWall,
@@ -54,6 +56,9 @@ initial equation
   Groundfloor.gainCon.T=Tfix.port.T;
 
 equation
+  assert(Modelica.Math.isEqual(Groundfloor.ppm,sim.ppmCO2,eps=1),"CO2 should be at constant background level but isn't");
+  assert(Modelica.Math.isEqual(Level.ppm,sim.ppmCO2,eps=1),"CO2 should be at constant background level but isn't");
+
   connect(Groundfloor.proBusCei, Level.proBusFlo) annotation (Line(
       points={{-30.2,-24},{-30,-22},{-30,24}},
       color={255,204,51},
@@ -74,14 +79,15 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=1209600,
-      Interval=3600.00288,
-      Tolerance=1e-12,
+      Interval=3600,
+      Tolerance=0.0001,
       __Dymola_fixedstepsize=15,
       __Dymola_Algorithm="Dassl"),
     Documentation(revisions="<html>
 <ul>
-<li>
-October 30, 2024, by Klaas De Jonge:<br/>
+<li>August 18, 2025, by Klaas De Jonge:<br>
+Added assert statements for CO2 background check,added C_nominal to medium declaration,changed tolerance in related .mos file,corrected Level.hFloor for <a href=\"https://github.com/open-ideas/IDEAS/issues/1338\">#1338</a></li>
+<li>October 30, 2024, by Klaas De Jonge:<br>
 First implementation
 </li>
 </ul>
@@ -89,6 +95,6 @@ First implementation
 <p>Model with two zones on different floors, one zone above the other, with a large opening between these zones and stack-effect airflow enabled.</p>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Buildings/Examples/TwoStoreyBoxes.mos"
+          "Resources/Scripts/Dymola/Buildings/Components/Examples/TwoStoreyBoxes.mos"
         "Simulate and Plot"));
 end TwoStoreyBoxes;
