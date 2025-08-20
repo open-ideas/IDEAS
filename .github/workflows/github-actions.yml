@@ -80,10 +80,10 @@ jobs:
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.MixingVolumes\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.Movers
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Movers\" INTERACTIVE=false
-      - name: Test IDEAS.Fluid.Sensors
       - name: Test IDEAS.Fluid.PVTCollectors
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors.BaseClasses.Examples\" INTERACTIVE=false
             && make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors.Examples\" INTERACTIVE=false 
+      - name: Test IDEAS.Fluid.Sensors
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.Sensors\" INTERACTIVE=false
       - name: Test IDEAS.Fluid.SolarCollectors
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.SolarCollectors\" INTERACTIVE=false
