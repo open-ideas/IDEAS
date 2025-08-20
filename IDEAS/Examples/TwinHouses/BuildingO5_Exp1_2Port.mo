@@ -12,9 +12,7 @@ model BuildingO5_Exp1_2Port
         n50=1.64,
       locTer=IDEAS.BoundaryConditions.Types.LocalTerrain.Custom,
       a_custom=0.15,
-      A0_custom=1,
-      A0=1,
-      a=0.15));
+      A0_custom=1));
 
   //Real comparison_W40[2] = {struct.W40.resDoor.m_flow, validationDataO5Exp1_Airflow.W40_resDoor};
   //Real comparison_W1[2] = {struct.W1.propsBus_a.port_1.m_flow, -validationDataO5Exp1_Airflow.W1_FlowRate};
