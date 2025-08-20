@@ -12,5 +12,5 @@
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
-IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_Austria_wheaterData.mos filter=lfs diff=lfs merge=lfs -text
+IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_Austria_weatherData.mos filter=lfs diff=lfs merge=lfs -text
 IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt filter=lfs diff=lfs merge=lfs -text
