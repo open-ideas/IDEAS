@@ -33,7 +33,7 @@ jobs:
         working-directory: IDEAS/Resources/Scripts/tests
     steps:
       - name: Verify that test file exists
-        run: test -f IDEAS/Fluid/PVTCollectors/Examples/WISC.mo
+        run: test -f ../../../Fluid/PVTCollectors/Examples/WISC.mo
       - name: Test IDEAS.Fluid.PVTCollectors
         run: make test-dymola PACKAGE=\"IDEAS.Fluid.PVTCollectors\" INTERACTIVE=false
       - name: Test IDEAS.Airflow
