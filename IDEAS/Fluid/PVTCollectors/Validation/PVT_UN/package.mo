@@ -9,9 +9,16 @@ an uncovered and uninsulated PVT collector,
 based on experimental data from a long-term outdoor test campaign in Austria (Veynandt et al., 2023).
 </p>
 <p>
-The dataset spans 58 consecutive summer days with 5-second resolution, capturing a wide range of operating conditions. 
+The full dataset spans 58 consecutive summer days with 5-second resolution, capturing a wide range of operating conditions.
 Notably, the test period includes days with several hours of very high wind speeds, reaching up to <i>10–12&nbsp;m/s</i>, 
 which significantly affect convective heat losses.
+</p>
+<p>
+The full dataset was split into 8 weeks to limit the file size per dataset.
+The validation models allow to change the week via the parameter <code>week</code>.
+The user can also merge the files together into one dataset and 
+change the <code>fileName</code> parameter in the <code>meaDat</code> block
+to simulate the all 58 summer days in one run.
 </p>
 <p>
 The package includes two models:
