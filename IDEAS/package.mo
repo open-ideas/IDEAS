@@ -6,8 +6,8 @@ annotation (
   Icon(graphics={Bitmap(extent={{-100,-80},{100,80}}, fileName=
             "modelica://IDEAS/Resources/Images/IDEAS-logo-icon.png")}),
   version="4.0.0",
-  versionDate="2025-08-20",
-  dateModified="2025-08-20",
+  versionDate="2025-09-03",
+  dateModified="2025-09-03",
   conversion(
  from(version={"0.2"},
       script="modelica://IDEAS/Resources/Scripts/convertIdeas030to100.mos",

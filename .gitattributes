@@ -12,4 +12,3 @@
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
-IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements.txt filter=lfs diff=lfs merge=lfs -text

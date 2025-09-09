@@ -5,13 +5,14 @@ model PVT_UN_Thermal
   replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater (
   property_T = 293.15,
   X_a = 0.43);
+  parameter String week = "week1";
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.07;
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
+    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements_"+week+".txt"),
     columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
 
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
@@ -108,6 +109,11 @@ This filtered metric better reflects the model's accuracy under realistic operat
 </html>",
 revisions="<html>
 <ul>
+<li>
+September 3, 2025, by Jelger Jansen:<br/>
+Introduce <code>week</code> parameter to change the weather dataset.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1462\">#1462</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.
