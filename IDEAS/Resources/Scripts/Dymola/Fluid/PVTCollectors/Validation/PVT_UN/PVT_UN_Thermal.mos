@@ -1,9 +1,9 @@
-removePlots();
-simulateModel("IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVT_UN_Thermal", tolerance=1e-6, startTime = 16502400, stopTime = 21513595, method = "dassl", resultFile = "PVT_UN_Thermal");
+﻿removePlots();
+simulateModel("IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVT_UN_Thermal", tolerance=1e-6, startTime = 16502400, stopTime = 17107195, method = "dassl", resultFile = "PVT_UN_Thermal");
 createPlot(id = 11,
  position = {0, 0, 1000, 500},
  y = {"meaQ.y", "simQ.y"},
- range = {16502400, 21513595, 0, 800},
+ range = {16502400, 17107195, 0, 800},
  autoscale = true,
  autoerase = true,
  autoreplot = true,
@@ -18,7 +18,7 @@ createPlot(id = 11,
 createPlot(id = 11,
  position = {0, 0, 1000, 500},
  y = {"c1_c2_term.y","c3_term.y","c4_term.y","c6_term.y"},
- range = {16502400, 21513595, -150, 150},
+ range = {16502400, 17107195, -150, 150},
  autoscale = true,
  autoerase = true,
  autoreplot = true,
