@@ -48,7 +48,7 @@ protected
 
   Real C "TARP coeff";
   Modelica.Units.SI.TemperatureDifference dT
-    "Surface temperature minus outdoor air temperature" annotation ();
+    "Surface temperature minus outdoor air temperature";
 equation
 
   // Assign empirical coefficient according to flow regime.
