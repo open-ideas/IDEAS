@@ -8,6 +8,7 @@ TwoWayFlowElementBuoyancy
 ZonalFlow
 interpolate
 powerLaw
+powerLaw05
 powerLawFixedM
 windPressureLowRise
 windPressureProfile
