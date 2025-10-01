@@ -1366,7 +1366,6 @@ IDEAS\Fluid\Examples\Performance\PressureDrop\package.order
 IDEAS\Fluid\Examples\Performance\package.mo
 IDEAS\Fluid\Examples\Performance\package.order
 IDEAS\Fluid\Examples\ResistanceVolumeFlowReversal.mo
-IDEAS\Fluid\Examples\SimpleHouse.bak-mo
 IDEAS\Fluid\Examples\package.mo
 IDEAS\Fluid\Examples\package.order
 IDEAS\Fluid\FMI\Adaptors\Examples\ThermalZoneHVACNoExhaust.mo
