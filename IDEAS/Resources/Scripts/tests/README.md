@@ -63,8 +63,8 @@ For example, you can set these environment variables as follows (note that the s
 change in your case):
 ```bash
 export DYMOLAPATH=/path/to/dymola/folder
-export DYMOLAFILE=Dymola_2022x.AM_CAT_Dymola.Linux64.1-1.zip
-export DYMOLAVERSION=dymola-2022x-x86_64
+export DYMOLAFILE=Dymola_2024x.AM_CAT_Dymola.Linux64.1-1.zip
+export DYMOLAVERSION=dymola-2024x-x86_64
 ```
 
 ### 3. Build the image
