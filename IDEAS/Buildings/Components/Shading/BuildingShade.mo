@@ -32,9 +32,11 @@ model BuildingShade
   // Computation assumes that window base is at ground level.
   // Viewing angle computed from center of glazing.
 protected
+  final parameter Boolean haveOverhang = LOv > Modelica.Constants.small 
+    "To avoid divisions by zero and obsolete computations";
   parameter Modelica.Units.SI.Angle vieAngObj=atan((hWin/2 + dh)/L)
     "Viewing angle of opposite object";
-  parameter Modelica.Units.SI.Angle vieAngOv=Modelica.constants.pi/2 - atan((hWin/2 + dhOv)/LOv)
+  parameter Modelica.Units.SI.Angle vieAngOv=if haveOverhang then Modelica.Constants.pi/2 - atan((hWin/2 + dhOv)/LOv) else 0
     "Viewing angle of overhang";
   final parameter Modelica.Units.SI.Angle rot=0
     "Rotation angle of opposite building. Zero when parallel, positive when rotated clockwise"
@@ -62,16 +64,28 @@ protected
 equation
   // the below implementation does not yet consider the case where both overhang and object
   // cast shade at the same time
-  if noEvent(L2<dh) then
-    fraSunDir=coeff;
-  elseif noEvent(L2<dh+hWin) then
-    fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
-  elseif noEvent(L2Ov>dhOv+hWin) then
-    fraSunDir=coeffOv;
-  elseif noEvent(L2Ov>dhOv) then
-    fraSunDir=coeffOv + (L2Ov-dhOv)*fraShaOv*hWinInv;
+  
+  if haveOverhang then
+    if noEvent(L2<dh) then
+      fraSunDir=coeff;
+    elseif noEvent(L2<dh+hWin) then
+      fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
+    elseif noEvent(L2Ov>dhOv+hWin) then
+      fraSunDir=coeffOv;
+    elseif noEvent(L2Ov>dhOv) then
+      fraSunDir=coeffOv + (L2Ov-dhOv)*fraShaOv*hWinInv;
+    else
+      fraSunDir=1;
+    end if;
   else
-    fraSunDir=1;
+    if noEvent(L2<dh) then
+      fraSunDir=coeff;
+    elseif noEvent(L2<dh+hWin) then
+      fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
+    else
+      fraSunDir=1;
+  end if;
+
   end if;
 
   HShaDirTil=fraSunDir*HDirTil;
