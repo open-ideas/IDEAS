@@ -21,6 +21,12 @@ model OuterWall "Opaque building envelope construction"
   parameter Modelica.Units.SI.Length dh(min=-hWal) = 0
     "Height difference between top of object and top of wall"
     annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length LOv(min=0) = 0
+    "Distance between overhang edge and wall, perpendicular to wall"
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.Units.SI.Length dhOv(min=-hWal) = 0
+    "Height difference between bottom of overhang and top of wall"
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
   parameter Modelica.Units.SI.Length hWal(min=0) = 0 "Wall height"
     annotation (Dialog(group="Building shade", enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
@@ -52,6 +58,8 @@ model OuterWall "Opaque building envelope construction"
     final haveBoundaryPorts=false,
     final L=L,
     final dh=dh,
+    final LOv=LOv,
+    final dhOv=dhOv,
     final hWin=hWal) if hasBuildingShade
   constrainedby IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
     final azi=aziInt)
@@ -303,6 +311,10 @@ The correct shading parameter values should then be passed through the redeclara
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 19, 2025 by Filip Jorissen:<br/>
+Added support for shading overhangs <a href=\"https://github.com/open-ideas/IDEAS/issues/1467\">#1467</a>.
+</li>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
 Changed inc to incInt where nececarry.
