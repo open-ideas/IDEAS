@@ -50,14 +50,18 @@ model PVT_UI_Thermal_DayType1
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLosStc.c1_c2_term)
+  Modelica.Blocks.Sources.RealExpression a1_a2_term(y=PvtCol.heaLosStc.a1_a2_term)
     "[W]" annotation (Placement(transformation(extent={{19,68},{45,84}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLosStc.c3_term)
+  Modelica.Blocks.Sources.RealExpression a3_term(y=PvtCol.heaLosStc.a3_term)
     "[W]" annotation (Placement(transformation(extent={{19,52},{45,68}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLosStc.c4_term)
+  Modelica.Blocks.Sources.RealExpression a4_term(y=PvtCol.heaLosStc.a4_term)
     "[W]" annotation (Placement(transformation(extent={{57,68},{83,84}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLosStc.c6_term)
+  Modelica.Blocks.Sources.RealExpression a6_term(y=PvtCol.heaLosStc.a6_term)
     "[W]" annotation (Placement(transformation(extent={{57,52},{83,68}})));
+  Modelica.Blocks.Sources.RealExpression a7_term(y=PvtCol.heaLosStc.a7_term)
+    "[W]" annotation (Placement(transformation(extent={{19,36},{45,52}})));
+  Modelica.Blocks.Sources.RealExpression a8_term(y=PvtCol.heaLosStc.a8_term)
+    "[W]" annotation (Placement(transformation(extent={{57,36},{83,52}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T)) "[W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
@@ -94,6 +98,7 @@ model PVT_UI_Thermal_DayType1
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*PvtColVal.port_b.m_flow
         *(PvtColVal.sta_a.T - PvtColVal.sta_b.T)) "[W]"
     annotation (Placement(transformation(extent={{-81,-86},{-55,-70}})));
+
 equation
 
   connect(meaDat.y[13],TAmbKel. Celsius) annotation (Line(points={{-71,34},{-60,
@@ -145,7 +150,7 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTColle
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Diagram(graphics={
-        Rectangle(extent={{6,96},{90,50}},    lineColor={28,108,200}),
+        Rectangle(extent={{6,96},{92,34}},    lineColor={28,108,200}),
         Text(
           extent={{8,98},{90,82}},
           textColor={28,108,200},
@@ -159,13 +164,13 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTColle
           textStyle={TextStyle.Bold},
           textString="Measured and simulated
 thermal power"),
-        Rectangle(extent={{-86,-52},{-14,-88}}, lineColor={28,108,200}),
+        Rectangle(extent={{-86,-52},{18,-86}},  lineColor={28,108,200}),
         Text(
           extent={{-84,-56},{2,-64}},
           textColor={28,108,200},
           horizontalAlignment=TextAlignment.Left,
           textStyle={TextStyle.Bold},
           textString="Simulated thermal power, 
-neglecting c3-, c4- and c6-term 
+neglecting c3-, c4-, c6-, c7- and c8-term 
 loss contributions")}));
 end PVT_UI_Thermal_DayType1;

@@ -5,31 +5,39 @@ model ISO9806QuasiDynamicHeatLossValidation
   extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss;
 
   // —— Diagnostic internal variables ——
-  Modelica.Units.SI.Power c1_c2_term "Contribution from c1–c2 (steady-state) term";
-  Modelica.Units.SI.Power c3_term "Contribution from wind-speed dependence (c3)";
-  Modelica.Units.SI.Power c4_term "Contribution from sky long-wave (c4)";
-  Modelica.Units.SI.Power c6_term "Contribution from wind–irradiance coupling (c6)";
+  Modelica.Units.SI.Power a1_a2_term "Contribution from a1–a2 (steady-state) term";
+  Modelica.Units.SI.Power a3_term "Contribution from wind-speed dependence (a3)";
+  Modelica.Units.SI.Power a4_term "Contribution from sky long-wave (a4)";
+  Modelica.Units.SI.Power a6_term "Contribution from wind–irradiance coupling (a6)";
+  Modelica.Units.SI.Power a7_term "Contribution from wind–irradiance dependence of IR radiation exchange (a7)";
+  Modelica.Units.SI.Power a8_term "Contribution from radiation losses (a8)";
   Modelica.Units.SI.Irradiance EL_term "Sky long-wave irradiance difference (HHorIR – σ·TEnv⁴)";
 
   // —— Cumulative sums ——
-  Modelica.Units.SI.Power pvt_st_st "Steady-state loss (c1–c2)";
-  Modelica.Units.SI.Power pvt_c3 "Steady-state + c3";
-  Modelica.Units.SI.Power pvt_c4 "Steady-state + c3 + c4";
-  Modelica.Units.SI.Power pvt_c6 "Total quasi-dynamic loss";
+  Modelica.Units.SI.Power pvt_st_st "Steady-state loss (a1–a2)";
+  Modelica.Units.SI.Power pvt_a3 "Steady-state + a3";
+  Modelica.Units.SI.Power pvt_a4 "Steady-state + a3 + a4";
+  Modelica.Units.SI.Power pvt_a6 "Steady-state + a3 + a4 + a6";
+  Modelica.Units.SI.Power pvt_a7 "Steady-state + a3 + a4 + a6 + a7";
+  Modelica.Units.SI.Power pvt_a8 "Steady-state + a3 + a4 + a6 + a7 + a8";
 
 equation
   // term-by-term breakdown
-  c1_c2_term = sum(A_c/nSeg * { dT[i]*(c1 - c2*dT[i]) for i in 1:nSeg});
-  c3_term    = sum(A_c/nSeg * { dT[i]*c3*winSpePla        for i in 1:nSeg});
-  c4_term    = sum(A_c/nSeg * { c4*(HHorIR - Modelica.Constants.sigma*TEnv^4) for i in 1:nSeg});
-  c6_term    = sum(A_c/nSeg * { -c6*winSpePla*HGloTil     for i in 1:nSeg});
+  a1_a2_term = sum(A_c/nSeg * { dT[i]*(a1 - a2*dT[i]) for i in 1:nSeg});
+  a3_term    = sum(A_c/nSeg * { dT[i]*a3*(winSpePla-3)        for i in 1:nSeg});
+  a4_term    = sum(A_c/nSeg * { a4*(HHorIR - Modelica.Constants.sigma*TEnv^4) for i in 1:nSeg});
+  a6_term    = sum(A_c/nSeg * { -a6*(winSpePla-3)*HGloTil     for i in 1:nSeg});
+  a7_term    = sum(A_c/nSeg * { -a7*(winSpePla-3)*(HHorIR - Modelica.Constants.sigma*TEnv^4)     for i in 1:nSeg});
+  a8_term    = sum(A_c/nSeg * { -a8*(dT[i])^4     for i in 1:nSeg});
   EL_term    = HHorIR - Modelica.Constants.sigma*TEnv^4;
 
   // cumulative contributions
-  pvt_st_st = c1_c2_term;
-  pvt_c3    = pvt_st_st + c3_term;
-  pvt_c4    = pvt_c3    + c4_term;
-  pvt_c6    = pvt_c4    + c6_term;
+  pvt_st_st = a1_a2_term;
+  pvt_a3    = pvt_st_st + a3_term;
+  pvt_a4    = pvt_a3    + a4_term;
+  pvt_a6    = pvt_a4    + a6_term;
+  pvt_a7    = pvt_a6    + a7_term;
+  pvt_a8    = pvt_a7    + a8_term;
 
   annotation (
     defaultComponentName="heaLosStcVal",
