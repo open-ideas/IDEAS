@@ -52,7 +52,7 @@ model PVT_UN_Electrical
   Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-47,58},{-21,74}})));
   .IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
-    electricalPV(
+    ElectricalPV(
     P_STC=datPVTCol.P_nominal,
     gamma=datPVTCol.gamma,
     eleLosFac=eleLosFac,
@@ -60,7 +60,7 @@ model PVT_UN_Electrical
     module_efficiency=datPVTCol.etaEl,
     til=0.34906585039887,
     azi=0) annotation (Placement(transformation(extent={{-64,-72},{-84,-54}})));
-  Modelica.Blocks.Sources.RealExpression simPelPV(y=electricalPV.P) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPelPV(y=ElectricalPV.P) "[W]"
     annotation (Placement(transformation(extent={{-53,-68},{-27,-52}})));
   Modelica.Blocks.Sources.RealExpression simTcell(y=PvtCol.eleGen.TavgCel -
         273.15) "[°C]"

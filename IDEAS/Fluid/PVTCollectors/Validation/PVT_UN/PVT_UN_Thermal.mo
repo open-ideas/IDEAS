@@ -32,14 +32,6 @@ model PVT_UN_Thermal
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "[W]"
     annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
-  Modelica.Blocks.Sources.RealExpression c1_c2_term(y=PvtCol.heaLosStc.c1_c2_term)
-    "[W]" annotation (Placement(transformation(extent={{21,68},{47,84}})));
-  Modelica.Blocks.Sources.RealExpression c3_term(y=PvtCol.heaLosStc.c3_term)
-    "[W]" annotation (Placement(transformation(extent={{21,52},{47,68}})));
-  Modelica.Blocks.Sources.RealExpression c4_term(y=PvtCol.heaLosStc.c4_term)
-    "[W]" annotation (Placement(transformation(extent={{59,68},{85,84}})));
-  Modelica.Blocks.Sources.RealExpression c6_term(y=PvtCol.heaLosStc.c6_term)
-    "[W]" annotation (Placement(transformation(extent={{59,52},{85,68}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
@@ -94,7 +86,19 @@ model PVT_UN_Thermal
     annotation (Placement(transformation(extent={{70,-42},{90,-22}})));
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*PvtColVal.port_b.m_flow
         *(PvtColVal.sta_a.T - PvtColVal.sta_b.T)) "[W]"
-    annotation (Placement(transformation(extent={{-81,-90},{-55,-74}})));
+    annotation (Placement(transformation(extent={{-81,-94},{-55,-78}})));
+  Modelica.Blocks.Sources.RealExpression a1_a2_term(y=PvtCol.heaLosStc.a1_a2_term)
+    "[W]" annotation (Placement(transformation(extent={{21,68},{47,84}})));
+  Modelica.Blocks.Sources.RealExpression a3_term(y=PvtCol.heaLosStc.a3_term)
+    "[W]" annotation (Placement(transformation(extent={{21,52},{47,68}})));
+  Modelica.Blocks.Sources.RealExpression a4_term(y=PvtCol.heaLosStc.a4_term)
+    "[W]" annotation (Placement(transformation(extent={{59,68},{85,84}})));
+  Modelica.Blocks.Sources.RealExpression a6_term(y=PvtCol.heaLosStc.a6_term)
+    "[W]" annotation (Placement(transformation(extent={{59,52},{85,68}})));
+  Modelica.Blocks.Sources.RealExpression a7_term(y=PvtCol.heaLosStc.a7_term)
+    "[W]" annotation (Placement(transformation(extent={{21,36},{47,52}})));
+  Modelica.Blocks.Sources.RealExpression a8_term(y=PvtCol.heaLosStc.a8_term)
+    "[W]" annotation (Placement(transformation(extent={{59,36},{85,52}})));
 equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
@@ -168,12 +172,6 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </html>"),
   Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false), graphics={
-        Rectangle(extent={{8,96},{92,50}},    lineColor={28,108,200}),
-        Text(
-          extent={{10,98},{92,82}},
-          textColor={28,108,200},
-          textString="Distribution of heat losses ",
-          textStyle={TextStyle.Bold}),
         Rectangle(extent={{-86,96},{-14,60}},   lineColor={28,108,200}),
         Text(
           extent={{-84,96},{-14,80}},
@@ -182,14 +180,20 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
           textStyle={TextStyle.Bold},
           textString="Measured and simulated
 thermal power"),
-        Rectangle(extent={{-86,-56},{-14,-92}}, lineColor={28,108,200}),
+        Rectangle(extent={{-88,-56},{20,-94}},  lineColor={28,108,200}),
+        Rectangle(extent={{8,96},{94,34}},    lineColor={28,108,200}),
         Text(
-          extent={{-84,-60},{2,-68}},
+          extent={{10,98},{92,82}},
+          textColor={28,108,200},
+          textString="Distribution of heat losses ",
+          textStyle={TextStyle.Bold}),
+        Text(
+          extent={{-82,-62},{4,-70}},
           textColor={28,108,200},
           horizontalAlignment=TextAlignment.Left,
           textStyle={TextStyle.Bold},
           textString="Simulated thermal power, 
-neglecting c3-, c4- and c6-term 
+neglecting c3-, c4-, c6-, c7- and c8-term 
 loss contributions")}),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_Thermal.mos"
         "Simulate and plot"),
