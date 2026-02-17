@@ -44,8 +44,7 @@ model PVT_UN_Thermal
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTQuasiDynamicCollectorValidation
-    PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -77,7 +76,7 @@ model PVT_UN_Thermal
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-42},{-38,-22}})));
-  PVTQuasiDynamicCollectorValidation PvtColVal(
+  PVTCollectorValidation PvtColVal(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,

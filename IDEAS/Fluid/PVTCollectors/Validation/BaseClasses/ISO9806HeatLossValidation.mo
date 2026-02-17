@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
-model ISO9806QuasiDynamicHeatLossValidation
-  "Validation variant with term‑by‑term breakdown of quasi‑dynamic heat loss"
+model ISO9806HeatLossValidation
+  "Validation variant with term‑by‑term breakdown of ISO9806:2017 standard thermal heat loss"
 
   extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss;
 
@@ -67,4 +67,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </li>
 </ul>
 </html>"));
-end ISO9806QuasiDynamicHeatLossValidation;
+end ISO9806HeatLossValidation;

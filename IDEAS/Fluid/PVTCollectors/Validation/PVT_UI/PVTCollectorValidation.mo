@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI;
-model PVTQuasiDynamicCollectorValidation
-  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
+model PVTCollectorValidation
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
     redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per,
@@ -49,7 +49,7 @@ model PVTQuasiDynamicCollectorValidation
     final A_c=ATot_internal)
     "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation
     heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
@@ -325,4 +325,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end PVTQuasiDynamicCollectorValidation;
+end PVTCollectorValidation;

@@ -30,8 +30,7 @@ model PVT_UN_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTQuasiDynamicCollectorValidation
-    PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,

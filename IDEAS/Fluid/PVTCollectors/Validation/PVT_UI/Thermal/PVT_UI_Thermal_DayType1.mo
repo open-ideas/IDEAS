@@ -13,8 +13,7 @@ model PVT_UI_Thermal_DayType1
     datPVTColVal
     annotation (Placement(transformation(extent={{72,-36},{92,-16}})));
 
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation
-    PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation PvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -65,19 +64,20 @@ model PVT_UI_Thermal_DayType1
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
         *(PvtCol.sta_a.T - PvtCol.sta_b.T)) "[W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
-  PVTQuasiDynamicCollectorValidation PvtColVal(
-      redeclare package Medium = Medium,
-      energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-      massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-      T_start(displayUnit="K") = T_start,
-      show_T=true,
-      azi=0,
-      til(displayUnit="deg") = 0.78539816339745,
-      rho=0.2,
-      nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
-      nPanels=1,
+  PVTCollectorValidation PvtColVal(
+    redeclare package Medium = Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    T_start(displayUnit="K") = T_start,
+    show_T=true,
+    azi=0,
+    til(displayUnit="deg") = 0.78539816339745,
+    rho=0.2,
+    nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
+    nPanels=1,
     per=datPVTColVal,
-      eleLosFac=eleLosFac)   annotation (Placement(transformation(extent={{-10,-36},{10,-16}})));
+    eleLosFac=eleLosFac)
+    annotation (Placement(transformation(extent={{-10,-36},{10,-16}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel1
                                                          annotation (Placement(transformation(extent={{-87,-27},
             {-77,-17}})));

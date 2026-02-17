@@ -84,7 +84,7 @@ accounting for both sky and ground contributions.
 <h4>Implementation Notes</h4>
 <p>
 This model is used in the validation of unglazed photovoltaic–thermal (PVT) collectors 
-(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation\">
+(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation\">
 IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTQuasiDynamicCollectorValidation</a>) 
 where direct longwave irradiance measurements are unreliable or unavailable. It assumes a ground emissivity of 0.95. 
 The clear-sky emissivity is calculated using an empirical correlation based on the dew point temperature. 
