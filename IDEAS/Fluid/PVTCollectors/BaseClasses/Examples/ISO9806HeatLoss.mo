@@ -25,19 +25,21 @@ model ISO9806HeatLoss
   ISO9806QuasiDynamicHeatLoss heaLosQuaDyn(
     nSeg=3,
     redeclare package Medium = Medium,
-    c1=per.c1,
-    c2=per.c2,
-    c3=per.c3,
-    c4=per.c4,
-    c6=per.c6,
+    a1=per.a1,
+    a2=per.a2,
+    a3=per.a3,
+    a4=per.a4,
+    a6=per.a6,
+    a7=per.a7,
+    a8=per.a8,
     A_c=per.A) annotation (Placement(transformation(extent={{18,-2},{38,18}})));
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss heaLosSteSta(
     A_c=per.A,
     nSeg=3,
     redeclare package Medium = Medium,
-    a1=per.c1,
-    a2=per.c2)
+    a1=per.a1,
+    a2=per.a2)
     annotation (Placement(transformation(extent={{18,-68},{38,-48}})));
   Modelica.Blocks.Sources.Sine TEnv(
     f=0.01,
@@ -48,7 +50,7 @@ model ISO9806HeatLoss
     f=1/(24*3600),
     phase=0,
     offset=3,
-    amplitude=5) "wind speed in the collector plane"
+    amplitude=2) "wind speed in the collector plane"
     annotation (Placement(transformation(extent={{60,58},{80,78}})));
   Modelica.Blocks.Sources.RealExpression HHorIR(y=400) "long wave irradiance"
     annotation (Placement(transformation(extent={{-1.5,58},{17.5,74}})));
