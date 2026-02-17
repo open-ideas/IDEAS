@@ -36,7 +36,7 @@ model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncove
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector pvtCol(
+  IDEAS.Fluid.PVTCollectors.PVTCollector pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     show_T=true,
@@ -72,7 +72,7 @@ equation
   Documentation(info="<html>
 <p>
 This example demonstrates the implementation of the 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">
 IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a> 
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>

@@ -49,7 +49,7 @@ A term‑by‑term breakdown of each thermal loss contribution;
 Cumulative sums showing how each additional term builds up to the total heat loss.
 </li>
 </ul>
-</html>", 
+</html>",
 revisions="<html>
 <ul>
 <li>

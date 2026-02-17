@@ -27,7 +27,7 @@ record UI_Validation =
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTCol",
-  Documentation(info = "<html>
+  Documentation(info="<html>
 <p>
 This record contains anonymized thermal and electrical performance parameters for 
 an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 
@@ -36,7 +36,7 @@ Thermal performance parameters correspond to operation of the PVT collector at m
 </p>
 <p>
 This datasheet is used in the validation of 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
 which can be found in the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">IDEAS.Fluid.PVTCollectors.Validation.PVT_UI</a> package. 
 </p>

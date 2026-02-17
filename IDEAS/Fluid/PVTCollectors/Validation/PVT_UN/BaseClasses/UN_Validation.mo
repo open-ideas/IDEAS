@@ -25,7 +25,7 @@ record UN_Validation =
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTColVal",
-  Documentation(info = "<html>
+  Documentation(info="<html>
 <p>
 This record contains performance parameters for a flat‑plate, <b>uncovered</b> and <b>uninsulated</b> PVT collector, 
 derived from manufacturer datasheets and thermal rating documentation. 
@@ -39,7 +39,7 @@ SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>.
 </p>
 <p>
 For this PVT collector, additional real-life measurement data is publicly available (Veynandt, 2023) and has been used in the validation of 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
 which can be found in the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">IDEAS.Fluid.PVTCollectors.Validation.PVT_UN</a> package. 
 </p>

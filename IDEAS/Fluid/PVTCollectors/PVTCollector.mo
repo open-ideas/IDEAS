@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors;
-model PVTQuasiDynamicCollector
-  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
+model PVTCollector
+  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
       redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
@@ -216,4 +216,4 @@ Line(points={{32,0},{52,0}}, color={255,255,0}),
 Line(points={{-8,-8},{6,6}}, color={255,255,0}, origin={28,32}, rotation=180),
 Line(points={{-10,0},{10,0}}, color={255,255,0}, origin={0,40}, rotation=90),
 Polygon(points={{72,96},{36,26},{60,34},{48,-24},{88,58},{64,48},{72,96}}, lineColor={0,0,0}, fillColor={0,255,0}, fillPattern=FillPattern.Solid)}));
-end PVTQuasiDynamicCollector;
+end PVTCollector;
