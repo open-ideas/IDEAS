@@ -15,7 +15,7 @@ model PVTCollector
     "Effective transmittance–absorptance product";
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(
-    min=0) = ((tauAlpEff - per.etaEl) * (per.c1 + abs(per.gamma)*HGloHorNom)) /
+    min=0) = ((tauAlpEff - per.etaEl) * (per.a1 + abs(per.gamma)*HGloHorNom)) /
               ((tauAlpEff - per.etaEl) - per.eta0)
     "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
     annotation(Dialog(tab="Advanced", group="Electrical parameters"));
@@ -69,7 +69,7 @@ model PVTCollector
     final A = per.A,
     final eta0 = per.eta0,
     final tauAlpEff = tauAlpEff,
-    final c1 = per.c1,
+    final a1 = per.a1,
     final etaEl = per.etaEl,
     final UAbsFluid = UAbsFluid)
     "Calculates the electrical power output of the PVT model"
