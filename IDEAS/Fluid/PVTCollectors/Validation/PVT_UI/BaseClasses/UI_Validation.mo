@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses;
 record UI_Validation =
-  IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
+  IDEAS.Fluid.PVTCollectors.Data.Generic            (
     final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
     final C=42200*1.66,

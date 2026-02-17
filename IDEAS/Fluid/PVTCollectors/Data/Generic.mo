@@ -1,6 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Data;
-record GenericQuasiDynamic
-  "Generic data record for PVT collector models"
+record Generic "Generic data record for PVT collector models"
   extends IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic;
 
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType colTyp
@@ -62,4 +61,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </li>
 </ul>
 </html>"));
-end GenericQuasiDynamic;
+end Generic;

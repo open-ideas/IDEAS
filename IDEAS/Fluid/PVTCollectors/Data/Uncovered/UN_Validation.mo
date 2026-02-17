@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
 record UN_Validation =
-  IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
+  IDEAS.Fluid.PVTCollectors.Data.Generic            (
     final A=1.64,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
     final C=22100*1.64,

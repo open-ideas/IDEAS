@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Data.Covered;
 record CI_Jonas2018 =
-  IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
+  IDEAS.Fluid.PVTCollectors.Data.Generic            (
     final A=1.79,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
     final C=16631*1.79,
@@ -25,7 +25,7 @@ record CI_Jonas2018 =
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTCol",
-  Documentation(info = "<html>
+  Documentation(info="<html>
 <p>
 This record contains thermal and electrical parameters for a <b>covered</b> and <b>insulated</b> PVT collector, 
 based on experimental identification results from Jonas et al. (2018). 
@@ -35,7 +35,7 @@ These parameters were used in the validation of a TRNSYS PVT collector model und
 This record can be used as a generic representation of a covered, insulated PVT collector. 
 However, if you know the brand and model of the PVT collector you plan to simulate or install, 
 it is recommended to use the actual datasheet parameters in a custom 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Generic\">
 IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic</a> record.
 </p>
 <h4>References</h4>

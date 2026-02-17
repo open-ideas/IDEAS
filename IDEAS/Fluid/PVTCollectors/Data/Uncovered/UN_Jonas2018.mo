@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Data.Uncovered;
 record UN_Jonas2018 =
-  IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic(
+  IDEAS.Fluid.PVTCollectors.Data.Generic            (
     final A=1.66,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
     final C=35800*1.66,
@@ -25,7 +25,7 @@ record UN_Jonas2018 =
 annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTCol",
-  Documentation(info = "<html>
+  Documentation(info="<html>
 <p>
 This record contains thermal and electrical parameters for an <b>uncovered</b> and <b>non-insulated</b> PVT collector (WISC type), 
 based on experimental identification results from Jonas et al. (2018). 
@@ -35,7 +35,7 @@ These parameters were used in the validation of a TRNSYS PVT collector model und
 This record can be used as a generic representation of a WISC-type collector. 
 However, if you know the brand and model of the PVT collector you plan to simulate or install, 
 it is recommended to use the actual datasheet parameters in a custom
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Generic\">
 IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic </a> record.
 </p>
 <h4>Reference</h4>

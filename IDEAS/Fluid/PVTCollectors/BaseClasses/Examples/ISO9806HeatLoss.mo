@@ -4,7 +4,7 @@ model ISO9806HeatLoss
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium in the system";
 
-  parameter IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per=
+  parameter IDEAS.Fluid.PVTCollectors.Data.Generic per=
       IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation()
     "Performance data" annotation (choicesAllMatching=true);
   Modelica.Blocks.Sources.Sine T1(
@@ -117,7 +117,7 @@ First implementation of ISO 9806 quasi-dynamic heat loss example.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">1436</a>.
 </li>
 </ul>
-</html>"), 
+</html>"),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/BaseClasses/Examples/ISO9806HeatLoss.mos"
         "Simulate and plot"),
  experiment(

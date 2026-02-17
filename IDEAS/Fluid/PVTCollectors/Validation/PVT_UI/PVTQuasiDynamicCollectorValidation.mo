@@ -3,7 +3,7 @@ model PVTQuasiDynamicCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
+    redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per,
     break weaBus,
     break HDifTilIso,
     break HDirTil);
