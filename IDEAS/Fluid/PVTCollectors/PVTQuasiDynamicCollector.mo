@@ -49,11 +49,13 @@ model PVTQuasiDynamicCollector
   IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
-    final c1=per.c1,
-    final c2=per.c2,
-    final c3=per.c3,
-    final c4=per.c4,
-    final c6=per.c6,
+    final a1=per.a1,
+    final a2=per.a2,
+    final a3=per.a3,
+    final a4=per.a4,
+    final a6=per.a6,
+    final a7=per.a4,
+    final a8=per.a6,
     final A_c=ATot_internal)
     "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
@@ -142,14 +144,14 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(temSen.T, eleGen.Tflu) annotation (Line(points={{-11,-20},{-30,-20}, {-30,-64},{-22,-64}}, color={0,0,127}));
   connect(HDifTilIso.H, HGloTil.u1) annotation (Line(points={{-59,80},{-54,80},{
-          -54,14},{-64,14},{-64,-66},{-53,-66}}, color={0,0,127}));
+          -54,14},{-64,14},{-64,-87},{-56,-87}}, color={0,0,127}));
   connect(HDirTil.H, HGloTil.u2) annotation (Line(points={{-59,50},{-50,50},{-50,
-          52},{-46,52},{-46,14},{-64,14},{-64,-72},{-53,-72}}, color={0,0,127}));
+          52},{-46,52},{-46,14},{-64,14},{-64,-93},{-56,-93}}, color={0,0,127}));
   connect(HGloTil.y, eleGen.HGloTil) annotation (Line(
-      points={{-40,-90},{-30,-90},{-30,-76},{-22,-76}},
+      points={{-44.5,-90},{-30,-90},{-30,-76},{-22,-76}},
       color={0,0,127}));
   connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
-      points={{-40,-70},{-22,-70}},
+      points={{-39,-70},{-22,-70}},
       color={0,0,127}));
     annotation (
   defaultComponentName = "pvtCol",
