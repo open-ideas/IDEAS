@@ -4,23 +4,28 @@ model ISO9806QuasiDynamicHeatLoss
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
-    final QLos_internal=A_c/nSeg*{dT[i]*(c1 - c2*dT[i] + c3*winSpePla) + c4*(HHorIR
-         - Modelica.Constants.sigma*TEnv^4) - c6*winSpePla*HGloTil for i in 1:nSeg},
-    final a1=c1,
-    final a2=c2);
+    final QLos_internal=A_c/nSeg*{dT[i]*(a1 - a2*dT[i] + a3*(winSpePla-3)) + a4*(HHorIR
+         - Modelica.Constants.sigma*TEnv^4) - a6*(winSpePla-3)*HGloTil
+         - a7*(winSpePla-3)*(HHorIR - Modelica.Constants.sigma*TEnv^4) - a8*(dT[i])^4 for i in 1:nSeg},
+    final a1=a1,
+    final a2=a2);
 
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1(final min=0)
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer a1(final min=0)
     "Linear heat loss coefficient (a1)";
-  parameter Real c2(final unit="W/(m2.K2)", final min=0)
+  parameter Real a2(final unit="W/(m2.K2)", final min=0)
     "Quadratic heat loss coefficient (a2)";
 
   // —— Additional quasi-dynamic coefficients ——
-  parameter Modelica.Units.SI.SpecificHeatCapacity c3(final min=0)
+  parameter Modelica.Units.SI.SpecificHeatCapacity a3(final min=0)
     "Wind speed dependence of heat loss";
-  parameter Modelica.Units.SI.DimensionlessRatio c4(final min=0)
+  parameter Modelica.Units.SI.DimensionlessRatio a4(final min=0)
     "Sky long-wave irradiance dependence";
-  parameter Real c6(final unit="s/m", final min=0)
+  parameter Real a6(final unit="s/m", final min=0)
     "Wind speed dependence of thermal zero-loss efficiency";
+  parameter Real a7(final unit="W/(m2.K4)", final min=0)
+    "Wind speed dependence of IR radiation exchange";
+  parameter Real a8(final unit="W/(m2.K4)", final min=0)
+    "Radiation losses";
 
   // Quasi-dynamic inputs
   Modelica.Blocks.Interfaces.RealInput winSpePla(
