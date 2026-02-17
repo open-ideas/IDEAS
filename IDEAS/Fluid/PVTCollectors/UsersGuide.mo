@@ -18,7 +18,7 @@ The equations related to the heat losses and heat gains can be found in the foll
 <ul>
 <li>
 Quasi‑dynamic thermal losses: see 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </a>
 </li>

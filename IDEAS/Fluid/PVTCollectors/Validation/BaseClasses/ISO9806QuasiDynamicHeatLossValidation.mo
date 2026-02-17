@@ -2,7 +2,7 @@ within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 model ISO9806QuasiDynamicHeatLossValidation
   "Validation variant with term‑by‑term breakdown of quasi‑dynamic heat loss"
 
-  extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss;
+  extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss;
 
   // —— Diagnostic internal variables ——
   Modelica.Units.SI.Power c1_c2_term "Contribution from c1–c2 (steady-state) term";
@@ -33,11 +33,11 @@ equation
 
   annotation (
     defaultComponentName="heaLosStcVal",
-    Documentation(info = "
+    Documentation(info="
 <html>
 <p>
 Extends the standard quasi‑dynamic heat‑loss model 
-(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+(<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>).  
 For validation purposes, this block adds:
 </p>

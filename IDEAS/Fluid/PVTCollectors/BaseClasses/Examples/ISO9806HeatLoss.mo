@@ -1,6 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses.Examples;
-model ISO9806HeatLoss
-  "Example showing the use of ISO9806QuasiDynamicHeatLoss"
+model ISO9806HeatLoss "Example showing the use of ISO9806HeatLoss"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium in the system";
 
@@ -22,7 +21,7 @@ model ISO9806HeatLoss
     amplitude=15,
     offset=273.15 + 20) "Temperature of the third segment"
     annotation (Placement(transformation(extent={{-90,-52},{-70,-32}})));
-  ISO9806QuasiDynamicHeatLoss heaLosQuaDyn(
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss heaLosQuaDyn(
     nSeg=3,
     redeclare package Medium = Medium,
     a1=per.a1,
@@ -93,7 +92,7 @@ equation
    Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>,
 which calculates the quasi-dynamic heat loss of a PVT or solar thermal collector
 according to the ISO 9806:2013 standard.

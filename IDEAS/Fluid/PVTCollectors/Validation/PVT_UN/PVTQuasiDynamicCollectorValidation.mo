@@ -158,7 +158,7 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </li>
 <li>
 Quasi-dynamic thermal losses: 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </a>
 </li>

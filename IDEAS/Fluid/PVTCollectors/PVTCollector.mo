@@ -46,7 +46,7 @@ model PVTCollector
     "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
 
-  IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss heaLosStc(
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final a1=per.a1,
@@ -156,7 +156,7 @@ equation
     annotation (
   defaultComponentName = "pvtCol",
 
-Documentation(info = "<html>
+Documentation(info="<html>
 <p>
 This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806 quasi-dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally for unglazed PVT collectors (with and without rear insulation) under a wide range of weather conditions.
 </p>
@@ -175,7 +175,7 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </li>
 <li>
 Quasi-dynamic thermal losses: see 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </a>
 </li>
