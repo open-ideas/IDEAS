@@ -158,8 +158,14 @@ Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>
 revisions="<html>
 <ul>
 <li>
-January 16, 2026, by Lone Meertens:<br/>
-Adapted PV-oriented electrical model from the MoPED library for validation purposes only. This model is included to demonstrate the impact of using PV-based cell-temperature equations for PVT collectors. The adaptation and inclusion in the validation package are tracked in <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
+<li>
+July 7, 2025, by Lone Meertens:<br/>
+First implementation PVT model. 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
 </li>
 </ul>
 </html>"));

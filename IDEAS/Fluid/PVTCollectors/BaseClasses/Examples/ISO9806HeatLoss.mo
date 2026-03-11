@@ -95,10 +95,10 @@ This example demonstrates the implementation of
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>,
 which calculates the quasi-dynamic heat loss of a PVT or solar thermal collector
-according to the ISO 9806:2013 standard.
+according to the ISO 9806:2017 standard.
 </p>
 <p>
-In addition to showcasing the ISO 9806-based model, this example also compares its behavior
+In addition to showcasing the ISO 9806:2017-based model, this example also compares its behavior
 to the steady-state heat loss model
 <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss\">
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a>,
@@ -112,6 +112,11 @@ and long-wave irradiance.
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 2, 2025, by Lone Meertens:<br/>
 First implementation of ISO 9806 quasi-dynamic heat loss example.

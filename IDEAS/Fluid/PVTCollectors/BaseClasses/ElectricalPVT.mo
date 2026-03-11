@@ -75,7 +75,7 @@ annotation (
   Documentation(info="<html>
 <p>
 This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the PVWatts v5 methodology (Dobos, 2014), adapted for PVT systems.
-It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
+It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2026).
 </p>
 <p>
 The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
@@ -172,7 +172,7 @@ PVWatts reports a total electrical power loss of 14%, resulting from the followi
 </tr>
 </table>
 <p>
-For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
+For well-maintained, unshaded modules, experimental validation (Meertens et al., 2026)
 found that using <code>eleLosFac = 9%</code> gives excellent agreement with
 measured electrical output. For PVT collectors with a high positive tolerance on the 
 electrical output, this system loss factor can even be lower. 
@@ -182,7 +182,7 @@ Users may adjust <code>eleLosFac</code> to account for site-specific soiling or 
 <h4>Implementation Notes</h4>
 <p>
 This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. 
-It is compatible with the thermal model based on ISO 9806:2013 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
+It is compatible with the thermal model based on ISO 9806:2017 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
 </p>
 
 <h4>References</h4>
@@ -191,14 +191,22 @@ It is compatible with the thermal model based on ISO 9806:2013 and is suitable f
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025).
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>,
-submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Unglazed
+Photovoltaic‑Thermal Collector Modelica Model that only needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 

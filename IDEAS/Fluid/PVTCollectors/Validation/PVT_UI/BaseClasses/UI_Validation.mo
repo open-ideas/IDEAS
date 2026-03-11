@@ -28,36 +28,31 @@ annotation(
   defaultComponentPrefixes = "parameter",
   defaultComponentName     = "datPVTColVal",
   Documentation(info="<html>
-<p>
-This record contains anonymized thermal and electrical performance parameters for 
-an <b>uncovered</b> photovoltaic–thermal (PVT) collector <b>with rear insulation</b>, 
-tested under ISO 9806:2013 quasi-dynamic conditions. 
-Thermal performance parameters correspond to operation of the PVT collector at maximum power point (MPP mode).
-</p>
-<p>
-This datasheet is used in the validation of 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a>, 
-which can be found in the 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">IDEAS.Fluid.PVTCollectors.Validation.PVT_UI</a> package. 
-</p>
 
+<p>
+For comparison with the simplified steady-state thermal formulation, this validation 
+record is adapted to use the thermal coefficients <i>a<sub>1</sub></i> and 
+<i>a<sub>2</sub></i> reported under the EU Ecodesign Regulation CDR&nbsp;812/2013, 
+which are provided directly in the collector datasheet.
+</p>
 <h4>References</h4>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
-</li>
-<li>
-IEA SHC Task 60 (2018). <i>PVT Systems: Application of PVT Collectors and New Solutions in HVAC Systems</i>.
-<a href=\"https://www.iea-shc.org/task60\">iea-shc.org/task60</a>.
-</li>
-<li>
-Meertens, L.; Jansen, J.; Helsen, L. (2025). 
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>. 
-Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Unglazed
+Photovoltaic‑Thermal Collector Modelica Model that only needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
-<ul>
+  <ul>
+  <li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.

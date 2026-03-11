@@ -178,7 +178,7 @@ equation
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
-Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
+Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 quasi-dynamic thermal method with integrated electrical coupling.  
 Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
 and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>
@@ -234,15 +234,25 @@ using the dedicated <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.Ba
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Unglazed
+Photovoltaic‑Thermal Collector Modelica Model that only needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 

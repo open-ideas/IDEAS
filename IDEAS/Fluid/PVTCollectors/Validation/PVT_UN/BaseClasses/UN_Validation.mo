@@ -29,15 +29,10 @@ annotation(
   defaultComponentName     = "datPVTColVal",
   Documentation(info="<html>
 <p>
-This record contains performance parameters for a flat‑plate, <b>uncovered</b> and <b>uninsulated</b> PVT collector, 
-derived from manufacturer datasheets and thermal rating documentation. 
-Thermal parameters follow the ISO 9806:2013 quasi‑dynamic format and correspond to operation at the PV module’s maximum power point (MPP).
-</p>
-<p>
-The thermal coefficients were originally obtained using the ISO 9806:2013 unglazed 
-steady-state method, and converted to quasi‑dynamic form according to the procedure detailed 
-in <a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
-SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>. 
+For comparison with the simplified steady-state thermal formulation, this validation 
+record is adapted to use the thermal coefficients <i>a<sub>1</sub></i> and 
+<i>a<sub>2</sub></i> reported under the EU Ecodesign Regulation CDR&nbsp;812/2013, 
+which are provided directly in the collector datasheet.
 </p>
 <p>
 For this PVT collector, additional real-life measurement data is publicly available (Veynandt, 2023) and has been used in the validation of 
@@ -70,17 +65,22 @@ Solar Keymark Network (2019).
 Thermal performance parameter conversion to the ISO 9806‑2017 quasi‑dynamic method</a></i>. SKN‑N0474R0
 </li>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>
-</li>
-<li>
-Meertens, L., Jansen, J., Helsen, L. (2025). 
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, 
-submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Unglazed
+Photovoltaic‑Thermal Collector Modelica Model that only needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>"),
 revisions="<html>
-<ul>
+  <ul>
+  <li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.

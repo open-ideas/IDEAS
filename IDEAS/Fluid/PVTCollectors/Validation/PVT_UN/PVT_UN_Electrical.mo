@@ -110,7 +110,7 @@ ensuring accurate representation of the thermal-electrical interaction.
 <p> 
 Despite the presence of extreme weather conditions, including wind speeds up to <i>10–12&nbsp;m/s</i> and continuous pump operation, 
 the electrical model remains robust. Validation shows excellent agreement with measurements, 
-with a normalized MAE of 5.2 % and nRMSE of 9.9 % (Meertens et al., 2025).
+with a normalized MAE of 5.3 % and nRMSE of 10.1 % (Meertens et al., 2026).
 </p>
 <p>
 The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, 
@@ -119,6 +119,11 @@ even under challenging real-world conditions.
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 September 3, 2025, by Jelger Jansen:<br/>
 Introduce <code>week</code> parameter to change the weather dataset.

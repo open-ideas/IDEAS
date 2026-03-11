@@ -49,57 +49,87 @@ defaultComponentName="heaLosStc",
 Documentation(info="<html>
 <p>
 This component computes the quasi-dynamic heat loss from a solar thermal or PVT collector
-to the environment, following the methodology described in the international standard <b>ISO 9806:2013</b>. 
+to the environment, following the methodology described in the international standard ISO 9806:2017. 
 It extends the original <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> model for code reuse,
 but implements the more comprehensive quasi-dynamic formulation.
 </p>
 <p>
-The heat loss is calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
+The thermal losses are calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
-<p align=\"center\" style=\"font-style:italic;\">
-Q<sub>los,i</sub> = A<sub>c</sub> / n<sub>seg</sub> &#183; [&Delta;T<sub>i</sub> &#183; 
-(c<sub>1</sub> - c<sub>2</sub> &#183; &Delta;T<sub>i</sub> + c<sub>3</sub> &#183; u)
- + c<sub>4</sub> &#183; (E<sub>L</sub> - &sigma; &#183; T<sub>env</sub><sup>4</sup>) - c<sub>6</sub> &#183; u &#183; G]
+
+<p align='center' style='font-style:italic;'>
+Q<sub>los,i</sub> =
+A<sub>c</sub> / n<sub>seg</sub> · [
+a<sub>1</sub> · ΔT<sub>i</sub>
++ a<sub>2</sub> · (ΔT<sub>i</sub>)<sup>2</sup>
++ a<sub>3</sub> · u<sub>r</sub> · ΔT<sub>i</sub>
++ a<sub>4</sub> · (E<sub>L</sub> − σ · T<sub>a</sub><sup>4</sup>)
++ a<sub>6</sub> · u<sub>r</sub> · G
++ a<sub>7</sub> · u<sub>r</sub> · (E<sub>L</sub> − σ · T<sub>a</sub><sup>4</sup>)
++ a<sub>8</sub> · (ΔT<sub>i</sub>)<sup>4</sup>
+]
 </p>
 <p>
 where:
 <ul>
 <li>
-<i>&Delta;T<sub>i</sub> = T<sub>env</sub> - T<sub>flu,i</sub></i>: temperature difference between environment and fluid in segment <i>i</i>
+<i>ΔT<sub>i</sub> = T<sub>m,i</sub> − T<sub>a</sub></i>:
+temperature difference between the mean fluid temperature in segment <i>i</i> and the ambient temperature
 </li>
 <li>
-<i>c<sub>1</sub></i>: linear heat loss coefficient (alias for <code>a1</code>)
+<i>a<sub>1</sub></i>:
+heat loss coefficient (W/m²·K)
 </li>
 <li>
-<i>c<sub>2</sub></i>: quadratic heat loss coefficient (alias for <code>a2</code>)
+<i>a<sub>2</sub></i>:
+temperature dependence of the heat loss coefficient (W/m²·K²)
 </li>
 <li>
-<i>c<sub>3</sub></i>: wind speed dependence of heat loss
+<i>a<sub>3</sub></i>:
+wind dependence of the heat loss coefficient (J/m³·K)
 </li>
 <li>
-<i>c<sub>4</sub></i>: sky long-wave irradiance dependence
+<i>a<sub>4</sub></i>:
+sky long-wave irradiance dependence
 </li>
 <li>
-<i>c<sub>6</sub></i>: wind speed dependence of thermal zero-loss efficiency
+<i>a<sub>6</sub></i>:
+wind dependence of thermal zero-loss efficiency (s/m)
 </li>
 <li>
-<i>u</i>: wind speed normal to the collector plane
+<i>a<sub>7</sub></i>:
+wind dependence of long-wave exchange (W/m²·K⁴)
 </li>
 <li>
-<i>E<sub>L</sub></i>: long-wave irradiance from the sky
+<i>a<sub>8</sub></i>:
+higher-order radiation loss coefficient (W/m²·K⁴)
 </li>
 <li>
-<i>G</i>: global solar irradiance on the tilted collector plane
+<i>u<sub>r</sub></i>:
+wind speed normal to the collector plane
 </li>
 <li>
-<i>&sigma;</i>: Stefan–Boltzmann constant (<i>5.67×10⁻⁸</i> W/m²·K⁴)
+<i>E<sub>L</sub></i>:
+long-wave irradiance from the sky
+</li>
+<li>
+<i>G</i>:
+global solar irradiance on the tilted collector plane
+</li>
+<li>
+<i>T<sub>a</sub></i>:
+ambient air temperature
+</li>
+<li>
+<i>σ</i>:
+Stefan–Boltzmann constant (<i>5.67×10⁻⁸</i> W/m²·K⁴)
 </li>
 </ul>
 </p>
 <p>
 This model provides a more accurate representation of collector heat loss under dynamic environmental conditions,
-as required by ISO 9806:2013. It is suitable for use in simulations where wind speed, sky radiation, and irradiance
+as required by ISO 9806:2017. It is suitable for use in simulations where wind speed, sky radiation, and irradiance
 vary over time.
 </p>
 
@@ -108,19 +138,23 @@ vary over time.
 The model inherits from 
 <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> for structural consistency and reuse of base functionality,
-but the naming and equations have been overwritten to reflect the ISO 9806 standard. Parameters <code>a1</code> and <code>a2</code>
-are overwritten to <code>c1</code> and <code>c2</code> for clarity.
+but the naming and equations have been overwritten to reflect the ISO 9806:2017 standard. 
 </p>
 
 <h4>References</h4>
 <p>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 </p>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 
