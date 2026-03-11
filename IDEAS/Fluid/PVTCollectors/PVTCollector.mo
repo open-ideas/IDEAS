@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors;
 model PVTCollector
-  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+  "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated thermal-electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
       redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
@@ -158,7 +158,7 @@ equation
 
 Documentation(info="<html>
 <p>
-This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806 quasi-dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally for unglazed PVT collectors (with and without rear insulation) under a wide range of weather conditions.
+This component models a photovoltaic–thermal (PVT) collector by coupling the ISO 9806:2017 quasi-dynamic thermal method with an internal electrical model. The model uses only datasheet parameters (no measured calibration data) and has been validated experimentally for unglazed PVT collectors (with and without rear insulation) under a wide range of weather conditions.
 </p>
 <p>
 The main equations used in this model can be found in the following submodels, as described in the 
