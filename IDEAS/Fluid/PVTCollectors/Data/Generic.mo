@@ -35,7 +35,7 @@ defaultComponentName="datPVTCol",
 Documentation(info="<html>
 <p>
 Record containing both thermal and electrical performance parameters for PVT
-collectors. Thermal parameters, tested according to the ISO 9806:2013
+collectors. Thermal parameters, tested according to the ISO 9806:2017
 quasi-dynamic procedure, apply to covered and uncovered designs, while
 electrical parameters and system loss factors follow from the manufacturer datasheets.
 </p>
@@ -47,12 +47,17 @@ IEA SHC (2018). Task 60. PVT Systems: Application of PVT Collectors and New Solu
 International Energy Agency Solar Heating and Cooling Programme.
 </li>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.

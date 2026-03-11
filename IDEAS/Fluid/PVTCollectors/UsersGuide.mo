@@ -45,13 +45,8 @@ unified conversion procedure is provided to translate datasheet
 parameters from these standards into their ISO 9806:2017 equivalents.
 This guarantees that the model can be used for all commercially tested
 PVT collectors.
-</p>
-<p>
-The standard‑to‑standard conversion routines are implemented in:
-<br/>
-IDEAS.Resources.Data.Fluid.PVTCollectors
-</p>
-<p>
+The standard‑to‑standard conversion routines are provided in the easy‑to‑use Excel file located at
+<code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>.
 The conversion procedure is based on (i) SKN‑N0474R0 for ISO 9806:2013
 to ISO 9806:2017, and (ii) a newly introduced conversion for
 ISO 9806:2025 to ISO 9806:2017 as published in Meertens et al. (2026).
@@ -132,7 +127,7 @@ Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806
 <h4>References</h4>
 <ul>
 <li>
-ISO 9806:2017. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
 SKN-N0474R0. <i><a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>

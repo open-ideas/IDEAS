@@ -31,7 +31,10 @@ annotation(
 <p>
 This record contains thermal and electrical parameters for a <b>covered</b> PVT collector <b>without rear insulation</b>, 
 based on experimental identification results from Jonas et al. (2018). 
-These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 quasi-dynamic conditions.
+These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 and converted 
+to the ISO 9806:2017 quasi‑dynamic formulation used by <a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">
+IDEAS.Fluid.PVTCollectors.PVTCollector</a> using the Excel 
+file located at <code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>.
 </p>
 <p>
 This record can be used as a generic representation of a covered, non-insulated PVT collector. 
@@ -51,6 +54,11 @@ EuroSun 2018. DOI: 10.18086/eurosun2018.02.16
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.
