@@ -99,6 +99,10 @@ model PVT_UI_Thermal_DayType1
         *(PvtColVal.sta_a.T - PvtColVal.sta_b.T)) "[W]"
     annotation (Placement(transformation(extent={{-81,-86},{-55,-70}})));
 
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-40,18},{-20,38}})));
 equation
 
   connect(meaDat.y[13],TAmbKel. Celsius) annotation (Line(points={{-71,34},{-60,
@@ -122,6 +126,14 @@ equation
     annotation (Line(points={{-38,-26},{-10,-26}}, color={0,127,255}));
   connect(PvtColVal.port_b, sou1.ports[1])
     annotation (Line(points={{10,-26},{42,-26}}, color={0,127,255}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-20,28},{-16,28},{-16,6},{-10,6},{-10,8}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(weaDat.weaBus, PvtColVal.weaBus) annotation (Line(
+      points={{-20,28},{-16,28},{-16,-18},{-10,-18}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     Documentation(info="<html>
 <p>
@@ -150,7 +162,7 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTColle
         "Simulate and plot"),
  experiment(
       StartTime=18872521.2,
-      StopTime=18909241.2,
+      StopTime=18908900.2,
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),

@@ -68,6 +68,11 @@ model PVT_UN_Electrical
   Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-53,-82},{-27,-66}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-38,16},{-18,36}})));
 equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,-6},{-76.5,-6}},
@@ -83,6 +88,10 @@ equation
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,24},{-60,
           24},{-60,6},{-92,6},{-92,-6},{-88,-6}},
                                               color={0,0,127}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-18,26},{-14,26},{-14,-2},{-8,-2}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Documentation(info =    "<html>
 <p>
 This model validates the electrical performance of the 

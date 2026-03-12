@@ -97,6 +97,11 @@ model PVT_UN_Thermal
     "[W]" annotation (Placement(transformation(extent={{21,36},{47,52}})));
   Modelica.Blocks.Sources.RealExpression a8_term(y=PvtCol.heaLosStc.a8_term)
     "[W]" annotation (Placement(transformation(extent={{59,36},{85,52}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-40,24},{-20,44}})));
 equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
@@ -119,6 +124,14 @@ equation
           0,127}));
   connect(meaDat.y[2], TFluKel1.Celsius) annotation (Line(points={{-71,34},{-60,
           34},{-60,16},{-92,16},{-92,-28},{-88,-28}}, color={0,0,127}));
+  connect(PvtCol.weaBus, weaDat.weaBus) annotation (Line(
+      points={{-8,8},{-14,8},{-14,34},{-20,34}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(PvtColVal.weaBus, weaDat.weaBus) annotation (Line(
+      points={{-8,-24},{-14,-24},{-14,34},{-20,34}},
+      color={255,204,51},
+      thickness=0.5));
   annotation ( Documentation(info =   "<html>
 <p>
 This model validates the thermal performance of the 

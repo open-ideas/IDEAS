@@ -66,6 +66,10 @@ model PVT_UI_Electrical_DayType1
   Modelica.Blocks.Sources.RealExpression simTcell(y=PvtCol.eleGen.TavgCel -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-51,40},{-25,56}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-52,8},{-32,28}})));
 equation
 
   connect(meaDat.y[13],TFluKel. Celsius) annotation (Line(points={{-71,14},{-60,
@@ -81,6 +85,10 @@ equation
   connect(PvtCol.port_b, sou.ports[1])
     annotation (Line(points={{10,-20},{42,-20}},
                                              color={0,127,255}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-32,18},{-14,18},{-14,-12},{-10,-12}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     Documentation(info="<html>
 <p>
@@ -109,7 +117,7 @@ __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTColle
         "Simulate and plot"),
  experiment(
       StartTime=18872521.2,
-      StopTime=18909241.2,
+      StopTime=18908900.2,
       Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),

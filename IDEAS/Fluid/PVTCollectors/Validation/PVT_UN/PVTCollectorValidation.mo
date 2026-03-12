@@ -3,10 +3,7 @@ model PVTCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-    redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per,
-    break weaBus,
-    break HDifTilIso,
-    break HDirTil);
+    redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
 
   // =====  Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
@@ -173,6 +170,12 @@ IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil
 </ul>
 
 <h4>Implementation Notes</h4>
+<p> This validation model exclusively relies on measurement data provided by the CombiTimeTable <code>meaDat</code>. However, because it extends 
+<a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector'>IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector</a> 
+and to limit the number of extra components, the weather reader <code>IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</code> remains instantiated 
+and connected to the inherited <code>weaBus</code>. The reader is retained only to satisfy the parent class connector and is <em>not</em> used 
+during simulation: all weather inputs (irradiance, ambient temperature, wind speed, etc.) are taken from <code>meaDat</code>, so the reader does not affect the model results. </p>
+<p>
 <p>
 This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
 It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
