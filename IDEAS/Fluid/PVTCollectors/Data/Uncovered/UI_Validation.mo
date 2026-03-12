@@ -56,7 +56,7 @@ IEA SHC Task 60 (2018). <i>PVT Systems: Application of PVT Collectors and New So
 </li>
 <li>
 Meertens, L.; Jansen, J.; Helsen, L. (2026).
-<i>Development and Experimental Validation of an Unglazed
+<i>Development and Experimental Validation of an Open-Source Unglazed
 Photovoltaic‑Thermal Collector Modelica Model that only needs
 Datasheet Parameters</i>. Submitted to 
 Mathematical and Computer Modelling of Dynamical Systems,
