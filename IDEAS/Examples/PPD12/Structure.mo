@@ -542,7 +542,7 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1177\">#1177</a
 <li>
 August 26, 2022, by Klaas De Jonge:<br/>
 Assigned correct vertical heights for sloped surfaces in the roof.
-commit <a href=\\\"https://github.com/open-ideas/IDEAS/commit/e25590cf60a1ef31c4d15274f30aa798c6c6479e\">\e25590c\</a>.
+commit <a href=\"https://github.com/open-ideas/IDEAS/commit/e25590cf60a1ef31c4d15274f30aa798c6c6479e\">\e25590c\</a>.
 </li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>
