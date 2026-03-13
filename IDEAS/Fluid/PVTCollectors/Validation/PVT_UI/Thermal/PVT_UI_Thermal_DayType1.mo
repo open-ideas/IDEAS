@@ -58,6 +58,11 @@ model PVT_UI_Thermal_DayType1
         *(PvtCol.sta_a.T - PvtCol.sta_b.T))
                                       "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-48,34},{-28,54}})));
 equation
 
   connect(meaDat.y[13],TAmbKel. Celsius) annotation (Line(points={{-71,34},{-60,
@@ -70,6 +75,10 @@ equation
     annotation (Line(points={{-38,0},{-10,0}}, color={0,127,255}));
   connect(PvtCol.port_b, sou.ports[1])
     annotation (Line(points={{10,0},{42,0}}, color={0,127,255}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-28,44},{-16,44},{-16,8},{-10,8}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     Documentation(info="<html>
 <p>
