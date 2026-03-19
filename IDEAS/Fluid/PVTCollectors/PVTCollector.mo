@@ -13,9 +13,8 @@ model PVTCollector
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
-  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(
-    min=0) = ((tauAlpEff - per.etaEl) * (per.a1 + abs(per.gamma)*HGloHorNom)) /
+    min=0) = ((tauAlpEff - per.etaEl) * (per.a1)) /
               ((tauAlpEff - per.etaEl) - per.eta0)
     "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
     annotation(Dialog(tab="Advanced", group="Electrical parameters"));
