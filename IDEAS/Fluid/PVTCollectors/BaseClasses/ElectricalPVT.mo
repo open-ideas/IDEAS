@@ -5,8 +5,10 @@ model ElectricalPVT
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
 
   // Parameters
+  parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
   parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature";
+  parameter Real gamma "Temperature coefficient [1/K]";
   parameter Modelica.Units.SI.Power P_nominal "Nominal PV power";
   parameter Modelica.Units.SI.Area A "PV area";
   parameter Modelica.Units.SI.Efficiency eta0 "Zero-loss efficiency";
