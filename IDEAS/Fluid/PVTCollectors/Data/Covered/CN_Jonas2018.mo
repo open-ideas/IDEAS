@@ -34,7 +34,7 @@ based on experimental identification results from Jonas et al. (2018).
 These parameters were used in the validation of a TRNSYS PVT collector model under ISO 9806:2013 and converted 
 to the ISO 9806:2017 quasi‑dynamic formulation used by <a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">
 IDEAS.Fluid.PVTCollectors.PVTCollector</a> using the Excel 
-file located at <code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>.
+file located in <code>IDEAS/Resources/Data/Fluid/PVTCollectors</code>.
 </p>
 <p>
 This record can be used as a generic representation of a covered, non-insulated PVT collector. 
