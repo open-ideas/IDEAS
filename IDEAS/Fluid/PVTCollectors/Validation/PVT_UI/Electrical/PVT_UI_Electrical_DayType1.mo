@@ -7,17 +7,17 @@ model PVT_UI_Electrical_DayType1
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09;
 
-  parameter Data.Uncovered.UI_Validation datPVTCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPVTCol
     annotation (Placement(transformation(extent={{74,-26},{94,-6}})));
 
   IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    T_start(displayUnit="K") = T_start,
+    T_start = T_start,
     show_T=true,
     azi=0,
-    til(displayUnit="deg") = 0.78539816339745,
+    til = 0.78539816339745,
     rho=0.2,
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
@@ -34,7 +34,7 @@ model PVT_UI_Electrical_DayType1
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
-    p(displayUnit="Pa") = 101325,
+    p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-30},{42,-10}})));
   IDEAS.Fluid.Sources.MassFlowSource_T bou(
@@ -66,7 +66,7 @@ model PVT_UI_Electrical_DayType1
   Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-51,40},{-25,56}})));
-  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-52,8},{-32,28}})));

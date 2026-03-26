@@ -8,6 +8,10 @@ model PVT_UN_Thermal
   parameter String week = "week1";
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.07;
+  parameter IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.UN_Validation datPVTColVal
+    annotation (Placement(transformation(extent={{70,-42},{90,-22}})));
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol
+    annotation (Placement(transformation(extent={{70,-8},{90,12}})));
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -20,7 +24,7 @@ model PVT_UN_Thermal
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
-    p(displayUnit="Pa") = 101325,
+    p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-10},{42,10}})));
   IDEAS.Fluid.Sources.MassFlowSource_T bou(
@@ -48,25 +52,24 @@ model PVT_UN_Thermal
     per=datPVTCol,
     eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-  parameter Data.Uncovered.UN_Validation datPVTCol
-    annotation (Placement(transformation(extent={{70,-8},{90,12}})));
+
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel1
     annotation (Placement(transformation(extent={{-87,-33},
             {-77,-23}})));
-  Sources.Boundary_pT sou1(
+  IDEAS.Fluid.Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
     use_p_in=false,
-    p(displayUnit="Pa") = 101325,
+    p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-42},{42,-22}})));
-  Sources.MassFlowSource_T bou1(
+  IDEAS.Fluid.Sources.MassFlowSource_T bou1(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-42},{-38,-22}})));
-  PVTCollectorValidation pvtColVal(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtColVal(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -79,8 +82,7 @@ model PVT_UN_Thermal
     per=datPVTColVal,
     eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-8,-42},{12,-22}})));
-  parameter BaseClasses.UN_Validation datPVTColVal
-    annotation (Placement(transformation(extent={{70,-42},{90,-22}})));
+
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
         *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "Thermal power output of simplified pvt model [W]"
     annotation (Placement(transformation(extent={{-81,-94},{-55,-78}})));
@@ -96,7 +98,7 @@ model PVT_UN_Thermal
     "[W]" annotation (Placement(transformation(extent={{21,36},{47,52}})));
   Modelica.Blocks.Sources.RealExpression a8_term(y=pvtCol.heaLosStc.a8_term)
     "[W]" annotation (Placement(transformation(extent={{59,36},{85,52}})));
-  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource(
         "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
@@ -131,7 +133,7 @@ equation
       points={{-8,-24},{-14,-24},{-14,34},{-20,34}},
       color={255,204,51},
       thickness=0.5));
-  annotation ( Documentation(info =   "<html>
+  annotation ( Documentation(info = "<html>
 <p>
 This model validates the thermal performance of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 

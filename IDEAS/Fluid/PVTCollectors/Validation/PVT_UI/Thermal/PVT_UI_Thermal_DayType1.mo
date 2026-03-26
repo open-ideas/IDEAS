@@ -6,7 +6,7 @@ model PVT_UI_Thermal_DayType1
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter String pvtTyp = "Typ1";
   parameter Real eleLosFac = 0.09;
-  parameter Data.Uncovered.UI_Validation datPVTCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPVTCol
     annotation (Placement(transformation(extent={{72,-6},{92,14}})));
   parameter
     IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.UI_Validation
@@ -84,7 +84,7 @@ model PVT_UI_Thermal_DayType1
   Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
     use_p_in=false,
-    p(displayUnit="Pa") = 101325,
+    p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-36},{42,-16}})));
   Sources.MassFlowSource_T bou1(
@@ -98,7 +98,7 @@ model PVT_UI_Thermal_DayType1
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
         *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))   "Thermal power output of simplified pvt model [W]"
     annotation (Placement(transformation(extent={{-81,-86},{-55,-70}})));
-  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-40,18},{-20,38}})));

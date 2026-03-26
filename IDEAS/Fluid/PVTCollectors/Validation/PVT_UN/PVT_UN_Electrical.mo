@@ -8,6 +8,8 @@ model PVT_UN_Electrical
   parameter String week = "week1";
   parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.07;
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol
+    annotation (Placement(transformation(extent={{72,-16},{92,4}})));
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -20,7 +22,7 @@ model PVT_UN_Electrical
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
-    p(displayUnit="Pa") = 101325,
+    p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-20},{42,0}})));
   IDEAS.Fluid.Sources.MassFlowSource_T bou(
@@ -43,15 +45,14 @@ model PVT_UN_Electrical
     per=datPVTCol,
     eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-8,-20},{12,0}})));
-  parameter Data.Uncovered.UN_Validation datPVTCol
-    annotation (Placement(transformation(extent={{72,-16},{92,4}})));
+
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-83,58},{-57,74}})));
   Modelica.Blocks.Sources.RealExpression UAbsFluid(y=pvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{9,56},{35,72}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-47,58},{-21,74}})));
-  .IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
     ElectricalPV(
     P_STC=datPVTCol.P_nominal,
     beta=datPVTCol.beta,
@@ -68,7 +69,7 @@ model PVT_UN_Electrical
   Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-53,-82},{-27,-66}})));
-  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource(
         "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
@@ -92,7 +93,7 @@ equation
       points={{-18,26},{-14,26},{-14,-2},{-8,-2}},
       color={255,204,51},
       thickness=0.5));
-  annotation (Documentation(info =    "<html>
+  annotation (Documentation(info = "<html>
 <p>
 This model validates the electrical performance of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 

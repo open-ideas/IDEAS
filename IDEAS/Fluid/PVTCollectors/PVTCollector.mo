@@ -3,7 +3,7 @@ model PVTCollector
   "Model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated thermal-electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
+     redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
 
   // ===== Parameters =====
   parameter Modelica.Units.SI.Efficiency eleLosFac(min=0, max=1) = 0.10
@@ -13,9 +13,8 @@ model PVTCollector
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
     "Effective transmittance–absorptance product";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(
-    min=0) = ((tauAlpEff - per.etaEl) * (per.a1)) /
-              ((tauAlpEff - per.etaEl) - per.eta0)
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(min=0) =
+  ((tauAlpEff - per.etaEl) * (per.a1)) / ((tauAlpEff - per.etaEl) - per.eta0)
     "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
     annotation(Dialog(tab="Advanced", group="Electrical parameters"));
 
