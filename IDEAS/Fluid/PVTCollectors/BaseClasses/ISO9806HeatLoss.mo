@@ -40,15 +40,33 @@ model ISO9806HeatLoss
 annotation (
 defaultComponentName="heaLosStc",
 Documentation(info="<html>
+
 <p>
-This component computes the quasi-dynamic heat loss from a solar thermal or PVT collector
-to the environment, following the methodology described in the international standard ISO 9806:2017. 
-It extends the original <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
-IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> model for code reuse,
-but implements the more comprehensive quasi-dynamic formulation.
+This component computes the heat loss from a solar thermal or PVT collector
+according to ISO&nbsp;9806:2017. It builds on the structure of the
+<a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> model, but extends 
+it with the wind‑ and long‑wave irradiance‑dependent loss mechanisms defined in
+ISO&nbsp;9806:2017.
 </p>
+
 <p>
-The thermal losses are calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
+The base <code>EN12975HeatLoss</code> model includes only the linear (a<sub>1</sub>)
+and quadratic (a<sub>2</sub>) temperature‑difference heat‑loss terms from
+EN&nbsp;12975. These describe the main convective and radiative losses of glazed
+collectors, but they do not account for wind‑driven or long‑wave radiation
+effects.
+</p>
+
+<p>
+The ISO&nbsp;9806:2017 quasi‑dynamic formulation adds the additional coefficients
+used here to represent wind‑dependent heat loss and long‑wave irradiance
+exchange. These effects are essential for accurately modeling unglazed
+collectors, where wind and sky radiation strongly influence thermal losses.
+</p>
+
+<p>
+The thermal losses in the extended model are calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
 
 <p align='center' style='font-style:italic;'>
@@ -121,17 +139,20 @@ Stefan–Boltzmann constant (<i>5.67×10⁻⁸</i> W/m²·K⁴)
 </ul>
 </p>
 <p>
-This model provides a more accurate representation of collector heat loss under dynamic environmental conditions,
-as required by ISO 9806:2017. It is suitable for use in simulations where wind speed, sky radiation, and irradiance
-vary over time.
+This model captures additional wind- and long‑wave irradiance‑dependent heat‑loss 
+mechanisms defined in ISO&nbsp;9806:2017, allowing the collector performance to 
+be represented more realistically under varying outdoor conditions than when using 
+only the EN&nbsp;12975 a<sub>1</sub> and a<sub>2</sub> terms.
 </p>
 
 <h4>Implementation Notes</h4>
 <p>
-The model inherits from 
+The heat-loss block inherits from 
 <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss'>
-IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> for structural consistency and reuse of base functionality,
-but the naming and equations have been overwritten to reflect the ISO 9806:2017 standard. 
+IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> to reuse its interface 
+and segment-wise structure. Only the heat‑loss equations and parameters are replaced 
+to match the ISO&nbsp;9806:2017
+formulation.
 </p>
 
 <h4>References</h4>
