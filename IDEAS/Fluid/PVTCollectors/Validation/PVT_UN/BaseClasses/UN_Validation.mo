@@ -21,7 +21,7 @@ record UN_Validation =
     final a7=0.0,
     final a8=0.0,
     final P_nominal=300,
-    final gamma=-0.00375,
+    final beta=-0.00375,
     final etaEl=0.183)
   "Parameters for an uncovered flat-plate PVT collector without rear cover or back-side insulation"
 annotation(

@@ -85,7 +85,7 @@ the approximate formula is:
 <table style='border-collapse:collapse; text-align:center;'>
 <tr>
 <td style='padding:4px;'>
-<i>(τ·α)<sub>eff</sub> – η<sub>0,el</sub> · (a<sub>1</sub> + a<sub>3</sub>·u<sub>r</sub> + b<sub>1,el</sub>)</i>
+<i>(τ·α)<sub>eff</sub> – η<sub>0,el</sub> · (a<sub>1</sub> + a<sub>3</sub>·u<sub>r</sub>)</i>
 </td>
 </tr>
 <tr>
@@ -99,11 +99,6 @@ the approximate formula is:
 <li>
 Here, <i>(&tau;&#183;&alpha;)<sub>eff</sub> = 0.901</i> for unglazed PVT collectors as reported in Lämmle (2018), 
 and <i> 0.84 </i>for covered collectors.
-</li>
-<li>
-The electrical temperature‑dependence term is <i>b<sub>1,el</sub> = |&gamma;| &#183; G<sub>nom</sub></i>, 
-where <i>&gamma;</i> is the temperature coefficient of power (in % K<sup>−1</sup>) 
-and <i>G<sub>nom</sub> = 1000</i> W m<sup>−2</sup>.
 </li>
 <li>
 <i>u<sub>r</sub></i> is the in-plane reduced wind speed. 

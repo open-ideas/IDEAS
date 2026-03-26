@@ -8,7 +8,7 @@ model ElectricalPVT
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
   parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature";
-  parameter Real gamma "Temperature coefficient [1/K]";
+  parameter Real beta "Temperature coefficient [1/K]";
   parameter Modelica.Units.SI.Power P_nominal "Nominal PV power";
   parameter Modelica.Units.SI.Area A "PV area";
   parameter Modelica.Units.SI.Efficiency eta0 "Zero-loss efficiency";
@@ -61,7 +61,7 @@ equation
     TCel[i] = Tflu[i] +Qth[i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
     Pel_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
-                            (1 + gamma * TDif[i]) * (1 - eleLosFac);
+                            (1 + beta * TDif[i]) * (1 - eleLosFac);
   end for;
 
   Pel = sum(Pel_int);
@@ -82,7 +82,7 @@ The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
 P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) &#183 (P<sub>nom</sub> / A) 
-&#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &gamma; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
+&#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &beta; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
 </p>
 <p>
 where:
@@ -106,7 +106,7 @@ where:
 <i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)
 </li>
 <li>
-<i>&gamma;</i>: temperature coefficient of power [%/K]
+<i>&beta;</i>: temperature coefficient of power [%/K]
 </li>
 <li>
 <i>eleLosFac</i>: lumped system loss factor

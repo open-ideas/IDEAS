@@ -64,7 +64,7 @@ model PVTCollectorValidation
     final nSeg = nSeg,
     final A_c = ATot_internal,
     final eleLosFac = eleLosFac,
-    final gamma = per.gamma,
+    final beta = per.beta,
     final P_nominal = per.P_nominal,
     final A = per.A,
     final eta0 = per.eta0,

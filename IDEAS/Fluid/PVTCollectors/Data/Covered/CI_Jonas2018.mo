@@ -21,7 +21,7 @@ record CI_Jonas2018 =
     final a7=0.0,
     final a8=0.0,
     final P_nominal=280,
-    final gamma=-0.00370,
+    final beta=-0.00370,
     final etaEl=0.1390)
   "Parameter set for a covered, insulated PVT collector based on Jonas et al. (2018)"
 annotation(

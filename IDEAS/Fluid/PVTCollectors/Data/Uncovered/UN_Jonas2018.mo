@@ -21,7 +21,7 @@ record UN_Jonas2018 =
     final a7=0.0,
     final a8=0.0,
     final P_nominal=280,
-    final gamma=-0.00467,
+    final beta=-0.00467,
     final etaEl=0.1688)
   "Parameter set for a uncovered, non-insulated PVT collector (WISC type) based on Jonas et al. (2018)"
 annotation(

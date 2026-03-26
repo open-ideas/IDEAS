@@ -24,7 +24,7 @@ record Generic "Generic data record for PVT collector models"
     "Radiation losses";
   parameter Real P_nominal(final min=0, final unit="W")
     "PV panel power at nominal conditions";
-  parameter Modelica.Units.SI.LinearTemperatureCoefficient gamma
+  parameter Modelica.Units.SI.LinearTemperatureCoefficient beta
     "Temperature coefficient of the PV panel(s)";
   parameter Modelica.Units.SI.Efficiency etaEl(final min=0, final max=1)
     "Module efficiency of the photovoltaic installation";

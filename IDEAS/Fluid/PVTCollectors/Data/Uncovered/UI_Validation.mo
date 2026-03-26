@@ -21,7 +21,7 @@ record UI_Validation =
     final a7=0.0,
     final a8=0.0,
     final P_nominal=280,
-    final gamma=-0.0041,
+    final beta=-0.0041,
     final etaEl=0.1687)
   "Parameters for an uncovered flat-plate PVT collector with rear cover and back-side thermal insulation"
 annotation(

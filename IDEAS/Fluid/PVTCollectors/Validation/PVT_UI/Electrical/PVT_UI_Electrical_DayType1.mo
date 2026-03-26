@@ -52,7 +52,7 @@ model PVT_UI_Electrical_DayType1
     annotation (Placement(transformation(extent={{-51,52},{-25,68}})));
   IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.ElectricalPV ElectricalPV(
     P_STC=datPVTCol.P_nominal,
-    gamma=datPVTCol.gamma,
+    beta=datPVTCol.beta,
     eleLosFac=eleLosFac,
     n=1,
     module_efficiency=datPVTCol.etaEl,

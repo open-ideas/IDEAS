@@ -54,7 +54,7 @@ model PVT_UN_Electrical
   .IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
     ElectricalPV(
     P_STC=datPVTCol.P_nominal,
-    gamma=datPVTCol.gamma,
+    beta=datPVTCol.beta,
     eleLosFac=eleLosFac,
     n=1,
     module_efficiency=datPVTCol.etaEl,
