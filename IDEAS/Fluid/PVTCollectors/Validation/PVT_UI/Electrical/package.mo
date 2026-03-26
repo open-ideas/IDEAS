@@ -1,5 +1,5 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI;
-package Electrical "Electrical Behavior of Unglazed Rear-Insulated PVT Collector"
+package Electrical "Electrical behavior of an unglazed rear‑insulated PVT collector"
 
   annotation (preferredView="info", Documentation(info=
 "<html>

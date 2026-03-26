@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
 model PVT_UN_Electrical
-  "Electrical Behavior of Unglazed Rear-Non-Insulated PVT Collector"
+  "Electrical behavior of an unglazed rear‑non‑insulated PVT collector"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater (
     property_T = 293.15,
