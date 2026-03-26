@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ISO9806HeatLoss
-  "Calculate the heat loss of a PVT/solar collector using ISO9806:2017"
+  "Calculate the heat loss of a PVT collector using ISO9806:2017"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
     // Override the internal heat-loss expression to include c3, c4 and c6 terms
@@ -9,12 +9,10 @@ model ISO9806HeatLoss
          - a7*(winSpePla-3)*(HHorIR - Modelica.Constants.sigma*TEnv^4) - a8*(dT[i])^4 for i in 1:nSeg});
 
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer a1(final min=0)
-    "Linear heat loss coefficient (a1)";
+    "Linear heat loss coefficient";
   parameter Real a2(final unit="W/(m2.K2)", final min=0)
-    "Quadratic heat loss coefficient (a2)";
-
-  // —— Additional quasi-dynamic coefficients ——
-  parameter Modelica.Units.SI.SpecificHeatCapacity a3(final min=0)
+    "Quadratic heat loss coefficient";
+  parameter Real a3(final unit="J/(m3.K)", final min=0)
     "Wind speed dependence of heat loss";
   parameter Modelica.Units.SI.DimensionlessRatio a4(final min=0)
     "Sky long-wave irradiance dependence";
@@ -25,18 +23,13 @@ model ISO9806HeatLoss
   parameter Real a8(final unit="W/(m2.K4)", final min=0)
     "Radiation losses";
 
-  // Quasi-dynamic inputs
   Modelica.Blocks.Interfaces.RealInput winSpePla(
-    quantity="Windspeed",
-    unit="m/s",
-    displayUnit="m/s")
-    "Wind speed normal to collector plane";
+    unit="m/s")
+    "Wind speed parallel to collector plane";
   Modelica.Blocks.Interfaces.RealInput HGloTil(
-    quantity="Global solar irradiance",
     unit="W/m2")
     "Global irradiance on the tilted plane";
   Modelica.Blocks.Interfaces.RealInput HHorIR(
-    quantity="Long-wave solar irradiance",
     unit="W/m2")
     "Long-wave (sky) irradiance [W/m2]" annotation (
       Placement(transformation(
