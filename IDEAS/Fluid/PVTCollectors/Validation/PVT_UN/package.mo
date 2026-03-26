@@ -33,30 +33,32 @@ Validates thermal output using the quasi-dynamic ISO 9806:2017 formulation.
 Validates electrical output using the PVWatts V5 formulation.
 </li>
 </ul>
+<h4>Model limitations</h4>
 <p>
-Due to the absence of rear insulation and the continuous operation of the circulation pump, 
-also during periods of negative thermal output, the raw energy deviation of +54.9 % 
-is not representative of real-world operation. In practice, the pump would only be activated when thermal gains exceed losses. 
-When filtered to periods with positive thermal output, 
-the deviation improves to +8.09%. This filtered metric provides a more meaningful assessment of the model performance.
+Overall, the validation of the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a>
+model shows good agreement under operating conditions that are representative
+for unglazed, non-insulated PVT collectors. However, several limitations arise
+from characteristics of the experimental setup rather than the model itself.
+Because the collector has no rear insulation, heat losses remain high, and the
+circulation pump was operated continuously, even during periods with negative
+thermal output. This operating mode is not representative of real-world
+installations, where flow would typically be stopped when thermal gains fall
+below losses. In addition, the imposed temperature differences between the heat
+transfer fluid and the ambient air were significantly higher than what would
+normally occur in practical PVT operation, further amplifying thermal losses and
+exposing the collector to an extreme regime outside the datasheet parameter
+range. These conditions can lead to discrepancies between simulated and
+measured performance, but they do not reflect typical system behavior.
+When the analysis is restricted to periods with positive thermal output, the
+model exhibits good thermal performance.
 </p>
+<h4>Validation results</h4>
 <p>
-Due to the absence of rear insulation, the continuous operation of the circulation
-pump—even during periods of negative thermal output—and the exceptionally high
-HTF–ambient temperature differences imposed by the experimental setup
-(an operating regime not representative for unglazed PVT collectors, which
-normally run at much lower temperatures), the raw energy deviation of +54.9% is
-not representative of real-world operation. In practice, the pump would only be
-activated when thermal gains exceed losses. When filtered to periods with
-positive thermal output, the deviation improves to +8.09%. This filtered metric 
-therefore provides a more meaningful assessment of the model performance under 
-such extreme conditions.
+The complete validation methodology, covering the model formulation,
+datasheet-based thermal–electrical coupling, and performance metrics, is documented in
+Meertens et&nbsp;al. (2026).  The same paper reports the detailed results, including 
+MAE and RMSE values and the energy deviations for each day type.
 </p>
-<p>
-The electrical model shows excellent agreement with measurements, with a nMAE of 5.3% and nRMSE of 10.1%. 
-The model is robust to variations in <code>U<sub>AbsFluid</sub></code>, confirming the reliability of the datasheet-based estimation method.
-</p>
-
 <h4>References</h4>
 <ul>
 <li>

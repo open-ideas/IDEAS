@@ -174,7 +174,8 @@ equation
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
-Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 quasi-dynamic thermal method with integrated electrical coupling.  
+Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 
+quasi-dynamic thermal method with integrated electrical coupling.  
 Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
 and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>

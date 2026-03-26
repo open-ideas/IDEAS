@@ -135,56 +135,15 @@ equation
 <p>
 This model validates the thermal performance of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 
-an uncovered and uninsulated PVT collector, using a long-term dataset from a test bench in Austria (Veynandt et al., 2023).
+an uncovered and uninsulated PVT collector.
 </p>
 <p>
-The model uses the quasi-dynamic ISO 9806:2017 formulation and includes:
+See the documentation of
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">
+PVT_UN
+</a>
+for details on the validation model and usage.
 </p>
-<ul>
-<li>
-Linear and quadratic heat loss (<i>a<sub>1</sub></i>, <i>a<sub>2</sub></i>)
-</li>
-<li>
-Wind‑dependent convective heat loss (<i>a<sub>3</sub></i>)
-</li>
-<li>
-Sky‑temperature‑dependent radiative loss (<i>a<sub>4</sub></i>)
-</li>
-<li>
-Effective thermal capacity (<i>a<sub>5</sub></i>)
-</li>
-<li>
-Wind dependence of the zero‑loss efficiency (<i>a<sub>6</sub></i>)
-</li>
-<li>
-Wind dependence of long‑wave radiative exchange (<i>a<sub>7</sub></i>)
-</li>
-<li>
-Higher‑order temperature‑dependent radiation losses (<i>a<sub>8</sub></i>)
-</li>
-</ul>
-<p>
-The dataset includes days with several hours of high wind speeds up to <i>10–12&nbsp;m/s</i>, 
-which significantly increase convective losses. 
-Additionally, the circulation pump remains active throughout the test period, 
-even when thermal output is negative—unlike real-world systems, which would deactivate the pump under such conditions.
-</p>
-
-<p>
-Moreover, the experimental setup forces the collector to operate at unusually high
-temperature differences between the HTF and the ambient air. This operating regime is 
-not representative of practical unglazed PVT use, where collectors typically run at 
-much lower temperatures due to their inherently high thermal losses.
-</p>
-
-<p>
-As a result, the raw energy deviation of +54.9% is not a meaningful indicator of 
-model performance. When filtered to periods with positive simulated thermal output, 
-the deviation improves to +8.09% (Meertens et al., 2026). This filtered metric 
-provides a more realistic assessment of the model's accuracy under these high operating 
-temperatueres.
-</p>
-
 </html>",
 revisions="<html>
 <ul>

@@ -96,34 +96,14 @@ equation
 <p>
 This model validates the electrical performance of the 
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a> collector, 
-an uncovered and uninsulated PVT collector, using the same 58-day outdoor dataset as the thermal model (Veynandt et al., 2023).
+an uncovered and uninsulated PVT collector.
 </p>
 <p>
-The model uses the PVWatts V5 formulation and includes:
-</p>
-<ul>
-<li>
-Temperature-dependent efficiency losses
-</li>
-<li>
-Datasheet-based estimation of <i>UAbsFluid</i>
-</li>
-<li>
-Constant system loss factor (7 %)
-</li>
-</ul>
-<p>
-The PV cell temperature is derived from the thermal model using a two-node coupling via <i>UAbsFluid</i>, 
-ensuring accurate representation of the thermal-electrical interaction.
-</p>
-<p> 
-Despite the presence of extreme weather conditions, including wind speeds up to <i>10–12&nbsp;m/s</i> and continuous pump operation, 
-the electrical model remains robust. Validation shows excellent agreement with measurements, 
-with a normalized MAE of 5.3 % and nRMSE of 10.1 % (Meertens et al., 2026).
-</p>
-<p>
-The model's accuracy confirms the reliability of the datasheet-based estimation method for <i>UAbsFluid</i>, 
-even under challenging real-world conditions.
+See the documentation of
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">
+PVT_UN
+</a>
+for details on the validation model and usage.
 </p>
 </html>",
 revisions="<html>

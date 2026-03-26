@@ -28,31 +28,22 @@ The validation includes four representative day types:
 With the temperature difference refering to the difference between the fluid 
 temperature and the ambient temperature.
 <p>
-The package is divided into two main subpackages:
+The validation of <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">
+PVT_UI</a> is organized into two subpackages:
 </p>
-<h5>Subpackage: <code>Thermal</code></h5>
-<p>
-Contains four models corresponding to the four day types. Each model compares 
-the simulated thermal output with measured data and provides a detailed 
-breakdown of thermal losses.
-</p>
-<p>
-The thermal model is based on the quasi-dynamic ISO 9806:2017 formulation. The 
-heat losses are however modified to output the detailed breakdown of thermal losses 
-for validation purposes as given in <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation\">
-IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation</a>. The model 
-is discretized into <code>nSeg</code> segments to capture temperature gradients 
-along the flow path.
-</p>
-
-<h5>Subpackage: <code>Electrical</code></h5>
-<p>
-Also includes four models for the same day types. These models validate 
-the electrical output by comparing simulated and measured power output.  
-A more detailed description of the electrical model can be found in 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
-IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT</a>.
-
+<ul>
+<li>
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Thermal\">Thermal</a>:
+Includes four models for the four ISO&nbsp;9806:2017 day types. Each model
+compares simulated and measured thermal output and evaluates the thermal
+loss components.
+</li>
+<li>
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical\">Electrical</a>:
+Contains four corresponding day‑type models that validate the electrical performance 
+by comparing simulated and measured power output.
+</li>
+</ul>
 <h4>Model limitations</h4>
 <p>
 Overall, the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> 
