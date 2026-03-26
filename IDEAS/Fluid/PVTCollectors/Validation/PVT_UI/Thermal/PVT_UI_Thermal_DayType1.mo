@@ -47,7 +47,7 @@ model PVT_UI_Thermal_DayType1
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[19]) "[W]"
+  Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[19]) "Measured thermal power output [W]"
     annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
   Modelica.Blocks.Sources.RealExpression a1_a2_term(y=pvtCol.heaLosStc.a1_a2_term)
     "[W]" annotation (Placement(transformation(extent={{19,68},{45,84}})));
@@ -62,16 +62,16 @@ model PVT_UI_Thermal_DayType1
   Modelica.Blocks.Sources.RealExpression a8_term(y=pvtCol.heaLosStc.a8_term)
     "[W]" annotation (Placement(transformation(extent={{57,36},{83,52}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*pvtCol.port_b.m_flow
-        *(pvtCol.sta_a.T -pvtCol.sta_b.T))  "[W]"
+        *(pvtCol.sta_a.T -pvtCol.sta_b.T))  "Thermal power output of pvt model [W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
   PVTCollectorValidation pvtColVal(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    T_start(displayUnit="K") = T_start,
+    T_start = T_start,
     show_T=true,
     azi=0,
-    til(displayUnit="deg") = 0.78539816339745,
+    til = 0.78539816339745,
     rho=0.2,
     nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
     nPanels=1,
@@ -79,15 +79,15 @@ model PVT_UI_Thermal_DayType1
     eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-10,-36},{10,-16}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel1
-                                                         annotation (Placement(transformation(extent={{-87,-27},
+    annotation (Placement(transformation(extent={{-87,-27},
             {-77,-17}})));
-  Sources.Boundary_pT             sou1(
+  Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
     use_p_in=false,
     p(displayUnit="Pa") = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-36},{42,-16}})));
-  Sources.MassFlowSource_T             bou1(
+  Sources.MassFlowSource_T bou1(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
@@ -96,10 +96,9 @@ model PVT_UI_Thermal_DayType1
     annotation (Placement(transformation(extent={{-58,-36},{-38,-16}})));
 
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
-        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "[W]"
+        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))   "Thermal power output of simplified pvt model [W]"
     annotation (Placement(transformation(extent={{-81,-86},{-55,-70}})));
-
-  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-40,18},{-20,38}})));

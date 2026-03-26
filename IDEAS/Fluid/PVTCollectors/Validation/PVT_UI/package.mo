@@ -1,7 +1,7 @@
 within IDEAS.Fluid.PVTCollectors.Validation;
 package PVT_UI
   annotation (preferredView="info", Documentation(info=
-"<html>
+  "<html>
 <p>
 This package contains validation models for the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> collector 
 (referred to as <code>PVT1</code> in Meertens et al., 2026), 
@@ -9,79 +9,72 @@ an <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation\"
 based on experimental data from HTW Saar (Jonas et al., 2019).
 </p>
 <p>
-The validation is structured according to the ISO 9806:2017 standard and includes four representative day types:
+The validation includes four representative day types:
 </p>
 <ul>
 <li>
 <b>Day Type 1:</b> Clear sky, low temperature difference (<i>&eta;<sub>0</sub></i> conditions)
 </li>
 <li>
-<b>Day Type 2:</b> Partly cloudy, low temperature difference
+<b>Day Type 2:</b> Partly cloudy, low temperature difference 
 </li>
 <li>
-<b>Day Type 3:</b> Clear sky, medium temperature difference
+<b>Day Type 3:</b> Clear sky, medium temperature difference 
 </li>
 <li>
-<b>Day Type 4:</b> Clear sky, high temperature difference
+<b>Day Type 4:</b> Clear sky, high temperature difference 
 </li>
 </ul>
+With the temperature difference refering to the difference between the fluid 
+temperature and the ambient temperature.
 <p>
 The package is divided into two main subpackages:
 </p>
-
 <h5>Subpackage: <code>Thermal</code></h5>
 <p>
-Contains four models corresponding to the four day types. Each model compares the simulated thermal output with measured data and provides a detailed breakdown of thermal losses, including:
+Contains four models corresponding to the four day types. Each model compares 
+the simulated thermal output with measured data and provides a detailed 
+breakdown of thermal losses.
 </p>
-<ul>
-<li>
-Linear and quadratic heat loss (<i>a<sub>1</sub></i>, <i>a<sub>2</sub></i>)
-</li>
-<li>
-Wind‑dependent convective heat loss (<i>a<sub>3</sub></i>)
-</li>
-<li>
-Sky‑temperature‑dependent radiative loss (<i>a<sub>4</sub></i>)
-</li>
-<li>
-Effective thermal capacity (<i>a<sub>5</sub></i>)
-</li>
-<li>
-Wind dependence of the zero‑loss efficiency (<i>a<sub>6</sub></i>)
-</li>
-<li>
-Wind dependence of long‑wave radiative exchange (<i>a<sub>7</sub></i>)
-</li>
-<li>
-Higher‑order temperature‑dependent radiation losses (<i>a<sub>8</sub></i>)
-</li>
-</ul>
 <p>
-The thermal model is based on the quasi-dynamic ISO 9806:2017 formulation and uses only datasheet parameters. The model is discretized into <code>nSeg</code> segments to capture temperature gradients along the flow path.
+The thermal model is based on the quasi-dynamic ISO 9806:2017 formulation. The 
+heat losses are however modified to output the detailed breakdown of thermal losses 
+for validation purposes as given in <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation\">
+IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation</a>. The model 
+is discretized into <code>nSeg</code> segments to capture temperature gradients 
+along the flow path.
 </p>
 
 <h5>Subpackage: <code>Electrical</code></h5>
 <p>
-Also includes four models for the same day types. These models validate the electrical output by comparing simulated and measured power, and compute the absorber-to-fluid heat transfer coefficient <i>U<sub>AbsFluid</sub></i> using a datasheet-based method (Meertens et al., 2026).
-</p>
-<p>
-The electrical model uses the PVWatts V5 formulation and includes temperature-dependent efficiency losses. The PV cell temperature is derived from the thermal model using a two-node coupling heat transfer coefficient <i>U<sub>AbsFluid</sub></i>.
-</p>
+Also includes four models for the same day types. These models validate 
+the electrical output by comparing simulated and measured power output.  
+A more detailed description of the electrical model can be found in 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT</a>.
 
 <h4>Model limitations</h4>
 <p>
-Overall, the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> validation 
-demonstrates strong agreement between the model and measurements for both thermal and electrical outputs under a range of operating conditions. 
+Overall, the <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> 
+validation demonstrates strong agreement between the model and measurements for 
+both thermal and electrical outputs under a range of operating conditions. 
 While electrical outputs are accurate and consistent across all day types, 
-limitations in thermal output are observed under high wind speeds and rapid irradiance changes, 
-primarily due to datasheet parameter constraints. This is particularly evident in Day Type 4, 
-where a large temperature difference between the fluid and ambient air amplifies these limitations. 
-The wind speed over the collector plane during most of the test periods is generated using an artificial blower, 
-producing wind speeds around <i>3.5&nbsp;m/s</i>. 
-This lies near the upper boundary of the test range for the datasheet thermal parameters, 
-potentially leading to additional discrepancies between the modeled and measured results.
+limitations in thermal output are observed under high wind speeds and rapid irradiance 
+changes, primarily due to datasheet parameter constraints. This is particularly 
+evident in Day Type 4, where a large temperature difference between the fluid 
+and ambient air amplifies these limitations. The wind speed over the collector 
+plane during most of the test periods is generated using an artificial blower, 
+producing wind speeds around <i>3.5&nbsp;m/s</i>.  This lies near the upper 
+boundary of the test range for the datasheet thermal parameters, potentially 
+leading to additional discrepancies between the modeled and measured results.
 </p>
-
+<h4>Validation results</h4>
+<p>
+The complete validation methodology, covering the model formulation,
+datasheet-based thermal–electrical coupling, and performance metrics, is documented in
+Meertens et&nbsp;al. (2026).  The same paper reports the detailed results, including 
+MAE and RMSE values and the energy deviations for each day type.
+</p>
 <h4>References</h4>
 <ul>
 <li>

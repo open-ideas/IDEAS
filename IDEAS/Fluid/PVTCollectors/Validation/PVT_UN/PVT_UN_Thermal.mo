@@ -30,11 +30,10 @@ model PVT_UN_Thermal
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "[W]"
+  Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "Measured thermal power output [W]"
     annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
   Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*pvtCol.port_b.m_flow
-        *(pvtCol.sta_a.T -pvtCol.sta_b.T))
-                                      "[W]"
+        *(pvtCol.sta_a.T -pvtCol.sta_b.T)) "Thermal power output of pvt model [W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
   IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
@@ -52,15 +51,15 @@ model PVT_UN_Thermal
   parameter Data.Uncovered.UN_Validation datPVTCol
     annotation (Placement(transformation(extent={{70,-8},{90,12}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel1
-                                                         annotation (Placement(transformation(extent={{-87,-33},
+    annotation (Placement(transformation(extent={{-87,-33},
             {-77,-23}})));
-  Sources.Boundary_pT             sou1(
+  Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
     use_p_in=false,
     p(displayUnit="Pa") = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-42},{42,-22}})));
-  Sources.MassFlowSource_T             bou1(
+  Sources.MassFlowSource_T bou1(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
@@ -83,7 +82,7 @@ model PVT_UN_Thermal
   parameter BaseClasses.UN_Validation datPVTColVal
     annotation (Placement(transformation(extent={{70,-42},{90,-22}})));
   Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
-        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "[W]"
+        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "Thermal power output of simplified pvt model [W]"
     annotation (Placement(transformation(extent={{-81,-94},{-55,-78}})));
   Modelica.Blocks.Sources.RealExpression a1_a2_term(y=pvtCol.heaLosStc.a1_a2_term)
     "[W]" annotation (Placement(transformation(extent={{21,68},{47,84}})));
@@ -97,7 +96,7 @@ model PVT_UN_Thermal
     "[W]" annotation (Placement(transformation(extent={{21,36},{47,52}})));
   Modelica.Blocks.Sources.RealExpression a8_term(y=pvtCol.heaLosStc.a8_term)
     "[W]" annotation (Placement(transformation(extent={{59,36},{85,52}})));
-  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource(
         "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
