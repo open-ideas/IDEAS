@@ -4,16 +4,13 @@ package UsersGuide "User’s Guide"
   annotation(preferredView="info",
     Documentation(info="<html>
 <p>
-This package contains a physics‑based, datasheet‑driven model for
-photovoltaic–thermal (PVT) collectors. The thermal formulation follows the
-ISO 9806:2017 quasi‑dynamic test standard, which is currently the most
-widely used test method for both glazed and unglazed (WISC) collectors.
-The electrical submodel is internally coupled via a datasheet‑derived
-absorber–fluid heat transfer coefficient.
+This package contains a physics-based PVT collector model relying solely on 
+datasheet parameters. The thermal formulation follows the ISO 9806:2017 
+quasi‑dynamic test standard, which is currently the most widely used test method 
+for both glazed and unglazed (WISC) collectors. The electrical submodel is 
+internally coupled via a datasheet‑derived absorber–fluid heat transfer coefficient.
 </p>
-
 <h4>Model description</h4>
-
 <h5>Thermal part</h5>
 <p>
 The equations related to the heat losses and heat gains can be found in the following models:
@@ -34,25 +31,19 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
 </ul>
 </p>
 <p>
-The thermal parameters used by this model are expressed in the
-ISO 9806:2017 quasi‑dynamic format.
+The thermal parameters used by this model are expressed in the ISO 9806:2017 quasi‑dynamic format.
 </p>
 <p>
-Because some commercial PVT collectors are still tested under
-ISO 9806:2013 (steady‑state unglazed or quasi‑dynamic) or the
-newly published ISO 9806:2025 quasi‑dynamic method, a
-unified conversion procedure is provided to translate datasheet
-parameters from these standards into their ISO 9806:2017 equivalents.
-This guarantees that the model can be used for all commercially tested
-PVT collectors.
-The standard‑to‑standard conversion routines are provided in the easy‑to‑use Excel file located at
-<code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>.
-The conversion procedure is based on (i) SKN‑N0474R0 for ISO 9806:2013
-to ISO 9806:2017, and (ii) a newly introduced conversion for
-ISO 9806:2025 to ISO 9806:2017 as published in Meertens et al. (2026).
+Because some commercial PVT collectors are still tested under ISO 9806:2013 (steady‑state 
+unglazed or quasi‑dynamic) or the newly published ISO 9806:2025 quasi‑dynamic method, a
+unified conversion procedure is provided to translate datasheet parameters from 
+these standards into their ISO 9806:2017 equivalents. This guarantees that the
+model can be used for all commercially tested PVT collectors. The standard‑to‑standard 
+conversion routines are provided in the easy‑to‑use Excel file located at
+<code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>. The conversion procedure 
+is based on (i) SKN‑N0474R0 for ISO 9806:2013 to ISO 9806:2017, and (ii) a newly 
+introduced conversion for ISO 9806:2025 to ISO 9806:2017 as published in Meertens et al. (2026).
 </p>
-
-
 <h5>Electrical part</h5>
 <p>
 The equations and assumptions related to electrical part can be found in the following model:
@@ -65,14 +56,12 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </a>
 </li>
 </ul>
-
-
 <h5>Electrical–thermal coupling</h5>
 <p>
-The internal absorber–fluid heat transfer coefficient
-<i>U<sub>AbsFluid</sub></i> couples the thermal and electrical models by
-linking the PV cell temperature to the fluid temperature. This coupling is
-critical for accurately predicting electrical output.
+The internal absorber–fluid heat transfer coefficient <i>U<sub>AbsFluid</sub></i> 
+couples the thermal and electrical models by linking the PV cell temperature to 
+the fluid temperature (see Figure 1). This coupling is critical for accurately 
+predicting electrical output.
 </p>
 <p>
 The coefficient <i>U<sub>AbsFluid</sub></i> is computed solely from
@@ -85,12 +74,12 @@ the approximate formula is:
 <table style='border-collapse:collapse; text-align:center;'>
 <tr>
 <td style='padding:4px;'>
-<i>(τ·α)<sub>eff</sub> – η<sub>0,el</sub> · (a<sub>1</sub> + a<sub>3</sub>·u<sub>r</sub>)</i>
+<i>(&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub> &#183; (a<sub>1</sub> + a<sub>3</sub>&#183;u<sub>r</sub>)</i>
 </td>
 </tr>
 <tr>
 <td style='border-top:1px solid black; padding:4px;'>
-<i>(τ·α)<sub>eff</sub> – η<sub>0,el</sub> – (1 – a<sub>6</sub>/η<sub>0,b</sub> · u<sub>r</sub>) · η<sub>0,b</sub></i>
+<i>((&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub> – (1 – a<sub>6</sub>&eta;<sub>0,b</sub> &#183; u<sub>r</sub>) &#183; &eta;<sub>0,b</sub></i>
 </td>
 </tr>
 </table>
@@ -113,10 +102,10 @@ datasheet values.
 </p>
 <p align=\"center\">
 <img alt=\"Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines).\" 
- src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/RCnetwork_dotted.png\" width=\"500\"/>
+ src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/Tcell_coupling.png\" width=\"500\"/>
 </p>
 <p style=\"text-align:center; font-style:italic; font-size:90%;\">
-Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines) (Meertens et al., 2026).
+Figure 1: Equivalent thermal network between temperatuur node and cell node interlinked by <i>UAbsFluid</i> (Meertens et al., 2026).
 </p>
 
 <h4>References</h4>
