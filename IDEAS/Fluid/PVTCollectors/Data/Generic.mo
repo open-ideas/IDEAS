@@ -12,7 +12,7 @@ record Generic "Generic data record for PVT collector models"
     "First order thermal heat loss coefficient";
   parameter Real a2(final min=0, final unit="W/(m2.K2)")
     "Second order thermal heat loss coefficient";
-  parameter Modelica.Units.SI.SpecificHeatCapacity a3(final min=0)
+  parameter Real a3(final min=0, final unit="J/(m3.K)")
     "Wind speed dependence of thermal heat loss";
   parameter Modelica.Units.SI.DimensionlessRatio a4(final min=0)
     "Sky temperature dependence of the thermal heat loss coefficient";
