@@ -44,7 +44,7 @@ equation
     Documentation(info="
 <html>
 <p>
-Extends the standard quasi‑dynamic heat‑loss model 
+Extends from the standard quasi‑dynamic heat‑loss model 
 (<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>).  
 For validation purposes, this block adds:

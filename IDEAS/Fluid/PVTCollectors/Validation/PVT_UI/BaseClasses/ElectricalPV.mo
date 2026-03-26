@@ -2,7 +2,7 @@ within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses;
 model ElectricalPV
   "Model for a photovoltaic panels using PV-oriented cell-temperature equations"
 
-  parameter Modelica.Units.SI.Irradiance G_STC=1000 "Irradiance at Standard Conditions (usualy 1000 W/m2)"
+  parameter Modelica.Units.SI.Irradiance G_STC=1000 "Irradiance at standard conditions (usualy 1000 W/m2)"
     annotation (Dialog(group="Characteristics of the photovoltaic panel"));
   parameter Modelica.Units.SI.Power P_STC=370 "Power of one photovoltaic panel at Standard Conditions, usualy equal to power at Maximum Power Point (MPP)"
     annotation (Dialog(group="Characteristics of the photovoltaic panel"));
@@ -171,12 +171,9 @@ revisions="<html>
 <ul>
 <li>
 March 11, 2026, by Lone Meertens:<br/>
-Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
-conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
-</li>
-<li>
-January 16, 2026, by Lone Meertens:<br/>
-Adapted PV-oriented electrical model from the MoPED library for validation purposes only. This model is included to demonstrate the impact of using PV-based cell-temperature equations for PVT collectors. The adaptation and inclusion in the validation package are tracked in <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+Adapted PV-oriented electrical model from the MoPED library for verification purposes only. 
+This model is included to demonstrate the impact of using PV-based cell-temperature 
+equations for PVT collectors. This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
 </li>
 </ul>
 </html>"));
