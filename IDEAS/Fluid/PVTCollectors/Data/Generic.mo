@@ -35,9 +35,17 @@ defaultComponentName="datPVTCol",
 Documentation(info="<html>
 <p>
 Record containing both thermal and electrical performance parameters for PVT
-collectors. Thermal parameters, tested according to the ISO 9806:2017
-quasi-dynamic procedure, apply to covered and uncovered designs, while
-electrical parameters and system loss factors follow from the manufacturer datasheets.
+collectors. Thermal parameters follow the ISO&nbsp;9806:2017 quasi‑dynamic
+procedure and apply to both covered and uncovered designs. Note that the
+ISO&nbsp;9806 coefficient <code>a<sub>5</sub></code> is not included here because this
+record extends from <a href='modelica://IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic'>
+IDEAS.Fluid.SolarCollectors.Data.BaseClasses.Generic</a> , which defines heat‑capacity
+handling at the collector level. As a result, <code>a<sub>5</sub></code> (thermal
+capacitance) must be specified directly in the collector model as a
+<i>total</i> heat capacity, typically by multiplying the specific capacitance by
+the collector gross area (e.g., <code>C = a<sub>5</sub>&#183;A<sub>gross</sub></code> when using
+<code>CTyp = IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity</code>). Electrical parameters follow manufacturer
+datasheets.
 </p>
 <h4>References</h4>
 <ul>
