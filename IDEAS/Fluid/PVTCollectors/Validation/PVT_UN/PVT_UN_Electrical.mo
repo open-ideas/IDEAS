@@ -19,6 +19,8 @@ model PVT_UN_Electrical
 
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-11},
             {-77,-1}})));
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel;
+
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
@@ -52,8 +54,8 @@ model PVT_UN_Electrical
     "[W/m2K]" annotation (Placement(transformation(extent={{9,56},{35,72}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-47,58},{-21,74}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
-    ElectricalPV(
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ElectricalPV
+    electricalPV(
     P_STC=datPVTCol.P_nominal,
     beta=datPVTCol.beta,
     eleLosFac=eleLosFac,
@@ -61,12 +63,12 @@ model PVT_UN_Electrical
     module_efficiency=datPVTCol.etaEl,
     til=0.34906585039887,
     azi=0) annotation (Placement(transformation(extent={{-64,-72},{-84,-54}})));
-  Modelica.Blocks.Sources.RealExpression simPelPV(y=ElectricalPV.P) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPelPV(y=electricalPV.P) "[W]"
     annotation (Placement(transformation(extent={{-53,-68},{-27,-52}})));
   Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-47,44},{-21,60}})));
-  Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
+  Modelica.Blocks.Sources.RealExpression simTcellPV(y=electricalPV.T_cell -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-53,-82},{-27,-66}})));
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
@@ -87,12 +89,15 @@ equation
   connect(bou.m_flow_in, meaDat.y[3])
     annotation (Line(points={{-60,-2},{-60,24},{-71,24}},color={0,0,127}));
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,24},{-60,
-          24},{-60,6},{-92,6},{-92,-6},{-88,-6}},
-                                              color={0,0,127}));
+          24},{-60,6},{-92,6},{-92,-6},{-88,-6}}, color={0,0,127}));
   connect(weaDat.weaBus,pvtCol. weaBus) annotation (Line(
       points={{-18,26},{-14,26},{-14,-2},{-8,-2}},
       color={255,204,51},
       thickness=0.5));
+  connect(meaDat.y[4], electricalPV.Gtil);
+  connect(meaDat.y[10], electricalPV.winSpe);
+  connect(meaDat.y[5], TAmbKel.Celsius);
+  connect(TAmbKel.Kelvin, electricalPV.Tamb);
   annotation (Documentation(info = "<html>
 <p>
 This model validates the electrical performance of the 

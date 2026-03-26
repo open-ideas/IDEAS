@@ -31,6 +31,8 @@ model PVT_UI_Electrical_DayType1
     columns=1:25) annotation (Placement(transformation(extent={{-92,4},{-72,24}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-21},
             {-77,-11}})));
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel;
+
   IDEAS.Fluid.Sources.Boundary_pT sou(
     redeclare package Medium = Medium,
     use_p_in=false,
@@ -50,17 +52,9 @@ model PVT_UI_Electrical_DayType1
     "[W/m2K]" annotation (Placement(transformation(extent={{11,46},{37,62}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-51,52},{-25,68}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.ElectricalPV ElectricalPV(
-    P_STC=datPVTCol.P_nominal,
-    beta=datPVTCol.beta,
-    eleLosFac=eleLosFac,
-    n=1,
-    module_efficiency=datPVTCol.etaEl,
-    til=0.78539816339745,
-    azi=0) annotation (Placement(transformation(extent={{-60,-82},{-80,-62}})));
-  Modelica.Blocks.Sources.RealExpression simPelPV(y=ElectricalPV.P) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPelPV(y=electricalPV.P) "[W]"
     annotation (Placement(transformation(extent={{-49,-74},{-23,-58}})));
-  Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
+  Modelica.Blocks.Sources.RealExpression simTcellPV(y=electricalPV.T_cell -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-49,-92},{-23,-76}})));
   Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
@@ -70,6 +64,15 @@ model PVT_UI_Electrical_DayType1
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
     annotation (Placement(transformation(extent={{-52,8},{-32,28}})));
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ElectricalPV electricalPV(
+      P_STC=datPVTCol.P_nominal,
+      beta=datPVTCol.beta,
+      eleLosFac=eleLosFac,
+      n=1,
+      module_efficiency=datPVTCol.etaEl,
+      til=0.78539816339745,
+      azi=0)
+    annotation (Placement(transformation(extent={{-80,-84},{-60,-64}})));
 equation
 
   connect(meaDat.y[13],TFluKel. Celsius) annotation (Line(points={{-71,14},{-60,
@@ -89,6 +92,10 @@ equation
       points={{-32,18},{-14,18},{-14,-12},{-10,-12}},
       color={255,204,51},
       thickness=0.5));
+  connect(meaDat.y[2], electricalPV.Gtil);
+  connect(meaDat.y[10], electricalPV.winSpe);
+  connect(meaDat.y[12], TAmbKel.Celsius);
+  connect(TAmbKel.Kelvin, electricalPV.Tamb);
   annotation (
     Documentation(info="<html>
 <p>
