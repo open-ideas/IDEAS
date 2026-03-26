@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses;
 model ElectricalPV
-  "Model for a photovoltaic panels using PV-oriented cell-temperature equations"
+  "Model for PV panels using PV-oriented cell-temperature equations"
 
   parameter Modelica.Units.SI.Irradiance G_STC=1000 "Irradiance at Standard Conditions (usualy 1000 W/m2)"
     annotation (Dialog(group="Characteristics of the photovoltaic panel"));
@@ -20,7 +20,7 @@ model ElectricalPV
 
   Modelica.Units.SI.Temperature T_cell "Cell temperature";
   Modelica.Units.SI.Temperature T_cell_init "Initial cell temperature";
-  Modelica.Units.SI.TemperatureDifference T_diff;
+  Modelica.Units.SI.TemperatureDifference T_diff "Temperature difference between the cell temperature and the reference temperature";
   Modelica.Units.SI.Temperature noct_adj "Adjusted nominal operating cell temperature";
   Modelica.Units.SI.Efficiency heat_loss "Heat loss coefficient of the PV panel";
   Modelica.Units.SI.Efficiency wind_loss "Wind loss coefficient of the PV panel";
