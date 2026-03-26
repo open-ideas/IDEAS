@@ -31,8 +31,8 @@ Validation results show excellent agreement across all day types, with normalize
 <ul>
 <li>
 Meertens, L.; Jansen, J.; Helsen, L. (2026).
-<i>Development and Experimental Validation of an Open-Source Unglazed
-Photovoltaic‑Thermal Collector Modelica Model that only needs
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
 Datasheet Parameters</i>. Submitted to 
 Mathematical and Computer Modelling of Dynamical Systems,
 Special Issue on Modelica, FMI, and Open Standards.

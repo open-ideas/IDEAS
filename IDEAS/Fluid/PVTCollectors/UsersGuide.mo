@@ -145,13 +145,17 @@ Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>
 </li>
 <li>
 Meertens, L.; Jansen, J.; Helsen, L. (2026).
-<i>Development and Experimental Validation of an Open-Source Unglazed
-Photovoltaic‑Thermal Collector Modelica Model that only needs
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
 Datasheet Parameters</i>. Submitted to 
 Mathematical and Computer Modelling of Dynamical Systems,
 Special Issue on Modelica, FMI, and Open Standards.
 </li>
-
+<li>
+Meertens, L., Jansen, J., Helsen, L. (2025).
+<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>,
+submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+</li>
 </ul>
 </html>"));
 end UsersGuide;
