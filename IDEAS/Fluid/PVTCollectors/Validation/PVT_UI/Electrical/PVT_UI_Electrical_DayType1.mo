@@ -10,7 +10,7 @@ model PVT_UI_Electrical_DayType1
   parameter Data.Uncovered.UI_Validation datPVTCol
     annotation (Placement(transformation(extent={{74,-26},{94,-6}})));
 
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -46,9 +46,9 @@ model PVT_UI_Electrical_DayType1
     annotation (Placement(transformation(extent={{-58,-30},{-38,-10}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[21]) "[W]"
     annotation (Placement(transformation(extent={{-87,52},{-61,68}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=pvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{11,46},{37,62}})));
-  Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.Pel) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-51,52},{-25,68}})));
   IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.ElectricalPV ElectricalPV(
     P_STC=datPVTCol.P_nominal,
@@ -63,7 +63,7 @@ model PVT_UI_Electrical_DayType1
   Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-49,-92},{-23,-76}})));
-  Modelica.Blocks.Sources.RealExpression simTcell(y=PvtCol.eleGen.TavgCel -
+  Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-51,40},{-25,56}})));
   BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
@@ -79,13 +79,13 @@ equation
   connect(bou.m_flow_in, meaDat.y[17])
     annotation (Line(points={{-60,-12},{-60,14},{-71,14}},
                                                          color={0,0,127}));
-  connect(bou.ports[1], PvtCol.port_a)
+  connect(bou.ports[1],pvtCol. port_a)
     annotation (Line(points={{-38,-20},{-10,-20}},
                                                color={0,127,255}));
-  connect(PvtCol.port_b, sou.ports[1])
+  connect(pvtCol.port_b, sou.ports[1])
     annotation (Line(points={{10,-20},{42,-20}},
                                              color={0,127,255}));
-  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+  connect(weaDat.weaBus,pvtCol. weaBus) annotation (Line(
       points={{-32,18},{-14,18},{-14,-12},{-10,-12}},
       color={255,204,51},
       thickness=0.5));

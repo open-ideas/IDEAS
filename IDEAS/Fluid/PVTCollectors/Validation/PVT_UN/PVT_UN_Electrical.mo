@@ -30,7 +30,7 @@ model PVT_UN_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,
@@ -47,9 +47,9 @@ model PVT_UN_Electrical
     annotation (Placement(transformation(extent={{72,-16},{92,4}})));
   Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-83,58},{-57,74}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=PvtCol.eleGen.UAbsFluid)
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=pvtCol.eleGen.UAbsFluid)
     "[W/m2K]" annotation (Placement(transformation(extent={{9,56},{35,72}})));
-  Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.Pel) "[W]"
+  Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-47,58},{-21,74}})));
   .IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ElectricalPV
     ElectricalPV(
@@ -62,7 +62,7 @@ model PVT_UN_Electrical
     azi=0) annotation (Placement(transformation(extent={{-64,-72},{-84,-54}})));
   Modelica.Blocks.Sources.RealExpression simPelPV(y=ElectricalPV.P) "[W]"
     annotation (Placement(transformation(extent={{-53,-68},{-27,-52}})));
-  Modelica.Blocks.Sources.RealExpression simTcell(y=PvtCol.eleGen.TavgCel -
+  Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
         273.15) "[°C]"
     annotation (Placement(transformation(extent={{-47,44},{-21,60}})));
   Modelica.Blocks.Sources.RealExpression simTcellPV(y=ElectricalPV.T_cell -
@@ -77,10 +77,10 @@ equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,-6},{-76.5,-6}},
                                                  color={0,0,127}));
-  connect(PvtCol.port_a, bou.ports[1])
+  connect(pvtCol.port_a, bou.ports[1])
     annotation (Line(points={{-8,-10},{-38,-10}},
                                               color={0,127,255}));
-  connect(PvtCol.port_b, sou.ports[1])
+  connect(pvtCol.port_b, sou.ports[1])
     annotation (Line(points={{12,-10},{42,-10}},
                                              color={0,127,255}));
   connect(bou.m_flow_in, meaDat.y[3])
@@ -88,7 +88,7 @@ equation
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,24},{-60,
           24},{-60,6},{-92,6},{-92,-6},{-88,-6}},
                                               color={0,0,127}));
-  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+  connect(weaDat.weaBus,pvtCol. weaBus) annotation (Line(
       points={{-18,26},{-14,26},{-14,-2},{-8,-2}},
       color={255,204,51},
       thickness=0.5));

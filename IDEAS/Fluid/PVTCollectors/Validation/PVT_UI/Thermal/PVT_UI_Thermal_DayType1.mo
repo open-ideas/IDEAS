@@ -13,7 +13,7 @@ model PVT_UI_Thermal_DayType1
     datPVTColVal
     annotation (Placement(transformation(extent={{72,-36},{92,-16}})));
 
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation PvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -49,22 +49,22 @@ model PVT_UI_Thermal_DayType1
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
   Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[19]) "[W]"
     annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
-  Modelica.Blocks.Sources.RealExpression a1_a2_term(y=PvtCol.heaLosStc.a1_a2_term)
+  Modelica.Blocks.Sources.RealExpression a1_a2_term(y=pvtCol.heaLosStc.a1_a2_term)
     "[W]" annotation (Placement(transformation(extent={{19,68},{45,84}})));
-  Modelica.Blocks.Sources.RealExpression a3_term(y=PvtCol.heaLosStc.a3_term)
+  Modelica.Blocks.Sources.RealExpression a3_term(y=pvtCol.heaLosStc.a3_term)
     "[W]" annotation (Placement(transformation(extent={{19,52},{45,68}})));
-  Modelica.Blocks.Sources.RealExpression a4_term(y=PvtCol.heaLosStc.a4_term)
+  Modelica.Blocks.Sources.RealExpression a4_term(y=pvtCol.heaLosStc.a4_term)
     "[W]" annotation (Placement(transformation(extent={{57,68},{83,84}})));
-  Modelica.Blocks.Sources.RealExpression a6_term(y=PvtCol.heaLosStc.a6_term)
+  Modelica.Blocks.Sources.RealExpression a6_term(y=pvtCol.heaLosStc.a6_term)
     "[W]" annotation (Placement(transformation(extent={{57,52},{83,68}})));
-  Modelica.Blocks.Sources.RealExpression a7_term(y=PvtCol.heaLosStc.a7_term)
+  Modelica.Blocks.Sources.RealExpression a7_term(y=pvtCol.heaLosStc.a7_term)
     "[W]" annotation (Placement(transformation(extent={{19,36},{45,52}})));
-  Modelica.Blocks.Sources.RealExpression a8_term(y=PvtCol.heaLosStc.a8_term)
+  Modelica.Blocks.Sources.RealExpression a8_term(y=pvtCol.heaLosStc.a8_term)
     "[W]" annotation (Placement(transformation(extent={{57,36},{83,52}})));
-  Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*PvtCol.port_b.m_flow
-        *(PvtCol.sta_a.T - PvtCol.sta_b.T)) "[W]"
+  Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*pvtCol.port_b.m_flow
+        *(pvtCol.sta_a.T -pvtCol.sta_b.T))  "[W]"
     annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
-  PVTCollectorValidation PvtColVal(
+  PVTCollectorValidation pvtColVal(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -95,8 +95,8 @@ model PVT_UI_Thermal_DayType1
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-36},{-38,-16}})));
 
-  Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*PvtColVal.port_b.m_flow
-        *(PvtColVal.sta_a.T - PvtColVal.sta_b.T)) "[W]"
+  Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
+        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "[W]"
     annotation (Placement(transformation(extent={{-81,-86},{-55,-70}})));
 
   BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
@@ -111,9 +111,9 @@ equation
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
   connect(bou.m_flow_in, meaDat.y[17])
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
-  connect(bou.ports[1], PvtCol.port_a)
+  connect(bou.ports[1],pvtCol. port_a)
     annotation (Line(points={{-38,0},{-10,0}}, color={0,127,255}));
-  connect(PvtCol.port_b, sou.ports[1])
+  connect(pvtCol.port_b, sou.ports[1])
     annotation (Line(points={{10,0},{42,0}}, color={0,127,255}));
   connect(meaDat.y[13], TAmbKel1.Celsius) annotation (Line(points={{-71,34},{-60,
           34},{-60,16},{-92,16},{-92,-22},{-88,-22}}, color={0,0,127}));
@@ -122,15 +122,15 @@ equation
   connect(bou1.m_flow_in, meaDat.y[17]) annotation (Line(points={{-60,-18},{-72,
           -18},{-72,-6},{-92,-6},{-92,16},{-60,16},{-60,34},{-71,34}}, color={0,
           0,127}));
-  connect(bou1.ports[1],PvtColVal. port_a)
+  connect(bou1.ports[1],pvtColVal. port_a)
     annotation (Line(points={{-38,-26},{-10,-26}}, color={0,127,255}));
-  connect(PvtColVal.port_b, sou1.ports[1])
+  connect(pvtColVal.port_b, sou1.ports[1])
     annotation (Line(points={{10,-26},{42,-26}}, color={0,127,255}));
-  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+  connect(weaDat.weaBus,pvtCol. weaBus) annotation (Line(
       points={{-20,28},{-16,28},{-16,6},{-10,6},{-10,8}},
       color={255,204,51},
       thickness=0.5));
-  connect(weaDat.weaBus, PvtColVal.weaBus) annotation (Line(
+  connect(weaDat.weaBus,pvtColVal. weaBus) annotation (Line(
       points={{-20,28},{-16,28},{-16,-18},{-10,-18}},
       color={255,204,51},
       thickness=0.5));
