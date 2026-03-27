@@ -25,11 +25,11 @@ The package includes two models:
 </p>
 <ul>
 <li>
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.Thermal\">Thermal</a>: 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVT_UN_Thermal\">Thermal</a>: 
 Validates thermal output using the quasi-dynamic ISO 9806:2017 formulation.
 </li>
 <li>
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.Electrical\">Electrical</a>: 
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVT_UN_Electrical\">Electrical</a>: 
 Validates electrical output using the PVWatts V5 formulation.
 </li>
 </ul>
