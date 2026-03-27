@@ -2,9 +2,15 @@ within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical;
 model PVT_UI_Electrical_DayType1
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;
+
   replaceable package Medium = IDEAS.Media.Water "Medium model";
-  replaceable record PVTData = IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation
-    "Collector parameter record";
+  replaceable record PVTData =
+    IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation
+    constrainedby IDEAS.Fluid.PVTCollectors.Data.Generic "Collector parameter record";
+  replaceable model PVTCol =
+    IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation
+    constrainedby IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation;
+
   parameter String pvtTyp = "Typ1";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09;
@@ -21,26 +27,27 @@ model PVT_UI_Electrical_DayType1
   parameter String meaFile = "modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UI/PVT_UI_" + pvtTyp + "_measurements.txt" "Full path to measurement file";
   parameter PVTData datPVTCol
     annotation (Placement(transformation(extent={{74,-26},{94,-6}})));
-
-  replaceable IDEAS.Fluid.PVTCollectors.BaseClasses.PVTCollectorValidationUI pvtCol(
-    redeclare package Medium = Medium,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    T_start=T_start,
-    show_T=true,
-    azi=0,
-    til=til,
-    rho=rho,
-    nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
-    nPanels=1,
-    per=datPVTCol,
-    eleLosFac=eleLosFac)
-    annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
     fileName=Modelica.Utilities.Files.loadResource(meaFile),
     columns=1:25) annotation (Placement(transformation(extent={{-92,4},{-72,24}})));
+
+  PVTCol pvtCol(
+    redeclare package Medium = Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    T_start=T_start,
+    show_T=true,
+    azi=azi,
+    til=til,
+    rho=rho,
+    nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
+    nPanels=nPanels,
+    per=datPVTCol,
+    eleLosFac=eleLosFac)
+    annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
+
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-21},
             {-77,-11}})));
   Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel;
@@ -58,20 +65,6 @@ model PVT_UI_Electrical_DayType1
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-30},{-38,-10}})));
-  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[idxMeaPel]) "[W]"
-    annotation (Placement(transformation(extent={{-87,52},{-61,68}})));
-  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=pvtCol.eleGen.UAbsFluid)
-    "[W/m2K]" annotation (Placement(transformation(extent={{11,46},{37,62}})));
-  Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel) "[W]"
-    annotation (Placement(transformation(extent={{-51,52},{-25,68}})));
-  Modelica.Blocks.Sources.RealExpression simPelPV(y=electricalPV.P) "[W]"
-    annotation (Placement(transformation(extent={{-49,-74},{-23,-58}})));
-  Modelica.Blocks.Sources.RealExpression simTcellPV(y=electricalPV.T_cell -
-        273.15) "[°C]"
-    annotation (Placement(transformation(extent={{-49,-92},{-23,-76}})));
-  Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
-        273.15) "[°C]"
-    annotation (Placement(transformation(extent={{-51,40},{-25,56}})));
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
     "Weather data input file"
@@ -85,8 +78,20 @@ model PVT_UI_Electrical_DayType1
       til=til,
       azi=azi)
     annotation (Placement(transformation(extent={{-80,-84},{-60,-64}})));
-equation
+  Modelica.Blocks.Sources.RealExpression meaPel(y=meaDat.y[idxMeaPel])
+  "Measured electrical power [W]" annotation (Placement(transformation(extent={{-87,52},{-61,68}})));
+  Modelica.Blocks.Sources.RealExpression UAbsFluid(y=pvtCol.eleGen.UAbsFluid)
+    "Absorber-fluid heat transfer coefficient [W/m2K]" annotation (Placement(transformation(extent={{11,46},{37,62}})));
+  Modelica.Blocks.Sources.RealExpression simPel(y=pvtCol.Pel)
+  "Electrical power simulated by PVT model [W]" annotation (Placement(transformation(extent={{-51,52},{-25,68}})));
+  Modelica.Blocks.Sources.RealExpression simPelPV(y=electricalPV.P)
+  "Electrical power from standalone PV model [W]"  annotation (Placement(transformation(extent={{-49,-74},{-23,-58}})));
+  Modelica.Blocks.Sources.RealExpression simTcellPV(y=electricalPV.T_cell -
+        273.15) "PV-only cell temperature [°C]"  annotation (Placement(transformation(extent={{-49,-92},{-23,-76}})));
+  Modelica.Blocks.Sources.RealExpression simTcell(y=pvtCol.eleGen.TavgCel -
+        273.15) "PVT cell temperature [°C]"  annotation (Placement(transformation(extent={{-51,40},{-25,56}})));
 
+equation
   connect(meaDat.y[idxTFlu],TFluKel. Celsius) annotation (Line(points={{-71,14},{-60,
           14},{-60,-4},{-92,-4},{-92,-16},{-88,-16}},                                                   color={0,0,127}));
   connect(bou.T_in,TFluKel. Kelvin)        annotation (Line(points={{-60,-16},{-76.5,
