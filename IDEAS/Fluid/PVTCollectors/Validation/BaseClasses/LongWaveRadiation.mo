@@ -2,55 +2,46 @@ within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 model LongWaveRadiation
   extends Modelica.Blocks.Icons.Block;
 
+  // Parameters
+  parameter Modelica.Units.SI.Angle til "Surface tilt (0 for horizontally mounted collector)";
+  constant Real pi = Modelica.Constants.pi "Pi constant";
+  constant Modelica.Units.SI.DimensionlessRatio epsGro = 0.95 "ground emissivity [-]";
+  // Constants for dew point calculation using Buck's equation [Buck, 1981]
+  constant Real aBuck = 243.5 "Buck constant for dew point [°C]";
+  constant Real bBuck = 17.67 "Buck constant for dew point [°C]";
+  Real Tdew "Dew point temperature [°C]";
+  Real epsSky "Clear sky emissivity [-]";
+
   // Real Inputs
   Modelica.Blocks.Interfaces.RealInput Tamb(
     quantity="AmbientTemperature",
     unit="degC",
     displayUnit="degC") "Ambient temperature [°C]"
     annotation (Placement(transformation(extent={{-140,-108},{-100,-68}})));
-
   Modelica.Blocks.Interfaces.RealInput rH(
     quantity="RelativeHumidity",
     unit="percentage",
     displayUnit="frac") "Relative Humidity [%]"
     annotation (Placement(transformation(extent={{-140,-64},{-100,-24}}),
         iconTransformation(extent={{-140,-64},{-100,-24}})));
-
   Modelica.Blocks.Interfaces.RealInput patm(
     quantity="AtmosphericPressure",
     unit="bar",
     displayUnit="bar") "Atmospheric pressure [atm]"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
         iconTransformation(extent={{-140,-20},{-100,20}})));
-
   Modelica.Blocks.Interfaces.RealInput Edif_h(
     quantity="DiffuseRadiationCollector",
     unit="W/m2",
     displayUnit="kJ/hr.m²") "Diffuse horizontal irradiation [W/m2]"
     annotation (Placement(transformation(extent={{-140,24},{-100,64}}),
         iconTransformation(extent={{-140,24},{-100,64}})));
-
   Modelica.Blocks.Interfaces.RealInput Eglobh_h(
     quantity="TotalRadiationCollector",
     unit="W/m2",
     displayUnit="kJ/hr.m²") "global horizontal irradiation [W/m2]"
     annotation (Placement(transformation(extent={{-140,68},{-100,108}}),
         iconTransformation(extent={{-140,68},{-100,108}})));
-
-  // Parameter: tilt angle (radians) — can be overridden by the parent/collector
-  parameter Modelica.Units.SI.Angle til "Surface tilt (0 for horizontally mounted collector)";
-
-  // Constants
-  constant Real pi = Modelica.Constants.pi "Pi constant";
-  constant Modelica.Units.SI.DimensionlessRatio epsGro = 0.95 "ground emissivity [-]";
-
-  // Constants for dew point calculation using Buck's equation [Buck, 1981]
-  constant Real aBuck = 243.5 "Buck constant for dew point [°C]";
-  constant Real bBuck = 17.67 "Buck constant for dew point [°C]";
-
-  // Intermediate Variables
-  Real Tdew "Dew point temperature [°C]";
-  Real epsSky "Clear sky emissivity [-]";
 
   // Outputs
   Modelica.Blocks.Interfaces.RealOutput lonRad(
@@ -70,7 +61,6 @@ equation
 
   // Calculate Longwave Radiation (lonRad) using Tview and the Stefan-Boltzmann Law
   lonRad = Modelica.Constants.sigma*Tamb^4*((epsSky*(1 + cos(til)) / 2) + (epsGro*(1 - cos(til)) / 2));
-
 annotation (
   defaultComponentName="LongWaveRad",
   Documentation(info="<html>
@@ -121,5 +111,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </li>
 </ul>
 </html>"));
-
 end LongWaveRadiation;

@@ -19,7 +19,6 @@ model ISO9806SolarGainHGloTil
   Modelica.Blocks.Interfaces.RealInput shaCoe_in if use_shaCoe_in
     "Time varying input for the shading coefficient"
     annotation(Placement(transformation(extent={{-140,-70},{-100,-30}})));
-
   Modelica.Blocks.Interfaces.RealInput HGlob(unit="W/m2", quantity="RadiantEnergyFluenceRate")
     "global tilted irradiance"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));

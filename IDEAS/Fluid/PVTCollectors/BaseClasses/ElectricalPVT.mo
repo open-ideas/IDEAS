@@ -1,12 +1,12 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ElectricalPVT
-  "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
+  "Calculate the electrical power output of a PVT collector"
   extends Modelica.Blocks.Icons.Block;
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
 
   // Parameters
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
-  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
+  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "Electrical system loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature";
   parameter Real beta "Temperature coefficient [1/K]";
   parameter Modelica.Units.SI.Power P_nominal "Nominal PV power";
@@ -25,7 +25,7 @@ model ElectricalPVT
     "Fluid temperatures per segment [K]"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.RealInput Qth[nSeg]
+  Modelica.Blocks.Interfaces.RealInput qth[nSeg]
     "Thermal power density per segment [W/m2]"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
         iconTransformation(extent={{-140,-20},{-100,20}})));
@@ -34,7 +34,7 @@ model ElectricalPVT
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
         iconTransformation(extent={{-140,-80},{-100,-40}})));
 
-  // Outputs (user-facing)
+  // Outputs
   Modelica.Blocks.Interfaces.RealOutput Pel
     "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,40},{140,80}}),
@@ -58,7 +58,7 @@ protected
 
 equation
   for i in 1:nSeg loop
-    TCel[i] = Tflu[i] +Qth[i] / UAbsFluid;
+    TCel[i] = Tflu[i] + qth[i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
     Pel_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
                             (1 + beta * TDif[i]) * (1 - eleLosFac);

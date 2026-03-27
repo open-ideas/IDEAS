@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVT_UN_Electrical  "Electrical behavior of an unglazed rear‑non‑insulated PVT collector"
+model PVT_UN_Electrical
+  "Validation model for an unglazed rear-non-insulated PVT Collector"
   extends IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical.PVT_UI_Electrical_DayType1(
     redeclare package Medium =
       IDEAS.Media.Antifreeze.PropyleneGlycolWater(

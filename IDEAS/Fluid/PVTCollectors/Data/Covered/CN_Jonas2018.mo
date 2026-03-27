@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Data.Covered;
 record CN_Jonas2018 =
-  IDEAS.Fluid.PVTCollectors.Data.Generic            (
+  IDEAS.Fluid.PVTCollectors.Data.Generic(
     final A=1.79,
     final CTyp=IDEAS.Fluid.SolarCollectors.Types.HeatCapacity.TotalCapacity,
     final C=16075*1.79,

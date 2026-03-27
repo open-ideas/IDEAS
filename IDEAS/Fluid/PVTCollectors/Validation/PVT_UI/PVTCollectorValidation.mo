@@ -1,13 +1,11 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI;
-model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
-  extends Validation.BaseClasses.PartialPVTCollectorValidation
-                                       (
+model PVTCollectorValidation
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+  extends Validation.BaseClasses.PartialPVTCollectorValidation(
     eleLosFac = 0.09);
 
-  // Parameters
-  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed in collector plane";
 
-  // Ouput connectors
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
@@ -25,7 +23,7 @@ model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat gained from the sun using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation
     heaLosStc(
@@ -39,7 +37,7 @@ model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT
     final a7=per.a7,
     final a8=per.a8,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
@@ -54,45 +52,54 @@ model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT
     final etaEl = per.etaEl)
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
-
-  Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
-    "[W/m2]"                                                                        annotation (Placement(transformation(extent={{-49.5,
-            82},{-30.5,98}})));
-  Modelica.Blocks.Math.Gain degToRad(k=Modelica.Constants.pi/180) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=270,
-        origin={-40,60})));
-  Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-55.5,12},{-36.5,28}})));
-  Modelica.Blocks.Sources.RealExpression I_tot(y=(meaDat.y[2])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-55.5,2},{-36.5,18}})));
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-45,23},
-            {-35,33}})));
-  Modelica.Blocks.Sources.RealExpression rH(y=(meaDat.y[8]))
-    "Relative humidity [%]"
-    annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation
-    longWaveRad(final til=til)
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation longWaveRad(
+    final til = til)
+    "Long‑wave radiation exchange model for tilted PVT surface"
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
-  Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
+  Modelica.Blocks.Sources.RealExpression Qdir(y = meaDat.y[2] - meaDat.y[3])
+    "Direct irradiance in the collector plane (global minus diffuse) [W/m2]"
+    annotation (Placement(transformation(extent={{-49.5,82},{-30.5,98}})));
+  Modelica.Blocks.Math.Gain degToRad(k = Modelica.Constants.pi/180)
+    "Gain converting degrees to radians"
+    annotation (Placement(transformation(
+      extent={{-5,-5},{5,5}},
+      rotation=270,
+      origin={-40,60})));
+  Modelica.Blocks.Sources.RealExpression winSpe(y = meaDat.y[10])
+    "Measured wind speed at collector location [m/s]"
+    annotation (Placement(transformation(extent={{-55.5,12},{-36.5,28}})));
+  Modelica.Blocks.Sources.RealExpression I_tot(y = meaDat.y[2])
+    "Total global irradiance in the collector plane [W/m2]"
+    annotation (Placement(transformation(extent={{-55.5,2},{-36.5,18}})));
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel
+    "Converter from ambient air temperature in °C to Kelvin"
+    annotation (Placement(transformation(extent={{-45,23},{-35,33}})));
+  Modelica.Blocks.Sources.RealExpression rH(y = meaDat.y[8])
+    "Relative humidity from measurements [%]"
+    annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
+  Modelica.Blocks.Sources.RealExpression Tamb(y = meaDat.y[12] + 273.15)
+    "Ambient air temperature converted to Kelvin [K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
-  Modelica.Blocks.Sources.RealExpression patm(y=(meaDat.y[9])) "[bar]"
+  Modelica.Blocks.Sources.RealExpression patm(y = meaDat.y[9])
+    "Measured atmospheric pressure [bar]"
     annotation (Placement(transformation(extent={{-93.5,-70},{-74.5,-54}})));
-  Modelica.Blocks.Sources.RealExpression Ediff(y=(meaDat.y[3])) "[W/m2]"
+  Modelica.Blocks.Sources.RealExpression Ediff(y = meaDat.y[3])
+    "Diffuse irradiance component in the collector plane [W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-58},{-74.5,-42}})));
-  Modelica.Blocks.Sources.RealExpression Eglob(y=(meaDat.y[2])) "[W/m2]"
+  Modelica.Blocks.Sources.RealExpression Eglob(y = meaDat.y[2])
+    "Global irradiance in the collector plane [W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-46},{-74.5,-30}})));
-  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y = qThSeg)
+    "Thermal heat‑flux per collector segment (diagnostic output)"
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
 equation
-   // Compute plane wind speed (using inherited azi/til and connected weaBus):
+  // Wind speed in collector plane
   winSpeTil = winSpe.y;
-  // Assign electrical and thermal outputs
+
   Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
-  // Compute thermal power per segment
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;

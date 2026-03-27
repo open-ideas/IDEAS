@@ -4,7 +4,7 @@ model ISO9806HeatLossValidation
 
   extends IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss;
 
-  // —— Diagnostic internal variables ——
+  // Diagnostic variables
   Modelica.Units.SI.Power a1_a2_term "Contribution from a1_a2 term";
   Modelica.Units.SI.Power a3_term "Contribution from wind-speed dependence (a3)";
   Modelica.Units.SI.Power a4_term "Contribution from sky long-wave (a4)";
@@ -13,7 +13,7 @@ model ISO9806HeatLossValidation
   Modelica.Units.SI.Power a8_term "Contribution from radiation losses (a8)";
   Modelica.Units.SI.Irradiance EL_term "Sky long-wave irradiance difference (HHorIR – σ·TEnv⁴)";
 
-  // —— Cumulative sums ——
+  // Cumulative sums
   Modelica.Units.SI.Power pvt_st_st "a1_a2";
   Modelica.Units.SI.Power pvt_a3 "a1_a2 + a3";
   Modelica.Units.SI.Power pvt_a4 "a1_a2 + a3 + a4";

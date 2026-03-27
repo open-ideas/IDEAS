@@ -3,7 +3,7 @@ model ISO9806HeatLoss
   "Calculate the heat loss of a PVT collector using ISO9806:2017"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss(
-    // Override the internal heat-loss expression to include c3, c4 and c6 terms
+    // Override the internal heat-loss expression to include a3-a7 terms
     final QLos_internal=A_c/nSeg*{dT[i]*(a1 - a2*dT[i] + a3*(winSpePla-3)) + a4*(HHorIR
          - Modelica.Constants.sigma*TEnv^4) - a6*(winSpePla-3)*HGloTil
          - a7*(winSpePla-3)*(HHorIR - Modelica.Constants.sigma*TEnv^4) - a8*(dT[i])^4 for i in 1:nSeg});

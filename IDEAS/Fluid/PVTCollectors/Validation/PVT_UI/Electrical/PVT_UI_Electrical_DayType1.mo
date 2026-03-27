@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical;
 model PVT_UI_Electrical_DayType1
-  "Test model for Unglazed Rear-Insulated PVT Collector"
+  "Validation model for an unglazed rear-insulated PVT Collector"
   extends Modelica.Icons.Example;
 
   replaceable package Medium = IDEAS.Media.Water "Medium model";

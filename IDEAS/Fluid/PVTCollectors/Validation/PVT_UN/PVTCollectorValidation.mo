@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+model PVTCollectorValidation
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
   extends IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation(
     eleLosFac = 0.07);
 
@@ -23,7 +24,7 @@ model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT
     final a7=per.a7,
     final a8=per.a8,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
   replaceable IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806SolarGainHGloTil
@@ -34,7 +35,7 @@ model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Calculates the heat from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat from the sun using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,

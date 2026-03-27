@@ -5,32 +5,28 @@ model PVTCollector
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
      redeclare IDEAS.Fluid.PVTCollectors.Data.Generic per);
 
-  // ===== Parameters =====
   parameter Modelica.Units.SI.Efficiency eleLosFac(min=0, max=1) = 0.10
-    "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
+    "Electrical system loss factor" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
-    "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
+    "Collector type used to select a default tauAlpEff";
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff(min=0, max=1) =
     (if collectorType == IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered then 0.901 else 0.84)
-    "Effective transmittance–absorptance product";
+    "Effective transmittance-absorptance product";
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid(min=0) =
   ((tauAlpEff - per.etaEl) * (per.a1)) / ((tauAlpEff - per.etaEl) - per.eta0)
     "Internal heat transfer coefficient between the fluid and PV cells; computed from datasheet parameters by default."
     annotation(Dialog(tab="Advanced", group="Electrical parameters"));
 
-  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed in collector plane";
   Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
 
-  // ===== Output Connectors =====
-  Modelica.Blocks.Interfaces.RealOutput Pel
-    "Total electrical power output [W]"
+  Modelica.Blocks.Interfaces.RealOutput Pel "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
         iconTransformation(extent={{100,-60},{120,-40}})));
   Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output[W]"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
         iconTransformation(extent={{100,-100},{120,-80}})));
 
-  // ===== Subcomponents =====
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
@@ -41,7 +37,7 @@ model PVTCollector
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat gained from the sun using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
 
   IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss heaLosStc(
@@ -52,10 +48,10 @@ model PVTCollector
     final a3=per.a3,
     final a4=per.a4,
     final a6=per.a6,
-    final a7=per.a4,
-    final a8=per.a6,
+    final a7=per.a7,
+    final a8=per.a8,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
@@ -73,9 +69,10 @@ model PVTCollector
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
-  Modelica.Blocks.Math.Add HGloTil
+  Modelica.Blocks.Math.Add HGloTil "Total global irradiance on collector plane"
     annotation (Placement(transformation(extent={{-55,-95},{-45,-85}})));
   Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+  "Thermal heat flux of each segment (for diagnostics)"
     annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
 
 equation

@@ -1,5 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVT_UN_Thermal  "Thermal behavior of an unglazed rear‑non‑insulated PVT collector"
+model PVT_UN_Thermal
+  "Validation model for an unglazed rear-non-insulated PVT Collector"
    extends IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Thermal.PVT_UI_Thermal_DayType1(
     redeclare package Medium =
       IDEAS.Media.Antifreeze.PropyleneGlycolWater(

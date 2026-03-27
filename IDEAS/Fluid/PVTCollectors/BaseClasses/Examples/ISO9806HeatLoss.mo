@@ -53,14 +53,14 @@ model ISO9806HeatLoss "Example showing the use of ISO9806HeatLoss"
     annotation (Placement(transformation(extent={{60,58},{80,78}})));
   Modelica.Blocks.Sources.RealExpression HHorIR(y=400) "long wave irradiance"
     annotation (Placement(transformation(extent={{-1.5,58},{17.5,74}})));
+  Modelica.Blocks.Sources.RealExpression HGloTil(y=800) "Global irradiance on the tilted surface"
+    annotation (Placement(transformation(extent={{26.5,58},{45.5,74}})));
   Modelica.Blocks.Interfaces.RealOutput QLos_flow_QuaDyn[3]
     "Heat loss rate at current conditions"
     annotation (Placement(transformation(extent={{60,-2},{80,18}})));
   Modelica.Blocks.Interfaces.RealOutput QLos_flow_SteSta[3]
     "Heat loss rate at current conditions"
     annotation (Placement(transformation(extent={{62,-68},{82,-48}})));
-  Modelica.Blocks.Sources.RealExpression HGloTil(y=800) "Global irradiance on the tilted surface"
-    annotation (Placement(transformation(extent={{26.5,58},{45.5,74}})));
 equation
   connect(winSpePla.y, heaLosQuaDyn.winSpePla);
   connect(HHorIR.y,  heaLosQuaDyn.HHorIR);
