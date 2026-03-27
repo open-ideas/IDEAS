@@ -1,6 +1,6 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
+within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
-  extends IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation(
+  extends PartialPVTCollectorValidation(
     eleLosFac = 0.07);
 
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(

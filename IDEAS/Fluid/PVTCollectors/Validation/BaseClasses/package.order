@@ -1,5 +1,8 @@
-ElectricalPV
 ISO9806HeatLossValidation
 ISO9806SolarGainHGloTil
 LongWaveRadiation
-
+ElectricalPV
+PVT_UI_Electrical_DayType1
+PVT_UN_Electrical
+PartialPVTCollectorValidation
+PVTCollectorValidation

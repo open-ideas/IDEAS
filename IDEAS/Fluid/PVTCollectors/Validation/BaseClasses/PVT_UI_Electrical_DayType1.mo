@@ -1,4 +1,4 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical;
+within IDEAS.Fluid.PVTCollectors.Validation.BaseClasses;
 model PVT_UI_Electrical_DayType1
   "Test model for Unglazed Rear-Insulated PVT Collector"
   extends Modelica.Icons.Example;

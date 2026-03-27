@@ -11,6 +11,7 @@ model PVT_UN_Electrical
   parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol
     annotation (Placement(transformation(extent={{72,-16},{92,4}})));
 
+
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
@@ -34,7 +35,7 @@ model PVT_UN_Electrical
     use_T_in=true,
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     T_start=T_start,

@@ -1,5 +1,5 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI;
-model PVTCollectorValidation  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+within IDEAS.Fluid.PVTCollectors.BaseClasses;
+model PVTCollectorValidationUI
   extends Validation.BaseClasses.PartialPVTCollectorValidation
                                        (
     eleLosFac = 0.09);
@@ -322,4 +322,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end PVTCollectorValidation;
+end PVTCollectorValidationUI;
