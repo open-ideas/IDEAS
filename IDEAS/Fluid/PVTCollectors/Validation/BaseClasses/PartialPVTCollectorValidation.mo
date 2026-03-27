@@ -24,5 +24,21 @@ partial model PartialPVTCollectorValidation
 
   Modelica.Blocks.Interfaces.RealOutput Qth
     "Total thermal power output [W]";
+annotation (
+    defaultComponentName="pvtCol",
+    Documentation(info="<html>
+<p>
+This component is a partial model of a PVT collector for model validation.
+</p>
 
+</html>", revisions="<html>
+<ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Added new partial model to provide a common base class for PVT collector
+validation models and improve consistency between validation cases.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
+</ul>
+</html>"));
 end PartialPVTCollectorValidation;

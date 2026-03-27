@@ -35,6 +35,7 @@ record is adapted to use the thermal coefficients <i>a<sub>1</sub></i> and
 which are provided directly in the collector datasheet.
 </p>
 <h4>References</h4>
+<ul>
 <li>
 Meertens, L.; Jansen, J.; Helsen, L. (2026).
 <i>Development and Experimental Validation of an Open-Source 
@@ -49,8 +50,9 @@ revisions="<html>
 <ul>
 <li>
 March 11, 2026, by Lone Meertens:<br/>
-Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
-conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+Added new record for comparing the full ISO&nbsp;9806:2017 PVT model 
+with the simplified EU Ecodesign Regulation CDR&nbsp;812/2013 datasheet parameters.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
 </li>
 </ul>
 </html>"));

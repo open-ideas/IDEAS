@@ -40,7 +40,6 @@ model ISO9806HeatLoss
 annotation (
 defaultComponentName="heaLosStc",
 Documentation(info="<html>
-
 <p>
 This component computes the heat loss from a solar thermal or PVT collector
 according to ISO&nbsp;9806:2017. It builds on the structure of the
@@ -49,7 +48,6 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a> model, but extends
 it with the wind‑ and long‑wave irradiance‑dependent loss mechanisms defined in
 ISO&nbsp;9806:2017.
 </p>
-
 <p>
 The base <code>EN12975HeatLoss</code> model includes only the linear (a<sub>1</sub>)
 and quadratic (a<sub>2</sub>) temperature‑difference heat‑loss terms from
@@ -57,18 +55,15 @@ EN&nbsp;12975. These describe the main convective and radiative losses of glazed
 collectors, but they do not account for wind‑driven or long‑wave radiation
 effects.
 </p>
-
 <p>
 The ISO&nbsp;9806:2017 quasi‑dynamic formulation adds the additional coefficients
 used here to represent wind‑dependent heat loss and long‑wave irradiance
 exchange. These effects are essential for accurately modeling unglazed
 collectors, where wind and sky radiation strongly influence thermal losses.
 </p>
-
 <p>
 The thermal losses in the extended model are calculated for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
-
 <p align='center' style='font-style:italic;'>
 Q<sub>los,i</sub> =
 A<sub>c</sub> / n<sub>seg</sub> · [
@@ -144,7 +139,6 @@ mechanisms defined in ISO&nbsp;9806:2017, allowing the collector performance to
 be represented more realistically under varying outdoor conditions than when using 
 only the EN&nbsp;12975 a<sub>1</sub> and a<sub>2</sub> terms.
 </p>
-
 <h4>Implementation Notes</h4>
 <p>
 The heat-loss block inherits from 
@@ -154,7 +148,6 @@ and segment-wise structure. Only the heat‑loss equations and parameters are re
 to match the ISO&nbsp;9806:2017
 formulation.
 </p>
-
 <h4>References</h4>
 <p>
 <li>
@@ -166,8 +159,8 @@ revisions="<html>
 <ul>
 <li>
 March 11, 2026, by Lone Meertens:<br/>
-Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
-conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
 </li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
