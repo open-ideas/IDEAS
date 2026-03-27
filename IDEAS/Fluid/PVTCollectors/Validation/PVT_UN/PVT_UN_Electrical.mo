@@ -1,14 +1,14 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVT_UN_Electrical
+model PVT_UN_Electrical  "Electrical behavior of an unglazed rear‑non‑insulated PVT collector"
   extends IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical.PVT_UI_Electrical_DayType1(
     redeclare package Medium =
       IDEAS.Media.Antifreeze.PropyleneGlycolWater(
         property_T=293.15, X_a=0.43),
     redeclare record PVTData =
       IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation,
-    datPVTCol = PVTData(),
     redeclare model PVTCol =
       IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation,
+    datPVTCol = PVTData(),
     T_start = 17.086651 + 273.15,
     eleLosFac = 0.07,
     til = 0.34906585039887,

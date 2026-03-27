@@ -10,14 +10,13 @@ model PVT_UI_Electrical_DayType1
   replaceable model PVTCol =
     IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation
     constrainedby IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation;
-
-  parameter String pvtTyp = "Typ1";
+  parameter String pvtTyp = "Typ1" "Type identifier for selecting the UI measurement dataset";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
-  parameter Real eleLosFac = 0.09;
-  parameter Real til = 0.78539816339745;
-  parameter Real azi = 0;
-  parameter Real rho = 0.2;
-  parameter Integer nPanels = 1;
+  parameter Real eleLosFac = 0.09  "Electrical system loss factor of the PV module";
+  parameter Real til = 0.78539816339745 "Collector tilt angle [rad]";
+  parameter Real azi = 0 "Collector azimuth angle [rad]";
+  parameter Real rho = 0.2 "Ground reflectance (albedo)";
+  parameter Integer nPanels = 1 "Number of PVT panels connected in the model";
   parameter Integer idxTFlu = 13 "Column index for fluid inlet temperature";
   parameter Integer idxMFlow = 17 "Column index for mass flow rate";
   parameter Integer idxGtil = 2 "Column index for global irradiance in collector plane";
@@ -73,7 +72,7 @@ model PVT_UI_Electrical_DayType1
       P_STC=datPVTCol.P_nominal,
       beta=datPVTCol.beta,
       eleLosFac=eleLosFac,
-      n=1,
+      n=nPanels,
       module_efficiency=datPVTCol.etaEl,
       til=til,
       azi=azi)

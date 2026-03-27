@@ -1,138 +1,29 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVT_UN_Thermal
-  "Thermal behavior of an unglazed rear‑non‑insulated PVT collector"
-  extends Modelica.Icons.Example;
-  replaceable package Medium = IDEAS.Media.Antifreeze.PropyleneGlycolWater (
-  property_T = 293.15,
-  X_a = 0.43);
+model PVT_UN_Thermal  "Thermal behavior of an unglazed rear‑non‑insulated PVT collector"
+   extends IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Thermal.PVT_UI_Thermal_DayType1(
+    redeclare package Medium =
+      IDEAS.Media.Antifreeze.PropyleneGlycolWater(
+        property_T=293.15, X_a=0.43),
+    redeclare record PVTData =
+      IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation,
+    redeclare model PVTCol =
+      IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation,
+    datPVTCol = PVTData(),
+    datPVTColVal = PVTData(),
+    T_start = 17.086651 + 273.15,
+    eleLosFac = 0.07,
+    til = 0.34906585039887,
+    azi = 0,
+    idxTFlu = 2,
+    idxMFlow = 3,
+    idxGtil = 4,
+    idxWinSpe = 10,
+    idxTAmb = 5,
+    idxMeaPel = 19,
+    meaFile =
+      "modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements_" + week + ".txt");
+
   parameter String week = "week1";
-  parameter Modelica.Units.SI.Temperature T_start = 17.086651 + 273.15 "Initial temperature (from measurement data)";
-  parameter Real eleLosFac = 0.07;
-  parameter IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.UN_Validation datPVTColVal
-    annotation (Placement(transformation(extent={{70,-42},{90,-22}})));
-  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol
-    annotation (Placement(transformation(extent={{70,-8},{90,12}})));
-
-  inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
-    tableOnFile=true,
-    tableName="data",
-    fileName=Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_measurements_"+week+".txt"),
-    columns=1:26) annotation (Placement(transformation(extent={{-92,24},{-72,44}})));
-
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel annotation (Placement(transformation(extent={{-87,-1},
-            {-77,9}})));
-  IDEAS.Fluid.Sources.Boundary_pT sou(
-    redeclare package Medium = Medium,
-    use_p_in=false,
-    p = 101325,
-    nPorts=1) "Outlet for water flow"
-    annotation (Placement(transformation(extent={{62,-10},{42,10}})));
-  IDEAS.Fluid.Sources.MassFlowSource_T bou(
-    redeclare package Medium = Medium,
-    use_m_flow_in=true,
-    m_flow=0.03,
-    use_T_in=true,
-    nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
-    annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  Modelica.Blocks.Sources.RealExpression meaQ(y=meaDat.y[24]) "Measured thermal power output [W]"
-    annotation (Placement(transformation(extent={{-81,60},{-55,76}})));
-  Modelica.Blocks.Sources.RealExpression simQ(y=Medium.cp_const*pvtCol.port_b.m_flow
-        *(pvtCol.sta_a.T -pvtCol.sta_b.T)) "Thermal power output of pvt model [W]"
-    annotation (Placement(transformation(extent={{-45,60},{-19,76}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
-    redeclare package Medium = Medium,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    T_start=T_start,
-    show_T=true,
-    azi=0,
-    til=0.34906585039887,
-    rho=0.2,
-    nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
-    nPanels=1,
-    per=datPVTCol,
-    eleLosFac=eleLosFac)
-    annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TFluKel1
-    annotation (Placement(transformation(extent={{-87,-33},
-            {-77,-23}})));
-  IDEAS.Fluid.Sources.Boundary_pT sou1(
-    redeclare package Medium = Medium,
-    use_p_in=false,
-    p = 101325,
-    nPorts=1) "Outlet for water flow"
-    annotation (Placement(transformation(extent={{62,-42},{42,-22}})));
-  IDEAS.Fluid.Sources.MassFlowSource_T bou1(
-    redeclare package Medium = Medium,
-    use_m_flow_in=true,
-    m_flow=0.03,
-    use_T_in=true,
-    nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
-    annotation (Placement(transformation(extent={{-58,-42},{-38,-22}})));
-  IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtColVal(
-    redeclare package Medium = Medium,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    T_start=T_start,
-    show_T=true,
-    azi=0,
-    til=0.34906585039887,
-    rho=0.2,
-    nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
-    nPanels=1,
-    per=datPVTColVal,
-    eleLosFac=eleLosFac)
-    annotation (Placement(transformation(extent={{-8,-42},{12,-22}})));
-
-  Modelica.Blocks.Sources.RealExpression simQVal(y=Medium.cp_const*pvtColVal.port_b.m_flow
-        *(pvtColVal.sta_a.T -pvtColVal.sta_b.T))  "Thermal power output of simplified pvt model [W]"
-    annotation (Placement(transformation(extent={{-81,-94},{-55,-78}})));
-  Modelica.Blocks.Sources.RealExpression a1_a2_term(y=pvtCol.heaLosStc.a1_a2_term)
-    "[W]" annotation (Placement(transformation(extent={{21,68},{47,84}})));
-  Modelica.Blocks.Sources.RealExpression a3_term(y=pvtCol.heaLosStc.a3_term)
-    "[W]" annotation (Placement(transformation(extent={{21,52},{47,68}})));
-  Modelica.Blocks.Sources.RealExpression a4_term(y=pvtCol.heaLosStc.a4_term)
-    "[W]" annotation (Placement(transformation(extent={{59,68},{85,84}})));
-  Modelica.Blocks.Sources.RealExpression a6_term(y=pvtCol.heaLosStc.a6_term)
-    "[W]" annotation (Placement(transformation(extent={{59,52},{85,68}})));
-  Modelica.Blocks.Sources.RealExpression a7_term(y=pvtCol.heaLosStc.a7_term)
-    "[W]" annotation (Placement(transformation(extent={{21,36},{47,52}})));
-  Modelica.Blocks.Sources.RealExpression a8_term(y=pvtCol.heaLosStc.a8_term)
-    "[W]" annotation (Placement(transformation(extent={{59,36},{85,52}})));
-  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-        Modelica.Utilities.Files.loadResource(
-        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
-    "Weather data input file"
-    annotation (Placement(transformation(extent={{-40,24},{-20,44}})));
-equation
-  connect(bou.T_in,TFluKel. Kelvin)
-    annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
-  connect(pvtCol.port_a, bou.ports[1])
-    annotation (Line(points={{-8,0},{-38,0}}, color={0,127,255}));
-  connect(pvtCol.port_b, sou.ports[1])
-    annotation (Line(points={{12,0},{42,0}}, color={0,127,255}));
-  connect(bou.m_flow_in, meaDat.y[3])
-    annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
-  connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
-          {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
-  connect(bou1.T_in, TFluKel1.Kelvin)
-    annotation (Line(points={{-60,-28},{-76.5,-28}}, color={0,0,127}));
-  connect(pvtColVal.port_a, bou1.ports[1])
-    annotation (Line(points={{-8,-32},{-38,-32}}, color={0,127,255}));
-  connect(pvtColVal.port_b, sou1.ports[1])
-    annotation (Line(points={{12,-32},{42,-32}}, color={0,127,255}));
-  connect(bou1.m_flow_in, meaDat.y[3]) annotation (Line(points={{-60,-24},{-72,
-          -24},{-72,-6},{-92,-6},{-92,16},{-60,16},{-60,34},{-71,34}}, color={0,
-          0,127}));
-  connect(meaDat.y[2], TFluKel1.Celsius) annotation (Line(points={{-71,34},{-60,
-          34},{-60,16},{-92,16},{-92,-28},{-88,-28}}, color={0,0,127}));
-  connect(pvtCol.weaBus, weaDat.weaBus) annotation (Line(
-      points={{-8,8},{-14,8},{-14,34},{-20,34}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(pvtColVal.weaBus, weaDat.weaBus) annotation (Line(
-      points={{-8,-24},{-14,-24},{-14,34},{-20,34}},
-      color={255,204,51},
-      thickness=0.5));
   annotation ( Documentation(info = "<html>
 <p>
 This model validates the thermal performance of the 
@@ -167,30 +58,7 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </ul>
 </html>"),
   Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false), graphics={
-        Rectangle(extent={{-86,96},{-14,60}},   lineColor={28,108,200}),
-        Text(
-          extent={{-84,96},{-14,80}},
-          textColor={28,108,200},
-          horizontalAlignment=TextAlignment.Left,
-          textStyle={TextStyle.Bold},
-          textString="Measured and simulated
-thermal power"),
-        Rectangle(extent={{-88,-56},{20,-94}},  lineColor={28,108,200}),
-        Rectangle(extent={{8,96},{94,34}},    lineColor={28,108,200}),
-        Text(
-          extent={{10,98},{92,82}},
-          textColor={28,108,200},
-          textString="Distribution of heat losses ",
-          textStyle={TextStyle.Bold}),
-        Text(
-          extent={{-82,-62},{4,-70}},
-          textColor={28,108,200},
-          horizontalAlignment=TextAlignment.Left,
-          textStyle={TextStyle.Bold},
-          textString="Simulated thermal power, 
-neglecting c3-, c4-, c6-, c7- and c8-term 
-loss contributions")}),
+        coordinateSystem(preserveAspectRatio=false)),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UN/PVT_UN_Thermal.mos"
         "Simulate and plot"),
  experiment(
