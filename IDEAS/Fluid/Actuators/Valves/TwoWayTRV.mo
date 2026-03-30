@@ -82,9 +82,7 @@ model TwoWayTRV "Two way thermostatic radiator valve"
         rotation=270,
         origin={0,106})));
   Modelica.Blocks.Sources.RealExpression yExp(y=
-    IDEAS.Utilities.Math.Functions.smoothHeaviside(
-      (TSet - T)/P - 0.5,
-      0.5))
+        IDEAS.Utilities.Math.Functions.smoothHeaviside((TSet - T)/P, 0.5))
       "Smooth control signal"
     annotation (Placement(transformation(extent={{-46,36},{-8,54}})));
   Modelica.Blocks.Interfaces.RealOutput y "Valve set point"
@@ -126,6 +124,11 @@ to reflect the typical delay of radiator knobs.
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 30, 2026, by Anna Dell'Isola:<br/>
+Update valve opening characteristic.
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1478\">#1478</a>.
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
