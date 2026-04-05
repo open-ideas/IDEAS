@@ -104,7 +104,7 @@ equation
           30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
-  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
+  connect(qThSegExp.y,eleGen.qth)  annotation (Line(
       points={{-39,-70},{-22,-70}},
       color={0,0,127}));
   annotation (

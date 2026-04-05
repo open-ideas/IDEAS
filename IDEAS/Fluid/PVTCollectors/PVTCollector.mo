@@ -145,7 +145,7 @@ equation
   connect(HGloTil.y, eleGen.HGloTil) annotation (Line(
       points={{-44.5,-90},{-30,-90},{-30,-76},{-22,-76}},
       color={0,0,127}));
-  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
+  connect(qThSegExp.y,eleGen.qth)  annotation (Line(
       points={{-39,-70},{-22,-70}},
       color={0,0,127}));
     annotation (
