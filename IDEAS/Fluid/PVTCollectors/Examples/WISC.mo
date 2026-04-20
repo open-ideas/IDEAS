@@ -36,7 +36,7 @@ model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncove
     amplitude=-pvtCol.dp_nominal,
     offset=1E5) "Pressure source"
     annotation (Placement(transformation(extent={{-88,-18},{-68,2}})));
-  IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector pvtCol(
+  IDEAS.Fluid.PVTCollectors.PVTCollector pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     show_T=true,
@@ -47,9 +47,9 @@ model WISC "Test model for WISC (Wind and Infrared Sensitive Collector) - uncove
     nPanels=5,
     nSeg=9,
     sysConfig=IDEAS.Fluid.SolarCollectors.Types.SystemConfiguration.Series,
-    per=datPvtCol)
+    per=datPVTCol)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPvtCol
+  parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPVTCol
     annotation (Placement(transformation(extent={{64,64},{84,84}})));
 equation
   connect(sou.ports[1], TIn.port_a) annotation (Line(
@@ -72,7 +72,7 @@ equation
   Documentation(info="<html>
 <p>
 This example demonstrates the implementation of the 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.PVTCollector\">
 IDEAS.Fluid.PVTCollectors.PVTQuasiDynamicCollector</a> 
 for a variable fluid flow rate and weather data from San Francisco, CA, USA.
 </p>

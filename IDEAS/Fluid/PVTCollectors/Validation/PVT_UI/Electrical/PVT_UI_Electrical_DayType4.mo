@@ -1,6 +1,6 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.Electrical;
 model PVT_UI_Electrical_DayType4
-  "Test model for Unglazed Rear-Insulated PVT Collector"
+  "Validation model for an unglazed rear-insulated PVT Collector"
   extends PVT_UI_Electrical_DayType1(pvtTyp="Typ4", T_start=48.60870229 + 273.15);
   annotation (
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/Validation/PVT_UI/Electrical/PVT_UI_Electrical_DayType4.mos"

@@ -1,43 +1,19 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UI;
-model PVTQuasiDynamicCollectorValidation
-  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
+model PVTCollectorValidation
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+  extends Validation.BaseClasses.PartialPVTCollectorValidation(
+    eleLosFac = 0.09);
 
-  extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
-    break weaBus,
-    break HDifTilIso,
-    break HDirTil);
+  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed in collector plane";
 
-      // ===== Parameters =====
-  parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.09
-    "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
-    "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
-
-  parameter Real tauAlpEff(min=0, max=1) =
-    if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
-    "Effective transmittance–absorptance product";
-
-  Modelica.Units.SI.Velocity winSpeTil "Effective wind speed normal to collector plane";
-  Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
-
-  // Ouput connectors
-  // ===== Real Output Connectors =====
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
     fileName=Modelica.Utilities.Files.loadResource("modelica://PvTfluod/Resources/Validation/MeasurementData/Typ1_modelica.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{26,68},
             {6,88}})));
-  Modelica.Blocks.Interfaces.RealOutput Pel
-    "Total electrical power output [W]"
-    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
-        iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
-    annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
-        iconTransformation(extent={{100,-100},{120,-80}})));
 
-  IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
+  replaceable IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain solGaiStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
     final incAngDat=per.incAngDat,
@@ -47,73 +23,83 @@ model PVTQuasiDynamicCollectorValidation
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Calculates the heat gained from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat gained from the sun using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation
     heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
-    final c1=per.c1,
-    final c2=per.c2,
-    final c3=per.c3,
-    final c4=per.c4,
-    final c6=per.c6,
+    final a1=per.a1,
+    final a2=per.a2,
+    final a3=per.a3,
+    final a4=per.a4,
+    final a6=per.a6,
+    final a7=per.a7,
+    final a8=per.a8,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
     final A_c = ATot_internal,
     final eleLosFac = eleLosFac,
-    final gamma = per.gamma,
+    final beta = per.beta,
     final P_nominal = per.P_nominal,
     final A = per.A,
     final eta0 = per.eta0,
     final tauAlpEff = tauAlpEff,
-    final c1 = per.c1,
+    final a1 = per.a1,
     final etaEl = per.etaEl)
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
-
-  Modelica.Blocks.Sources.RealExpression Qdir(y=meaDat.y[2] - meaDat.y[3])
-    "[W/m2]"                                                                        annotation (Placement(transformation(extent={{-49.5,
-            82},{-30.5,98}})));
-  Modelica.Blocks.Math.Gain degToRad(k=Modelica.Constants.pi/180) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=270,
-        origin={-40,60})));
-  Modelica.Blocks.Sources.RealExpression winSpe(y=(meaDat.y[10])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-55.5,12},{-36.5,28}})));
-  Modelica.Blocks.Sources.RealExpression I_tot(y=(meaDat.y[2])) "[W/m2]"
-    annotation (Placement(transformation(extent={{-55.5,2},{-36.5,18}})));
-  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel annotation (Placement(transformation(extent={{-45,23},
-            {-35,33}})));
-  Modelica.Blocks.Sources.RealExpression rH(y=(meaDat.y[8]))
-    "Relative humidity [%]"
-    annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation
-    longWaveRad(final til=til)
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation longWaveRad(
+    final til = til)
+    "Long‑wave radiation exchange model for tilted PVT surface"
     annotation (Placement(transformation(extent={{-58,-66},{-38,-46}})));
-  Modelica.Blocks.Sources.RealExpression Tamb(y=(meaDat.y[12] + 273.15)) "[K]"
+  Modelica.Blocks.Sources.RealExpression Qdir(y = meaDat.y[2] - meaDat.y[3])
+    "Direct irradiance in the collector plane (global minus diffuse) [W/m2]"
+    annotation (Placement(transformation(extent={{-49.5,82},{-30.5,98}})));
+  Modelica.Blocks.Math.Gain degToRad(k = Modelica.Constants.pi/180)
+    "Gain converting degrees to radians"
+    annotation (Placement(transformation(
+      extent={{-5,-5},{5,5}},
+      rotation=270,
+      origin={-40,60})));
+  Modelica.Blocks.Sources.RealExpression winSpe(y = meaDat.y[10])
+    "Measured wind speed at collector location [m/s]"
+    annotation (Placement(transformation(extent={{-55.5,12},{-36.5,28}})));
+  Modelica.Blocks.Sources.RealExpression I_tot(y = meaDat.y[2])
+    "Total global irradiance in the collector plane [W/m2]"
+    annotation (Placement(transformation(extent={{-55.5,2},{-36.5,18}})));
+  Modelica.Thermal.HeatTransfer.Celsius.ToKelvin TAmbKel
+    "Converter from ambient air temperature in °C to Kelvin"
+    annotation (Placement(transformation(extent={{-45,23},{-35,33}})));
+  Modelica.Blocks.Sources.RealExpression rH(y = meaDat.y[8])
+    "Relative humidity from measurements [%]"
+    annotation (Placement(transformation(extent={{-93.5,-82},{-74.5,-66}})));
+  Modelica.Blocks.Sources.RealExpression Tamb(y = meaDat.y[12] + 273.15)
+    "Ambient air temperature converted to Kelvin [K]"
     annotation (Placement(transformation(extent={{-93.5,-94},{-74.5,-78}})));
-  Modelica.Blocks.Sources.RealExpression patm(y=(meaDat.y[9])) "[bar]"
+  Modelica.Blocks.Sources.RealExpression patm(y = meaDat.y[9])
+    "Measured atmospheric pressure [bar]"
     annotation (Placement(transformation(extent={{-93.5,-70},{-74.5,-54}})));
-  Modelica.Blocks.Sources.RealExpression Ediff(y=(meaDat.y[3])) "[W/m2]"
+  Modelica.Blocks.Sources.RealExpression Ediff(y = meaDat.y[3])
+    "Diffuse irradiance component in the collector plane [W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-58},{-74.5,-42}})));
-  Modelica.Blocks.Sources.RealExpression Eglob(y=(meaDat.y[2])) "[W/m2]"
+  Modelica.Blocks.Sources.RealExpression Eglob(y = meaDat.y[2])
+    "Global irradiance in the collector plane [W/m2]"
     annotation (Placement(transformation(extent={{-93.5,-46},{-74.5,-30}})));
-  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y=qThSeg)
+  Modelica.Blocks.Sources.RealExpression[nSeg] qThSegExp(final y = qThSeg)
+    "Thermal heat‑flux per collector segment (diagnostic output)"
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
 equation
-   // Compute plane wind speed (using inherited azi/til and connected weaBus):
+  // Wind speed in collector plane
   winSpeTil = winSpe.y;
 
-  // Assign electrical and thermal outputs
   Pel = eleGen.Pel;
   Qth = sum(QGai.Q_flow + QLos.Q_flow);
 
-  // Compute thermal power per segment
   for i in 1:nSeg loop
     qThSeg[i] = (QGai[i].Q_flow + QLos[i].Q_flow) / (ATot_internal / nSeg);
   end for;
@@ -169,18 +155,18 @@ equation
           -64},{-22,-64}}, color={0,0,127}));
   connect(Eglob.y, eleGen.HGloTil) annotation (Line(points={{-73.55,-38},{-32,-38},
           {-32,-76},{-22,-76}}, color={0,0,127}));
-  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
-      points={{-40,-90},{-30,-90},{-30,-70},{-22,-70}},
+  connect(qThSegExp.y,eleGen.qth)  annotation (Line(
+      points={{-39,-90},{-30,-90},{-30,-70},{-22,-70}},
       color={0,0,127}));
-  annotation (
+ annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
-Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
+Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 
+quasi-dynamic thermal method with integrated electrical coupling.  
 Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
 and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>
-
 <h4>Extends</h4>
 <ul>
 <li>
@@ -189,7 +175,6 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector
 </a>
 </li>
 </ul>
-
 <h4>Submodel References</h4>
 <ul>
 <li>
@@ -200,7 +185,7 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </li>
 <li>
 Quasi-dynamic thermal losses: 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </a>
 </li>
@@ -217,30 +202,51 @@ IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.LongWaveRadiation
 </a>
 </li>
 </ul>
-
 <h4>Implementation Notes</h4>
+<p> 
+This validation model exclusively relies on measurement data provided by the 
+CombiTimeTable <code>meaDat</code>. However, because it extends <a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector'>
+IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector</a> and to limit 
+the number of extra components, the weather reader <code>IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</code> 
+remains instantiated and connected to the inherited <code>weaBus</code>. The 
+reader is retained only to satisfy the parent class connector and is <em>not</em> 
+used during simulation: all weather inputs (irradiance, ambient temperature, 
+wind speed, etc.) are taken from <code>meaDat</code>, so the reader does not 
+affect the model results. 
+</p>
 <p>
-This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
-It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
-Because direct measurements of long-wave sky irradiance were found to be faulty, the model instead computes long-wave radiation 
+This model is designed for (unglazed) PVT collectors and discretizes the flow 
+path into <code>nSeg</code> segments to capture temperature gradients. It is 
+compatible with dynamic simulations in which irradiance, ambient and fluid temperatures,
+and wind speed vary over time. Because direct measurements of long-wave sky 
+irradiance were found to be faulty, the model instead computes long-wave radiation 
 using the dedicated <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.LongWaveRadiation\">LongWaveRadiation</a> model.
 </p>
-
 <h4>References</h4>
 <ul>
 <li>
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017. 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 
@@ -323,4 +329,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end PVTQuasiDynamicCollectorValidation;
+end PVTCollectorValidation;

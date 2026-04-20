@@ -20,7 +20,7 @@ The validation examples use experimental data from two types of unglazed PVT col
 These are implemented in the subpackages <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a> and <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UN\">PVT_UN</a>, respectively.
 The naming convention used in this implementation (<code>PVT_UI</code> and <code>PVT_UN</code>) 
 corresponds to the datasets referred to as respectively <code>PVT1</code> and <code>PVT2</code> 
-in Meertens et al. (2025), where they are described in detail.
+in Meertens et al. (2026), where they are described in detail.
 </p>
 
 <p>
@@ -33,12 +33,22 @@ with measured results.
 <h4>References</h4>
 <ul>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). “Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters”, submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Open-Source Unglazed
+Photovoltaic‑Thermal Collector Modelica Model that only needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model; tracked in 

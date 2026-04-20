@@ -1,26 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
-model PVTQuasiDynamicCollectorValidation
-  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
+model PVTCollectorValidation
+  "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 thermal method with integrated electrical coupling"
+  extends IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation(
+    eleLosFac = 0.07);
 
-  extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
-    break weaBus,
-    break HDifTilIso,
-    break HDirTil);
-
-  // =====  Parameters =====
-  parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
-    "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
-  parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
-    "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
-  parameter Real tauAlpEff(min=0, max=1) =
-    if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
-    "Effective transmittance–absorptance product";
-
-  Modelica.Units.SI.HeatFlux qThSeg[nSeg] "Thermal power per segment";
-
-  // Ouput connectors
-  // ===== Real Output Connectors =====
   outer Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
     tableName="data",
@@ -28,29 +11,23 @@ model PVTQuasiDynamicCollectorValidation
         "modelica://IDEAS/Resources/Data/Fluid/PvtCollectors/Validation/PVT_UN/PVT_UN_measurements.txt"),
     columns=1:25) annotation (Placement(transformation(extent={{78,70},
             {58,90}})));
-  Modelica.Blocks.Interfaces.RealOutput Pel
-    "Total electrical power output [W]"
-    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
-        iconTransformation(extent={{100,-60},{120,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput Qth "Total thermal power output [W]"
-    annotation (Placement(transformation(extent={{100,-100},{120,-80}}),
-        iconTransformation(extent={{100,-100},{120,-80}})));
 
-  // IDEAS components
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806QuasiDynamicHeatLossValidation
+  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806HeatLossValidation
     heaLosStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
-    final c1=per.c1,
-    final c2=per.c2,
-    final c3=per.c3,
-    final c4=per.c4,
-    final c6=per.c6,
+    final a1=per.a1,
+    final a2=per.a2,
+    final a3=per.a3,
+    final a4=per.a4,
+    final a6=per.a6,
+    final a7=per.a7,
+    final a8=per.a8,
     final A_c=ATot_internal)
-    "Calculates the heat lost to the surroundings using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat lost to the surroundings using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 
-  IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806SolarGainHGloTil
+  replaceable IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.ISO9806SolarGainHGloTil
     solGaiStc(
     redeclare final package Medium = Medium,
     final nSeg=nSeg,
@@ -58,18 +35,18 @@ model PVTQuasiDynamicCollectorValidation
     final use_shaCoe_in=use_shaCoe_in,
     final shaCoe=shaCoe,
     final A_c=ATot_internal)
-    "Calculates the heat from the sun using the ISO 9806:2013 quasi-dynamic standard calculations"
+    "Calculates the heat from the sun using the ISO 9806:2017 quasi-dynamic standard calculations"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT eleGen(
     final nSeg = nSeg,
     final A_c = ATot_internal,
     final eleLosFac = eleLosFac,
-    final gamma = per.gamma,
+    final beta = per.beta,
     final P_nominal = per.P_nominal,
     final A = per.A,
     final eta0 = per.eta0,
     final tauAlpEff = tauAlpEff,
-    final c1 = per.c1,
+    final a1 = per.a1,
     final etaEl = per.etaEl)
     "Calculates the electrical power output of the PVT model"
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
@@ -127,15 +104,15 @@ equation
           30},{-36,30},{-36,82},{10.5,82}}, color={0,0,127}));
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
-  connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
-      points={{-40,-70},{-22,-70}},
+  connect(qThSegExp.y,eleGen.qth)  annotation (Line(
+      points={{-39,-70},{-22,-70}},
       color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
   Documentation(info="<html>
 <p>
-Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling.  
-Discretizes the collector into segments, computes heat loss and gain per ISO 9806, 
+Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2017 quasi-dynamic thermal method with integrated electrical coupling.  
+Discretizes the collector into segments, computes heat loss and gain per ISO 9806:2017, 
 and calculates electrical output via the PVWatts-based submodel, relying solely on datasheet parameters.
 </p>
 
@@ -158,7 +135,7 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </li>
 <li>
 Quasi-dynamic thermal losses: 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
 </a>
 </li>
@@ -171,6 +148,12 @@ IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.ISO9806SolarGainHGloTil
 </ul>
 
 <h4>Implementation Notes</h4>
+<p> This validation model exclusively relies on measurement data provided by the CombiTimeTable <code>meaDat</code>. However, because it extends 
+<a href='modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector'>IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector</a> 
+and to limit the number of extra components, the weather reader <code>IDEAS.BoundaryConditions.WeatherData.ReaderTMY3</code> remains instantiated 
+and connected to the inherited <code>weaBus</code>. The reader is retained only to satisfy the parent class connector and is <em>not</em> used 
+during simulation: all weather inputs (irradiance, ambient temperature, wind speed, etc.) are taken from <code>meaDat</code>, so the reader does not affect the model results. </p>
+<p>
 <p>
 This model is designed for (unglazed) PVT collectors and discretizes the flow path into <code>nSeg</code> segments to capture temperature gradients. 
 It is compatible with dynamic simulations in which irradiance, ambient and fluid temperatures, and wind speed vary over time. 
@@ -182,17 +165,25 @@ It is compatible with dynamic simulations in which irradiance, ambient and fluid
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025). 
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>, 
-submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Updated thermal formulation from ISO 9806:2013 to ISO 9806:2017 and added
+conversion support.This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.
@@ -275,4 +266,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
           lineColor={0,0,0},
           fillColor={0,255,0},
           fillPattern=FillPattern.Solid)}));
-end PVTQuasiDynamicCollectorValidation;
+end PVTCollectorValidation;

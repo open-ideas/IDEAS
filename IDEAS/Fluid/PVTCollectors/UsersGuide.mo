@@ -4,13 +4,13 @@ package UsersGuide "User’s Guide"
   annotation(preferredView="info",
     Documentation(info="<html>
 <p>
-This package contains a model for photovoltaic–thermal (PVT) collectors
-based on the ISO 9806:2013 quasi-dynamic thermal procedure
-coupled with an internal electrical submodel. 
+This package contains a physics-based PVT collector model relying solely on 
+datasheet parameters. The thermal formulation follows the ISO 9806:2017 
+quasi‑dynamic test standard, which is currently the most widely used test method 
+for both glazed and unglazed (WISC) collectors. The electrical submodel is 
+internally coupled via a datasheet‑derived absorber–fluid heat transfer coefficient.
 </p>
-
 <h4>Model description</h4>
-
 <h5>Thermal part</h5>
 <p>
 The equations related to the heat losses and heat gains can be found in the following models:
@@ -18,8 +18,8 @@ The equations related to the heat losses and heat gains can be found in the foll
 <ul>
 <li>
 Quasi‑dynamic thermal losses: see 
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
-IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
+IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss
 </a>
 </li>
 <li>
@@ -30,15 +30,20 @@ IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975SolarGain
 </li>
 </ul>
 </p>
-<p> 
-Thermal parameters used in the Quasi-dynamic thermal losses model follow the ISO 9806:2013 quasi-dynamic thermal procedure.
-Parameters obtained from other ISO 9806 test procedures, such as the ISO 9806:2013 unglazed test or the ISO 9806:2017 quasi-dynamic method, 
-can be converted into the thermal parameter set required by this model (<code>c1</code> to <code>c6</code>, <code>η0</code>, and <code>Kd</code>)
-using the procedure detailed in 
-<a href=\"https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf\">
-SKN-N0474R0: Thermal Performance Parameter Conversion to ISO 9806-2017</a>. 
+<p>
+The thermal parameters used by this model are expressed in the ISO 9806:2017 quasi‑dynamic format.
 </p>
-
+<p>
+Because some commercial PVT collectors are still tested under ISO 9806:2013 (steady‑state 
+unglazed or quasi‑dynamic) or the newly published ISO 9806:2025 quasi‑dynamic method, a
+unified conversion procedure is provided to translate datasheet parameters from 
+these standards into their ISO 9806:2017 equivalents. This guarantees that the
+model can be used for all commercially tested PVT collectors. The standard‑to‑standard 
+conversion routines are provided in the easy‑to‑use Excel file located at
+<code>IDEAS.Resources.Data.Fluid.PVTCollectors</code>. The conversion procedure 
+is based on (i) SKN‑N0474R0 for ISO 9806:2013 to ISO 9806:2017, and (ii) a newly 
+introduced conversion for ISO 9806:2025 to ISO 9806:2017 as published in Meertens et al. (2026).
+</p>
 <h5>Electrical part</h5>
 <p>
 The equations and assumptions related to electrical part can be found in the following model:
@@ -51,24 +56,30 @@ IDEAS.Fluid.PVTCollectors.BaseClasses.ElectricalPVT
 </a>
 </li>
 </ul>
-
 <h5>Electrical–thermal coupling</h5>
 <p>
-The internal heat transfer coefficient <i>UAbsFluid</i> (visualised in Figure 1) is approximately calculated from datasheet parameters:
+The internal absorber–fluid heat transfer coefficient <i>U<sub>AbsFluid</sub></i> 
+couples the thermal and electrical models by linking the PV cell temperature to 
+the fluid temperature (see Figure 1). This coupling is critical for accurately 
+predicting electrical output.
 </p>
-<div style=\"display:flex; align-items:center; justify-content:center;\">
-<div style=\"padding-right:8px;\"><i>UAbsFluid = </i></div>
-<table style=\"border-collapse:collapse; text-align:center;\">
+<p>
+The coefficient <i>U<sub>AbsFluid</sub></i> is computed solely from
+datasheet parameters following the method introduced in
+Meertens et al. (2026). For ISO 9806:2017 and MPP‑tested collectors,
+the approximate formula is:
+</p>
+<div style='display:flex; align-items:center; justify-content:center;'>
+<div style='padding-right:8px;'><i>U<sub>AbsFluid</sub> = </i></div>
+<table style='border-collapse:collapse; text-align:center;'>
 <tr>
-<td style=\"padding:4px;\">
-<i>(&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub> 
-&#183; (c<sub>1</sub> + c<sub>3</sub>&#183;u + b<sub>1,el</sub>)</i>
+<td style='padding:4px;'>
+<i>(&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub> &#183; (a<sub>1</sub> + a<sub>3</sub>&#183;u<sub>r</sub>)</i>
 </td>
 </tr>
 <tr>
-<td style=\"border-top:1px solid black; padding:4px;\">
-<i>(&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub>
-– (1 – <em>c<sub>6</sub>/&eta;<sub>0,th</sub></em>·u) &#183; &eta;<sub>0,th</sub></i>
+<td style='border-top:1px solid black; padding:4px;'>
+<i>((&tau;&#183;&alpha;)<sub>eff</sub> – &eta;<sub>0,el</sub> – (1 – a<sub>6</sub>&eta;<sub>0,b</sub> &#183; u<sub>r</sub>) &#183; &eta;<sub>0,b</sub></i>
 </td>
 </tr>
 </table>
@@ -79,33 +90,28 @@ Here, <i>(&tau;&#183;&alpha;)<sub>eff</sub> = 0.901</i> for unglazed PVT collect
 and <i> 0.84 </i>for covered collectors.
 </li>
 <li>
-The electrical temperature‑dependence term is <i>b<sub>1,el</sub> = |&gamma;| &#183; G<sub>nom</sub></i>, 
-where <i>&gamma;</i> is the temperature coefficient of power (in % K<sup>−1</sup>) 
-and <i>G<sub>nom</sub> = 1000</i> W m<sup>−2</sup>.
-</li>
-<li>
-<i>u</i> is the in-plane wind speed. 
-In this approximation, <i>u = 0</i> is used to derive <i>UAbsFluid</i>. 
+<i>u<sub>r</sub></i> is the in-plane reduced wind speed. 
+In this approximation, <i>u<sub>r</sub> = 0</i> is used to derive <i>UAbsFluid</i>. 
 The internal heat transfer coefficient is only weakly dependent on external wind speed when the datasheet thermal parameters are accurate (Stegmann 2011).
 </li>
 </ul>
 <p>
 This approach removes the need for a hidden fit parameter: both thermal
 and electrical coupling coefficients derive solely from publicly available
-datasheet values.
+datasheet values. 
 </p>
 <p align=\"center\">
 <img alt=\"Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines).\" 
- src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/RCnetwork_dotted.png\" width=\"500\"/>
+ src=\"modelica://IDEAS/Resources/Images/Fluid/PVTCollectors/Tcell_coupling.png\" width=\"500\"/>
 </p>
 <p style=\"text-align:center; font-style:italic; font-size:90%;\">
-Figure 1: Two-node, one-capacitance thermal network for PVT collectors (ISO 9806: dashed lines; extension: solid lines) (Meertens et al., 2025).
+Figure 1: Equivalent thermal network between temperatuur node and cell node interlinked by <i>UAbsFluid</i> (Meertens et al., 2026).
 </p>
 
 <h4>References</h4>
 <ul>
 <li>
-ISO 9806:2013. <i><a href='https://www.iso.org/standard/59879.html'>Solar thermal collectors — Test methods</a></i>. ISO.
+ISO 9806:2017. <i><a href='https://www.iso.org/standard/67978.html'>Solar thermal collectors — Test methods</a></i>. ISO.
 </li>
 <li>
 SKN-N0474R0. <i><a href='https://solarheateurope.eu/wp-content/uploads/2019/10/SKN-N0474R0_Thermal-performance-parameter-conversion-to-the-ISO9806-2017.pdf'>
@@ -127,9 +133,17 @@ PhD thesis, University of Freiburg. DOI: 10.6094/UNIFR/16446
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-Meertens, L.; Jansen, J.; Helsen, L. (2025). 
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>. 
-Submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
+</li>
+<li>
+Meertens, L., Jansen, J., Helsen, L. (2025).
+<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>,
+submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
 </li>
 </ul>
 </html>"));

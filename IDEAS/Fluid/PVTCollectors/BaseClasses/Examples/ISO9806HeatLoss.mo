@@ -1,10 +1,9 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses.Examples;
-model ISO9806HeatLoss
-  "Example showing the use of ISO9806QuasiDynamicHeatLoss"
+model ISO9806HeatLoss "Example showing the use of ISO9806HeatLoss"
   extends Modelica.Icons.Example;
   replaceable package Medium = IDEAS.Media.Water "Medium in the system";
 
-  parameter IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per=
+  parameter IDEAS.Fluid.PVTCollectors.Data.Generic per=
       IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation()
     "Performance data" annotation (choicesAllMatching=true);
   Modelica.Blocks.Sources.Sine T1(
@@ -22,22 +21,24 @@ model ISO9806HeatLoss
     amplitude=15,
     offset=273.15 + 20) "Temperature of the third segment"
     annotation (Placement(transformation(extent={{-90,-52},{-70,-32}})));
-  ISO9806QuasiDynamicHeatLoss heaLosQuaDyn(
+  IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss heaLosQuaDyn(
     nSeg=3,
     redeclare package Medium = Medium,
-    c1=per.c1,
-    c2=per.c2,
-    c3=per.c3,
-    c4=per.c4,
-    c6=per.c6,
+    a1=per.a1,
+    a2=per.a2,
+    a3=per.a3,
+    a4=per.a4,
+    a6=per.a6,
+    a7=per.a7,
+    a8=per.a8,
     A_c=per.A) annotation (Placement(transformation(extent={{18,-2},{38,18}})));
 
   IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss heaLosSteSta(
     A_c=per.A,
     nSeg=3,
     redeclare package Medium = Medium,
-    a1=per.c1,
-    a2=per.c2)
+    a1=per.a1,
+    a2=per.a2)
     annotation (Placement(transformation(extent={{18,-68},{38,-48}})));
   Modelica.Blocks.Sources.Sine TEnv(
     f=0.01,
@@ -48,18 +49,18 @@ model ISO9806HeatLoss
     f=1/(24*3600),
     phase=0,
     offset=3,
-    amplitude=5) "wind speed in the collector plane"
+    amplitude=2) "wind speed in the collector plane"
     annotation (Placement(transformation(extent={{60,58},{80,78}})));
   Modelica.Blocks.Sources.RealExpression HHorIR(y=400) "long wave irradiance"
     annotation (Placement(transformation(extent={{-1.5,58},{17.5,74}})));
+  Modelica.Blocks.Sources.RealExpression HGloTil(y=800) "Global irradiance on the tilted surface"
+    annotation (Placement(transformation(extent={{26.5,58},{45.5,74}})));
   Modelica.Blocks.Interfaces.RealOutput QLos_flow_QuaDyn[3]
     "Heat loss rate at current conditions"
     annotation (Placement(transformation(extent={{60,-2},{80,18}})));
   Modelica.Blocks.Interfaces.RealOutput QLos_flow_SteSta[3]
     "Heat loss rate at current conditions"
     annotation (Placement(transformation(extent={{62,-68},{82,-48}})));
-  Modelica.Blocks.Sources.RealExpression HGloTil(y=800) "Global irradiance on the tilted surface"
-    annotation (Placement(transformation(extent={{26.5,58},{45.5,74}})));
 equation
   connect(winSpePla.y, heaLosQuaDyn.winSpePla);
   connect(HHorIR.y,  heaLosQuaDyn.HHorIR);
@@ -91,13 +92,13 @@ equation
    Documentation(info="<html>
 <p>
 This example demonstrates the implementation of
-<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss\">
+<a href=\"modelica://IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806HeatLoss\">
 IDEAS.Fluid.PVTCollectors.BaseClasses.ISO9806QuasiDynamicHeatLoss</a>,
 which calculates the quasi-dynamic heat loss of a PVT or solar thermal collector
-according to the ISO 9806:2013 standard.
+according to the ISO 9806:2017 standard.
 </p>
 <p>
-In addition to showcasing the ISO 9806-based model, this example also compares its behavior
+In addition to showcasing the ISO 9806:2017-based model, this example also compares its behavior
 to the steady-state heat loss model
 <a href=\"modelica://IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss\">
 IDEAS.Fluid.SolarCollectors.BaseClasses.EN12975HeatLoss</a>,
@@ -117,7 +118,7 @@ First implementation of ISO 9806 quasi-dynamic heat loss example.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">1436</a>.
 </li>
 </ul>
-</html>"), 
+</html>"),
 __Dymola_Commands(file="modelica://IDEAS/Resources/Scripts/Dymola/Fluid/PVTCollectors/BaseClasses/Examples/ISO9806HeatLoss.mos"
         "Simulate and plot"),
  experiment(

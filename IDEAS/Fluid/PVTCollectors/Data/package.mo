@@ -7,7 +7,7 @@ annotation (Documentation(info = "<html>
 This package contains both thermal and electrical performance data records
 for photovoltaic–thermal (PVT) collectors. All parameters are openly available
 from datasheets and certificates. Thermal performance data, structured according
-to the ISO 9806:2013 quasi-dynamic test method, can be found in rating databases
+to the ISO 9806:2017 quasi-dynamic test method, can be found in rating databases
 such as:
 <ul>
 <li>
@@ -49,5 +49,15 @@ PVT collector types are categorized as follows:
 All record names should begin with one of the above abbreviations to indicate the
 collector classification.
 </p>
+<p>
+To ensure compatibility with all commercially tested PVT collectors, this package
+also provides a standard‑to‑standard conversion tool that converts thermal
+parameters from ISO 9806:2013 and ISO 9806:2025 into the
+ISO 9806:2017 quasi-dynamic format used throughout IDEAS.
+The conversion is implemented in an easy‑to‑use Excel file located at:
+<br/>
+<span style=\"font-family:monospace;\">IDEAS.Resources.Data.Fluid.PVTCollectors</span>.
+</p>
 </html>"));
+
 end Data;

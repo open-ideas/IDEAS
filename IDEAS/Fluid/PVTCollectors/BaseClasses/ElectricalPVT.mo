@@ -1,23 +1,23 @@
 within IDEAS.Fluid.PVTCollectors.BaseClasses;
 model ElectricalPVT
-  "Calculate the electrical power output of a PVT using the PVWatts v5 approach"
+  "Calculate the electrical power output of a PVT collector"
   extends Modelica.Blocks.Icons.Block;
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialParameters;
 
   // Parameters
   parameter Modelica.Units.SI.Irradiance HGloHorNom = 1000 "global horizontal irradiances";
-  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "PV loss factor";
+  parameter Modelica.Units.SI.Efficiency eleLosFac = 0.09 "Electrical system loss factor";
   parameter Modelica.Units.SI.Temperature TpvtRef = 298.15 "Reference cell temperature";
-  parameter Real gamma "Temperature coefficient [1/K]";
+  parameter Real beta "Temperature coefficient [1/K]";
   parameter Modelica.Units.SI.Power P_nominal "Nominal PV power";
   parameter Modelica.Units.SI.Area A "PV area";
   parameter Modelica.Units.SI.Efficiency eta0 "Zero-loss efficiency";
   parameter Modelica.Units.SI.DimensionlessRatio tauAlpEff "Effective transmittance–absorptance product";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer c1 "First-order heat loss coefficient";
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer a1 "First-order heat loss coefficient";
   parameter Modelica.Units.SI.Efficiency etaEl "Electrical efficiency";
 
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer UAbsFluid =
-    ((tauAlpEff - etaEl) * (c1 + abs(gamma)*HGloHorNom)) / ((tauAlpEff - etaEl) - eta0)
+    ((tauAlpEff - etaEl) * a1) / ((tauAlpEff - etaEl) - eta0)
     "Heat transfer coefficient between the fluid and the PV cells, calculated from datasheet parameters";
 
   // Inputs
@@ -25,7 +25,7 @@ model ElectricalPVT
     "Fluid temperatures per segment [K]"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.RealInput Qth[nSeg]
+  Modelica.Blocks.Interfaces.RealInput qth[nSeg]
     "Thermal power density per segment [W/m2]"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
         iconTransformation(extent={{-140,-20},{-100,20}})));
@@ -34,7 +34,7 @@ model ElectricalPVT
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
         iconTransformation(extent={{-140,-80},{-100,-40}})));
 
-  // Outputs (user-facing)
+  // Outputs
   Modelica.Blocks.Interfaces.RealOutput Pel
     "Total electrical power output [W]"
     annotation (Placement(transformation(extent={{100,40},{140,80}}),
@@ -58,10 +58,10 @@ protected
 
 equation
   for i in 1:nSeg loop
-    TCel[i] = Tflu[i] +Qth[i] / UAbsFluid;
+    TCel[i] = Tflu[i] + qth[i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
     Pel_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
-                            (1 + gamma * TDif[i]) * (1 - eleLosFac);
+                            (1 + beta * TDif[i]) * (1 - eleLosFac);
   end for;
 
   Pel = sum(Pel_int);
@@ -75,14 +75,14 @@ annotation (
   Documentation(info="<html>
 <p>
 This component computes the electrical power output of a photovoltaic-thermal (PVT) collector using the PVWatts v5 methodology (Dobos, 2014), adapted for PVT systems.
-It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2025).
+It is part of a validated, open-source Modelica implementation that relies solely on manufacturer datasheet parameters, as described in Meertens et al. (2026).
 </p>
 <p>
 The model calculates the electrical output for each segment <i>i ∈ {1, ..., n<sub>seg</sub>}</i> as:
 </p>
 <p align=\"center\" style=\"font-style:italic;\">
 P<sub>el,i</sub> = (A<sub>c</sub> / n<sub>seg</sub>) &#183 (P<sub>nom</sub> / A) 
-&#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &gamma; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
+&#183 (G<sub>tilt</sub> / G<sub>nom</sub>) &#183 (1 + &beta; &#183 &Delta;T<sub>i</sub>) &#183 (1 - eleLosFac)
 </p>
 <p>
 where:
@@ -106,7 +106,7 @@ where:
 <i>G<sub>nom</sub></i>: nominal irradiance (typically 1000 W/m²)
 </li>
 <li>
-<i>&gamma;</i>: temperature coefficient of power [%/K]
+<i>&beta;</i>: temperature coefficient of power [%/K]
 </li>
 <li>
 <i>eleLosFac</i>: lumped system loss factor
@@ -172,7 +172,7 @@ PVWatts reports a total electrical power loss of 14%, resulting from the followi
 </tr>
 </table>
 <p>
-For well-maintained, unshaded modules, experimental validation (Meertens et al., 2025)
+For well-maintained, unshaded modules, experimental validation (Meertens et al., 2026)
 found that using <code>eleLosFac = 9%</code> gives excellent agreement with
 measured electrical output. For PVT collectors with a high positive tolerance on the 
 electrical output, this system loss factor can even be lower. 
@@ -182,7 +182,7 @@ Users may adjust <code>eleLosFac</code> to account for site-specific soiling or 
 <h4>Implementation Notes</h4>
 <p>
 This model is designed for (unglazed) PVT collectors and supports discretization into multiple segments to capture temperature gradients along the flow path. 
-It is compatible with the thermal model based on ISO 9806:2013 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
+It is compatible with the thermal model based on ISO 9806:2017 and is suitable for dynamic simulations where irradiance and fluid temperatures vary over time.
 </p>
 
 <h4>References</h4>
@@ -191,14 +191,26 @@ It is compatible with the thermal model based on ISO 9806:2013 and is suitable f
 Dobos, A. P. (2014). <i><a href='https://docs.nrel.gov/docs/fy14osti/62641.pdf'>PVWatts Version 5 Manual</a></i>. NREL/TP-6A20-62641
 </li>
 <li>
-Meertens, L., Jansen, J., Helsen, L. (2025).
-<i>Development and Experimental Validation of an Unglazed Photovoltaic-Thermal Collector Modelica Model that only needs Datasheet Parameters</i>,
-submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerland, Sep 8–10, 2025.
+Meertens, L.; Jansen, J.; Helsen, L. (2026).
+<i>Development and Experimental Validation of an Open-Source 
+Photovoltaic‑Thermal Collector Modelica Model that Only Needs
+Datasheet Parameters</i>. Submitted to 
+Mathematical and Computer Modelling of Dynamical Systems,
+Special Issue on Modelica, FMI, and Open Standards.
 </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 11, 2026, by Lone Meertens:<br/>
+Revised the internal thermal–electrical coupling by introducing a new
+formulation for the heat-transfer coefficient between the fluid and the PV cells.
+The approach was updated to assume that the electrical power output is independent
+of ambient temperature and therefore does not contribute to the linear thermal
+loss slope. Details of the derivation can be found in Meertens et al., 2026.
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 

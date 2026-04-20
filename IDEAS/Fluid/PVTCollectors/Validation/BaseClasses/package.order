@@ -1,3 +1,5 @@
-ISO9806QuasiDynamicHeatLossValidation
+ElectricalPV
+ISO9806HeatLossValidation
 ISO9806SolarGainHGloTil
 LongWaveRadiation
+PartialPVTCollectorValidation
