@@ -107,8 +107,7 @@ model PartialZone "Building zone model"
     Dialog(group="Occupants (optional)"),
     Placement(transformation(extent={{80,22},{60,42}})));
 
-  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp annotation(
-    Placement(visible = true, transformation(origin = {0, 0}, extent = {{80, 82}, {100, 102}}, rotation = 0)))
+  replaceable parameter IDEAS.Buildings.Components.OccupancyType.OfficeWork occTyp
     constrainedby
     IDEAS.Buildings.Components.OccupancyType.BaseClasses.PartialOccupancyType
     "Occupancy type, only used for evaluating occupancy model and comfort model"
