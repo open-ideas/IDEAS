@@ -530,6 +530,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>April 21, 2026, by Lone Meertens:<br/>
+Fixed invalid escape sequences in Documentation annotation by correcting commit 
+link formatting (changed <code>\e25590c\</code> to <code>e25590c</code>) to avoid 
+OpenModelica syntax errors. This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1484\">#1484</a>.
+</li>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
 Disabled CheckVH for the two floors in the stairway (cei3 and StairWay.intFlo) that have thinner construction types then the general floor thicknesses.

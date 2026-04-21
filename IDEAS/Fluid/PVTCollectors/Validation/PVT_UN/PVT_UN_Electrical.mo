@@ -109,6 +109,12 @@ even under challenging real-world conditions.
 revisions="<html>
 <ul>
 <li>
+April 21, 2026, by Lone Meertens:<br/>
+Connected <code>ReaderTMY3</code> explicitly after removing unsupported <code>break</code> 
+statements (OpenModelica fix). 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
+<li>
 September 3, 2025, by Jelger Jansen:<br/>
 Introduce <code>week</code> parameter to change the weather dataset.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1462\">#1462</a>.

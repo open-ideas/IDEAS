@@ -84,6 +84,12 @@ for details on the validation examples and usage.
 "<html>
 <ul>
 <li>
+April 21, 2026, by Lone Meertens:<br/>
+Connected <code>ReaderTMY3</code> explicitly after removing unsupported <code>break</code> 
+statements (OpenModelica fix). 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
+<li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a>.
