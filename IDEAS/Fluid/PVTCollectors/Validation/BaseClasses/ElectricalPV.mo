@@ -155,15 +155,15 @@ equation
 <p>
 This model is an adapted PV-oriented electrical submodel based on the
 <code>PVOrientedDCPower</code> model from the MoPED library
-(Verleyen et&nbsp;al., 2022). It is included for <strong>verification only</strong>.
+(Verleyen et&nbsp;al., 2022). It is included for <b>verification purposes</b>.
 </p>
 <p>
-<strong>Purpose / verification note:</strong>
+<b>Purpose / verification note:</b>
 This submodel is used to demonstrate the bias introduced when applying
 PV-only cell‑temperature equations to PVT collectors. Because unglazed
 PVT collectors actively extract heat, their cell temperatures are typically
-lower than those predicted by PV-based formulations, which leads PV models
-to overpredict T<sub>cell</sub> and underpredict electrical output.
+lower than those predicted by PV-based formulations, which results in overpredicting 
+the PV cell temperature and underpedicting the electrical ouput of the PVT collector.
 </p>
 <h4>References</h4>
 <ul>

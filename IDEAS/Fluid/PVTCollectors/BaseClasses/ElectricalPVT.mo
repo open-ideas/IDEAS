@@ -206,9 +206,6 @@ revisions="<html>
 March 11, 2026, by Lone Meertens:<br/>
 Revised the internal thermal–electrical coupling by introducing a new
 formulation for the heat-transfer coefficient between the fluid and the PV cells.
-The approach was updated to assume that the electrical power output is independent
-of ambient temperature and therefore does not contribute to the linear thermal
-loss slope. Details of the derivation can be found in Meertens et al., 2026.
 This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1473\">#1473</a>.
 </li>
 <li>
@@ -218,5 +215,4 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1436\">#1436</a
 </li>
 </ul>
 </html>"));
-
 end ElectricalPVT;
