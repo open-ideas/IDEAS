@@ -215,7 +215,7 @@ wind speed, etc.) are taken from <code>meaDat</code>, so the reader does not
 affect the model results. 
 </p>
 <p>
-This model is designed for (unglazed) PVT collectors and discretizes the flow 
+This model is designed for PVT collectors and discretizes the flow 
 path into <code>nSeg</code> segments to capture temperature gradients. It is 
 compatible with dynamic simulations in which irradiance, ambient and fluid temperatures,
 and wind speed vary over time. Because direct measurements of long-wave sky 
