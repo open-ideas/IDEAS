@@ -8,17 +8,6 @@ This subpackage contains the thermal validation models for the
 <a href=\"modelica://IDEAS.Fluid.PVTCollectors.Validation.PVT_UI\">PVT_UI</a>
 collector. 
 </p>
-<h4>References</h4>
-<ul>
-<li>
-Meertens, L.; Jansen, J.; Helsen, L. (2026).
-<i>Development and Experimental Validation of an Open-Source 
-Photovoltaic‑Thermal Collector Modelica Model that Only Needs
-Datasheet Parameters</i>. Submitted to 
-Mathematical and Computer Modelling of Dynamical Systems,
-Special Issue on Modelica, FMI, and Open Standards.
-</li>
-</ul>
 </html>",
 revisions="<html>
 <ul>
