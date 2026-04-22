@@ -4,12 +4,11 @@ model PVT_UI_Thermal_DayType1
   extends Modelica.Icons.Example;
 
   replaceable package Medium = IDEAS.Media.Water "Medium model";
-  replaceable record PVTData =
-    IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation
-    constrainedby IDEAS.Fluid.PVTCollectors.Data.Generic "Collector parameter record";
-  replaceable model PVTCol =
-    IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation
-    constrainedby IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation;
+  replaceable parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPVTCol "Collector parameter record"
+  annotation (Placement(transformation(extent={{72,-6},{92,14}})));
+  replaceable parameter IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.BaseClasses.UI_Validation datPVTColVal "Collector parameter record"
+  annotation (Placement(transformation(extent={{72,-32},{92,-12}})));
+
   parameter String pvtTyp = "Typ1" "Type identifier for selecting the UI measurement dataset";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09  "Electrical system loss factor of the PV module";
@@ -24,10 +23,6 @@ model PVT_UI_Thermal_DayType1
   parameter Integer idxTAmb = 12 "Column index for ambient temperature";
   parameter Integer idxMeaPel = 21 "Column index for measured electrical power";
   parameter String meaFile = "modelica://IDEAS/Resources/Data/Fluid/PVTCollectors/Validation/PVT_UI/PVT_UI_" + pvtTyp + "_measurements.txt" "Full path to measurement file";
-  parameter PVTData datPVTCol
-    annotation (Placement(transformation(extent={{72,-6},{92,14}})));
-  parameter PVTData datPVTColVal
-    annotation (Placement(transformation(extent={{72,-32},{92,-12}})));
 
   inner Modelica.Blocks.Sources.CombiTimeTable meaDat(
     tableOnFile=true,
@@ -35,7 +30,7 @@ model PVT_UI_Thermal_DayType1
     fileName=Modelica.Utilities.Files.loadResource(meaFile),
     columns=1:25) annotation (Placement(transformation(extent={{-92,20},{-72,40}})));
 
-  PVTCol pvtCol(
+  replaceable IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
@@ -50,7 +45,7 @@ model PVT_UI_Thermal_DayType1
     eleLosFac=eleLosFac)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
-  PVTCol pvtColVal(
+  replaceable IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtColVal(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,

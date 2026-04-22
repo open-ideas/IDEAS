@@ -5,16 +5,36 @@ model PVT_UN_Thermal
     redeclare package Medium =
       IDEAS.Media.Antifreeze.PropyleneGlycolWater(
         property_T=293.15, X_a=0.43),
-    redeclare record PVTData =
-      IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation,
-    redeclare model PVTCol =
-      IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation,
-    datPVTCol = PVTData(),
-    datPVTColVal = PVTData(),
-    T_start = 17.086651 + 273.15,
-    eleLosFac = 0.07,
-    til = 0.34906585039887,
-    azi = 0,
+    redeclare parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol,
+    redeclare parameter IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.BaseClasses.UN_Validation datPVTColVal,
+    redeclare IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
+      redeclare package Medium =
+        IDEAS.Media.Antifreeze.PropyleneGlycolWater(property_T=293.15, X_a=0.43),
+      energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+      massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+      T_start=17.086651 + 273.15,
+      show_T=true,
+      azi=0,
+      til=0.34906585039887,
+      rho=0.2,
+      nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
+      nPanels=1,
+      per=datPVTCol,
+      eleLosFac=0.07),
+    redeclare IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtColVal(
+      redeclare package Medium =
+        IDEAS.Media.Antifreeze.PropyleneGlycolWater(property_T=293.15, X_a=0.43),
+      energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+      massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+      T_start=17.086651 + 273.15,
+      show_T=true,
+      azi=0,
+      til=0.34906585039887,
+      rho=0.2,
+      nColType=IDEAS.Fluid.SolarCollectors.Types.NumberSelection.Number,
+      nPanels=1,
+      per=datPVTCol,
+      eleLosFac=0.07),
     idxTFlu = 2,
     idxMFlow = 3,
     idxGtil = 4,

@@ -6,7 +6,6 @@ model PVT_UI_Electrical_DayType1
   replaceable package Medium = IDEAS.Media.Water "Medium model";
   replaceable parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation datPVTCol "Collector parameter record"
   annotation (Placement(transformation(extent={{74,-26},{94,-6}})));
-
   parameter String pvtTyp = "Typ1" "Type identifier for selecting the UI measurement dataset";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09  "Electrical system loss factor of the PV module";
