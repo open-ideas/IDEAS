@@ -52,7 +52,7 @@ both thermal and electrical outputs under a range of operating conditions.
 While electrical outputs are accurate and consistent across all day types, 
 limitations in thermal output are observed under high wind speeds and rapid irradiance 
 changes, primarily due to datasheet parameter constraints. This is particularly 
-evident in Day Type 4, where a large temperature difference between the fluid 
+observed in Day Type 4, where a large temperature difference between the fluid 
 and ambient air amplifies these limitations. The wind speed over the collector 
 plane during most of the test periods is generated using an artificial blower, 
 producing wind speeds around <i>3.5&nbsp;m/s</i>.  This lies near the upper 
