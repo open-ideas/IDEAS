@@ -1,4 +1,4 @@
-﻿within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
+within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
 model PVT_UN_Thermal
   "Thermal Behavior of Unglazed Rear-Non-Insulated PVT Collector"
   extends Modelica.Icons.Example;
@@ -61,6 +61,11 @@ model PVT_UN_Thermal
     annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
   parameter Data.Uncovered.UN_Validation datPvtCol
     annotation (Placement(transformation(extent={{66,54},{86,74}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-46,36},{-26,56}})));
 equation
   connect(bou.T_in,TFluKel. Kelvin)
     annotation (Line(points={{-60,4},{-76.5,4}}, color={0,0,127}));
@@ -72,6 +77,10 @@ equation
     annotation (Line(points={{-60,8},{-60,34},{-71,34}}, color={0,0,127}));
   connect(meaDat.y[2],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,34},
           {-60,16},{-92,16},{-92,4},{-88,4}}, color={0,0,127}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-26,46},{-14,46},{-14,8},{-8,8}},
+      color={255,204,51},
+      thickness=0.5));
   annotation ( Documentation(info =   "<html>
 <p>
 This model validates the thermal performance of the 
@@ -109,6 +118,12 @@ This filtered metric better reflects the model's accuracy under realistic operat
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 21, 2026, by Lone Meertens:<br/>
+Connected <code>ReaderTMY3</code> explicitly after removing unsupported <code>break</code> 
+statements (OpenModelica fix). 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
 <li>
 September 3, 2025, by Jelger Jansen:<br/>
 Introduce <code>week</code> parameter to change the weather dataset.

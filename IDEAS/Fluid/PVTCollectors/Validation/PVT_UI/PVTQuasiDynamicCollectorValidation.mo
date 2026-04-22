@@ -3,10 +3,7 @@ model PVTQuasiDynamicCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
-    break weaBus,
-    break HDifTilIso,
-    break HDirTil);
+      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
       // ===== Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.09
@@ -241,6 +238,11 @@ Meertens, L., Jansen, J., Helsen, L. (2025). <i>Development and Experimental Val
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 21, 2026, by Lone Meertens:<br/>
+Removed unsupported <code>break</code> statements to resolve OpenModelica parsing 
+errors. This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model. 

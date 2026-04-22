@@ -530,6 +530,11 @@ This model only contains the building structure.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>April 21, 2026, by Lone Meertens:<br/>
+Fixed invalid escape sequences in Documentation annotation by correcting commit 
+link formatting (changed <code>\e25590c\</code> to <code>e25590c</code>) to avoid 
+OpenModelica syntax errors. This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1484\">#1484</a>.
+</li>
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
 Disabled CheckVH for the two floors in the stairway (cei3 and StairWay.intFlo) that have thinner construction types then the general floor thicknesses.
@@ -542,7 +547,7 @@ This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1177\">#1177</a
 <li>
 August 26, 2022, by Klaas De Jonge:<br/>
 Assigned correct vertical heights for sloped surfaces in the roof.
-commit <a href=\\\"https://github.com/open-ideas/IDEAS/commit/e25590cf60a1ef31c4d15274f30aa798c6c6479e\">\e25590c\</a>.
+commit <a href=\"https://github.com/open-ideas/IDEAS/commit/e25590cf60a1ef31c4d15274f30aa798c6c6479e\">e25590c</a>.
 </li>
 <li>
 August 2, 2022, by Filip Jorissen:<br/>

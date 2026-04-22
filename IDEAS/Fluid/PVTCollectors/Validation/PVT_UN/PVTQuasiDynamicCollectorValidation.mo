@@ -1,19 +1,16 @@
-within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
+﻿within IDEAS.Fluid.PVTCollectors.Validation.PVT_UN;
 model PVTQuasiDynamicCollectorValidation
   "Validation model of a photovoltaic–thermal (PVT) collector using the ISO 9806:2013 quasi-dynamic thermal method with integrated electrical coupling"
 
   extends IDEAS.Fluid.SolarCollectors.BaseClasses.PartialSolarCollector(
-      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per,
-    break weaBus,
-    break HDifTilIso,
-    break HDirTil);
+      redeclare IDEAS.Fluid.PVTCollectors.Data.GenericQuasiDynamic per);
 
   // =====  Parameters =====
   parameter Modelica.Units.SI.Efficiency   eleLosFac(min=0, max=1) = 0.07
     "Loss factor of the PV panel(s)" annotation(Dialog(group="Electrical parameters"));
   parameter IDEAS.Fluid.PVTCollectors.Types.CollectorType collectorType = per.colTyp
     "Type of collector used to select a proper default value for the effective transmittance-absorptance product (tauAlpEff)";
-  parameter Real tauAlpEff(min=0, max=1) =
+  parameter Real tauAlpEff(min=0, max=1)=
     if collectorType ==IDEAS.Fluid.PVTCollectors.Types.CollectorType.Uncovered  then 0.901 else 0.84
     "Effective transmittance–absorptance product";
 
@@ -128,7 +125,7 @@ equation
   connect(TFluKel.Celsius, meaDat.y[5]) annotation (Line(points={{22,82},{54,82},
           {54,80},{57,80}}, color={0,0,127}));
   connect(qThSegExp.y,eleGen.Qth)  annotation (Line(
-      points={{-40,-70},{-22,-70}},
+      points={{-39,-70},{-22,-70}},
       color={0,0,127}));
   annotation (
   defaultComponentName="pvtCol",
@@ -193,6 +190,11 @@ submitted to the 16th International Modelica & FMI Conference, Lucerne, Switzerl
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 21, 2026, by Lone Meertens:<br/>
+Removed unsupported <code>break</code> statements to resolve OpenModelica parsing 
+errors. This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.

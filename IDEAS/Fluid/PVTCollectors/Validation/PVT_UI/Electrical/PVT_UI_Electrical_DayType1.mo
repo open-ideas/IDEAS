@@ -51,6 +51,11 @@ model PVT_UI_Electrical_DayType1
     "[W/m2K]" annotation (Placement(transformation(extent={{15,-84},{41,-68}})));
   Modelica.Blocks.Sources.RealExpression simPel(y=PvtCol.Pel) "[W]"
     annotation (Placement(transformation(extent={{-41,-82},{-15,-66}})));
+  BoundaryConditions.WeatherData.ReaderTMY3       weaDat(filNam=
+        Modelica.Utilities.Files.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos"))
+    "Weather data input file"
+    annotation (Placement(transformation(extent={{-46,30},{-26,50}})));
 equation
 
   connect(meaDat.y[13],TFluKel. Celsius) annotation (Line(points={{-71,34},{-60,
@@ -62,6 +67,10 @@ equation
     annotation (Line(points={{-38,0},{-10,0}}, color={0,127,255}));
   connect(PvtCol.port_b, sou.ports[1])
     annotation (Line(points={{10,0},{42,0}}, color={0,127,255}));
+  connect(weaDat.weaBus, PvtCol.weaBus) annotation (Line(
+      points={{-26,40},{-16,40},{-16,8},{-10,8}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (
     Documentation(info="<html>
 <p>
@@ -74,6 +83,12 @@ for details on the validation examples and usage.
 </html>", revisions=
 "<html>
 <ul>
+<li>
+April 21, 2026, by Lone Meertens:<br/>
+Connected <code>ReaderTMY3</code> explicitly after removing unsupported <code>break</code> 
+statements (OpenModelica fix). 
+This is for <a href=\"https://github.com/open-ideas/IDEAS/issues/1484\">#1484</a>.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.
