@@ -7,9 +7,7 @@ model PVT_UI_Electrical_DayType1
   replaceable record PVTData =
     IDEAS.Fluid.PVTCollectors.Data.Uncovered.UI_Validation
     constrainedby IDEAS.Fluid.PVTCollectors.Data.Generic "Collector parameter record";
-  replaceable model PVTCol =
-    IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation
-    constrainedby IDEAS.Fluid.PVTCollectors.Validation.BaseClasses.PartialPVTCollectorValidation;
+
   parameter String pvtTyp = "Typ1" "Type identifier for selecting the UI measurement dataset";
   parameter Modelica.Units.SI.Temperature T_start = 30.65195319 + 273.15 "Initial temperature (from measurement data)";
   parameter Real eleLosFac = 0.09  "Electrical system loss factor of the PV module";
@@ -32,7 +30,7 @@ model PVT_UI_Electrical_DayType1
     fileName=Modelica.Utilities.Files.loadResource(meaFile),
     columns=1:25) annotation (Placement(transformation(extent={{-92,4},{-72,24}})));
 
-  PVTCol pvtCol(
+  replaceable IDEAS.Fluid.PVTCollectors.Validation.PVT_UI.PVTCollectorValidation pvtCol(
     redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
