@@ -61,7 +61,7 @@ equation
     TCel[i] = Tflu[i] + qth[i] / UAbsFluid;
     TDif[i] = TCel[i] - TpvtRef;
     Pel_int[i] = (A_c/nSeg) * (P_nominal/A) * (HGloTil/HGloHorNom) *
-                            (1 + beta * TDif[i]) * (1 - eleLosFac);
+    (1 + beta * TDif[i]) * (1 - eleLosFac);
   end for;
 
   Pel = sum(Pel_int);
