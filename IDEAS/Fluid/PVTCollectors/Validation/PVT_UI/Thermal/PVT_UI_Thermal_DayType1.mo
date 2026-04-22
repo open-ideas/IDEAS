@@ -86,13 +86,13 @@ model PVT_UI_Thermal_DayType1
     nPorts=1) "Inlet for water flow, at a prescribed flow rate and temperature"
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
 
-  Sources.Boundary_pT sou1(
+  IDEAS.Fluid.Sources.Boundary_pT sou1(
     redeclare package Medium = Medium,
     use_p_in=false,
     p = 101325,
     nPorts=1) "Outlet for water flow"
     annotation (Placement(transformation(extent={{62,-36},{42,-16}})));
-  Sources.MassFlowSource_T bou1(
+  IDEAS.Fluid.Sources.MassFlowSource_T bou1(
     redeclare package Medium = Medium,
     use_m_flow_in=true,
     m_flow=0.03,
