@@ -2,7 +2,8 @@ within IDEAS.Fluid.HeatPumps.Interfaces;
 partial model PartialDynamicHeaterWithLosses
   "Partial heater model incl dynamics and environmental losses"
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    final computeFlowResistance=true, dp_nominal = 0);
+    final computeFlowResistance=true,
+    dp_nominal = 0);
 
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     T_start=293.15,
@@ -53,11 +54,6 @@ partial model PartialDynamicHeaterWithLosses
       /tauHeatLoss
     "Thermal conductance, computed based on time constant and thermal mass";
 
-protected
-  final parameter Modelica.Units.SI.Density rho_default=Medium.density_pTX(
-      p=Medium.p_default,
-      T=Medium.T_default,
-      X=Medium.X_default) "Default medium density";
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -85,32 +81,48 @@ protected
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={10,-10})));
+        origin={10,0})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal,
     tau=0,
     allowFlowReversal=allowFlowReversal)
                                      "Inlet temperature"
-    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
+    annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
 
   IDEAS.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium = Medium,
       allowFlowReversal=allowFlowReversal)
     "Mass flow rate sensor"
-    annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
+    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+        rotation=270,
+        origin={20,-30})));
+
+  IDEAS.Fluid.FixedResistances.PressureDrop preDro(
+    redeclare final package Medium = Medium,
+    final m_flow_nominal=m_flow_nominal,
+    final deltaM=deltaM,
+    final allowFlowReversal=allowFlowReversal,
+    final show_T=false,
+    final from_dp=from_dp,
+    final linearized=linearizeFlowResistance,
+    final homotopyInitialization=homotopyInitialization,
+    final dp_nominal=dp_nominal) "Flow resistance"
+    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
+
+protected
+  final parameter Modelica.Units.SI.Density rho_default=Medium.density_pTX(
+      p=Medium.p_default,
+      T=Medium.T_default,
+      X=Medium.X_default) "Default medium density";
 
 equation
   assert(port_a.m_flow>-m_flow_nominal/1000, "Flow reversal in " + getInstanceName() + ". This is not supported.");
 
-  connect(port_a, Tin.port_a) annotation (Line(
-      points={{100,-60},{80,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(vol.heatPort, thermalLosses.port_a) annotation (Line(
-      points={{10,-20},{1.77636e-15,-20},{1.77636e-15,-60}},
+      points={{10,-10},{0,-10},{0,-60}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(Tin.port_b, senMasFlo.port_a) annotation (Line(
-      points={{60,-60},{50,-60}},
+      points={{30,-60},{20,-60},{20,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(thermalLosses.port_b, heatPort) annotation (Line(
@@ -118,10 +130,11 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(vol.ports[1], senMasFlo.port_b)
-    annotation (Line(points={{20,-12},{20,-60},{30,-60}},
-                                                 color={0,127,255}));
+    annotation (Line(points={{20,-1},{20,-20}},  color={0,127,255}));
   connect(vol.ports[2], port_b)
-    annotation (Line(points={{20,-8},{20,60},{100,60}}, color={0,127,255}));
+    annotation (Line(points={{20,1},{20,60},{100,60}},  color={0,127,255}));
+  connect(preDro.port_a, port_a) annotation (Line(points={{80,-60},{100,-60}}, color={0,127,255}));
+  connect(preDro.port_b, Tin.port_a) annotation (Line(points={{60,-60},{50,-60}}, color={0,127,255}));
                              annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false)),
