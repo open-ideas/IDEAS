@@ -5,8 +5,7 @@ model PVT_UN_Electrical
     redeclare package Medium =
       IDEAS.Media.Antifreeze.PropyleneGlycolWater(
         property_T=293.15, X_a=0.43),
-    redeclare record PVTData =
-      IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation,
+    redeclare parameter IDEAS.Fluid.PVTCollectors.Data.Uncovered.UN_Validation datPVTCol,
     redeclare IDEAS.Fluid.PVTCollectors.Validation.PVT_UN.PVTCollectorValidation pvtCol(
       redeclare package Medium =
         IDEAS.Media.Antifreeze.PropyleneGlycolWater(property_T=293.15, X_a=0.43),
@@ -21,7 +20,6 @@ model PVT_UN_Electrical
       nPanels=1,
       per=datPVTCol,
       eleLosFac=0.07),
-    datPVTCol = PVTData(),
     idxTFlu = 2,
     idxMFlow = 3,
     idxGtil = 4,
