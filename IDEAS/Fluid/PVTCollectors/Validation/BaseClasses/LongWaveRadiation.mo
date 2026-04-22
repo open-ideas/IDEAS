@@ -4,7 +4,6 @@ model LongWaveRadiation
 
   // Parameters
   parameter Modelica.Units.SI.Angle til "Surface tilt (0 for horizontally mounted collector)";
-  constant Real pi = Modelica.Constants.pi "Pi constant";
   constant Modelica.Units.SI.DimensionlessRatio epsGro = 0.95 "ground emissivity [-]";
   // Constants for dew point calculation using Buck's equation [Buck, 1981]
   constant Real aBuck = 243.5 "Buck constant for dew point [°C]";
