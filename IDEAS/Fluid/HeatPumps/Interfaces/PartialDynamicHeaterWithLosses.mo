@@ -71,33 +71,36 @@ partial model PartialDynamicHeaterWithLosses
         origin={0,-70})));
 
   IDEAS.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
-    energyDynamics=energyDynamics,
-    massDynamics=massDynamics,
-    p_start=p_start,
-    T_start=T_start,
-    X_start=X_start,
-    C_start=C_start,
-    C_nominal=C_nominal,
-    nPorts=2,
-    mSenFac=mSenFac,
-    V=mWater/rho_default,
-    allowFlowReversal=allowFlowReversal)
-              "Mixing volume for heat injection" annotation (Placement(
+    redeclare final package Medium = Medium,
+    final nPorts=2,
+    final V=mWater/rho_default,
+    final m_flow_nominal=m_flow_nominal,
+    final energyDynamics=energyDynamics,
+    final massDynamics=massDynamics,
+    final p_start=p_start,
+    final T_start=T_start,
+    final X_start=X_start,
+    final C_start=C_start,
+    final C_nominal=C_nominal,
+    final mSenFac=mSenFac,
+    final allowFlowReversal=allowFlowReversal)
+    "Mixing volume for heat injection"
+    annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={10,0})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal,
-    tau=0,
-    allowFlowReversal=allowFlowReversal)
-                                     "Inlet temperature"
-    annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
 
-  IDEAS.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium = Medium,
-      allowFlowReversal=allowFlowReversal)
+  IDEAS.Fluid.Sensors.TemperatureTwoPort Tin(
+    redeclare final package Medium = Medium,
+    final m_flow_nominal=m_flow_nominal,
+    tau=0,
+    final allowFlowReversal=allowFlowReversal)
+    "Inlet temperature"
+    annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
+  IDEAS.Fluid.Sensors.MassFlowRate senMasFlo(
+    redeclare final package Medium = Medium,
+    final allowFlowReversal=allowFlowReversal)
     "Mass flow rate sensor"
     annotation (Placement(transformation(extent={{10,10},{-10,-10}},
         rotation=270,
