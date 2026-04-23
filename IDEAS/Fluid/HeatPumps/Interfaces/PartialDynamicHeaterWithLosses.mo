@@ -35,17 +35,30 @@ partial model PartialDynamicHeaterWithLosses
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-60,-100})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-    "heatPort for thermal losses to environment"
-    annotation (Placement(transformation(extent={{-10,-110},{10,-90}}),
-        iconTransformation(extent={{-10,-110},{10,-90}})));
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
-    redeclare package Medium = Medium) "Fluid inlet"
+    redeclare final package Medium = Medium,
+    m_flow(min=if allowFlowReversal then -Modelica.Constants.inf else 0),
+    p(start=Medium.p_default),
+    h_outflow(
+      start=Medium.h_default,
+      nominal=Medium.h_default),
+    Xi_outflow(each nominal=0.01))
+    "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(
-    redeclare package Medium = Medium) "Fluid outlet"
+    redeclare final package Medium = Medium,
+    m_flow(max=if allowFlowReversal then +Modelica.Constants.inf else 0),
+    h_outflow(
+      start = Medium.h_default,
+      nominal = Medium.h_default),
+    Xi_outflow(each nominal=0.01))
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
+    "Heat port for thermal losses to environment"
+    annotation (Placement(transformation(extent={{-10,-110},{10,-90}}),
+      iconTransformation(extent={{-10,-110},{10,-90}})));
 
   final parameter Modelica.Units.SI.ThermalConductance UALoss=mWater*vol.mSenFac
       /tauHeatLoss
