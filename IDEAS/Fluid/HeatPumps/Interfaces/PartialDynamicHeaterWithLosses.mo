@@ -2,8 +2,8 @@ within IDEAS.Fluid.HeatPumps.Interfaces;
 partial model PartialDynamicHeaterWithLosses
   "Partial heater model incl dynamics and environmental losses"
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    final computeFlowResistance=true,
-    dp_nominal = 0);
+    dp_nominal = 0,
+    final computeFlowResistance = (abs(dp_nominal) > Modelica.Constants.eps));
 
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     T_start=293.15,
