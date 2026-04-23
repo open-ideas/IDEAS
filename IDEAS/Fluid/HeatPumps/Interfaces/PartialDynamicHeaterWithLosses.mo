@@ -6,8 +6,8 @@ partial model PartialDynamicHeaterWithLosses
     final computeFlowResistance = (abs(dp_nominal) > Modelica.Constants.eps));
 
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    T_start=293.15,
-    redeclare replaceable package Medium = IDEAS.Media.Water);
+    final mSenFac = 1 + cDry/(mWater*cp_default),
+    final massDynamics = energyDynamics);
 
   parameter Modelica.Units.SI.Power QNom "Nominal power";
   parameter Modelica.Units.SI.Time tauHeatLoss=7200
@@ -81,7 +81,7 @@ partial model PartialDynamicHeaterWithLosses
     C_start=C_start,
     C_nominal=C_nominal,
     nPorts=2,
-    mSenFac=mSenFac*(1 + cDry/cp_default/mWater),
+    mSenFac=mSenFac,
     V=mWater/rho_default,
     allowFlowReversal=allowFlowReversal)
               "Mixing volume for heat injection" annotation (Placement(
