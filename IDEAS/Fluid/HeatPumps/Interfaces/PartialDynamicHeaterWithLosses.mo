@@ -81,10 +81,7 @@ partial model PartialDynamicHeaterWithLosses
     C_start=C_start,
     C_nominal=C_nominal,
     nPorts=2,
-    mSenFac=mSenFac*(1 + cDry/Medium.specificHeatCapacityCp(Medium.setState_pTX(
-        Medium.p_default,
-        Medium.T_default,
-        Medium.X_default))/mWater),
+    mSenFac=mSenFac*(1 + cDry/cp_default/mWater),
     V=mWater/rho_default,
     allowFlowReversal=allowFlowReversal)
               "Mixing volume for heat injection" annotation (Placement(
@@ -119,10 +116,16 @@ partial model PartialDynamicHeaterWithLosses
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
 
 protected
-  final parameter Modelica.Units.SI.Density rho_default=Medium.density_pTX(
-      p=Medium.p_default,
-      T=Medium.T_default,
-      X=Medium.X_default) "Default medium density";
+  parameter Medium.ThermodynamicState sta_default = Medium.setState_pTX(
+    p=Medium.p_default,
+    T=Medium.T_default,
+    X=Medium.X_default[1:Medium.nXi])
+    "Medium state at default properties";
+  parameter Modelica.Units.SI.Density rho_default = Medium.density(sta_default)
+    "Density at default properties";
+  parameter Modelica.Units.SI.SpecificHeatCapacity cp_default =
+    Medium.specificHeatCapacityCp(sta_default)
+    "Specific heat capacity at default properties";
 
 equation
   assert(port_a.m_flow>-m_flow_nominal/1000, "Flow reversal in " + getInstanceName() + ". This is not supported.");
