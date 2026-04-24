@@ -46,8 +46,6 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
-  Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heatFlowSensor
-    annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
 
@@ -67,22 +65,14 @@ equation
       points={{40,-49},{40,-44},{-55,-44},{-55,-10}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatSource.heatPort, heatFlowSensor.port_a) annotation (Line(
-      points={{-40,0},{-30,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatFlowSensor.port_b, vol.heatPort) annotation (Line(
-      points={{-10,0},{-6,0},{-6,-10},{10,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
       points={{-79,30},{-70,30},{-70,3},{-60,3}},
       color={255,0,255},
       smooth=Smooth.None));
+  connect(heatSource.heatPort, vol.heatPort) annotation (Line(points={{-40,0},{-20,0},{-20,-10},{10,-10}}, color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}),
-            graphics),
+            100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics={
         Polygon(
