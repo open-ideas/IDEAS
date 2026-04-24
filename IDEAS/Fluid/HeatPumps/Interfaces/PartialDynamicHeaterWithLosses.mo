@@ -4,10 +4,12 @@ partial model PartialDynamicHeaterWithLosses
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
     dp_nominal = 0,
     final computeFlowResistance = (abs(dp_nominal) > Modelica.Constants.eps));
-
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     final mSenFac = 1 + cDry/(mWater*cp_default),
     final massDynamics = energyDynamics);
+
+  constant Boolean homotopyInitialization=true "= true, use homotopy method"
+    annotation(HideResult=true);
 
   parameter Modelica.Units.SI.Power QNom "Nominal power";
   parameter Modelica.Units.SI.Time tauHeatLoss=7200
@@ -17,8 +19,6 @@ partial model PartialDynamicHeaterWithLosses
     "Capacity of dry material lumped to condensor";
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
 
-  constant Boolean homotopyInitialization=true "= true, use homotopy method"
-    annotation (Dialog(tab="Flow resistance"));
   parameter Boolean allowFlowReversal=true
     "= false to simplify equations, assuming, but not enforcing, no flow reversal. Used only if model has two ports."
     annotation (Dialog(tab="Flow resistance"));
@@ -129,6 +129,11 @@ protected
   parameter Modelica.Units.SI.SpecificHeatCapacity cp_default =
     Medium.specificHeatCapacityCp(sta_default)
     "Specific heat capacity at default properties";
+
+initial equation
+  assert(homotopyInitialization, "In " + getInstanceName() +
+    ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.",
+    level = AssertionLevel.warning);
 
 equation
   assert(port_a.m_flow>-m_flow_nominal/1000, "Flow reversal in " + getInstanceName() + ". This is not supported.");
