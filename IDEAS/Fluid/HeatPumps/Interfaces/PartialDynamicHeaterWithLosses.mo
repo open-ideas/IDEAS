@@ -71,11 +71,20 @@ partial model PartialDynamicHeaterWithLosses
         origin={-60,120})));
   Modelica.Blocks.Interfaces.RealOutput PEl
     "Electrical power consumption"
-    annotation (Placement(transformation(extent={{-94,46},{-114,66}}),
+    annotation (Placement(transformation(extent={{-100,40},{-120,60}}),
         iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-60,-100})));
+  Modelica.Blocks.Interfaces.RealOutput QCon_flow
+    "Actual condensor heat flow rate"
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={-110,70}), iconTransformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+    origin={60,-100})));
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=UALoss)
     annotation (Placement(transformation(

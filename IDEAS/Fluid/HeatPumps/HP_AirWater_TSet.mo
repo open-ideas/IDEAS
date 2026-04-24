@@ -51,6 +51,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
 
 equation
   PEl = heatSource.PEl;
+  QCon_flow = if noEvent(PEl > 0) then vol.heatPort.Q_flow else 0;
   COP =if noEvent(PEl > 0) then vol.heatPort.Q_flow/PEl else 0;
 
   connect(TSet, heatSource.TCondensor_set) annotation (Line(
