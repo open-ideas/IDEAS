@@ -21,7 +21,7 @@ model HeatPump_AirWater
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
   IDEAS.Fluid.HeatPumps.HP_AirWater_TSet heaPum(
     redeclare package Medium = Medium,
-    tauHeatLoss=3600/Medium.cp_const,
+    tauHeatLoss=3600,
     CDry=10000,
     mWater=4,
     QNom=12000,

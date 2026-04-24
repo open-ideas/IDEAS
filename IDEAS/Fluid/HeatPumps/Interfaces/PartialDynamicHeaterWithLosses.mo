@@ -25,7 +25,7 @@ partial model PartialDynamicHeaterWithLosses
     "Heat capacity of the dry material lumped to condensor"
     annotation (Dialog(group="Thermal capacity"));
 
-  parameter Modelica.Units.SI.Time tauHeatLoss=7200/cp_default
+  parameter Modelica.Units.SI.Time tauHeatLoss=7200
     "Time constant of environmental heat losses"
     annotation (Dialog(group="Environmental heat losses"));
   parameter Modelica.Units.SI.ThermalConductance UALoss=mWater*mSenFac*cp_default/tauHeatLoss
