@@ -15,7 +15,7 @@ model HeatPump_AirWater
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
   HP_AirWater_TSet heater(
     tauHeatLoss=3600,
-    cDry=10000,
+    CDry=10000,
     mWater=4,
     QNom=12000,
     redeclare package Medium = Medium,

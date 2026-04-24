@@ -5,7 +5,7 @@ partial model PartialDynamicHeaterWithLosses
     dp_nominal = 0,
     final computeFlowResistance = (abs(dp_nominal) > Modelica.Constants.eps));
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    final mSenFac = 1 + cDry/(mWater*cp_default),
+    final mSenFac = 1 + CDry/(mWater*cp_default),
     final massDynamics = energyDynamics);
 
   constant Boolean homotopyInitialization=true "= true, use homotopy method"
@@ -21,7 +21,7 @@ partial model PartialDynamicHeaterWithLosses
   parameter Modelica.Units.SI.Mass mWater=5
     "Mass of water in the condensor"
     annotation (Dialog(tab="Thermal capacity"));
-  parameter Modelica.Units.SI.HeatCapacity cDry=4800
+  parameter Modelica.Units.SI.HeatCapacity CDry=4800
     "Heat capacity of the dry material lumped to condensor"
     annotation (Dialog(tab="Thermal capacity"));
 
