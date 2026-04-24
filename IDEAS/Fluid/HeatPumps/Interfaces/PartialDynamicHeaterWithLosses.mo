@@ -24,7 +24,7 @@ partial model PartialDynamicHeaterWithLosses
     annotation (Dialog(tab="Flow resistance"));
 
   Modelica.Blocks.Interfaces.RealInput TSet "Temperature setpoint"
-                           annotation (Placement(
+    annotation (Placement(
         transformation(extent={{-126,-20},{-86,20}}), iconTransformation(
         extent={{-20,-20},{20,20}},
         rotation=-90,
@@ -156,7 +156,7 @@ equation
     annotation (Line(points={{20,1},{20,60},{100,60}},  color={0,127,255}));
   connect(preDro.port_a, port_a) annotation (Line(points={{80,-60},{100,-60}}, color={0,127,255}));
   connect(preDro.port_b, Tin.port_a) annotation (Line(points={{60,-60},{50,-60}}, color={0,127,255}));
-                             annotation (
+ annotation (
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false)),
