@@ -36,19 +36,6 @@ partial model PartialDynamicHeaterWithLosses
     "= false to simplify equations, assuming, but not enforcing, no flow reversal. Used only if model has two ports."
     annotation (Dialog(tab="Flow resistance"));
 
-  Modelica.Blocks.Interfaces.RealInput TSet "Temperature setpoint"
-    annotation (Placement(
-        transformation(extent={{-126,-20},{-86,20}}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=-90,
-        origin={-60,120})));
-  Modelica.Blocks.Interfaces.RealOutput PEl "Electrical consumption"
-    annotation (Placement(transformation(extent={{-94,46},{-114,66}}),
-        iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-60,-100})));
-
   Modelica.Fluid.Interfaces.FluidPort_a port_a(
     redeclare final package Medium = Medium,
     m_flow(min=if allowFlowReversal then -Modelica.Constants.inf else 0),
@@ -73,8 +60,25 @@ partial model PartialDynamicHeaterWithLosses
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}}),
       iconTransformation(extent={{-10,-110},{10,-90}})));
 
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
-        UALoss) annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealInput TSet(
+    unit="K",
+    displayUnit="degC")
+    "Condensor temperature setpoint"
+    annotation (Placement(
+        transformation(extent={{-126,-20},{-86,20}}), iconTransformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={-60,120})));
+  Modelica.Blocks.Interfaces.RealOutput PEl
+    "Electrical power consumption"
+    annotation (Placement(transformation(extent={{-94,46},{-114,66}}),
+        iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-60,-100})));
+
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=UALoss)
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,-70})));
@@ -124,7 +128,8 @@ partial model PartialDynamicHeaterWithLosses
     final from_dp=from_dp,
     final linearized=linearizeFlowResistance,
     final homotopyInitialization=homotopyInitialization,
-    final dp_nominal=dp_nominal) "Flow resistance"
+    final dp_nominal=dp_nominal)
+    "Flow resistance"
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
 
 protected
