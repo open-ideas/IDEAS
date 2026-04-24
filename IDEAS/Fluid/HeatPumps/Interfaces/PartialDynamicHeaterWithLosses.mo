@@ -20,10 +20,10 @@ partial model PartialDynamicHeaterWithLosses
 
   parameter Modelica.Units.SI.Mass mWater=5
     "Mass of water in the condensor"
-    annotation (Dialog(tab="Thermal capacity", enable=not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)));
+    annotation (Dialog(tab="Thermal capacity"));
   parameter Modelica.Units.SI.HeatCapacity cDry=4800
     "Heat capacity of the dry material lumped to condensor"
-    annotation (Dialog(tab="Thermal capacity", enable=not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)));
+    annotation (Dialog(tab="Thermal capacity"));
 
   parameter Modelica.Units.SI.Time tauHeatLoss=7200/cp_default
     "Time constant of environmental heat losses"
