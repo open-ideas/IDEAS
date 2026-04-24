@@ -5,7 +5,13 @@ model HeatPump_AirWater
 
   package Medium = IDEAS.Media.Water;
 
-    IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
+  inner BoundaryConditions.SimInfoManager sim
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.2
+    "Nominal mass flow rate";
+
+  IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
     redeclare package Medium = Medium,
     tau=30,
     use_riseTime=false,
@@ -13,18 +19,16 @@ model HeatPump_AirWater
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
-  HP_AirWater_TSet heater(
+  IDEAS.Fluid.HeatPumps.HP_AirWater_TSet heater(
+    redeclare package Medium = Medium,
     tauHeatLoss=3600,
     CDry=10000,
     mWater=4,
     QNom=12000,
-    redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-74,14},{-56,34}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=
-        293.15)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=293.15)
     annotation (Placement(transformation(extent={{-94,-20},{-80,-6}})));
-
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
     annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
   Modelica.Blocks.Sources.Sine sine(
@@ -33,19 +37,15 @@ model HeatPump_AirWater
     amplitude=4,
     offset=273.15 + 30)
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
-  Sources.Boundary_pT bou(          redeclare package Medium = Medium,
+  Sources.Boundary_pT bou(
+    redeclare package Medium = Medium,
     p=200000,
     nPorts=1)
     annotation (Placement(transformation(extent={{40,-20},{20,0}})));
-  constant Modelica.Units.SI.MassFlowRate m_flow_nominal=0.2
-    "Nominal mass flow rate";
-  inner BoundaryConditions.SimInfoManager
-                       sim
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Blocks.Sources.Constant Tset(k=273.15 + 35) "Temperature set point"
     annotation (Placement(transformation(extent={{-22,44},{-42,64}})));
-equation
 
+equation
   connect(heater.heatPort, fixedTemperature.port) annotation (Line(
       points={{-65,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
       color={191,0,0},
@@ -60,10 +60,10 @@ equation
       smooth=Smooth.None));
   connect(Tset.y, heater.TSet) annotation (Line(points={{-43,54},{-70.4,54},{-70.4,
           36}}, color={0,0,127}));
-  connect(pump.port_a, heater.port_b) annotation (Line(points={{-14,-14},{12,
-          -14},{12,30},{-56,30}}, color={0,127,255}));
-  connect(bou.ports[1], pump.port_a) annotation (Line(points={{20,-10},{4,-10},
-          {4,-14},{-14,-14}}, color={0,127,255}));
+  connect(pump.port_a, heater.port_b) annotation (Line(points={{-14,-14},{10,-14},{10,30},{-56,30}},
+                                  color={0,127,255}));
+  connect(bou.ports[1], pump.port_a) annotation (Line(points={{20,-10},{10,-10},{10,-14},{-14,-14}},
+                              color={0,127,255}));
   connect(TReturn.port, pump.heatPort) annotation (Line(points={{-40,-50},{-24,
           -50},{-24,-20.8}}, color={191,0,0}));
   annotation (
