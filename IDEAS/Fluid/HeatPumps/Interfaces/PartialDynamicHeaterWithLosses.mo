@@ -11,13 +11,23 @@ partial model PartialDynamicHeaterWithLosses
   constant Boolean homotopyInitialization=true "= true, use homotopy method"
     annotation(HideResult=true);
 
-  parameter Modelica.Units.SI.Power QNom "Nominal power";
-  parameter Modelica.Units.SI.Time tauHeatLoss=7200
-    "Time constant of environmental heat losses";
-  parameter Modelica.Units.SI.Mass mWater=5 "Mass of water in the condensor";
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=QNom/cp_default/5
+    "Nominal mass flow rate through the condensor"
+    annotation (Dialog(group="Nominal condition"));
+  parameter Modelica.Units.SI.Power QNom
+    "Nominal thermal power of the heat pump"
+    annotation (Dialog(group="Nominal condition"));
+
+  parameter Modelica.Units.SI.Mass mWater=5
+    "Mass of water in the condensor"
+    annotation (Dialog(tab="Thermal capacity", enable=not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)));
   parameter Modelica.Units.SI.HeatCapacity cDry=4800
-    "Capacity of dry material lumped to condensor";
-  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal "Nominal mass flow rate";
+    "Heat capacity of the dry material lumped to condensor"
+    annotation (Dialog(tab="Thermal capacity", enable=not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)));
+
+  parameter Modelica.Units.SI.Time tauHeatLoss=7200
+    "Time constant of environmental heat losses"
+    annotation (Dialog(tab="Environmental heat losses"));
 
   parameter Boolean allowFlowReversal=true
     "= false to simplify equations, assuming, but not enforcing, no flow reversal. Used only if model has two ports."
