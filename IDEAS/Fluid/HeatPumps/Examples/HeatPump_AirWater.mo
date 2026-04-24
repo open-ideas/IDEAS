@@ -19,7 +19,7 @@ model HeatPump_AirWater
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
-  IDEAS.Fluid.HeatPumps.HP_AirWater_TSet heater(
+  IDEAS.Fluid.HeatPumps.HP_AirWater_TSet heaPum(
     redeclare package Medium = Medium,
     tauHeatLoss=3600/Medium.cp_const,
     CDry=10000,
@@ -46,7 +46,7 @@ model HeatPump_AirWater
     annotation (Placement(transformation(extent={{-22,44},{-42,64}})));
 
 equation
-  connect(heater.heatPort, fixedTemperature.port) annotation (Line(
+  connect(heaPum.heatPort, fixedTemperature.port) annotation (Line(
       points={{-65,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
       color={191,0,0},
       smooth=Smooth.None));
@@ -54,13 +54,13 @@ equation
       points={{-79,-50},{-62,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(pump.port_b, heater.port_a) annotation (Line(
+  connect(pump.port_b,heaPum. port_a) annotation (Line(
       points={{-34,-14},{-56,-14},{-56,18}},
       color={0,0,255},
       smooth=Smooth.None));
-  connect(Tset.y, heater.TSet) annotation (Line(points={{-43,54},{-70.4,54},{-70.4,
+  connect(Tset.y,heaPum. TSet) annotation (Line(points={{-43,54},{-70.4,54},{-70.4,
           36}}, color={0,0,127}));
-  connect(pump.port_a, heater.port_b) annotation (Line(points={{-14,-14},{10,-14},{10,30},{-56,30}},
+  connect(pump.port_a,heaPum. port_b) annotation (Line(points={{-14,-14},{10,-14},{10,30},{-56,30}},
                                   color={0,127,255}));
   connect(bou.ports[1], pump.port_a) annotation (Line(points={{20,-10},{10,-10},{10,-14},{-14,-14}},
                               color={0,127,255}));
@@ -72,8 +72,8 @@ equation
     experiment(StopTime=15000, Tolerance=1e-06),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
-            100}})),
-    Commands(file=
+      100}})),
+    __Dymola_Commands(file=
           "Resources/Scripts/Dymola/Fluid/HeatPumps/Examples/HeatPump_AirWater.mos"
         "Simulate and plot"),
     Documentation(info="<html>
