@@ -136,8 +136,6 @@ initial equation
     level = AssertionLevel.warning);
 
 equation
-  assert(port_a.m_flow>-m_flow_nominal/1000, "Flow reversal in " + getInstanceName() + ". This is not supported.");
-
   connect(vol.heatPort, thermalLosses.port_a) annotation (Line(
       points={{10,-10},{0,-10},{0,-60}},
       color={191,0,0},
