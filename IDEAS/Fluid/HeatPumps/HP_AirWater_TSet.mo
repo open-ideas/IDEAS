@@ -50,6 +50,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
     annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
+
 equation
   PEl = heatSource.PEl;
   COP =if noEvent(PEl > 0) then vol.heatPort.Q_flow/PEl else 0;
