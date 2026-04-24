@@ -25,8 +25,11 @@ partial model PartialDynamicHeaterWithLosses
     "Heat capacity of the dry material lumped to condensor"
     annotation (Dialog(tab="Thermal capacity", enable=not (energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState)));
 
-  parameter Modelica.Units.SI.Time tauHeatLoss=7200
+  parameter Modelica.Units.SI.Time tauHeatLoss=7200/cp_default
     "Time constant of environmental heat losses"
+    annotation (Dialog(tab="Environmental heat losses"));
+  parameter Modelica.Units.SI.ThermalConductance UALoss=mWater*mSenFac*cp_default/tauHeatLoss
+    "Thermal conductance, computed based on time constant and thermal mass"
     annotation (Dialog(tab="Environmental heat losses"));
 
   parameter Boolean allowFlowReversal=true
@@ -69,10 +72,6 @@ partial model PartialDynamicHeaterWithLosses
     "Heat port for thermal losses to environment"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}}),
       iconTransformation(extent={{-10,-110},{10,-90}})));
-
-  final parameter Modelica.Units.SI.ThermalConductance UALoss=mWater*vol.mSenFac
-      /tauHeatLoss
-    "Thermal conductance, computed based on time constant and thermal mass";
 
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalLosses(G=
         UALoss) annotation (Placement(transformation(
