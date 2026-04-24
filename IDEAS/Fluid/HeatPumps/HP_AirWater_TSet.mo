@@ -1,22 +1,34 @@
 within IDEAS.Fluid.HeatPumps;
 model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
-
-
   extends IDEAS.Fluid.HeatPumps.Interfaces.PartialDynamicHeaterWithLosses(
     final allowFlowReversal=false);
+
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
 
   parameter Modelica.Units.SI.Power QDesign=0
-    "Overrules QNom if different from 0. Design heat load, typically at -8 or -10 degC in Belgium.  ";
+    "Overrules QNom if different from 0. Design heat load, typically at -8°C in Belgium"
+    annotation (Dialog(group="Design load"));
+  final parameter Boolean useQDesign=abs(QDesign) > Modelica.Constants.small
+    "= true, QDesign is used to determine the heat pump's nominal thermal power";
   parameter Real fraLosDesNom=0.68
-    "Ratio of power at design conditions over power at 2/35degC";
-  parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
-  final parameter Modelica.Units.SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
-      fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
-  parameter Real modulation_min=20 "Minimal modulation percentage";
+    "Ratio of power at design conditions over power at 2/35°C. Only used if QDesign is bigger than 0."
+    annotation (Dialog(group="Design load", enable=useQDesign));
+  parameter Real betaFactor=0.8
+    "Relative sizing compared to design heat load. Only used if QDesign is bigger than 0."
+    annotation (Dialog(group="Design load", enable=useQDesign));
+  final parameter Modelica.Units.SI.Power QNomFinal=
+    if not useQDesign then QNom
+    else QDesign/fraLosDesNom*betaFactor
+    "Used nominal thermal power of the heat pump in the heatSource model";
+
+  parameter Real modulation_min=20
+    "Minimal modulation percentage"
+    annotation (Dialog(group="Nominal condition"));
   parameter Real modulation_start=35
-    "Min estimated modulation level required for start of HP";
+    "Minimal estimated modulation level required for start of HP"
+    annotation (Dialog(group="Nominal condition"));
+
   Real COP "Instanteanous COP";
 
   Real modulation(max=100) = IDEAS.Utilities.Math.Functions.smoothMax(0, heatSource.modulation, 1)
@@ -47,11 +59,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(senMasFlo.m_flow, heatSource.m_flowCondensor) annotation (Line(
-      points={{40,-49},{40,-38},{-52,-38},{-52,-16}},
+      points={{9,-30},{9,-38},{-52,-38},{-52,-16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tin.T, heatSource.TCondensor_in) annotation (Line(
-      points={{70,-49},{70,-42},{-55,-42},{-55,-16}},
+      points={{40,-49},{40,-42},{-55,-42},{-55,-16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort, heatFlowSensor.port_a) annotation (Line(
@@ -59,7 +71,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowSensor.port_b, vol.heatPort) annotation (Line(
-      points={{0,-6},{16,-6},{16,-20},{10,-20}},
+      points={{0,-6},{16,-6},{16,-10},{10,-10}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
