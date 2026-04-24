@@ -4,7 +4,7 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
     final allowFlowReversal=false);
 
   outer IDEAS.BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   parameter Modelica.Units.SI.Power QDesign=0
     "Overrules QNom if different from 0. Design heat load, typically at -8°C in Belgium"
@@ -44,38 +44,38 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
     final modulation_start=modulation_start,
     final hIn=inStream(port_a.h_outflow),
     redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-60,-16},{-40,4}})));
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
   Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heatFlowSensor
-    annotation (Placement(transformation(extent={{-20,-16},{0,4}})));
+    annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
-    annotation (Placement(transformation(extent={{-40,20},{-60,40}})));
+    annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
 equation
   PEl = heatSource.PEl;
   COP =if noEvent(PEl > 0) then vol.heatPort.Q_flow/PEl else 0;
 
   connect(TSet, heatSource.TCondensor_set) annotation (Line(
-      points={{-106,0},{-84,0},{-84,-6},{-60,-6}},
+      points={{-106,0},{-60,0}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(senMasFlo.m_flow, heatSource.m_flowCondensor) annotation (Line(
-      points={{9,-30},{9,-38},{-52,-38},{-52,-16}},
+      points={{9,-30},{-52,-30},{-52,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tin.T, heatSource.TCondensor_in) annotation (Line(
-      points={{40,-49},{40,-42},{-55,-42},{-55,-16}},
+      points={{40,-49},{40,-44},{-55,-44},{-55,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatSource.heatPort, heatFlowSensor.port_a) annotation (Line(
-      points={{-40,-6},{-20,-6}},
+      points={{-40,0},{-30,0}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(heatFlowSensor.port_b, vol.heatPort) annotation (Line(
-      points={{0,-6},{16,-6},{16,-10},{10,-10}},
+      points={{-10,0},{-6,0},{-6,-10},{10,-10}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
-      points={{-61,30},{-76,30},{-76,-3},{-60,-3}},
+      points={{-79,30},{-70,30},{-70,3},{-60,3}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (
