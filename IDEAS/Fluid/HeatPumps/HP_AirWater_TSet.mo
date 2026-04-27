@@ -229,7 +229,8 @@ Dynamic model based on water content and lumped dry capacity
 </li>
 <li>
 Inverter-controlled heat pump with limited power (based on <code>QNom</code> and interpolation tables in 
-<a href=\"modelica://IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW\">heatSource</a>)
+<a href=\"modelica://IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW\">
+IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW</a>)
 </li>
 <li>
 Heat losses to environment which are compensated 'artifically' to meet the manufacturers data in steady state conditions
@@ -256,7 +257,7 @@ Specify the nominal power <code>QNom</code>. There are two options:
 Specify <code>QNom</code> and put <code>QDesign</code> = 0
 </li>
 <li>
-Specify <code>QDesign</code> greater than 0 and </code>QNom</code> wil be calculated from <code>QDesign</code> as follows:
+Specify <code>QDesign</code> greater than 0 and <code>QNom</code> wil be calculated from <code>QDesign</code> as follows:
 <i>QNom = QDesign * betaFactor / fraLosDesNom</i>
 </li>
 </ol>
