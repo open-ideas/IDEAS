@@ -29,8 +29,9 @@ model HeatSource_HP_AW
   
   */
   //protected
-  replaceable package Medium =
-      Modelica.Media.Interfaces.PartialMedium "Medium in the component";
+  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
+    "Medium in the component";
+
   final parameter Modelica.Units.SI.Power QNomRef=7177
     "Nominal power of the Daikin Altherma.  See datafile";
   final parameter Real[5] mod_vector={0,30,50,90,100} "5 modulation steps, %";
@@ -44,6 +45,7 @@ model HeatSource_HP_AW
   parameter Modelica.Units.SI.Power QNom
     "The power at nominal conditions (2/35)";
 public
+  parameter Boolean useMinMod = true;
   parameter Real modulation_min(max=29) = 20 "Minimal modulation percentage";
   // dont' set this to 0 or very low values, you might get negative P at very low modulations because of wrong extrapolation
   parameter Real modulation_start(min=min(30, modulation_min + 5)) = 35
@@ -55,6 +57,7 @@ public
   input Modelica.Units.SI.Temperature TEnvironment
     "Temperature of environment for heat losses";
   input Modelica.Units.SI.SpecificEnthalpy hIn "Specific enthalpy at the inlet";
+
   Modelica.Blocks.Tables.CombiTable2Ds P100(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
       table=[0,-15,-10,-7,-2,2,7,12,18,30; 30,1.96,2.026,2.041,2.068,2.075,2.28,
         2.289,2.277,2.277; 35,2.08,2.174,2.199,2.245,2.266,2.508,2.537,2.547,
@@ -174,7 +177,11 @@ equation
   P_vector[5] = P100.y*QNom/QNomRef;
   QMax = 1000*Q100.y*QNom/QNomRef;
   modulationInit = QAsked/QMax*100;
-  modulation = onOff.y*IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100,1);
+  if useMinMod then
+    modulation = onOff.y*IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100,1);
+  else
+    modulation = IDEAS.Utilities.Math.Functions.smoothMin(modulationInit, 100,1);
+  end if;
   // compensation of heat losses (only when the hp is operating)
   QLossesToCompensate = if noEvent(modulation > 0) then UALoss*(heatPort.T -
     TEnvironment) else 0;

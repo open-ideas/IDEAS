@@ -6,6 +6,8 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
+  parameter Boolean useMinMod = true
+    "=true, the heat pump has a minimum modulation degree";
   parameter Modelica.Units.SI.Power QDesign=0
     "Overrules QNom if different from 0. Design heat load, typically at -8°C in Belgium"
     annotation (Dialog(group="Design load"));
@@ -34,16 +36,16 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   Real modulation(max=100) = IDEAS.Utilities.Math.Functions.smoothMax(0, heatSource.modulation, 1)
     "Current modulation percentage";
 
-  replaceable IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW heatSource
-  constrainedby IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW2(
+  IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW heatSource(
+    redeclare final package Medium = Medium,
     final QNom=QNomFinal,
     final TEvaporator=sim.Te,
     final TEnvironment=heatPort.T,
     final UALoss=UALoss,
     final modulation_min=modulation_min,
     final modulation_start=modulation_start,
-    final hIn=inStream(port_a.h_outflow),
-    redeclare package Medium = Medium)
+    final useMinMod=useMinMod,
+    final hIn=inStream(port_a.h_outflow))
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
