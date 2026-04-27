@@ -83,6 +83,11 @@ equation
 </html>", revisions="<html>
 <ul>
 <li>
+April 27, 2026, by Jelger Jansen:<br/>
+Revise and clean up model.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/pull/1485\">#1485</a> .
+</li>
+<li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\">IBPSA</a>.<br/>
 See <a href=\"https://github.com/open-ideas/IDEAS/pull/1383\">#1383</a> 
