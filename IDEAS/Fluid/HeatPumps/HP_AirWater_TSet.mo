@@ -6,8 +6,6 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
   outer IDEAS.BoundaryConditions.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
-  parameter Boolean useMinMod = true
-    "=true, the heat pump has a minimum modulation degree";
   parameter Modelica.Units.SI.Power QDesign=0
     "Overrules QNom if different from 0. Design heat load, typically at -8°C in Belgium"
     annotation (Dialog(group="Design load"));
@@ -24,38 +22,36 @@ model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
     else QDesign/fraLosDesNom*betaFactor
     "Used nominal thermal power of the heat pump in the heatSource model";
 
+  parameter Boolean useMinMod = true
+    "=true, the heat pump has a minimum modulation degree";
   parameter Real modulation_min=20
     "Minimal modulation percentage"
     annotation (Dialog(group="Nominal condition"));
   parameter Real modulation_start=35
     "Minimal estimated modulation level required for start of HP"
     annotation (Dialog(group="Nominal condition"));
-
   Real COP "Instanteanous COP";
-
   Real modulation(max=100) = IDEAS.Utilities.Math.Functions.smoothMax(0, heatSource.modulation, 1)
     "Current modulation percentage";
-
   IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW heatSource(
     redeclare final package Medium = Medium,
     final QNom=QNomFinal,
-    final TEvaporator=sim.Te,
-    final TEnvironment=heatPort.T,
     final UALoss=UALoss,
     final modulation_min=modulation_min,
     final modulation_start=modulation_start,
-    final useMinMod=useMinMod,
-    final hIn=inStream(port_a.h_outflow))
+    final useMinMod=useMinMod)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
-    annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
-
+    annotation (Placement(transformation(extent={{-90,10},{-70,30}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Tenv annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={-30,-90})));
+  Modelica.Blocks.Sources.RealExpression Teva(y=sim.Te) annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
 equation
   PEl = heatSource.PEl;
   QCon_flow = if noEvent(PEl > 0) then vol.heatPort.Q_flow else 0;
   COP =if noEvent(PEl > 0) then vol.heatPort.Q_flow/PEl else 0;
-
   connect(TSet, heatSource.TCondensor_set) annotation (Line(
       points={{-106,0},{-60,0}},
       color={0,0,127},
@@ -69,11 +65,14 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
-      points={{-79,30},{-70,30},{-70,3},{-60,3}},
+      points={{-69,20},{-66,20},{-66,3},{-60,3}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(heatSource.heatPort, vol.heatPort) annotation (Line(points={{-40,0},{-20,0},{-20,-10},{10,-10}}, color={191,0,0}));
-  annotation (
+  connect(Tenv.port, heatPort) annotation (Line(points={{-20,-90},{0,-90},{0,-100}}, color={191,0,0}));
+  connect(Tenv.T, heatSource.TEnvironment) annotation (Line(points={{-41,-90},{-58,-90},{-58,-10}}, color={0,0,127}));
+  connect(Teva.y, heatSource.TEvaporator) annotation (Line(points={{-69,40},{-58,40},{-58,10}}, color={0,0,127}));
+    annotation (Dialog(group="Nominal condition"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -253,4 +252,6 @@ First version
 </li>
 </ul>
 </html>"));
+
+
 end HP_AirWater_TSet;
