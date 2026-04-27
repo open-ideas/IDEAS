@@ -1,75 +1,80 @@
 within IDEAS.Fluid.HeatPumps;
 model HP_AirWater_TSet "Air-to-water heat pump with temperature set point"
-
-
   extends IDEAS.Fluid.HeatPumps.Interfaces.PartialDynamicHeaterWithLosses(
     final allowFlowReversal=false);
+
   outer IDEAS.BoundaryConditions.SimInfoManager sim
-    annotation (Placement(transformation(extent={{-82,66},{-62,86}})));
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 
   parameter Modelica.Units.SI.Power QDesign=0
-    "Overrules QNom if different from 0. Design heat load, typically at -8 or -10 degC in Belgium.  ";
+    "Overrules QNom if different from 0. Design heat load, typically at -8°C in Belgium"
+    annotation (Dialog(group="Design load"));
+  final parameter Boolean useQDesign=abs(QDesign) > Modelica.Constants.small
+    "= true, QDesign is used to determine the heat pump's nominal thermal power";
   parameter Real fraLosDesNom=0.68
-    "Ratio of power at design conditions over power at 2/35degC";
-  parameter Real betaFactor=0.8 "Relative sizing compared to design heat load";
-  final parameter Modelica.Units.SI.Power QNomFinal=if abs(QDesign) < Modelica.Constants.small then QNom else QDesign/
-      fraLosDesNom*betaFactor "Used nominal power in the heatSource model";
-  parameter Real modulation_min=20 "Minimal modulation percentage";
-  parameter Real modulation_start=35
-    "Min estimated modulation level required for start of HP";
-  Real COP "Instanteanous COP";
+    "Ratio of power at design conditions over power at 2/35°C. Only used if QDesign is bigger than 0."
+    annotation (Dialog(group="Design load", enable=useQDesign));
+  parameter Real betaFactor=0.8
+    "Relative sizing compared to design heat load. Only used if QDesign is bigger than 0."
+    annotation (Dialog(group="Design load", enable=useQDesign));
+  final parameter Modelica.Units.SI.Power QNomFinal=
+    if not useQDesign then QNom
+    else QDesign/fraLosDesNom*betaFactor
+    "Used nominal thermal power of the heat pump in the heatSource model";
 
+  parameter Boolean useMinMod = true
+    "=true, the heat pump has a minimum modulation degree";
+  parameter Real modulation_min=20
+    "Minimal modulation percentage"
+    annotation (Dialog(group="Nominal condition"));
+  parameter Real modulation_start=35
+    "Minimal estimated modulation level required for start of HP"
+    annotation (Dialog(group="Nominal condition"));
+  Real COP "Instanteanous COP";
   Real modulation(max=100) = IDEAS.Utilities.Math.Functions.smoothMax(0, heatSource.modulation, 1)
     "Current modulation percentage";
-
-  replaceable IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW heatSource
-  constrainedby IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW2(
+  IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW heatSource(
+    redeclare final package Medium = Medium,
     final QNom=QNomFinal,
-    final TEvaporator=sim.Te,
-    final TEnvironment=heatPort.T,
     final UALoss=UALoss,
     final modulation_min=modulation_min,
     final modulation_start=modulation_start,
-    final hIn=inStream(port_a.h_outflow),
-    redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-60,-16},{-40,4}})));
-
-  Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heatFlowSensor
-    annotation (Placement(transformation(extent={{-20,-16},{0,4}})));
+    final useMinMod=useMinMod)
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
-    annotation (Placement(transformation(extent={{-40,20},{-60,40}})));
+    annotation (Placement(transformation(extent={{-90,10},{-70,30}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Tenv annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={-30,-90})));
+  Modelica.Blocks.Sources.RealExpression Teva(y=sim.Te) annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
 equation
   PEl = heatSource.PEl;
+  QCon_flow = if noEvent(PEl > 0) then vol.heatPort.Q_flow else 0;
   COP =if noEvent(PEl > 0) then vol.heatPort.Q_flow/PEl else 0;
-
   connect(TSet, heatSource.TCondensor_set) annotation (Line(
-      points={{-106,0},{-84,0},{-84,-6},{-60,-6}},
+      points={{-106,0},{-60,0}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(senMasFlo.m_flow, heatSource.m_flowCondensor) annotation (Line(
-      points={{40,-49},{40,-38},{-52,-38},{-52,-16}},
+      points={{9,-30},{-52,-30},{-52,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tin.T, heatSource.TCondensor_in) annotation (Line(
-      points={{70,-49},{70,-42},{-55,-42},{-55,-16}},
+      points={{40,-49},{40,-44},{-55,-44},{-55,-10}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatSource.heatPort, heatFlowSensor.port_a) annotation (Line(
-      points={{-40,-6},{-20,-6}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heatFlowSensor.port_b, vol.heatPort) annotation (Line(
-      points={{0,-6},{16,-6},{16,-20},{10,-20}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(booleanExpression.y, heatSource.on) annotation (Line(
-      points={{-61,30},{-76,30},{-76,-3},{-60,-3}},
+      points={{-69,20},{-66,20},{-66,3},{-60,3}},
       color={255,0,255},
       smooth=Smooth.None));
-  annotation (
+  connect(heatSource.heatPort, vol.heatPort) annotation (Line(points={{-40,0},{-20,0},{-20,-10},{10,-10}}, color={191,0,0}));
+  connect(Tenv.port, heatPort) annotation (Line(points={{-20,-90},{0,-90},{0,-100}}, color={191,0,0}));
+  connect(Tenv.T, heatSource.TEnvironment) annotation (Line(points={{-41,-90},{-58,-90},{-58,-10}}, color={0,0,127}));
+  connect(Teva.y, heatSource.TEvaporator) annotation (Line(points={{-69,40},{-58,40},{-58,10}}, color={0,0,127}));
+    annotation (Dialog(group="Nominal condition"),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}),
-            graphics),
+            100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
          graphics={
         Polygon(
@@ -189,35 +194,105 @@ equation
           color={0,0,0},
           smooth=Smooth.None)}),
     Documentation(info="<html>
-<h4>Description </h4>
-<p>Dynamic heat pump model, based on interpolation in performance tables for a Daikin Altherma heat pump. These tables are encoded in the <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses.HeatSource_HP_AW\">heatSource</a> model. If a different heat pump is to be simulated, create a different heatSource model with adapted interpolation tables.</p>
-<p>The nominal power of the heat pump can be adapted, this will NOT influence the efficiency as a function of ambient air temperature, condenser temperature and modulation level. </p>
-<p>The heat pump has thermal losses to the environment which are often not mentioned in the performance tables. Therefore, the additional environmental heat losses are added to the heat production in order to ensure the same performance as in the manufacturers data, while still obtaining a dynamic model with heat losses (also when heat pump is off). The heatSource will compute the required power and the environmental heat losses, and try to reach the set point. </p>
-<p>See<a href=\"modelica://IDEAS.Thermal.Components.Production.Interfaces.PartialDynamicHeaterWithLosses\"> IDEAS.Thermal.Components.Production.Interfaces.PartialDynamicHeaterWithLosses</a> for more details about the heat losses and dynamics. </p>
-<h4>Assumptions and limitations </h4>
+<h4>
+Description
+</h4>
+<p>
+Dynamic heat pump model, based on interpolation in performance tables for a Daikin Altherma heat pump.
+These tables are encoded in the <a href=\"modelica://IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW\">
+IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW</a> model.
+If a different heat pump is to be simulated, create a different heatSource model with adapted interpolation tables.
+</p>
+<p>
+The nominal power of the heat pump can be adapted.
+This will NOT influence the efficiency as a function of ambient air temperature, condenser temperature and modulation level.
+</p>
+<p>
+The heat pump has thermal losses to the environment which are often not mentioned in the performance tables.
+Therefore, the additional environmental heat losses are added to the heat production
+in order to ensure the same performance as in the manufacturers data, 
+while still obtaining a dynamic model with heat losses (also when heat pump is off).
+The <code>heatSource</code> component will compute the required power and the environmental heat losses, 
+and try to reach the setpoint. 
+</p>
+<p>
+See <a href=\"modelica://IDEAS.Fluid.HeatPumps.Interfaces.PartialDynamicHeaterWithLosses\"> 
+IDEAS.Fluid.HeatPumps.Interfaces.PartialDynamicHeaterWithLosses</a> 
+for more details about the heat losses and dynamics.
+</p>
+<h4>
+Assumptions and limitations
+</h4>
+<ul>
+<li>
+Dynamic model based on water content and lumped dry capacity
+</li>
+<li>
+Inverter-controlled heat pump with limited power (based on <code>QNom</code> and interpolation tables in 
+<a href=\"modelica://IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW\">
+IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW</a>)
+</li>
+<li>
+Heat losses to environment which are compensated 'artifically' to meet the manufacturers data in steady state conditions
+</li>
+<li>
+No defrosting taken into account
+</li>
+<li>
+No enforced minimum on or minimum off time.
+Hysteresis on start/stop thanks to different parameters for minimum modulation to start and stop the heat pump
+</li>
+</ul>
+<h4>
+Model use
+</h4>
 <ol>
-<li>Dynamic model based on water content and lumped dry capacity</li>
-<li>Inverter controlled heat pump with limited power (based on QNom and interpolation tables in heatSource) </li>
-<li>Heat losses to environment which are compensated &apos;artifically&apos; to meet the manufacturers data in steady state conditions</li>
-<li>No defrosting taken into account</li>
-<li>No enforced min on or min off time; Hysteresis on start/stop thanks to different parameters for minimum modulation to start and stop the heat pump</li>
-</ol>
-<h4>Model use</h4>
-<p>This model is based on performance tables of a specific heat pump, as specified by the <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses.HeatSource_HP_AW\">heatSource</a> model. If a different heat pump is to be simulated, create a different heatSource model with adapted interpolation tables.</p>
+<li>
+Specify medium and initial temperature (of the water + dry mass)
+</li>
+<li>
+Specify the nominal power <code>QNom</code>. There are two options:
 <ol>
-<li>Specify medium and initial temperature (of the water + dry mass)</li>
-<li>Specify the nominal power QNom. There are two options: (1) specify QNom and put QDesign = 0 or (2) specify QDesign greater than 0 and QNom wil be calculated from QDesign as follows:</li>
-<li>QNom = QDesign * betaFactor / fraLosDesNom</li>
-<li>Connect TSet, the flowPorts and the heatPort to environment. </li>
-<li>Specify the minimum required modulation level for the boiler to start (modulation_start) and the minimum modulation level when the boiler is operating (modulation_min). The difference between both will ensure some off-time in case of low heat demands</li>
+<li>
+Specify <code>QNom</code> and put <code>QDesign</code> = 0
+</li>
+<li>
+Specify <code>QDesign</code> greater than 0 and <code>QNom</code> wil be calculated from <code>QDesign</code> as follows:
+<i>QNom = QDesign * betaFactor / fraLosDesNom</i>
+</li>
 </ol>
-<p>See also<a href=\"modelica://IDEAS.Thermal.Components.Production.Interfaces.PartialDynamicHeaterWithLosses\"> IDEAS.Thermal.Components.Production.Interfaces.PartialDynamicHeaterWithLosses</a> for more details about the heat losses and dynamics. </p>
-<h4>Validation </h4>
-<p>The model has been verified in order to check if the &apos;artificial&apos; heat loss compensation still leads to correct steady state efficiencies according to the manufacturer data. This verification is integrated in the example model <a href=\"modelica://IDEAS.Thermal.Components.Examples.Boiler_validation\">IDEAS.Thermal.Components.Examples.Boiler_validation</a>.</p>
-<h4>Example</h4>
-<p>A specific heat pump example is given in <a href=\"modelica://IDEAS.Thermal.Components.Examples.HeatPump_AirWater\">IDEAS.Thermal.Components.Examples.HeatPump_AirWater</a>.</p>
+<li>
+Connect <code>TSet</code>, the flowPorts and the heatPort to environment.
+</li>
+<li>
+Specify the minimum required modulation level for the heat pump to start (<code>modulation_start</code>) 
+and the minimum modulation level when the heat pump is operating (<code>modulation_min</code>).
+The difference between both will ensure some off-time in case of low heat demands
+</li>
+</ol>
+<p>
+Note that this model is based on performance tables of a specific heat pump,
+as specified by the <a href=\"modelica://IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW\">
+IDEAS.Fluid.HeatPumps.BaseClasses.HeatSource_HP_AW</a> model.
+If a different heat pump is to be simulated, create a different heatSource model with adapted interpolation tables.
+</p>
+<h4>
+Validation
+</h4>
+<h4>
+Example
+</h4>
+<p>
+A specific heat pump example is given in <a href=\"modelica://IDEAS.Fluid.HeatPumps.Examples.HeatPump_AirWater\">
+IDEAS.Fluid.HeatPumps.Examples.HeatPump_AirWater</a>.
+</p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 27, 2026, by Jelger Jansen:<br/>
+Revise and clean up model.<br/>
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1485\">#1485</a>.
+</li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>
 Added <code>Modelica.Units.</code> to one or multiple parameter(s) due to the removal of <code>import</code> in IDEAS/package.mo.
