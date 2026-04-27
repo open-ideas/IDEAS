@@ -18,15 +18,16 @@ model HeatPump_AirWater
     m_flow_nominal=m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Constant,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
-    annotation (Placement(transformation(extent={{-14,-24},{-34,-4}})));
+    annotation (Placement(transformation(extent={{-10,-30},{-30,-10}})));
   IDEAS.Fluid.HeatPumps.HP_AirWater_TSet heaPum(
     redeclare package Medium = Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     tauHeatLoss=3600,
     CDry=10000,
     mWater=4,
     QNom=12000,
     m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-74,14},{-56,34}})));
+    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=293.15)
     annotation (Placement(transformation(extent={{-94,-20},{-80,-6}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TReturn
@@ -43,11 +44,11 @@ model HeatPump_AirWater
     nPorts=1)
     annotation (Placement(transformation(extent={{40,-20},{20,0}})));
   Modelica.Blocks.Sources.Constant Tset(k=273.15 + 35) "Temperature set point"
-    annotation (Placement(transformation(extent={{-22,44},{-42,64}})));
+    annotation (Placement(transformation(extent={{-40,50},{-60,70}})));
 
 equation
   connect(heaPum.heatPort, fixedTemperature.port) annotation (Line(
-      points={{-65,14},{-70,14},{-70,-12},{-76,-12},{-76,-13},{-80,-13}},
+      points={{-70,20},{-70,-13},{-80,-13}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(sine.y, TReturn.T) annotation (Line(
@@ -55,17 +56,17 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(pump.port_b,heaPum. port_a) annotation (Line(
-      points={{-34,-14},{-56,-14},{-56,18}},
+      points={{-30,-20},{-60,-20},{-60,24}},
       color={0,0,255},
       smooth=Smooth.None));
-  connect(Tset.y,heaPum. TSet) annotation (Line(points={{-43,54},{-70.4,54},{-70.4,
-          36}}, color={0,0,127}));
-  connect(pump.port_a,heaPum. port_b) annotation (Line(points={{-14,-14},{10,-14},{10,30},{-56,30}},
+  connect(Tset.y,heaPum. TSet) annotation (Line(points={{-61,60},{-76,60},{-76,42}},
+                color={0,0,127}));
+  connect(pump.port_a,heaPum. port_b) annotation (Line(points={{-10,-20},{10,-20},{10,36},{-60,36}},
                                   color={0,127,255}));
-  connect(bou.ports[1], pump.port_a) annotation (Line(points={{20,-10},{10,-10},{10,-14},{-14,-14}},
+  connect(bou.ports[1], pump.port_a) annotation (Line(points={{20,-10},{10,-10},{10,-20},{-10,-20}},
                               color={0,127,255}));
-  connect(TReturn.port, pump.heatPort) annotation (Line(points={{-40,-50},{-24,
-          -50},{-24,-20.8}}, color={191,0,0}));
+  connect(TReturn.port, pump.heatPort) annotation (Line(points={{-40,-50},{-20,-50},{-20,-26.8}},
+                             color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
