@@ -182,34 +182,43 @@ equation
           preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false)),
     Documentation(info="<html>
-<p><b>Description</b> </p>
-<p>This is a partial model from which most heaters (boilers, heat pumps) will extend. This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) and it has <u>thermal losses to the environment</u>. To complete this model and turn it into a heater, a <u>heatSource</u> has to be added, specifying how much heat is injected in the heatedFluid pipe, at which efficiency, if there is a maximum power, etc. HeatSource models are grouped in <a href=\"modelica://IDEAS.Thermal.Components.Production.BaseClasses\">IDEAS.Thermal.Components.Production.BaseClasses.</a></p>
-<p>The set temperature of the model is passed as a realInput.The model has a realOutput PEl for the electricity consumption.</p>
-<p>See the extensions of this model for more details.</p>
-<h4>Assumptions and limitations </h4>
-<ol>
-<li>the temperature of the dry mass is identical as the outlet temperature of the heater </li>
-<li>no pressure drop</li>
-</ol>
-<h4>Model use</h4>
-<p>Depending on the extended model, different parameters will have to be set. Common to all these extensions are the following:</p>
-<ol>
-<li>the environmental heat losses are specified by a <u>time constant</u>. Based on the water content, dry capacity and this time constant, the UA value of the heat transfer to the environment will be set</li>
-<li>set the heaterType (useful in post-processing)</li>
-<li>connect the set temperature to the TSet realInput connector</li>
-<li>connect the flowPorts (flowPort_b is the outlet) </li>
-<li>if heat losses to environment are to be considered, connect heatPort to the environment.  If this port is not connected, the dry capacity and water content will still make this a dynamic model, but without heat losses to environment,.  IN that case, the time constant is not used.</li>
-</ol>
-<h4>Validation </h4>
-<p>This partial model is based on physical principles and is not validated. Extensions may be validated.</p>
-<h4>Examples</h4>
-<p>See the extensions, like the <a href=\"modelica://IDEAS.Thermal.Components.Production.IdealHeater\">IdealHeater</a>, the <a href=\"modelica://IDEAS.Thermal.Components.Production.Boiler\">Boiler</a> or <a href=\"modelica://IDEAS.Thermal.Components.Production.HP_AWMod_Losses\">air-water heat pump</a></p>
+<h4>
+Model description
+</h4>
+<p>
+This is a partial model for the <a href=\"modelica://IDEAS.Fluid.HeatPumps.HP_AirWater_TSet\">
+IDEAS.Fluid.HeatPumps.HP_AirWater_TSet</a> model.
+This model is <u>dynamic</u> (there is a water content in the heater and a dry mass lumped to it) 
+and it has <u>thermal losses to the environment</u>.
+</p>
+<p>
+The setpoint temperature of the model is passed as a realInput.
+The model has two outputs: the electricity consumption <code>PEl</code> and the condensor heat flow rate <code>QCon_flow</code>.
+</p>
+<p>
+The environmental heat losses are specified by a <u>time constant</u>.
+Based on the water content, dry capacity and this time constant, 
+the UA value of the heat transfer to the environment will be set.
+</p>
+<h4>
+Assumptions and limitations
+</h4>
+<p>
+The temperature of the dry mass is identical to the outlet temperature of the heater.
+</p>
+<h4>
+Model use
+</h4>
+<p>
+This partial model should not be used as a standalone; use the
+<a href=\"modelica://IDEAS.Fluid.HeatPumps.HP_AirWater_TSet\">IDEAS.Fluid.HeatPumps.HP_AirWater_TSet</a> model instead.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
 April 27, 2026, by Jelger Jansen:<br/>
 Revise and clean up model.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1485\">#1485</a> .
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1485\">#1485</a>.
 </li>
 <li>
 February 4, 2025, by Jelger Jansen:<br/>

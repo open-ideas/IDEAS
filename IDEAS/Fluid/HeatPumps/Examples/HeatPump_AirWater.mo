@@ -78,14 +78,19 @@ equation
           "Resources/Scripts/Dymola/Fluid/HeatPumps/Examples/HeatPump_AirWater.mos"
         "Simulate and plot"),
     Documentation(info="<html>
-<p>This example shows the modulation behaviour of an inverter controlled air-to-water heat pump when the inlet water temperature is changed. </p>
-<p>The modulation level can be seen from heater.heatSource.modulation.</p>
+<p>
+This example shows the modulation behaviour of 
+an inverter controlled air-to-water heat pump when the inlet water temperature is changed.
+</p>
+<p>
+The modulation level can be seen from <code>heaPum.heatSource.modulation</code>.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
 April 27, 2026, by Jelger Jansen:<br/>
 Revise and clean up model.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1485\">#1485</a> .
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1485\">#1485</a>.
 </li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>

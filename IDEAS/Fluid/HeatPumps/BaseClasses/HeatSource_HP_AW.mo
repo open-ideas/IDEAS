@@ -266,35 +266,73 @@ equation
           fillPattern=FillPattern.Solid),
         Rectangle(extent={{-100,100},{100,-100}}, lineColor={135,135,135})}),
 Documentation(info="<html>
-<p><b>Description</b> </p>
-<p>This&nbsp;model&nbsp;is&nbsp;based&nbsp;on&nbsp;data&nbsp;received&nbsp;from&nbsp;Daikin&nbsp;from&nbsp;an&nbsp;Altherma&nbsp;heat&nbsp;pump, and the full heat pump is implemented as <a href=\"modelica://IDEAS.Thermal.Components.Production.HP_AWMod_Losses\">IDEAS.Thermal.Components.Production.HP_AWMod_Losses</a>. (vermoedelijk <a href=\"Modelica://IDEAS.Thermal.Components.Production.HP_AirWater\">IDEAS.Thermal.Components.Production.HP_AirWater</a></p>
-<p>The&nbsp;nominal&nbsp;power&nbsp;of&nbsp;the&nbsp;original&nbsp;heat&nbsp;pump&nbsp;is&nbsp;7177 W&nbsp;at&nbsp;2/35 degC.</p>
-<p>First,&nbsp;the&nbsp;thermal&nbsp;power&nbsp;and&nbsp;electricity&nbsp;consumption&nbsp;are&nbsp;interpolated&nbsp;for&nbsp;the&nbsp;evaporator&nbsp;and&nbsp;condensing&nbsp;temperature&nbsp;at&nbsp;4&nbsp;different&nbsp;modulation&nbsp;levels.&nbsp;&nbsp;The&nbsp;results&nbsp;are&nbsp;rescaled&nbsp;to&nbsp;the&nbsp;nominal&nbsp;power&nbsp;of&nbsp;the&nbsp;modelled&nbsp;heatpump&nbsp;(with&nbsp;QNom/QNom_data)&nbsp;and&nbsp;stored&nbsp;in&nbsp;2&nbsp;different&nbsp;vectors,&nbsp;Q_vector&nbsp;and&nbsp;P_vector.</p>
-<p>Finally,&nbsp;the&nbsp;modulation&nbsp;is&nbsp;calculated&nbsp;based&nbsp;on&nbsp;the&nbsp;asked&nbsp;power&nbsp;and&nbsp;the&nbsp;max&nbsp;power&nbsp;at&nbsp;operating&nbsp;conditions:&nbsp;</p>
+<h4>
+Model description
+</h4>
+<p>
+This model is based on data received from Daikin from an Altherma heat pump, 
+and the full heat pump is implemented as <a href=\"modelica://IDEAS.Fluid.HeatPumps.HP_AirWater_TSet\">
+IDEAS.Fluid.HeatPumps.HP_AirWater_TSet</a>.
+<p>
+The nominal power of the original heat pump is 7177 W at 2/35 degC.
+</p>
+<p>
+First, the thermal power and electricity consumption are interpolated
+for the evaporator and condensing temperature at 4 different modulation levels.
+The results are rescaled to the nominal power of the modelled heat pump (with QNom/QNom_data)
+and stored in 2 different vectors, <code>Q_vector</code> and <code>P_vector</code>.
+</p>
+<p>
+Finally, the modulation is calculated based on the asked power and the max power at operating conditions:
 <ul>
-<li>if&nbsp;modulation_init&nbsp;&lt;&nbsp;modulation_min,&nbsp;the&nbsp;heat&nbsp;pump&nbsp;is&nbsp;OFF,&nbsp;modulation&nbsp;=&nbsp;0.&nbsp;&nbsp;</li>
-<li>if&nbsp;modulation_init&nbsp;&gt;&nbsp;100%,&nbsp;the&nbsp;modulation&nbsp;is&nbsp;100%</li>
-<li>if&nbsp;modulation_init&nbsp;between&nbsp;modulation_min&nbsp;and&nbsp;modulation_start:&nbsp;hysteresis&nbsp;for&nbsp;on/off&nbsp;cycling.</li>
+<li>
+if <code>modulation_init < modulation_min</code>, the heat pump is OFF, modulation = 0. 
+</li>
+<li>
+if <code>modulation_init > 100%</code>, the modulation is 100%
+</li>
+<li>
+if <code>modulation_init</code> between <code>modulation_min</code> and <code>modulation_start</code>: hysteresis for on/off cycling.
+</li>
 </ul>
-<p>If&nbsp;the&nbsp;heat&nbsp;pump&nbsp;is&nbsp;on&nbsp;another&nbsp;modulation level, interpolation&nbsp;is&nbsp;made&nbsp;to&nbsp;get&nbsp;P&nbsp;and&nbsp;Q&nbsp;at&nbsp;the&nbsp;real&nbsp;modulation.</p>
-<h4>ATTENTION</h4>
-<p>This&nbsp;model&nbsp;takes&nbsp;into&nbsp;account&nbsp;environmental&nbsp;heat&nbsp;losses&nbsp;of&nbsp;the&nbsp;heat pump.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;keep&nbsp;the&nbsp;same&nbsp;nominal&nbsp;efficiency&nbsp;during&nbsp;operation,&nbsp;these&nbsp;heat&nbsp;losses&nbsp;are&nbsp;added&nbsp;to&nbsp;the&nbsp;computed&nbsp;power.&nbsp;&nbsp;Therefore,&nbsp;the&nbsp;heat&nbsp;losses&nbsp;are&nbsp;only&nbsp;really&nbsp;&apos;losses&apos;&nbsp;when&nbsp;the&nbsp;heat pump&nbsp;is&nbsp;NOT&nbsp;operating.&nbsp;</p>
-<p>The&nbsp;COP&nbsp;is&nbsp;calculated&nbsp;as&nbsp;the&nbsp;heat&nbsp;delivered&nbsp;to&nbsp;the&nbsp;condensor&nbsp;divided&nbsp;by&nbsp;the&nbsp;electrical&nbsp;consumption&nbsp;(P).</p>
-<h4>Assumptions and limitations </h4>
+</p>
+<p>
+If the heat pump is on another modulation level, interpolation is made to get <i>P</i> and <i>Q</i> at the real modulation.
+</p>
+<p>
+This model takes into account environmental heat losses of the heat pump.
+In order to keep the same nominal efficiency during operation, these heat losses are added to the computed power. 
+Therefore, the heat losses are only really &apos;losses&apos; when the heat pump is NOT operating.
+</p>
+<p>
+The COP is calculated as the heat delivered to the condensor divided by the electrical power consumption.
+</p>
+<h4>
+Assumptions and limitations
+</h4>
 <ol>
-<li>Based on interpolation in manufacturer data for Daikin Altherma heat pump</li>
-<li>Ensure not to operate the heat pump outside of the manufacturer data. No check is made if this happens, and this can lead to strange and wrong results.</li>
+<li>
+Based on interpolation in manufacturer data for Daikin Altherma heat pump
+</li>
+<li>
+Ensure not to operate the heat pump outside of the manufacturer data.
+No check is made if this happens, and this can lead to strange and wrong results.
+</li>
 </ol>
-<h4>Model use</h4>
-<p>This model is used in the <a href=\"Modelica://IDEAS.Thermal.Components.Production.HP_AirWater\">HP_AirWater</a> model. If a different heat pump is to be simulated, copy this model and adapt the interpolation tables.</p>
-<h4>Validation </h4>
-<p>See the air-water heat pmp model. </p>
+<h4>
+Model use
+</h4>
+<p>
+This model is used in the <a href=\"Modelica://IDEAS.Fluid.HeatPumps.HP_AirWater_TSet\"> IDEAS.Fluid.HeatPumps.HP_AirWater_TSet</a> model.
+If a different heat pump is to be simulated, copy this model and adapt the interpolation tables.
+</p>
+<h4>
 </html>", revisions="<html>
 <ul>
 <li>
 April 27, 2026, by Jelger Jansen:<br/>
 Revise and clean up model.<br/>
-See <a href=\"https://github.com/open-ideas/IDEAS/pull/1485\">#1485</a> .
+See <a href=\"https://github.com/open-ideas/IDEAS/issues/1485\">#1485</a>.
 </li>
 <li>
 2011, by Roel De Coninck:<br/>
