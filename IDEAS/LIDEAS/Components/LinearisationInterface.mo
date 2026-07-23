@@ -4,13 +4,13 @@ model LinearisationInterface
 
   inner input IDEAS.Buildings.Components.Interfaces.WindowBus[sim.nWindow]
     winBusIn(each nLay=sim.nLayWin) if sim.linearise;
-  input IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
+  IDEAS.Buildings.Components.Interfaces.WeaBus weaBus(
     outputAngles=sim.outputAngles,
     final numSolBus=sim.numIncAndAziInBus) if sim.linearise;
   output IDEAS.Buildings.Components.Interfaces.WindowBus[sim.nWindow]
      winBusOut(each nLay=sim.nLayWin) if sim.createOutputs
     "Dummy for getting outputs";
-  output IDEAS.Buildings.Components.Interfaces.WeaBus weaBusOut(
+  IDEAS.Buildings.Components.Interfaces.WeaBus weaBusOut(
     outputAngles=sim.outputAngles,
    final numSolBus=sim.numIncAndAziInBus) if sim.createOutputs;
   inner replaceable

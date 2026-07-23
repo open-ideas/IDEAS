@@ -8,7 +8,7 @@ model RadSolData "Selects or generates correct solar data for this surface"
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
 protected
-  input IDEAS.Buildings.Components.Interfaces.WeaBus
+  IDEAS.Buildings.Components.Interfaces.WeaBus
     weaBus(numSolBus=sim.numIncAndAziInBus, outputAngles=sim.outputAngles)
     annotation (HideResults=true,Placement(transformation(extent={{90,70},{110,90}})));
 
