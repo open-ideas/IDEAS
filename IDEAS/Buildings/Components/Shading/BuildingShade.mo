@@ -7,15 +7,23 @@ model BuildingShade
   parameter Modelica.Units.SI.Length L(min=0)
     "Distance to object perpendicular to window"
     annotation (Dialog(group="Dimensions (see illustration in documentation)"));
+  parameter Modelica.Units.SI.Length LOv(min=0) = 0
+    "Overhang length perpendicular to window"
+    annotation (Dialog(group="Dimensions (see illustration in documentation)"));
   parameter Modelica.Units.SI.Length dh
     "Height difference between top of object and top of window glazing"
+    annotation (Dialog(group="Dimensions (see illustration in documentation)"));
+  parameter Modelica.Units.SI.Length dhOv = 0
+    "Height difference between bottom of overhang and top of window glazing"
     annotation (Dialog(group="Dimensions (see illustration in documentation)"));
   parameter Modelica.Units.SI.Length hWin(min=0) = 1
     "Window height: distance between top and bottom of window glazing"
     annotation (Dialog(group="Dimensions (see illustration in documentation)"));
   parameter Real fraSha(min=0,max=1) = 1
-    "Fraction of the light that is shaded, e.g. smaller than 1 for shading cast by tree lines.";
-  final parameter Real fraSunDifSky(final min=0,final max=1, final unit="1") = 1-vieAngObj/(Modelica.Constants.pi/2)
+    "Fraction of the light that is absorbed, e.g. smaller than 1 for shading cast by tree lines.";
+  parameter Real fraShaOv(min=0,max=1) = fraSha
+    "Fraction of the light that is absorbed for overhang, e.g. smaller than 1 for shading cast by screens.";
+  final parameter Real fraSunDifSky(final min=0,final max=1, final unit="1") = max(0, 1-(vieAngObj + vieAngOv)/(Modelica.Constants.pi/2))
     "Fraction of window area exposed to diffuse sun light";
 
   Real fraSunDir(final min=0,final max=1, final unit="1")
@@ -24,37 +32,60 @@ model BuildingShade
   // Computation assumes that window base is at ground level.
   // Viewing angle computed from center of glazing.
 protected
+  final parameter Boolean haveOverhang = LOv > Modelica.Constants.small 
+    "To avoid divisions by zero and obsolete computations";
   parameter Modelica.Units.SI.Angle vieAngObj=atan((hWin/2 + dh)/L)
     "Viewing angle of opposite object";
+  parameter Modelica.Units.SI.Angle vieAngOv=if haveOverhang then Modelica.Constants.pi/2 - atan((hWin/2 + dhOv)/LOv) else 0
+    "Viewing angle of overhang";
   final parameter Modelica.Units.SI.Angle rot=0
     "Rotation angle of opposite building. Zero when parallel, positive when rotated clockwise"
     annotation (Evaluate=true);
-  final parameter Real coeff = 1-fraSha "More efficient implementation";
-  final parameter Real hWinInv = 1/hWin "More efficient implementation";
+  final parameter Real coeff = 1-fraSha 
+    "More efficient implementation";
+  final parameter Real coeffOv = 1-fraShaOv 
+    "More efficient implementation";
+  final parameter Real hWinInv = 1/hWin 
+    "More efficient implementation";
   Real tanZen = tan(min(angZen, Modelica.Constants.pi/2.01));
-  Modelica.Units.SI.Length L1
+  Modelica.Units.SI.Length L1 = max(0, L/cos(verAzi))
     "Horizontal distance to object when following vertical plane through sun ray";
-  Modelica.Units.SI.Length L2
-    "Distance to object, taking into account sun position";
-  Modelica.Units.SI.Angle alt=(Modelica.Constants.pi/2) - angZen;
-  Modelica.Units.SI.Angle verAzi
+  Modelica.Units.SI.Length L2 =  L1*tan(alt)
+    "Maximum height of object before it casts some shade";
+  Modelica.Units.SI.Length L1Ov = max(0, LOv/cos(verAzi))
+    "Horizontal distance to overhang edge when following vertical plane through sun ray";
+  Modelica.Units.SI.Length L2Ov =  L1Ov*tan(alt)
+    "Minimum vertical distance between overhang and window before overhang casts some shade";
+  Modelica.Units.SI.Angle alt=(Modelica.Constants.pi/2) - angZen
+    "Solar altitude angle";
+  Modelica.Units.SI.Angle verAzi = Modelica.Math.acos(cos(angInc)/cos(alt))
     "Angle between downward projection of sun's rays and normal to vertical surface";
-initial equation
-  assert(fraSunDifSky>=0 and fraSunDifSky<=1, "In " + getInstanceName() +
-    ": The parameter fraSunDifSky has the value " +String(fraSunDifSky) + " and 
-    should be within [0,1]. Please contact the IDEAS developers.");
-
+    
 equation
-
-  verAzi = Modelica.Math.acos(cos(angInc)/cos(alt));
-  L1 = max(0,L/cos(verAzi));
-  L2 = L1*tan(alt);
-  if noEvent(L2<dh) then
-    fraSunDir=coeff;
-  elseif noEvent(L2<dh+hWin) then
-    fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
+  // the below implementation does not yet consider the case where both overhang and object
+  // cast shade at the same time
+  
+  if haveOverhang then
+    if noEvent(L2<dh) then
+      fraSunDir=coeff;
+    elseif noEvent(L2<dh+hWin) then
+      fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
+    elseif noEvent(L2Ov>dhOv+hWin) then
+      fraSunDir=coeffOv;
+    elseif noEvent(L2Ov>dhOv) then
+      fraSunDir=coeffOv + (L2Ov-dhOv)*fraShaOv*hWinInv;
+    else
+      fraSunDir=1;
+    end if;
   else
-    fraSunDir=1;
+    if noEvent(L2<dh) then
+      fraSunDir=coeff;
+    elseif noEvent(L2<dh+hWin) then
+      fraSunDir=coeff + (L2-dh)*fraSha*hWinInv;
+    else
+      fraSunDir=1;
+  end if;
+
   end if;
 
   HShaDirTil=fraSunDir*HDirTil;
@@ -95,6 +126,10 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 18, 2025 by Filip Jorissen:<br/>
+Added support for shading overhangs <a href=\"https://github.com/open-ideas/IDEAS/issues/1467\">#1467</a> and updated documentation image.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.
