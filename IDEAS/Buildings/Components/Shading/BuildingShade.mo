@@ -23,6 +23,11 @@ model BuildingShade
 
   // Computation assumes that window base is at ground level.
   // Viewing angle computed from center of glazing.
+  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=fraSunDir*HDirTil)
+    annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=fraSunDifSky*
+        HSkyDifTil)
+    annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
 protected
   parameter Modelica.Units.SI.Angle vieAngObj=atan((hWin/2 + dh)/L)
     "Viewing angle of opposite object";
@@ -57,13 +62,16 @@ equation
     fraSunDir=1;
   end if;
 
-  HShaDirTil=fraSunDir*HDirTil;
-  HShaSkyDifTil = fraSunDifSky*HSkyDifTil;
+
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,-50},
           {40,-50}}, color={0,0,127}));
 
-  connect(HGroDifTil, HShaGroDifTil)
-    annotation (Line(points={{-60,10},{40,10},{40,10}}, color={0,0,127}));
+  connect(HShaDirexpr.y, HShaDir.u)
+    annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
+  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+    annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
+  connect(HGroDifTil, HShaSkyGro.u)
+    annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
@@ -95,6 +103,10 @@ can be modelled by changing the value of parameter <code>fraSha</code> according
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 03, 2026, by Klaas De Jonge:<br/>
+Updates after refactoring of baseclass model to avoid illegal way of connections to avoid warnings.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.

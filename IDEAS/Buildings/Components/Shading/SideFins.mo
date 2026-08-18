@@ -61,6 +61,13 @@ protected
   Real verAzi;
   Real lambda;
 
+public
+  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=HDirTil*fraSunDir)
+    annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=fraSunDif*HSkyDifTil)
+    annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
+  Modelica.Blocks.Sources.RealExpression HShaGroDifexpr(y=fraSunDif*HGroDifTil)
+    annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
 initial equation
 
     assert(dep > 0, "The depth of the sidefins must be larger than zero.");
@@ -90,14 +97,18 @@ equation
   crShdArea=IDEAS.Utilities.Math.Functions.smoothMax(x1=crShdArea1,x2=crShdArea2,deltaX=0.01);
   fraSunDir = IDEAS.Utilities.Math.Functions.smoothMin( x1=IDEAS.Utilities.Math.Functions.smoothMax(x1=1-crShdArea/AWin,x2=0,deltaX=0.01),x2=1.0,deltaX=0.01);
 
-  HShaDirTil = HDirTil * fraSunDir;
-  HShaSkyDifTil = fraSunDif * HSkyDifTil;
-  HShaGroDifTil = fraSunDif * HGroDifTil;
+
 
   connect(angInc, iAngInc) annotation (Line(
       points={{-60,-50},{-14,-50},{-14,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(HShaDirexpr.y, HShaDir.u)
+    annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
+  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+    annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
+  connect(HShaGroDifexpr.y, HShaSkyGro.u)
+    annotation (Line(points={{-9,10},{-1.2,10}}, color={0,0,127}));
   annotation (                   Documentation(info="<html>
 <p>
 Shading model of side fins (or similar objects) 
@@ -117,6 +128,10 @@ towards the window.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 03, 2026, by Klaas De Jonge:<br/>
+Updates after refactoring of baseclass model to avoid illegal way of connections to avoid warnings.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.
