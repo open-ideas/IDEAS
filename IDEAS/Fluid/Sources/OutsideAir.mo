@@ -197,6 +197,10 @@ with exception of boundary pressure, do not have an effect.
 revisions="<html>
 <ul>
 <li>
+September 14, 2026, by Klaas De Jonge:<br/>
+Get outdoor air concentration from the siminfomanager if this functionality is used in sim.<br/>
+Change aR angle wrapping.
+<li>
 August 18, 2025, by Klaas De Jonge:<br/>
 refactored embedded windPressureProfile function to receive support points and derivatives as fixed parameters 
 to avoid overhead each time the funtion is called (which is often for pressure driven airflow models).

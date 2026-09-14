@@ -25,14 +25,14 @@ model OutsideAirFile
     Documentation(info="<html>
 <p>
 This model demonstrates the use of a source for ambient conditions that computes
-the wind pressure on a facade of a building using a user-defined wind pressure profile.
+the wind pressure on a facade of a building using a user-defined wind pressure profile and uses an outdoor pollution file as input.
 <br/>
-Weather data is obtained from the from the SimInfoManager.
+Data is obtained from the from the SimInfoManager.
 </p>
 </html>", revisions="<html>
 <ul>
 <li>
-September 21, 2019 by Filip Jorissen:<br/>
+September 14, 2026, by Klaas De Jonge:<br/>
 First implementation.
 </li>
 </ul>

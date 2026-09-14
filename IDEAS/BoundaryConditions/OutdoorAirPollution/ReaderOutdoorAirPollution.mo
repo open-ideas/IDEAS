@@ -31,5 +31,16 @@ equation
           lineColor={28,108,200},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}),                      Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+Block that reads in an outdoor air concentration pollution file
+</html>",
+revisions="<html>
+<ul>
+<li>
+September 14, 2026, by Klaas De Jonge:<br/>
+Initial implementation.
+<li>
+</ul>
+</html>"));
 end ReaderOutdoorAirPollution;
