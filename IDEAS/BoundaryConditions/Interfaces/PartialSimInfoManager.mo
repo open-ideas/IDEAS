@@ -87,7 +87,7 @@ partial model PartialSimInfoManager
     annotation(Dialog(tab="Linearisation"));
   parameter Real ppmCO2 = 400
     "Default CO2 concentration in [ppm] when using air medium containing CO2"
-    annotation(Dialog(tab="Advanced", group="CO2"));
+    annotation(Dialog(enable=not usePollutantSchedule,tab="Advanced", group="Outdoor pollutants"));
 
   parameter IDEAS.BoundaryConditions.Types.InterZonalAirFlow interZonalAirFlowType=
     IDEAS.BoundaryConditions.Types.InterZonalAirFlow.None
@@ -288,6 +288,17 @@ protected
     "Diffuse solar irradiation on a horizontal plane"
     annotation (Placement(transformation(extent={{-86,94},{-78,102}})));
 
+public
+  parameter Boolean usePollutantSchedule=false annotation(Evaluate=true,Dialog(tab="Advanced", group="Outdoor pollutants"),choices(checkBox=true));
+
+  IDEAS.BoundaryConditions.OutdoorAirPollution.ReaderOutdoorAirPollution readerOutdoorAirPollution(nC=nC,
+    fileName=outdoorFileName) if usePollutantSchedule   annotation (Placement(transformation(extent={{-100,-80},{-80,-60}})));
+  parameter String outdoorFileName if usePollutantSchedule  "Name of the file containing the outdoor pollutant concentrations"   annotation (Dialog(enable=usePollutantSchedule, tab="Advanced", group="Outdoor pollutants",loadSelector(caption="Select the file")));
+  parameter Integer nC(min=1)=1 "Number of tracers in the medium"  annotation (Dialog(enable=usePollutantSchedule,tab="Advanced", group="Outdoor pollutants"));
+
+  Modelica.Blocks.Interfaces.RealOutput C_outdoor[nC](unit="kg/kg");
+
+protected
   Modelica.Blocks.Routing.RealPassThrough winSpe "Wind speed"
     annotation (Placement(transformation(extent={{-86,122},{-78,130}})));
   Modelica.Blocks.Routing.RealPassThrough winDir "Wind direction"
@@ -313,6 +324,12 @@ equation
   areaPort.V50_cust+areaPort.v50=0;
   areaPort.A_def_tot+areaPort.A_def=0;
 
+  //guard for conditional component readerOutdoorAirPollution
+  if usePollutantSchedule then
+    connect(readerOutdoorAirPollution.pollutantsOutdoorAir,C_outdoor);
+  else
+    C_outdoor= fill(0,1);
+  end if;
 
   if strictConservationOfEnergy and computeConservationOfEnergy then
     assert(abs(Etot) < Emax, "Conservation of energy violation > Emax J!");
@@ -600,6 +617,10 @@ equation
     Documentation(info="<html>
 </html>", revisions="<html>
 <ul>
+<li>
+September 14, 2026, by Klaas De Jonge:<br/>
+Add optional outdoor air pollutant concentration file read
+</li>
 <li>
 July 9, 2025, by Jelger Jansen:<br/>
 Update wind speed modifier calculation according to ASHRAE2005 and change the default local terrain type to unshielded.
