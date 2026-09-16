@@ -90,11 +90,11 @@ equation
           127}));
   connect(HShaSkyDif.y, HShaSkyDifTil)
     annotation (Line(points={{12.6,30},{40,30}}, color={0,0,127}));
-  connect(HShaSkyGro.y, HShaGroDifTil)
+  connect(HShaGroDif.y, HShaGroDifTil)
     annotation (Line(points={{12.6,10},{40,10}}, color={0,0,127}));
   connect(HShaSkyDif.y, solDif.u1) annotation (Line(points={{12.6,30},{16,30},{
           16,96},{38,96}}, color={0,0,127}));
-  connect(HShaSkyGro.y, solDif.u2) annotation (Line(points={{12.6,10},{16,10},{
+  connect(HShaGroDif.y, solDif.u2) annotation (Line(points={{12.6,10},{16,10},{
           16,84},{38,84}}, color={0,0,127}));
   annotation (
     Documentation(revisions="<html>
