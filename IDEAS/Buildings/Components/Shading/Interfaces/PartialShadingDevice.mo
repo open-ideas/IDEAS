@@ -101,7 +101,8 @@ equation
 <ul>
 <li>
 July 03, 2026, by Klaas De Jonge:<br/>
-Refactored model to avoid illegal way of connections to avoid warnings.
+Refactored the model (add RealPassThrough and RealExpression) to avoid invalid connections that trigger warnings.<br/>
+This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1496\">#1496</a>.
 </li>
 <li>
 July 18, 2022, by Filip Jorissen:<br/>

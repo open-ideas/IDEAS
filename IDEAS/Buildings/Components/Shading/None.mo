@@ -17,7 +17,8 @@ equation
 <ul>
 <li>
 July 03, 2026, by Klaas De Jonge:<br/>
-Updates after refactoring of baseclass model to avoid illegal way of connections to avoid warnings.
+Updates after refactoring the base class model to avoid invalid connections that trigger warnings.<br/>
+This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1496\">#1496</a>.
 </li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
