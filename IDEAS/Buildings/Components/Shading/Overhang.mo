@@ -60,9 +60,9 @@ protected
     "Angle between projection of sun's rays and normal to vertical surface";
 
 public
-  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=fraSunDir*HDirTil)
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=fraSunDir*HDirTil)
     annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
-  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=fraSunDifSky*
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=fraSunDifSky*
         HSkyDifTil)
     annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
 initial equation
@@ -105,9 +105,9 @@ equation
       points={{-60,-50},{-14,-50},{-14,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(HShaDirexpr.y, HShaDir.u)
+  connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
-  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
   connect(HShaSkyGro.u, HGroDifTil)
     annotation (Line(points={{-1.2,10},{-60,10}}, color={0,0,127}));

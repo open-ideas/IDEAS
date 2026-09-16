@@ -62,11 +62,11 @@ protected
   Real lambda;
 
 public
-  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=HDirTil*fraSunDir)
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=HDirTil*fraSunDir)
     annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
-  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=fraSunDif*HSkyDifTil)
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=fraSunDif*HSkyDifTil)
     annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
-  Modelica.Blocks.Sources.RealExpression HShaGroDifexpr(y=fraSunDif*HGroDifTil)
+  Modelica.Blocks.Sources.RealExpression HShaGroDifExpr(y=fraSunDif*HGroDifTil)
     annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
 initial equation
 
@@ -98,16 +98,15 @@ equation
   fraSunDir = IDEAS.Utilities.Math.Functions.smoothMin( x1=IDEAS.Utilities.Math.Functions.smoothMax(x1=1-crShdArea/AWin,x2=0,deltaX=0.01),x2=1.0,deltaX=0.01);
 
 
-
   connect(angInc, iAngInc) annotation (Line(
       points={{-60,-50},{-14,-50},{-14,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(HShaDirexpr.y, HShaDir.u)
+  connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
-  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
-  connect(HShaGroDifexpr.y, HShaSkyGro.u)
+  connect(HShaGroDifExpr.y, HShaGroDif.u)
     annotation (Line(points={{-9,10},{-1.2,10}}, color={0,0,127}));
   annotation (                   Documentation(info="<html>
 <p>

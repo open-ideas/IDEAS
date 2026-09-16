@@ -37,7 +37,7 @@ partial model PartialShadingDevice
   Modelica.Blocks.Sources.RealExpression TEnvExpr(y=TEnv_internal)
     "Expression for TEnv"
     annotation (Placement(transformation(extent={{-68,160},{-48,180}})));
-  Modelica.Blocks.Sources.RealExpression TDryBulExp(y=TDryBul_internal)
+  Modelica.Blocks.Sources.RealExpression TDryBulExpr(y=TDryBul_internal)
     annotation (Placement(transformation(extent={{-20,-20},{0,0}})));
   Modelica.Blocks.Routing.RealPassThrough HShaDir
     annotation (Placement(transformation(extent={{0,44},{12,56}})));
@@ -81,7 +81,7 @@ equation
           {-24,170},{-47,170}}, color={0,0,127}));
   connect(skyRadFra.Tenv, TEnvExpr.y) annotation (Line(points={{-10,192},{-24,
           192},{-24,170},{-47,170}}, color={0,0,127}));
-  connect(TDryBulExp.y, TDryBul)
+  connect(TDryBulExpr.y, TDryBul)
     annotation (Line(points={{1,-10},{40,-10}}, color={0,0,127}));
   connect(HShaDir.y, HShaDirTil)
     annotation (Line(points={{12.6,50},{40,50}}, color={0,0,127}));

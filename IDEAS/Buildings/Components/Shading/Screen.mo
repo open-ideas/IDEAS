@@ -19,15 +19,15 @@ protected
     "Assuming the environment temperature is a weighted average of the shading device temperature and the ambient temperature";
   // This assumes that the window rejects 1-g_glazing of the incoming solar irradation is entirely converted into sensible heat
 public
-  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=HDirTil*((1 -
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=HDirTil*((1 -
         Ctrl_internal) + Ctrl_internal*shaCorr))
-    annotation (Placement(transformation(extent={{-30,38},{-10,58}})));
-  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=HSkyDifTil*((1 -
+    annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=HSkyDifTil*((1 -
         Ctrl_internal) + Ctrl_internal*shaCorr))
-    annotation (Placement(transformation(extent={{-30,18},{-10,38}})));
-  Modelica.Blocks.Sources.RealExpression HShaGroDifexpr(y=HGroDifTil*((1 -
+    annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
+  Modelica.Blocks.Sources.RealExpression HShaGroDifExpr(y=HGroDifTil*((1 -
         Ctrl_internal) + Ctrl_internal*shaCorr))
-    annotation (Placement(transformation(extent={{-30,-2},{-10,18}})));
+    annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
 protected
   Modelica.Units.SI.Temperature TShaScreen = Te_internal + (HSha*(1-g_glazing) + (H - HSha) * epsSw_shading) /(hSha + abs(m_flow)*cp_air)
     "Modified shading device heat balance";
@@ -38,11 +38,11 @@ equation
 
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,
           -50},{40,-50}}, color={0,0,127}));
-  connect(HShaDirexpr.y, HShaDir.u)
+  connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-9,48},{-8,50},{-1.2,50}}, color={0,0,127}));
-  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-9,28},{-8,30},{-1.2,30}}, color={0,0,127}));
-  connect(HShaGroDifexpr.y, HShaSkyGro.u)
+  connect(HShaGroDifExpr.y, HShaGroDif.u)
     annotation (Line(points={{-9,8},{-8,10},{-1.2,10}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),

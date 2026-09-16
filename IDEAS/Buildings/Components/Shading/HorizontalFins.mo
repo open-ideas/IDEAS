@@ -45,9 +45,9 @@ protected
   Modelica.Units.SI.Length dzDif=dx/cos(angAltDif);
 
 public
-  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=(1 - shaFrac)*HDirTil)
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=(1 - shaFrac)*HDirTil)
     annotation (Placement(transformation(extent={{-32,40},{-12,60}})));
-  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=(1 - shaFracDif)*
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=(1 - shaFracDif)*
         HSkyDifTil)
     annotation (Placement(transformation(extent={{-32,20},{-12,40}})));
 initial equation
@@ -96,9 +96,9 @@ equation
 
   connect(HGroDifTil, HShaSkyGro.u)
     annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
-  connect(HShaDirexpr.y, HShaDir.u)
+  connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-11,50},{-1.2,50}}, color={0,0,127}));
-  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-11,30},{-1.2,30}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),

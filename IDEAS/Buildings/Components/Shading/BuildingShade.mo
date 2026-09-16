@@ -23,9 +23,9 @@ model BuildingShade
 
   // Computation assumes that window base is at ground level.
   // Viewing angle computed from center of glazing.
-  Modelica.Blocks.Sources.RealExpression HShaDirexpr(y=fraSunDir*HDirTil)
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=fraSunDir*HDirTil)
     annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
-  Modelica.Blocks.Sources.RealExpression HShaSkyDifexpr(y=fraSunDifSky*
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=fraSunDifSky*
         HSkyDifTil)
     annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
 protected
@@ -66,9 +66,9 @@ equation
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,-50},
           {40,-50}}, color={0,0,127}));
 
-  connect(HShaDirexpr.y, HShaDir.u)
+  connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
-  connect(HShaSkyDifexpr.y, HShaSkyDif.u)
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
   connect(HGroDifTil, HShaSkyGro.u)
     annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
