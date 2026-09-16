@@ -94,7 +94,7 @@ equation
   angInc = iAngInc;
 
 
-  connect(HGroDifTil, HShaSkyGro.u)
+  connect(HGroDifTil, HShaGroDif.u)
     annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
   connect(HShaDirExpr.y, HShaDir.u)
     annotation (Line(points={{-11,50},{-1.2,50}}, color={0,0,127}));

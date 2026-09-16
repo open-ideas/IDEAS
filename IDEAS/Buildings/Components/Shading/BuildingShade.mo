@@ -70,7 +70,7 @@ equation
     annotation (Line(points={{-9,50},{-1.2,50}}, color={0,0,127}));
   connect(HShaSkyDifExpr.y, HShaSkyDif.u)
     annotation (Line(points={{-9,30},{-1.2,30}}, color={0,0,127}));
-  connect(HGroDifTil, HShaSkyGro.u)
+  connect(HGroDifTil, HShaGroDif.u)
     annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),

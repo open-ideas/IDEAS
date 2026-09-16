@@ -43,7 +43,7 @@ partial model PartialShadingDevice
     annotation (Placement(transformation(extent={{0,44},{12,56}})));
   Modelica.Blocks.Routing.RealPassThrough HShaSkyDif
     annotation (Placement(transformation(extent={{0,24},{12,36}})));
-  Modelica.Blocks.Routing.RealPassThrough HShaSkyGro
+  Modelica.Blocks.Routing.RealPassThrough HShaGroDif
     annotation (Placement(transformation(extent={{0,4},{12,16}})));
 protected
   Modelica.Blocks.Interfaces.RealInput TDryBul_internal = Te_internal

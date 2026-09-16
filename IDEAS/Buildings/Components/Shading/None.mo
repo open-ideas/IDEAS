@@ -7,7 +7,7 @@ equation
       points={{-60,-50},{-16,-50},{-16,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(HGroDifTil, HShaSkyGro.u)
+  connect(HGroDifTil, HShaGroDif.u)
     annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
   connect(HSkyDifTil, HShaSkyDif.u)
     annotation (Line(points={{-60,30},{-1.2,30}}, color={0,0,127}));
