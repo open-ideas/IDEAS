@@ -115,7 +115,7 @@ initial algorithm
     lWall :=Atot[i]/hZone;
 
     //view factor for walls to ceiling and floor
-    if noEvent(lWall == 0) then
+    if Modelica.Math.isEqual(lWall, 0) then
       for j in 1:numAzi+2 loop
         vieFacTot[j,i]:=0;
         vieFacTot[i,j]:=0;
@@ -139,7 +139,7 @@ initial algorithm
           if i==j then
             //a wall does not interchange radiant heat with itself
              vieFacTot[i,i] := 0;
-          elseif noEvent(Atot[i]==0) or noEvent(Atot[j]==0) then
+          elseif Modelica.Math.isEqual(Atot[i], 0) or Modelica.Math.isEqual(Atot[j], 0) then
             vieFacTot[i,j] := 0;
             vieFacTot[j,i] := 0;
           elseif abs(i-j)==1 or abs(i-j)==3 then
