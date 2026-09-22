@@ -28,12 +28,9 @@ protected
 algorithm
   // Restrict incAng to [0...pi]
 
-  // Change sign to positive
-  aR :=if alpha < 0 then -alpha else alpha;
-  // Constrain to [0...2*pi]
-  if aR > pi2 then
-    aR := aR - integer(aR/pi2)*pi2;
-  end if;
+  // Change sign to positive and constrain to [0...2*pi]
+  aR := alpha - floor(alpha/pi2)* pi2;
+
   // Constrain to [0...pi]
   if aR > Modelica.Constants.pi then
     aR := pi2-aR;
@@ -157,6 +154,10 @@ which generally leads to better numeric performance.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 14, 2026, by Klaas De Jonge:<br/>
+Fix angle wrapping for non-symetrical profiles, avoid if-statement
+</li>
 <li>
 February 16, 2022, by Michael Wetter:<br/>
 Changed argment name to <code>alpha</code> for consistency with figure.
