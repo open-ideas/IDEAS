@@ -12,24 +12,38 @@ model Screen "Controllable exterior screen"
     "Shortwave transmittance of the screen";
   parameter Real refSw_shading(min=0, max=1) = 0
     "Shortwave reflectance of the screen";
-    
+
 protected
   constant Modelica.Units.SI.SpecificHeatCapacity cp_air = 1004 "Specific heat capacity";
   Modelica.Units.SI.Temperature TEnv_screen = Ctrl_internal*TSha + (1-Ctrl_internal)*TEnv_internal
     "Assuming the environment temperature is a weighted average of the shading device temperature and the ambient temperature";
   // This assumes that the window rejects 1-g_glazing of the incoming solar irradation is entirely converted into sensible heat
+public
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=HDirTil*((1 -
+        Ctrl_internal) + Ctrl_internal*shaCorr))
+    annotation (Placement(transformation(extent={{-30,40},{-10,60}})));
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=HSkyDifTil*((1 -
+        Ctrl_internal) + Ctrl_internal*shaCorr))
+    annotation (Placement(transformation(extent={{-30,20},{-10,40}})));
+  Modelica.Blocks.Sources.RealExpression HShaGroDifExpr(y=HGroDifTil*((1 -
+        Ctrl_internal) + Ctrl_internal*shaCorr))
+    annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
+protected
   Modelica.Units.SI.Temperature TShaScreen = Te_internal + (HSha*(1-g_glazing) + (H - HSha) * epsSw_shading) /(hSha + abs(m_flow)*cp_air)
     "Modified shading device heat balance";
 initial equation
   assert( abs(shaCorr + refSw_shading + epsSw_shading - 1) < 1e-3, "In " + getInstanceName() +
     ": The sum of the screen transmittance 'shaCorr', reflectance 'refSw_shading' and absorptance 'epsSw_shading' does not equal one. This is non-physical.");
 equation
-  HShaDirTil = HDirTil*((1 - Ctrl_internal) + Ctrl_internal*shaCorr);
-  HShaSkyDifTil = HSkyDifTil*((1 - Ctrl_internal) + Ctrl_internal*shaCorr);
-  HShaGroDifTil = HGroDifTil*((1 - Ctrl_internal) + Ctrl_internal*shaCorr);
 
   connect(angInc, iAngInc) annotation (Line(points={{-60,-50},{-14,-50},{-14,
           -50},{40,-50}}, color={0,0,127}));
+  connect(HShaDirExpr.y, HShaDir.u)
+    annotation (Line(points={{-9,48},{-8,50},{-1.2,50}}, color={0,0,127}));
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
+    annotation (Line(points={{-9,28},{-8,30},{-1.2,30}}, color={0,0,127}));
+  connect(HShaGroDifExpr.y, HShaGroDif.u)
+    annotation (Line(points={{-9,8},{-8,10},{-1.2,10}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
@@ -40,6 +54,11 @@ A fraction <code>shaCorr</code> is converted into diffuse light that enters the 
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 03, 2026, by Klaas De Jonge:<br/>
+Updates after refactoring the base class model to avoid invalid connections that trigger warnings.<br/>
+This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1496\">#1496</a>.
+</li>
 <li>
 July 26, 2024 by Jelger Jansen:<br/>
 Replace <code>Ctrl</code> by <code>Ctrl_internal</code> to avoid using a conditional component in a connect statement.

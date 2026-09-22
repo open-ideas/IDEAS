@@ -7,14 +7,19 @@ equation
       points={{-60,-50},{-16,-50},{-16,-50},{40,-50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(HDirTil, HShaDirTil)
-    annotation (Line(points={{-60,50},{40,50},{40,50}}, color={0,0,127}));
-  connect(HSkyDifTil, HShaSkyDifTil) annotation (Line(points={{-60,30},{-17,30},
-          {-17,30},{40,30}}, color={0,0,127}));
-  connect(HGroDifTil, HShaGroDifTil) annotation (Line(points={{-60,10},{-14,10},
-          {-14,10},{40,10}}, color={0,0,127}));
+  connect(HGroDifTil, HShaGroDif.u)
+    annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
+  connect(HSkyDifTil, HShaSkyDif.u)
+    annotation (Line(points={{-60,30},{-1.2,30}}, color={0,0,127}));
+  connect(HDirTil, HShaDir.u)
+    annotation (Line(points={{-60,50},{-1.2,50}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 200}})), Documentation(revisions="<html>
 <ul>
+<li>
+July 03, 2026, by Klaas De Jonge:<br/>
+Updates after refactoring the base class model to avoid invalid connections that trigger warnings.<br/>
+This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1496\">#1496</a>.
+</li>
 <li>
 July 18, 2022 by Filip Jorissen:<br/>
 Refactored for <a href=\"https://github.com/open-ideas/IDEAS/issues/1270\">#1270</a> for including thermal effect of screens.

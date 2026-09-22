@@ -44,6 +44,12 @@ protected
   Modelica.Units.SI.Length dy3Dif=max(0, min(dzDif*tan(angAltDif), s));
   Modelica.Units.SI.Length dzDif=dx/cos(angAltDif);
 
+public
+  Modelica.Blocks.Sources.RealExpression HShaDirExpr(y=(1 - shaFrac)*HDirTil)
+    annotation (Placement(transformation(extent={{-32,40},{-12,60}})));
+  Modelica.Blocks.Sources.RealExpression HShaSkyDifExpr(y=(1 - shaFracDif)*
+        HSkyDifTil)
+    annotation (Placement(transformation(extent={{-32,20},{-12,40}})));
 initial equation
   if not use_betaInput then
     assert(beta >= 0 and beta < acos(t/s), "In " + getInstanceName() + ": Beta must be within the feasible range.");
@@ -84,12 +90,16 @@ equation
     shaFracDif = disp_internal*(1 - (dy1-min(dy1,dy3Dif))/s);
   end if;
 
-  HShaDirTil = (1-shaFrac)*HDirTil;
-  HShaSkyDifTil = (1-shaFracDif)*HSkyDifTil;
 
   angInc = iAngInc;
-  connect(HGroDifTil, HShaGroDifTil);
 
+
+  connect(HGroDifTil, HShaGroDif.u)
+    annotation (Line(points={{-60,10},{-1.2,10}}, color={0,0,127}));
+  connect(HShaDirExpr.y, HShaDir.u)
+    annotation (Line(points={{-11,50},{-1.2,50}}, color={0,0,127}));
+  connect(HShaSkyDifExpr.y, HShaSkyDif.u)
+    annotation (Line(points={{-11,30},{-1.2,30}}, color={0,0,127}));
     annotation (
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 200}})),
     Documentation(info="<html>
@@ -144,6 +154,11 @@ The implementation is illustrated using this figure:
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 03, 2026, by Klaas De Jonge:<br/>
+Updates after refactoring the base class model to avoid invalid connections that trigger warnings.<br/>
+This is for <a href=\"https://github.com/open-ideas/IDEAS/pull/1496\">#1496</a>.
+</li>
 <li>
 Febrauri 24, 2025 by Filip Jorissen:<br/>
 Added <code>Ctrl_to_beta_internal=0</code> when not using beta input.
