@@ -31,14 +31,12 @@ model LongWaveRadiation
         iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput Edif_h(
     quantity="DiffuseRadiationCollector",
-    unit="W/m2",
-    displayUnit="kJ/hr.m²") "Diffuse horizontal irradiation [W/m2]"
+    unit="W/m2") "Diffuse horizontal irradiation [W/m2]"
     annotation (Placement(transformation(extent={{-140,24},{-100,64}}),
         iconTransformation(extent={{-140,24},{-100,64}})));
   Modelica.Blocks.Interfaces.RealInput Eglobh_h(
     quantity="TotalRadiationCollector",
-    unit="W/m2",
-    displayUnit="kJ/hr.m²") "global horizontal irradiation [W/m2]"
+    unit="W/m2") "global horizontal irradiation [W/m2]"
     annotation (Placement(transformation(extent={{-140,68},{-100,108}}),
         iconTransformation(extent={{-140,68},{-100,108}})));
 
@@ -98,6 +96,11 @@ Special Issue on Modelica, FMI, and Open Standards.
 </html>", revisions=
 "<html>
 <ul>
+<li>
+October 13, 2026, by Louis Hermans:<br/>
+Removed invalid <code>displayUnit</code> of <code>Edif_h</code> and <code>Eglobh_h</code>
+that triggers a warning in Dymola 2026x.
+</li>
 <li>
 July 7, 2025, by Lone Meertens:<br/>
 First implementation PVT model.

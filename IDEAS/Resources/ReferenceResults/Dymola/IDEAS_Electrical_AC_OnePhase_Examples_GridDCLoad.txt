@@ -1,8 +1,18 @@
-last-generated=2015-05-08
-statistics-initialization={'numerical Jacobians': '0', 'nonlinear': '1', 'linear': '2'}
-statistics-simulation={'numerical Jacobians': '0', 'nonlinear': ' ', 'linear': ' '}
-grid.P.real=[160., 160.]
-grid.P.apparent=[160., 160.]
-time=[0., 1.]
-resistor.S[1]=[-144., -144.]
-resistor.S[2]=[0., 0.]
+last-generated=2026-10-13
+statistics-initialization=
+{
+  "linear": "2",
+  "nonlinear": "1",
+  "numerical Jacobians": "0"
+}
+statistics-simulation=
+{
+  "linear": " ",
+  "nonlinear": " ",
+  "numerical Jacobians": "0"
+}
+time=[0e+00, 1e+00]
+grid.P.real=[1.6e+02, 1.6e+02]
+grid.P.apparent=[1.6e+02, 1.6e+02]
+resistor.S[1]=[-1.44e+02, -1.44e+02]
+resistor.S[2]=[0e+00, 0e+00]
