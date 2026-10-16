@@ -67,13 +67,8 @@ protected
 
 algorithm
 
-  // Change sign to positive
-  aR := if u < 0 then -u else u;
-
-  // Constrain to [0...2*pi]
-  if aR > 2*Modelica.Constants.pi then
-  aR := aR - integer(aR/(2*Modelica.Constants.pi))*(2*Modelica.Constants.pi);
-  end if;
+  // Wrap angle to interval [0...2*pi]
+  aR := u - floor(u/(2*Modelica.Constants.pi))* 2*Modelica.Constants.pi;
 
   i := 1;
   for j in 1:size(xd, 1) - 1 loop
@@ -124,7 +119,13 @@ equation
    T_in_internal = sim.weaBus.Te;
   end if;
 
-  C_in_internal = {if i==1 then sim.CEnv.y  else 0 for i in s};
+  if  not sim.usePollutantSchedule then
+    C_in_internal={if i==1 then sim.CEnv.y  else 0 for i in s};
+  else
+    C_in_internal=sim.C_outdoor;
+  end if;
+
+
 
   // Check medium properties
   if Medium.nX>1 then
@@ -195,6 +196,10 @@ with exception of boundary pressure, do not have an effect.
 </html>",
 revisions="<html>
 <ul>
+<li>
+September 14, 2026, by Klaas De Jonge:<br/>
+Get outdoor air concentration from the siminfomanager if this functionality is used in sim.<br/>
+Change aR angle wrapping.
 <li>
 August 18, 2025, by Klaas De Jonge:<br/>
 refactored embedded windPressureProfile function to receive support points and derivatives as fixed parameters 
