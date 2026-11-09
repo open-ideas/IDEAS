@@ -71,11 +71,7 @@ equation
           extent={{-14,-28},{-8,-34}},
           lineColor={95,95,95},
           fillColor={95,95,95},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-96,-74},{96,-96}},
-          textColor={0,0,0},
-          textString="%fileName")}),
+          fillPattern=FillPattern.Solid)}),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
 Block that reads in an outdoor air concentration pollution file
